@@ -13,18 +13,22 @@ message("Output file: ${CMAKE_CURRENT_BINARY_DIR}/include/Config.h")
 #configure_file(./include/Config.h.in ./include/Config.h)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h)
 
-set(Boost_USE_MULTITHREADED TRUE)
-
-set(SeqAn3_DIR "${CMAKE_SOURCE_DIR}/seqan3/build_system")
-find_package (SeqAn3 REQUIRED)
-find_package(OpenMP)
-
 # ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
 
-set(Boost_DEBUG ON)
+
+### SeqAn3
+#set(SeqAn3_DIR "${CMAKE_SOURCE_DIR}/submodules/seqan3/build_system")
+list (APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/submodules/seqan3/build_system")
+find_package (seqan3 3.0.2 REQUIRED)
+
+### OpenMP
+find_package(OpenMP)
+
 ### boost
+set(Boost_USE_MULTITHREADED TRUE)
+set(Boost_DEBUG ON)
 find_package(Boost 1.56.0 REQUIRED COMPONENTS
         program_options filesystem)
 if(Boost_FOUND)

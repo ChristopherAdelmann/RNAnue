@@ -27,20 +27,21 @@ find_package (seqan3 3.0.2 REQUIRED)
 find_package(OpenMP)
 
 ### boost
-set(Boost_USE_MULTITHREADED TRUE)
+set(Boost_USE_STATIC_LIBS OFF) 
+set(Boost_USE_MULTITHREADED ON)  
+set(Boost_USE_STATIC_RUNTIME OFF) 
 set(Boost_DEBUG ON)
-find_package(Boost 1.56.0 REQUIRED COMPONENTS
-        program_options filesystem)
-if(Boost_FOUND)
-    include_directories( ${Boost_INCLUDE_DIRS} )
-endif()
+
+add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
 
 file(GLOB SOURCES "./source/*.cpp")
 include_directories(./include)
 
 add_executable (RNAnue ${SOURCES})
+
 target_link_libraries (RNAnue seqan3::seqan3)
-target_link_libraries (RNAnue Boost::program_options Boost::filesystem)
+target_link_libraries (RNAnue Boost::program_options Boost::filesystem Boost::property_tree Boost::foreach Boost::dynamic_bitset)
+
 if(OpenMP_CXX_FOUND)
     target_link_libraries (RNAnue OpenMP::OpenMP_CXX)
 endif()

@@ -99,8 +99,11 @@ ScoringMatrix createScoringMatrix(const char *a, const char *b, int matchScore, 
                     *(scoring + i * width + j) = sc.first;
                     *(traceback + i * width + j) = sc.second;
                 }
-			}
-		}
+
+                // Free the memory for scores
+                free(scores);
+            }
+        }
         matrix.scoring = scoring;
         matrix.traceback = traceback;
 	} else {

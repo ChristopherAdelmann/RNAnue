@@ -10,7 +10,7 @@ Align::Align(po::variables_map params) :
 void Align::alignReads(std::string query, std::string matched) {
     std::cout << "calling segemehl" << std::endl;
 
-    std::string align = "segemehl.x";
+    std::string align = "segemehl";
     align += " -S ";
     align += " -A " + std::to_string(params["accuracy"].as<int>()); 
     align += " -U " + std::to_string(params["minfragsco"].as<int>());
@@ -39,7 +39,7 @@ void Align::buildIndex() {
         std::cout << "segemehl index found on filesystem\n";
     } else {
         std::cout << "generate index " << "\n";
-        std::string genIndex = "segemehl.x -x " + gen.string() + " -d " + ref;
+        std::string genIndex = "segemehl -x " + gen.string() + " -d " + ref;
         std::cout << genIndex << std::endl;
         const char* call = genIndex.c_str();
         system(call);

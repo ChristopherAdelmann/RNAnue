@@ -69,15 +69,19 @@ void SplitReadCalling::iterate(std::string matched, std::string splits, std::str
             // add for next iteration
             readrecords.push_back(rec);
 			currentQNAME = QNAME;
-            if(readscount % 100000 == 0) {
+            if (readscount % 100000 == 0)
+            {
                 progress(std::cout);
             }
-		} else {
-			readrecords.push_back(rec);
-			currentQNAME = QNAME;
-		}
-	}
-	if(!readrecords.empty()) {
+        }
+        else
+        {
+            readrecords.push_back(rec);
+            currentQNAME = QNAME;
+        }
+    }
+    if (!readrecords.empty())
+    {
         readscount++;
         process(readrecords, splitsfile, multsplitsfile);
         readrecords.clear();
@@ -461,9 +465,9 @@ double SplitReadCalling::hybridize(std::span<seqan3::dna5> &seq1, std::span<seqa
 	for(unsigned i=0;i<seq1.size();++i) { rna1str += seq1[i].to_char(); }
 	for(unsigned i=0;i<seq2.size();++i) { rna2str += seq2[i].to_char(); }
 
-	std::string hyb = "echo '" + rna1str + "&" + rna2str + "' | RNAcofold";
-    
-	const char* call = hyb.c_str();
+    std::string hyb = "echo '" + rna1str + "&" + rna2str + "' | RNAcofold --noPS";
+
+    const char* call = hyb.c_str();
     std::array<char, 128> buffer;
     std::string result;
     std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(call, "r"), pclose);

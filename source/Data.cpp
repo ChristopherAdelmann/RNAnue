@@ -23,45 +23,50 @@ void createOutDir(fs::path& _path, std::string _subcall, std::ostream& _str) {
 
 //
 Data::Data() {}
-Data::Data(po::variables_map _params) :
-    params(_params) {
-    // determine which subcall (e.g., preproc, align, clustering, analysis) was made 
-    std::string subcall = _params["subcall"].as<std::string>();
-
-    // create output directory
-    fs::path resultsDir = fs::path(_params["outdir"].as<std::string>()); 
-    createOutDir(resultsDir, subcall, std::cout);
-
-    // preprocessing
-    if(subcall == "preproc") { //
-        preprocDataPrep(); // prepares the data files as property tree
-    }
-
-    if(subcall == "align") {
-        alignDataPrep();
-    }
-
-    if(subcall == "detect") {
-        detectDataPrep();
-    }
-
-	if(subcall == "clustering") {
-		clusteringDataPrep();
-	}
-
-    if(subcall == "analysis") {
-        analysisDataPrep();
-    }
-
-
-}
+Data::Data(po::variables_map _params) : params(_params) {}
 
 // getter & setter
-pt::ptree Data::getDataStructure() {
+pt::ptree Data::getDataStructure()
+{
     return this->dataStructure;
 }
 
-//
+void Data::setSubcall(std::string subcall)
+{
+    params.at("subcall").value() = subcall;
+}
+
+void Data::prepareSubcall(std::string subcall)
+{
+    fs::path resultsDir = fs::path(params["outdir"].as<std::string>());
+    createOutDir(resultsDir, subcall, std::cout);
+
+    if (subcall == "preproc")
+    {
+        preprocDataPrep();
+    }
+
+    if (subcall == "align")
+    {
+        alignDataPrep();
+    }
+
+    if (subcall == "detect")
+    {
+        detectDataPrep();
+    }
+
+    if (subcall == "clustering")
+    {
+        clusteringDataPrep();
+    }
+
+    if (subcall == "analysis")
+    {
+        analysisDataPrep();
+    }
+}
+
 void Data::preprocDataPrep() {
     std::cout << "reads the data" << std::endl;
     // retrieve paths that contain all the reads
@@ -437,22 +442,39 @@ template <typename Callable>
 void Data::callInAndOut(Callable f) {
 
     // retrieve paths for parameters
-    fs::path outDir = fs::path(params["outdir"].as<std::string>());
     std::string subcallStr = params["subcall"].as<std::string>();
+    prepareSubcall(subcallStr);
+
+    fs::path outDir = fs::path(params["outdir"].as<std::string>());
     fs::path outSubcallDir = outDir / fs::path(subcallStr);
+
+    std::cout << "Calling " << subcallStr << " start creating output dir" << std::endl;
 
     // create output directory (and subdirectory for subcall)
     createDirectory(outDir, std::cout); // create output
     createDirectory(outSubcallDir, std::cout); //  create subcall
 
-    pt::ptree subcall = dataStructure.get_child(subcallStr);
+    pt::ptree subcall;
+
+    try
+    {
+        subcall = dataStructure.get_child(subcallStr);
+    }
+    catch (pt::ptree_error &e)
+    {
+        std::cout << "### ERROR - " << subcallStr << " has not been found in the data structure" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     std::deque<std::string> groups = {"trtms"};
     if(subcall.size() > 1) {
         groups.push_front("ctrls");
     }
     
     pt::ptree conditions, samples, path;
-    fs::path outGroupDir, outConditionDir; 
+    fs::path outGroupDir, outConditionDir;
+
+    std::cout << "*** create directories to store the results (specified via --outdir)" << std::endl;
 
     for(unsigned i=0;i<groups.size();++i) {
         // create directory for groups (e.g., ctrls, trtms)
@@ -491,18 +513,17 @@ void Data::bla(Callable f) {
     f();
 }
 
-void Data::preproc() {
-    // create Object of Trimming
+void Data::preproc()
+{
     SeqRickshaw srs(params);
     callInAndOut(std::bind(&SeqRickshaw::start, srs, std::placeholders::_1));
 }
 
-void Data::align() {
-    // create Object of Alignment
+void Data::align()
+{
     Align aln(params);
     callInAndOut(std::bind(&Align::start, aln, std::placeholders::_1));
 }
-
 
 void Data::splitReadCalling() {
     SplitReadCalling src(params);

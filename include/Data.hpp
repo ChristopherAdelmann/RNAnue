@@ -47,6 +47,8 @@ class Data {
         // getter & setter
         //
         pt::ptree getDataStructure();
+        void setSubcall(std::string subcall);
+        void prepareSubcall(std::string subcall);
 
         //
         void preprocDataPrep();

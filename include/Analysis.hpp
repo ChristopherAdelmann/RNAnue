@@ -5,7 +5,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/filesystem.hpp>
 #include <string>
-#include<math.h>
+#include <math.h>
 
 #include <iostream>
 #include <fstream>
@@ -23,34 +23,40 @@ namespace pt = boost::property_tree;
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
 
-
 using seqan3::operator""_tag;
 
-template <> struct seqan3::sam_tag_type<"XE"_tag> { using type = std::string; };
-template <> struct seqan3::sam_tag_type<"XC"_tag> { using type = std::string; };
+template <>
+struct seqan3::sam_tag_type<"XE"_tag>
+{
+    using type = std::string;
+};
+template <>
+struct seqan3::sam_tag_type<"XC"_tag>
+{
+    using type = std::string;
+};
 
-class Analysis {
+typedef std::pair<std::pair<int, int>, std::string> Feature;
 
-    private:
-        po::variables_map params;
-        std::map<std::string, std::vector<std::pair<std::pair<int,int>,std::string>>> features;
+class Analysis
+{
 
-        std::vector<std::string> interPaths; // paths of the interactions file
+private:
+    po::variables_map params;
+    std::map<std::string, std::vector<std::pair<std::pair<int, int>, std::string>>> features;
 
+    std::vector<std::string> interPaths; // paths of the interactions file
 
-    public:
-        Analysis();
-        Analysis(po::variables_map params);
+public:
+    Analysis();
+    Analysis(po::variables_map params);
 
-        std::string retrieveTagValue(std::string tags, std::string tagName, std::string oldValue);
+    std::string retrieveTagValue(std::string tags, std::string tagName, std::string oldValue);
 
+    void createCountTable();
 
-        void createCountTable();
-
-        void parseAnnotations();
-        void start(pt::ptree sample);
-
-
+    void parseAnnotations();
+    void start(pt::ptree sample);
 };
 
 #endif // ANALYSIS_HPP

@@ -9,7 +9,7 @@ Clustering::Clustering(po::variables_map params) :
 
 void Clustering::iterate(std::string splits) {
 
-    // input .sam record
+    // input .sam file of sngl splits
     seqan3::alignment_file_input fin{splits, 
 		seqan3::fields<seqan3::field::id,
 		                seqan3::field::flag,

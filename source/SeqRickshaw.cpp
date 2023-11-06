@@ -47,6 +47,7 @@ SeqRickshaw::SeqRickshaw(po::variables_map _params) : params(_params) {
         std::cout << e.what() << std::endl;
     }
 
+    std::cout << helper::getTime() << " finished the lookup table" << std::endl;
 }
 
 // calculate the smart state transition table for the patterns

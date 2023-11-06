@@ -2,6 +2,12 @@
 #include <string>
 #include <bitset>
 
+#include <stdio.h>
+#include <execinfo.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 #include "Base.hpp"
 #include "Config.h"
 #include "Closing.hpp"
@@ -27,7 +33,23 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& v)
     return os;
 }
 
+void handler(int sig)
+{
+    void *array[10];
+    size_t size;
+
+    // get void*'s for all entries on the stack
+    size = backtrace(array, 10);
+
+    // print out all the frames to stderr
+    fprintf(stderr, "Error: signal %d:\n", sig);
+    backtrace_symbols_fd(array, size, STDERR_FILENO);
+    exit(1);
+}
+
 int main(int argc, char* argv[]) {
+    signal(SIGSEGV, handler); // register handler to catch segmentation faults
+
     try{
 
         std::string readType;
@@ -212,8 +234,6 @@ int main(int argc, char* argv[]) {
         Base bs(vm, vm["subcall"].as<std::string>()); // controls all downstream processing
 
         cl.show(std::cout);
-
-    
     } catch(po::error& e) {
         std::cout << "please provide a correct function call" << std::endl;
         std::cerr << e.what() << " at line " << __LINE__ << std::endl;

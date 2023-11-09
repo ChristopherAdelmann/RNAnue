@@ -13,7 +13,6 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>
 
-
 #include "SeqRickshaw.hpp"
 #include "Align.hpp"
 #include "SplitReadCalling.hpp"

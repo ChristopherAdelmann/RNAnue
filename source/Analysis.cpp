@@ -50,14 +50,13 @@ Analysis::Analysis(po::variables_map _params) : params(_params)
 //
 void Analysis::createCountTable()
 {
+    // C++
     std::map<std::tuple<std::string, std::string, std::string, std::string>, std::vector<std::tuple<int, std::vector<float>, std::vector<float>>>> counts;
 
     std::ifstream intsfile;
     for (unsigned i = 0; i < interPaths.size(); ++i)
     {
         intsfile.open(interPaths[i]);
-
-        std::cout << interPaths[i] << std::endl;
 
         if (!intsfile.is_open())
         {
@@ -67,7 +66,7 @@ void Analysis::createCountTable()
 
         std::string line;
         while (getline(intsfile, line))
-        { // read data from file object and put it into string.
+        {
             if (line[0] == '#')
             {
                 continue;
@@ -81,75 +80,29 @@ void Analysis::createCountTable()
                 tokens.push_back(token);
             }
 
-            std::tuple<std::string, std::string, std::string, std::string> key1;
-            std::tuple<std::string, std::string, std::string, std::string> key2;
-            key1 = std::make_tuple(tokens[5], tokens[8], tokens[13], tokens[16]);
-            key2 = std::make_tuple(tokens[5], tokens[8], tokens[13], tokens[16]);
+            // Create keys from tokens
+            auto key = std::make_tuple(tokens[5], tokens[8], tokens[13], tokens[16]);
 
-            std::cout << std::get<0>(key1) << "\t" << std::get<1>(key1) << "\t" << std::get<2>(key1) << "\t" << std::get<3>(key1) << std::endl;
-            std::cout << std::get<0>(key2) << "\t" << std::get<1>(key2) << "\t" << std::get<2>(key2) << "\t" << std::get<3>(key2) << std::endl;
-
-            //
-            if (counts.count(key1) == 0 && counts.count(key2) == 0)
+            // Check if key exists in counts
+            auto it = counts.find(key);
+            if (it == counts.end())
             {
-                std::vector<std::tuple<int, std::vector<float>, std::vector<float>>> content;
+                // Key does not exist, create new entry
+                std::vector<std::tuple<int, std::vector<float>, std::vector<float>>> content(interPaths.size(), {0, {}, {}});
 
-                for (unsigned j = 0; j < interPaths.size(); ++j)
-                {
-                    std::tuple<int, std::vector<float>, std::vector<float>> vals{0, {}, {}};
-                    content.push_back(vals);
-                }
                 std::get<0>(content[i]) = 1;
-                std::vector<float> en = std::get<1>(content[i]);
-                std::vector<float> cm = std::get<2>(content[i]);
+                std::get<1>(content[i]).push_back(std::stof(tokens[17]));
+                std::get<2>(content[i]).push_back(std::stof(tokens[18]));
 
-                en.push_back(std::stof(tokens[17]));
-                cm.push_back(std::stof(tokens[18]));
-
-                std::get<1>(content[i]) = en;
-                std::get<2>(content[i]) = cm;
-
-                counts.insert(std::pair<std::tuple<std::string, std::string, std::string, std::string>, std::vector<std::tuple<int, std::vector<float>, std::vector<float>>>>(key1, content));
+                counts.emplace(key, content);
             }
             else
             {
-                if (counts.count(key1) > 0)
-                {
-                    std::tuple<int, std::vector<float>, std::vector<float>> oldVal;
-                    oldVal = counts[key1][i];
-                    std::get<0>(oldVal) = std::get<0>(oldVal) + 1;
-
-                    std::vector<float> oldValEnergy = std::get<1>(oldVal);
-                    std::vector<float> oldValCmpl = std::get<2>(oldVal);
-
-                    oldValEnergy.push_back(std::stof(tokens[17]));
-                    oldValCmpl.push_back(std::stof(tokens[18]));
-
-                    std::get<1>(oldVal) = oldValEnergy;
-                    std::get<2>(oldVal) = oldValCmpl;
-
-                    counts[key1][i] = oldVal;
-                }
-                else
-                {
-                    if (counts.count(key2) > 0)
-                    {
-                        std::tuple<int, std::vector<float>, std::vector<float>> oldVal;
-                        oldVal = counts[key2][i];
-                        std::get<0>(oldVal) = std::get<0>(oldVal) + 1;
-
-                        std::vector<float> oldValEnergy = std::get<1>(oldVal);
-                        std::vector<float> oldValCmpl = std::get<2>(oldVal);
-
-                        oldValEnergy.push_back(std::stof(tokens[17]));
-                        oldValCmpl.push_back(std::stof(tokens[18]));
-
-                        std::get<1>(oldVal) = oldValEnergy;
-                        std::get<2>(oldVal) = oldValCmpl;
-
-                        counts[key2][i] = oldVal;
-                    }
-                }
+                // Key exists, update existing entry
+                auto &oldVal = it->second[i];
+                std::get<0>(oldVal) += 1;
+                std::get<1>(oldVal).push_back(std::stof(tokens[17]));
+                std::get<2>(oldVal).push_back(std::stof(tokens[18]));
             }
         }
     }
@@ -163,66 +116,60 @@ void Analysis::createCountTable()
 
     outFileHandle << "RNA1\tRNA2\tRNA1orientation\tRNA2orientation\t";
 
-    for (unsigned i = 0; i < interPaths.size(); i++)
+    for (const auto &interPath : interPaths)
     {
-        outFileHandle << fs::path(interPaths[i]).stem().string() << "_counts\t";
-        outFileHandle << fs::path(interPaths[i]).stem().string() << "_ges\t";
-        outFileHandle << fs::path(interPaths[i]).stem().string() << "_gcs\t";
+        std::string stem = fs::path(interPath).stem().string();
+        outFileHandle << stem << "_counts\t";
+        outFileHandle << stem << "_ges\t";
+        outFileHandle << stem << "_gcs\t";
     }
-    outFileHandle << "\n";
+    outFileHandle << std::endl;
 
-    for (auto it = counts.begin(); it != counts.end(); ++it)
+    for (const auto &count : counts)
     {
-        outFileHandle << std::get<0>(it->first) << "\t";
-        outFileHandle << std::get<2>(it->first) << "\t";
-        outFileHandle << std::get<1>(it->first) << "\t";
-        outFileHandle << std::get<3>(it->first) << "\t";
+        outFileHandle << std::get<0>(count.first) << "\t";
+        outFileHandle << std::get<2>(count.first) << "\t";
+        outFileHandle << std::get<1>(count.first) << "\t";
+        outFileHandle << std::get<3>(count.first) << "\t";
 
-        //
-        for (unsigned z = 0; z < it->second.size(); ++z)
+        for (const auto &second : count.second)
         {
-            outFileHandle << std::get<0>(it->second[z]) << "\t";
+            outFileHandle << std::get<0>(second) << "\t";
 
-            std::vector<float> vecNrg = std::get<1>(it->second[z]);
-            std::vector<float> vecCpl = std::get<2>(it->second[z]);
+            std::vector<float> vecNrg = std::get<1>(second);
+            std::vector<float> vecCpl = std::get<2>(second);
 
             // determine ges
             float ges = 0.0;
-            if (vecNrg.size() == 1)
+            size_t vecNrgSize = vecNrg.size();
+            if (vecNrgSize == 1)
             {
                 ges = vecNrg[0];
             }
-            else
+            else if (vecNrgSize > 1)
             {
-                if (vecNrg.size() > 1)
-                {
-                    auto m = vecNrg.begin() + vecNrg.size() / 2;
-                    std::nth_element(vecNrg.begin(), m, vecNrg.end());
-                    double min = *min_element(vecNrg.begin(), vecNrg.end());
-                    ges = vecNrg[vecNrg.size() / 2];
-                }
+                auto m = vecNrg.begin() + vecNrgSize / 2;
+                std::nth_element(vecNrg.begin(), m, vecNrg.end());
+                ges = vecNrg[vecNrgSize / 2];
             }
             outFileHandle << ges << "\t";
 
             // determine gcs
             float gcs = 0.0;
-            if (vecCpl.size() == 1)
+            size_t vecCplSize = vecCpl.size();
+            if (vecCplSize == 1)
             {
                 gcs = vecCpl[0];
             }
-            else
+            else if (vecCplSize > 1)
             {
-                if (vecCpl.size() > 1)
-                {
-                    auto m = vecCpl.begin() + vecCpl.size() / 2;
-                    std::nth_element(vecCpl.begin(), m, vecCpl.end());
-                    double min = *min_element(vecCpl.begin(), vecCpl.end());
-                    gcs = vecCpl[vecCpl.size() / 2];
-                }
+                auto m = vecCpl.begin() + vecCplSize / 2;
+                std::nth_element(vecCpl.begin(), m, vecCpl.end());
+                gcs = vecCpl[vecCplSize / 2];
             }
             outFileHandle << gcs << "\t";
         }
-        outFileHandle << "\n";
+        outFileHandle << std::endl;
     }
     outFileHandle.close();
 }

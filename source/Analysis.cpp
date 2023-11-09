@@ -50,7 +50,6 @@ Analysis::Analysis(po::variables_map _params) : params(_params)
 //
 void Analysis::createCountTable()
 {
-    // C++
     std::map<std::tuple<std::string, std::string, std::string, std::string>, std::vector<std::tuple<int, std::vector<float>, std::vector<float>>>> counts;
 
     std::ifstream intsfile;

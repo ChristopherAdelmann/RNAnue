@@ -168,7 +168,7 @@ void Clustering::overlaps(std::vector<Cluster> &clusterlist) {
 
                     // refid needs to match
                     if((clusterlist[i].elements[0].refid == clusterlist[j].elements[0].refid) &&
-                            (clusterlist[i].elements[0].refid == clusterlist[j].elements[0].refid)) {
+                            (clusterlist[i].elements[1].refid == clusterlist[j].elements[1].refid)) {
 
                         // .. same with strand
                         if((clusterlist[i].elements[0].flag == clusterlist[j].elements[0].flag) &&

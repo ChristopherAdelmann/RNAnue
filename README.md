@@ -1,4 +1,4 @@
-# RNAnue - 0.1.0
+# RNAnue - 0.1.1
 
 ## About
 RNAnue is a comprehensive analysis to detect RNA-RNA interactions from Direct-Duplex-Detection (DDD) data.
@@ -39,7 +39,6 @@ Segemehl should be callable as "segemehl".
 #### Vienna Package
 ---
 **NOTE**
-
 From the Vienna Package "RNAcofold" needs to be callable.
 
 ---
@@ -85,7 +84,6 @@ It is to be noted that the `--trtms` needs to be specified. However, `--ctrls` m
 
 ---
 **NOTE**
-
 To parse paired-end files, the filenames must end with "forward.fastq" and "reverse.fastq".
 
 ---

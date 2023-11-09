@@ -469,6 +469,10 @@ std::size_t SeqRickshaw::boyermoore(auto& read, LookupTable tab, int m) {
     std::tuple<int,int,int,int> entry;
 
     while(align < read.size() - m) {
+        if (align + readPos >= read.size())
+        {
+            break;
+        }
         auto c = (read | seqan3::views::to_char)[align + readPos];
 
         if(tab.find(std::make_pair(state,c)) == tab.end()) {
@@ -488,7 +492,6 @@ std::size_t SeqRickshaw::boyermoore(auto& read, LookupTable tab, int m) {
         }
         align = align + shift;
     }
-//	if
     return std::string::npos;
 }
 

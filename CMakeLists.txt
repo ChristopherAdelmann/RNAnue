@@ -4,32 +4,6 @@ project (RNAnue VERSION 0.1.1)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-option(BUILD_STAR "Install STAR mapping tool. If OFF STAR should be in $PATH. Default is ON." ON)
-
-execute_process(COMMAND git submodule init submodules/boost submodules/seqan3 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-
-if (BUILD_STAR)
-    execute_process(COMMAND git submodule init submodules/STAR WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-endif()
-
-execute_process(COMMAND git submodule update --recursive WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-
-message("Detected system: ${CMAKE_SYSTEM_NAME}")
-
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND BUILD_STAR)
-    execute_process(COMMAND STAR --version WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/STAR/MacOSX_x86_64/STAR RESULT_VARIABLE STAR_OUTPUT)
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND BUILD_STAR)
-    execute_process(COMMAND STAR --version WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/STAR/bin/Linux_x86_64/STAR RESULT_VARIABLE STAR_OUTPUT)
-else()
-    execute_process(COMMAND STAR --version RESULT_VARIABLE STAR_OUTPUT)
-endif()
-
-if(STAR_OUTPUT EQUAL "1")
-    message(FATAL_ERROR "Could not find compatible STAR executable. Please install STAR seperatly and set BUILD_STAR to OFF.")
-else()
-    message("Compatible STAR version was found.")
-endif()
-
 message("Configuring Config.h")
 message("Input file: ${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h.in")
 message("Output file: ${CMAKE_CURRENT_BINARY_DIR}/include/Config.h")

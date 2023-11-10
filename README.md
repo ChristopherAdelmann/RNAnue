@@ -11,6 +11,8 @@ Fort this run:
 git clone --recurse-submodules <git repo here>
 ```
 
+> **IMPORTANT**  RNAnue can only be compiled with [gcc](https://gcc.gnu.org) (tested with v11.4.0)
+
 ### Dependencies
 RNAnue has the following external dependencies, whereas the brackets indicate the version RNAnue has 
 been build and tested on. Make sure the requirements are satified by your system.

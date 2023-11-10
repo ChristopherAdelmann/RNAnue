@@ -21,7 +21,7 @@ Segemehl and the Vienna binaries need to be located in $PATH.
 * OpenMP v12.0.0
 
 #### Segemehl
-On ubuntu we reccomend the installation of segemehl via apt-get.
+On Ubuntu we recommend the installation of segemehl via apt-get.
 ``` 
 # Update the package index:
 sudo apt-get update
@@ -33,7 +33,7 @@ sudo apt-get install segemehl
 
 #### Vienna Package
 
-> **NOTE**  From the Vienna Package "RNAcofold" needs to be callable.
+> **NOTE**  From the Vienna Package, "RNAcofold" should be callable.
 
 ### CMake 
 CMake is a cross-platform Makefile generator. For that, we provide the [CMakeLists](./source/CMakeLists.txt) 

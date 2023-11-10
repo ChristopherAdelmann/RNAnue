@@ -4,7 +4,7 @@
 RNAnue is a comprehensive analysis to detect RNA-RNA interactions from Direct-Duplex-Detection (DDD) data.
 
 ## Install
-## Download
+### Download RNAnue source files and internal dependencies
 The source files and submodules can be downloaded from github.
 Fort this run:
 ```
@@ -29,19 +29,11 @@ sudo apt-get update
 sudo apt-get install segemehl
 ```
 
----
-**NOTE**
-
-Segemehl should be callable as "segemehl".
-
----
+> **NOTE**  Segemehl should be callable as "segemehl".
 
 #### Vienna Package
----
-**NOTE**
-From the Vienna Package "RNAcofold" needs to be callable.
 
----
+> **NOTE**  From the Vienna Package "RNAcofold" needs to be callable.
 
 ### CMake 
 CMake is a cross-platform Makefile generator. For that, we provide the [CMakeLists](./source/CMakeLists.txt) 
@@ -82,15 +74,11 @@ with arbitrary conditions (e.g., treatment, cell lines,...) that in turn contain
 ```
 It is to be noted that the `--trtms` needs to be specified. However, `--ctrls` may be not set (optional).
 
----
-**NOTE**
-To parse paired-end files, the filenames must end with "forward.fastq" and "reverse.fastq".
-
----
+> **NOTE**  To parse paired-end files, the filenames must end with "forward.fastq" and "reverse.fastq".
 
 ## Parameters
 RNAnue accepts parameter settings both from the commandline and through a configuration file.
-For the latter, we provide a template configuration file ([params.cfg](./build/params.cfg)) that
+For the latter, we provide a template configuration file ([params.cfg](./example/params.cfg)) that
 allows to set the parameters in a more convenient fashion. This means that the call of RNAnue 
 is reduced to the following call. 
 ```
@@ -98,7 +86,6 @@ RNAnue <subcall> --config /path/to/params.cfg
 ```
 Here, subcall corresponds to positional arguments.In any case, the specifying parameters over the command lines has 
 precedence over the config file.
-
 
 ## Results
 
@@ -131,7 +118,6 @@ duplex.
 | XE:f | hybridization energy |
 
 ### Clustering results
-
 
 
 ### Interaction table

@@ -28,6 +28,12 @@ Base::Base(po::variables_map _params, std::string _subcall) : params(_params),
     {
         if (subcall == pair.first || subcall == "complete")
         {
+            // Check if the preproc step is skipped
+            if (params["preproc"].as<std::bitset<1>>() == std::bitset<1>(0) && pair.first == "preproc")
+            {
+                continue;
+            }
+
             std::cout << "### Calling " << pair.first << "###" << std::endl;
             if (subcall == "complete")
             {

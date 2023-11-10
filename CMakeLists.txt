@@ -45,7 +45,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h.in ${CMAKE_CURRENT_S
 
 ### SeqAn3
 list (APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/submodules/seqan3/build_system")
-find_package (seqan3 3.0.2 REQUIRED)
+find_package (seqan3 3.0.2 REQUIRED HINTS "${CMAKE_CURRENT_SOURCE_DIR}/submodules/seqan3/build_system")
 
 ### OpenMP
 find_package(OpenMP)

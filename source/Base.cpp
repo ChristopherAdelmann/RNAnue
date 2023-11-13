@@ -34,10 +34,8 @@ Base::Base(po::variables_map _params, std::string _subcall) : params(_params),
                 continue;
             }
 
-            std::cout << "### Calling " << pair.first << "###" << std::endl;
             if (subcall == "complete")
             {
-                std::cout << "### With complete workflow ###" << std::endl;
                 data.setSubcall(pair.first);
             }
             (data.*(pair.second))();

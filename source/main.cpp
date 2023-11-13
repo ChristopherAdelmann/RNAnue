@@ -80,24 +80,16 @@ int main(int argc, char* argv[]) {
 	    ;
 
         po::options_description preproc("Preprocessing");
-        preproc.add_options()
-            ("preproc", po::value<std::bitset<1>>()->default_value(0), 
-                "include preprocessing of the raw reads in the workflow of RNAnue")
-            ("modetrm", po::value<int>()->default_value(1), 
-                "mode of the trimming: only 5' (=0) and 3' (=1) or both (=2)")
-            ("adpt5", po::value<std::string>()->default_value(""), 
-                "file of the adapter sequences to be removed from the 5' end (.fasta)")
-            ("adpt3", po::value<std::string>()->default_value(""), 
-                "file of the adapter sequences to be removed from the 3' end (.fasta)")
-            ("wtrim", po::value<std::bitset<1>>()->default_value(0),
-                "on whether (=1) or not (=0) to include window trimming")
-            ("mmrate", po::value<double>()->default_value(0.1),
-                "rate of mismatched allowed when aligning adapter pattern to sequence")
-			("wsize", po::value<int>()->default_value(3),
-				"windows size to trim from 3' end")
-            ("minovlps", po::value<int>()->default_value(5),
-                "minimal overlap to merge paired-end reads")
-        ;
+        preproc.add_options()("preproc", po::value<std::bitset<1>>()->default_value(0),
+                              "include preprocessing of the raw reads in the workflow of RNAnue")("modetrm", po::value<int>()->default_value(1),
+                                                                                                  "mode of the trimming: only 5' (=0) and 3' (=1) or both (=2)")("adpt5", po::value<std::string>()->default_value(""),
+                                                                                                                                                                 "file of the adapter sequences to be removed from the 5' end (.fasta)")("adpt3", po::value<std::string>()->default_value(""),
+                                                                                                                                                                                                                                         "file of the adapter sequences to be removed from the 3' end (.fasta)")("wtrim", po::value<std::bitset<1>>()->default_value(0),
+                                                                                                                                                                                                                                                                                                                 "on whether (=1) or not (=0) to include window trimming")("mmrate", po::value<double>()->default_value(0.1),
+                                                                                                                                                                                                                                                                                                                                                                           "rate of mismatched allowed when aligning adapter pattern to sequence")("wsize", po::value<int>()->default_value(3),
+                                                                                                                                                                                                                                                                                                                                                                                                                                                   "windows size to trim from 3' end")("minovlps", po::value<int>()->default_value(5),
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       "minimal overlap to merge paired-end reads")("savelookup, l", po::bool_switch()->default_value(false),
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Allows to save the lookup table to a file in the preprocess directory");
 
         po::options_description alignment("Alignment");
         alignment.add_options()

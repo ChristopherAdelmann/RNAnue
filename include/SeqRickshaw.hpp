@@ -15,6 +15,7 @@
 #include <tuple>
 #include <algorithm>
 #include <fstream>
+#include <filesystem>
 
 // boost
 #include <boost/property_tree/ptree.hpp>
@@ -68,15 +69,15 @@ using seqan3::operator""_dna4;
 
 class SeqRickshaw {
     private:
-        int modus; // defines the modus of the trimming procedure (
-        
+        int modus; // defines the modus of the trimming procedure (0 == 5' trimming, 1 == 3' trimming, 2 == both)
+
         po::variables_map params;
 
         std::string adpt5prime;
         std::string adpt3prime;
-        
-        Adapters adpt5Table;
-        Adapters adpt3Table;
+
+        std::optional<Adapters> adpt5Table;
+        std::optional<Adapters> adpt3Table;
 
         int phred; // the minimum 
         int minlen;
@@ -84,17 +85,19 @@ class SeqRickshaw {
 
         std::string readtype;
 
+        void setupLookupTables();
+
         /* the lookup table - smart transition table 
          * (state,c) -> shift, state, readPos, match
          * */
 //        std::map<std::pair<int,char>,std::tuple<int,int,int,int>> lookup;
             
     public:
-        SeqRickshaw(po::variables_map _params);
+        SeqRickshaw(const po::variables_map &params);
         SeqRickshaw();
 
         std::map<std::pair<std::string,std::string>,LookupTable> calcLookupTable(std::string _type, std::string _path);
-        LookupTable calcShift(auto _records);
+        LookupTable calcShift(auto &_records);
 
         std::vector<char> determineAlphabet(auto _sequence);
         std::size_t calcReadPos(auto& sequence, std::size_t& left, std::pair<std::size_t,std::size_t>& right);
@@ -123,7 +126,7 @@ class SeqRickshaw {
         int nextReadPos(std::string state, int currReadPos);
         // finds all occurrences of substring in string
         void findAllOcc(std::vector<std::size_t>& fnd, std::string str, std::string substr);
-        void writeLookupTable(std::ofstream &os);
+        void writeLookupTables(std::ofstream &os, Adapters &adptLookTbls);
 
         void preprocPattern();
 

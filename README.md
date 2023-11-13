@@ -55,7 +55,7 @@ This is be sufficient if the dependencies are located in $PATH. Calling `make` b
 
 ### Positional Arguments
 RNAnue provides different functional arguments (subcalls) for individual procedures. These include `RNAnue preproc`, 
-`RNAnue align`, `RNAnue clustering`, `RNAnue analysis`. In additon, `RNAnue complete` applies the whole workflow.
+`RNAnue align`, `RNAnue detect`, `RNAnue clustering`, `RNAnue analysis`. In additon, `RNAnue complete` applies the whole workflow.
 
 ## Input
 RNAnue requires the sequencing files to be in a specific folder structure. The root folders of the 

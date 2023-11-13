@@ -1,85 +1,103 @@
 #include "SeqRickshaw.hpp"
 
-SeqRickshaw::SeqRickshaw(po::variables_map _params) : params(_params) {
-    std::cout << helper::getTime() << " start the pre-processing" << std::endl;
-    
-    // retrieve parametes for the preprocessing
-    minlen = _params["minlen"].as<int>();
-    phred = _params["quality"].as<int>();
-	wsize = _params["wsize"].as<int>();
+SeqRickshaw::SeqRickshaw(const po::variables_map &params)
+    : params(params)
+{
+    std::cout << helper::getTime() << " Started preprocessing" << std::endl;
+
+    // retrieve parameters for the preprocessing
+    minlen = params["minlen"].as<int>();
+    phred = params["quality"].as<int>();
+    wsize = params["wsize"].as<int>();
+}
+
+void SeqRickshaw::setupLookupTables()
+{
+    std::cout << helper::getTime() << " Creating lookup table(s) for adapter trimming." << std::endl;
 
     // which adapters to trim (5'/3'/both)
-    modus = _params["modetrm"].as<int>();
+    modus = params["modetrm"].as<int>();
 
     // readtype (SE or PE)
-    readtype = _params["readtype"].as<std::string>();
+    readtype = params["readtype"].as<std::string>();
 
-    std::map<std::string,std::string> adpts;
-
-    std::string adpt5File = _params["adpt5"].as<std::string>();
-    std::string adpt3File = _params["adpt3"].as<std::string>();
+    const std::string adpt5File = params["adpt5"].as<std::string>();
+    const std::string adpt3File = params["adpt3"].as<std::string>();
 
     // create folder for outputs of Rickshaw (e.g., lookup tables)
-    fs::path outDirSub{_params["outdir"].as<std::string>()};
-    outDirSub /= fs::path(_params["subcall"].as<std::string>());
+    fs::path outDirSub{params["outdir"].as<std::string>()};
+    outDirSub /= fs::path(params["subcall"].as<std::string>());
 
-    try {
-        switch(modus) {
-            case 0: adpt5Table = calcLookupTable("5\'-adapter", adpt5File);
-                    break;
-            case 1: 
-            {
-                adpt3Table = calcLookupTable("3\'-adapter", adpt3File);
-                fs::path outDirSub3Adpt = outDirSub / fs::path("table_3adpt.txt");
-                std::ofstream lookup3AdptOut(outDirSub3Adpt.string(), std::ios::trunc);
-                writeLookupTable(lookup3AdptOut);
-                break;
-            }
-            case 2: adpt5Table = calcLookupTable("5\'-adapter", adpt5File);
-                    adpt3Table = calcLookupTable("3\'-adapter", adpt3File);
+    try
+    {
+        switch (modus)
+        {
+        case 0:
+            adpt5Table = calcLookupTable("5\'-adapter", adpt5File);
+            break;
+        case 1:
+        {
+            adpt3Table = calcLookupTable("3\'-adapter", adpt3File);
+            break;
+        }
+        case 2:
+            adpt5Table = calcLookupTable("5\'-adapter", adpt5File);
+            adpt3Table = calcLookupTable("3\'-adapter", adpt3File);
         }
     }
-    catch (seqan3::file_open_error& err) {
+    catch (const seqan3::file_open_error &err)
+    {
         std::cout << err.what() << std::endl;
         exit(EXIT_FAILURE);
     }
-    catch (std::exception& e) {
+    catch (const std::exception &e)
+    {
         std::cout << e.what() << std::endl;
     }
 
-    std::cout << helper::getTime() << " finished the lookup table" << std::endl;
+    if (params["savelookup"].as<bool>())
+    {
+        if (adpt3Table.has_value())
+        {
+            std::cout << helper::getTime() << " Saving lookup table for 3\'-adapter trimming." << std::endl;
+            fs::path outDirSub3Adpt = outDirSub / fs::path("lookup_table_3adpts.txt");
+            std::ofstream lookup3AdptOut(outDirSub3Adpt.string(), std::ios::trunc);
+            writeLookupTables(lookup3AdptOut, adpt3Table.value());
+        }
+
+        if (adpt5Table.has_value())
+        {
+            std::cout << helper::getTime() << " Saving lookup table for 5\'-adapter trimming." << std::endl;
+            fs::path outDirSub5Adpt = outDirSub / fs::path("lookup_table_5adpts.txt");
+            std::ofstream lookup5AdptOut(outDirSub5Adpt.string(), std::ios::trunc);
+            writeLookupTables(lookup5AdptOut, adpt5Table.value());
+        }
+    }
+
+    std::cout << helper::getTime() << " Finished creating lookup table(s)" << std::endl;
 }
 
 // calculate the smart state transition table for the patterns
-std::map<std::pair<std::string,std::string>, LookupTable> SeqRickshaw::calcLookupTable(std::string _type, std::string _adptFile) {
-    std::cout << helper::getTime() << " create lookup table using " << _adptFile << std::endl;
+std::map<std::pair<std::string, std::string>, LookupTable> SeqRickshaw::calcLookupTable(std::string type, std::string adapterFile)
+{
+    std::cout << helper::getTime() << " Using: " << adapterFile << std::endl;
 
-    // 
     Adapters tables;
-    seqan3::sequence_file_input adpt{_adptFile}; // read the adapters file
-    
-    using record_type = typename decltype(adpt)::record_type;
-    std::vector<record_type> records{};
-//    std::ranges::copy(adpt, std::ranges::back_inserter(records)); -> didn't work when compiling on tesla
+    seqan3::sequence_file_input adaptersInput{adapterFile}; // read the adapters file
 
-    for(auto& rec : adpt) {
+    for (auto &rec : adaptersInput)
+    {
         auto readID = seqan3::get<seqan3::field::id>(rec) | seqan3::views::to_char;
         auto readSeq = seqan3::get<seqan3::field::seq>(rec) | seqan3::views::to_char;
 
-        std::pair<std::string, std::string> readAsStrings;
-        readAsStrings = std::make_pair(std::string(readID.begin(),readID.end()),std::string(readSeq.begin(),readSeq.end()));
-
-        LookupTable bla = calcShift(readSeq);
-        tables.insert(std::make_pair(readAsStrings, bla));
+        LookupTable lookupTable = calcShift(readSeq);
+        tables.emplace(std::make_pair(std::string(readID.begin(), readID.end()), std::string(readSeq.begin(), readSeq.end())), lookupTable);
     }
     return tables;
 }
 
-
-/*
- *  
- */
-LookupTable SeqRickshaw::calcShift(auto sequence) {
+LookupTable SeqRickshaw::calcShift(auto &sequence)
+{
     typedef std::tuple<long,long,long,std::bitset<1>> Entry;
 
     LookupTable lookup;
@@ -87,193 +105,153 @@ LookupTable SeqRickshaw::calcShift(auto sequence) {
     // determine alphabet of sequence
     std::vector<char> alphabet = determineAlphabet(sequence);
 
-        
     // intitial state - reading position to the right (e.g., 000000*)
     // create states set and add intial state
-    // std::string state = std::string(sequence.size()-1,'0')+'*';
-    std::string state = std::string(sequence.size(),'0');
+    std::string state(sequence.size(), '0');
     States states;
 
-        std::size_t left = std::string::npos; // number of chars in the left block
-        std::pair<std::size_t,std::size_t> right = std::make_pair(std::string::npos,std::string::npos);
-        size_t readPos = sequence.size()-1;
-        
-        states.push_back(std::make_tuple(state, left, right,readPos)); //left, right maintain info of previously matched chars 
+    std::size_t left = std::string::npos; // number of chars in the left block
+    std::pair<std::size_t, std::size_t> right = std::make_pair(std::string::npos, std::string::npos);
+    size_t readPos = sequence.size() - 1;
 
-        //
-        int shift = 0;
-        int match = 0; // match has been found
-        
-        std::string nextState;
-        int nextStateID = 0;
-        int nextReadPosVar = -1;
+    states.push_back(std::make_tuple(state, left, right, readPos)); // left, right maintain info of previously matched chars
 
-        int matched = 0; // how many 
-        size_t nrMatches = 0;
+    int shift = 0;
+    int match = 0; // match has been found
 
-        int occ;
+    std::string nextState;
+    int nextStateID = 0;
+    int nextReadPosVar = -1;
 
-        std::string suffix;
-        int suffixPos;
+    int matched = 0; // how many
+    size_t nrMatches = 0;
 
-        char mismatch = ' ';
+    int occ;
 
-        std::string pattern;
-        std::string subpat;
+    std::string suffix;
+    int suffixPos;
 
-        size_t matchedCharsCount = 0;
+    char mismatch = ' ';
 
-        int goodSuffix = 0;
-        int badChar = 0;
+    std::string pattern;
+    std::string subpat;
 
-        seqan3::debug_stream << sequence << std::endl;   
+    size_t matchedCharsCount = 0;
 
-        States::size_type statesSize = states.size();
-        for(States::size_type i=0;i<statesSize;++i) {
-            state = std::get<0>(states[i]); // state (e.g., 000X000)
-            left = std::get<1>(states[i]); // 
-            right = std::get<2>(states[i]);
-            readPos = std::get<3>(states[i]);
+    int goodSuffix = 0;
+    int badChar = 0;
 
-            /*
-            std::cout << "-----------------------------------" << std::endl;
-            std::cout << sequence << " length: " << sequence.size() << std::endl;
-            std::cout << "current state: " << state << std::endl;
-            std::cout << "readPos: " << readPos << std::endl;
-            std::cout << "left: " << left << std::endl;
-            std::cout << "rightStart: " << right.first << std::endl;
-            std::cout << "rightEnd: " << right.second << std::endl;*/
-           
-            /*
-            readPos = calcReadPos(sequence,left,right); // determines the readPos
-            if(readPos == std::string::npos) {
-                continue;
-            }*/
+    States::size_type statesSize = states.size();
+    for (States::size_type i = 0; i < statesSize; ++i)
+    {
+        state = std::get<0>(states[i]); // state (e.g., 000X000)
+        left = std::get<1>(states[i]);  //
+        right = std::get<2>(states[i]);
+        readPos = std::get<3>(states[i]);
 
-            for(unsigned j=0;j<alphabet.size();++j) { // iterate through any other possibility
-/*                std::cout << "\t---------" << std::endl;
-                std::cout << "\talphabet " << alphabet[j] << std::endl;
-                std::cout << "\tletter " << sequence[readPos] << " (" << readPos << ")" << std::endl;*/
+        for (unsigned j = 0; j < alphabet.size(); ++j)
+        { // iterate through any other possibility
 
-                std::size_t nextLeft = left;
-                std::pair<std::size_t,std::size_t> nextRight = right;
-                nextState = state;
-                std::size_t nextReadPos;
-                
-                if(sequence[readPos] == alphabet[j]) { //  match
-//                    std::cout << "\tmatch" << std::endl;
+            std::size_t nextLeft = left;
+            std::pair<std::size_t, std::size_t> nextRight = right;
+            nextState = state;
+            std::size_t nextReadPos;
 
-                    if(right.first == std::string::npos && right.second == std::string::npos) {
-                        nextRight.first = sequence.size()-1;
-                        nextRight.second = sequence.size()-1;
-                    } else {
-                        if(readPos > right.second) {
-                            ++nextRight.second;
-                        } else {
-                            --nextRight.first;
-                        }
+            if (sequence[readPos] == alphabet[j])
+            { //  match
+
+                if (right.first == std::string::npos && right.second == std::string::npos)
+                {
+                    nextRight.first = sequence.size() - 1;
+                    nextRight.second = sequence.size() - 1;
+                }
+                else
+                {
+                    if (readPos > right.second)
+                    {
+                        ++nextRight.second;
                     }
-                    nextState[readPos] = 'X';
-
-                    /*
-                    std::cout << "\tNextLeft: " << nextLeft << std::endl;
-                    std::cout << "\tNextRightStart " << nextRight.first << std::endl;
-                    std::cout << "\tNextRightEnd " << nextRight.second << std::endl;
-                    std::cout << "\tNextState: " << nextState << std::endl;*/
-                        
-                    nextReadPos = calcReadPos(sequence,nextLeft,nextRight); // determines the readPos
-//                    std::cout << "\tNextReadPos: " << nextReadPos << std::endl;
-
-                    // exclude state with all matches
-                    if(std::count(nextState.begin(), nextState.end(), 'X') != sequence.size()) {
-                        
-                        nextStateID = addState(states, std::make_tuple(nextState, nextLeft, nextRight, nextReadPos), statesSize);
- //                       std::cout << "\tnextStateID " << nextStateID << '\n';
-
-                        // add to lookup table
-                        lookup.insert(std::make_pair(std::make_pair(i, alphabet[j]), std::make_tuple(0,nextStateID,nextReadPos,0)));
-
-                    } else { // a complete match could have been detected
-                        // add to lookup table
-                        lookup.insert(std::make_pair(std::pair(i, alphabet[j]), std::make_tuple(0,0,0,1)));
+                    else
+                    {
+                        --nextRight.first;
                     }
+                }
+                nextState[readPos] = 'X';
 
+                nextReadPos = calcReadPos(sequence, nextLeft, nextRight); // determines the readPos
 
-                } else {
-  //                  std::cout << "\tmismatch" << std::endl;
+                // exclude state with all matches
+                if (std::count(nextState.begin(), nextState.end(), 'X') != sequence.size())
+                {
 
-                    // convert range to container
-                    auto tmp = sequence | ranges::to<std::vector<char>>;
-                    std::string pattern(tmp.begin(),tmp.end());
-
-                    // determine the suffix to check against the pattern
-                    if(right.first == std::string::npos && right.second == std::string::npos) {
-                        suffix = alphabet[j]; // suffix consists only of mismatch
-                    } else {
-                        suffix = pattern.substr(right.first, (right.second-right.first)+1);
-                        if(readPos < right.first) {
-                            suffix = alphabet[j] + suffix;
-                        } else {
-                            suffix = suffix + alphabet[j];
-                        }
-                    }
-
-   //                 std::cout << "\tsuffix " << suffix << std::endl;
-                    shift = transition(pattern, suffix, readPos, nextLeft, nextRight);
-    //                std::cout << "\tLeft " << left << std::endl;
-     
-                    /*
-                    std::cout << "\tshift " << shift << std::endl;
-                    std::cout << "\tnextLeft " << nextLeft << std::endl;
-                    std::cout << "\tnextRightStart " << nextRight.first << std::endl;
-                    std::cout << "\tnextRightEnd " << nextRight.second << std::endl;
-                    */
-
-                    nextState = std::string(sequence.size(),'0');
-
-                    // change stateID
-                    if(nextRight.first != std::string::npos && nextRight.second != std::string::npos) {
-                        for(unsigned s=nextRight.first;s<=nextRight.second;++s) {
-                            nextState[s] = 'X';
-                        }
-                    }
-
-                    if(nextLeft != std::string::npos) {
-                        for(unsigned l=0;l<=nextLeft;++l) {
-                            nextState[l] = 'X';
-                        }
-                    }
-                        
-                    nextReadPos = calcReadPos(sequence,nextLeft,nextRight); // determines the readPos
-
-                    //std::cout << "\tnextReadPos " << nextReadPos << '\n';
-                    //std::cout << "\tnextState " << nextState << std::endl;
                     nextStateID = addState(states, std::make_tuple(nextState, nextLeft, nextRight, nextReadPos), statesSize);
 
-                    //std::cout << "\tnextStateID " << nextStateID << '\n';
-                        
-                    lookup.insert(std::make_pair(std::make_pair(i, alphabet[j]), std::make_tuple(shift, nextStateID, nextReadPos, 0)));
+                    // add to lookup table
+                    lookup.insert(std::make_pair(std::make_pair(i, alphabet[j]), std::make_tuple(0, nextStateID, nextReadPos, 0)));
+                }
+                else
+                { // a complete match could have been detected
+                    // add to lookup table
+                    lookup.insert(std::make_pair(std::pair(i, alphabet[j]), std::make_tuple(0, 0, 0, 1)));
                 }
             }
-        }
-        /*
-        std::cout << "list all states" << std::endl;
-        States::iterator it;
-        for(it = states.begin();it!=states.end();++it) {
-            std::cout << std::get<0>(*it) << "\tLeft:" << std::get<1>(*it) << "\tRightStart:" << std::get<2>(*it).first << "\tRightEnd:" << std::get<2>(*it).second;
-            std::cout << "\treadPos: " << std::get<3>(*it) << std::endl;
-        }
+            else
+            {
+                // convert range to container
+                auto tmp = sequence | ranges::to<std::vector<char>>;
+                std::string pattern(tmp.begin(), tmp.end());
 
-        std::cout << "lookup table" << std::endl;
-        for(auto const& x: lookup) {
-            std::cout << "(" << x.first.first << "," << x.first.second << ") -> ";
-            std::cout << "(" << std::get<0>(x.second) << "," << std::get<1>(x.second) << "," << std::get<2>(x.second) <<  "," << std::get<3>(x.second) << ")" << std::endl;
-        }*/
+                // determine the suffix to check against the pattern
+                if (right.first == std::string::npos && right.second == std::string::npos)
+                {
+                    suffix = alphabet[j]; // suffix consists only of mismatch
+                }
+                else
+                {
+                    suffix = pattern.substr(right.first, (right.second - right.first) + 1);
+                    if (readPos < right.first)
+                    {
+                        suffix = alphabet[j] + suffix;
+                    }
+                    else
+                    {
+                        suffix = suffix + alphabet[j];
+                    }
+                }
+
+                shift = transition(pattern, suffix, readPos, nextLeft, nextRight);
+
+                nextState = std::string(sequence.size(), '0');
+
+                // change stateID
+                if (nextRight.first != std::string::npos && nextRight.second != std::string::npos)
+                {
+                    for (unsigned s = nextRight.first; s <= nextRight.second; ++s)
+                    {
+                        nextState[s] = 'X';
+                    }
+                }
+
+                if (nextLeft != std::string::npos)
+                {
+                    for (unsigned l = 0; l <= nextLeft; ++l)
+                    {
+                        nextState[l] = 'X';
+                    }
+                }
+
+                nextReadPos = calcReadPos(sequence, nextLeft, nextRight); // determines the readPos
+
+                nextStateID = addState(states, std::make_tuple(nextState, nextLeft, nextRight, nextReadPos), statesSize);
+
+                lookup.insert(std::make_pair(std::make_pair(i, alphabet[j]), std::make_tuple(shift, nextStateID, nextReadPos, 0)));
+            }
+        }
+    }
 
     return lookup;
-
 }
-        
+
 std::size_t SeqRickshaw::calcReadPos(auto& sequence, std::size_t& left, std::pair<std::size_t,std::size_t>& right) {
     std::size_t readPos;
 
@@ -507,8 +485,10 @@ std::pair<std::size_t,std::size_t> SeqRickshaw::trimming(auto& fwd) {
     std::pair<std::size_t,std::size_t> bnds = std::make_pair(0,fwd.size());
 
     // trim 5' adapters
-    if(modus == 0 || modus == 2) {
-        for(auto const& x : adpt5Table) {
+    if (adpt5Table.has_value())
+    {
+        for (auto const &x : adpt5Table.value())
+        {
             fndPos = boyermoore(fwd, x.second, x.first.second.size());
             if(fndPos == 0) { // adapter needs to be detected beginning with the first
                 bnds.first = x.first.second.size();
@@ -517,8 +497,10 @@ std::pair<std::size_t,std::size_t> SeqRickshaw::trimming(auto& fwd) {
     }
 
     // trim 3' adapters
-    if(modus == 1 || modus == 2) {
-        for(auto const& x : adpt3Table) {
+    if (adpt3Table.has_value())
+    {
+        for (auto const &x : adpt3Table.value())
+        {
             fndPos = boyermoore(fwd, x.second, x.first.second.size());
             if(fndPos < bnds.second) {
                 bnds.second = fndPos;
@@ -534,28 +516,29 @@ SeqRickshaw::SeqRickshaw() {
 }
 
 void SeqRickshaw::start(pt::ptree sample) {
-    std::cout << helper::getTime() << " process the reads" << std::endl;
-    
-    std::pair<std::size_t,std::size_t> bndsFwd; //
-    std::pair<std::size_t,std::size_t> bndsRev; //
+    setupLookupTables();
 
     pt::ptree input = sample.get_child("input");
     pt::ptree output = sample.get_child("output");
 
-    std::string forward = input.get<std::string>("forward");
-    seqan3::sequence_file_input fwd{forward};
+    std::string forwardsReadPath = input.get<std::string>("forward");
+    std::string sampleName = std::filesystem::path(forwardsReadPath).stem().string();
+    seqan3::sequence_file_input forwardReadsFile{forwardsReadPath};
+
+    std::cout << helper::getTime() << " Started processing " << sampleName << std::endl;
+
+    std::pair<std::size_t, std::size_t> bndsFwd; //
+    std::pair<std::size_t, std::size_t> bndsRev; //
 
     //
     if(readtype == "SE") {
         std::string outreads = output.get<std::string>("forward");
-        //seqan3::sequence_file_output outReadsFile{outreads};
 
         std::ofstream myfile;
         myfile.open(outreads);
 
-        for(auto & [seq, id, qual] : fwd) {
-//			seqan3::debug_stream << "sequence: " << seq << std::endl;
-//			seqan3::debug_stream << "quality: " << qual << std::endl;
+        for (auto &[seq, id, qual] : forwardReadsFile)
+        {
 
             bndsFwd = trimming(seq);
             // perform window trimming if specified
@@ -565,14 +548,9 @@ void SeqRickshaw::start(pt::ptree sample) {
             }
 
             auto trmReadFwd = seq | seqan3::views::slice(bndsFwd.first,bndsFwd.second);
-            auto trmReadFwdQual = qual | seqan3::views::slice(bndsFwd.first,bndsFwd.second);
+            auto trmReadFwdQual = qual | seqan3::views::slice(bndsFwd.first, bndsFwd.second);
 
-//			seqan3::debug_stream << "5'-end: " << bndsFwd.first << std::endl;
-//			seqan3::debug_stream << "3'-end: " << bndsFwd.second << std::endl;
-//			seqan3::debug_stream << trmReadFwd << std::endl;
-//			seqan3::debug_stream << trmReadFwdQual << std::endl;
-			
-			// filter reads based on size
+            // filter reads based on size
 			if(std::ranges::size(trmReadFwd) != 0 && std::ranges::size(trmReadFwd) >= minlen) {
 				auto bla = trmReadFwdQual | std::views::transform([] (auto quality) { return seqan3::to_phred(quality); });
 				auto sum = std::accumulate(bla.begin(), bla.end(), 0);
@@ -612,8 +590,9 @@ void SeqRickshaw::start(pt::ptree sample) {
         myfile.open(outreads);
 
 //        std::tuple<seqan3::field::id,seqan3::field::seq,seqan3::field:qual> tt;
-        
-        for(auto && [rec1,rec2] : seqan3::views::zip(fwd,rev)) {
+
+        for (auto &&[rec1, rec2] : seqan3::views::zip(forwardReadsFile, rev))
+        {
             bndsFwd = trimming(seqan3::get<seqan3::field::seq>(rec1));
             auto trmReadFwdID = seqan3::get<seqan3::field::id>(rec1);
             auto trmReadFwd = seqan3::get<seqan3::field::seq>(rec1) | seqan3::views::slice(bndsFwd.first,bndsFwd.second);
@@ -766,8 +745,10 @@ bool SeqRickshaw::filtering(auto& rec) {
 }
 
 // write lookup table
-void SeqRickshaw::writeLookupTable(std::ofstream& ofs) {
-    for(auto const& [key, val] : adpt3Table) {
+void SeqRickshaw::writeLookupTables(std::ofstream &ofs, Adapters &adptLookTbls)
+{
+    for (auto const &[key, val] : adptLookTbls)
+    {
         ofs << "ID: " << key.first << '\n';
         ofs << "Seq: " << key.second << '\n';
         for(auto const& [key2, val2] : val) {

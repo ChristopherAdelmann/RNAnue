@@ -148,7 +148,7 @@ class SeqRickshaw {
         std::pair<std::size_t,std::size_t> trimming(auto& read);
         void start(pt::ptree sample);
 
-        bool passesFilters(auto &rec);
+        bool passesFilters(auto &rec, auto &qual);
 };
 
 #endif

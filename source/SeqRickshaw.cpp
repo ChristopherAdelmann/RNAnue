@@ -591,18 +591,19 @@ void SeqRickshaw::start(pt::ptree sample) {
         {
             bndsFwd = trimming(rec1.sequence());
             std::string trmReadFwdID = rec1.id();
-            auto trmReadFwd = rec1.sequence() | seqan3::views::slice(bndsFwd.first, bndsFwd.second);
-            auto trmReadFwdQual = rec1.base_qualities() | seqan3::views::slice(bndsFwd.first, bndsFwd.second);
-            bool filtFwd = passesFilters(rec1);
+            auto trmFwdSeq = rec1.sequence() | seqan3::views::slice(bndsFwd.first, bndsFwd.second);
+            auto trmFwdQual = rec1.base_qualities() | seqan3::views::slice(bndsFwd.first, bndsFwd.second);
+
+            bool filtFwd = passesFilters(trmFwdSeq, trmFwdQual);
 
             bndsRev = trimming(rec2.sequence());
             std::string trmReadRevID = rec2.id();
             auto trmReadRev = rec2.sequence() | seqan3::views::slice(bndsRev.first, bndsRev.second);
             auto trmReadRevQual = rec2.base_qualities() | seqan3::views::slice(bndsRev.first, bndsRev.second);
-            bool filtRev = passesFilters(rec2);
+            bool filtRev = passesFilters(trmReadRev, trmReadRevQual);
 
             if(filtFwd && filtRev) {
-                std::pair<std::string, std::string> mrg = merging(trmReadFwd,trmReadRev,trmReadFwdQual,trmReadRevQual);
+                std::pair<std::string, std::string> mrg = merging(trmFwdSeq, trmReadRev, trmFwdQual, trmReadRevQual);
                 if(mrg.first != "" && mrg.second != "") {
                     mergeOut << "@" << trmReadFwdID << '\n';
                     mergeOut << mrg.first.c_str() << '\n';
@@ -613,7 +614,8 @@ void SeqRickshaw::start(pt::ptree sample) {
             } else {
                 if(filtFwd) {
                     // push to r1only
-                    snglFwdOut.emplace_back(trmReadFwd, trmReadFwdID, trmReadFwdQual);
+                    // test_view | snglFwdOut;
+                    snglFwdOut.emplace_back(trmFwdSeq, trmReadFwdID, trmFwdQual);
                 }
                 if(filtRev) {
                     // push to r2only
@@ -713,17 +715,17 @@ std::pair<std::string,std::string> SeqRickshaw::merging(auto fwd, auto rev, auto
     }
 }
 
-bool SeqRickshaw::passesFilters(auto &record)
+bool SeqRickshaw::passesFilters(auto &seq, auto &qual)
 {
     // Filter for mean quality
-    auto qual = record.base_qualities() | std::views::transform([](auto q)
-                                                                { return q.to_phred(); });
-    double sum = std::accumulate(qual.begin(), qual.end(), 0);
-    double meanPhred = sum / std::ranges::size(qual);
+    auto phredQual = qual | std::views::transform([](auto q)
+                                                  { return q.to_phred(); });
+    double sum = std::accumulate(phredQual.begin(), phredQual.end(), 0);
+    double meanPhred = sum / std::ranges::size(phredQual);
     bool passesQual = meanPhred >= phred;
 
     // Filter for length
-    bool passesLen = std::ranges::distance(record.sequence()) >= minLen;
+    bool passesLen = std::ranges::distance(seq) >= minLen;
 
     return passesQual && passesLen;
 }

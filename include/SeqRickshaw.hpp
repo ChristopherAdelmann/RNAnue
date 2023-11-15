@@ -3,6 +3,13 @@
 
 #include "Helper.hpp"
 
+// Test inlcudes
+#include <chrono>
+#include <algorithm>
+#include <iostream>
+#include <functional>
+#include <iomanip>
+
 // openMP
 #include <omp.h>
 
@@ -24,6 +31,7 @@
 #include <boost/filesystem.hpp>
 
 // seqan
+#include <seqan3/io/sequence_file/all.hpp>
 #include <seqan3/io/sequence_file/format_fasta.hpp>
 #include <seqan3/io/sequence_file/format_fastq.hpp>
 #include <seqan3/io/sequence_file/input.hpp>
@@ -33,17 +41,16 @@
 #include <seqan3/alphabet/nucleotide/dna4.hpp>
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 
-#include <seqan3/range/views/all.hpp>
-#include <seqan3/range/views/chunk.hpp>
-#include <seqan3/range/views/char_to.hpp>
-#include <seqan3/range/views/slice.hpp>
+#include <seqan3/utility/views/chunk.hpp>
+#include <seqan3/alphabet/views/char_to.hpp>
+#include <seqan3/alphabet/views/complement.hpp>
+#include <seqan3/utility/views/slice.hpp>
 
 #include <seqan3/core/debug_stream.hpp>
 #include <seqan3/std/ranges>
 #include <seqan3/std/ranges> // std::ranges::copy
 #include <range/v3/all.hpp>
 #include <range/v3/view/transform.hpp>
-
 
 namespace pt = boost::property_tree;
 namespace fs = boost::filesystem;
@@ -79,14 +86,16 @@ class SeqRickshaw {
         std::optional<Adapters> adpt5Table;
         std::optional<Adapters> adpt3Table;
 
-        int phred; // the minimum 
-        int minlen;
-		int wsize;
+        int phred; // the minimum
+        int minLen;
+        int wsize;
 
         std::string readtype;
 
         void setupLookupTables();
 
+        std::chrono::duration<double> cumDuration;
+        std::size_t sumReads;
         /* the lookup table - smart transition table 
          * (state,c) -> shift, state, readPos, match
          * */
@@ -139,7 +148,7 @@ class SeqRickshaw {
         std::pair<std::size_t,std::size_t> trimming(auto& read);
         void start(pt::ptree sample);
 
-        bool filtering(auto &rec);
+        bool passesFilters(auto &rec);
 };
 
 #endif

@@ -6,9 +6,12 @@ SeqRickshaw::SeqRickshaw(const po::variables_map &params)
     std::cout << helper::getTime() << " Started preprocessing" << std::endl;
 
     // retrieve parameters for the preprocessing
-    minlen = params["minlen"].as<int>();
+    minLen = params["minlen"].as<int>();
     phred = params["quality"].as<int>();
     wsize = params["wsize"].as<int>();
+
+    cumDuration = std::chrono::duration<double>::zero();
+    sumReads = 0;
 }
 
 void SeqRickshaw::setupLookupTables()
@@ -87,11 +90,12 @@ std::map<std::pair<std::string, std::string>, LookupTable> SeqRickshaw::calcLook
 
     for (auto &rec : adaptersInput)
     {
-        auto readID = seqan3::get<seqan3::field::id>(rec) | seqan3::views::to_char;
-        auto readSeq = seqan3::get<seqan3::field::seq>(rec) | seqan3::views::to_char;
+        // seqan3::debug_stream << "ID:  " << rec.id() << '\n';
+        std::string readID = rec.id();
+        auto readSeq = rec.sequence() | seqan3::views::to_char;
 
         LookupTable lookupTable = calcShift(readSeq);
-        tables.emplace(std::make_pair(std::string(readID.begin(), readID.end()), std::string(readSeq.begin(), readSeq.end())), lookupTable);
+        tables.emplace(std::make_pair(readID, std::string(readSeq.begin(), readSeq.end())), lookupTable);
     }
     return tables;
 }
@@ -404,14 +408,6 @@ int SeqRickshaw::nextReadPos(std::string state, int currReadPos) {
     return -1;
 }
 
-
-/*
-    auto bla =  seqan3::get<seqan3::field::seq>(_records[0]);
-    auto dingens = bla | seqan3::views::to_char;
-    std::cout << dingens.size() << std::endl;
-//    seqan3::debug_stream << (_records | seqan3::views::get<0> | seqan3::views::to_char) << std::endl; */
-
-
 /*
  * TODO: use action unique to implement this function more conventiently in c++20
  * */
@@ -434,8 +430,6 @@ void SeqRickshaw::findAllOcc(std::vector<std::size_t>& fnd, std::string str, std
     }
     std::reverse(fnd.begin(),fnd.end());
 }
-
-
 
 // the boyer moore search algorithm
 std::size_t SeqRickshaw::boyermoore(auto& read, LookupTable tab, int m) {
@@ -473,10 +467,11 @@ std::size_t SeqRickshaw::boyermoore(auto& read, LookupTable tab, int m) {
     return std::string::npos;
 }
 
-
 //
-std::pair<std::size_t,std::size_t> SeqRickshaw::trimming(auto& fwd) {
-    // contains the search positons
+std::pair<std::size_t, std::size_t> SeqRickshaw::trimming(auto &fwd)
+{
+
+    //  contains the search positons
     std::size_t fndPos;
     std::vector<size_t> res3Adpt;
     std::vector<size_t> res5Adpt;
@@ -484,13 +479,15 @@ std::pair<std::size_t,std::size_t> SeqRickshaw::trimming(auto& fwd) {
     // marks the boundaries
     std::pair<std::size_t,std::size_t> bnds = std::make_pair(0,fwd.size());
 
-    // trim 5' adapters
+    //  trim 5' adapters
     if (adpt5Table.has_value())
     {
         for (auto const &x : adpt5Table.value())
         {
             fndPos = boyermoore(fwd, x.second, x.first.second.size());
-            if(fndPos == 0) { // adapter needs to be detected beginning with the first
+
+            if (fndPos == 0)
+            { // adapter needs to be detected beginning with the first
                 bnds.first = x.first.second.size();
             }
         }
@@ -510,8 +507,6 @@ std::pair<std::size_t,std::size_t> SeqRickshaw::trimming(auto& fwd) {
     return bnds;
 }
 
-
-
 SeqRickshaw::SeqRickshaw() {
 }
 
@@ -521,9 +516,9 @@ void SeqRickshaw::start(pt::ptree sample) {
     pt::ptree input = sample.get_child("input");
     pt::ptree output = sample.get_child("output");
 
-    std::string forwardsReadPath = input.get<std::string>("forward");
-    std::string sampleName = std::filesystem::path(forwardsReadPath).stem().string();
-    seqan3::sequence_file_input forwardReadsFile{forwardsReadPath};
+    std::string fwdRecInPath = input.get<std::string>("forward");
+    std::string sampleName = std::filesystem::path(fwdRecInPath).stem().string();
+    seqan3::sequence_file_input forwardRecIn{fwdRecInPath};
 
     std::cout << helper::getTime() << " Started processing " << sampleName << std::endl;
 
@@ -537,7 +532,7 @@ void SeqRickshaw::start(pt::ptree sample) {
         std::ofstream myfile;
         myfile.open(outreads);
 
-        for (auto &[seq, id, qual] : forwardReadsFile)
+        for (auto &[seq, id, qual] : forwardRecIn)
         {
 
             bndsFwd = trimming(seq);
@@ -551,15 +546,18 @@ void SeqRickshaw::start(pt::ptree sample) {
             auto trmReadFwdQual = qual | seqan3::views::slice(bndsFwd.first, bndsFwd.second);
 
             // filter reads based on size
-			if(std::ranges::size(trmReadFwd) != 0 && std::ranges::size(trmReadFwd) >= minlen) {
-				auto bla = trmReadFwdQual | std::views::transform([] (auto quality) { return seqan3::to_phred(quality); });
-				auto sum = std::accumulate(bla.begin(), bla.end(), 0);
-				auto qualscore = sum / std::ranges::size(bla);
+            if (std::ranges::size(trmReadFwd) != 0 && std::ranges::size(trmReadFwd) >= minLen)
+            {
+                auto bla = trmReadFwdQual | std::views::transform([](auto quality)
+                                                                  { return seqan3::to_phred(quality); });
+                auto sum = std::accumulate(bla.begin(), bla.end(), 0);
+                auto qualscore = sum / std::ranges::size(bla);
 
-				//std::cout << qualscore << std::endl;
-				if(qualscore >= phred) {
-					myfile << "@" << id << '\n';
-					for(auto & s: trmReadFwd) {
+                // std::cout << qualscore << std::endl;
+                if (qualscore >= phred)
+                {
+                    myfile << "@" << id << '\n';
+                    for(auto & s: trmReadFwd) {
 						myfile << s.to_char();
 					}
 					myfile << '\n';
@@ -569,63 +567,61 @@ void SeqRickshaw::start(pt::ptree sample) {
 						myfile << t.to_char();
 					}
 					myfile << '\n';
-					}
-			}
+                }
+            }
         }
         myfile.close();
 
     } else { // readtype == "PE"
-        std::string reverse = input.get<std::string>("reverse");
-        seqan3::sequence_file_input rev{reverse};
-   
+        std::string revRecInPath = input.get<std::string>("reverse");
+        seqan3::sequence_file_input reverseRecIn{revRecInPath};
+
         // create output files for r1only/r2only - reads that don't survive the trimming
-        
-        std::string r1only = output.get<std::string>("R1only");
-        std::string r2only = output.get<std::string>("R2only");
-        seqan3::sequence_file_output r1onlyOut{r1only};
-        seqan3::sequence_file_output r2onlyOut{r2only};
-        
-        std::string outreads = output.get<std::string>("forward");
-        std::ofstream myfile;
-        myfile.open(outreads);
 
-//        std::tuple<seqan3::field::id,seqan3::field::seq,seqan3::field:qual> tt;
+        std::string snglFwdOutPath = output.get<std::string>("R1only");
+        std::string snglRevOutPath = output.get<std::string>("R2only");
+        seqan3::sequence_file_output snglFwdOut{snglFwdOutPath};
+        seqan3::sequence_file_output snglRevOut{snglRevOutPath};
 
-        for (auto &&[rec1, rec2] : seqan3::views::zip(forwardReadsFile, rev))
+        std::string mergeOutPath = output.get<std::string>("forward");
+        std::ofstream mergeOut;
+        mergeOut.open(mergeOutPath);
+
+        for (auto &&[rec1, rec2] : seqan3::views::zip(forwardRecIn, reverseRecIn))
         {
-            bndsFwd = trimming(seqan3::get<seqan3::field::seq>(rec1));
-            auto trmReadFwdID = seqan3::get<seqan3::field::id>(rec1);
-            auto trmReadFwd = seqan3::get<seqan3::field::seq>(rec1) | seqan3::views::slice(bndsFwd.first,bndsFwd.second);
-            auto trmReadFwdQual = seqan3::get<seqan3::field::qual>(rec1) | seqan3::views::slice(bndsFwd.first,bndsFwd.second);
-            bool filtFwd = filtering(rec1) && (std::ranges::size(trmReadFwd) >= minlen);
+            bndsFwd = trimming(rec1.sequence());
+            std::string trmReadFwdID = rec1.id();
+            auto trmReadFwd = rec1.sequence() | seqan3::views::slice(bndsFwd.first, bndsFwd.second);
+            auto trmReadFwdQual = rec1.base_qualities() | seqan3::views::slice(bndsFwd.first, bndsFwd.second);
+            bool filtFwd = passesFilters(rec1);
 
-            bndsRev = trimming(seqan3::get<seqan3::field::seq>(rec2));
-            auto trmReadRevID = seqan3::get<seqan3::field::id>(rec2);
-            auto trmReadRev = seqan3::get<seqan3::field::seq>(rec2) | seqan3::views::slice(bndsRev.first,bndsRev.second);
-            auto trmReadRevQual = seqan3::get<seqan3::field::qual>(rec2) | seqan3::views::slice(bndsRev.first,bndsRev.second);
-            bool filtRev = filtering(rec2) && (std::ranges::size(trmReadRev) >= minlen);
+            bndsRev = trimming(rec2.sequence());
+            std::string trmReadRevID = rec2.id();
+            auto trmReadRev = rec2.sequence() | seqan3::views::slice(bndsRev.first, bndsRev.second);
+            auto trmReadRevQual = rec2.base_qualities() | seqan3::views::slice(bndsRev.first, bndsRev.second);
+            bool filtRev = passesFilters(rec2);
 
             if(filtFwd && filtRev) {
                 std::pair<std::string, std::string> mrg = merging(trmReadFwd,trmReadRev,trmReadFwdQual,trmReadRevQual);
                 if(mrg.first != "" && mrg.second != "") {
-                    myfile << "@" << trmReadFwdID << '\n';
-                    myfile << mrg.first.c_str() << '\n';
-                    myfile << '+' << '\n';
-                    myfile << mrg.second << '\n';
+                    mergeOut << "@" << trmReadFwdID << '\n';
+                    mergeOut << mrg.first.c_str() << '\n';
+                    mergeOut << '+' << '\n';
+                    mergeOut << mrg.second << '\n';
                 }
 
             } else {
                 if(filtFwd) {
                     // push to r1only
-                    r1onlyOut.emplace_back(trmReadFwd,trmReadFwdID,trmReadFwdQual);
+                    snglFwdOut.emplace_back(trmReadFwd, trmReadFwdID, trmReadFwdQual);
                 }
                 if(filtRev) {
                     // push to r2only
-                    r2onlyOut.emplace_back(trmReadRev,trmReadRevID,trmReadRevQual);
+                    snglRevOut.emplace_back(trmReadRev, trmReadRevID, trmReadRevQual);
                 }
             }
         }
-        myfile.close();
+        mergeOut.close();
     }
 }
 
@@ -696,16 +692,6 @@ std::pair<std::string,std::string> SeqRickshaw::merging(auto fwd, auto rev, auto
     auto forwardQual = fwdQual | seqan3::views::to_char;
     auto reverseQual = revQual | seqan3::views::to_char;
 
-    /*
-    std::cout << "new" << std::endl;
-    seqan3::debug_stream << "fwd: " << fwd << std::endl;
-    seqan3::debug_stream << "rev: " << rev << std::endl;
-    seqan3::debug_stream << "reverse: " << reverse << std::endl;
-    */
-
-  //  std::cout << (forward | seqan3::views::to_char) << std::endl;
-   // std::cout << (reverse | seqan3::views::to_char) << std::endl;
- 
     std::string s1(forward.begin(),forward.end());
     std::string s2(reverse.begin(),reverse.end());
 
@@ -714,7 +700,6 @@ std::pair<std::string,std::string> SeqRickshaw::merging(auto fwd, auto rev, auto
 
     std::string lcs = longestCommonSubstr(s1,s2);
 
-//    std::cout << "longest common substring: " << lcs << std::endl;
     if(lcs.size() < 1 || lcs.size() < params["minovlps"].as<int>()) {
         return std::make_pair("","");
     } else {
@@ -724,24 +709,23 @@ std::pair<std::string,std::string> SeqRickshaw::merging(auto fwd, auto rev, auto
         std::string mergedSeq = s1.substr(0,s1Found+lcs.size())+s2.substr(0,s2Found);
         std::string mergedQual = s1q.substr(0,s1Found+lcs.size())+s2q.substr(0,s2Found);
 
- //       std::cout << "mergedSeq: " << mergedSeq << std::endl;
-  //      std::cout << "mergedQual: " << mergedQual << std::endl;
-
         return std::make_pair(mergedSeq,mergedQual);
     }
 }
 
-
-bool SeqRickshaw::filtering(auto& rec) {
-    auto qual = seqan3::get<seqan3::field::qual>(rec) | std::views::transform([] (auto q) { return q.to_phred(); });
+bool SeqRickshaw::passesFilters(auto &record)
+{
+    // Filter for mean quality
+    auto qual = record.base_qualities() | std::views::transform([](auto q)
+                                                                { return q.to_phred(); });
     double sum = std::accumulate(qual.begin(), qual.end(), 0);
-    double phredScore = sum / std::ranges::size(qual);
+    double meanPhred = sum / std::ranges::size(qual);
+    bool passesQual = meanPhred >= phred;
 
-    if(phredScore >= phred) {
-        return true;
-    } else {
-        return false;
-    }
+    // Filter for length
+    bool passesLen = std::ranges::distance(record.sequence()) >= minLen;
+
+    return passesQual && passesLen;
 }
 
 // write lookup table

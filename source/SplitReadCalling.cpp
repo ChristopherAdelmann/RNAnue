@@ -1,12 +1,14 @@
 #include "SplitReadCalling.hpp"
 
-SplitReadCalling::SplitReadCalling(po::variables_map params) : 
-    params(params) {
-        readscount = 0;
-        alignedcount = 0;
-        splitscount = 0;
-        msplitscount = 0;
-        nsurvivedcount = 0;
+using namespace seqan3::literals;
+
+SplitReadCalling::SplitReadCalling(po::variables_map params) : params(params)
+{
+    readscount = 0;
+    alignedcount = 0;
+    splitscount = 0;
+    msplitscount = 0;
+    nsurvivedcount = 0;
 }
 
 //
@@ -16,7 +18,6 @@ void SplitReadCalling::iterate(std::string matched, std::string splits, std::str
 		seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
 						seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
 						seqan3::field::seq, seqan3::field::tags, seqan3::field::alignment>{}};
-
 
     std::vector<size_t> ref_lengths{};
 	for(auto &info : fin.header().ref_id_info) {
@@ -30,7 +31,6 @@ void SplitReadCalling::iterate(std::string matched, std::string splits, std::str
             seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
             seqan3::field::seq, seqan3::field::tags>{}};
 
-
     // output file for multi splits
     seqan3::alignment_file_output multsplitsfile{multsplits, ref_ids, ref_lengths,
         seqan3::fields<
@@ -43,7 +43,6 @@ void SplitReadCalling::iterate(std::string matched, std::string splits, std::str
             seqan3::field::seq,
             seqan3::field::tags>{}};
 
-   
     std::string currentQNAME = "";
 	//std::vector<std::string> splitrecord; // all split combinations
     using record_type = typename decltype(fin)::record_type;
@@ -104,10 +103,11 @@ void SplitReadCalling::distribute(auto &tasks, auto &splits, auto &multsplits) {
 void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile) {
     Splts splits;
 
-	seqan3::cigar_op cigarOp; // operation of cigar string
-	uint32_t cigarOpSize;
+    seqan3::cigar::operation cigarOp; // operation of cigar string
+    uint32_t cigarOpSize;
 
-	uint32_t startPosRead; uint32_t endPosRead; // absolute position in read/alignment (e.g., 1 to end) 
+    uint32_t startPosRead;
+    uint32_t endPosRead;                          // absolute position in read/alignment (e.g., 1 to end)
     uint32_t startPosSplit; uint32_t endPosSplit; // position in split read (e.g., XX:i to XY:i / 14 to 20)
 
     seqan3::sam_tag_dictionary tags;
@@ -156,10 +156,11 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
             for(auto &cig : cigar) {
                 // determine size and operator of cigar element
                 cigarOpSize = get<uint32_t>(cig);
-                cigarOp = get<seqan3::cigar_op>(cig);
+                cigarOp = get<seqan3::cigar::operation>(cig);
 
-                // 
-                if(cigarOp == 'N'_cigar_op) {
+                //
+                if (cigarOp == 'N'_cigar_operation)
+                {
                     auto subSeq = seq | seqan3::views::slice(startPosRead-1,endPosRead);
 
                     // add properties to tags - lightweight
@@ -178,22 +179,27 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
 
                     // change for next iteration
                     segmentNr++; // counts as segment of split
-             
-                } else {
+                }
+                else
+                {
                     // deletion does not account for length in split
                     seqan3::cigar cigarElement{cigarOpSize, cigarOp};
                     //seqan3::debug_stream << "cigarElement: " << cigarElement << std::endl;
                   
                     // exclude soft clipping from alignment
-                    if(cigarOp == 'S'_cigar_op && params["exclclipping"].as<std::bitset<1>>() == 1) {
+                    if (cigarOp == 'S'_cigar_operation && params["exclclipping"].as<std::bitset<1>>() == 1)
+                    {
                         if(cigarSplit.size() == 0) { 
                             startPosRead += cigarOpSize;
                             endPosRead += cigarOpSize;
                             startPosSplit += cigarOpSize;
                             endPosSplit += cigarOpSize;
                         }
-                    } else {
-                        if(cigarOp != 'D'_cigar_op) {
+                    }
+                    else
+                    {
+                        if (cigarOp != 'D'_cigar_operation)
+                        {
                             endPosRead += cigarOpSize;
                             endPosSplit += cigarOpSize;
                         }
@@ -355,10 +361,10 @@ void SplitReadCalling::filterSegments(auto &splitrecord, std::optional<int32_t> 
     seqan3::sam_flag flag{0}; // SAMFLAG
     if(static_cast<bool>(seqan3::get<seqan3::field::flag>(splitrecord) & seqan3::sam_flag::on_reverse_strand)) {
         flag = seqan3::sam_flag{16};
-    } 
+    }
 
-	seqan3::get<seqan3::field::flag>(segment) = flag;
-	seqan3::get<seqan3::field::ref_id>(segment) = seqan3::get<seqan3::field::ref_id>(splitrecord);
+    seqan3::get<seqan3::field::flag>(segment) = flag;
+    seqan3::get<seqan3::field::ref_id>(segment) = seqan3::get<seqan3::field::ref_id>(splitrecord);
     seqan3::get<seqan3::field::ref_offset>(segment) = refOffset;
     seqan3::get<seqan3::field::mapq>(segment) = seqan3::get<seqan3::field::mapq>(splitrecord);
     seqan3::get<seqan3::field::cigar>(segment) = cigar;

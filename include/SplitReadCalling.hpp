@@ -24,8 +24,10 @@
 #include <seqan3/alphabet/nucleotide/dna15.hpp>
 #include <seqan3/alphabet/nucleotide/dna4.hpp>
 #include <seqan3/io/alignment_file/all.hpp>
+#include <seqan3/io/sam_file/input.hpp>
+#include <seqan3/io/sam_file/output.hpp>
 
-
+#include <seqan3/io/sequence_file/input.hpp>
 #include <seqan3/io/alignment_file/sam_tag_dictionary.hpp>
 
 #include <seqan3/alignment/configuration/all.hpp>

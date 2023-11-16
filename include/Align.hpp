@@ -32,15 +32,10 @@ namespace pt = boost::property_tree;
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
 
-using seqan3::operator""_tag;
-using seqan3::operator""_cigar_operation;
-using seqan3::operator""_dna5;
-using seqan3::operator""_dna15;
-using seqan3::operator""_dna4;
-using seqan3::get;
+using namespace seqan3::literals;
 
-
-typedef std::pair<uint32_t,uint32_t> ReadPos;
+typedef std::pair<uint32_t, uint32_t>
+    ReadPos;
 typedef std::pair<uint64_t,uint64_t> GenomePos;
 typedef std::vector<seqan3::cigar> CigarSplt;
 

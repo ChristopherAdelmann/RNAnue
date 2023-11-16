@@ -2,9 +2,10 @@
 #define HELPER_HPP
 
 #include <boost/filesystem.hpp>
-#include <iostream>
+#include <sstream>
 #include <iomanip>
 #include <chrono>
+#include <memory>
 
 namespace fs = boost::filesystem;
 

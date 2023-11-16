@@ -9,7 +9,6 @@ message("Input file: ${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h.in")
 message("Output file: ${CMAKE_CURRENT_BINARY_DIR}/include/Config.h")
 
 # configure header file to pass the version number to  the source code
-#configure_file(./include/Config.h.in ./include/Config.h)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h)
 
 # ----------------------------------------------------------------------------
@@ -18,7 +17,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h.in ${CMAKE_CURRENT_S
 
 ### SeqAn3
 list (APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/submodules/seqan3/build_system")
-find_package (seqan3 3.0.2 REQUIRED HINTS "${CMAKE_CURRENT_SOURCE_DIR}/submodules/seqan3/build_system")
+find_package (seqan3 3.3.0 REQUIRED)
 
 ### OpenMP
 find_package(OpenMP)

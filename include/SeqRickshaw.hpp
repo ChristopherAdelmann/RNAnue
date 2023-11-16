@@ -32,19 +32,17 @@
 
 // seqan
 #include <seqan3/io/sequence_file/all.hpp>
-#include <seqan3/io/sequence_file/format_fasta.hpp>
-#include <seqan3/io/sequence_file/format_fastq.hpp>
-#include <seqan3/io/sequence_file/input.hpp>
-#include <seqan3/io/sequence_file/output.hpp> 
+
 #include <seqan3/io/exception.hpp>
 
 #include <seqan3/alphabet/nucleotide/dna4.hpp>
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 
 #include <seqan3/utility/views/chunk.hpp>
+#include <seqan3/utility/views/slice.hpp>
+
 #include <seqan3/alphabet/views/char_to.hpp>
 #include <seqan3/alphabet/views/complement.hpp>
-#include <seqan3/utility/views/slice.hpp>
 
 #include <seqan3/core/debug_stream.hpp>
 #include <seqan3/std/ranges>

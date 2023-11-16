@@ -14,10 +14,10 @@ SplitReadCalling::SplitReadCalling(po::variables_map params) : params(params)
 //
 void SplitReadCalling::iterate(std::string matched, std::string splits, std::string multsplits) {
     // input .sam record
-    seqan3::alignment_file_input fin{matched, 
-		seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
-						seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
-						seqan3::field::seq, seqan3::field::tags, seqan3::field::alignment>{}};
+    seqan3::sam_file_input fin{matched,
+                               seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
+                                              seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
+                                              seqan3::field::seq, seqan3::field::tags, seqan3::field::alignment>{}};
 
     std::vector<size_t> ref_lengths{};
 	for(auto &info : fin.header().ref_id_info) {
@@ -26,22 +26,22 @@ void SplitReadCalling::iterate(std::string matched, std::string splits, std::str
     std::deque<std::string> ref_ids = fin.header().ref_ids();
     
     // output file for splits
-    seqan3::alignment_file_output splitsfile{splits, ref_ids, ref_lengths,
-        seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
-            seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
-            seqan3::field::seq, seqan3::field::tags>{}};
+    seqan3::sam_file_output splitsfile{splits, ref_ids, ref_lengths,
+                                       seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
+                                                      seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
+                                                      seqan3::field::seq, seqan3::field::tags>{}};
 
     // output file for multi splits
-    seqan3::alignment_file_output multsplitsfile{multsplits, ref_ids, ref_lengths,
-        seqan3::fields<
-            seqan3::field::id,
-            seqan3::field::flag,
-            seqan3::field::ref_id,
-            seqan3::field::ref_offset,
-            seqan3::field::mapq,
-            seqan3::field::cigar,
-            seqan3::field::seq,
-            seqan3::field::tags>{}};
+    seqan3::sam_file_output multsplitsfile{multsplits, ref_ids, ref_lengths,
+                                           seqan3::fields<
+                                               seqan3::field::id,
+                                               seqan3::field::flag,
+                                               seqan3::field::ref_id,
+                                               seqan3::field::ref_offset,
+                                               seqan3::field::mapq,
+                                               seqan3::field::cigar,
+                                               seqan3::field::seq,
+                                               seqan3::field::tags>{}};
 
     std::string currentQNAME = "";
 	//std::vector<std::string> splitrecord; // all split combinations
@@ -132,7 +132,7 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
 		std::optional<int32_t> refOffset = seqan3::get<seqan3::field::ref_offset>(*it);
 		std::optional<uint8_t> qual = seqan3::get<seqan3::field::mapq>(*it);
 
-        // CIGAR string 
+        // CIGAR string
         std::vector<seqan3::cigar> cigar{seqan3::get<seqan3::field::cigar>(*it)};
         std::vector<seqan3::cigar> cigarSplit{}; // individual cigar for each split
         std::span<seqan3::dna5> seq = seqan3::get<seqan3::field::seq>(*it);
@@ -143,17 +143,19 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
 		auto xjtag = tags.get<"XJ"_tag>();
 		auto xxtag = tags.get<"XX"_tag>();
 		auto xytag = tags.get<"XY"_tag>();
-//        auto xctag = tags.get<"XC"_tag>();
+        //        auto xctag = tags.get<"XC"_tag>();
 
-        if(xjtag >= 2) { // splits in SAMfile need to consists of at least 2 segments
+        if (xjtag >= 2)
+        {                     // splits in SAMfile need to consists of at least 2 segments
             startPosRead = 1; // intialise start & end of reads
             endPosRead = 0;
-            
+
             startPosSplit = xxtag; // determine the start position within split
-            endPosSplit = xxtag-1;
+            endPosSplit = xxtag - 1;
 
             // check the cigar string for splits
-            for(auto &cig : cigar) {
+            for (auto &cig : cigar)
+            {
                 // determine size and operator of cigar element
                 cigarOpSize = get<uint32_t>(cig);
                 cigarOp = get<seqan3::cigar::operation>(cig);
@@ -161,21 +163,21 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
                 //
                 if (cigarOp == 'N'_cigar_operation)
                 {
-                    auto subSeq = seq | seqan3::views::slice(startPosRead-1,endPosRead);
+                    auto subSeq = seq | seqan3::views::slice(startPosRead - 1, endPosRead);
 
                     // add properties to tags - lightweight
                     seqan3::sam_tag_dictionary ntags;
                     ntags.get<"XX"_tag>() = startPosSplit;
                     ntags.get<"XY"_tag>() = endPosSplit;
                     ntags["XN"_tag] = splitID;
-                   
+
                     filterSegments(*it, refOffset, cigarSplit, subSeq, ntags, curated);
-                  
+
                     // settings for prepare for next split
-					startPosSplit = endPosSplit+1;
-                    startPosRead = endPosRead+1;
-                    cigarSplit = {}; // new split - new CIGAR
-                    refOffset.value() += cigarOpSize + endPosRead+1; // adjust leftmost mapping position
+                    startPosSplit = endPosSplit + 1;
+                    startPosRead = endPosRead + 1;
+                    cigarSplit = {};                                   // new split - new CIGAR
+                    refOffset.value() += cigarOpSize + endPosRead + 1; // adjust leftmost mapping position
 
                     // change for next iteration
                     segmentNr++; // counts as segment of split
@@ -184,12 +186,13 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
                 {
                     // deletion does not account for length in split
                     seqan3::cigar cigarElement{cigarOpSize, cigarOp};
-                    //seqan3::debug_stream << "cigarElement: " << cigarElement << std::endl;
-                  
+                    // seqan3::debug_stream << "cigarElement: " << cigarElement << std::endl;
+
                     // exclude soft clipping from alignment
                     if (cigarOp == 'S'_cigar_operation && params["exclclipping"].as<std::bitset<1>>() == 1)
                     {
-                        if(cigarSplit.size() == 0) { 
+                        if (cigarSplit.size() == 0)
+                        {
                             startPosRead += cigarOpSize;
                             endPosRead += cigarOpSize;
                             startPosSplit += cigarOpSize;
@@ -226,32 +229,39 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
                 ++splitID;
             }
             ++it;
-        } else {
+        }
+        else
+        {
             ++it;
         }
     }
 
-    if(putative.size() > 0) { // split reads found
+    if (putative.size() > 0)
+    { // split reads found
         std::vector<SamRecord> p1;
         std::vector<SamRecord> p2;
-    
+
         seqan3::sam_tag_dictionary p1Tags;
         seqan3::sam_tag_dictionary p2Tags;
 
         // value for complementarity and hybridization energy
-        std::pair<double,double> filters;
+        std::pair<double, double> filters;
 
         std::string p1Qname;
         std::string p2Qname;
 
         std::map<int, std::vector<SamRecord>>::iterator itSplits = putative.begin();
-        for(itSplits;itSplits != putative.end(); ++itSplits) {
+        for (itSplits; itSplits != putative.end(); ++itSplits)
+        {
             std::vector<SamRecord> splits = itSplits->second;
-            if(splits.size() > 1) { // splits consists at least of 2 segments
-                for(unsigned i=0;i<splits.size();++i) {
-                    for(unsigned j=i+1;j<splits.size();++j) {
-                        p1Tags = seqan3::get<seqan3::field::tags>(splits[i]);
-                        p2Tags = seqan3::get<seqan3::field::tags>(splits[j]);
+            if (splits.size() > 1)
+            { // splits consists at least of 2 segments
+                for (unsigned i = 0; i < splits.size(); ++i)
+                {
+                    for (unsigned j = i + 1; j < splits.size(); ++j)
+                    {
+                        p1Tags = splits[i].tags();
+                        p2Tags = splits[j].tags();
 
                         auto p1Start = p1Tags.get<"XX"_tag>();
                         auto p1End = p1Tags.get<"XY"_tag>();
@@ -259,46 +269,61 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
                         auto p2End = p2Tags.get<"XY"_tag>();
 
                         // prevent an overlap between reads position -> same segment of read
-                        if((p2Start >= p1Start && p2Start <= p1End) || (p1Start >= p2Start && p1Start <= p2End)) {
+                        if ((p2Start >= p1Start && p2Start <= p1End) || (p1Start >= p2Start && p1Start <= p2End))
+                        {
                             continue;
                         }
 
-                        if(p1.empty() && p2.empty()) {
-                            TracebackResult initCmpl = complementarity(seqan3::get<seqan3::field::seq>(splits[i]), seqan3::get<seqan3::field::seq>(splits[j]));
-                            double initHyb = hybridize(seqan3::get<seqan3::field::seq>(splits[i]), seqan3::get<seqan3::field::seq>(splits[j])); 
-                            if(!initCmpl.a.empty()) { // split read survived complementarity & sitelenratio cutoff
-                                if(initHyb <= params["nrgmax"].as<double>()) {
+                        if (p1.empty() && p2.empty())
+                        {
+                            TracebackResult initCmpl = complementarity(splits[i].sequence(), splits[j].sequence());
+                            double initHyb = hybridize(splits[i].sequence(), splits[j].sequence());
+                            if (!initCmpl.a.empty())
+                            { // split read survived complementarity & sitelenratio cutoff
+                                if (initHyb <= params["nrgmax"].as<double>())
+                                {
                                     filters = std::make_pair(initCmpl.cmpl, initHyb);
-								    addComplementarityToSamRecord(splits[i], splits[j], initCmpl);
-								    addHybEnergyToSamRecord(splits[i], splits[j], initHyb);
-                                    splitSegments.push_back(std::make_pair(splits[i],splits[j]));
+                                    addComplementarityToSamRecord(splits[i], splits[j], initCmpl);
+                                    addHybEnergyToSamRecord(splits[i], splits[j], initHyb);
+                                    splitSegments.push_back(std::make_pair(splits[i], splits[j]));
                                 }
                             }
-                        } else {
-                            TracebackResult cmpl = complementarity(seqan3::get<seqan3::field::seq>(splits[i]), seqan3::get<seqan3::field::seq>(splits[j]));
-                            double hyb = hybridize(seqan3::get<seqan3::field::seq>(splits[i]), seqan3::get<seqan3::field::seq>(splits[j])); 
+                        }
+                        else
+                        {
+                            TracebackResult cmpl = complementarity(splits[i].sequence(), splits[j].sequence());
+                            double hyb = hybridize(splits[i].sequence(), splits[j].sequence());
 
-                            if(!cmpl.a.empty()) { // check that there is data for complementarity / passed cutoffs
-                                if(cmpl.cmpl > filters.first) { // complementarity is higher
+                            if (!cmpl.a.empty())
+                            { // check that there is data for complementarity / passed cutoffs
+                                if (cmpl.cmpl > filters.first)
+                                { // complementarity is higher
                                     splitSegments.clear();
                                     filters = std::make_pair(cmpl.cmpl, hyb);
-								    addComplementarityToSamRecord(splits[i], splits[j], cmpl);
-								    addHybEnergyToSamRecord(splits[i], splits[j], hyb);
-                                    splitSegments.push_back(std::make_pair(splits[i],splits[j]));
-                                } else{
-                                    if(cmpl.cmpl == filters.first) {
-                                        if(hyb > filters.second) {
+                                    addComplementarityToSamRecord(splits[i], splits[j], cmpl);
+                                    addHybEnergyToSamRecord(splits[i], splits[j], hyb);
+                                    splitSegments.push_back(std::make_pair(splits[i], splits[j]));
+                                }
+                                else
+                                {
+                                    if (cmpl.cmpl == filters.first)
+                                    {
+                                        if (hyb > filters.second)
+                                        {
                                             splitSegments.clear();
                                             filters = std::make_pair(cmpl.cmpl, hyb);
-										    addComplementarityToSamRecord(splits[i], splits[j], cmpl);
-										    addHybEnergyToSamRecord(splits[i], splits[j], hyb);
-                                            splitSegments.push_back(std::make_pair(splits[i],splits[j]));
+                                            addComplementarityToSamRecord(splits[i], splits[j], cmpl);
+                                            addHybEnergyToSamRecord(splits[i], splits[j], hyb);
+                                            splitSegments.push_back(std::make_pair(splits[i], splits[j]));
                                         }
-                                    } else {
-                                        if(hyb == filters.second) { // same cmpl & hyb -> ambigious read! 
-								            addComplementarityToSamRecord(splits[i], splits[j], cmpl);
-								            addHybEnergyToSamRecord(splits[i], splits[j], hyb);
-                                            splitSegments.push_back(std::make_pair(splits[i],splits[j]));
+                                    }
+                                    else
+                                    {
+                                        if (hyb == filters.second)
+                                        { // same cmpl & hyb -> ambigious read!
+                                            addComplementarityToSamRecord(splits[i], splits[j], cmpl);
+                                            addHybEnergyToSamRecord(splits[i], splits[j], hyb);
+                                            splitSegments.push_back(std::make_pair(splits[i], splits[j]));
                                         }
                                     }
                                 }
@@ -327,49 +352,40 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
 
 // write splits back to file
 void SplitReadCalling::writeSamFile(auto &samfile, std::vector<std::pair<SamRecord,SamRecord>> &splits) {
-    for(unsigned i=0;i<splits.size();++i) {
-        samfile.emplace_back(
-            seqan3::get<seqan3::field::id>(splits[i].first),
-            seqan3::get<seqan3::field::flag>(splits[i].first),
-            seqan3::get<seqan3::field::ref_id>(splits[i].first),
-            seqan3::get<seqan3::field::ref_offset>(splits[i].first),
-            seqan3::get<seqan3::field::mapq>(splits[i].first).value(),
-            seqan3::get<seqan3::field::cigar>(splits[i].first),
-            seqan3::get<seqan3::field::seq>(splits[i].first),
-            seqan3::get<seqan3::field::tags>(splits[i].first));
+    for (auto &[first, second] : splits)
+    {
+        auto &[id1, flag1, ref_id1, ref_offset1, mapq1, cigar1, seq1, tags1] = first;
+        samfile.emplace_back(id1, flag1, ref_id1, ref_offset1, mapq1.value(), cigar1, seq1, tags1);
 
-        samfile.emplace_back(
-            seqan3::get<seqan3::field::id>(splits[i].second),
-            seqan3::get<seqan3::field::flag>(splits[i].second),
-            seqan3::get<seqan3::field::ref_id>(splits[i].second),
-            seqan3::get<seqan3::field::ref_offset>(splits[i].second),
-            seqan3::get<seqan3::field::mapq>(splits[i].second).value(),
-            seqan3::get<seqan3::field::cigar>(splits[i].second),
-            seqan3::get<seqan3::field::seq>(splits[i].second),
-            seqan3::get<seqan3::field::tags>(splits[i].second));
+        auto &[id2, flag2, ref_id2, ref_offset2, mapq2, cigar2, seq2, tags2] = second;
+        samfile.emplace_back(id2, flag2, ref_id2, ref_offset2, mapq2.value(), cigar2, seq2, tags2);
     }
 }
 
-
-void SplitReadCalling::filterSegments(auto &splitrecord, std::optional<int32_t> &refOffset, 
-        std::vector<seqan3::cigar> &cigar, std::span<seqan3::dna5> &seq, 
-        seqan3::sam_tag_dictionary &tags, std::vector<SamRecord> &curated) {
+void SplitReadCalling::filterSegments(
+    auto &splitrecord,
+    std::optional<int32_t> &refOffset,
+    std::vector<seqan3::cigar> &cigar,
+    std::span<seqan3::dna5> &seq,
+    seqan3::sam_tag_dictionary &tags,
+    std::vector<SamRecord> &curated)
+{
     SamRecord segment{}; // create new SamRecord
-    
-    //
-	seqan3::get<seqan3::field::id>(segment) = seqan3::get<seqan3::field::id>(splitrecord);
-    seqan3::sam_flag flag{0}; // SAMFLAG
-    if(static_cast<bool>(seqan3::get<seqan3::field::flag>(splitrecord) & seqan3::sam_flag::on_reverse_strand)) {
-        flag = seqan3::sam_flag{16};
+
+    seqan3::sam_flag flag{0};
+    if (static_cast<bool>(splitrecord.flag() & seqan3::sam_flag::on_reverse_strand))
+    {
+        flag = seqan3::sam_flag{seqan3::sam_flag::on_reverse_strand};
     }
 
-    seqan3::get<seqan3::field::flag>(segment) = flag;
-    seqan3::get<seqan3::field::ref_id>(segment) = seqan3::get<seqan3::field::ref_id>(splitrecord);
-    seqan3::get<seqan3::field::ref_offset>(segment) = refOffset;
-    seqan3::get<seqan3::field::mapq>(segment) = seqan3::get<seqan3::field::mapq>(splitrecord);
-    seqan3::get<seqan3::field::cigar>(segment) = cigar;
-	seqan3::get<seqan3::field::seq>(segment) = seq;
-    seqan3::get<seqan3::field::tags>(segment) = tags;
+    segment.id() = splitrecord.id();
+    segment.flag() = flag;
+    segment.reference_id() = splitrecord.reference_id();
+    segment.reference_position() = refOffset;
+    segment.mapping_quality() = splitrecord.mapping_quality();
+    segment.cigar_sequence() = cigar;
+    segment.sequence() = seq;
+    segment.tags() = tags;
 
     if(seq.size() <= params["minfraglen"].as<int>()) {
         return;
@@ -379,42 +395,41 @@ void SplitReadCalling::filterSegments(auto &splitrecord, std::optional<int32_t> 
     curated.push_back(segment);
 }
 
-
 void SplitReadCalling::addFilterToSamRecord(SamRecord &rec, std::pair<float,float> filters) {
-    seqan3::get<seqan3::field::tags>(rec)["XC"_tag] = filters.first;
-    seqan3::get<seqan3::field::tags>(rec)["XE"_tag] = filters.second;
+    rec.tags()["XC"_tag] = filters.first;
+    rec.tags()["XE"_tag] = filters.second;
 }
 
 void SplitReadCalling::addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2, TracebackResult &res) {
-	// number of matches
-	seqan3::get<seqan3::field::tags>(rec1)["XM"_tag] = res.matches;
-	seqan3::get<seqan3::field::tags>(rec2)["XM"_tag] = res.matches;
+    // number of matches
+    rec1.tags()["XM"_tag] = res.matches;
+    rec2.tags()["XM"_tag] = res.matches;
 
-	// length of alignment
-	seqan3::get<seqan3::field::tags>(rec1)["XL"_tag] = res.length;
-	seqan3::get<seqan3::field::tags>(rec2)["XL"_tag] = res.length;
+    // length of alignment
+    rec1.tags()["XL"_tag] = res.length;
+    rec2.tags()["XL"_tag] = res.length;
 
-	// complementarity
-    seqan3::get<seqan3::field::tags>(rec1)["XC"_tag] = (float)res.cmpl;
-    seqan3::get<seqan3::field::tags>(rec2)["XC"_tag] = (float)res.cmpl;
+    // complementarity
+    rec1.tags()["XC"_tag] = static_cast<float>(res.cmpl);
+    rec2.tags()["XC"_tag] = static_cast<float>(res.cmpl);
 
-	// sitelenratio
-	seqan3::get<seqan3::field::tags>(rec1)["XR"_tag] = (float)res.ratio;
-	seqan3::get<seqan3::field::tags>(rec2)["XR"_tag] = (float)res.ratio;
+    // sitelenratio
+    rec1.tags()["XR"_tag] = static_cast<float>(res.ratio);
+    rec2.tags()["XR"_tag] = static_cast<float>(res.ratio);
 
     // alignments
-	seqan3::get<seqan3::field::tags>(rec1)["XA"_tag] = res.a;
-	seqan3::get<seqan3::field::tags>(rec2)["XA"_tag] = res.b;
+    rec1.tags()["XA"_tag] = res.a;
+    rec2.tags()["XA"_tag] = res.b;
 
     // score
-    seqan3::get<seqan3::field::tags>(rec1)["XS"_tag] = res.score;
-    seqan3::get<seqan3::field::tags>(rec2)["XS"_tag] = res.score;
+    rec1.tags()["XS"_tag] = res.score;
+    rec2.tags()["XS"_tag] = res.score;
 }
 		
 //
 void SplitReadCalling::addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, double &hyb) {
-    seqan3::get<seqan3::field::tags>(rec1)["XE"_tag] = (float)hyb;
-    seqan3::get<seqan3::field::tags>(rec2)["XE"_tag] = (float)hyb;
+    rec1.tags()["XE"_tag] = static_cast<float>(hyb);
+    rec2.tags()["XE"_tag] = static_cast<float>(hyb);
 }
 
 //

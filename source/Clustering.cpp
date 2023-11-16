@@ -10,13 +10,13 @@ Clustering::Clustering(po::variables_map params) :
 void Clustering::iterate(std::string splits) {
 
     // input .sam file of sngl splits
-    seqan3::alignment_file_input fin{splits, 
-		seqan3::fields<seqan3::field::id,
-		                seqan3::field::flag,
-                        seqan3::field::ref_id,
-						seqan3::field::ref_offset,
-						seqan3::field::seq,
-						seqan3::field::tags>{}};
+    seqan3::sam_file_input fin{splits,
+                               seqan3::fields<seqan3::field::id,
+                                              seqan3::field::flag,
+                                              seqan3::field::ref_id,
+                                              seqan3::field::ref_offset,
+                                              seqan3::field::seq,
+                                              seqan3::field::tags>{}};
 
     int chunks = 5;
     std::vector<Cluster> subset;

@@ -20,15 +20,14 @@
 // seqan3
 #include <seqan3/core/debug_stream.hpp>
 #include <seqan3/std/filesystem>
+
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 #include <seqan3/alphabet/nucleotide/dna15.hpp>
 #include <seqan3/alphabet/nucleotide/dna4.hpp>
-#include <seqan3/io/alignment_file/all.hpp>
-#include <seqan3/io/sam_file/input.hpp>
-#include <seqan3/io/sam_file/output.hpp>
+
+#include <seqan3/io/sam_file/all.hpp>
 
 #include <seqan3/io/sequence_file/input.hpp>
-#include <seqan3/io/alignment_file/sam_tag_dictionary.hpp>
 
 #include <seqan3/alignment/configuration/all.hpp>
 #include <seqan3/alignment/scoring/nucleotide_scoring_scheme.hpp>
@@ -95,7 +94,7 @@ using types_as_ids = seqan3::fields<
 	seqan3::field::seq,
 	seqan3::field::tags>;
 
-using SamRecord = seqan3::record<types, types_as_ids>;
+using SamRecord = seqan3::sam_record<types, types_as_ids>;
 using ComplResult = std::tuple<int, int, double, double, std::vector<char>, std::vector<char>>;
 
 

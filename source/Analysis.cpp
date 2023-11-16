@@ -198,13 +198,13 @@ void Analysis::start(pt::ptree sample)
     interPaths.push_back(interactions);
 
     // input .sam record
-    seqan3::alignment_file_input fin{splits,
-                                     seqan3::fields<seqan3::field::id,
-                                                    seqan3::field::flag,
-                                                    seqan3::field::ref_id,
-                                                    seqan3::field::ref_offset,
-                                                    seqan3::field::seq,
-                                                    seqan3::field::tags>{}};
+    seqan3::sam_file_input fin{splits,
+                               seqan3::fields<seqan3::field::id,
+                                              seqan3::field::flag,
+                                              seqan3::field::ref_id,
+                                              seqan3::field::ref_offset,
+                                              seqan3::field::seq,
+                                              seqan3::field::tags>{}};
 
     std::vector<seqan3::sam_flag> flags;
     std::vector<std::string> refIDs;

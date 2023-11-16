@@ -251,18 +251,18 @@ void Analysis::start(pt::ptree sample)
         for (auto &read : chimericReadPair)
         {
 
-            qNAME = seqan3::get<seqan3::field::id>(read);
-            flag = (static_cast<bool>(seqan3::get<seqan3::field::flag>(read) & seqan3::sam_flag::on_reverse_strand)) ? "-" : "+";
+            qNAME = read.id();
+            flag = (static_cast<bool>(read.flag() & seqan3::sam_flag::on_reverse_strand)) ? "-" : "+";
 
             // start & end
-            start = seqan3::get<seqan3::field::ref_offset>(read).value();
-            end = start + seqan3::get<seqan3::field::seq>(read).size() - 1;
+            start = read.reference_position().value();
+            end = start + read.sequence().size() - 1;
 
             // refID
-            std::optional<int32_t> refIDidx = seqan3::get<seqan3::field::ref_id>(read);
+            std::optional<int32_t> refIDidx = read.reference_id();
             std::string refID = ref_ids[refIDidx.value()];
 
-            tags = seqan3::get<seqan3::field::tags>(read);
+            tags = read.tags();
             auto nrg = tags["XE"_tag];
             auto cpl = tags["XC"_tag];
             hybnrg = std::get<float>(nrg);

@@ -51,15 +51,17 @@ void SplitReadCalling::iterate(std::string matched, std::string splits, std::str
 
     for (auto & rec : fin) {
         // ignore reads if unmapped and do not suffice length requirements
-		if(static_cast<bool>(seqan3::get<seqan3::field::flag>(rec) & seqan3::sam_flag::unmapped)) {
-			continue;
-		}
-        if(seqan3::get<seqan3::field::seq>(rec).size() <= params["minlen"].as<int>()) {
+        if (static_cast<bool>(rec.flag() & seqan3::sam_flag::unmapped))
+        {
+            continue;
+        }
+        if (rec.sequence().size() <= params["minlen"].as<int>())
+        {
             continue;
         }
 
-		std::string QNAME = seqan3::get<seqan3::field::id>(rec);
-		if((currentQNAME != "") && (currentQNAME != QNAME)) {
+        std::string QNAME = rec.id();
+        if((currentQNAME != "") && (currentQNAME != QNAME)) {
             readscount++;
             process(readrecords, splitsfile, multsplitsfile);
             readrecords.clear();
@@ -124,26 +126,26 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
 
     //
     auto it = splitrecords.begin();
-    while(it != splitrecords.end()) {
+    while (it != splitrecords.end())
+    {
         // extract information
-        qname = seqan3::get<seqan3::field::id>(*it); // QNAME
-        seqan3::sam_flag flag = seqan3::get<seqan3::field::flag>(*it); // SAMFLAG
-		std::optional<int32_t> refID = seqan3::get<seqan3::field::ref_id>(*it);
-		std::optional<int32_t> refOffset = seqan3::get<seqan3::field::ref_offset>(*it);
-		std::optional<uint8_t> qual = seqan3::get<seqan3::field::mapq>(*it);
+        qname = it->id();                   // QNAME
+        seqan3::sam_flag flag = it->flag(); // SAMFLAG
+        std::optional<int32_t> refID = it->reference_id();
+        std::optional<int32_t> refOffset = it->reference_position();
+        std::optional<uint8_t> qual = it->mapping_quality(); // MAPQ
 
         // CIGAR string
-        std::vector<seqan3::cigar> cigar{seqan3::get<seqan3::field::cigar>(*it)};
+        std::vector<seqan3::cigar> cigar{it->cigar_sequence()};
         std::vector<seqan3::cigar> cigarSplit{}; // individual cigar for each split
-        std::span<seqan3::dna5> seq = seqan3::get<seqan3::field::seq>(*it);
+        std::span<seqan3::dna5> seq = it->sequence(); // SEQ
 
         // extract the tags (information about split reads)
-        tags = seqan3::get<seqan3::field::tags>(*it);
-		auto xhtag = tags.get<"XH"_tag>();
-		auto xjtag = tags.get<"XJ"_tag>();
-		auto xxtag = tags.get<"XX"_tag>();
-		auto xytag = tags.get<"XY"_tag>();
-        //        auto xctag = tags.get<"XC"_tag>();
+        tags = it->tags();
+        auto xhtag = tags.get<"XH"_tag>();
+        auto xjtag = tags.get<"XJ"_tag>();
+        auto xxtag = tags.get<"XX"_tag>();
+        auto xytag = tags.get<"XY"_tag>();
 
         if (xjtag >= 2)
         {                     // splits in SAMfile need to consists of at least 2 segments

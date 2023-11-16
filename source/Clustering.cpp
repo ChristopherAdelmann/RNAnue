@@ -36,14 +36,15 @@ void Clustering::iterate(std::string splits) {
     for(auto && rec : fin | seqan3::views::chunk(2)) {
         Cluster cl;
         for(auto & split : rec) {
-            std::optional<int32_t> refID = seqan3::get<seqan3::field::ref_id>(split); 
+            std::optional<int32_t> refID = split.reference_id();
             uint32_t flag{0}; // SAMFLAG
-            if(static_cast<bool>(seqan3::get<seqan3::field::flag>(split) & seqan3::sam_flag::on_reverse_strand)) {
+            if (static_cast<bool>(split.flag() & seqan3::sam_flag::on_reverse_strand))
+            {
                 flag = 16;
             }
             // start & end
-            uint32_t start = seqan3::get<seqan3::field::ref_offset>(split).value();
-            uint32_t end = start + seqan3::get<seqan3::field::seq>(split).size()-1;
+            uint32_t start = split.reference_position().value();
+            uint32_t end = start + split.sequence().size() - 1;
 
             Segment s(ref_ids[refID.value()], flag, start, end);
             cl.elements.push_back(s);

@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <fstream>
 #include <filesystem>
+#include <ranges>
 
 // boost
 #include <boost/property_tree/ptree.hpp>
@@ -45,8 +46,7 @@
 #include <seqan3/alphabet/views/complement.hpp>
 
 #include <seqan3/core/debug_stream.hpp>
-#include <seqan3/std/ranges>
-#include <seqan3/std/ranges> // std::ranges::copy
+
 #include <range/v3/all.hpp>
 #include <range/v3/view/transform.hpp>
 

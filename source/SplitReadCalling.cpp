@@ -17,7 +17,7 @@ void SplitReadCalling::iterate(std::string matched, std::string splits, std::str
     seqan3::sam_file_input fin{matched,
                                seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
                                               seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
-                                              seqan3::field::seq, seqan3::field::tags, seqan3::field::alignment>{}};
+                                              seqan3::field::seq, seqan3::field::tags>{}};
 
     std::vector<size_t> ref_lengths{};
 	for(auto &info : fin.header().ref_id_info) {

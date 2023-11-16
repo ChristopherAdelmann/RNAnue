@@ -10,9 +10,9 @@
 #include <string.h>
 #include <regex>
 #include <utility>
+#include <filesystem>
 
 #include <seqan3/core/debug_stream.hpp>
-#include <seqan3/std/filesystem>
 
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 #include <seqan3/alphabet/nucleotide/dna15.hpp>
@@ -33,7 +33,7 @@ namespace po = boost::program_options;
 namespace fs = boost::filesystem;
 
 using seqan3::operator""_tag;
-using seqan3::operator""_cigar_op;
+using seqan3::operator""_cigar_operation;
 using seqan3::operator""_dna5;
 using seqan3::operator""_dna15;
 using seqan3::operator""_dna4;

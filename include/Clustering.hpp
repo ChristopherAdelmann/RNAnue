@@ -1,6 +1,7 @@
 #include "Helper.hpp"
 
 #include <algorithm>
+#include <filesystem>
 
 #include <omp.h>
 
@@ -10,7 +11,6 @@
 #include <boost/filesystem.hpp>
 
 #include <seqan3/core/debug_stream.hpp>
-#include <seqan3/std/filesystem>
 
 #include <seqan3/io/sam_file/input.hpp>
 #include <seqan3/io/sam_file/sam_tag_dictionary.hpp>

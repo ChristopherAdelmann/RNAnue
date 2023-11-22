@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <chrono>
 #include <memory>
+#include <iostream>
 
 namespace fs = boost::filesystem;
 
@@ -20,8 +21,18 @@ namespace helper {
     void concatFiles(fs::path target, std::vector<fs::path> files);
 
     std::string getTime(); // reports the current time
+    void simulateProcessing(std::chrono::microseconds desiredDuration);
 
+    class Timer
+    {
+    public:
+        Timer();
+        ~Timer();
+        void stop();
 
+    private:
+        std::chrono::time_point<std::chrono::high_resolution_clock> start;
+    };
 }
 
 #endif // DATA_HPP

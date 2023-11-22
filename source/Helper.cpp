@@ -72,6 +72,33 @@ std::string helper::getTime() {
     return time_string;
 }
 
+void helper::simulateProcessing(std::chrono::microseconds desiredDuration)
+{
+    auto start = std::chrono::high_resolution_clock::now();
+    double result = 0.0;
+    while (true)
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            for (int j = 0; j < 100; j++)
+            {
+                result += i * j;
+            }
+        }
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> elapsed = end - start;
+        if (elapsed >= desiredDuration)
+        {
+            break;
+        }
+    }
+}
 
-
-
+helper::Timer::Timer() : start(std::chrono::high_resolution_clock::now()) {}
+helper::Timer::~Timer() { stop(); }
+void helper::Timer::stop()
+{
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "Elapsed time: " << elapsed.count() << " s\n";
+}

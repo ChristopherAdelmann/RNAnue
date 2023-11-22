@@ -261,7 +261,9 @@ pt::ptree Data::retrieveGroup(std::string _group, fs::path _conditionPath) {
 
     if(subcall == "preproc") {
         nrElements = (params["readtype"].as<std::string>() == "PE") ? 2 : 1;
-        sampleKeys = {"forward", "reverse"}; 
+        sampleKeys = {"forward", "reverse"};
+
+        dataFiles = filterDirContent(dataFiles, "fastq");
     }
     
     if(subcall == "align") {
@@ -315,7 +317,9 @@ pt::ptree Data::retrieveGroup(std::string _group, fs::path _conditionPath) {
     //
     elCntr = 0;
     for(unsigned i=0;i<dataFiles.size();++i) {
-        files.put(sampleKeys[i % nrElements],dataFiles[i].string());
+        std::cout << "dataFiles[i] " << dataFiles[i] << std::endl;
+
+        files.put(sampleKeys[i % nrElements], dataFiles[i].string());
         //
         if(elCntr == nrElements-1) { 
 //            sample.put("group", _group);

@@ -2,13 +2,7 @@
 #define SEQRICKSHAW_H
 
 #include "Helper.hpp"
-
-// Test inlcudes
-#include <chrono>
-#include <algorithm>
-#include <iostream>
-#include <functional>
-#include <iomanip>
+#include "Logger.hpp"
 
 // openMP
 #include <omp.h>
@@ -24,6 +18,9 @@
 #include <fstream>
 #include <filesystem>
 #include <ranges>
+#include <thread>
+#include <mutex>
+#include <optional>
 
 // boost
 #include <boost/property_tree/ptree.hpp>
@@ -33,6 +30,9 @@
 
 // seqan
 #include <seqan3/io/sequence_file/all.hpp>
+
+#include <seqan3/alignment/pairwise/align_pairwise.hpp>
+#include <seqan3/alignment/scoring/all.hpp>
 
 #include <seqan3/io/exception.hpp>
 
@@ -72,6 +72,17 @@ typedef std::pair<PathVector,PathVector> PathVectorPair;
 using seqan3::operator""_dna5;
 using seqan3::operator""_dna4;
 
+class TrimConfig
+{
+public:
+    enum Mode
+    {
+        FIVE_PRIME,
+        THREE_PRIME
+    };
+
+    static seqan3::align_cfg::method_global alignmentConfigFor(Mode mode);
+};
 class SeqRickshaw {
     private:
         int modus; // defines the modus of the trimming procedure (0 == 5' trimming, 1 == 3' trimming, 2 == both)
@@ -94,11 +105,23 @@ class SeqRickshaw {
 
         std::chrono::duration<double> cumDuration;
         std::size_t sumReads;
-        /* the lookup table - smart transition table 
+
+        struct FastqChunk
+        {
+            std::vector<seqan3::sequence_file_input<>::record_type> records;
+            // Add any other data you need from the FASTQ file.
+        };
+
+        void processChunk(FastqChunk const &chunk);
+        void processFastqFileInChunks(std::string const &filename, size_t chunkSize, size_t numThreads);
+
+        // Define a structure to hold the data of a single FASTQ chunk.
+
+        /* the lookup table - smart transition table
          * (state,c) -> shift, state, readPos, match
          * */
-//        std::map<std::pair<int,char>,std::tuple<int,int,int,int>> lookup;
-            
+        //        std::map<std::pair<int,char>,std::tuple<int,int,int,int>> lookup;
+
     public:
         SeqRickshaw(const po::variables_map &params);
         SeqRickshaw();
@@ -113,9 +136,6 @@ class SeqRickshaw {
         void smallestShift(std::string pattern, std::string suffix, int left);
         int transition(std::string pattern, std::string suffix, int readPos, std::size_t& left, std::pair<std::size_t,std::size_t>& right);
         std::pair<std::string, std::string> merging(auto fwd, auto rev, auto fwdQual, auto revQual);
-
-        // when having paired-end reads
-//        void distributeReads(auto reads, pt::tree input, seqan3::sequence_file_output &r1only, seqan3::sequence_file_output &r2only);
 
         std::string longestCommonSubstr(std::string forward, std::string reverse);
 
@@ -146,7 +166,16 @@ class SeqRickshaw {
         std::pair<std::size_t,std::size_t> trimming(auto& read);
         void start(pt::ptree sample);
 
-        bool passesFilters(auto &rec, auto &qual);
-};
+        bool passesFilters(auto &record);
+        void trimAdapter(const seqan3::dna5_vector &adapterSequence, auto &recordSequence, TrimConfig::Mode trimmingMode);
 
+        template <typename record_type>
+        void trim3PolyG(record_type &record);
+
+        template <typename record_type>
+        std::optional<record_type> mergeRecordPair(record_type &record1, record_type &record2, int minOverlap);
+
+        template <typename record_type>
+        record_type constructMergedRecord(const record_type &record1, const record_type &record2, const int overlap);
+};
 #endif

@@ -58,38 +58,46 @@ int main(int argc, char* argv[]) {
         std::cout << "before general" << std::endl;
 
         po::options_description general("General");
-        general.add_options()
-		    ("readtype,r", po::value<std::string>(&readType)->default_value("SE"), 
-                "single-end (=SE) or paired-end (=PE) reads")
-            ("trtms,t", po::value<std::string>(), 
-                "folder containing the raw reads of the treatments including replicates located within subfolders (condition)")
-            ("ctrls,s", po::value<std::string>(), 
-                "folder containing the the raw reads of the controls including replicates located within subfolders (condition)")
-            ("outdir,o", po::value<std::string>(), 
-                "(output) folder in which the results are stored")
-            ("threads,p", po::value<int>()->default_value(1), 
-                "the number of threads")
-            ("quality,q", po::value<int>()->default_value(20), 
-                "lower limit for the quality (Phred Quality Score) of the reads")
-            ("mapquality", po::value<int>()->default_value(20),
-                "lower limit for the quality (Phred Quality Score) of the alignments")
-            ("minlen,l", po::value<int>()->default_value(15), 
-                "minimum length of the reads")
-            ("splicing", po::value<std::bitset<1>>()->default_value(0), 
-                "splicing events are considered in the detection of split reads")
-	    ;
+        general.add_options()("readtype,r", po::value<std::string>(&readType)->default_value("SE"),
+                              "single-end (=SE) or paired-end (=PE) reads");
+        general.add_options()("trtms,t", po::value<std::string>(),
+                              "folder containing the raw reads of the treatments including replicates located within subfolders (condition)");
+        general.add_options()("ctrls,s", po::value<std::string>(),
+                              "folder containing the the raw reads of the controls including replicates located within subfolders (condition)");
+        general.add_options()("outdir,o", po::value<std::string>(),
+                              "(output) folder in which the results are stored");
+        general.add_options()("threads,p", po::value<int>()->default_value(1),
+                              "the number of threads");
+        general.add_options()("mapquality", po::value<int>()->default_value(20),
+                              "lower limit for the quality (Phred Quality Score) of the alignments");
+        general.add_options()("splicing", po::value<std::bitset<1>>()->default_value(0),
+                              "splicing events are considered in the detection of split reads");
 
         po::options_description preproc("Preprocessing");
-        preproc.add_options()("preproc", po::value<std::bitset<1>>()->default_value(0),
-                              "include preprocessing of the raw reads in the workflow of RNAnue")("modetrm", po::value<int>()->default_value(1),
-                                                                                                  "mode of the trimming: only 5' (=0) and 3' (=1) or both (=2)")("adpt5", po::value<std::string>()->default_value(""),
-                                                                                                                                                                 "file of the adapter sequences to be removed from the 5' end (.fasta)")("adpt3", po::value<std::string>()->default_value(""),
-                                                                                                                                                                                                                                         "file of the adapter sequences to be removed from the 3' end (.fasta)")("wtrim", po::value<std::bitset<1>>()->default_value(0),
-                                                                                                                                                                                                                                                                                                                 "on whether (=1) or not (=0) to include window trimming")("mmrate", po::value<double>()->default_value(0.1),
-                                                                                                                                                                                                                                                                                                                                                                           "rate of mismatched allowed when aligning adapter pattern to sequence")("wsize", po::value<int>()->default_value(3),
-                                                                                                                                                                                                                                                                                                                                                                                                                                                   "windows size to trim from 3' end")("minovlps", po::value<int>()->default_value(5),
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       "minimal overlap to merge paired-end reads")("savelookup, l", po::bool_switch()->default_value(false),
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Allows to save the lookup table to a file in the preprocess directory");
+        preproc.add_options()("preproc", po::value<std::bitset<1>>()->default_value(1),
+                              "include preprocessing of the raw reads in the workflow of RNAnue");
+        preproc.add_options()("trimpolyg", po::bool_switch()->default_value(false),
+                              "trim high quality polyG tails from the reads. Applicable for Illumina NextSeq reads. (default: false)");
+        preproc.add_options()("adpt5f", po::value<std::string>()->default_value(""),
+                              "single sequence or file [.fasta] of the adapter sequences to be removed from the 5' end (forward read if PE)");
+        preproc.add_options()("adpt5r", po::value<std::string>()->default_value(""),
+                              "single sequence or file [.fasta] of the adapter sequences to be removed from the 5' end of the reverse read (PE only)");
+        preproc.add_options()("adpt3f", po::value<std::string>()->default_value(""),
+                              "single sequence or file [.fasta] of the adapter sequences to be removed from the 3' end (forward read if PE)");
+        preproc.add_options()("adpt3r", po::value<std::string>()->default_value(""),
+                              "single sequence or file [.fasta] of the adapter sequences to be removed from the 3' end of the reverse read (PE only)");
+        preproc.add_options()("mtrim", po::value<double>()->default_value(0.05),
+                              "rate of mismatches allowed when aligning adapters to sequences (default: 0.05)");
+        preproc.add_options()("minqual,q", po::value<int>()->default_value(20),
+                              "lower limit for the mean quality (Phred Quality Score) of the reads (default: 20)");
+        preproc.add_options()("minlen,l", po::value<int>()->default_value(15),
+                              "minimum length of the reads");
+        preproc.add_options()("wtrim", po::value<int>()->default_value(0),
+                              "window size for quality trimming from 3' end. Selecting '0' will not apply quality trimming (default: 0)");
+        preproc.add_options()("minovl", po::value<int>()->default_value(5),
+                              "minimal overlap to merge paired-end reads (default: 5)");
+        preproc.add_options()("mmerge", po::value<double>()->default_value(0.05),
+                              "rate of mismatches allowed when merging paired end reads (default: 0.05)");
 
         po::options_description alignment("Alignment");
         alignment.add_options()

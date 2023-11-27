@@ -71,111 +71,87 @@ typedef std::pair<PathVector,PathVector> PathVectorPair;
 
 using seqan3::operator""_dna5;
 using seqan3::operator""_dna4;
+class SeqRickshaw {
+private:
+    po::variables_map params;
 
-class TrimConfig
-{
-public:
-    enum Mode
+    std::string readtype;
+
+    bool trimPolyG;
+
+    std::string adpt5f;
+    std::string adpt5r;
+    std::string adpt3f;
+    std::string adpt3r;
+    double missmatchRateTrim;
+
+    int minPhread;
+    int minLen;
+    int windowTrimSize;
+
+    int minOverlapMerge;
+    double missmatchRateMerge;
+    struct FastqChunk
     {
-        FIVE_PRIME,
-        THREE_PRIME
+        std::vector<seqan3::sequence_file_input<>::record_type> records;
+        // Add any other data you need from the FASTQ file.
     };
 
-    static seqan3::align_cfg::method_global alignmentConfigFor(Mode mode);
-};
-class SeqRickshaw {
-    private:
-        int modus; // defines the modus of the trimming procedure (0 == 5' trimming, 1 == 3' trimming, 2 == both)
-
-        po::variables_map params;
-
-        std::string adpt5prime;
-        std::string adpt3prime;
-
-        std::optional<Adapters> adpt5Table;
-        std::optional<Adapters> adpt3Table;
-
-        int phred; // the minimum
-        int minLen;
-        int wsize;
-
-        std::string readtype;
-
-        void setupLookupTables();
-
-        std::chrono::duration<double> cumDuration;
-        std::size_t sumReads;
-
-        struct FastqChunk
+    struct TrimConfig
+    {
+    public:
+        enum Mode
         {
-            std::vector<seqan3::sequence_file_input<>::record_type> records;
-            // Add any other data you need from the FASTQ file.
+            FIVE_PRIME,
+            THREE_PRIME
         };
 
-        void processChunk(FastqChunk const &chunk);
-        void processFastqFileInChunks(std::string const &filename, size_t chunkSize, size_t numThreads);
+        static seqan3::align_cfg::method_global alignmentConfigFor(Mode mode);
+    };
 
-        // Define a structure to hold the data of a single FASTQ chunk.
+    struct Adapter
+    {
+        seqan3::dna5_vector sequence;
+        size_t maxMissmatches;
+        TrimConfig::Mode trimmingMode;
 
-        /* the lookup table - smart transition table
-         * (state,c) -> shift, state, readPos, match
-         * */
-        //        std::map<std::pair<int,char>,std::tuple<int,int,int,int>> lookup;
+        Adapter(seqan3::dna5_vector sequence, double maxMissmatchRatio, TrimConfig::Mode trimmingMode) : sequence(sequence), trimmingMode(trimmingMode)
+        {
+            maxMissmatches = std::floor(sequence.size() * maxMissmatchRatio);
+        }
+    };
 
-    public:
-        SeqRickshaw(const po::variables_map &params);
-        SeqRickshaw();
+    std::vector<Adapter> loadAdapters(std::string const &filenameOrSequence, const TrimConfig::Mode trimmingMode);
 
-        std::map<std::pair<std::string,std::string>,LookupTable> calcLookupTable(std::string _type, std::string _path);
-        LookupTable calcShift(auto &_records);
+    bool passesFilters(auto &record);
 
-        std::vector<char> determineAlphabet(auto _sequence);
-        std::size_t calcReadPos(auto& sequence, std::size_t& left, std::pair<std::size_t,std::size_t>& right);
+    template <typename record_type>
+    void trimWindowedQuality(record_type &record);
 
+    void trimAdapter(const Adapter &adapter, auto &record);
 
-        void smallestShift(std::string pattern, std::string suffix, int left);
-        int transition(std::string pattern, std::string suffix, int readPos, std::size_t& left, std::pair<std::size_t,std::size_t>& right);
-        std::pair<std::string, std::string> merging(auto fwd, auto rev, auto fwdQual, auto revQual);
+    template <typename record_type>
+    void trim3PolyG(record_type &record);
 
-        std::string longestCommonSubstr(std::string forward, std::string reverse);
+    template <typename record_type>
+    std::optional<record_type> mergeRecordPair(record_type &record1, record_type &record2);
 
-        // #### 
-        // split the readsfile specified in 'path' and returns a list of files
-        std::vector<fs::path> splitReadsFile(fs::path path, std::string subfolder);
-        std::vector<fs::path> splitOutputFile(std::vector<fs::path> inputfiles, std::string folder);
-        void rmTmpOutDirs(fs::path outPath, std::vector<std::string> subfolders); // remove temporary output directories
+    template <typename record_type>
+    record_type constructMergedRecord(const record_type &record1, const record_type &record2, const int overlap);
 
-        void distribute(std::pair<fs::path,fs::path> reads, fs::path merged, std::pair<fs::path,fs::path> unmerged, fs::path unpaired);
-        void distribute(fs::path input, fs::path output);
+    void processSingleEnd(pt::ptree sample);
+    void processPairedEnd(pt::ptree sample);
 
-        // helper 
-        int addState(States &states, State state, States::size_type &size);
-        int nextReadPos(std::string state, int currReadPos);
-        // finds all occurrences of substring in string
-        void findAllOcc(std::vector<std::size_t>& fnd, std::string str, std::string substr);
-        void writeLookupTables(std::ofstream &os, Adapters &adptLookTbls);
+    void processSingleEndRecordChunk(SeqRickshaw::FastqChunk &chunk, const std::vector<Adapter> &adapters5, const std::vector<Adapter> &adapers3);
+    void processSingleEndFileInChunks(
+        std::string const &recInPath, std::string recOutPath,
+        const std::vector<Adapter> &adapters5,
+        const std::vector<Adapter> &adapters3,
+        size_t chunkSize, size_t numThreads);
 
-        void preprocPattern();
+public:
+    SeqRickshaw(const po::variables_map &params);
 
-		// perform window trimming
-		std::size_t nibble(auto &seq, auto &qual, std::pair<std::size_t,std::size_t> &bnds);
-
-		int trimmingWindow(auto seq);
-        
-        std::size_t boyermoore(auto& read, LookupTable tab, int patlen);
-        std::pair<std::size_t,std::size_t> trimming(auto& read);
-        void start(pt::ptree sample);
-
-        bool passesFilters(auto &record);
-        void trimAdapter(const seqan3::dna5_vector &adapterSequence, auto &recordSequence, TrimConfig::Mode trimmingMode);
-
-        template <typename record_type>
-        void trim3PolyG(record_type &record);
-
-        template <typename record_type>
-        std::optional<record_type> mergeRecordPair(record_type &record1, record_type &record2, int minOverlap);
-
-        template <typename record_type>
-        record_type constructMergedRecord(const record_type &record1, const record_type &record2, const int overlap);
+    void start(pt::ptree sample);
 };
 #endif

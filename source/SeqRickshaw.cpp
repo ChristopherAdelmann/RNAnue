@@ -16,6 +16,7 @@ SeqRickshaw::SeqRickshaw(const po::variables_map &params)
     minPhread = params["minqual"].as<int>();
     minLen = params["minlen"].as<int>();
     windowTrimSize = params["wtrim"].as<int>();
+    threads = params["threads"].as<size_t>();
 
     minOverlapMerge = params["minovl"].as<int>();
     missmatchRateMerge = params["mmerge"].as<double>();
@@ -61,7 +62,7 @@ void SeqRickshaw::processSingleEnd(pt::ptree sample)
     const std::vector<SeqRickshaw::Adapter> adapters5 = loadAdapters(adpt5f, SeqRickshaw::TrimConfig::Mode::FIVE_PRIME);
     const std::vector<SeqRickshaw::Adapter> adapters3 = loadAdapters(adpt3f, SeqRickshaw::TrimConfig::Mode::THREE_PRIME);
 
-    processSingleEndFileInChunks(recInPath, recOutPath, adapters5, adapters3, 100000, 6);
+    processSingleEndFileInChunks(recInPath, recOutPath, adapters5, adapters3, 500000, threads);
 
     Logger::log(LogLevel::INFO, "Finished pre-processing " + sampleName + " in single-end mode ...");
 }
@@ -99,7 +100,7 @@ void SeqRickshaw::processPairedEnd(pt::ptree sample)
     const std::string sampleName = std::filesystem::path(forwardRecInPath).stem().string();
     Logger::log(LogLevel::INFO, "Started pre-processing " + sampleName + " in paired-end mode ...");
 
-    processPairedEndFileInChunks(forwardRecInPath, reverseRecInPath, mergeRecOutPath, snglFwdOutPath, snglRevOutPath, adapters5f, adapters3f, adapters5r, adapters3r, 100000, 6);
+    processPairedEndFileInChunks(forwardRecInPath, reverseRecInPath, mergeRecOutPath, snglFwdOutPath, snglRevOutPath, adapters5f, adapters3f, adapters5r, adapters3r, 500000, threads);
 
     Logger::log(LogLevel::INFO, "Finished pre-processing " + sampleName + " in paired-end mode ...");
 }

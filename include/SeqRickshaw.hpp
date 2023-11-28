@@ -88,6 +88,7 @@ private:
     int minPhread;
     int minLen;
     int windowTrimSize;
+    size_t threads;
 
     int minOverlapMerge;
     double missmatchRateMerge;

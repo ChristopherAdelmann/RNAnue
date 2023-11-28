@@ -91,10 +91,18 @@ private:
 
     int minOverlapMerge;
     double missmatchRateMerge;
-    struct FastqChunk
+    struct SingleEndFastqChunk
     {
         std::vector<seqan3::sequence_file_input<>::record_type> records;
-        // Add any other data you need from the FASTQ file.
+    };
+
+    struct PairedEndFastqChunk
+    {
+        std::vector<seqan3::sequence_file_input<>::record_type> recordsFwd;
+        std::vector<seqan3::sequence_file_input<>::record_type> recordsRev;
+        std::vector<seqan3::sequence_file_input<>::record_type> recordsMergedRes;
+        std::vector<seqan3::sequence_file_input<>::record_type> recordsSnglFwdRes;
+        std::vector<seqan3::sequence_file_input<>::record_type> recordsSnglRevRes;
     };
 
     struct TrimConfig
@@ -142,11 +150,34 @@ private:
     void processSingleEnd(pt::ptree sample);
     void processPairedEnd(pt::ptree sample);
 
-    void processSingleEndRecordChunk(SeqRickshaw::FastqChunk &chunk, const std::vector<Adapter> &adapters5, const std::vector<Adapter> &adapers3);
+    void processSingleEndRecordChunk(
+        SeqRickshaw::SingleEndFastqChunk &chunk,
+        const std::vector<Adapter> &adapters5,
+        const std::vector<Adapter> &adapters3);
     void processSingleEndFileInChunks(
-        std::string const &recInPath, std::string recOutPath,
+        std::string const &recInPath,
+        std::string recOutPath,
         const std::vector<Adapter> &adapters5,
         const std::vector<Adapter> &adapters3,
+        size_t chunkSize,
+        size_t numThreads);
+
+    void processPairedEndRecordChunk(
+        PairedEndFastqChunk &chunk,
+        const std::vector<Adapter> &adapters5f,
+        const std::vector<Adapter> &adapters3f,
+        const std::vector<Adapter> &adapters5r,
+        const std::vector<Adapter> &adapters3r);
+    void processPairedEndFileInChunks(
+        std::string const &recFwdInPath,
+        std::string const &recRevInPath,
+        std::string const &mergedOutPath,
+        std::string const &snglFwdOutPath,
+        std::string const &snglRevOutPath,
+        const std::vector<Adapter> &adapters5f,
+        const std::vector<Adapter> &adapters3f,
+        const std::vector<Adapter> &adapters5r,
+        const std::vector<Adapter> &adapters3r,
         size_t chunkSize, size_t numThreads);
 
 public:

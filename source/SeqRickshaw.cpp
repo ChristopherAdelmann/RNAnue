@@ -64,52 +64,6 @@ void SeqRickshaw::processSingleEnd(pt::ptree sample)
     processSingleEndFileInChunks(recInPath, recOutPath, adapters5, adapters3, 100000, 6);
 
     Logger::log(LogLevel::INFO, "Finished pre-processing " + sampleName + " in single-end mode ...");
-
-    exit(0);
-
-    auto start = std::chrono::high_resolution_clock::now();
-    size_t numRec = 0;
-    size_t numRecOut = 0;
-    size_t numRecFilt = 0;
-
-    for (auto &&rec : recIn)
-    {
-        if (numRec % 100000 == 0)
-        {
-            auto end = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-            auto readsPerSecond = static_cast<double>(numRec) / duration;
-            Logger::log(LogLevel::INFO, "Reads processed: " + std::to_string(numRec) + " | Reads per second: " + std::to_string(readsPerSecond));
-        }
-
-        if (trimPolyG)
-            trim3PolyG(rec);
-
-        if (windowTrimSize > 0)
-            trimWindowedQuality(rec);
-
-        for (auto const &adapter : adapters5)
-            trimAdapter(adapter, rec);
-
-        for (auto const &adapter : adapters3)
-            trimAdapter(adapter, rec);
-
-        if (passesFilters(rec))
-        {
-            recOut.push_back(rec);
-            numRecOut++;
-        }
-        else
-        {
-            numRecFilt++;
-        }
-
-        numRec++;
-    }
-
-    Logger::log(LogLevel::INFO, "Reads processed: " + std::to_string(numRec));
-    Logger::log(LogLevel::INFO, "Reads written: " + std::to_string(numRecOut) + " (" + std::to_string(static_cast<double>(numRecOut) / numRec * 100) + "%)");
-    Logger::log(LogLevel::INFO, "Reads removed due to filtering: " + std::to_string(numRecFilt) + " (" + std::to_string(static_cast<double>(numRecFilt) / numRec * 100) + "%)");
 }
 
 /**
@@ -145,91 +99,9 @@ void SeqRickshaw::processPairedEnd(pt::ptree sample)
     const std::string sampleName = std::filesystem::path(forwardRecInPath).stem().string();
     Logger::log(LogLevel::INFO, "Started pre-processing " + sampleName + " in paired-end mode ...");
 
-    auto start = std::chrono::high_resolution_clock::now();
-    size_t numPairs = 0;
-    size_t numMerge = 0;
-    size_t numSnglFwd = 0;
-    size_t numSnglRev = 0;
-    size_t numRemFwd = 0;
-    size_t numRemRev = 0;
+    processPairedEndFileInChunks(forwardRecInPath, reverseRecInPath, mergeRecOutPath, snglFwdOutPath, snglRevOutPath, adapters5f, adapters3f, adapters5r, adapters3r, 100000, 6);
 
-    for (auto &&[rec1, rec2] : seqan3::views::zip(forwardRecIn, reverseRecIn))
-    {
-        if (numPairs % 100000 == 0)
-        {
-            auto end = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-            auto readsPerSecond = static_cast<double>(numPairs) / duration;
-            Logger::log(LogLevel::INFO, "Read pairs processed: " + std::to_string(numPairs) + " | Pairs per second: " + std::to_string(readsPerSecond));
-        }
-
-        if (trimPolyG)
-        {
-            trim3PolyG(rec1);
-            trim3PolyG(rec2);
-        }
-
-        if (windowTrimSize > 0)
-        {
-            trimWindowedQuality(rec1);
-            trimWindowedQuality(rec2);
-        }
-
-        for (auto const &adapter : adapters5f)
-            trimAdapter(adapter, rec1);
-
-        for (auto const &adapter : adapters3f)
-            trimAdapter(adapter, rec1);
-
-        for (auto const &adapter : adapters5r)
-            trimAdapter(adapter, rec2);
-
-        for (auto const &adapter : adapters3r)
-            trimAdapter(adapter, rec2);
-
-        bool filtFwd = passesFilters(rec1);
-        bool filtRev = passesFilters(rec2);
-
-        if (filtFwd && filtRev)
-        {
-            auto mergedRecord = mergeRecordPair(rec1, rec2);
-            if (mergedRecord.has_value())
-            {
-                mergeRecOut.push_back(mergedRecord.value());
-                numMerge++;
-            }
-            else
-            {
-                snglFwdOut.push_back(rec1);
-                snglRevOut.push_back(rec2);
-                numSnglFwd++;
-                numSnglRev++;
-            }
-        }
-        else
-        {
-            if (filtFwd)
-            {
-                snglFwdOut.push_back(rec1);
-                numSnglFwd++;
-                numRemRev++;
-            }
-            if (filtRev)
-            {
-                snglRevOut.push_back(rec2);
-                numSnglRev++;
-                numRemFwd++;
-            }
-        }
-
-        numPairs++;
-    }
-
-    Logger::log(LogLevel::INFO, "Read pairs processed: " + std::to_string(numPairs));
-    Logger::log(LogLevel::INFO, "Read pairs merged and written: " + std::to_string(numMerge) + " (" + std::to_string(static_cast<double>(numMerge) / numPairs * 100) + "%)");
-    Logger::log(LogLevel::INFO, "Forward reads only written: " + std::to_string(numSnglFwd) + " (" + std::to_string(static_cast<double>(numSnglFwd) / numPairs * 100) + "%)");
-    Logger::log(LogLevel::INFO, "Reverse reads only written: " + std::to_string(numSnglRev) + " (" + std::to_string(static_cast<double>(numSnglRev) / numPairs * 100) + "%)");
-    Logger::log(LogLevel::INFO, "Read pairs removed due to filtering: " + std::to_string(numRemFwd + numRemRev) + " (" + std::to_string(static_cast<double>(numRemFwd + numRemRev) / numPairs * 100) + "%)");
+    Logger::log(LogLevel::INFO, "Finished pre-processing " + sampleName + " in paired-end mode ...");
 }
 
 /**
@@ -575,7 +447,7 @@ seqan3::align_cfg::method_global SeqRickshaw::TrimConfig::alignmentConfigFor(Seq
     return config;
 }
 
-void SeqRickshaw::processSingleEndRecordChunk(SeqRickshaw::FastqChunk &chunk, const std::vector<SeqRickshaw::Adapter> &adapters5, const std::vector<SeqRickshaw::Adapter> &adapters3)
+void SeqRickshaw::processSingleEndRecordChunk(SeqRickshaw::SingleEndFastqChunk &chunk, const std::vector<SeqRickshaw::Adapter> &adapters5, const std::vector<SeqRickshaw::Adapter> &adapters3)
 {
     auto it = std::remove_if(chunk.records.begin(), chunk.records.end(), [&](auto &record)
                              {
@@ -600,7 +472,7 @@ void SeqRickshaw::processSingleEndRecordChunk(SeqRickshaw::FastqChunk &chunk, co
 void SeqRickshaw::processSingleEndFileInChunks(
     std::string const &recInPath, std::string recOutPath,
     const std::vector<SeqRickshaw::Adapter> &adapters5,
-    const std::vector<SeqRickshaw::Adapter> &adapers3,
+    const std::vector<SeqRickshaw::Adapter> &adapters3,
     size_t chunkSize, size_t numThreads)
 {
     seqan3::sequence_file_input recIn{recInPath};
@@ -608,9 +480,6 @@ void SeqRickshaw::processSingleEndFileInChunks(
 
     // Mutex to synchronize access to shared data structures.
     std::mutex mutex;
-
-    // Vector to store processed chunks for later use (optional).
-    std::vector<FastqChunk> processedChunks;
 
     int chunkNumber = 0;
 
@@ -620,11 +489,13 @@ void SeqRickshaw::processSingleEndFileInChunks(
         while (true)
         {
             // Read a chunk of records from the FASTQ file.
-            FastqChunk chunk;
+            SingleEndFastqChunk chunk;
             {
                 std::lock_guard<std::mutex> lock(mutex);
 
-                int count = 0;
+                chunk.records.reserve(chunkSize);
+
+                size_t count = 0;
 
                 for (auto &&record : recIn)
                 {
@@ -638,7 +509,7 @@ void SeqRickshaw::processSingleEndFileInChunks(
             }
 
             // Process the chunk.
-            processSingleEndRecordChunk(chunk, adapters5, adapers3);
+            processSingleEndRecordChunk(chunk, adapters5, adapters3);
 
             {
                 std::lock_guard<std::mutex> lock(mutex);
@@ -662,4 +533,152 @@ void SeqRickshaw::processSingleEndFileInChunks(
     // Wait for all threads to finish.
     for (auto &thread : threads)
         thread.join();
+}
+
+// Function to read a FASTQ file in chunks and process each chunk.
+void SeqRickshaw::processPairedEndFileInChunks(
+    std::string const &recFwdInPath,
+    std::string const &recRevInPath,
+    std::string const &mergedOutPath,
+    std::string const &snglFwdOutPath,
+    std::string const &snglRevOutPath,
+    const std::vector<SeqRickshaw::Adapter> &adapters5f,
+    const std::vector<SeqRickshaw::Adapter> &adapters3f,
+    const std::vector<SeqRickshaw::Adapter> &adapters5r,
+    const std::vector<SeqRickshaw::Adapter> &adapters3r,
+    size_t chunkSize, size_t numThreads)
+{
+    seqan3::sequence_file_input recFwdIn{recFwdInPath};
+    seqan3::sequence_file_input recRevIn{recRevInPath};
+
+    seqan3::sequence_file_output mergedOut{mergedOutPath};
+    seqan3::sequence_file_output snglFwdOut{snglFwdOutPath};
+    seqan3::sequence_file_output snglRevOut{snglRevOutPath};
+
+    // Mutex to synchronize access to shared data structures.
+    std::mutex mutex;
+
+    int chunkNumber = 0;
+
+    // Function to read a chunk from the FASTQ file and process it.
+    auto processChunkFunc = [&]()
+    {
+        while (true)
+        {
+            // Read a chunk of records from the FASTQ file.
+            PairedEndFastqChunk chunk;
+            {
+                std::lock_guard<std::mutex> lock(mutex);
+
+                int count = 0;
+
+                for (auto &&[record1, record2] : seqan3::views::zip(recFwdIn, recRevIn))
+                {
+                    chunk.recordsFwd.push_back(std::move(record1));
+                    chunk.recordsRev.push_back(std::move(record2));
+
+                    if (++count == chunkSize)
+                        break;
+                }
+
+                std::cout << "Chunk number: " << chunkNumber++ << '\n';
+            }
+
+            // Process the chunk.
+            processPairedEndRecordChunk(chunk, adapters5f, adapters3f, adapters5r, adapters3r);
+
+            {
+                std::lock_guard<std::mutex> lock(mutex);
+
+                for (auto &&record : chunk.recordsMergedRes)
+                {
+                    mergedOut.push_back(record);
+                }
+                for (auto &&record : chunk.recordsSnglFwdRes)
+                {
+                    snglFwdOut.push_back(record);
+                }
+                for (auto &&record : chunk.recordsSnglRevRes)
+                {
+                    snglRevOut.push_back(record);
+                }
+            }
+
+            // Check if there are no more records in the file.
+            if (recFwdIn.begin() == recFwdIn.end() || recRevIn.begin() == recRevIn.end())
+                break;
+        }
+    };
+
+    // Create and run threads.
+    std::vector<std::thread> threads;
+    for (size_t i = 0; i < numThreads; ++i)
+        threads.emplace_back(processChunkFunc);
+
+    // Wait for all threads to finish.
+    for (auto &thread : threads)
+        thread.join();
+}
+
+void SeqRickshaw::processPairedEndRecordChunk(
+    SeqRickshaw::PairedEndFastqChunk &chunk,
+    const std::vector<SeqRickshaw::Adapter> &adapters5f,
+    const std::vector<SeqRickshaw::Adapter> &adapters3f,
+    const std::vector<SeqRickshaw::Adapter> &adapters5r,
+    const std::vector<SeqRickshaw::Adapter> &adapters3r)
+{
+    for (auto &&[record1, record2] : seqan3::views::zip(chunk.recordsFwd, chunk.recordsRev))
+    {
+        if (trimPolyG)
+        {
+            trim3PolyG(record1);
+            trim3PolyG(record2);
+        }
+
+        if (windowTrimSize > 0)
+        {
+            trimWindowedQuality(record1);
+            trimWindowedQuality(record2);
+        }
+
+        for (auto const &adapter : adapters5f)
+            trimAdapter(adapter, record1);
+
+        for (auto const &adapter : adapters3f)
+            trimAdapter(adapter, record1);
+
+        for (auto const &adapter : adapters5r)
+            trimAdapter(adapter, record2);
+
+        for (auto const &adapter : adapters3r)
+            trimAdapter(adapter, record2);
+
+        bool filtFwd = passesFilters(record1);
+        bool filtRev = passesFilters(record2);
+
+        if (filtFwd && filtRev)
+        {
+            auto mergedRecord = mergeRecordPair(record1, record2);
+            if (mergedRecord.has_value())
+            {
+                chunk.recordsMergedRes.push_back(std::move(mergedRecord.value()));
+            }
+            else
+            {
+                chunk.recordsSnglFwdRes.push_back(std::move(record1));
+                chunk.recordsSnglRevRes.push_back(std::move(record2));
+            }
+        }
+        else
+        {
+            if (filtFwd)
+            {
+                chunk.recordsSnglFwdRes.push_back(std::move(record1));
+            }
+            if (filtRev)
+            {
+                chunk.recordsSnglRevRes.push_back(std::move(record2));
+            }
+        }
+    }
 }

@@ -16,7 +16,7 @@ SeqRickshaw::SeqRickshaw(const po::variables_map &params)
     minPhread = params["minqual"].as<int>();
     minLen = params["minlen"].as<int>();
     windowTrimSize = params["wtrim"].as<int>();
-    threads = params["threads"].as<size_t>();
+    threads = params["threads"].as<int>();
 
     minOverlapMerge = params["minovl"].as<int>();
     missmatchRateMerge = params["mmerge"].as<double>();

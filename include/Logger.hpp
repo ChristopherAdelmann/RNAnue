@@ -1,7 +1,12 @@
+#ifndef LOGGER_H
+#define LOGGER_H
+
 #include "Helper.hpp"
 
 #include <iostream>
 #include <string>
+#include <map>
+#include <optional>
 
 #include <seqan3/core/debug_stream.hpp>
 
@@ -15,10 +20,39 @@ enum class LogLevel
 class Logger
 {
 public:
+    static std::optional<LogLevel> stringToLogLevel(const std::string &level)
+    {
+        static const std::map<std::string, LogLevel> stringToLogLevelMap{
+            {"info", LogLevel::INFO},
+            {"warning", LogLevel::WARNING},
+            {"error", LogLevel::ERROR}};
+
+        auto it = stringToLogLevelMap.find(level);
+        if (it == stringToLogLevelMap.end())
+        {
+            return std::nullopt;
+        }
+        return it->second;
+    }
+
     static Logger &getInstance()
     {
         static Logger instance; // Singleton instance
         return instance;
+    }
+
+    static void setLogLevel(const std::string &logLevelString)
+    {
+        std::optional<LogLevel> logLevel = stringToLogLevel(logLevelString);
+        if (logLevel.has_value())
+        {
+            getInstance().i_setLogLevel(logLevel.value());
+        }
+        else
+        {
+            Logger::log(LogLevel::ERROR, "Invalid log level: " + logLevelString);
+            exit(1);
+        }
     }
 
     // Convenience functions for setting log level and logging without calling getInstance
@@ -67,3 +101,5 @@ private:
         }
     }
 };
+
+#endif // LOGGER_H

@@ -17,6 +17,7 @@ SeqRickshaw::SeqRickshaw(const po::variables_map &params)
     minLen = params["minlen"].as<int>();
     windowTrimSize = params["wtrim"].as<int>();
     threads = params["threads"].as<int>();
+    chunkSize = params["chunksize"].as<int>();
 
     minOverlapMerge = params["minovl"].as<int>();
     missmatchRateMerge = params["mmerge"].as<double>();
@@ -62,7 +63,7 @@ void SeqRickshaw::processSingleEnd(pt::ptree sample)
     const std::vector<SeqRickshaw::Adapter> adapters5 = loadAdapters(adpt5f, SeqRickshaw::TrimConfig::Mode::FIVE_PRIME);
     const std::vector<SeqRickshaw::Adapter> adapters3 = loadAdapters(adpt3f, SeqRickshaw::TrimConfig::Mode::THREE_PRIME);
 
-    processSingleEndFileInChunks(recInPath, recOutPath, adapters5, adapters3, 500000, threads);
+    processSingleEndFileInChunks(recInPath, recOutPath, adapters5, adapters3, chunkSize, threads);
 
     Logger::log(LogLevel::INFO, "Finished pre-processing " + sampleName + " in single-end mode ...");
 }
@@ -100,7 +101,11 @@ void SeqRickshaw::processPairedEnd(pt::ptree sample)
     const std::string sampleName = std::filesystem::path(forwardRecInPath).stem().string();
     Logger::log(LogLevel::INFO, "Started pre-processing " + sampleName + " in paired-end mode ...");
 
-    processPairedEndFileInChunks(forwardRecInPath, reverseRecInPath, mergeRecOutPath, snglFwdOutPath, snglRevOutPath, adapters5f, adapters3f, adapters5r, adapters3r, 500000, threads);
+    processPairedEndFileInChunks(
+        forwardRecInPath, reverseRecInPath,
+        mergeRecOutPath, snglFwdOutPath, snglRevOutPath,
+        adapters5f, adapters3f, adapters5r, adapters3r,
+        chunkSize, threads);
 
     Logger::log(LogLevel::INFO, "Finished pre-processing " + sampleName + " in paired-end mode ...");
 }
@@ -482,13 +487,14 @@ void SeqRickshaw::processSingleEndFileInChunks(
     // Mutex to synchronize access to shared data structures.
     std::mutex mutex;
 
-    int chunkNumber = 0;
-
+    size_t chunkCount = 0;
     // Function to read a chunk from the FASTQ file and process it.
     auto processChunkFunc = [&]()
     {
         while (true)
         {
+            std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+
             // Read a chunk of records from the FASTQ file.
             SingleEndFastqChunk chunk;
             {
@@ -506,7 +512,7 @@ void SeqRickshaw::processSingleEndFileInChunks(
                         break;
                 }
 
-                std::cout << "Chunk number: " << chunkNumber++ << '\n';
+                chunkCount++;
             }
 
             // Process the chunk.
@@ -518,6 +524,11 @@ void SeqRickshaw::processSingleEndFileInChunks(
                 {
                     recOut.push_back(record);
                 }
+
+                auto end = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double> duration = end - start;
+
+                Logger::log(LogLevel::INFO, "Processed chunk (" + std::to_string(chunkSize) + " reads). Elapsed time: " + std::to_string(duration.count()) + " seconds.");
             }
 
             // Check if there are no more records in the file.
@@ -559,13 +570,15 @@ void SeqRickshaw::processPairedEndFileInChunks(
     // Mutex to synchronize access to shared data structures.
     std::mutex mutex;
 
-    int chunkNumber = 0;
+    size_t chunkCount = 0;
 
     // Function to read a chunk from the FASTQ file and process it.
     auto processChunkFunc = [&]()
     {
         while (true)
         {
+            std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+
             // Read a chunk of records from the FASTQ file.
             PairedEndFastqChunk chunk;
             {
@@ -582,7 +595,7 @@ void SeqRickshaw::processPairedEndFileInChunks(
                         break;
                 }
 
-                std::cout << "Chunk number: " << chunkNumber++ << '\n';
+                chunkCount++;
             }
 
             // Process the chunk.
@@ -603,6 +616,11 @@ void SeqRickshaw::processPairedEndFileInChunks(
                 {
                     snglRevOut.push_back(record);
                 }
+
+                auto end = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double> duration = end - start;
+
+                Logger::log(LogLevel::INFO, "Processed chunk (" + std::to_string(chunkSize) + " read pairs). Elapsed time: " + std::to_string(duration.count()) + " seconds.");
             }
 
             // Check if there are no more records in the file.

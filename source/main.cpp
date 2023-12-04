@@ -66,6 +66,8 @@ int main(int argc, char* argv[]) {
                               "folder containing the the raw reads of the controls including replicates located within subfolders (condition)");
         general.add_options()("outdir,o", po::value<std::string>(),
                               "(output) folder in which the results are stored");
+        general.add_options()("loglevel", po::value<std::string>()->default_value("info"),
+                              "log level (info, warning, error)");
         general.add_options()("threads,p", po::value<int>()->default_value(1),
                               "the number of threads");
         general.add_options()("mapquality", po::value<int>()->default_value(20),
@@ -76,6 +78,8 @@ int main(int argc, char* argv[]) {
         po::options_description preproc("Preprocessing");
         preproc.add_options()("preproc", po::value<std::bitset<1>>()->default_value(1),
                               "include preprocessing of the raw reads in the workflow of RNAnue");
+        preproc.add_options()("chunksize", po::value<int>()->default_value(100000),
+                              "number of reads to be processed in parallel (default: 100000)");
         preproc.add_options()("trimpolyg", po::bool_switch()->default_value(false),
                               "trim high quality polyG tails from the reads. Applicable for Illumina NextSeq reads. (default: false)");
         preproc.add_options()("adpt5f", po::value<std::string>()->default_value(""),
@@ -185,16 +189,11 @@ int main(int argc, char* argv[]) {
         po::positional_options_description p;
         p.add("subcall", -1);
 
-
-
         po::variables_map vm;
         store(po::command_line_parser(argc, argv).options(cmdlineOptions).positional(p).run(),vm);
         notify(vm);
 
-
-
-
-
+        Logger::setLogLevel(vm["loglevel"].as<std::string>());
 
         // include parameters from the configfile if available
         std::ifstream ifs(configFile.c_str());

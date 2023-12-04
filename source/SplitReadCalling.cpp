@@ -91,17 +91,6 @@ void SplitReadCalling::iterate(std::string matched, std::string splits, std::str
     progress(std::cout);
 }
 
-// distribute calculations across cores
-void SplitReadCalling::distribute(auto &tasks, auto &splits, auto &multsplits) {
-    // distribute tasks
-    unsigned i;
-    # pragma omp parallel for shared(splits, multsplits) num_threads(params["threads"].as<int>())
-    for(i=0;i<tasks.size();++i) {
-        process(tasks[i],splits,multsplits);
-    }
-}
-
-
 void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile) {
     Splts splits;
 
@@ -511,16 +500,174 @@ double SplitReadCalling::hybridize(std::span<seqan3::dna5> &seq1, std::span<seqa
     }
 
     std::string dotbracket = tokens[1].substr(0,tokens[1].find(' '));
-	std::regex regexp("-?[[:digit:]]{1,2}\\.[[:digit:]]{1,2}");
+
+    auto dotbracketSeqan = dotbracket | seqan3::views::char_to<seqan3::dot_bracket3> | seqan3::ranges::to<std::vector>();
+    findCrosslinkingSites(seq1, seq2, dotbracketSeqan);
+
+    std::regex regexp("-?[[:digit:]]{1,2}\\.[[:digit:]]{1,2}");
     std::smatch matches;
 
     std::regex_search(tokens[1], matches, regexp);
     return stod(matches[0]);
 }
 
+std::optional<InteractionWindow> SplitReadCalling::getContinuosNucleotideWindows(
+    std::span<seqan3::dna5> &seq1,
+    std::span<seqan3::dna5> &seq2,
+    NucleotidePositionsWindowPair positionsPair)
+{
+    std::pair<uint16_t, uint16_t> forwardPair = std::make_pair(positionsPair.first.first, positionsPair.second.first);
+    std::pair<uint16_t, uint16_t> reversePair = std::make_pair(positionsPair.first.second, positionsPair.second.second);
+
+    // Check that both pairs are from a continous region
+    if (forwardPair.first + 1 != forwardPair.second ||
+        reversePair.first - 1 != reversePair.second)
+    {
+        return std::nullopt;
+    }
+
+    // Check that each pair is from the same sequence
+    size_t seq1Length = seq1.size();
+
+    // The forward pair is split between the two sequences
+    bool forwardPairSplit = forwardPair.first < seq1Length && forwardPair.second >= seq1Length;
+    // The reverse pair is split between the two sequences
+    bool reversePairSplit = reversePair.first >= seq1Length && reversePair.second < seq1Length;
+
+    if (forwardPairSplit || reversePairSplit)
+    {
+        return std::nullopt;
+    }
+
+    // The first pair is completely in the first sequence
+    bool firstPairInSeq1 = forwardPair.second < seq1Length;
+    // The second pair is completely in the first sequence
+    bool secondPairInSeq1 = reversePair.first < seq1Length;
+
+    // Both pairs are in the first sequence
+    if (firstPairInSeq1 && secondPairInSeq1)
+    {
+        return InteractionWindow{
+            seqan3::dna5_vector{seq1[forwardPair.first], seq1[forwardPair.second]},
+            seqan3::dna5_vector{seq1[reversePair.first], seq1[reversePair.second]},
+            forwardPair,
+            reversePair,
+            false};
+    }
+
+    // Both pairs are in the second sequence
+    if (!firstPairInSeq1 && !secondPairInSeq1)
+    {
+        return InteractionWindow{
+            seqan3::dna5_vector{seq2[forwardPair.first - seq1Length - 1], seq2[forwardPair.second - seq1Length - 1]},
+            seqan3::dna5_vector{seq2[reversePair.first - seq1Length - 1], seq2[reversePair.second - seq1Length - 1]},
+            forwardPair,
+            reversePair,
+            false};
+    }
+
+    // The first pair is in the first sequence and the second pair is in the second sequence
+    if (firstPairInSeq1 && !secondPairInSeq1)
+    {
+        return InteractionWindow{
+            seqan3::dna5_vector{seq1[forwardPair.first], seq1[forwardPair.second]},
+            seqan3::dna5_vector{seq2[reversePair.first - seq1Length - 1], seq2[reversePair.second - seq1Length - 1]},
+            forwardPair,
+            reversePair,
+            true};
+    }
+
+    // Due to sorting of base pairs first pair in second sequence and second pair in first sequence is not possible
+    return std::nullopt;
+}
+
+void SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2, std::vector<seqan3::dot_bracket3> &dotbracket)
+{
+    std::vector<size_t> openPos;
+
+    std::vector<NucleotidePairPositions> interactionPositions;
+    interactionPositions.reserve(dotbracket.size() / 2);
+
+    for (size_t i = 0; i < dotbracket.size(); ++i)
+    {
+        if (dotbracket[i].is_pair_open())
+        {
+            openPos.push_back(i);
+        }
+        else if (dotbracket[i].is_pair_close())
+        {
+            int open = openPos.back();
+            openPos.pop_back();
+            interactionPositions.emplace_back(open, i);
+        }
+    }
+
+    // Sort pairing sites by first position
+    std::sort(interactionPositions.begin(), interactionPositions.end(), [](const NucleotidePairPositions &a, const NucleotidePairPositions &b)
+              { return a.first < b.first; });
+
+    if (!openPos.empty())
+    {
+        Logger::log(LogLevel::WARNING, "Unpaired bases in dot-bracket notation! (" + std::to_string(openPos.size()) + ")");
+    }
+
+    std::vector<NucleotidePositionsWindowPair> crosslinkingSites;
+    crosslinkingSites.reserve(interactionPositions.size() - 1);
+
+    size_t intraCrosslinkingScore = 0;
+    size_t interCrosslinkingScore = 0;
+
+    // Iterate over all pairs of interaction sites until the second last pair (last pair has no following pair for window)
+    for (size_t i = 0; i < interactionPositions.size() - 1; ++i)
+    {
+        const NucleotidePositionsWindowPair window = std::make_pair(interactionPositions[i], interactionPositions[i + 1]);
+
+        std::optional<InteractionWindow> interactionWindow = getContinuosNucleotideWindows(seq1, seq2, window);
+
+        if (interactionWindow)
+        {
+            InteractionWindow &v_interactionWindow = interactionWindow.value();
+
+            seqan3::debug_stream << "Nucleotide pair: " << v_interactionWindow.forwardWindowNucleotides << " " << v_interactionWindow.reverseWindowNucleotides << std::endl;
+
+            const NucleotideWindowPair nucleotidePairs = std::make_pair(v_interactionWindow.forwardWindowNucleotides, v_interactionWindow.reverseWindowNucleotides);
+
+            const auto it = crosslinkingScoringScheme.find(nucleotidePairs);
+            if (it != crosslinkingScoringScheme.end())
+            {
+                const size_t score = it->second;
+                if (v_interactionWindow.isInterFragment)
+                {
+                    interCrosslinkingScore += score;
+                }
+                else
+                {
+                    intraCrosslinkingScore += score;
+                }
+                crosslinkingSites.emplace_back(window); // Use emplace_back for efficient construction
+            }
+        }
+    }
+
+    if (interCrosslinkingScore > 0)
+    {
+        seqan3::debug_stream << dotbracket << std::endl;
+        Logger::log(LogLevel::INFO, seq1);
+        Logger::log(LogLevel::INFO, seq2);
+        Logger::log(LogLevel::INFO, "Crosslinking score: " + std::to_string(interCrosslinkingScore));
+
+        for (const auto &site : crosslinkingSites) // Use const auto& for read-only access
+        {
+            Logger::log(LogLevel::INFO, "Crosslinking site: " +
+                                            std::to_string(site.first.first) + "-" + std::to_string(site.second.first) + " : " +
+                                            std::to_string(site.second.second) + "-" + std::to_string(site.first.second));
+        }
+    }
+}
 
 // calculate rows in SAMfile (exclusing header)
-int SplitReadCalling::countSamEntries(std::string file, std::string command) {
+int SplitReadCalling::countSamEntries(std::string file, std::string command)
+{
     std::string entries = "awk '!/^@/ {print $0}' " + file + " " + command + " | wc -l";
     const char* call = entries.c_str();
     std::array<char, 128> buffer;
@@ -535,8 +682,6 @@ int SplitReadCalling::countSamEntries(std::string file, std::string command) {
     }
     return std::stoi(result);
 }
-
-
 
 // adds suffix to filename (optional: 
 std::string SplitReadCalling::addSuffix(std::string _file, std::string _suffix, std::vector<std::string> _keywords) {
@@ -654,7 +799,7 @@ void SplitReadCalling::start(pt::ptree sample) {
     //
     std::vector<std::vector<fs::path>> subfiles = splitInputFile(matched, splits, entries);
 
-    # pragma omp parallel for num_threads(params["threads"].as<int>())
+    // # pragma omp parallel for num_threads(params["threads"].as<int>())
     for(unsigned i=0;i<subfiles[0].size();++i) {
         iterate(subfiles[0][i].string(), subfiles[1][i].string(), subfiles[2][i].string());
     }

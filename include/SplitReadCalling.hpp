@@ -15,6 +15,7 @@
 #include <chrono>
 #include <ctime>
 #include <filesystem>
+#include <optional>
 
 // seqan3
 #include <seqan3/core/debug_stream.hpp>
@@ -22,6 +23,7 @@
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 #include <seqan3/alphabet/nucleotide/dna15.hpp>
 #include <seqan3/alphabet/nucleotide/dna4.hpp>
+#include <seqan3/alphabet/structure/dot_bracket3.hpp>
 
 #include <seqan3/io/sam_file/all.hpp>
 
@@ -35,6 +37,7 @@
 // filters
 #include "ScoringMatrix.hpp"
 #include "Traceback.hpp"
+#include "Logger.hpp"
 
 namespace po = boost::program_options;
 namespace pt = boost::property_tree;
@@ -130,6 +133,34 @@ typedef std::vector<
         seqan3::sam_tag_dictionary>>
     Splts;
 
+typedef std::pair<size_t, size_t> NucleotidePairPositions;
+typedef std::pair<NucleotidePairPositions, NucleotidePairPositions> NucleotidePositionsWindowPair;
+typedef std::pair<seqan3::dna5_vector, seqan3::dna5_vector> NucleotideWindowPair;
+
+static const std::map<NucleotideWindowPair, size_t> crosslinkingScoringScheme = {
+    {{"TA"_dna5, "AT"_dna5}, 3}, // Preffered pyrimidine crosslinking
+    {{"TG"_dna5, "GT"_dna5}, 3},
+    {{"TC"_dna5, "CT"_dna5}, 3},
+    {{"AT"_dna5, "TA"_dna5}, 3},
+    {{"GT"_dna5, "TG"_dna5}, 3},
+    {{"CT"_dna5, "TC"_dna5}, 3},
+    {{"CA"_dna5, "AC"_dna5}, 2}, // Non-preffered pyrimidine crosslinking
+    {{"CG"_dna5, "GC"_dna5}, 2},
+    {{"AC"_dna5, "CA"_dna5}, 2},
+    {{"GC"_dna5, "CG"_dna5}, 2},
+    {{"TA"_dna5, "GT"_dna5}, 1}, // Wobble base pairs crosslinking
+    {{"TG"_dna5, "GT"_dna5}, 1},
+    {{"GT"_dna5, "TA"_dna5}, 1},
+    {{"GT"_dna5, "TG"_dna5}, 1}};
+struct InteractionWindow
+{
+    seqan3::dna5_vector forwardWindowNucleotides;
+    seqan3::dna5_vector reverseWindowNucleotides;
+    std::pair<size_t, size_t> forwardWindowPositions;
+    std::pair<size_t, size_t> reverseWindowPositions;
+    bool isInterFragment;
+};
+
 class SplitReadCalling
 {
 private:
@@ -141,6 +172,15 @@ private:
     int splitscount;
     int msplitscount;
     int nsurvivedcount;
+
+    void findCrosslinkingSites(
+        std::span<seqan3::dna5> &seq1,
+        std::span<seqan3::dna5> &seq2,
+        std::vector<seqan3::dot_bracket3> &dotbracket);
+    std::optional<InteractionWindow> getContinuosNucleotideWindows(
+        std::span<seqan3::dna5> &seq1,
+        std::span<seqan3::dna5> &seq2,
+        NucleotidePositionsWindowPair positionsPair);
 
 public:
     SplitReadCalling();

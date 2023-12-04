@@ -100,7 +100,11 @@ void Data::alignDataPrep() {
     } else {
         if(params["preproc"].as<std::bitset<1>>() == std::bitset<1>(1)) {
 
-            fs::path ctrlsPath = fs::path(params["outdir"].as<std::string>()) / "preproc/ctrls"; 
+            fs::path ctrlsPath = fs::path(params["outdir"].as<std::string>()) / "preproc/ctrls";
+            if (params["ctrls"].as<std::string>() == "")
+            {
+                ctrlsPath = fs::path("");
+            }
             fs::path trtmsPath = fs::path(params["outdir"].as<std::string>()) / "preproc/trtms"; 
         
             GroupsPath group = retrieveGroupsPath(ctrlsPath, trtmsPath); // 

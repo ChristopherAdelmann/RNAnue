@@ -7,6 +7,7 @@
 #include <string>
 #include <map>
 #include <optional>
+#include <mutex>
 
 #include <seqan3/core/debug_stream.hpp>
 
@@ -20,21 +21,6 @@ enum class LogLevel
 class Logger
 {
 public:
-    static std::optional<LogLevel> stringToLogLevel(const std::string &level)
-    {
-        static const std::map<std::string, LogLevel> stringToLogLevelMap{
-            {"info", LogLevel::INFO},
-            {"warning", LogLevel::WARNING},
-            {"error", LogLevel::ERROR}};
-
-        auto it = stringToLogLevelMap.find(level);
-        if (it == stringToLogLevelMap.end())
-        {
-            return std::nullopt;
-        }
-        return it->second;
-    }
-
     static Logger &getInstance()
     {
         static Logger instance; // Singleton instance
@@ -43,46 +29,30 @@ public:
 
     static void setLogLevel(const std::string &logLevelString)
     {
-        std::optional<LogLevel> logLevel = stringToLogLevel(logLevelString);
-        if (logLevel.has_value())
-        {
-            getInstance().i_setLogLevel(logLevel.value());
-        }
-        else
+        static const std::map<std::string, LogLevel> stringToLogLevelMap{
+            {"info", LogLevel::INFO},
+            {"warning", LogLevel::WARNING},
+            {"error", LogLevel::ERROR}};
+
+        auto it = stringToLogLevelMap.find(logLevelString);
+        if (it == stringToLogLevelMap.end())
         {
             Logger::log(LogLevel::ERROR, "Invalid log level: " + logLevelString);
             exit(1);
         }
+        getInstance().logLevel = it->second;
     }
 
-    // Convenience functions for setting log level and logging without calling getInstance
     static void setLogLevel(LogLevel level)
     {
-        getInstance().i_setLogLevel(level);
+        getInstance().logLevel = level;
     }
 
-    template <typename T>
-    static void log(LogLevel level, const T &message)
+    template <typename... Args>
+    static void log(LogLevel level, Args &&...args)
     {
-        getInstance().i_log(level, message);
-    }
-
-private:
-    Logger() : logLevel(LogLevel::INFO) {}      // Private constructor to prevent instantiation
-    Logger(const Logger &) = delete;            // Delete copy constructor
-    Logger &operator=(const Logger &) = delete; // Delete assignment operator
-
-    LogLevel logLevel;
-
-    void i_setLogLevel(LogLevel level)
-    {
-        logLevel = level;
-    }
-
-    template <typename T>
-    void i_log(LogLevel level, const T &message)
-    {
-        if (level >= logLevel)
+        std::lock_guard<std::mutex> lock(getInstance().logMutex);
+        if (level >= getInstance().logLevel)
         {
             std::string levelStr;
             switch (level)
@@ -97,9 +67,18 @@ private:
                 levelStr = "ERROR";
                 break;
             }
-            seqan3::debug_stream << "[" << levelStr << "] " << helper::getTime() << " " << message << std::endl;
+            seqan3::debug_stream << "[" << levelStr << "] " << helper::getTime() << " ";
+            (seqan3::debug_stream << ... << std::forward<Args>(args)) << std::endl;
         }
     }
+
+private:
+    Logger() : logLevel(LogLevel::INFO) {}      // Private constructor to prevent instantiation
+    Logger(const Logger &) = delete;            // Delete copy constructor
+    Logger &operator=(const Logger &) = delete; // Delete assignment operator
+
+    LogLevel logLevel;
+    std::mutex logMutex;
 };
 
 #endif // LOGGER_H

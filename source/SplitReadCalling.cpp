@@ -1,4 +1,5 @@
 #include "SplitReadCalling.hpp"
+#include "Helper.hpp"
 
 using namespace seqan3::literals;
 
@@ -10,84 +11,66 @@ SplitReadCalling::SplitReadCalling(po::variables_map params) : params(params)
     msplitscount = 0;
     nsurvivedcount = 0;
 }
-
 //
 void SplitReadCalling::iterate(std::string matched, std::string splits, std::string multsplits) {
-    // input .sam record
-    seqan3::sam_file_input fin{matched,
-                               seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
-                                              seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
-                                              seqan3::field::seq, seqan3::field::tags>{}};
+    using sam_fields = seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
+                                      seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
+                                      seqan3::field::seq, seqan3::field::tags>;
 
-    std::vector<size_t> ref_lengths{};
-	for(auto &info : fin.header().ref_id_info) {
-		ref_lengths.push_back(std::get<0>(info));
-	}
-    std::deque<std::string> ref_ids = fin.header().ref_ids();
-    
+    seqan3::sam_file_input alignmentsIn{matched, sam_fields{}};
+
+    std::vector<size_t> ref_lengths;
+    ref_lengths.reserve(alignmentsIn.header().ref_id_info.size());
+
+    for (auto const &info : alignmentsIn.header().ref_id_info)
+    {
+        ref_lengths.emplace_back(std::get<0>(info));
+    }
+    std::deque<std::string> &ref_ids = alignmentsIn.header().ref_ids();
+
     // output file for splits
-    seqan3::sam_file_output splitsfile{splits, ref_ids, ref_lengths,
-                                       seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
-                                                      seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
-                                                      seqan3::field::seq, seqan3::field::tags>{}};
+    seqan3::sam_file_output splitsfile{splits, ref_ids, ref_lengths, sam_fields{}};
 
     // output file for multi splits
-    seqan3::sam_file_output multsplitsfile{multsplits, ref_ids, ref_lengths,
-                                           seqan3::fields<
-                                               seqan3::field::id,
-                                               seqan3::field::flag,
-                                               seqan3::field::ref_id,
-                                               seqan3::field::ref_offset,
-                                               seqan3::field::mapq,
-                                               seqan3::field::cigar,
-                                               seqan3::field::seq,
-                                               seqan3::field::tags>{}};
+    seqan3::sam_file_output multsplitsfile{multsplits, ref_ids, ref_lengths, sam_fields{}};
 
-    std::string currentQNAME = "";
-	//std::vector<std::string> splitrecord; // all split combinations
-    using record_type = typename decltype(fin)::record_type;
-	std::list<record_type> readrecords{};
-    std::vector<std::list<record_type>> tasks;
+    std::string currentRecordId = "";
 
-    for (auto & rec : fin) {
-        // ignore reads if unmapped and do not suffice length requirements
-        if (static_cast<bool>(rec.flag() & seqan3::sam_flag::unmapped))
-        {
-            continue;
-        }
-        if (rec.sequence().size() <= params["minlen"].as<int>())
+    using RecordType = typename decltype(alignmentsIn)::record_type;
+    std::list<RecordType> currentRecordList;
+
+    for (auto &record : alignmentsIn)
+    {
+        if (record.sequence().size() <= params["minlen"].as<int>())
         {
             continue;
         }
 
-        std::string QNAME = rec.id();
-        if((currentQNAME != "") && (currentQNAME != QNAME)) {
-            readscount++;
-            process(readrecords, splitsfile, multsplitsfile);
-            readrecords.clear();
-            std::list<record_type>().swap(readrecords);
-		    
-            // add for next iteration
-            readrecords.push_back(rec);
-			currentQNAME = QNAME;
-            if (readscount % 100000 == 0)
-            {
-                progress(std::cout);
-            }
-        }
-        else
+        std::string recordId = record.id();
+        bool isNewRecord = !currentRecordId.empty() && (currentRecordId != recordId);
+
+        if (isNewRecord)
         {
-            readrecords.push_back(rec);
-            currentQNAME = QNAME;
+            process(currentRecordList, splitsfile, multsplitsfile);
+            currentRecordList.clear();
+        }
+
+        currentRecordList.push_back(record);
+        currentRecordId = recordId;
+
+        readscount++;
+        if (readscount % 100000 == 0)
+        {
+            progress(std::cout);
         }
     }
-    if (!readrecords.empty())
+
+    if (!currentRecordList.empty())
     {
         readscount++;
-        process(readrecords, splitsfile, multsplitsfile);
-        readrecords.clear();
-        std::list<record_type>().swap(readrecords);
+        process(currentRecordList, splitsfile, multsplitsfile);
     }
+
     progress(std::cout);
 }
 
@@ -265,17 +248,26 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
                             continue;
                         }
 
-                        if (p1.empty() && p2.empty())
+                        if (splitSegments.empty())
                         {
-                            TracebackResult initCmpl = complementarity(splits[i].sequence(), splits[j].sequence());
-                            double initHyb = hybridize(splits[i].sequence(), splits[j].sequence());
-                            if (!initCmpl.a.empty())
+                            TracebackResult initCmpl;
+                            std::optional<HybridizationResult> initHyb;
+                            {
+                                // helper::Timer timer;
+                                initCmpl = complementarity(splits[i].sequence(), splits[j].sequence());
+                            }
+                            {
+                                helper::Timer timer;
+                                initHyb = hybridize(splits[i].sequence(), splits[j].sequence());
+                            }
+                            if (!initCmpl.a.empty() && initHyb.has_value())
                             { // split read survived complementarity & sitelenratio cutoff
-                                if (initHyb <= params["nrgmax"].as<double>())
+                                double &hybEnergy = initHyb.value().energy;
+                                if (hybEnergy <= params["nrgmax"].as<double>())
                                 {
-                                    filters = std::make_pair(initCmpl.cmpl, initHyb);
+                                    filters = std::make_pair(initCmpl.cmpl, hybEnergy);
                                     addComplementarityToSamRecord(splits[i], splits[j], initCmpl);
-                                    addHybEnergyToSamRecord(splits[i], splits[j], initHyb);
+                                    addHybEnergyToSamRecord(splits[i], splits[j], initHyb.value());
                                     splitSegments.push_back(std::make_pair(splits[i], splits[j]));
                                 }
                             }
@@ -283,37 +275,38 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
                         else
                         {
                             TracebackResult cmpl = complementarity(splits[i].sequence(), splits[j].sequence());
-                            double hyb = hybridize(splits[i].sequence(), splits[j].sequence());
+                            std::optional<HybridizationResult> hyb = hybridize(splits[i].sequence(), splits[j].sequence());
 
-                            if (!cmpl.a.empty())
+                            if (!cmpl.a.empty() && hyb.has_value())
                             { // check that there is data for complementarity / passed cutoffs
+                                double hybEnergy = hyb.value().energy;
                                 if (cmpl.cmpl > filters.first)
                                 { // complementarity is higher
                                     splitSegments.clear();
-                                    filters = std::make_pair(cmpl.cmpl, hyb);
+                                    filters = std::make_pair(cmpl.cmpl, hybEnergy);
                                     addComplementarityToSamRecord(splits[i], splits[j], cmpl);
-                                    addHybEnergyToSamRecord(splits[i], splits[j], hyb);
+                                    addHybEnergyToSamRecord(splits[i], splits[j], hyb.value());
                                     splitSegments.push_back(std::make_pair(splits[i], splits[j]));
                                 }
                                 else
                                 {
                                     if (cmpl.cmpl == filters.first)
                                     {
-                                        if (hyb > filters.second)
+                                        if (hybEnergy > filters.second)
                                         {
                                             splitSegments.clear();
-                                            filters = std::make_pair(cmpl.cmpl, hyb);
+                                            filters = std::make_pair(cmpl.cmpl, hybEnergy);
                                             addComplementarityToSamRecord(splits[i], splits[j], cmpl);
-                                            addHybEnergyToSamRecord(splits[i], splits[j], hyb);
+                                            addHybEnergyToSamRecord(splits[i], splits[j], hyb.value());
                                             splitSegments.push_back(std::make_pair(splits[i], splits[j]));
                                         }
                                     }
                                     else
                                     {
-                                        if (hyb == filters.second)
+                                        if (hybEnergy == filters.second)
                                         { // same cmpl & hyb -> ambigious read!
                                             addComplementarityToSamRecord(splits[i], splits[j], cmpl);
-                                            addHybEnergyToSamRecord(splits[i], splits[j], hyb);
+                                            addHybEnergyToSamRecord(splits[i], splits[j], hyb.value());
                                             splitSegments.push_back(std::make_pair(splits[i], splits[j]));
                                         }
                                     }
@@ -418,9 +411,13 @@ void SplitReadCalling::addComplementarityToSamRecord(SamRecord &rec1, SamRecord 
 }
 		
 //
-void SplitReadCalling::addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, double &hyb) {
-    rec1.tags()["XE"_tag] = static_cast<float>(hyb);
-    rec2.tags()["XE"_tag] = static_cast<float>(hyb);
+void SplitReadCalling::addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, HybridizationResult &hyb)
+{
+    rec1.tags()["XE"_tag] = static_cast<float>(hyb.energy);
+    rec2.tags()["XE"_tag] = static_cast<float>(hyb.energy);
+
+    rec1.tags()["XK"_tag] = static_cast<float>(hyb.normCrosslinkingScore);
+    rec2.tags()["XK"_tag] = static_cast<float>(hyb.normCrosslinkingScore);
 }
 
 //
@@ -469,52 +466,71 @@ TracebackResult SplitReadCalling::complementarity(std::span<seqan3::dna5> &seq1,
     }
 }
 
+std::optional<HybridizationResult> SplitReadCalling::hybridize(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2)
+{
+    auto to_string = [](auto &seq)
+    {
+        return (seq | seqan3::views::to_char | seqan3::ranges::to<std::string>());
+    };
 
-double SplitReadCalling::hybridize(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2) {
-	std::string rna1str = "";
-	std::string rna2str = "";
-    
-	for(unsigned i=0;i<seq1.size();++i) { rna1str += seq1[i].to_char(); }
-	for(unsigned i=0;i<seq2.size();++i) { rna2str += seq2[i].to_char(); }
+    std::string hybridizeCall = "echo '" + to_string(seq1) + "&" + to_string(seq2) + "' | RNAcofold --noPS";
 
-    std::string hyb = "echo '" + rna1str + "&" + rna2str + "' | RNAcofold --noPS";
-
-    const char* call = hyb.c_str();
-    std::array<char, 128> buffer;
+    std::array<char, 256> buffer;
     std::string result;
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(call, "r"), pclose);
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(nullptr, pclose);
 
-    if (!pipe) {
-        throw std::runtime_error("popen() failed!");
-    }
-    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-        result += buffer.data();
+#pragma omp critical
+    {
+        pipe.reset(popen(hybridizeCall.c_str(), "r"));
+
+        if (!pipe)
+        {
+            throw std::runtime_error("popen() failed!");
+        }
+
+        while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
+        {
+            result += buffer.data();
+        }
+
+        pipe.reset();
     }
 
-	std::stringstream ss(result);
     std::vector<std::string> tokens;
-    std::string tmp;
+    std::istringstream iss(result);
 
-    while(getline(ss,tmp,'\n')) {
-        tokens.push_back(tmp);
+    for (std::string line; std::getline(iss, line); tokens.push_back(std::move(line)))
+        ;
+
+    if (tokens.size() < 2)
+    {
+        Logger::log(LogLevel::WARNING, "Hybridization failed for: " + to_string(seq1) + "&" + to_string(seq2));
+        return std::nullopt;
     }
 
-    std::string dotbracket = tokens[1].substr(0,tokens[1].find(' '));
+    std::vector<seqan3::dot_bracket3> secondaryStructure = tokens[1].substr(0, tokens[1].find(' ')) | seqan3::views::char_to<seqan3::dot_bracket3> | seqan3::ranges::to<std::vector>();
+    double normCrosslinkingScore = findCrosslinkingSites(seq1, seq2, secondaryStructure);
 
-    auto dotbracketSeqan = dotbracket | seqan3::views::char_to<seqan3::dot_bracket3> | seqan3::ranges::to<std::vector>();
-    findCrosslinkingSites(seq1, seq2, dotbracketSeqan);
+    std::string &energyStr = tokens[1];
+    std::size_t lastOpenBracket = energyStr.rfind('(');
+    std::size_t lastCloseBracket = energyStr.rfind(')');
 
-    std::regex regexp("-?[[:digit:]]{1,2}\\.[[:digit:]]{1,2}");
-    std::smatch matches;
+    if (lastOpenBracket == std::string::npos || lastCloseBracket == std::string::npos || lastOpenBracket >= lastCloseBracket)
+    {
+        Logger::log(LogLevel::WARNING, "Hybridization failed for: " + to_string(seq1) + "&" + to_string(seq2));
+        return std::nullopt;
+    }
 
-    std::regex_search(tokens[1], matches, regexp);
-    return stod(matches[0]);
+    std::string numberStr = energyStr.substr(lastOpenBracket + 1, lastCloseBracket - lastOpenBracket - 1);
+    double energy = std::stod(numberStr);
+
+    return HybridizationResult{energy, normCrosslinkingScore};
 }
 
 std::optional<InteractionWindow> SplitReadCalling::getContinuosNucleotideWindows(
     std::span<seqan3::dna5> &seq1,
     std::span<seqan3::dna5> &seq2,
-    NucleotidePositionsWindowPair positionsPair)
+    NucleotidePositionsWindow positionsPair)
 {
     std::pair<uint16_t, uint16_t> forwardPair = std::make_pair(positionsPair.first.first, positionsPair.second.first);
     std::pair<uint16_t, uint16_t> reversePair = std::make_pair(positionsPair.first.second, positionsPair.second.second);
@@ -526,12 +542,9 @@ std::optional<InteractionWindow> SplitReadCalling::getContinuosNucleotideWindows
         return std::nullopt;
     }
 
-    // Check that each pair is from the same sequence
     size_t seq1Length = seq1.size();
 
-    // The forward pair is split between the two sequences
     bool forwardPairSplit = forwardPair.first < seq1Length && forwardPair.second >= seq1Length;
-    // The reverse pair is split between the two sequences
     bool reversePairSplit = reversePair.first >= seq1Length && reversePair.second < seq1Length;
 
     if (forwardPairSplit || reversePairSplit)
@@ -539,9 +552,7 @@ std::optional<InteractionWindow> SplitReadCalling::getContinuosNucleotideWindows
         return std::nullopt;
     }
 
-    // The first pair is completely in the first sequence
     bool firstPairInSeq1 = forwardPair.second < seq1Length;
-    // The second pair is completely in the first sequence
     bool secondPairInSeq1 = reversePair.first < seq1Length;
 
     // Both pairs are in the first sequence
@@ -581,7 +592,7 @@ std::optional<InteractionWindow> SplitReadCalling::getContinuosNucleotideWindows
     return std::nullopt;
 }
 
-void SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2, std::vector<seqan3::dot_bracket3> &dotbracket)
+double SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2, std::vector<seqan3::dot_bracket3> &dotbracket)
 {
     std::vector<size_t> openPos;
 
@@ -611,7 +622,7 @@ void SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> &seq1, std:
         Logger::log(LogLevel::WARNING, "Unpaired bases in dot-bracket notation! (" + std::to_string(openPos.size()) + ")");
     }
 
-    std::vector<NucleotidePositionsWindowPair> crosslinkingSites;
+    std::vector<NucleotidePositionsWindow> crosslinkingSites;
     crosslinkingSites.reserve(interactionPositions.size() - 1);
 
     size_t intraCrosslinkingScore = 0;
@@ -620,15 +631,13 @@ void SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> &seq1, std:
     // Iterate over all pairs of interaction sites until the second last pair (last pair has no following pair for window)
     for (size_t i = 0; i < interactionPositions.size() - 1; ++i)
     {
-        const NucleotidePositionsWindowPair window = std::make_pair(interactionPositions[i], interactionPositions[i + 1]);
+        const NucleotidePositionsWindow window = std::make_pair(interactionPositions[i], interactionPositions[i + 1]);
 
         std::optional<InteractionWindow> interactionWindow = getContinuosNucleotideWindows(seq1, seq2, window);
 
         if (interactionWindow)
         {
             InteractionWindow &v_interactionWindow = interactionWindow.value();
-
-            seqan3::debug_stream << "Nucleotide pair: " << v_interactionWindow.forwardWindowNucleotides << " " << v_interactionWindow.reverseWindowNucleotides << std::endl;
 
             const NucleotideWindowPair nucleotidePairs = std::make_pair(v_interactionWindow.forwardWindowNucleotides, v_interactionWindow.reverseWindowNucleotides);
 
@@ -644,25 +653,13 @@ void SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> &seq1, std:
                 {
                     intraCrosslinkingScore += score;
                 }
-                crosslinkingSites.emplace_back(window); // Use emplace_back for efficient construction
+                crosslinkingSites.emplace_back(window);
             }
         }
     }
 
-    if (interCrosslinkingScore > 0)
-    {
-        seqan3::debug_stream << dotbracket << std::endl;
-        Logger::log(LogLevel::INFO, seq1);
-        Logger::log(LogLevel::INFO, seq2);
-        Logger::log(LogLevel::INFO, "Crosslinking score: " + std::to_string(interCrosslinkingScore));
-
-        for (const auto &site : crosslinkingSites) // Use const auto& for read-only access
-        {
-            Logger::log(LogLevel::INFO, "Crosslinking site: " +
-                                            std::to_string(site.first.first) + "-" + std::to_string(site.second.first) + " : " +
-                                            std::to_string(site.second.second) + "-" + std::to_string(site.first.second));
-        }
-    }
+    size_t minSeqLength = std::min(seq1.size(), seq2.size());
+    return static_cast<double>(interCrosslinkingScore) / minSeqLength;
 }
 
 // calculate rows in SAMfile (exclusing header)
@@ -799,7 +796,7 @@ void SplitReadCalling::start(pt::ptree sample) {
     //
     std::vector<std::vector<fs::path>> subfiles = splitInputFile(matched, splits, entries);
 
-    // # pragma omp parallel for num_threads(params["threads"].as<int>())
+#pragma omp parallel for num_threads(params["threads"].as<int>())
     for(unsigned i=0;i<subfiles[0].size();++i) {
         iterate(subfiles[0][i].string(), subfiles[1][i].string(), subfiles[2][i].string());
     }

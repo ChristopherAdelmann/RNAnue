@@ -2,6 +2,8 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/filesystem.hpp>
 
+#include <mutex>
+
 // openMP
 #include <omp.h>
 
@@ -134,7 +136,7 @@ typedef std::vector<
     Splts;
 
 typedef std::pair<size_t, size_t> NucleotidePairPositions;
-typedef std::pair<NucleotidePairPositions, NucleotidePairPositions> NucleotidePositionsWindowPair;
+typedef std::pair<NucleotidePairPositions, NucleotidePairPositions> NucleotidePositionsWindow;
 typedef std::pair<seqan3::dna5_vector, seqan3::dna5_vector> NucleotideWindowPair;
 
 static const std::map<NucleotideWindowPair, size_t> crosslinkingScoringScheme = {
@@ -152,15 +154,20 @@ static const std::map<NucleotideWindowPair, size_t> crosslinkingScoringScheme = 
     {{"TG"_dna5, "GT"_dna5}, 1},
     {{"GT"_dna5, "TA"_dna5}, 1},
     {{"GT"_dna5, "TG"_dna5}, 1}};
-struct InteractionWindow
+typedef struct
 {
     seqan3::dna5_vector forwardWindowNucleotides;
     seqan3::dna5_vector reverseWindowNucleotides;
     std::pair<size_t, size_t> forwardWindowPositions;
     std::pair<size_t, size_t> reverseWindowPositions;
     bool isInterFragment;
-};
+} InteractionWindow;
 
+typedef struct
+{
+    double energy;
+    double normCrosslinkingScore;
+} HybridizationResult;
 class SplitReadCalling
 {
 private:
@@ -173,14 +180,14 @@ private:
     int msplitscount;
     int nsurvivedcount;
 
-    void findCrosslinkingSites(
+    double findCrosslinkingSites(
         std::span<seqan3::dna5> &seq1,
         std::span<seqan3::dna5> &seq2,
         std::vector<seqan3::dot_bracket3> &dotbracket);
     std::optional<InteractionWindow> getContinuosNucleotideWindows(
         std::span<seqan3::dna5> &seq1,
         std::span<seqan3::dna5> &seq2,
-        NucleotidePositionsWindowPair positionsPair);
+        NucleotidePositionsWindow positionsPair);
 
 public:
     SplitReadCalling();
@@ -197,12 +204,12 @@ public:
 
     void addFilterToSamRecord(SamRecord &rec, std::pair<float, float> filters);
     void addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2, TracebackResult &res);
-    void addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, double &hyb);
+    void addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, HybridizationResult &hyb);
 
     void writeSamFile(auto &samfile, std::vector<std::pair<SamRecord, SamRecord>> &splits);
 
     TracebackResult complementarity(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2);
-    double hybridize(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2);
+    std::optional<HybridizationResult> hybridize(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2);
     void createDir(fs::path path);
 
     void progress(std::ostream &out);

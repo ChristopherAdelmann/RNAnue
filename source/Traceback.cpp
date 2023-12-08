@@ -1,4 +1,6 @@
 #include "Traceback.hpp"
+#include "Logger.hpp"
+#include <set>
 
 /*
 TracebackResult *traceback(ScoringMatrix matrix, const char *a, const char *b) {
@@ -23,6 +25,8 @@ std::vector<TracebackResult> traceback(ScoringMatrix matrix, const char *a, cons
         }
     }
 
+    std::set<std::pair<char, char>> matchingNucleotides = {{'A', 'T'}, {'T', 'A'}, {'C', 'G'}, {'G', 'C'}, {'T', 'G'}, {'G', 'T'}};
+
     std::vector<TracebackResult> res;
     for(auto &max : mids) {
         TracebackResult trc{"","",0,0,0,0.0,0.0};
@@ -37,25 +41,37 @@ std::vector<TracebackResult> traceback(ScoringMatrix matrix, const char *a, cons
 
         while(matrix.scoring[matrix.width * x + y] > 0) {
             std::bitset<3> direction = matrix.traceback[matrix.width * x + y];
+
+            if (matchingNucleotides.count(std::make_pair(a[x - 1], b[y - 1])) > 0)
+            {
+                matches++;
+            }
+
+            // if (matrix.scoring[matrix.width * x + y] - 1 == matrix.scoring[matrix.width * (x - 1) + (y - 1)])
+            // {
+            //     matches++;
+            // }
+
             if(direction.count() > 0) {
                 if(direction[0] == 1) {
                     aAlign += a[x-1];
                     bAlign += b[y-1];
                     x--;
                     y--;
-                    if(x > 0 && y > 0) {
-                        if(matrix.scoring[matrix.width * x + y]-1 == matrix.scoring[matrix.width * (x-1) + (y-1)]) {
-                            matches++;
-                        }
-                    }
-                } else {
-                    if(direction[1] == 1) {
+                }
+                else
+                {
+                    if (direction[1] == 1)
+                    {
                         aAlign += '-';
-                        bAlign += b[y-1];
+                        bAlign += b[y - 1];
                         y--;
-                    } else {
-                        if(direction[2] == 1) {
-                            aAlign += a[x-1];
+                    }
+                    else
+                    {
+                        if (direction[2] == 1)
+                        {
+                            aAlign += a[x - 1];
                             bAlign += '-';
                             x--;
                         }
@@ -69,7 +85,7 @@ std::vector<TracebackResult> traceback(ScoringMatrix matrix, const char *a, cons
 
         std::reverse(aAlign.begin(),aAlign.end());
         std::reverse(bAlign.begin(),bAlign.end());
-       
+
         // write back to object
         trc.a = aAlign;
         trc.b = bAlign;

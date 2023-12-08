@@ -28,6 +28,8 @@
 
 #include <bitset>
 
+#include "Logger.hpp"
+
 namespace pt = boost::property_tree;
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
@@ -55,6 +57,7 @@ class Align {
         po::variables_map params;
         std::string index;
 
+        void sortAlignments(std::string alignmentsPath);
 
     public:
         // constructor

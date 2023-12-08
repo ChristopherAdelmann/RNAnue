@@ -468,6 +468,19 @@ TracebackResult SplitReadCalling::complementarity(std::span<seqan3::dna5> &seq1,
 
 std::optional<HybridizationResult> SplitReadCalling::hybridize(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2)
 {
+    // auto seqToChar1 = seq1 | seqan3::views::to_char;
+    // char *charSeq1 = new char[seq1.size() + 1];
+    // std::copy(seqToChar1.begin(), seqToChar1.end(), charSeq1);
+
+    // char *structure = (char *)vrna_alloc(sizeof(char) * (strlen(charSeq1) + 1));
+
+    // float mfe = vrna_fold(charSeq1, structure);
+
+    // Logger::log(LogLevel::INFO, "MFE: " + std::to_string(mfe), "Structure: " + std::string(structure));
+
+    // delete[] charSeq1;
+    // free(structure);
+
     auto to_string = [](auto &seq)
     {
         return (seq | seqan3::views::to_char | seqan3::ranges::to<std::string>());

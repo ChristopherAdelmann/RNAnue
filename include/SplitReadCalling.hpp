@@ -41,6 +41,12 @@
 #include "Traceback.hpp"
 #include "Logger.hpp"
 
+extern "C"
+{
+#include <ViennaRNA/fold.h>
+#include <ViennaRNA/utils/basic.h>
+}
+
 namespace po = boost::program_options;
 namespace pt = boost::property_tree;
 namespace fs = boost::filesystem;

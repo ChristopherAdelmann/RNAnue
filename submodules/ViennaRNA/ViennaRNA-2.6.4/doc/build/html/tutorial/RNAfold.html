@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Program RNAfold &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Program RNApvmin" href="RNApvmin.html" />
+    <link rel="prev" title="Getting Started" href="../getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../getting_started.html">Getting Started</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../getting_started.html#global-rna-secondary-structure-prediction">Global RNA Secondary Structure Prediction</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The Program <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mfe-structure-of-a-single-sequence">MFE structure of a single sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#equilibrium-ensemble-properties">Equilibrium ensemble properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rotate-the-structure-plot">Rotate the structure plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-base-pair-probability-dot-plot">The base pair probability dot plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mountain-and-reliability-plot">Mountain and Reliability plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#batch-job-processing">Batch job processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-constraints-to-the-structure-prediction">Add constraints to the structure prediction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shape-directed-rna-folding">SHAPE directed RNA folding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adding-ligand-interactions">Adding ligand interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#g-quadruplexes">G-quadruplexes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ssb-protein-interaction">SSB protein interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#change-other-model-settings">Change other model settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="RNApvmin.html">The Program <code class="docutils literal notranslate"><span class="pre">RNApvmin</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RNAsubopt.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#consensus-structure-prediction">Consensus Structure Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-rna-interaction">RNA-RNA interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#plotting-structures">Plotting Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-design">RNA Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-folding-kinetics">RNA folding kinetics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#other-utilities">Other Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../getting_started.html">Getting Started</a></li>
+      <li class="breadcrumb-item active">The Program <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code></li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-program-rnafold">
+<h1>The Program <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code><a class="headerlink" href="#the-program-rnafold" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>Our first task will be to do a structure prediction using
+<code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>. This should get you familiar with the input and output
+format as well as the graphical output produced.</p>
+<p><code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> reads single RNA sequences, computes their minimum free energy
+(<code class="docutils literal notranslate"><span class="pre">MFE</span></code>) structures, and prints the result together with the corresponding
+<code class="docutils literal notranslate"><span class="pre">MFE</span></code> structure in dot-bracket notation. This is the default mode if no
+further command line parameters are provided. Please note, that the <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>
+program can either be used in <em>interactive mode</em>, where the program expects
+the input from <em>stdin</em>, or in <em>batch processing mode</em> where
+you provide the input sequences as text files.</p>
+<p class="rubric">Partition function</p>
+<p>To activate computation of the partition function for each sequence, the
+<code class="docutils literal notranslate"><span class="pre">-p</span></code> option must be set. From the partition function</p>
+<div class="math notranslate nohighlight">
+\[Q = \sum_{s \in \Omega} exp(-E(s) / RT)\]</div>
+<p>over the ensemble of all possible structures <span class="math notranslate nohighlight">\(\Omega\)</span>, with temperature <span class="math notranslate nohighlight">\(T\)</span> and gas
+constant <span class="math notranslate nohighlight">\(R\)</span>, <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> then computes the ensemble free energy <span class="math notranslate nohighlight">\(G = -RT \cdot ln(Q)\)</span>,
+and frequency of the <code class="docutils literal notranslate"><span class="pre">MFE</span></code> structure <span class="math notranslate nohighlight">\(s_{mfe}\)</span> within the ensemble</p>
+<div class="math notranslate nohighlight">
+\[p = exp(-E(s_{mfe}) / RT) / Q\]</div>
+<p class="rubric">Ensemble diversity</p>
+<p>By default, the <code class="docutils literal notranslate"><span class="pre">-p</span></code> option also activates the computation
+of base pairing probabilities <span class="math notranslate nohighlight">\(p_{ij}\)</span>. From this data, <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> then
+determines the ensemble diversity</p>
+<div class="math notranslate nohighlight">
+\[\langle d \rangle = \sum_{ij} p_{ij} \cdot (1 - p_{ij}),\]</div>
+<p>i.e. the expected distance between any two secondary structure, as well as the
+<code class="docutils literal notranslate"><span class="pre">centroid</span></code> structure, i.e. the structure <span class="math notranslate nohighlight">\(s_c\)</span> with the least Boltzmann weighted
+distance</p>
+<div class="math notranslate nohighlight">
+\[d_\Omega(s_c) = \sum_{\substack{s \in \Omega}} p(s) d(s_c, s)\]</div>
+<p>to all other structures <span class="math notranslate nohighlight">\(s \in \Omega\)</span>.</p>
+<p class="rubric">Maximum Expected Accuracy</p>
+<p>Another useful structure representative one can determine from base pairing probabilities
+<span class="math notranslate nohighlight">\(p_{ij}\)</span> is the structure that exhibits the <em>maximum expected accuracy (MEA)</em>. By
+assuming the base pair probability is a good measure of correctnes of a pair <span class="math notranslate nohighlight">\((i,j)\)</span>, the
+expected accuracy of a structure <span class="math notranslate nohighlight">\(s\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\text{EA}(s) = \sum_{\substack{(i,j) \in s}} 2\gamma p_{ij} + \sum_{\substack{i \\ \nexists (i,j) \in s}} q_i\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(q_i = 1 - \sum_j p_{ij}\)</span> and weighting factor <span class="math notranslate nohighlight">\(\gamma\)</span> that allows us to
+weight paired against unpaired positions. <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> uses a dynamic programming
+scheme similar to the <em>Maximum Matching algorithm</em> of Ruth Nussinov to find the
+structure <span class="math notranslate nohighlight">\(s\)</span> that minimizes the above equation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> program provides a large amount of additional
+computation modes that will be partly covered below. To get a full list of all
+computation modes available, please consult the <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> man page or
+the outputs of <code class="docutils literal notranslate"><span class="pre">RNAfold</span> <span class="pre">-h</span></code> and <code class="docutils literal notranslate"><span class="pre">RNAfold</span> <span class="pre">--detailed-help</span></code>.</p>
+</section>
+<section id="mfe-structure-of-a-single-sequence">
+<h2>MFE structure of a single sequence<a class="headerlink" href="#mfe-structure-of-a-single-sequence" title="Link to this heading"></a></h2>
+<ul>
+<li><p>Use a text editor (emacs, vi, nano, gedit) to prepare an input file by pasting the text
+below and save it under the name <code class="docutils literal notranslate"><span class="pre">test.seq</span></code> in your <code class="docutils literal notranslate"><span class="pre">Data</span></code> folder:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">test</span>
+</pre></div>
+</div>
+<p>CUACGGCGCGGCGCCCUUGGCGA</p>
+</li>
+<li><p>Compute the best (MFE) structure for this sequence using <em>batch processing mode</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold test.seq
+CUACGGCGCGGCGCCCUUGGCGA
+...........((((...)))). ( -5.00)
+</pre></div>
+</div>
+</li>
+<li><p>or use the <em>interactive mode</em> and redirect the content of <code class="docutils literal notranslate"><span class="pre">test.seq</span></code>
+to <em>stdin</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold &lt; text.seq
+CUACGGCGCGGCGCCCUUGGCGA
+...........((((...)))). ( -5.00)
+</pre></div>
+</div>
+</li>
+<li><p>alternatively, you could use the <em>interactive mode</em> and manually enter the sequence
+as soon as <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> prompts for input</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold
+Input string (upper or lower case); @ to quit
+....,....1....,....2....,....3....,....4....,....5....,....6....,....7....,....8
+CUACGGCGCGGCGCCCUUGGCGA
+length = 23
+
+CUACGGCGCGGCGCCCUUGGCGA
+...........((((...)))).
+ minimum free energy =  -5.00 kcal/mol
+</pre></div>
+</div>
+</li>
+</ul>
+<p>All the above variants to compute the MFE and the corresponding structure result in identical
+output, except for slight variations in the formatting when true <em>interactive mode</em> is used.
+The last line(s) of the text output contains the predicted MFE structure in <em>dot-bracket notation</em>
+and its free energy in <code class="docutils literal notranslate"><span class="pre">kcal/mol</span></code>. A dot in the dot-bracket notation represents an unpaired
+position, while a base pair (i, j) is represented by a pair of matching parentheses at position
+i and j.</p>
+<p>If the input was <code class="docutils literal notranslate"><span class="pre">FASTA</span></code> formatted, i.e. the sequence was preceded by a header line
+with sequence identifier, <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> creates a structure layout file named <code class="docutils literal notranslate"><span class="pre">test_ss.ps</span></code>,
+where <code class="docutils literal notranslate"><span class="pre">test</span></code> is the sequence identifier as provided through the <code class="docutils literal notranslate"><span class="pre">FASTA</span></code> header.
+In case the header was omitted the output file name simply is <code class="docutils literal notranslate"><span class="pre">rna.ps</span></code>.</p>
+<p>Let’s take a look at the output file with your favorite <code class="docutils literal notranslate"><span class="pre">PostScript</span></code> viewer, e.g. <code class="docutils literal notranslate"><span class="pre">gv</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In contrast to bitmap based image files (such as GIF or JPEG) PostScript files contain
+resolution independent <em>vector graphics</em>, suitable for publication. They can be viewed
+on-screen using a postscript viewer such as <code class="docutils literal notranslate"><span class="pre">gv</span></code> or <code class="docutils literal notranslate"><span class="pre">evince</span></code>. Also note the <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>
+at the end of the following command line that simply detaches the program call and
+immediately starts the program in the background.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>gv<span class="w"> </span>test_ss.ps<span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+</div>
+<p>Compare the dot-bracket notation to the PostScript drawing shown in the file <code class="docutils literal notranslate"><span class="pre">test_ss.eps</span></code>.</p>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">-t</span></code> option to change the layout algorithm <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> uses
+to produce the plot. The most simply layout is the <em>radial</em> layout that can be chosen
+with <code class="docutils literal notranslate"><span class="pre">-t</span> <span class="pre">0</span></code>. Here, each nucleotide in a loop is equally spaced on its enclosing circle.
+The more sophisticated <code class="docutils literal notranslate"><span class="pre">Naview</span></code> layout algorithm is used by default but may be explicitly
+chosen through <code class="docutils literal notranslate"><span class="pre">-t</span> <span class="pre">1</span></code>. A hidden feature can be found with <code class="docutils literal notranslate"><span class="pre">-t</span> <span class="pre">2</span></code>, where <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>
+creates a most simple circular plot.</p>
+<p>The calculation above does not tell us whether we can actually trust the predicted structure.
+In fact, there may be many more possible structures that might be equally probable. To find
+out about that, let’s have a look at the equilibrium ensemble instead.</p>
+</section>
+<section id="equilibrium-ensemble-properties">
+<h2>Equilibrium ensemble properties<a class="headerlink" href="#equilibrium-ensemble-properties" title="Link to this heading"></a></h2>
+<ul>
+<li><p>Run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold -p --MEA
+</pre></div>
+</div>
+<p>to compute the partition function, pair probabilities, centroid structure,
+and the maximum expected accuracy (MEA) structure.</p>
+</li>
+<li><p>Have a look at the generated PostScript files <code class="docutils literal notranslate"><span class="pre">test_ss.ps</span></code> and
+<code class="docutils literal notranslate"><span class="pre">test_dp.ps</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold -p --MEA test.seq
+CUACGGCGCGGCGCCCUUGGCGA
+...........((((...)))). ( -5.00)
+....{,{{...||||...)}}}. [ -5.72]
+....................... {  0.00 d=4.66}
+......((...))((...))... {  2.90 MEA=14.79}
+ frequency of mfe structure in ensemble 0.311796; ensemble diversity 6.36
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Here the last four lines are new compared to the text output without the <code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">--MEA</span></code>
+options. The partition function is already a rough measure for the well-definedness of the <code class="docutils literal notranslate"><span class="pre">MFE</span></code>
+structure. The third line shows a condensed representation of the pair probabilities of each
+nucleotide, similar to the dot-bracket notation, followed by the ensemble free energy
+(<span class="math notranslate nohighlight">\(G = -kT \cdot ln(Z)\)</span>) in units of <code class="docutils literal notranslate"><span class="pre">kcal/mol</span></code>. Here, the dot-bracket like notation consists
+of additional characters that denote the pairing propensity for each nucleotide.
+<code class="docutils literal notranslate"><span class="pre">.</span></code> denotes bases that are essentially unpaired, <code class="docutils literal notranslate"><span class="pre">,</span></code> weakly paired,
+<code class="docutils literal notranslate"><span class="pre">|</span></code> strongly paired without preference, <code class="docutils literal notranslate"><span class="pre">{}</span></code>, <code class="docutils literal notranslate"><span class="pre">()</span></code> weakly (<span class="math notranslate nohighlight">\(&gt;\)</span> 33%) upstream (downstream)
+paired or strongly (<span class="math notranslate nohighlight">\(&gt;\)</span> 66%) up-/downstream paired bases, respectively.</p>
+<p>The next two lines represent (i) the centroid structure
+with its free energy and distance to the ensemble, and (ii) the MEA structure, it’s free
+energy and the actual accuracy. The very last line shows the frequency of the MFE structure in
+the ensemble of secondary structures and the diversity of the ensemble as discussed above.</p>
+<p>Note that the MFE structure is adopted only with 31% probability, also the
+diversity is very high for such a short sequence.</p>
+</section>
+<section id="rotate-the-structure-plot">
+<h2>Rotate the structure plot<a class="headerlink" href="#rotate-the-structure-plot" title="Link to this heading"></a></h2>
+<a class="reference internal image-reference" href="../_images/test_ss.png"><img alt="../_images/test_ss.png" class="align-center" src="../_images/test_ss.png" style="width: 25%;" /></a>
+<p>To rotate the secondary structure plot that is generated by <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>
+the <code class="docutils literal notranslate"><span class="pre">ViennaRNA</span> <span class="pre">Package</span></code> provides the perl script utility <code class="docutils literal notranslate"><span class="pre">rotate_ss.pl</span></code>.
+Just read the <code class="docutils literal notranslate"><span class="pre">perldoc</span></code> for this tool to know how to handle the rotation and use
+the information to get your secondary structure in a vertical position.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ perldoc rotate_ss.pl
+</pre></div>
+</div>
+</section>
+<section id="the-base-pair-probability-dot-plot">
+<h2>The base pair probability dot plot<a class="headerlink" href="#the-base-pair-probability-dot-plot" title="Link to this heading"></a></h2>
+<a class="reference internal image-reference" href="../_images/test_dp.png"><img alt="../_images/test_dp.png" class="align-center" src="../_images/test_dp.png" style="width: 50%;" /></a>
+<p>The <em>dot plot</em> (<code class="docutils literal notranslate"><span class="pre">test_dp.ps</span></code>) shows the pair probabilities within
+the equilibrium ensemble as <span class="math notranslate nohighlight">\(n\times n\)</span> matrix, and is an excellent way to
+visualize structural alternatives. A square at row <span class="math notranslate nohighlight">\(i\)</span> and column <span class="math notranslate nohighlight">\(j\)</span>
+indicates a base pair. The area of a square in the upper right half of the
+matrix is proportional to the probability of the base pair <span class="math notranslate nohighlight">\((i,j)\)</span> within the
+equilibrium ensemble. The lower left half shows all pairs belonging to
+the <code class="docutils literal notranslate"><span class="pre">MFE</span></code> structure. While the MFE consists of a single helix, several
+different helices are visualized in the pair probabilities.</p>
+<p>While a base pair probability dot-plot is quite handy to interpret for short
+sequences, it quickly becomes confusing the longer the RNA sequence is. Still,
+this is (currently) the only output of base pair probabilities for the <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>
+program. Nevertheless, since the dot plot is a true <code class="docutils literal notranslate"><span class="pre">PostScript</span></code> file,
+one can retrieve the individual base pair probabilities by parsing its textual
+content.</p>
+<ul>
+<li><p>Open the dot plot with your favorite text editor</p></li>
+<li><p>Locate the lines that that follow the scheme</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="n">j</span> <span class="n">v</span> <span class="n">ubox</span>
+</pre></div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are integer values and <span class="math notranslate nohighlight">\(v\)</span> is a floating point decimal
+with values between <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>. These are the data for the boxes drawn in
+the upper triangle. The integer values <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> denote the nucleotide positions
+while the value <span class="math notranslate nohighlight">\(v\)</span> is the square-root of the probability of base pair <span class="math notranslate nohighlight">\((i,j)\)</span>.
+Thus, the actual base pair probability <span class="math notranslate nohighlight">\(p(i,j) = v \cdot v\)</span>.</p>
+</li>
+</ul>
+</section>
+<section id="mountain-and-reliability-plot">
+<h2>Mountain and Reliability plot<a class="headerlink" href="#mountain-and-reliability-plot" title="Link to this heading"></a></h2>
+<p>Next, let’s use the <code class="docutils literal notranslate"><span class="pre">relplot.pl</span></code> utility to annotate which parts of a
+predicted MFE structure are well-defined and thus more reliable. Also let’s use a real
+example for a change and produce yet another representation of the predicted
+structure, the <em>mountain plot</em>.</p>
+<p>Fold the 5S rRNA sequence and visualize the structure. (The <code class="docutils literal notranslate"><span class="pre">5S.seq</span></code> is shipped with the tutorial)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>RNAfold<span class="w"> </span>-p<span class="w"> </span>5S.seq
+$<span class="w"> </span>mountain.pl<span class="w"> </span>5S_dp.ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>xmgrace<span class="w"> </span>-pipe
+$<span class="w"> </span>relplot.pl<span class="w"> </span>5S_ss.ps<span class="w"> </span>5S_dp.ps<span class="w"> </span>&gt;<span class="w"> </span>5S_rss.ps
+</pre></div>
+</div>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><img alt="../_images/5S_mt.png" src="../_images/5S_mt.png" />
+</td>
+<td><img alt="../_images/5S_rot.png" src="../_images/5S_rot.png" />
+</td>
+</tr>
+</tbody>
+</table>
+<p>A mountain plot is especially useful for long sequences where conventional
+structure drawings become terribly cluttered.  It is a xy-diagram plotting
+the number of base pairs enclosing a sequence position <em>versus</em> the
+position. The  <code class="docutils literal notranslate"><span class="pre">Perl</span></code> script <code class="docutils literal notranslate"><span class="pre">mountain.pl</span></code> transforms a dot
+plot into the mountain plot coordinates which can be visualized with any
+xy-plotting program, e.g. <code class="docutils literal notranslate"><span class="pre">xmgrace</span></code>.</p>
+<p>The resulting plot shows three curves, two mountain plots derived from
+the <code class="docutils literal notranslate"><span class="pre">MFE</span></code> structure (red) and the pairing probabilities (black) and
+a positional entropy curve (green). Well-defined regions are identified by low
+entropy. By superimposing several mountain plots structures can easily
+be compared.</p>
+<p>The perl script <code class="docutils literal notranslate"><span class="pre">relplot.pl</span></code> adds reliability
+information to a RNA secondary structure plot in the form of color
+annotation. The script computes a well-definedness measure we call
+<a href="#id1"><span class="problematic" id="id2">``</span></a>positional entropy’’</p>
+<div class="math notranslate nohighlight">
+\[S(i) = -\sum p_{ij}\log(p_{ij})\]</div>
+<p>and encodes it as color hue, ranging from red
+(low entropy, well-defined) via green to blue and violet (high
+entropy, ill-defined). In the example above two helices of the 5S RNA are
+well-defined (red) and indeed predicted correctly, the left arm is not quite
+correct and disordered.</p>
+<p>For the figure above we had to rotate and mirror the structure plot, e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ rotate_ss.pl -a 180 -m 5S_rss.ps &gt; 5S_rot.ps
+</pre></div>
+</div>
+</section>
+<section id="batch-job-processing">
+<h2>Batch job processing<a class="headerlink" href="#batch-job-processing" title="Link to this heading"></a></h2>
+<p>In most cases, one doesn’t only want to predict the structure and equilibrium
+probabilities for a single RNA sequence but a set of sequences. <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>
+is perfectly suited for this task since it provides several different mechanisms
+to support batch job processing. First, in <em>interactive</em> mode, it only
+stops processing input from <em>stdin</em> if it is requested to do so. This means
+that after processing one sequence, it will prompt for the input of the next
+sequence. Entering the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> character will forcefully abort processing.
+In situations where the input is provided through input stream redirection,
+it will end processing as soon stream is closed.</p>
+<p>In constrat to that, the <em>batch processing mode</em> where one simply specifies
+input files as so-called unnamed command line parameters, the number of input
+sequences is more or less unlimited. You can specify as many input files as
+your terminal emulator allows, and each input file may consist of arbitrarily
+many sequences. However, please note that mixing <code class="docutils literal notranslate"><span class="pre">FASTA</span></code> and non-fasta
+input is not allowed and will most likely produce bogus output.</p>
+<p>Assume you have four input files <code class="docutils literal notranslate"><span class="pre">file_0.fa</span></code>, <code class="docutils literal notranslate"><span class="pre">file_1.fa</span></code>,
+<code class="docutils literal notranslate"><span class="pre">file_2.fa</span></code>, and <code class="docutils literal notranslate"><span class="pre">file_3.fa</span></code>. Each file contains a set of RNA
+sequences in <code class="docutils literal notranslate"><span class="pre">FASTA</span></code> format. Predicting secondary structures for all
+sequences in all files with a single call to <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> and redirecting
+the output to a file <code class="docutils literal notranslate"><span class="pre">all_sequences_output.fold</span></code> can be achieved
+like this:
+.. code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold file_0.fa file_1.fa file_2.fa file_3.fa &gt; all_sequences_output.fold
+</pre></div>
+</div>
+<p>The above call to <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> will open each of the files and process the
+sequences sequentially. This, however, might take a long time and the sequential
+processing will most likely bore out your multi-core workstation or laptop computer,
+since only a single core is used for the computations while the others are idle.
+If you happen to have more than a single CPU core and want to take advantage of
+the available parallel processing power, you can use the <code class="docutils literal notranslate"><span class="pre">-j</span></code> option of
+<code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> to split the input into concurrent jobs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold -j file_*.fa &gt; all_sequences_output.fold
+</pre></div>
+</div>
+<p>This command will uses as many CPU cores as available and, therefore, process
+you input much faster. If you want to limit the number of concurrent jobs to
+a particular number, say <span class="math notranslate nohighlight">\(2\)</span>, to leave the remaining cores available for other
+tasks, you can append the number of jobs directly to the <code class="docutils literal notranslate"><span class="pre">-j</span></code> option:
+.. code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold -j2 file_*.fa &gt; all_sequences_output.fold
+</pre></div>
+</div>
+<p>Note here, that there must not be any space between the <code class="docutils literal notranslate"><span class="pre">j</span></code> and the number
+of jobs.</p>
+<p>Now imagine what happens if you have a larger set of
+sequences that are not stored in <code class="docutils literal notranslate"><span class="pre">FASTA</span></code> format. If you would serve such
+an input to <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>, it would happily process each of the sequences
+but always over-write the structure layout and dot-plot files, since the default
+names for these files are <code class="docutils literal notranslate"><span class="pre">rna.ps</span></code> and <code class="docutils literal notranslate"><span class="pre">dot.ps</span></code> for any sequence.
+This is usually an undesired behavior, where <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> and the <code class="docutils literal notranslate"><span class="pre">--auto-id</span></code>
+option becomes handy. This option flag forces <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> to automatically
+create a sequence identifier for each input, thus using different file names for
+each single output. The identifier that is created follows the form
+.. code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sequence_XXXX</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">sequence</span></code> is a prefix, followed by the delimiting character <code class="docutils literal notranslate"><span class="pre">_</span></code>,
+and an increasing 4-digit number <code class="docutils literal notranslate"><span class="pre">XXXX</span></code> starting at 0000. This feature is
+even useful if the input is in <code class="docutils literal notranslate"><span class="pre">FASTA</span></code> format, but one wants to enforce
+a novel naming scheme for the sequences. As soon as the <code class="docutils literal notranslate"><span class="pre">--auto-id</span></code> option
+is set, <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> will ignore any id taken from existing <code class="docutils literal notranslate"><span class="pre">FASTA</span></code>
+headers in the input files.</p>
+<p>See also the man page of <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> to find out how to modify the prefix,
+delimiting character, start number and number of digits.</p>
+<ul>
+<li><p>Create an input file with many RNA sequences, each on a separate line, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ randseq -n 127 &gt; many_files.seq
+</pre></div>
+</div>
+</li>
+<li><p>Compute the MFE structure for each of the sequences and generate output
+ids with numbers between <span class="math notranslate nohighlight">\(100\)</span> and <span class="math notranslate nohighlight">\(226\)</span> and prefix <code class="docutils literal notranslate"><span class="pre">test_seq</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold --auto-id --id-start=100 --id-prefix=&quot;test_seq&quot; many_files.seq
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="add-constraints-to-the-structure-prediction">
+<h2>Add constraints to the structure prediction<a class="headerlink" href="#add-constraints-to-the-structure-prediction" title="Link to this heading"></a></h2>
+<p>For some scientific questions one requires additional constraints that must be
+enforced when predicting secondary structures. For instance, one might have resolved
+parts of the structure already and is simply interested in the optimal conformation
+of the remaining part of the molecule. Another example would be that one already
+knows that particular nucleotides can not participate in any base pair, since they
+are physically hindered to do so. These types of constraints are termed <em>hard</em>
+constraints and they can enforce or prohibit particular conformations, thus include
+or omit structures with these feature from the set candidate ensemble.</p>
+<p>Another type of constraints are so-called <em>soft</em> constraints, that enable one
+to adjust the free energy contributions of particular conformations. For instance,
+one could add a bonus energy if a particular (stretch of) nucleotides is left unpaired
+to emulate the binding free energy of a single strand binding protein. The same can
+be applied to base pairs, for instance one could add a penalizing energy term if a
+particular base pair is formed to make it less likely.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> programs comes with a comprehensive hard and soft constraints
+support and provides several convenience command line parameters to ease constraint
+application.</p>
+<p>The most simple hard constraint that can be applied is the maximum base pair span, i.e.
+the maximum number of nucleotides a particular base pair may span. This constraint can
+be applied with the <code class="docutils literal notranslate"><span class="pre">--maxBPspan</span></code> option followed by an integer number.</p>
+<ul>
+<li><p>Compute the secondary structure for the <code class="docutils literal notranslate"><span class="pre">5S.seq</span></code> input file</p></li>
+<li><p>Now limit the maximum base pair span to <span class="math notranslate nohighlight">\(50\)</span> and compare both results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold --maxBPspan 50 5S.seq
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Now assume you already know parts of the structure and want to <em>fill-in</em>
+an optimal remaining part. You can do that by using the <code class="docutils literal notranslate"><span class="pre">-C</span></code> option
+and adding an additional line in dot-bracket notation to the input (after the sequence)
+that corresponds to the known structure:</p>
+<ul>
+<li><p>Prepare the input file <code class="docutils literal notranslate"><span class="pre">hard_const_example.fa</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">my_constrained_sequence</span>
+<span class="n">GCCCUUGUCGAGAGGAACUCGAGACACCCACUACCCACUGAGGACUUUCG</span>
+<span class="o">..</span><span class="p">((((</span><span class="o">.....</span><span class="p">))))</span>
+</pre></div>
+</div>
+<p>Note here, that we left out the remainder of the input structure constraint that will
+eventually be used to enforce a helix of 4 base pairs at the beginning of the sequence.
+You may also fill the remainder of the constraint with dots to silence any warnings issued
+by <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>.</p>
+</li>
+<li><p>Compute the MFE structure for the input:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold hard_const_example.fa
+&gt;my_constrained_sequence
+GCCCUUGUCGAGAGGAACUCGAGACACCCACUACCCACUGAGGACUUUCG
+........((((((...((((.................))))..)))))) ( -8.00)
+</pre></div>
+</div>
+</li>
+<li><p>Now compute the MFE structure under the provided constraint:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold -C hard_const_example.fa
+&gt;my_constrained_sequence
+GCCCUUGUCGAGAGGAACUCGAGACACCCACUACCCACUGAGGACUUUCG
+..((((.....))))....(((((..((((........)).))..))))) ( -7.90)
+</pre></div>
+</div>
+</li>
+<li><p>Due to historic reasons, the <code class="docutils literal notranslate"><span class="pre">-C</span></code> option alone only forbids any base pairs
+that are incompatible with the constraint, rather than enforcing the constraint. Thus,
+if you compute equilibrium probabilities, structures that are missing the small helix in
+the beginning are still part of the ensemble. If you want to compute the pairing probabilities
+upon forcing the small helix at the beginning, you can add the <code class="docutils literal notranslate"><span class="pre">--enforceConstraint</span></code> option:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold -p -C --enforceConstraint hard_const_example.fa
+&gt;my_constrained_sequence
+GCCCUUGUCGAGAGGAACUCGAGACACCCACUACCCACUGAGGACUUUCG
+..((((.....))))....(((((..((((........)).))..))))) ( -7.90)
+</pre></div>
+</div>
+<p>Have a look at the differences in ensemble free energy and base pair probabilities between
+the results obtained with and without the <code class="docutils literal notranslate"><span class="pre">--enforceConstraint</span></code> option.</p>
+</li>
+</ul>
+<p>A more thorough alternative to provide constraints is to use the <code class="docutils literal notranslate"><span class="pre">--commands</span></code> option
+and a corresponding <em>commands file</em>. This allows one to specify constraints on nucleotide
+or base pair level and even to restrict a constraint to particular loop types. A commands file
+is a simple multi column text file with one constraint on each line. A line starts with a one- or
+two-letter command, followed by multiple values that specify the addressed nucleotides, the loop
+context restriction, and, for soft constraints, the strength of the constraint in <span class="math notranslate nohighlight">\(kcal/mol\)</span>.
+The syntax is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="n">i</span> <span class="mi">0</span> <span class="n">k</span>   <span class="p">[</span><span class="n">TYPE</span><span class="p">]</span> <span class="p">[</span><span class="n">ORIENTATION</span><span class="p">]</span> <span class="c1"># Force nucleotides i...i+k-1 to be paired</span>
+<span class="n">F</span> <span class="n">i</span> <span class="n">j</span> <span class="n">k</span>   <span class="p">[</span><span class="n">TYPE</span><span class="p">]</span> <span class="c1"># Force helix of size k starting with (i,j) to be formed</span>
+<span class="n">P</span> <span class="n">i</span> <span class="mi">0</span> <span class="n">k</span>   <span class="p">[</span><span class="n">TYPE</span><span class="p">]</span> <span class="c1"># Prohibit nucleotides i...i+k-1 to be paired</span>
+<span class="n">P</span> <span class="n">i</span> <span class="n">j</span> <span class="n">k</span>   <span class="p">[</span><span class="n">TYPE</span><span class="p">]</span> <span class="c1"># Prohibit pairs (i,j),...,(i+k-1,j-k+1)</span>
+<span class="n">P</span> <span class="n">i</span><span class="o">-</span><span class="n">j</span> <span class="n">k</span><span class="o">-</span><span class="n">l</span> <span class="p">[</span><span class="n">TYPE</span><span class="p">]</span> <span class="c1"># Prohibit pairing between two ranges</span>
+<span class="n">C</span> <span class="n">i</span> <span class="mi">0</span> <span class="n">k</span>   <span class="p">[</span><span class="n">TYPE</span><span class="p">]</span> <span class="c1"># Nucleotides i,...,i+k-1 must appear in context TYPE</span>
+<span class="n">C</span> <span class="n">i</span> <span class="n">j</span> <span class="n">k</span>          <span class="c1"># Remove pairs conflicting with (i,j),...,(i+k-1,j-k+1)</span>
+<span class="n">E</span> <span class="n">i</span> <span class="mi">0</span> <span class="n">k</span> <span class="n">e</span>        <span class="c1"># Add pseudo-energy e to nucleotides i...i+k-1</span>
+<span class="n">E</span> <span class="n">i</span> <span class="n">j</span> <span class="n">k</span> <span class="n">e</span>        <span class="c1"># Add pseudo-energy e to pairs (i,j),...,(i+k-1,j-k+1)</span>
+</pre></div>
+</div>
+<p>with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">TYPE</span><span class="p">]</span>        <span class="o">=</span> <span class="p">{</span> <span class="n">E</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">A</span> <span class="p">}</span>
+<span class="p">[</span><span class="n">ORIENTATION</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">U</span><span class="p">,</span> <span class="n">D</span> <span class="p">}</span>
+</pre></div>
+</div>
+<ul>
+<li><p>Prepare a commands file <code class="docutils literal notranslate"><span class="pre">test.constraints</span></code> that forces the first 5 nucleotides to pair and the
+following 3 nucleotides to stay unpaired as part of a multi-branch loop:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">5</span>
+<span class="n">C</span> <span class="mi">6</span> <span class="mi">0</span> <span class="mi">3</span> <span class="n">M</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">randseq</span></code> program to generate multiple sequences and compute the MFE structure
+for each under the constraints prepared earlier:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ randseq -n 20 | RNAfold --commands test.constraints
+</pre></div>
+</div>
+<p>Inspect the output to assure yourself that hte commands have been applied</p>
+</li>
+</ul>
+<p>A few much more sophisticated constraints will be discussed below.</p>
+</section>
+<section id="shape-directed-rna-folding">
+<h2>SHAPE directed RNA folding<a class="headerlink" href="#shape-directed-rna-folding" title="Link to this heading"></a></h2>
+<p>In order to further improve the quality of secondary structure predictions, mapping experiments like
+SHAPE (selective 2’-hydroxyl acylation analyzed by primer extension) can be used to exerimentally determine
+the pairing status for each nucleotide.
+In addition to thermodynamic based secondary structure predictions, RNAfold supports the incorporation of this additional
+experimental data as soft constraints.</p>
+<p>If you want to use SHAPE data to guide the folding process, please make sure that your experimental data is present in a text file,
+where each line stores three white space separated columns containing the position, the abbreviation and the normalized SHAPE reactivity for
+a certain nucleotide.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="n">G</span> <span class="mf">0.134</span>
+<span class="mi">2</span> <span class="n">C</span> <span class="mf">0.044</span>
+<span class="mi">3</span> <span class="n">C</span> <span class="mf">0.057</span>
+<span class="mi">4</span> <span class="n">G</span> <span class="mf">0.114</span>
+<span class="mi">5</span> <span class="n">U</span> <span class="mf">0.094</span>
+   <span class="o">...</span>
+   <span class="o">...</span>
+   <span class="o">...</span>
+<span class="mi">71</span> <span class="n">C</span> <span class="mf">0.035</span>
+<span class="mi">72</span> <span class="n">G</span> <span class="mf">0.909</span>
+<span class="mi">73</span> <span class="n">C</span> <span class="mf">0.224</span>
+<span class="mi">74</span> <span class="n">C</span> <span class="mf">0.529</span>
+<span class="mi">75</span> <span class="n">A</span> <span class="mf">1.475</span>
+</pre></div>
+</div>
+<p>The second column, which holds the nucleotide abbreviation, is optional.
+If it is present, the data will be used to perform a cross check against the provided input sequence.
+Missing SHAPE reactivities for certain positions can be indicated by omitting the reactivity column or the whole line.
+Negative reactivities will be treated as missing.
+Once the SHAPE file is ready, it can be used to constrain folding:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold --shape=rna.shape --shapeMethod=D &lt; rna.seq
+</pre></div>
+</div>
+<p>A small compilation of reference data taken from <span id="id3">Hajdin <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id52" title="Christine E Hajdin, Stanislav Bellaousov, Wayne Huggins, Christopher W Leonard, David H Mathews, and Kevin M Weeks. Accurate SHAPE-directed RNA secondary structure modeling, including pseudoknots. Proceedings of the National Academy of Sciences, 110(14):5498–5503, 2013. doi:10.1073/pnas.1219988110.">2013</a>]</span> is available online
+<a class="reference external" href="https://weeks.chem.unc.edu/data-files/ShapeKnots_DATA.zip">https://weeks.chem.unc.edu/data-files/ShapeKnots_DATA.zip</a>. However, the included
+reference structures are only available in connect (<code class="docutils literal notranslate"><span class="pre">.ct</span></code>) format and require conversion into
+dot-bracket notation to compare them against predicted structures with <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>.
+Furthermore, the normalized <code class="docutils literal notranslate"><span class="pre">SHAPE</span></code> data is available as Excel spreadsheet and
+also requires some pre-processing to make it available for <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>.</p>
+</section>
+<section id="adding-ligand-interactions">
+<h2>Adding ligand interactions<a class="headerlink" href="#adding-ligand-interactions" title="Link to this heading"></a></h2>
+<p>RNA molecules are known to interact with other molecules, such as additional RNAs, proteins,
+or other small ligand molecules. Some interactions with small ligands that take place in
+loops of an RNA structure can be modeled in terms of soft constraints. However, to stay
+compatible with the recursive decomposition scheme for secondary structures they are
+limited to the unpaired nucleotides of hairpins and internal loops.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">RNAlib</span></code> library of the <code class="docutils literal notranslate"><span class="pre">ViennaRNA</span> <span class="pre">Package</span></code> implements a most general
+form of constraints capability. However, the available programs do not allow for a full
+access to the implemented features. Nevertheless, <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> provides a convenience
+option that allows to easily include ligand binding to hairpin- or interior-loop like aptamer
+motifs. For that purpose, a user needs only to provide motif and a binding free energy.</p>
+<p>Consider the following example file <code class="docutils literal notranslate"><span class="pre">theo.fa</span></code> for a theophylline triggered
+riboswitch with the sequence:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">theo</span><span class="o">-</span><span class="n">switch</span>
+<span class="n">GGUGAUACCAGAUUUCGCGAAAAAUCCCUUGGCAGCACCUCGCACAUCUUGUUGUC</span>
+<span class="n">UGAUUAUUGAUUUUUCGCGAAACCAUUUGAUCAUAUGACAAGAUUGAG</span>
+</pre></div>
+</div>
+<p>The theopylline aptamer structure has been actively researched during the last two decades.</p>
+<a class="reference internal image-reference" href="../_images/theo_aptamer.png"><img alt="../_images/theo_aptamer.png" class="align-center" src="../_images/theo_aptamer.png" style="width: 75%;" /></a>
+<p>Although the actual aptamer part (marked in blue) is not a simple interior loop, it
+can still be modeled as such. It consists of two delimiting base pairs (G,C) at the
+5’ site, and another (G,C) at its 3’ end. That is already enough to satisfy the requirements
+for the <code class="docutils literal notranslate"><span class="pre">--motif</span></code> option of <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>. Together with the aptamer sequence
+motif, the entire aptamer can be written down in dot-bracket form as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GAUACCAG</span><span class="o">&amp;</span><span class="n">CCCUUGGCAGC</span>
+<span class="p">(</span><span class="o">...</span><span class="p">((((</span><span class="o">&amp;</span><span class="p">)</span><span class="o">...</span><span class="p">)))</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note here, that we separated the 5’ and 3’ part from each other using the <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>
+character. This enables us to omit the variable hairpin end of the aptamer from the
+specification in our model.</p>
+<p>The only ingredient that is still missing is the actual stabilizing energy contribution
+induced by the ligand binding into the aptamer pocket. But several experimental and computational
+studies have already determined dissociation constants for this system. <span id="id4">Jenison <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id53" title="Robert D Jenison, Stanley C Gill, Arthur Pardi, and Barry Polisky. High-resolution molecular discrimination by RNA. Science, 263(5152):1425–1429, 1994. doi:10.1126/science.7510417.">1994</a>]</span>,
+for instance, determined a dissociation constant of <span class="math notranslate nohighlight">\(K_d = 0.32\mu M\)</span> which, for standard
+reference concentration <span class="math notranslate nohighlight">\(c = 1 mol/L\)</span>, can be translated into a binding free energy</p>
+<div class="math notranslate nohighlight">
+\[\Delta G = RT \cdot \ln \frac{K_d}{c} \approx -9.22~kcal/mol\]</div>
+<p>Finally, we can compute the MFE structure for our example sequence</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold -v --motif &quot;GAUACCAG&amp;CCCUUGGCAGC,(...((((&amp;)...)))...),-9.22&quot; theo.fa
+</pre></div>
+</div>
+<p>Compare the predicted MFE structure with and without modeling the ligand interaction.
+You may also enable partition function computation to compute base pair probabilities,
+the centroid structure and MEA structure to investigate the effect of ligand binding
+on ensemble diversity.</p>
+</section>
+<section id="g-quadruplexes">
+<h2>G-quadruplexes<a class="headerlink" href="#g-quadruplexes" title="Link to this heading"></a></h2>
+<p>G-Quadruplexes are a common conformation found in G-rich sequences where four runs of
+consecutive G’s are separated by three short sequence stretches.</p>
+<a class="reference internal image-reference" href="../_images/gquad_pattern.png"><img alt="../_images/gquad_pattern.png" class="align-center" src="../_images/gquad_pattern.png" style="width: 50%;" /></a>
+<p>They form local self-enclosed stacks of G-quartets bound together through 8 Hogsteen-Watson
+Crick bonds and further stabilized by a metal ion (usually potassium).</p>
+<a class="reference internal image-reference" href="../_images/gquad.png"><img alt="../_images/gquad.png" class="align-center" src="../_images/gquad.png" style="width: 50%;" /></a>
+<p>To acknowledge the competition of regular secondary structure and G-quadruplex formation,
+the <code class="docutils literal notranslate"><span class="pre">ViennaRNA</span> <span class="pre">Package</span></code> implements an extension to the default recursion scheme.
+For that purpose, G-quadruplexes are simply considered a different type of substructure
+that may be incorporated like any other substructure. The free energy of a particular
+G-quadruplex at temperature <span class="math notranslate nohighlight">\(T\)</span> is determined by a simple energy model</p>
+<div class="math notranslate nohighlight">
+\[E(L, l_{tot}, T) = a(t) \cdot (L - 1) + b(T) \cdot ln(l_{tot} - 2)\]</div>
+<p>that only considers the number of stacked layers <span class="math notranslate nohighlight">\(L\)</span> and the total size of the three
+linker sequences <span class="math notranslate nohighlight">\(l_{tot} = l_1 + l_2 + l_3\)</span> connecting the G runs. Linker sequence
+and assymetry effects as well as relative strand orientations (parallel, anti-parallel
+or mixed) are entirely neglected in this model. The free energy parameters</p>
+<div class="math notranslate nohighlight">
+\[a(T) = H_a + TS_a\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[b(T) = H_b + TS_b\]</div>
+<p>have been determined from experimental UV-melting data taken from <span id="id5">Zhang <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id54" title="Amy YQ Zhang, Anthony Bugaut, and Shankar Balasubramanian. A sequence-independent analysis of the loop length dependence of intramolecular RNA G-quadruplex stability and topology. Biochemistry, 50(33):7251–7258, 2011. doi:10.1021/bi200805j.">2011</a>]</span>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> allows one to activate the G-quadruplex implementation by simply
+providing the <code class="docutils literal notranslate"><span class="pre">-g</span></code> switch. G-quadruplexes are then taken into account for
+MFE and equilibrium probability computations.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ echo &quot;GGCUGGUGAUUGGAAGGGAGGGAGGUGGCCAGCC&quot; | RNAfold -g -p
+GGCUGGUGAUUGGAAGGGAGGGAGGUGGCCAGCC
+((((((..........++.++..++.++)))))) (-21.39)
+((((((..........(..........))))))) [-21.83]
+((((((..........++.++..++.++)))))) {-21.39 d=0.04}
+ frequency of mfe structure in ensemble 0.491118; ensemble diversity 0.08
+</pre></div>
+</div>
+<p>The resulting structure layout and dot plot <code class="docutils literal notranslate"><span class="pre">PostScript</span></code> files depict the
+prediced G-quadruplexes as hairpin-like loops with additional bonds between the
+interacting G’s, and green triangles where the color intensity encodes the G-quadruplex
+probability, respectively. Have a closer look at the actual G-quadruplex probabilities
+by opening the dot plot <em>PostScript</em> file with a text browser again.</p>
+<a class="reference internal image-reference" href="../_images/gquad_menon.png"><img alt="../_images/gquad_menon.png" class="align-center" src="../_images/gquad_menon.png" style="width: 75%;" /></a>
+<p>A better drawing of the predicted G-quadruplex might look as follows</p>
+<a class="reference internal image-reference" href="../_images/gquad_menon_nice.png"><img alt="../_images/gquad_menon_nice.png" class="align-center" src="../_images/gquad_menon_nice.png" style="width: 50%;" /></a>
+<p>Repeat the above analysis for other RNA sequences that might contain and form
+a G-quadruplex, e.g. the human telomerase RNA component hTERC:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">hTERC</span>
+<span class="n">AGAGAGUGACUCUCACGAGAGCCGCGAGAGUCAGCUUGGCCAAUCCGUGCGGUCGG</span>
+<span class="n">CGGCCGCUCCCUUUAUAAGCCGACUCGCCCGGCAGCGCACCGGGUUGCGGAGGGUG</span>
+<span class="n">GGCCUGGGAGGGGUGGUGGCCAUUUUUUGUCUAACCCUAACUGAGAAGGGCGUAGG</span>
+<span class="n">CGCCGUGCUUUUGCUCCCCGCGCGCUGUUUUUCUCGCUGACUUUCAGCGGGCGGAA</span>
+<span class="n">AAGCCUCGGCCUGCCGCCUUCCACCGUUCAUUCUAGAGCAAACAAAAAAUGUCAGC</span>
+<span class="n">UGCUGGCCCGUUCGCCCCUCCCGGGGACCUGCGGCGGGUCGCCUGCCCAGCCCCCG</span>
+<span class="n">AACCCCGCCUGGAGGCCGCGGUCGGCCCGGGGCUUCUCCGGAGGCACCCACUGCCA</span>
+<span class="n">CCGCGAAGAGUUGGGCUCUGUCAGCCGCGGGUCUCUCGGGGGCGAGGGCGAGGUUC</span>
+<span class="n">AGGCCUUUCAGGCCGCAGGAAGAGGAACGGAGCGAGUCCCCGCGCGCGGCGCGAUU</span>
+<span class="n">CCCUGAGCUGUGGGACGUGCACCCAGGACUCGGCUCACACAUGC</span>
+</pre></div>
+</div>
+</section>
+<section id="ssb-protein-interaction">
+<h2>SSB protein interaction<a class="headerlink" href="#ssb-protein-interaction" title="Link to this heading"></a></h2>
+<p>Similar to the ligand interactions discussed above, a single strand binding
+(SSB) protein might bind to consecutively unpaired sequence motifs. To model
+such interactions the <code class="docutils literal notranslate"><span class="pre">ViennaRNA</span> <span class="pre">Package</span></code> implements yet another
+extension to the folding grammar to cover all cases a protein may bind to,
+termed <em>unstructured domains</em>. This is in contrast to the ligand binding
+example above that uses the soft constraints implementation, and is, therefore,
+restricted to unpaired hairpin- and interior-loops.</p>
+<p>To make use of this implementation in <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> one has to resort
+to <em>command files</em> again. Here, an unstructured domain (UD) can be easily
+added using the following syntax:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">UD</span> <span class="n">m</span> <span class="n">e</span> <span class="p">[</span><span class="n">LOOP</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">m</span></code> is the sequence motif the protein binds to in IUPAC format,
+<code class="docutils literal notranslate"><span class="pre">e</span></code> is the binding free energy in <span class="math notranslate nohighlight">\(kcal/mol\)</span>, and the optional <code class="docutils literal notranslate"><span class="pre">LOOP</span></code>
+specifier allows for restricting the binding to particular loop types, e.g.
+<code class="docutils literal notranslate"><span class="pre">M</span></code> for multibranch loops, or <code class="docutils literal notranslate"><span class="pre">E</span></code> for the exterior loop. See the
+syntax for command files above for an overview of all loop types available.</p>
+<p>As an example, consider the protein binding experiment taken from <span id="id6">Forties and Bundschuh [<a class="reference internal" href="../bibliography.html#id55" title="Robert A Forties and Ralf Bundschuh. Modeling the interplay of single-stranded binding proteins and nucleic acid secondary structure. Bioinformatics, 26(1):61–67, 2010. doi:10.1093/bioinformatics/btp627.">2010</a>]</span>.
+Here, the authors investigate a hypothetical unspecific RNA binding protein with a
+footprint of <span class="math notranslate nohighlight">\(6~nt\)</span> and a binding energy of <span class="math notranslate nohighlight">\(\Delta G = -10~kcal/mol\)</span> at
+<span class="math notranslate nohighlight">\(1~M\)</span>. With <span class="math notranslate nohighlight">\(T = 37^\circ C\)</span> and</p>
+<div class="math notranslate nohighlight">
+\[\Delta G = RT \cdot \ln \frac{K_d}{c}\]</div>
+<p>this translates into a dissociation constant of</p>
+<div class="math notranslate nohighlight">
+\[K_d = exp(\Delta G / RT) = 8.983267433 \cdot 10^{-8}.\]</div>
+<p>Hence, the binding energies at <span class="math notranslate nohighlight">\(50~nM\)</span>, <span class="math notranslate nohighlight">\(100~nM\)</span>, <span class="math notranslate nohighlight">\(400~nM\)</span>, and <span class="math notranslate nohighlight">\(1~\mu M\)</span> are <span class="math notranslate nohighlight">\(0.36~kcal/mol\)</span>,
+<span class="math notranslate nohighlight">\(-0.07~kcal/mol\)</span>, <span class="math notranslate nohighlight">\(-0.92~kcal/mol\)</span>, and <span class="math notranslate nohighlight">\(-1.49~kcal/mol\)</span>, respectively.</p>
+<p>The RNA sequence file <code class="docutils literal notranslate"><span class="pre">forties_bundschuh.fa</span></code> for this experiment is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">forties_bundschuh</span>
+<span class="n">CGCUAUAAACCCCAAAAAAAAAAAAGGGGAAAAUAGCG</span>
+</pre></div>
+</div>
+<p>which yields the following MFE structure</p>
+<a class="reference internal image-reference" href="../_images/forties_ss.png"><img alt="../_images/forties_ss.png" class="align-center" src="../_images/forties_ss.png" style="width: 50%;" /></a>
+<p>To model the protein binding for this example with <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> we require
+a commands file for each of the concentrations in question. Thus, one simply creates
+text files with a single line content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">UD</span> <span class="n">NNNNNN</span> <span class="n">e</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">e</span></code> is the binding free energy at this specific protein concentration
+as computed above. Note here, that we use <code class="docutils literal notranslate"><span class="pre">NNNNNN</span></code> as sequence motif that is
+bound by the protein to acknowledge the unspecific interaction between protein and
+RNA. Finally, <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> is executed to compute equilibrium base pairing and
+per-nucleotide protein binding probabilities
+.. code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold -p --commands forties_50nM.txt forties_bundschuh.fa
+</pre></div>
+</div>
+<p>and the produced probability dot plot can be inspected.</p>
+<a class="reference internal image-reference" href="../_images/forties_50nM_dp.png"><img alt="../_images/forties_50nM_dp.png" class="align-center" src="../_images/forties_50nM_dp.png" style="width: 50%;" /></a>
+<p>As you can see, the dot plot is augmented with an additional linear array of blue squares
+along each side that depicts the probability that the respective nucleotide is bound
+by the protein. Now, repeat the computations for different protein concentrations and
+compare the probabilities computed with the unstructured domain feature of the
+<code class="docutils literal notranslate"><span class="pre">ViennaRNA</span> <span class="pre">Package</span></code> with those in Fig. 3(a) of the publication.</p>
+<p>Note, that <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> allows for an unlimited number of different proteins
+specified in the commands file. This easily allows one to model RNA-protein binding
+interaction within a relatively complex solution of different competing proteins.</p>
+</section>
+<section id="change-other-model-settings">
+<h2>Change other model settings<a class="headerlink" href="#change-other-model-settings" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> also allows for many other changes of the implemented Nearest Neighbor
+model. For instance, you can explicitly prohibit <span class="math notranslate nohighlight">\((G,U)\)</span> pairs, change the temperature
+that is used for evaluation of the free energy of particular loops, select a different
+dangling-end energy model or load a different set of free energy parameters, e.g. for
+DNA or parameters derived from computational optimizations.</p>
+<p>See the man pages of <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> for a complete overview of all available options
+and command line switches. Additional energy parameter collections are distributed together
+with the <code class="docutils literal notranslate"><span class="pre">ViennaRNA</span> <span class="pre">Package</span></code> as part of the contents of the <code class="docutils literal notranslate"><span class="pre">misc/</span></code> directory,
+and are typically installed in <code class="docutils literal notranslate"><span class="pre">prefix/share/ViennaRNA</span></code>, where <code class="docutils literal notranslate"><span class="pre">prefix</span></code> is the
+path that was used as installation prefix, e.g. <code class="docutils literal notranslate"><span class="pre">$HOME/Tutorial/Progs/VRP</span></code>
+or <code class="docutils literal notranslate"><span class="pre">/usr</span></code> when installed globally using a package manager.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="RNApvmin.html" class="btn btn-neutral float-right" title="The Program RNApvmin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deprecated Interface for Multiple Sequence Alignment Utilities &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Files and I/O" href="io.html" />
+    <link rel="prev" title="Multiple Sequence Alignment Utilities" href="msa.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="msa.html">Multiple Sequence Alignment Utilities</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Deprecated Interface for Multiple Sequence Alignment Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="io.html">Files and I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="msa.html">Multiple Sequence Alignment Utilities</a></li>
+      <li class="breadcrumb-item active">Deprecated Interface for Multiple Sequence Alignment Utilities</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deprecated-interface-for-multiple-sequence-alignment-utilities">
+<h1>Deprecated Interface for Multiple Sequence Alignment Utilities<a class="headerlink" href="#deprecated-interface-for-multiple-sequence-alignment-utilities" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__aln__utils__deprecated"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.pair_info">
+<span class="target" id="group__aln__utils__deprecated_1ga7b61662a793ad0aa1ea38efc3a5baacc"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="msa.html#c.vrna_pinfo_s" title="vrna_pinfo_s"><span class="n"><span class="pre">vrna_pinfo_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pair_info</span></span></span><a class="headerlink" href="#c.pair_info" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/alignments.h&gt;</em><p>Old typename of <a class="reference internal" href="msa.html#structvrna__pinfo__s"><span class="std std-ref">vrna_pinfo_s</span></a>. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000181"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="msa.html#group__aln__utils_1ga6660dfca23debee7306e0cd53341263f"><span class="std std-ref">vrna_pinfo_t</span></a> instead!</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.read_clustal">
+<span class="target" id="group__aln__utils__deprecated_1ga1cc88b4df842ca73b4ac0cb5e71c696a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_clustal</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">clust</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">AlignedSeqs</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.read_clustal" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/alignments.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.consensus">
+<span class="target" id="group__aln__utils__deprecated_1ga399c3fc793c4c92b593f27ca1e94b095"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">consensus</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">AS</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.consensus" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/alignments.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.consens_mis">
+<span class="target" id="group__aln__utils__deprecated_1gaca7f2016e58c6af5705892d8416336ab"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">consens_mis</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">AS</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.consens_mis" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/alignments.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_ungapped_sequence">
+<span class="target" id="group__aln__utils__deprecated_1gaef1e8677284900aa23566fe37a56508c"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_ungapped_sequence</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_ungapped_sequence" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/alignments.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_mpi">
+<span class="target" id="group__aln__utils__deprecated_1gaa2d600be90844094ec145ea14a314d2f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_mpi</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">Alseq</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">n_seq</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">mini</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_mpi" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/alignments.h&gt;</em><p>Get the mean pairwise identity in steps from ?to?(ident) </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000182"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="msa.html#group__aln__utils_1gade5a1f2d16e7fd9a57b37d8514f08e8e"><span class="std std-ref">vrna_aln_mpi()</span></a> as a replacement</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Alseq</strong> – </p></li>
+<li><p><strong>n_seq</strong> – The number of sequences in the alignment </p></li>
+<li><p><strong>length</strong> – The length of the alignment </p></li>
+<li><p><strong>mini</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The mean pairwise identity </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.encode_ali_sequence">
+<span class="target" id="group__aln__utils__deprecated_1gaa3e40277c837d6f7603afe319884c786"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">encode_ali_sequence</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s5</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s3</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ss</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">as</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">circ</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.encode_ali_sequence" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/alignments.h&gt;</em><p>Get arrays with encoded sequence of the alignment. </p>
+<p>this function assumes that in S, S5, s3, ss and as enough space is already allocated (size must be at least sequence length+2)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – The gapped sequence from the alignment </p></li>
+<li><p><strong>S</strong> – pointer to an array that holds encoded sequence </p></li>
+<li><p><strong>s5</strong> – pointer to an array that holds the next base 5’ of alignment position i </p></li>
+<li><p><strong>s3</strong> – pointer to an array that holds the next base 3’ of alignment position i </p></li>
+<li><p><strong>ss</strong> – </p></li>
+<li><p><strong>as</strong> – </p></li>
+<li><p><strong>circ</strong> – assume the molecules to be circular instead of linear (circ=0) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.alloc_sequence_arrays">
+<span class="target" id="group__aln__utils__deprecated_1ga8a560930f7f2582cc3967723a86cfdfa"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">alloc_sequence_arrays</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequences</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S5</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S3</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">a2s</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">Ss</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">circ</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.alloc_sequence_arrays" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/alignments.h&gt;</em><p>Allocate memory for sequence array used to deal with aligned sequences. </p>
+<p>Note that these arrays will also be initialized according to the sequence alignment given</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__aln__utils__deprecated_1ga298a420a8c879202e2617b3f724fde38"><span class="std std-ref">free_sequence_arrays()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequences</strong> – The aligned sequences </p></li>
+<li><p><strong>S</strong> – A pointer to the array of encoded sequences </p></li>
+<li><p><strong>S5</strong> – A pointer to the array that contains the next 5’ nucleotide of a sequence position </p></li>
+<li><p><strong>S3</strong> – A pointer to the array that contains the next 3’ nucleotide of a sequence position </p></li>
+<li><p><strong>a2s</strong> – A pointer to the array that contains the alignment to sequence position mapping </p></li>
+<li><p><strong>Ss</strong> – A pointer to the array that contains the ungapped sequence </p></li>
+<li><p><strong>circ</strong> – assume the molecules to be circular instead of linear (circ=0) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.free_sequence_arrays">
+<span class="target" id="group__aln__utils__deprecated_1ga298a420a8c879202e2617b3f724fde38"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">free_sequence_arrays</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">n_seq</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S5</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S3</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">a2s</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">Ss</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.free_sequence_arrays" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/alignments.h&gt;</em><p>Free the memory of the sequence arrays used to deal with aligned sequences. </p>
+<p>This function frees the memory previously allocated with <a class="reference internal" href="#group__aln__utils__deprecated_1ga8a560930f7f2582cc3967723a86cfdfa"><span class="std std-ref">alloc_sequence_arrays()</span></a></p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__aln__utils__deprecated_1ga8a560930f7f2582cc3967723a86cfdfa"><span class="std std-ref">alloc_sequence_arrays()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_seq</strong> – The number of aligned sequences </p></li>
+<li><p><strong>S</strong> – A pointer to the array of encoded sequences </p></li>
+<li><p><strong>S5</strong> – A pointer to the array that contains the next 5’ nucleotide of a sequence position </p></li>
+<li><p><strong>S3</strong> – A pointer to the array that contains the next 3’ nucleotide of a sequence position </p></li>
+<li><p><strong>a2s</strong> – A pointer to the array that contains the alignment to sequence position mapping </p></li>
+<li><p><strong>Ss</strong> – A pointer to the array that contains the ungapped sequence </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="msa.html" class="btn btn-neutral float-left" title="Multiple Sequence Alignment Utilities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="io.html" class="btn btn-neutral float-right" title="Files and I/O" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

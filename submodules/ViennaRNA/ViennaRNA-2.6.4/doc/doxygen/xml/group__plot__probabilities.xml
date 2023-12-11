@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__plot__probabilities" kind="group">
+    <compoundname>plot_probabilities</compoundname>
+    <title>Probabilities</title>
+    <innerclass refid="structvrna__dotplot__auxdata__t" prot="public">vrna_dotplot_auxdata_t</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__plot__probabilities_1ga45e56b67e3f333f4335197737b5f9822" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_dp_EPS</definition>
+        <argsstring>(const char *filename, const char *sequence, vrna_ep_t *upper, vrna_ep_t *lower, vrna_dotplot_auxdata_t *auxdata, unsigned int options)</argsstring>
+        <name>vrna_plot_dp_EPS</name>
+        <param>
+          <type>const char *</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+          <declname>upper</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+          <declname>lower</declname>
+        </param>
+        <param>
+          <type><ref refid="structvrna__dotplot__auxdata__t" kindref="compound">vrna_dotplot_auxdata_t</ref> *</type>
+          <declname>auxdata</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Produce an encapsulate PostScript (EPS) dot-plot from one or two lists of base pair probabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function reads two vrna_ep_t lists <computeroutput>upper</computeroutput> and <computeroutput>lower</computeroutput> (e.g. base pair probabilities and a secondary structure) and produces an EPS &quot;dot plot&quot; with filename <computeroutput>&apos;filename&apos;</computeroutput> where data from <computeroutput>upper</computeroutput> is placed in the upper-triangular and data from <computeroutput>lower</computeroutput> is placed in the lower triangular part of the matrix.<linebreak/>
+ For default output, provide the flag <ref refid="group__plot__probabilities_1gaa3a3d5cf87de5120a93eab3be788b6fb" kindref="member">VRNA_PLOT_PROBABILITIES_DEFAULT</ref> as <computeroutput>options</computeroutput> parameter.</para>
+<para><simplesect kind="see"><para><ref refid="group__struct__utils__plist_1ga6de9e912540e36b1e231a66f6d8319df" kindref="member">vrna_plist()</ref>, <ref refid="group__part__func__global_1ga2d1b1c2e37abe57911ce647123c8ae06" kindref="member">vrna_plist_from_probs()</ref>, <ref refid="group__plot__probabilities_1gaa3a3d5cf87de5120a93eab3be788b6fb" kindref="member">VRNA_PLOT_PROBABILITIES_DEFAULT</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A filename for the EPS output </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>upper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The base pair probabilities for the upper triangular part </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The base pair probabilities for the lower triangular part </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options indicating which of the input data should be included in the dot-plot </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>1 if EPS file was successfully written, 0 otherwise</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000165"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>plot_dp_EPS()</computeroutput> where the last three parameters may be omitted. The default values for these parameters are <computeroutput>lower</computeroutput> = NULL, <computeroutput>auxdata</computeroutput> = NULL, <computeroutput>options</computeroutput> = <ref refid="group__plot__probabilities_1gaa3a3d5cf87de5120a93eab3be788b6fb" kindref="member">VRNA_PLOT_PROBABILITIES_DEFAULT</ref>. See, e.g.  <verbatim>embed:rst:inline:py:func:`RNA.plot_dp_EPS()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/probabilities.h" line="124" column="1" declfile="ViennaRNA/plotting/probabilities.h" declline="124" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__probabilities_1ga4150e7dc7b6a9960b858d64abcd72290" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_dp_PS_list</definition>
+        <argsstring>(char *seq, int cp, char *filename, vrna_ep_t *pl, vrna_ep_t *mf, char *comment)</argsstring>
+        <name>vrna_plot_dp_PS_list</name>
+        <param>
+          <type>char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cp</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+          <declname>pl</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+          <declname>mf</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>comment</declname>
+        </param>
+        <briefdescription>
+<para>Produce a postscript dot-plot from two pair lists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function reads two plist structures (e.g. base pair probabilities and a secondary structure) as produced by <ref refid="group__part__func__global_1ga2d1b1c2e37abe57911ce647123c8ae06" kindref="member">vrna_plist_from_probs()</ref> and <ref refid="group__struct__utils__plist_1ga6de9e912540e36b1e231a66f6d8319df" kindref="member">vrna_plist()</ref> and produces a postscript &quot;dot plot&quot; that is written to &apos;filename&apos;.<linebreak/>
+Using base pair probabilities in the first and mfe structure in the second plist, the resulting &quot;dot plot&quot; represents each base pairing probability by a square of corresponding area in a upper triangle matrix. The lower part of the matrix contains the minimum free energy structure.</para>
+<para><simplesect kind="see"><para><ref refid="group__part__func__global_1ga2d1b1c2e37abe57911ce647123c8ae06" kindref="member">vrna_plist_from_probs()</ref>, <ref refid="group__struct__utils__plist_1ga6de9e912540e36b1e231a66f6d8319df" kindref="member">vrna_plist()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A filename for the postscript output </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The base pair probability pairlist </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mfe secondary structure pairlist </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>comment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A comment </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>1 if postscript was successfully written, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/probabilities.h" line="152" column="1" declfile="ViennaRNA/plotting/probabilities.h" declline="152" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__plot__probabilities_1gacbb7170d7e64a20671b97dafe3825011" prot="public" static="no">
+        <name>VRNA_PLOT_PROBABILITIES_BP</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+<para>Option flag for base pair probabilities in probability plot output functions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/probabilities.h" line="35" column="9" bodyfile="ViennaRNA/plotting/probabilities.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__probabilities_1ga7cf7de27166f5c445e2cf0ffc03b1a7a" prot="public" static="no">
+        <name>VRNA_PLOT_PROBABILITIES_ACC</name>
+        <initializer>2U</initializer>
+        <briefdescription>
+<para>Option flag for accessibilities in probability plot output functions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/probabilities.h" line="41" column="9" bodyfile="ViennaRNA/plotting/probabilities.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__probabilities_1ga7f35d77121d2080b8c172841248b2060" prot="public" static="no">
+        <name>VRNA_PLOT_PROBABILITIES_UD</name>
+        <initializer>4U</initializer>
+        <briefdescription>
+<para>Option flag for unstructured domain probabilities in probability plot output functions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/probabilities.h" line="47" column="9" bodyfile="ViennaRNA/plotting/probabilities.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__probabilities_1ga6cce76e1c319a60a8b8e39d8887e2f1a" prot="public" static="no">
+        <name>VRNA_PLOT_PROBABILITIES_UD_LIN</name>
+        <initializer>8U</initializer>
+        <briefdescription>
+<para>Option flag for unstructured domain probabilities (linear representation) in probability plot output functions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/probabilities.h" line="53" column="9" bodyfile="ViennaRNA/plotting/probabilities.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__probabilities_1ga78f8da179bc3f52b1c1180931ed8b0f7" prot="public" static="no">
+        <name>VRNA_PLOT_PROBABILITIES_SD</name>
+        <initializer>16U</initializer>
+        <briefdescription>
+<para>Option flag for structured domain probabilities (such as G-quadruplexes) in probability plot output functions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/probabilities.h" line="59" column="9" bodyfile="ViennaRNA/plotting/probabilities.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__probabilities_1ga228fe1c75b71cb40726b9423d2bed2a9" prot="public" static="no">
+        <name>VRNA_PLOT_PROBABILITIES_SC_MOTIF</name>
+        <initializer>32U</initializer>
+        <briefdescription>
+<para>Option flag for soft-constraint motif probabilities in probability plot output functions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/probabilities.h" line="65" column="9" bodyfile="ViennaRNA/plotting/probabilities.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__probabilities_1ga41a92625e75a77555b3f6e3a0ef7b89b" prot="public" static="no">
+        <name>VRNA_PLOT_PROBABILITIES_SC_UP</name>
+        <initializer>64U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/probabilities.h" line="66" column="9" bodyfile="ViennaRNA/plotting/probabilities.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__probabilities_1ga886fa0619733b98667111faa56cd03d6" prot="public" static="no">
+        <name>VRNA_PLOT_PROBABILITIES_SC_BP</name>
+        <initializer>128U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/probabilities.h" line="67" column="9" bodyfile="ViennaRNA/plotting/probabilities.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__probabilities_1gaa3a3d5cf87de5120a93eab3be788b6fb" prot="public" static="no">
+        <name>VRNA_PLOT_PROBABILITIES_DEFAULT</name>
+        <initializer>                                           (<ref refid="group__plot__probabilities_1gacbb7170d7e64a20671b97dafe3825011" kindref="member">VRNA_PLOT_PROBABILITIES_BP</ref> \
+                                           | <ref refid="group__plot__probabilities_1ga78f8da179bc3f52b1c1180931ed8b0f7" kindref="member">VRNA_PLOT_PROBABILITIES_SD</ref> \
+                                           | <ref refid="group__plot__probabilities_1ga228fe1c75b71cb40726b9423d2bed2a9" kindref="member">VRNA_PLOT_PROBABILITIES_SC_MOTIF</ref> \
+                                           | <ref refid="group__plot__probabilities_1ga6cce76e1c319a60a8b8e39d8887e2f1a" kindref="member">VRNA_PLOT_PROBABILITIES_UD_LIN</ref>)</initializer>
+        <briefdescription>
+<para>Default option flag for probability plot output functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default output includes actual base pair probabilties (<ref refid="group__plot__probabilities_1gacbb7170d7e64a20671b97dafe3825011" kindref="member">VRNA_PLOT_PROBABILITIES_BP</ref>), structured domain probabilities such as G-quadruplexes (<ref refid="group__plot__probabilities_1ga78f8da179bc3f52b1c1180931ed8b0f7" kindref="member">VRNA_PLOT_PROBABILITIES_SD</ref>), probabilities obtained from soft-constraint motif implementation (<ref refid="group__plot__probabilities_1ga228fe1c75b71cb40726b9423d2bed2a9" kindref="member">VRNA_PLOT_PROBABILITIES_SC_MOTIF</ref>), and unstructured domain probabilities (<ref refid="group__plot__probabilities_1ga6cce76e1c319a60a8b8e39d8887e2f1a" kindref="member">VRNA_PLOT_PROBABILITIES_UD_LIN</ref>).</para>
+<para><simplesect kind="see"><para><ref refid="group__plot__probabilities_1ga45e56b67e3f333f4335197737b5f9822" kindref="member">vrna_plot_dp_EPS()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/probabilities.h" line="79" column="9" bodyfile="ViennaRNA/plotting/probabilities.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

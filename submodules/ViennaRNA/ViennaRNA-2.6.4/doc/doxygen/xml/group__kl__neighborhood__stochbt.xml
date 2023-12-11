@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__kl__neighborhood__stochbt" kind="group">
+    <compoundname>kl_neighborhood_stochbt</compoundname>
+    <title>Stochastic Backtracking of Structures from Distance Based Partitioning</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__kl__neighborhood__stochbt_1ga8527c142361ad019ef9b80c50591f215" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_pbacktrack_TwoD</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int d1, int d2)</argsstring>
+        <name>vrna_pbacktrack_TwoD</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>d1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>d2</declname>
+        </param>
+        <briefdescription>
+<para>Sample secondary structure representatives from a set of distance classes according to their Boltzmann probability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If the argument &apos;d1&apos; is set to &apos;-1&apos;, the structure will be backtracked in the distance class where all structures exceeding the maximum basepair distance to either of the references reside.</para>
+<para><simplesect kind="pre"><para>The argument &apos;vars&apos; must contain precalculated partition function matrices, i.e. a call to <ref refid="group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb" kindref="member">vrna_pf_TwoD()</ref> preceding this function is mandatory!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb" kindref="member">vrna_pf_TwoD()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> datastructure containing all necessary folding attributes and matrices </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">d1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The distance to reference1 (may be -1) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">d2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The distance to reference2 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A sampled secondary structure in dot-bracket notation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/2Dpfold.h" line="104" column="1" declfile="ViennaRNA/2Dpfold.h" declline="104" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__kl__neighborhood__stochbt_1gae375170cbf15744a9cf2db33d0a2cb75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_pbacktrack5_TwoD</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int d1, int d2, unsigned int length)</argsstring>
+        <name>vrna_pbacktrack5_TwoD</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>d1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>d2</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Sample secondary structure representatives with a specified length from a set of distance classes according to their Boltzmann probability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function does essentially the same as <ref refid="group__kl__neighborhood__stochbt_1ga8527c142361ad019ef9b80c50591f215" kindref="member">vrna_pbacktrack_TwoD()</ref> with the only difference that partial structures, i.e. structures beginning from the 5&apos; end with a specified length of the sequence, are backtracked</para>
+<para><simplesect kind="note"><para>This function does not work (since it makes no sense) for circular RNA sequences!</para>
+</simplesect>
+<simplesect kind="pre"><para>The argument &apos;vars&apos; must contain precalculated partition function matrices, i.e. a call to <ref refid="group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb" kindref="member">vrna_pf_TwoD()</ref> preceding this function is mandatory!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__kl__neighborhood__stochbt_1ga8527c142361ad019ef9b80c50591f215" kindref="member">vrna_pbacktrack_TwoD()</ref>, <ref refid="group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb" kindref="member">vrna_pf_TwoD()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> datastructure containing all necessary folding attributes and matrices </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">d1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The distance to reference1 (may be -1) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">d2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The distance to reference2 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the structure beginning from the 5&apos; end </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A sampled secondary structure in dot-bracket notation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/2Dpfold.h" line="130" column="1" declfile="ViennaRNA/2Dpfold.h" declline="130" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

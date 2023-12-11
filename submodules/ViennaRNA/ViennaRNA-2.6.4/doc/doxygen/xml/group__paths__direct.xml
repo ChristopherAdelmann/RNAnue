@@ -1,0 +1,546 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__paths__direct" kind="group">
+    <compoundname>paths_direct</compoundname>
+    <title>Direct Refolding Paths between two Secondary Structures</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__paths__direct_1gad77dbfa125158f534147c0015a849bc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_path_findpath_saddle</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *s1, const char *s2, int width)</argsstring>
+        <name>vrna_path_findpath_saddle</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+        </param>
+        <briefdescription>
+<para>Find energy of a saddle point between 2 structures (search only direct path) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function uses an inplementation of the <emphasis>findpath</emphasis> algorithm  <verbatim>embed:rst:inline :cite:p:`flamm:2001` </verbatim> for near-optimal direct refolding path prediction.</para>
+<para>Model details, and energy parameters are used as provided via the parameter &apos;fc&apos;. The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> does not require memory for any DP matrices, but requires all most basic init values as one would get from a call like this: <programlisting filename=".c"><codeline><highlight class="normal">fc<sp/>=<sp/><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound</ref>(sequence,<sp/>NULL,<sp/><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref>);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="group__paths__direct_1gaca6d3ab6f8b9463e3382bd1f474c26f1" kindref="member">vrna_path_findpath_saddle_ub()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>, <ref refid="group__paths__direct_1ga2fed8ff126f5becd82cedd81a25c9bf0" kindref="member">vrna_path_findpath()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> with precomputed sequence encoding and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A number specifying how many strutures are being kept at each step during the search </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The saddle energy in 10cal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000156"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>path_findpath_saddle()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The optional parameter <computeroutput>width</computeroutput> defaults to 1 if it is omitted. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.path_findpath_saddle()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/findpath.h" line="52" column="1" declfile="ViennaRNA/landscape/findpath.h" declline="52" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__paths__direct_1gaca6d3ab6f8b9463e3382bd1f474c26f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_path_findpath_saddle_ub</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *s1, const char *s2, int width, int maxE)</argsstring>
+        <name>vrna_path_findpath_saddle_ub</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxE</declname>
+        </param>
+        <briefdescription>
+<para>Find energy of a saddle point between 2 structures (search only direct path) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function uses an inplementation of the <emphasis>findpath</emphasis> algorithm  <verbatim>embed:rst:inline :cite:p:`flamm:2001` </verbatim> for near-optimal direct refolding path prediction.</para>
+<para>Model details, and energy parameters are used as provided via the parameter &apos;fc&apos;. The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> does not require memory for any DP matrices, but requires all most basic init values as one would get from a call like this: <programlisting filename=".c"><codeline><highlight class="normal">fc<sp/>=<sp/><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound</ref>(sequence,<sp/>NULL,<sp/><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref>);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="warning"><para>The argument <computeroutput>maxE</computeroutput> ( <formula id="127">$E_{max}$</formula>) enables one to specify an upper bound, or maximum free energy for the saddle point between the two input structures. If no path with <formula id="128">$E_{saddle} &lt; E_{max}$</formula> is found, the function simply returns <computeroutput>maxE</computeroutput> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__paths__direct_1gad77dbfa125158f534147c0015a849bc3" kindref="member">vrna_path_findpath_saddle()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>, <ref refid="group__paths__direct_1ga2fed8ff126f5becd82cedd81a25c9bf0" kindref="member">vrna_path_findpath()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> with precomputed sequence encoding and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A number specifying how many strutures are being kept at each step during the search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An upper bound for the saddle point energy in 10cal/mol </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The saddle energy in 10cal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000157"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>path_findpath_saddle()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The optional parameter <computeroutput>width</computeroutput> defaults to 1 if it is omitted, while the optional parameter <computeroutput>maxE</computeroutput> defaults to INF. In case the function did not find a path with <formula id="128">$E_{saddle} &lt; E_{max}$</formula> the function returns a <computeroutput>NULL</computeroutput> object, i.e. <computeroutput>undef</computeroutput> for Perl and <computeroutput>None</computeroutput> for Python. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.path_findpath_saddle()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/findpath.h" line="85" column="1" declfile="ViennaRNA/landscape/findpath.h" declline="85" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__paths__direct_1ga2fed8ff126f5becd82cedd81a25c9bf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__paths_1ga818d4f3d1cf8723d6905990b08d909fe" kindref="member">vrna_path_t</ref> *</type>
+        <definition>vrna_path_t * vrna_path_findpath</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *s1, const char *s2, int width)</argsstring>
+        <name>vrna_path_findpath</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+        </param>
+        <briefdescription>
+<para>Find refolding path between 2 structures (search only direct path) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function uses an inplementation of the <emphasis>findpath</emphasis> algorithm  <verbatim>embed:rst:inline :cite:p:`flamm:2001` </verbatim> for near-optimal direct refolding path prediction.</para>
+<para>Model details, and energy parameters are used as provided via the parameter &apos;fc&apos;. The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> does not require memory for any DP matrices, but requires all most basic init values as one would get from a call like this: <programlisting filename=".c"><codeline><highlight class="normal">fc<sp/>=<sp/><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound</ref>(sequence,<sp/>NULL,<sp/><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref>);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="group__paths__direct_1gad00765c2f269fddfa319310af22d4f67" kindref="member">vrna_path_findpath_ub()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>, <ref refid="group__paths__direct_1gad77dbfa125158f534147c0015a849bc3" kindref="member">vrna_path_findpath_saddle()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> with precomputed sequence encoding and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A number specifying how many strutures are being kept at each step during the search </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The saddle energy in 10cal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000158"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>path_findpath()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The optional parameter <computeroutput>width</computeroutput> defaults to 1 if it is omitted. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.path_findpath()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/findpath.h" line="114" column="1" declfile="ViennaRNA/landscape/findpath.h" declline="114" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__paths__direct_1gad00765c2f269fddfa319310af22d4f67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__paths_1ga818d4f3d1cf8723d6905990b08d909fe" kindref="member">vrna_path_t</ref> *</type>
+        <definition>vrna_path_t * vrna_path_findpath_ub</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *s1, const char *s2, int width, int maxE)</argsstring>
+        <name>vrna_path_findpath_ub</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxE</declname>
+        </param>
+        <briefdescription>
+<para>Find refolding path between 2 structures (search only direct path) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function uses an inplementation of the <emphasis>findpath</emphasis> algorithm  <verbatim>embed:rst:inline :cite:p:`flamm:2001` </verbatim> for near-optimal direct refolding path prediction.</para>
+<para>Model details, and energy parameters are used as provided via the parameter &apos;fc&apos;. The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> does not require memory for any DP matrices, but requires all most basic init values as one would get from a call like this: <programlisting filename=".c"><codeline><highlight class="normal">fc<sp/>=<sp/><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound</ref>(sequence,<sp/>NULL,<sp/><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref>);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="warning"><para>The argument <computeroutput>maxE</computeroutput> enables one to specify an upper bound, or maximum free energy for the saddle point between the two input structures. If no path with <formula id="128">$E_{saddle} &lt; E_{max}$</formula> is found, the function simply returns <emphasis>NULL</emphasis> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__paths__direct_1ga2fed8ff126f5becd82cedd81a25c9bf0" kindref="member">vrna_path_findpath()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>, <ref refid="group__paths__direct_1gad77dbfa125158f534147c0015a849bc3" kindref="member">vrna_path_findpath_saddle()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> with precomputed sequence encoding and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A number specifying how many strutures are being kept at each step during the search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An upper bound for the saddle point energy in 10cal/mol </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The saddle energy in 10cal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000159"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>path_findpath()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The optional parameter <computeroutput>width</computeroutput> defaults to 1 if it is omitted, while the optional parameter <computeroutput>maxE</computeroutput> defaults to INF. In case the function did not find a path with <formula id="128">$E_{saddle} &lt; E_{max}$</formula> the function returns an empty list. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.path_findpath()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/findpath.h" line="148" column="1" declfile="ViennaRNA/landscape/findpath.h" declline="148" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__paths__direct_1ga3790a24ca64d68acfa6e67b525151a5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__paths_1gaa99d8ec48f64de53eda0d51b1ed0d3d1" kindref="member">vrna_path_options_t</ref></type>
+        <definition>vrna_path_options_t vrna_path_options_findpath</definition>
+        <argsstring>(int width, unsigned int type)</argsstring>
+        <name>vrna_path_options_findpath</name>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Create options data structure for findpath direct (re-)folding path heuristic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function returns an options data structure that switches the <ref refid="group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8" kindref="member">vrna_path_direct()</ref> and <ref refid="group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0" kindref="member">vrna_path_direct_ub()</ref> API functions to use the <emphasis>findpath</emphasis>  <verbatim>embed:rst:inline :cite:p:`flamm:2001` </verbatim> heuristic. The parameter <computeroutput>width</computeroutput> specifies the width of the breadth-first search while the second parameter <computeroutput>type</computeroutput> allows one to set the type of the returned (re-)folding path.</para>
+<para>Currently, the following return types are available:<itemizedlist>
+<listitem><para>A list of dot-bracket structures and corresponding free energy (flag: <ref refid="group__paths_1ga3e964156b52440b65fae5e2a48750d8e" kindref="member">VRNA_PATH_TYPE_DOT_BRACKET</ref>)</para>
+</listitem><listitem><para>A list of transition moves and corresponding free energy changes (flag: <ref refid="group__paths_1gaa73703da105dc6c98957fb8247c93f1f" kindref="member">VRNA_PATH_TYPE_MOVES</ref>)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="group__paths_1ga3e964156b52440b65fae5e2a48750d8e" kindref="member">VRNA_PATH_TYPE_DOT_BRACKET</ref>, <ref refid="group__paths_1gaa73703da105dc6c98957fb8247c93f1f" kindref="member">VRNA_PATH_TYPE_MOVES</ref>, <ref refid="group__paths_1gaa64a86b13cb165346a0d0c788781512a" kindref="member">vrna_path_options_free()</ref>, <ref refid="group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8" kindref="member">vrna_path_direct()</ref>, <ref refid="group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0" kindref="member">vrna_path_direct_ub()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Width of the breath-first search strategy </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Setting that specifies how the return (re-)folding path should be encoded </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An options data structure with settings for the findpath direct path heuristic</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000162"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>path_options_findpath()</computeroutput>. The optional parameter <computeroutput>width</computeroutput> defaults to 10 if omitted, while the optional parameter <computeroutput>type</computeroutput> defaults to <ref refid="group__paths_1ga3e964156b52440b65fae5e2a48750d8e" kindref="member">VRNA_PATH_TYPE_DOT_BRACKET</ref>. See, e.g.  <verbatim>embed:rst:inline:py:func:`RNA.path_options_findpath()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="166" column="1" declfile="ViennaRNA/landscape/paths.h" declline="166" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__paths_1ga818d4f3d1cf8723d6905990b08d909fe" kindref="member">vrna_path_t</ref> *</type>
+        <definition>vrna_path_t * vrna_path_direct</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *s1, const char *s2, vrna_path_options_t options)</argsstring>
+        <name>vrna_path_direct</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s2</declname>
+        </param>
+        <param>
+          <type><ref refid="group__paths_1gaa99d8ec48f64de53eda0d51b1ed0d3d1" kindref="member">vrna_path_options_t</ref></type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Determine an optimal direct (re-)folding path between two secondary structures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the generic wrapper function to retrieve (an optimal) (re-)folding path between two secondary structures <computeroutput>s1</computeroutput> and <computeroutput>s2</computeroutput>. The actual algorithm that is used to generate the (re-)folding path is determined by the settings specified in the <computeroutput>options</computeroutput> data structure. This data structure also determines the return type, which might be either:<itemizedlist>
+<listitem><para>a list of dot-bracket structures with corresponding free energy, or</para>
+</listitem><listitem><para>a list of transition moves with corresponding free energy change</para>
+</listitem></itemizedlist>
+</para>
+<para>If the <computeroutput>options</computeroutput> parameter is passed a <emphasis>NULL</emphasis> pointer, this function defaults to the <emphasis>findpath heuristic</emphasis>  <verbatim>embed:rst:inline :cite:p:`flamm:2001` </verbatim> with a breadth-first search width of <formula id="129">$ 10 $</formula>, and the returned path consists of dot-bracket structures with corresponding free energies.</para>
+<para><simplesect kind="see"><para><ref refid="group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0" kindref="member">vrna_path_direct_ub()</ref>, <ref refid="group__paths__direct_1ga3790a24ca64d68acfa6e67b525151a5f" kindref="member">vrna_path_options_findpath()</ref>, <ref refid="group__paths_1gaa64a86b13cb165346a0d0c788781512a" kindref="member">vrna_path_options_free()</ref>, <ref refid="group__paths_1ga3763dc16760d09277a1b1c3f3061d0c7" kindref="member">vrna_path_free()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> with precomputed sequence encoding and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An options data structure that specifies the path heuristic and corresponding settings (maybe <emphasis>NULL</emphasis>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An optimal (re-)folding path between the two input structures</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000160"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>path_direct()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The optional parameter <computeroutput>options</computeroutput> defaults to <computeroutput>NULL</computeroutput> if it is omitted. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.path_direct()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="196" column="1" declfile="ViennaRNA/landscape/paths.h" declline="196" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__paths_1ga818d4f3d1cf8723d6905990b08d909fe" kindref="member">vrna_path_t</ref> *</type>
+        <definition>vrna_path_t * vrna_path_direct_ub</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *s1, const char *s2, int maxE, vrna_path_options_t options)</argsstring>
+        <name>vrna_path_direct_ub</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxE</declname>
+        </param>
+        <param>
+          <type><ref refid="group__paths_1gaa99d8ec48f64de53eda0d51b1ed0d3d1" kindref="member">vrna_path_options_t</ref></type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Determine an optimal direct (re-)folding path between two secondary structures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is similar to <ref refid="group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8" kindref="member">vrna_path_direct()</ref>, but allows to specify an <emphasis>upper-bound</emphasis> for the saddle point energy. The underlying algorithms will stop determining an (optimal) (re-)folding path, if none can be found that has a saddle point below the specified upper-bound threshold <computeroutput>maxE</computeroutput>.</para>
+<para><simplesect kind="warning"><para>The argument <computeroutput>maxE</computeroutput> enables one to specify an upper bound, or maximum free energy for the saddle point between the two input structures. If no path with <formula id="128">$E_{saddle} &lt; E_{max}$</formula> is found, the function simply returns <emphasis>NULL</emphasis> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0" kindref="member">vrna_path_direct_ub()</ref>, <ref refid="group__paths__direct_1ga3790a24ca64d68acfa6e67b525151a5f" kindref="member">vrna_path_options_findpath()</ref>, <ref refid="group__paths_1gaa64a86b13cb165346a0d0c788781512a" kindref="member">vrna_path_options_free()</ref>, <ref refid="group__paths_1ga3763dc16760d09277a1b1c3f3061d0c7" kindref="member">vrna_path_free()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> with precomputed sequence encoding and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound for the saddle point along the (re-)folding path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An options data structure that specifies the path heuristic and corresponding settings (maybe <emphasis>NULL</emphasis>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An optimal (re-)folding path between the two input structures</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000161"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>path_direct()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The optional parameter <computeroutput>maxE</computeroutput> defaults to #INT_MAX - 1 if it is omitted, while the optional parameter <computeroutput>options</computeroutput> defaults to <computeroutput>NULL</computeroutput>. In case the function did not find a path with <formula id="128">$E_{saddle} &lt; E_{max}$</formula> it returns an empty list. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.path_direct()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="225" column="1" declfile="ViennaRNA/landscape/paths.h" declline="225" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

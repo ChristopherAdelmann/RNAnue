@@ -1,0 +1,817 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__soft__constraints" kind="group">
+    <compoundname>soft_constraints</compoundname>
+    <title>Soft Constraints</title>
+    <innerfile refid="soft_8h">soft.h</innerfile>
+    <innerfile refid="soft__special_8h">soft_special.h</innerfile>
+    <innerclass refid="structvrna__sc__s" prot="public">vrna_sc_s</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6" prot="public" static="no">
+        <type>struct <ref refid="structvrna__sc__s" kindref="compound">vrna_sc_s</ref></type>
+        <definition>typedef struct vrna_sc_s vrna_sc_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_sc_t</name>
+        <briefdescription>
+<para>Typename for the soft constraints data structure <ref refid="structvrna__sc__s" kindref="compound">vrna_sc_s</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="20" column="24" bodyfile="ViennaRNA/constraints/soft.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__soft__constraints_1gae2f7ded586b09b12ddaa627eee355a32" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* vrna_sc_f) (int i, int j, int k, int l, unsigned char d, void *data)</definition>
+        <argsstring>)(int i, int j, int k, int l, unsigned char d, void *data)</argsstring>
+        <name>vrna_sc_f</name>
+        <briefdescription>
+<para>Callback to retrieve pseudo energy contribution for soft constraint feature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the prototype for callback functions used by the folding recursions to evaluate generic soft constraints. The first four parameters passed indicate the delimiting nucleotide positions of the decomposition, and the parameter <computeroutput>denotes</computeroutput> the decomposition step. The last parameter <computeroutput>data</computeroutput> is the auxiliary data structure associated to the hard constraints via <ref refid="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e" kindref="member">vrna_sc_add_data()</ref>, or NULL if no auxiliary data was added.</para>
+<para><xrefsect id="callbacks_1_callbacks000015"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>This callback enables one to add (pseudo-)energy contributions to individual decompositions of the secondary structure. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__constraints_1ga8bd41ebc8039378d242e4e8c273716a5" kindref="member">VRNA_DECOMP_PAIR_HP</ref>, <ref refid="group__constraints_1gaeab04f34d7730cff2d651d782f95d857" kindref="member">VRNA_DECOMP_PAIR_IL</ref>, <ref refid="group__constraints_1gaa15b1185673f0b9e900c4748d45f388f" kindref="member">VRNA_DECOMP_PAIR_ML</ref>, <ref refid="group__constraints_1ga735517266f2e35e1374b8f1ea77ef23e" kindref="member">VRNA_DECOMP_ML_ML_ML</ref>, <ref refid="group__constraints_1ga4a23054c75d8efc785de50e3ea87602f" kindref="member">VRNA_DECOMP_ML_STEM</ref>, <ref refid="group__constraints_1ga7f4cb9ff7a33e67f0539bd39e7b19a78" kindref="member">VRNA_DECOMP_ML_ML</ref>, <ref refid="group__constraints_1gae6478dda14e50e2f2cb9ef333a29256e" kindref="member">VRNA_DECOMP_ML_UP</ref>, <ref refid="group__constraints_1ga63d8ceb8c96ae3b463e529e28cc0fe98" kindref="member">VRNA_DECOMP_ML_ML_STEM</ref>, <ref refid="group__constraints_1ga4fe48d575830b16c208e280e01ab1497" kindref="member">VRNA_DECOMP_ML_COAXIAL</ref>, <ref refid="group__constraints_1ga437adf5115c1999304eff26b41e4c9b6" kindref="member">VRNA_DECOMP_EXT_EXT</ref>, <ref refid="group__constraints_1gaff1ddaffe86d984623910b40cc8a8717" kindref="member">VRNA_DECOMP_EXT_UP</ref>, <ref refid="group__constraints_1gae44b5ace0d9b4a29088069ecb4cec441" kindref="member">VRNA_DECOMP_EXT_STEM</ref>, <ref refid="group__constraints_1ga803bd818b3f4b2b0a4a5cfa2f7dc2045" kindref="member">VRNA_DECOMP_EXT_EXT_EXT</ref>, <ref refid="group__constraints_1gabb09c5b78b75a44502fc77b950125c1e" kindref="member">VRNA_DECOMP_EXT_STEM_EXT</ref>, <ref refid="group__constraints_1ga06efd054c9271438f6d82d4559d9e69f" kindref="member">VRNA_DECOMP_EXT_EXT_STEM</ref>, <ref refid="group__constraints_1ga2e75d7a77118735b32f25422d9686719" kindref="member">VRNA_DECOMP_EXT_EXT_STEM1</ref>, <ref refid="group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689" kindref="member">vrna_sc_add_f()</ref>, <ref refid="group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e" kindref="member">vrna_sc_add_exp_f()</ref>, <ref refid="group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd" kindref="member">vrna_sc_add_bt()</ref>, <ref refid="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e" kindref="member">vrna_sc_add_data()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left (5&apos;) delimiter position of substructure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right (3&apos;) delimiter position of substructure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left delimiter of decomposition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right delimiter of decomposition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decomposition step indicator </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Auxiliary data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pseudo energy contribution in deka-kalories per mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="60" column="9" bodyfile="ViennaRNA/constraints/soft.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__soft__constraints_1ga562554815b6717091125bf9782532740" prot="public" static="no">
+        <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref>(*</type>
+        <definition>typedef FLT_OR_DBL(* vrna_sc_exp_f) (int i, int j, int k, int l, unsigned char d, void *data)</definition>
+        <argsstring>)(int i, int j, int k, int l, unsigned char d, void *data)</argsstring>
+        <name>vrna_sc_exp_f</name>
+        <briefdescription>
+<para>Callback to retrieve pseudo energy contribution as Boltzmann Factors for soft constraint feature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the prototype for callback functions used by the partition function recursions to evaluate generic soft constraints. The first four parameters passed indicate the delimiting nucleotide positions of the decomposition, and the parameter <computeroutput>denotes</computeroutput> the decomposition step. The last parameter <computeroutput>data</computeroutput> is the auxiliary data structure associated to the hard constraints via <ref refid="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e" kindref="member">vrna_sc_add_data()</ref>, or NULL if no auxiliary data was added.</para>
+<para><xrefsect id="callbacks_1_callbacks000016"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>This callback enables one to add (pseudo-)energy contributions to individual decompositions of the secondary structure (Partition function variant, i.e. contributions must be returned as Boltzmann factors). </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__constraints_1ga8bd41ebc8039378d242e4e8c273716a5" kindref="member">VRNA_DECOMP_PAIR_HP</ref>, <ref refid="group__constraints_1gaeab04f34d7730cff2d651d782f95d857" kindref="member">VRNA_DECOMP_PAIR_IL</ref>, <ref refid="group__constraints_1gaa15b1185673f0b9e900c4748d45f388f" kindref="member">VRNA_DECOMP_PAIR_ML</ref>, <ref refid="group__constraints_1ga735517266f2e35e1374b8f1ea77ef23e" kindref="member">VRNA_DECOMP_ML_ML_ML</ref>, <ref refid="group__constraints_1ga4a23054c75d8efc785de50e3ea87602f" kindref="member">VRNA_DECOMP_ML_STEM</ref>, <ref refid="group__constraints_1ga7f4cb9ff7a33e67f0539bd39e7b19a78" kindref="member">VRNA_DECOMP_ML_ML</ref>, <ref refid="group__constraints_1gae6478dda14e50e2f2cb9ef333a29256e" kindref="member">VRNA_DECOMP_ML_UP</ref>, <ref refid="group__constraints_1ga63d8ceb8c96ae3b463e529e28cc0fe98" kindref="member">VRNA_DECOMP_ML_ML_STEM</ref>, <ref refid="group__constraints_1ga4fe48d575830b16c208e280e01ab1497" kindref="member">VRNA_DECOMP_ML_COAXIAL</ref>, <ref refid="group__constraints_1ga437adf5115c1999304eff26b41e4c9b6" kindref="member">VRNA_DECOMP_EXT_EXT</ref>, <ref refid="group__constraints_1gaff1ddaffe86d984623910b40cc8a8717" kindref="member">VRNA_DECOMP_EXT_UP</ref>, <ref refid="group__constraints_1gae44b5ace0d9b4a29088069ecb4cec441" kindref="member">VRNA_DECOMP_EXT_STEM</ref>, <ref refid="group__constraints_1ga803bd818b3f4b2b0a4a5cfa2f7dc2045" kindref="member">VRNA_DECOMP_EXT_EXT_EXT</ref>, <ref refid="group__constraints_1gabb09c5b78b75a44502fc77b950125c1e" kindref="member">VRNA_DECOMP_EXT_STEM_EXT</ref>, <ref refid="group__constraints_1ga06efd054c9271438f6d82d4559d9e69f" kindref="member">VRNA_DECOMP_EXT_EXT_STEM</ref>, <ref refid="group__constraints_1ga2e75d7a77118735b32f25422d9686719" kindref="member">VRNA_DECOMP_EXT_EXT_STEM1</ref>, <ref refid="group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e" kindref="member">vrna_sc_add_exp_f()</ref>, <ref refid="group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689" kindref="member">vrna_sc_add_f()</ref>, <ref refid="group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd" kindref="member">vrna_sc_add_bt()</ref>, <ref refid="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e" kindref="member">vrna_sc_add_data()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left (5&apos;) delimiter position of substructure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right (3&apos;) delimiter position of substructure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left delimiter of decomposition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right delimiter of decomposition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decomposition step indicator </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Auxiliary data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pseudo energy contribution in deka-kalories per mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="115" column="9" bodyfile="ViennaRNA/constraints/soft.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__soft__constraints_1gaaa010a245ab273cd5c265929ff0b8bbd" prot="public" static="no">
+        <type><ref refid="group__data__structures_1gac8c5669d3fb813cacf506489689305ce" kindref="member">vrna_basepair_t</ref> *(*</type>
+        <definition>typedef vrna_basepair_t *(* vrna_sc_bt_f) (int i, int j, int k, int l, unsigned char d, void *data)</definition>
+        <argsstring>)(int i, int j, int k, int l, unsigned char d, void *data)</argsstring>
+        <name>vrna_sc_bt_f</name>
+        <briefdescription>
+<para>Callback to retrieve auxiliary base pairs for soft constraint feature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="callbacks_1_callbacks000017"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>This callback enables one to add auxiliary base pairs in the backtracking steps of hairpin- and interior loops. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__constraints_1ga8bd41ebc8039378d242e4e8c273716a5" kindref="member">VRNA_DECOMP_PAIR_HP</ref>, <ref refid="group__constraints_1gaeab04f34d7730cff2d651d782f95d857" kindref="member">VRNA_DECOMP_PAIR_IL</ref>, <ref refid="group__constraints_1gaa15b1185673f0b9e900c4748d45f388f" kindref="member">VRNA_DECOMP_PAIR_ML</ref>, <ref refid="group__constraints_1ga735517266f2e35e1374b8f1ea77ef23e" kindref="member">VRNA_DECOMP_ML_ML_ML</ref>, <ref refid="group__constraints_1ga4a23054c75d8efc785de50e3ea87602f" kindref="member">VRNA_DECOMP_ML_STEM</ref>, <ref refid="group__constraints_1ga7f4cb9ff7a33e67f0539bd39e7b19a78" kindref="member">VRNA_DECOMP_ML_ML</ref>, <ref refid="group__constraints_1gae6478dda14e50e2f2cb9ef333a29256e" kindref="member">VRNA_DECOMP_ML_UP</ref>, <ref refid="group__constraints_1ga63d8ceb8c96ae3b463e529e28cc0fe98" kindref="member">VRNA_DECOMP_ML_ML_STEM</ref>, <ref refid="group__constraints_1ga4fe48d575830b16c208e280e01ab1497" kindref="member">VRNA_DECOMP_ML_COAXIAL</ref>, <ref refid="group__constraints_1ga437adf5115c1999304eff26b41e4c9b6" kindref="member">VRNA_DECOMP_EXT_EXT</ref>, <ref refid="group__constraints_1gaff1ddaffe86d984623910b40cc8a8717" kindref="member">VRNA_DECOMP_EXT_UP</ref>, <ref refid="group__constraints_1gae44b5ace0d9b4a29088069ecb4cec441" kindref="member">VRNA_DECOMP_EXT_STEM</ref>, <ref refid="group__constraints_1ga803bd818b3f4b2b0a4a5cfa2f7dc2045" kindref="member">VRNA_DECOMP_EXT_EXT_EXT</ref>, <ref refid="group__constraints_1gabb09c5b78b75a44502fc77b950125c1e" kindref="member">VRNA_DECOMP_EXT_STEM_EXT</ref>, <ref refid="group__constraints_1ga06efd054c9271438f6d82d4559d9e69f" kindref="member">VRNA_DECOMP_EXT_EXT_STEM</ref>, <ref refid="group__constraints_1ga2e75d7a77118735b32f25422d9686719" kindref="member">VRNA_DECOMP_EXT_EXT_STEM1</ref>, <ref refid="group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd" kindref="member">vrna_sc_add_bt()</ref>, <ref refid="group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689" kindref="member">vrna_sc_add_f()</ref>, <ref refid="group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e" kindref="member">vrna_sc_add_exp_f()</ref>, <ref refid="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e" kindref="member">vrna_sc_add_data()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left (5&apos;) delimiter position of substructure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right (3&apos;) delimiter position of substructure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left delimiter of decomposition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right delimiter of decomposition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decomposition step indicator </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Auxiliary data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of additional base pairs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="165" column="9" bodyfile="ViennaRNA/constraints/soft.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__soft__constraints_1gab8e024c40f167496df65adfa0db9a9b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_sc_init</definition>
+        <argsstring>(vrna_fold_compound_t *fc)</argsstring>
+        <name>vrna_sc_init</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+<para>Initialize an empty soft constraints data structure within a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function adds a proper soft constraints data structure to the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> data structure. If soft constraints already exist within the fold compound, they are removed.</para>
+<para><simplesect kind="note"><para>Accepts vrna_fold_compound_t of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" kindref="member">VRNA_FC_TYPE_SINGLE</ref> and <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref></para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__soft__constraints_1ga68900a8a15c83ff352f576b8a298e371" kindref="member">vrna_sc_set_bp()</ref>, <ref refid="group__soft__constraints_1gaf6634fa9249945b7cb0e325942d2771b" kindref="member">vrna_sc_set_up()</ref>, <ref refid="group__SHAPE__reactivities_1gad609895467d59ea53faac4f98b71c099" kindref="member">vrna_sc_add_SHAPE_deigan()</ref>, <ref refid="group__SHAPE__reactivities_1ga5a673837ebe42d790bdf3ccf8982d3dc" kindref="member">vrna_sc_add_SHAPE_zarringhalam()</ref>, <ref refid="group__soft__constraints_1gac81478a33880029ca9975bd89cc26fa9" kindref="member">vrna_sc_remove()</ref>, <ref refid="group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689" kindref="member">vrna_sc_add_f()</ref>, <ref refid="group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e" kindref="member">vrna_sc_add_exp_f()</ref>, vrna_sc_add_pre(), vrna_sc_add_post()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> where an empty soft constraint feature is to be added to</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000045"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>sc_init()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_init()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="288" column="1" declfile="ViennaRNA/constraints/soft.h" declline="288" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__soft__constraints_1ga68900a8a15c83ff352f576b8a298e371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_sc_set_bp</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const FLT_OR_DBL **constraints, unsigned int options)</argsstring>
+        <name>vrna_sc_set_bp</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref> **</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Set soft constraints for paired nucleotides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>This function replaces any pre-exisitng soft constraints with the ones supplied in <computeroutput>constraints</computeroutput>.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__soft__constraints_1gac91891f274fe03c2801b21a95fa1b12e" kindref="member">vrna_sc_add_bp()</ref>, <ref refid="group__soft__constraints_1gaf6634fa9249945b7cb0e325942d2771b" kindref="member">vrna_sc_set_up()</ref>, <ref refid="group__soft__constraints_1gaf99b2e63712bc47106d5b887c915375d" kindref="member">vrna_sc_add_up()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> the soft constraints are associated with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A two-dimensional array of pseudo free energies in <formula id="121">$ kcal / mol $</formula> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options flag indicating how/where to store the soft constraints </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Non-zero on successful application of the constraint, 0 otherwise.</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000047"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>sc_set_bp()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_set_bp()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="318" column="1" declfile="ViennaRNA/constraints/soft.h" declline="318" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__soft__constraints_1gac91891f274fe03c2801b21a95fa1b12e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_sc_add_bp</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int i, int j, FLT_OR_DBL energy, unsigned int options)</argsstring>
+        <name>vrna_sc_add_bp</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref></type>
+          <declname>energy</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Add soft constraints for paired nucleotides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__soft__constraints_1ga68900a8a15c83ff352f576b8a298e371" kindref="member">vrna_sc_set_bp()</ref>, <ref refid="group__soft__constraints_1gaf6634fa9249945b7cb0e325942d2771b" kindref="member">vrna_sc_set_up()</ref>, <ref refid="group__soft__constraints_1gaf99b2e63712bc47106d5b887c915375d" kindref="member">vrna_sc_add_up()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> the soft constraints are associated with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 5&apos; position of the base pair the soft constraint is added for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 3&apos; position of the base pair the soft constraint is added for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The free energy (soft-constraint) in <formula id="121">$ kcal / mol $</formula> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options flag indicating how/where to store the soft constraints </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Non-zero on successful application of the constraint, 0 otherwise.</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000048"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>sc_add_bp()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The method either takes arguments for a single base pair (i,j) with the corresponding energy value: </para>
+</parblock></para>
+</xrefdescription></xrefsect><programlisting><codeline><highlight class="normal">fold_compound.sc_add_bp(i,<sp/>j,<sp/>energy,<sp/>options)</highlight></codeline>
+</programlisting> or an entire 2-dimensional matrix with dimensions n x n that stores free energy contributions for any base pair (i,j) with <formula id="162">$ 1 \leq i &lt; j \leq n $</formula>: <programlisting><codeline><highlight class="normal">fold_compound.sc_add_bp(matrix,<sp/>options)</highlight></codeline>
+</programlisting> In both variants, the optional argument <computeroutput>options</computeroutput> defaults to <ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_add_bp()` in the :doc:`/api_python` </verbatim>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="338" column="1" declfile="ViennaRNA/constraints/soft.h" declline="338" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__soft__constraints_1gaf6634fa9249945b7cb0e325942d2771b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_sc_set_up</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const FLT_OR_DBL *constraints, unsigned int options)</argsstring>
+        <name>vrna_sc_set_up</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref> *</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Set soft constraints for unpaired nucleotides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>This function replaces any pre-exisitng soft constraints with the ones supplied in <computeroutput>constraints</computeroutput>.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__soft__constraints_1gaf99b2e63712bc47106d5b887c915375d" kindref="member">vrna_sc_add_up()</ref>, <ref refid="group__soft__constraints_1ga68900a8a15c83ff352f576b8a298e371" kindref="member">vrna_sc_set_bp()</ref>, <ref refid="group__soft__constraints_1gac91891f274fe03c2801b21a95fa1b12e" kindref="member">vrna_sc_add_bp()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> the soft constraints are associated with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vector of pseudo free energies in <formula id="121">$ kcal / mol $</formula> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options flag indicating how/where to store the soft constraints </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Non-zero on successful application of the constraint, 0 otherwise.</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000049"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>sc_set_up()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_set_up()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="361" column="1" declfile="ViennaRNA/constraints/soft.h" declline="361" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__soft__constraints_1gaf99b2e63712bc47106d5b887c915375d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_sc_add_up</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int i, FLT_OR_DBL energy, unsigned int options)</argsstring>
+        <name>vrna_sc_add_up</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref></type>
+          <declname>energy</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Add soft constraints for unpaired nucleotides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__soft__constraints_1gaf6634fa9249945b7cb0e325942d2771b" kindref="member">vrna_sc_set_up()</ref>, <ref refid="group__soft__constraints_1gac91891f274fe03c2801b21a95fa1b12e" kindref="member">vrna_sc_add_bp()</ref>, <ref refid="group__soft__constraints_1ga68900a8a15c83ff352f576b8a298e371" kindref="member">vrna_sc_set_bp()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> the soft constraints are associated with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nucleotide position the soft constraint is added for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The free energy (soft-constraint) in <formula id="121">$ kcal / mol $</formula> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options flag indicating how/where to store the soft constraints </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Non-zero on successful application of the constraint, 0 otherwise.</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000050"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>sc_add_up()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The method either takes arguments for a single nucleotide <formula id="163">$i $</formula> with the corresponding energy value: </para>
+</parblock></para>
+</xrefdescription></xrefsect><programlisting><codeline><highlight class="normal">fold_compound.sc_add_up(i,<sp/>energy,<sp/>options)</highlight></codeline>
+</programlisting> or an entire vector that stores free energy contributions for each nucleotide <formula id="163">$i $</formula> with <formula id="164">$ 1 \leq i \leq n $</formula>: <programlisting><codeline><highlight class="normal">fold_compound.sc_add_bp(vector,<sp/>options)</highlight></codeline>
+</programlisting> In both variants, the optional argument <computeroutput>options</computeroutput> defaults to <ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_add_up()` in the :doc:`/api_python` </verbatim>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="380" column="1" declfile="ViennaRNA/constraints/soft.h" declline="380" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__soft__constraints_1gac81478a33880029ca9975bd89cc26fa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_sc_remove</definition>
+        <argsstring>(vrna_fold_compound_t *fc)</argsstring>
+        <name>vrna_sc_remove</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+<para>Remove soft constraints from <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Accepts vrna_fold_compound_t of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" kindref="member">VRNA_FC_TYPE_SINGLE</ref> and <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> possibly containing soft constraints</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000046"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>sc_remove()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_remove()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="422" column="1" declfile="ViennaRNA/constraints/soft.h" declline="422" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__soft__constraints_1ga6d55446448d69346fc313b993c4fb3e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_sc_free</definition>
+        <argsstring>(vrna_sc_t *sc)</argsstring>
+        <name>vrna_sc_free</name>
+        <param>
+          <type><ref refid="group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6" kindref="member">vrna_sc_t</ref> *</type>
+          <declname>sc</declname>
+        </param>
+        <briefdescription>
+<para>Free memory occupied by a <ref refid="group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6" kindref="member">vrna_sc_t</ref> data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data structure to free from memory </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="433" column="1" declfile="ViennaRNA/constraints/soft.h" declline="433" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_sc_add_data</definition>
+        <argsstring>(vrna_fold_compound_t *fc, void *data, vrna_auxdata_free_f free_data)</argsstring>
+        <name>vrna_sc_add_data</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a" kindref="member">vrna_auxdata_free_f</ref></type>
+          <declname>free_data</declname>
+        </param>
+        <briefdescription>
+<para>Add an auxiliary data structure for the generic soft constraints callback function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689" kindref="member">vrna_sc_add_f()</ref>, <ref refid="group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e" kindref="member">vrna_sc_add_exp_f()</ref>, <ref refid="group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd" kindref="member">vrna_sc_add_bt()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound the generic soft constraint function should be bound to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the data structure that holds required data for function &apos;f&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>free_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a function that free&apos;s the memory occupied by <computeroutput>data</computeroutput> (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Non-zero on successful binding the data (and free-function), 0 otherwise</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000051"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>sc_add_data()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_add_data()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="449" column="1" declfile="ViennaRNA/constraints/soft.h" declline="449" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_sc_add_f</definition>
+        <argsstring>(vrna_fold_compound_t *fc, vrna_sc_f f)</argsstring>
+        <name>vrna_sc_add_f</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type><ref refid="group__soft__constraints_1gae2f7ded586b09b12ddaa627eee355a32" kindref="member">vrna_sc_f</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>Bind a function pointer for generic soft constraint feature (MFE version) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows one to easily bind a function pointer and corresponding data structure to the soft constraint part <ref refid="group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6" kindref="member">vrna_sc_t</ref> of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. The function for evaluating the generic soft constraint feature has to return a pseudo free energy <formula id="122">$ \hat{E} $</formula> in <formula id="123">$ dacal/mol $</formula>, where <formula id="124">$ 1 dacal/mol = 10 cal/mol $</formula>.</para>
+<para><simplesect kind="see"><para><ref refid="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e" kindref="member">vrna_sc_add_data()</ref>, <ref refid="group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd" kindref="member">vrna_sc_add_bt()</ref>, <ref refid="group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e" kindref="member">vrna_sc_add_exp_f()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound the generic soft constraint function should be bound to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the function that evaluates the generic soft constraint feature </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Non-zero on successful binding the callback function, 0 otherwise</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000052"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>sc_add_f()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_add_f()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="484" column="1" declfile="ViennaRNA/constraints/soft.h" declline="484" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_sc_add_bt</definition>
+        <argsstring>(vrna_fold_compound_t *fc, vrna_sc_bt_f f)</argsstring>
+        <name>vrna_sc_add_bt</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type><ref refid="group__soft__constraints_1gaaa010a245ab273cd5c265929ff0b8bbd" kindref="member">vrna_sc_bt_f</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>Bind a backtracking function pointer for generic soft constraint feature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows one to easily bind a function pointer to the soft constraint part <ref refid="group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6" kindref="member">vrna_sc_t</ref> of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. The provided function should be used for backtracking purposes in loop regions that were altered via the generic soft constraint feature. It has to return an array of <ref refid="group__data__structures_1gac8c5669d3fb813cacf506489689305ce" kindref="member">vrna_basepair_t</ref> data structures, were the last element in the list is indicated by a value of -1 in it&apos;s i position.</para>
+<para><simplesect kind="see"><para><ref refid="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e" kindref="member">vrna_sc_add_data()</ref>, <ref refid="group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689" kindref="member">vrna_sc_add_f()</ref>, <ref refid="group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e" kindref="member">vrna_sc_add_exp_f()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound the generic soft constraint function should be bound to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the function that returns additional base pairs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Non-zero on successful binding the callback function, 0 otherwise</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000053"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>sc_add_bt()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_add_bt()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="522" column="1" declfile="ViennaRNA/constraints/soft.h" declline="522" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_sc_add_exp_f</definition>
+        <argsstring>(vrna_fold_compound_t *fc, vrna_sc_exp_f exp_f)</argsstring>
+        <name>vrna_sc_add_exp_f</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type><ref refid="group__soft__constraints_1ga562554815b6717091125bf9782532740" kindref="member">vrna_sc_exp_f</ref></type>
+          <declname>exp_f</declname>
+        </param>
+        <briefdescription>
+<para>Bind a function pointer for generic soft constraint feature (PF version) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows one to easily bind a function pointer and corresponding data structure to the soft constraint part <ref refid="group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6" kindref="member">vrna_sc_t</ref> of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. The function for evaluating the generic soft constraint feature has to return a pseudo free energy <formula id="122">$ \hat{E} $</formula> as Boltzmann factor, i.e. <formula id="125">$ exp(- \hat{E} / kT) $</formula>. The required unit for <formula id="82">$ E $</formula> is <formula id="126">$ cal/mol $</formula>.</para>
+<para><simplesect kind="see"><para><ref refid="group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd" kindref="member">vrna_sc_add_bt()</ref>, <ref refid="group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689" kindref="member">vrna_sc_add_f()</ref>, <ref refid="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e" kindref="member">vrna_sc_add_data()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound the generic soft constraint function should be bound to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>exp_f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the function that evaluates the generic soft constraint feature </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Non-zero on successful binding the callback function, 0 otherwise</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000054"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>sc_add_exp_f()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_add_exp_f()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/soft.h" line="544" column="1" declfile="ViennaRNA/constraints/soft.h" declline="544" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

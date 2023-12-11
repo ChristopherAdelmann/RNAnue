@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__struct__utils__metrics" kind="group">
+    <compoundname>struct_utils_metrics</compoundname>
+    <title>Distance measures between Secondary Structures</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__struct__utils__metrics_1gae08cbd5ff44b7d77a271ceb79c12cfef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_bp_distance_pt</definition>
+        <argsstring>(const short *pt1, const short *pt2)</argsstring>
+        <name>vrna_bp_distance_pt</name>
+        <param>
+          <type>const short *</type>
+          <declname>pt1</declname>
+        </param>
+        <param>
+          <type>const short *</type>
+          <declname>pt2</declname>
+        </param>
+        <briefdescription>
+<para>Compute the &quot;base pair&quot; distance between two pair tables pt1 and pt2 of secondary structures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The pair tables should have the same length. dist = number of base pairs in one structure but not in the other same as edit distance with open-pair close-pair as move-set</para>
+<para><simplesect kind="see"><para><ref refid="group__struct__utils__metrics_1ga65bdfbac6a16bf30286e8a3f7d15f60a" kindref="member">vrna_bp_distance()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pt1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pt2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The base pair distance between pt1 and pt2</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000174"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as an overloaded method <bold><ref refid="group__struct__utils__deprecated_1ga6ebbcd29a754f0e4f1a66d1fd84184db" kindref="member">bp_distance()</ref></bold>. See, e.g.  <verbatim>embed:rst:inline:py:func:`RNA.bp_distance()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="648" column="1" declfile="ViennaRNA/utils/structures.h" declline="648" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__struct__utils__metrics_1ga65bdfbac6a16bf30286e8a3f7d15f60a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_bp_distance</definition>
+        <argsstring>(const char *str1, const char *str2)</argsstring>
+        <name>vrna_bp_distance</name>
+        <param>
+          <type>const char *</type>
+          <declname>str1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>str2</declname>
+        </param>
+        <briefdescription>
+<para>Compute the &quot;base pair&quot; distance between two secondary structures s1 and s2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is a wrapper around <bold><ref refid="group__struct__utils__metrics_1gae08cbd5ff44b7d77a271ceb79c12cfef" kindref="member">vrna_bp_distance_pt()</ref></bold>. The sequences should have the same length. dist = number of base pairs in one structure but not in the other same as edit distance with open-pair close-pair as move-set</para>
+<para><simplesect kind="see"><para><ref refid="group__struct__utils__metrics_1gae08cbd5ff44b7d77a271ceb79c12cfef" kindref="member">vrna_bp_distance_pt()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>str2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The base pair distance between str1 and str2</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000175"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as an overloaded method <bold><ref refid="group__struct__utils__deprecated_1ga6ebbcd29a754f0e4f1a66d1fd84184db" kindref="member">bp_distance()</ref></bold>. Note that the SWIG wrapper takes two structure in dot-bracket notation and converts them into pair tables using <ref refid="group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148" kindref="member">vrna_ptable_from_string()</ref>. The resulting pair tables are then internally passed to <ref refid="group__struct__utils__metrics_1gae08cbd5ff44b7d77a271ceb79c12cfef" kindref="member">vrna_bp_distance_pt()</ref>. To control which kind of matching brackets will be used during conversion, the optional argument <computeroutput>options</computeroutput> can be used. See also the description of <ref refid="group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148" kindref="member">vrna_ptable_from_string()</ref> for available options. (default: <bold>VRNA_BRACKETS_RND</bold>). See, e.g.  <verbatim>embed:rst:inline:py:func:`RNA.bp_distance()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="666" column="1" declfile="ViennaRNA/utils/structures.h" declline="666" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__struct__utils__metrics_1ga58224cf9335172baa1e725266cc5d90c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double vrna_dist_mountain</definition>
+        <argsstring>(const char *str1, const char *str2, unsigned int p)</argsstring>
+        <name>vrna_dist_mountain</name>
+        <param>
+          <type>const char *</type>
+          <declname>str1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>str2</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="671" column="1" declfile="ViennaRNA/utils/structures.h" declline="671" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RNA-RNA interaction as a stepwise process &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Classified Dynamic Programming Variants" href="../class_fold.html" />
+    <link rel="prev" title="Partition Function for Two Hybridized Sequences" href="pf.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pf.html">Partition Function for Two Hybridized Sequences</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">RNA-RNA interaction as a stepwise process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cofold.html#concatenating-rna-sequences">Concatenating RNA sequences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cofold.html#rna-rna-interaction-as-a-stepwise-process">RNA-RNA interaction as a Stepwise Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cofold.html#rna-rna-interaction-api">RNA-RNA Interaction API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../cofold.html">RNA-RNA Interaction</a></li>
+      <li class="breadcrumb-item active">RNA-RNA interaction as a stepwise process</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rna-rna-interaction-as-a-stepwise-process">
+<h1>RNA-RNA interaction as a stepwise process<a class="headerlink" href="#rna-rna-interaction-as-a-stepwise-process" title="Link to this heading"></a></h1>
+<p>In this approach to cofolding the interaction between two RNA molecules is
+seen as a stepwise process. In a first step, the target molecule has to
+adopt a structure in which a binding site is accessible. In a second step,
+the ligand molecule will hybridize with a region accessible to an
+interaction. Consequently the algorithm is designed as a two step process:
+The first step is the calculation of the probability
+that a region within the target is unpaired, or equivalently, the
+calculation of the free energy needed to expose a region. In the second step
+we compute the free energy of an interaction for every possible binding site.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__up__cofold"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.pf_unstru">
+<span class="target" id="group__up__cofold_1ga2a7fb78dfbfb00eccf8d79f38e3384c3"></span><a class="reference internal" href="../utils/data_structures.html#c.pu_contrib" title="pu_contrib"><span class="n"><span class="pre">pu_contrib</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pf_unstru</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">max_w</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.pf_unstru" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_up.h&gt;</em><p>Calculate the partition function over all unpaired regions of a maximal length. </p>
+<p>You have to call function <a class="reference internal" href="../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a> providing the same sequence before calling <a class="reference internal" href="#group__up__cofold_1ga2a7fb78dfbfb00eccf8d79f38e3384c3"><span class="std std-ref">pf_unstru()</span></a>. If you want to calculate unpaired regions for a constrained structure, set variable ‘structure’ in function ‘<a class="reference internal" href="../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a>’ to the constrain string. It returns a <a class="reference internal" href="../utils/data_structures.html#structpu__contrib"><span class="std std-ref">pu_contrib</span></a> struct containing four arrays of dimension [i = 1 to length(sequence)][j = 0 to u-1] containing all possible contributions to the probabilities of unpaired regions of maximum length u. Each array in <a class="reference internal" href="../utils/data_structures.html#structpu__contrib"><span class="std std-ref">pu_contrib</span></a> contains one of the contributions to the total probability of being unpaired: The probability of being unpaired within an exterior loop is in array <a class="reference internal" href="../utils/data_structures.html#structpu__contrib"><span class="std std-ref">pu_contrib</span></a>-&gt;E, the probability of being unpaired within a hairpin loop is in array <a class="reference internal" href="../utils/data_structures.html#structpu__contrib"><span class="std std-ref">pu_contrib</span></a>-&gt;H, the probability of being unpaired within an interior loop is in array <a class="reference internal" href="../utils/data_structures.html#structpu__contrib"><span class="std std-ref">pu_contrib</span></a>-&gt;I and probability of being unpaired within a multi-loop is in array <a class="reference internal" href="../utils/data_structures.html#structpu__contrib"><span class="std std-ref">pu_contrib</span></a>-&gt;M. The total probability of being unpaired is the sum of the four arrays of <a class="reference internal" href="../utils/data_structures.html#structpu__contrib"><span class="std std-ref">pu_contrib</span></a>.</p>
+<p>This function frees everything allocated automatically. To free the output structure call free_pu_contrib().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – </p></li>
+<li><p><strong>max_w</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.pf_interact">
+<span class="target" id="group__up__cofold_1ga5adcc9222fe42d943e407e79a3f4558d"></span><a class="reference internal" href="../utils/data_structures.html#c.interact" title="interact"><span class="n"><span class="pre">interact</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pf_interact</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s2</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.pu_contrib" title="pu_contrib"><span class="n"><span class="pre">pu_contrib</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p_c</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.pu_contrib" title="pu_contrib"><span class="n"><span class="pre">pu_contrib</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p_c2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">max_w</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">cstruc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">incr3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">incr5</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.pf_interact" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_up.h&gt;</em><p>Calculates the probability of a local interaction between two sequences. </p>
+<p>The function considers the probability that the region of interaction is unpaired within ‘s1’ and ‘s2’. The longer sequence has to be given as ‘s1’. The shorter sequence has to be given as ‘s2’. Function <a class="reference internal" href="#group__up__cofold_1ga2a7fb78dfbfb00eccf8d79f38e3384c3"><span class="std std-ref">pf_unstru()</span></a><p>has to be called for ‘s1’ and ‘s2’, where the probabilities of being unpaired have to be given in ‘p_c’ and ‘p_c2’, respectively. If you do not want to include the probabilities of being unpaired for ‘s2’ set ‘p_c2’ to NULL. If variable ‘cstruc’ is not NULL, constrained folding is done: The available constrains for intermolecular interaction are: ‘.’ (no constrain), ‘x’ (the base has no intermolecular interaction) and ‘|’ (the corresponding base has to be paired intermolecularily).</p>
+<p>The parameter ‘w’ determines the maximal length of the interaction. The parameters ‘incr5’ and ‘incr3’ allows inclusion of unpaired residues left (‘incr5’) and right (‘incr3’) of the region of interaction in ‘s1’. If the ‘incr’ options are used, function</p>
+<a class="reference internal" href="#group__up__cofold_1ga2a7fb78dfbfb00eccf8d79f38e3384c3"><span class="std std-ref">pf_unstru()</span></a> has to be called with w=w+incr5+incr3 for the longer sequence ‘s1’.</p>
+<p>It returns a structure of type <a class="reference internal" href="../utils/data_structures.html#structinteract"><span class="std std-ref">interact</span></a> which contains the probability of the best local interaction including residue i in Pi and the minimum free energy in Gi, where i is the position in sequence ‘s1’. The member Gikjl of structure <a class="reference internal" href="../utils/data_structures.html#structinteract"><span class="std std-ref">interact</span></a><p>is the best interaction between region [k,i] k&lt;i in longer sequence ‘s1’ and region [j,l] j&lt;l in ‘s2’. Gikjl_wo is Gikjl without the probability of beeing unpaired.</p>
+<p>Use</p>
+<a class="reference internal" href="#group__up__cofold_1gadde308fd5f696dc271b1532aa96fd12f"><span class="std std-ref">free_interact()</span></a> to free the returned structure, all other stuff is freed inside <a class="reference internal" href="#group__up__cofold_1ga5adcc9222fe42d943e407e79a3f4558d"><span class="std std-ref">pf_interact()</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s1</strong> – </p></li>
+<li><p><strong>s2</strong> – </p></li>
+<li><p><strong>p_c</strong> – </p></li>
+<li><p><strong>p_c2</strong> – </p></li>
+<li><p><strong>max_w</strong> – </p></li>
+<li><p><strong>cstruc</strong> – </p></li>
+<li><p><strong>incr3</strong> – </p></li>
+<li><p><strong>incr5</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.free_interact">
+<span class="target" id="group__up__cofold_1gadde308fd5f696dc271b1532aa96fd12f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">free_interact</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/data_structures.html#c.interact" title="interact"><span class="n"><span class="pre">interact</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pin</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.free_interact" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_up.h&gt;</em><p>Frees the output of function <a class="reference internal" href="#group__up__cofold_1ga5adcc9222fe42d943e407e79a3f4558d"><span class="std std-ref">pf_interact()</span></a>. </p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Up_plot">
+<span class="target" id="group__up__cofold_1ga73efd2918cbbb2cdf44422653f996852"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Up_plot</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/data_structures.html#c.pu_contrib" title="pu_contrib"><span class="n"><span class="pre">pu_contrib</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p_c</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.pu_contrib" title="pu_contrib"><span class="n"><span class="pre">pu_contrib</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p_c_sh</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.interact" title="interact"><span class="n"><span class="pre">interact</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pint</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ofile</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">unpaired_values</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">select_contrib</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">head</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">mode</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Up_plot" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_up.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_pu_contrib_struct">
+<span class="target" id="group__up__cofold_1gac827201da2538b2eb37e1797031b036e"></span><a class="reference internal" href="../utils/data_structures.html#c.pu_contrib" title="pu_contrib"><span class="n"><span class="pre">pu_contrib</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_pu_contrib_struct</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">n</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">w</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_pu_contrib_struct" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_up.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.free_pu_contrib_struct">
+<span class="target" id="group__up__cofold_1gac20bd61824981d45ce0dc9934aa56df8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">free_pu_contrib_struct</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/data_structures.html#c.pu_contrib" title="pu_contrib"><span class="n"><span class="pre">pu_contrib</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pu</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.free_pu_contrib_struct" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_up.h&gt;</em><p>Frees the output of function <a class="reference internal" href="#group__up__cofold_1ga2a7fb78dfbfb00eccf8d79f38e3384c3"><span class="std std-ref">pf_unstru()</span></a>. </p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.free_pu_contrib">
+<span class="target" id="group__up__cofold_1gae1b3579727cf7a27eea93594d0e6d831"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">free_pu_contrib</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/data_structures.html#c.pu_contrib" title="pu_contrib"><span class="n"><span class="pre">pu_contrib</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pu</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.free_pu_contrib" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_up.h&gt;</em></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pf.html" class="btn btn-neutral float-left" title="Partition Function for Two Hybridized Sequences" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../class_fold.html" class="btn btn-neutral float-right" title="Classified Dynamic Programming Variants" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

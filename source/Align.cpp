@@ -2,7 +2,7 @@
 
 Align::Align(po::variables_map params) : 
     params(params) {
-
+    segemehlSysCall = params["segemehl"].as<std::string>();
     std::cout << "create align object" << std::endl;
     buildIndex();
 }
@@ -10,7 +10,7 @@ Align::Align(po::variables_map params) :
 void Align::alignReads(std::string query, std::string matched) {
     std::cout << "calling segemehl" << std::endl;
 
-    std::string align = "/Users/christopherphd/Documents/Software/segemehl-0.3.4/segemehl.x";
+    std::string align = segemehlSysCall;
     align += " -S ";
     align += " -A " + std::to_string(params["accuracy"].as<int>()); 
     align += " -U " + std::to_string(params["minfragsco"].as<int>());
@@ -40,7 +40,7 @@ void Align::buildIndex() {
         std::cout << "segemehl index found on filesystem\n";
     } else {
         std::cout << "generate index " << "\n";
-        std::string genIndex = "/Users/christopherphd/Documents/Software/segemehl-0.3.4/segemehl.x -x " + gen.string() + " -d " + ref;
+        std::string genIndex = segemehlSysCall + " -x " + gen.string() + " -d " + ref;
         std::cout << genIndex << std::endl;
         const char* call = genIndex.c_str();
         system(call);

@@ -1,0 +1,1146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__plot__layout__utils" kind="group">
+    <compoundname>plot_layout_utils</compoundname>
+    <title>Layouts and Coordinates</title>
+    <innerclass refid="structvrna__plot__layout__s" prot="public">vrna_plot_layout_s</innerclass>
+    <innerclass refid="structvrna__plot__options__puzzler__t" prot="public">vrna_plot_options_puzzler_t</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__plot__layout__utils_1gac986fe092abc2a6a93ceb5141e4dd28b" prot="public" static="no">
+        <type>struct <ref refid="structvrna__plot__layout__s" kindref="compound">vrna_plot_layout_s</ref></type>
+        <definition>typedef struct vrna_plot_layout_s vrna_plot_layout_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_plot_layout_t</name>
+        <briefdescription>
+<para>RNA secondary structure figure layout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e" kindref="member">vrna_plot_layout()</ref>, <ref refid="group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931" kindref="member">vrna_plot_layout_free()</ref>, <ref refid="group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c" kindref="member">vrna_plot_layout_simple()</ref>, <ref refid="group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458" kindref="member">vrna_plot_layout_circular()</ref>, vrna_plot_layout_naview(), <ref refid="group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098" kindref="member">vrna_plot_layout_turtle()</ref>, <ref refid="group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43" kindref="member">vrna_plot_layout_puzzler()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="35" column="33" bodyfile="ViennaRNA/plotting/layouts.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__plot__layout__utils_1gac986fe092abc2a6a93ceb5141e4dd28b" kindref="member">vrna_plot_layout_t</ref> *</type>
+        <definition>vrna_plot_layout_t * vrna_plot_layout</definition>
+        <argsstring>(const char *structure, unsigned int plot_type)</argsstring>
+        <name>vrna_plot_layout</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>plot_type</declname>
+        </param>
+        <briefdescription>
+<para>Create a layout (coordinates, etc.) for a secondary structure plot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function can be used to create a secondary structure nucleotide layout that is then further processed by an actual plotting function. The layout algorithm can be specified using the <computeroutput>plot_type</computeroutput> parameter, and the following algorithms are currently supported:<itemizedlist>
+<listitem><para><ref refid="group__plot__layout__utils_1gae6d17b9f0a53cf5205a9181e0f8422e9" kindref="member">VRNA_PLOT_TYPE_SIMPLE</ref></para>
+</listitem><listitem><para><ref refid="group__plot__layout__utils_1ga94d4c863ecac2f220f76658afb92f964" kindref="member">VRNA_PLOT_TYPE_NAVIEW</ref></para>
+</listitem><listitem><para><ref refid="group__plot__layout__utils_1ga8c9eac631348da92136c8363ecdd9fb9" kindref="member">VRNA_PLOT_TYPE_CIRCULAR</ref></para>
+</listitem><listitem><para><ref refid="group__plot__layout__utils_1ga382c1c5c0b1943500aa4bb55b7658a33" kindref="member">VRNA_PLOT_TYPE_TURTLE</ref></para>
+</listitem><listitem><para><ref refid="group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae" kindref="member">VRNA_PLOT_TYPE_PUZZLER</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>Passing an unsupported selection leads to the default algorithm <ref refid="group__plot__layout__utils_1ga94d4c863ecac2f220f76658afb92f964" kindref="member">VRNA_PLOT_TYPE_NAVIEW</ref></para>
+<para><simplesect kind="note"><para>If only X-Y coordinates of the corresponding structure layout are required, consider using <ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref> instead!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931" kindref="member">vrna_plot_layout_free()</ref>, <ref refid="group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c" kindref="member">vrna_plot_layout_simple()</ref>, vrna_plot_layout_naview(), <ref refid="group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458" kindref="member">vrna_plot_layout_circular()</ref>, <ref refid="group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098" kindref="member">vrna_plot_layout_turtle()</ref>, <ref refid="group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43" kindref="member">vrna_plot_layout_puzzler()</ref>, <ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref>, vrna_file_PS_rnaplot_layout()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plot_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The layout algorithm to be used </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The layout data structure for the provided secondary structure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="133" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="133" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__plot__layout__utils_1gac986fe092abc2a6a93ceb5141e4dd28b" kindref="member">vrna_plot_layout_t</ref> *</type>
+        <definition>vrna_plot_layout_t * vrna_plot_layout_simple</definition>
+        <argsstring>(const char *structure)</argsstring>
+        <name>vrna_plot_layout_simple</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Create a layout (coordinates, etc.) for a <emphasis>simple</emphasis> secondary structure plot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function basically is a wrapper to <ref refid="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e" kindref="member">vrna_plot_layout()</ref> that passes the <computeroutput>plot_type</computeroutput> <ref refid="group__plot__layout__utils_1gae6d17b9f0a53cf5205a9181e0f8422e9" kindref="member">VRNA_PLOT_TYPE_SIMPLE</ref>.</para>
+<para><simplesect kind="note"><para>If only X-Y coordinates of the corresponding structure layout are required, consider using <ref refid="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6" kindref="member">vrna_plot_coords_simple()</ref> instead!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931" kindref="member">vrna_plot_layout_free()</ref>, <ref refid="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e" kindref="member">vrna_plot_layout()</ref>, vrna_plot_layout_naview(), <ref refid="group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458" kindref="member">vrna_plot_layout_circular()</ref>, <ref refid="group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098" kindref="member">vrna_plot_layout_turtle()</ref>, <ref refid="group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43" kindref="member">vrna_plot_layout_puzzler()</ref>, <ref refid="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6" kindref="member">vrna_plot_coords_simple()</ref>, vrna_file_PS_rnaplot_layout()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The layout data structure for the provided secondary structure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="153" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="153" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__plot__layout__utils_1gac986fe092abc2a6a93ceb5141e4dd28b" kindref="member">vrna_plot_layout_t</ref> *</type>
+        <definition>vrna_plot_layout_t * vrna_plot_layout_circular</definition>
+        <argsstring>(const char *structure)</argsstring>
+        <name>vrna_plot_layout_circular</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Create a layout (coordinates, etc.) for a <emphasis>circular</emphasis> secondary structure plot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function basically is a wrapper to <ref refid="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e" kindref="member">vrna_plot_layout()</ref> that passes the <computeroutput>plot_type</computeroutput> <ref refid="group__plot__layout__utils_1ga8c9eac631348da92136c8363ecdd9fb9" kindref="member">VRNA_PLOT_TYPE_CIRCULAR</ref>.</para>
+<para><simplesect kind="note"><para>If only X-Y coordinates of the corresponding structure layout are required, consider using <ref refid="group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911" kindref="member">vrna_plot_coords_circular()</ref> instead!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931" kindref="member">vrna_plot_layout_free()</ref>, <ref refid="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e" kindref="member">vrna_plot_layout()</ref>, vrna_plot_layout_naview(), <ref refid="group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c" kindref="member">vrna_plot_layout_simple()</ref>, <ref refid="group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098" kindref="member">vrna_plot_layout_turtle()</ref>, <ref refid="group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43" kindref="member">vrna_plot_layout_puzzler()</ref>, <ref refid="group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911" kindref="member">vrna_plot_coords_circular()</ref>, vrna_file_PS_rnaplot_layout()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The layout data structure for the provided secondary structure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="192" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="192" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__plot__layout__utils_1gac986fe092abc2a6a93ceb5141e4dd28b" kindref="member">vrna_plot_layout_t</ref> *</type>
+        <definition>vrna_plot_layout_t * vrna_plot_layout_turtle</definition>
+        <argsstring>(const char *structure)</argsstring>
+        <name>vrna_plot_layout_turtle</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Create a layout (coordinates, etc.) for a secondary structure plot using the <emphasis>Turtle Algorithm</emphasis>  <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function basically is a wrapper to <ref refid="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e" kindref="member">vrna_plot_layout()</ref> that passes the <computeroutput>plot_type</computeroutput> <ref refid="group__plot__layout__utils_1ga382c1c5c0b1943500aa4bb55b7658a33" kindref="member">VRNA_PLOT_TYPE_TURTLE</ref>.</para>
+<para><simplesect kind="note"><para>If only X-Y coordinates of the corresponding structure layout are required, consider using <ref refid="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19" kindref="member">vrna_plot_coords_turtle()</ref> instead!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931" kindref="member">vrna_plot_layout_free()</ref>, <ref refid="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e" kindref="member">vrna_plot_layout()</ref>, <ref refid="group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c" kindref="member">vrna_plot_layout_simple()</ref>, <ref refid="group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458" kindref="member">vrna_plot_layout_circular()</ref>, vrna_plot_layout_naview(), <ref refid="group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43" kindref="member">vrna_plot_layout_puzzler()</ref>, <ref refid="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19" kindref="member">vrna_plot_coords_turtle()</ref>, vrna_file_PS_rnaplot_layout()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The layout data structure for the provided secondary structure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="211" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="211" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__plot__layout__utils_1gac986fe092abc2a6a93ceb5141e4dd28b" kindref="member">vrna_plot_layout_t</ref> *</type>
+        <definition>vrna_plot_layout_t * vrna_plot_layout_puzzler</definition>
+        <argsstring>(const char *structure, vrna_plot_options_puzzler_t *options)</argsstring>
+        <name>vrna_plot_layout_puzzler</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type><ref refid="structvrna__plot__options__puzzler__t" kindref="compound">vrna_plot_options_puzzler_t</ref> *</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Create a layout (coordinates, etc.) for a secondary structure plot using the <emphasis>RNApuzzler Algorithm</emphasis>  <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function basically is a wrapper to <ref refid="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e" kindref="member">vrna_plot_layout()</ref> that passes the <computeroutput>plot_type</computeroutput> <ref refid="group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae" kindref="member">VRNA_PLOT_TYPE_PUZZLER</ref>.</para>
+<para><simplesect kind="note"><para>If only X-Y coordinates of the corresponding structure layout are required, consider using <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref> instead!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931" kindref="member">vrna_plot_layout_free()</ref>, <ref refid="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e" kindref="member">vrna_plot_layout()</ref>, <ref refid="group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c" kindref="member">vrna_plot_layout_simple()</ref>, <ref refid="group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458" kindref="member">vrna_plot_layout_circular()</ref>, vrna_plot_layout_naview(), <ref refid="group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098" kindref="member">vrna_plot_layout_turtle()</ref>, <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref>, vrna_file_PS_rnaplot_layout()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The layout data structure for the provided secondary structure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="230" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="230" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_plot_layout_free</definition>
+        <argsstring>(vrna_plot_layout_t *layout)</argsstring>
+        <name>vrna_plot_layout_free</name>
+        <param>
+          <type><ref refid="group__plot__layout__utils_1gac986fe092abc2a6a93ceb5141e4dd28b" kindref="member">vrna_plot_layout_t</ref> *</type>
+          <declname>layout</declname>
+        </param>
+        <briefdescription>
+<para>Free memory occupied by a figure layout data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__plot__layout__utils_1gac986fe092abc2a6a93ceb5141e4dd28b" kindref="member">vrna_plot_layout_t</ref>, <ref refid="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e" kindref="member">vrna_plot_layout()</ref>, <ref refid="group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c" kindref="member">vrna_plot_layout_simple()</ref>, <ref refid="group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458" kindref="member">vrna_plot_layout_circular()</ref>, vrna_plot_layout_naview(), <ref refid="group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098" kindref="member">vrna_plot_layout_turtle()</ref>, <ref refid="group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43" kindref="member">vrna_plot_layout_puzzler()</ref>, vrna_file_PS_rnaplot_layout()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>layout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The layout data structure to free </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="244" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="244" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_coords</definition>
+        <argsstring>(const char *structure, float **x, float **y, int plot_type)</argsstring>
+        <name>vrna_plot_coords</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>plot_type</declname>
+        </param>
+        <briefdescription>
+<para>Compute nucleotide coordinates for secondary structure plot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function takes a secondary structure and computes X-Y coordinates for each nucleotide that then can be used to create a structure plot. The parameter <computeroutput>plot_type</computeroutput> is used to select the underlying layout algorithm. Currently, the following selections are provided:<itemizedlist>
+<listitem><para><ref refid="group__plot__layout__utils_1gae6d17b9f0a53cf5205a9181e0f8422e9" kindref="member">VRNA_PLOT_TYPE_SIMPLE</ref></para>
+</listitem><listitem><para><ref refid="group__plot__layout__utils_1ga94d4c863ecac2f220f76658afb92f964" kindref="member">VRNA_PLOT_TYPE_NAVIEW</ref></para>
+</listitem><listitem><para><ref refid="group__plot__layout__utils_1ga8c9eac631348da92136c8363ecdd9fb9" kindref="member">VRNA_PLOT_TYPE_CIRCULAR</ref></para>
+</listitem><listitem><para><ref refid="group__plot__layout__utils_1ga382c1c5c0b1943500aa4bb55b7658a33" kindref="member">VRNA_PLOT_TYPE_TURTLE</ref></para>
+</listitem><listitem><para><ref refid="group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae" kindref="member">VRNA_PLOT_TYPE_PUZZLER</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>Passing an unsupported selection leads to the default algorithm <ref refid="group__plot__layout__utils_1ga94d4c863ecac2f220f76658afb92f964" kindref="member">VRNA_PLOT_TYPE_NAVIEW</ref></para>
+<para>Here is a simple example how to use this function, assuming variable <computeroutput>structure</computeroutput> contains a valid dot-bracket string: <programlisting filename=".c"><codeline><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*x,<sp/>*y;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords</ref>(structure,<sp/>&amp;x,<sp/>&amp;y))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;all<sp/>fine&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;some<sp/>failure<sp/>occured!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">free(x);</highlight></codeline>
+<codeline><highlight class="normal">free(y);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput> and <computeroutput>y</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b" kindref="member">vrna_plot_coords_pt()</ref>, <ref refid="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6" kindref="member">vrna_plot_coords_simple()</ref>, vrna_plot_coords_naview() <ref refid="group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911" kindref="member">vrna_plot_coords_circular()</ref>, <ref refid="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19" kindref="member">vrna_plot_coords_turtle()</ref>, <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plot_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The layout algorithm to be used </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="291" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="291" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_coords_pt</definition>
+        <argsstring>(const short *pt, float **x, float **y, int plot_type)</argsstring>
+        <name>vrna_plot_coords_pt</name>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>plot_type</declname>
+        </param>
+        <briefdescription>
+<para>Compute nucleotide coordinates for secondary structure plot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Same as <ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref> but takes a pair table with the structure information as input.</para>
+<para><simplesect kind="note"><para>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput> and <computeroutput>y</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref>, <ref refid="group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd" kindref="member">vrna_plot_coords_simple_pt()</ref>, vrna_plot_coords_naview_pt() <ref refid="group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460" kindref="member">vrna_plot_coords_circular_pt()</ref>, <ref refid="group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf" kindref="member">vrna_plot_coords_turtle_pt()</ref>, <ref refid="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" kindref="member">vrna_plot_coords_puzzler_pt()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair table that holds the secondary structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plot_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The layout algorithm to be used </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="317" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="317" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_coords_simple</definition>
+        <argsstring>(const char *structure, float **x, float **y)</argsstring>
+        <name>vrna_plot_coords_simple</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Compute nucleotide coordinates for secondary structure plot the <emphasis>Simple way</emphasis> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function basically is a wrapper to <ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref> that passes the <computeroutput>plot_type</computeroutput> <ref refid="group__plot__layout__utils_1gae6d17b9f0a53cf5205a9181e0f8422e9" kindref="member">VRNA_PLOT_TYPE_SIMPLE</ref>.</para>
+<para>Here is a simple example how to use this function, assuming variable <computeroutput>structure</computeroutput> contains a valid dot-bracket string: <programlisting filename=".c"><codeline><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*x,<sp/>*y;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6" kindref="member">vrna_plot_coords_simple</ref>(structure,<sp/>&amp;x,<sp/>&amp;y))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;all<sp/>fine&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;some<sp/>failure<sp/>occured!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">free(x);</highlight></codeline>
+<codeline><highlight class="normal">free(y);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput> and <computeroutput>y</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref>, <ref refid="group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd" kindref="member">vrna_plot_coords_simple_pt()</ref>, <ref refid="group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911" kindref="member">vrna_plot_coords_circular()</ref>, vrna_plot_coords_naview(), <ref refid="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19" kindref="member">vrna_plot_coords_turtle()</ref>, <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="356" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="356" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_coords_simple_pt</definition>
+        <argsstring>(const short *pt, float **x, float **y)</argsstring>
+        <name>vrna_plot_coords_simple_pt</name>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Compute nucleotide coordinates for secondary structure plot the <emphasis>Simple way</emphasis> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Same as <ref refid="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6" kindref="member">vrna_plot_coords_simple()</ref> but takes a pair table with the structure information as input.</para>
+<para><simplesect kind="note"><para>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput> and <computeroutput>y</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b" kindref="member">vrna_plot_coords_pt()</ref>, <ref refid="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6" kindref="member">vrna_plot_coords_simple()</ref>, <ref refid="group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460" kindref="member">vrna_plot_coords_circular_pt()</ref>, vrna_plot_coords_naview_pt(), <ref refid="group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf" kindref="member">vrna_plot_coords_turtle_pt()</ref>, <ref refid="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" kindref="member">vrna_plot_coords_puzzler_pt()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair table that holds the secondary structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="380" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="380" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_coords_circular</definition>
+        <argsstring>(const char *structure, float **x, float **y)</argsstring>
+        <name>vrna_plot_coords_circular</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Compute coordinates of nucleotides mapped in equal distancies onto a unit circle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function basically is a wrapper to <ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref> that passes the <computeroutput>plot_type</computeroutput> <ref refid="group__plot__layout__utils_1ga8c9eac631348da92136c8363ecdd9fb9" kindref="member">VRNA_PLOT_TYPE_CIRCULAR</ref>.</para>
+<para>In order to draw nice arcs using quadratic bezier curves that connect base pairs one may calculate a second tangential point <formula id="130">$P^t$</formula> in addition to the actual R<superscript>2</superscript> coordinates. the simplest way to do so may be to compute a radius scaling factor <formula id="131">$rs$</formula> in the interval <formula id="132">$[0,1]$</formula> that weights the proportion of base pair span to the actual length of the sequence. This scaling factor can then be used to calculate the coordinates for <formula id="130">$P^t$</formula>, i.e.</para>
+<para><formula id="133">\[ P^{t}_x[i] = X[i] * rs \]</formula></para>
+<para>and</para>
+<para><formula id="134">\[ P^{t}_y[i] = Y[i] * rs \]</formula>.</para>
+<para><simplesect kind="note"><para>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput> and <computeroutput>y</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref>, <ref refid="group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460" kindref="member">vrna_plot_coords_circular_pt()</ref>, <ref refid="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6" kindref="member">vrna_plot_coords_simple()</ref>, vrna_plot_coords_naview(), <ref refid="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19" kindref="member">vrna_plot_coords_turtle()</ref>, <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="415" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="415" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_coords_circular_pt</definition>
+        <argsstring>(const short *pt, float **x, float **y)</argsstring>
+        <name>vrna_plot_coords_circular_pt</name>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Compute nucleotide coordinates for a <emphasis>Circular Plot</emphasis> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Same as <ref refid="group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911" kindref="member">vrna_plot_coords_circular()</ref> but takes a pair table with the structure information as input.</para>
+<para><simplesect kind="note"><para>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput> and <computeroutput>y</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b" kindref="member">vrna_plot_coords_pt()</ref>, <ref refid="group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911" kindref="member">vrna_plot_coords_circular()</ref>, <ref refid="group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd" kindref="member">vrna_plot_coords_simple_pt()</ref>, vrna_plot_coords_naview_pt(), <ref refid="group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf" kindref="member">vrna_plot_coords_turtle_pt()</ref>, <ref refid="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" kindref="member">vrna_plot_coords_puzzler_pt()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair table that holds the secondary structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="439" column="1" declfile="ViennaRNA/plotting/layouts.h" declline="439" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_coords_puzzler</definition>
+        <argsstring>(const char *structure, float **x, float **y, double **arc_coords, vrna_plot_options_puzzler_t *options)</argsstring>
+        <name>vrna_plot_coords_puzzler</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>double **</type>
+          <declname>arc_coords</declname>
+        </param>
+        <param>
+          <type><ref refid="structvrna__plot__options__puzzler__t" kindref="compound">vrna_plot_options_puzzler_t</ref> *</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Compute nucleotide coordinates for secondary structure plot using the <emphasis>RNApuzzler</emphasis> algorithm  <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function basically is a wrapper to <ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref> that passes the <computeroutput>plot_type</computeroutput> <ref refid="group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae" kindref="member">VRNA_PLOT_TYPE_PUZZLER</ref>.</para>
+<para>Here is a simple example how to use this function, assuming variable <computeroutput>structure</computeroutput> contains a valid dot-bracket string and using the default options (<computeroutput>options</computeroutput> = NULL): <programlisting filename=".c"><codeline><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/>*x,<sp/>*y;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*arcs;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler</ref>(structure,<sp/>&amp;x,<sp/>&amp;y,<sp/>&amp;arcs,<sp/>NULL))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;all<sp/>fine&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;some<sp/>failure<sp/>occured!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">free(x);</highlight></codeline>
+<codeline><highlight class="normal">free(y);</highlight></codeline>
+<codeline><highlight class="normal">free(arcs);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>On success, this function allocates memory for X, Y and arc coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput>, <computeroutput>y</computeroutput> and <computeroutput>arc_coords</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref>, <ref refid="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" kindref="member">vrna_plot_coords_puzzler_pt()</ref>, <ref refid="group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911" kindref="member">vrna_plot_coords_circular()</ref>, <ref refid="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6" kindref="member">vrna_plot_coords_simple()</ref>, <ref refid="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19" kindref="member">vrna_plot_coords_turtle()</ref>, vrna_plot_coords_naview(), <ref refid="group__plot__layout__utils_1ga375ca7af7028a447d457748c4c138a8a" kindref="member">vrna_plot_options_puzzler()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">arc_coords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer that will hold arc coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options for the RNApuzzler algorithm (or NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" line="88" column="1" declfile="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" declline="88" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_coords_puzzler_pt</definition>
+        <argsstring>(short const *const pair_table, float **x, float **y, double **arc_coords, vrna_plot_options_puzzler_t *puzzler)</argsstring>
+        <name>vrna_plot_coords_puzzler_pt</name>
+        <param>
+          <type>short const *const</type>
+          <declname>pair_table</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>double **</type>
+          <declname>arc_coords</declname>
+        </param>
+        <param>
+          <type><ref refid="structvrna__plot__options__puzzler__t" kindref="compound">vrna_plot_options_puzzler_t</ref> *</type>
+          <declname>puzzler</declname>
+        </param>
+        <briefdescription>
+<para>Compute nucleotide coordinates for secondary structure plot using the <emphasis>RNApuzzler</emphasis> algorithm  <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Same as <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref> but takes a pair table with the structure information as input.</para>
+<para><simplesect kind="note"><para>On success, this function allocates memory for X, Y and arc coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput>, <computeroutput>y</computeroutput> and <computeroutput>arc_coords</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b" kindref="member">vrna_plot_coords_pt()</ref>, <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref>, <ref refid="group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460" kindref="member">vrna_plot_coords_circular_pt()</ref>, <ref refid="group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd" kindref="member">vrna_plot_coords_simple_pt()</ref>, <ref refid="group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf" kindref="member">vrna_plot_coords_turtle_pt()</ref>, vrna_plot_coords_naview_pt()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair table that holds the secondary structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">arc_coords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer that will hold arc coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options for the RNApuzzler algorithm (or NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" line="116" column="1" declfile="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" declline="116" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1ga375ca7af7028a447d457748c4c138a8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structvrna__plot__options__puzzler__t" kindref="compound">vrna_plot_options_puzzler_t</ref> *</type>
+        <definition>vrna_plot_options_puzzler_t * vrna_plot_options_puzzler</definition>
+        <argsstring>(void)</argsstring>
+        <name>vrna_plot_options_puzzler</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Create an RNApuzzler options data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga551344268c4245f3f75994a51c517a30" kindref="member">vrna_plot_options_puzzler_free()</ref>, <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref>, <ref refid="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" kindref="member">vrna_plot_coords_puzzler_pt()</ref>, <ref refid="group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43" kindref="member">vrna_plot_layout_puzzler()</ref></para>
+</simplesect>
+<simplesect kind="return"><para>An RNApuzzler options data structure with default settings </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" line="132" column="1" declfile="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" declline="132" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1ga551344268c4245f3f75994a51c517a30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_plot_options_puzzler_free</definition>
+        <argsstring>(vrna_plot_options_puzzler_t *options)</argsstring>
+        <name>vrna_plot_options_puzzler_free</name>
+        <param>
+          <type><ref refid="structvrna__plot__options__puzzler__t" kindref="compound">vrna_plot_options_puzzler_t</ref> *</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Free memory occupied by an RNApuzzler options data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga375ca7af7028a447d457748c4c138a8a" kindref="member">vrna_plot_options_puzzler()</ref>, <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref>, <ref refid="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" kindref="member">vrna_plot_coords_puzzler_pt()</ref>, <ref refid="group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43" kindref="member">vrna_plot_layout_puzzler()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the options data structure to free </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" line="144" column="1" declfile="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" declline="144" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_coords_turtle</definition>
+        <argsstring>(const char *structure, float **x, float **y, double **arc_coords)</argsstring>
+        <name>vrna_plot_coords_turtle</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>double **</type>
+          <declname>arc_coords</declname>
+        </param>
+        <briefdescription>
+<para>Compute nucleotide coordinates for secondary structure plot using the <emphasis>RNAturtle</emphasis> algorithm  <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function basically is a wrapper to <ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref> that passes the <computeroutput>plot_type</computeroutput> <ref refid="group__plot__layout__utils_1ga382c1c5c0b1943500aa4bb55b7658a33" kindref="member">VRNA_PLOT_TYPE_TURTLE</ref>.</para>
+<para>Here is a simple example how to use this function, assuming variable <computeroutput>structure</computeroutput> contains a valid dot-bracket string: <programlisting filename=".c"><codeline><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/>*x,<sp/>*y;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*arcs;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19" kindref="member">vrna_plot_coords_turtle</ref>(structure,<sp/>&amp;x,<sp/>&amp;y,<sp/>&amp;arcs))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;all<sp/>fine&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;some<sp/>failure<sp/>occured!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">free(x);</highlight></codeline>
+<codeline><highlight class="normal">free(y);</highlight></codeline>
+<codeline><highlight class="normal">free(arcs);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>On success, this function allocates memory for X, Y and arc coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput>, <computeroutput>y</computeroutput> and <computeroutput>arc_coords</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref>, <ref refid="group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf" kindref="member">vrna_plot_coords_turtle_pt()</ref>, <ref refid="group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911" kindref="member">vrna_plot_coords_circular()</ref>, <ref refid="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6" kindref="member">vrna_plot_coords_simple()</ref>, vrna_plot_coords_naview(), <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">arc_coords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer that will hold arc coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/RNApuzzler/RNAturtle.h" line="53" column="1" declfile="ViennaRNA/plotting/RNApuzzler/RNAturtle.h" declline="53" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_plot_coords_turtle_pt</definition>
+        <argsstring>(short const *const pair_table, float **x, float **y, double **arc_coords)</argsstring>
+        <name>vrna_plot_coords_turtle_pt</name>
+        <param>
+          <type>short const *const</type>
+          <declname>pair_table</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>float **</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>double **</type>
+          <declname>arc_coords</declname>
+        </param>
+        <briefdescription>
+<para>Compute nucleotide coordinates for secondary structure plot using the <emphasis>RNAturtle</emphasis> algorithm  <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Same as <ref refid="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19" kindref="member">vrna_plot_coords_turtle()</ref> but takes a pair table with the structure information as input.</para>
+<para><simplesect kind="note"><para>On success, this function allocates memory for X, Y and arc coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput>, <computeroutput>y</computeroutput> and <computeroutput>arc_coords</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b" kindref="member">vrna_plot_coords_pt()</ref>, <ref refid="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19" kindref="member">vrna_plot_coords_turtle()</ref>, <ref refid="group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460" kindref="member">vrna_plot_coords_circular_pt()</ref>, <ref refid="group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd" kindref="member">vrna_plot_coords_simple_pt()</ref>, <ref refid="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" kindref="member">vrna_plot_coords_puzzler_pt()</ref>, vrna_plot_coords_naview_pt()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair table that holds the secondary structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">arc_coords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a pointer that will hold arc coordinates (pointer will point to memory, or NULL on failure) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/RNApuzzler/RNAturtle.h" line="79" column="1" declfile="ViennaRNA/plotting/RNApuzzler/RNAturtle.h" declline="79" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__plot__layout__utils_1gae6d17b9f0a53cf5205a9181e0f8422e9" prot="public" static="no">
+        <name>VRNA_PLOT_TYPE_SIMPLE</name>
+        <initializer>0</initializer>
+        <briefdescription>
+<para>Definition of Plot type <emphasis>simple</emphasis> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the plot type definition for several RNA structure plotting functions telling them to use <bold>Simple</bold> plotting algorithm</para>
+<para><simplesect kind="see"><para><ref refid="group__plotting__utils__deprecated_1ga5964c4581431b098b80027d6e14dcdd4" kindref="member">rna_plot_type</ref>, <ref refid="group__plotting__utils_1ga139a31dd0ba9fc6612431f67de901c31" kindref="member">vrna_file_PS_rnaplot_a()</ref>, <ref refid="group__plotting__utils_1gabdc8f6548ba4a3bc3cd868ccbcfdb86a" kindref="member">vrna_file_PS_rnaplot()</ref>, <ref refid="group__plotting__utils_1gae7853539b5df98f294b4af434e979304" kindref="member">svg_rna_plot()</ref>, <ref refid="group__plotting__utils_1ga70834bc8c0aad4fe6824ff76ccb8f329" kindref="member">gmlRNA()</ref>, <ref refid="group__plotting__utils_1gadd368528755f9a830727b680243541df" kindref="member">ssv_rna_plot()</ref>, <ref refid="group__plotting__utils_1ga2f6d5953e6a323df898896b8d6614483" kindref="member">xrna_plot()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="56" column="9" bodyfile="ViennaRNA/plotting/layouts.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__layout__utils_1ga94d4c863ecac2f220f76658afb92f964" prot="public" static="no">
+        <name>VRNA_PLOT_TYPE_NAVIEW</name>
+        <initializer>1</initializer>
+        <briefdescription>
+<para>Definition of Plot type <emphasis>Naview</emphasis> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the plot type definition for several RNA structure plotting functions telling them to use <bold>Naview</bold> plotting algorithm  <verbatim>embed:rst:inline :cite:p:`bruccoleri:1988` </verbatim>.</para>
+<para><simplesect kind="see"><para><ref refid="group__plotting__utils__deprecated_1ga5964c4581431b098b80027d6e14dcdd4" kindref="member">rna_plot_type</ref>, <ref refid="group__plotting__utils_1ga139a31dd0ba9fc6612431f67de901c31" kindref="member">vrna_file_PS_rnaplot_a()</ref>, <ref refid="group__plotting__utils_1gabdc8f6548ba4a3bc3cd868ccbcfdb86a" kindref="member">vrna_file_PS_rnaplot()</ref>, <ref refid="group__plotting__utils_1gae7853539b5df98f294b4af434e979304" kindref="member">svg_rna_plot()</ref>, <ref refid="group__plotting__utils_1ga70834bc8c0aad4fe6824ff76ccb8f329" kindref="member">gmlRNA()</ref>, <ref refid="group__plotting__utils_1gadd368528755f9a830727b680243541df" kindref="member">ssv_rna_plot()</ref>, <ref refid="group__plotting__utils_1ga2f6d5953e6a323df898896b8d6614483" kindref="member">xrna_plot()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="66" column="9" bodyfile="ViennaRNA/plotting/layouts.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__layout__utils_1ga8c9eac631348da92136c8363ecdd9fb9" prot="public" static="no">
+        <name>VRNA_PLOT_TYPE_CIRCULAR</name>
+        <initializer>2</initializer>
+        <briefdescription>
+<para>Definition of Plot type <emphasis>Circular</emphasis> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the plot type definition for several RNA structure plotting functions telling them to produce a <bold>Circular plot</bold></para>
+<para><simplesect kind="see"><para><ref refid="group__plotting__utils__deprecated_1ga5964c4581431b098b80027d6e14dcdd4" kindref="member">rna_plot_type</ref>, <ref refid="group__plotting__utils_1ga139a31dd0ba9fc6612431f67de901c31" kindref="member">vrna_file_PS_rnaplot_a()</ref>, <ref refid="group__plotting__utils_1gabdc8f6548ba4a3bc3cd868ccbcfdb86a" kindref="member">vrna_file_PS_rnaplot()</ref>, <ref refid="group__plotting__utils_1gae7853539b5df98f294b4af434e979304" kindref="member">svg_rna_plot()</ref>, <ref refid="group__plotting__utils_1ga70834bc8c0aad4fe6824ff76ccb8f329" kindref="member">gmlRNA()</ref>, <ref refid="group__plotting__utils_1gadd368528755f9a830727b680243541df" kindref="member">ssv_rna_plot()</ref>, <ref refid="group__plotting__utils_1ga2f6d5953e6a323df898896b8d6614483" kindref="member">xrna_plot()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="76" column="9" bodyfile="ViennaRNA/plotting/layouts.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__layout__utils_1ga382c1c5c0b1943500aa4bb55b7658a33" prot="public" static="no">
+        <name>VRNA_PLOT_TYPE_TURTLE</name>
+        <initializer>3</initializer>
+        <briefdescription>
+<para>Definition of Plot type <emphasis>Turtle</emphasis>  <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="82" column="9" bodyfile="ViennaRNA/plotting/layouts.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae" prot="public" static="no">
+        <name>VRNA_PLOT_TYPE_PUZZLER</name>
+        <initializer>4</initializer>
+        <briefdescription>
+<para>Definition of Plot type <emphasis>RNApuzzler</emphasis>  <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="88" column="9" bodyfile="ViennaRNA/plotting/layouts.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__plot__layout__utils_1ga519e6a330060a3de11640f030ab34424" prot="public" static="no">
+        <name>VRNA_PLOT_TYPE_DEFAULT</name>
+        <initializer><ref refid="group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae" kindref="member">VRNA_PLOT_TYPE_PUZZLER</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/layouts.h" line="93" column="11" bodyfile="ViennaRNA/plotting/layouts.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

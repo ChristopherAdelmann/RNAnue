@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utilities &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5248d183"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utilities to deal with Nucleotide Alphabets" href="utils/alphabet.html" />
+    <link rel="prev" title="Post-transcriptional Base Modifications" href="modified_bases.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/io.html">Files and I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">Concepts and Algorithms</a></li>
+      <li class="breadcrumb-item active">Utilities</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="utilities">
+<h1>Utilities<a class="headerlink" href="#utilities" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Specialized Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/io.html">Files and I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/plots.html">Plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/search.html">Search Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/messages.html">Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/units.html">Unit Conversion</a></li>
+</ul>
+</div>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__utils"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.PUBLIC">
+<span class="target" id="group__utils_1gad17d551e31d1828c68acf40684849b7e"></span><span class="sig-name descname"><span class="n"><span class="pre">PUBLIC</span></span></span><a class="headerlink" href="#c.PUBLIC" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.PRIVATE">
+<span class="target" id="group__utils_1ga5e151c615eda34903514212f05a5ccf8"></span><span class="sig-name descname"><span class="n"><span class="pre">PRIVATE</span></span></span><a class="headerlink" href="#c.PRIVATE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_ERROR">
+<span class="target" id="group__utils_1gad403c9ea58f1836689404c2931419c8c"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_ERROR</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_ERROR" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Output flag of <a class="reference internal" href="#group__utils_1ga8ef1835eb83f542396f59f0b205965e5"><span class="std std-ref">get_input_line()</span></a>: <em>“An ERROR has occured, maybe EOF”</em>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_QUIT">
+<span class="target" id="group__utils_1ga72f3c6ca5c83d2b9baed2922d19c403d"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_QUIT</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_QUIT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Output flag of <a class="reference internal" href="#group__utils_1ga8ef1835eb83f542396f59f0b205965e5"><span class="std std-ref">get_input_line()</span></a>: <em>“the user requested quitting the program”</em>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_MISC">
+<span class="target" id="group__utils_1ga8e3241b321c9c1a78a69e59e2e019a71"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_MISC</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_MISC" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Output flag of <a class="reference internal" href="#group__utils_1ga8ef1835eb83f542396f59f0b205965e5"><span class="std std-ref">get_input_line()</span></a>: <em>“something was read”</em>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_FASTA_HEADER">
+<span class="target" id="group__utils_1ga2f0d8069e93d3ac54d9320d6bdb8e7e7"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_FASTA_HEADER</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_FASTA_HEADER" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Input/Output flag of <a class="reference internal" href="#group__utils_1ga8ef1835eb83f542396f59f0b205965e5"><span class="std std-ref">get_input_line()</span></a><p>:</p>
+<p>if used as input option this tells</p>
+<a class="reference internal" href="#group__utils_1ga8ef1835eb83f542396f59f0b205965e5"><span class="std std-ref">get_input_line()</span></a> that the data to be read should comply with the FASTA format. </p>
+<p>the function will return this flag if a fasta header was read </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_SEQUENCE">
+<span class="target" id="group__utils_1ga8566d6787972100e68b5a2a159b4cf45"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_SEQUENCE</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_SEQUENCE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_CONSTRAINT">
+<span class="target" id="group__utils_1gac08a9df45b9721b97a47dbfe7a6e5f85"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_CONSTRAINT</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_CONSTRAINT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Input flag for <a class="reference internal" href="#group__utils_1ga8ef1835eb83f542396f59f0b205965e5"><span class="std std-ref">get_input_line()</span></a><p>:</p>
+<p>Tell</p>
+<a class="reference internal" href="#group__utils_1ga8ef1835eb83f542396f59f0b205965e5"><span class="std std-ref">get_input_line()</span></a> that we assume to read a structure constraint. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_NO_TRUNCATION">
+<span class="target" id="group__utils_1ga086742158293217a46ae2f71bb296937"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_NO_TRUNCATION</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_NO_TRUNCATION" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Input switch for <a class="reference internal" href="#group__utils_1ga8ef1835eb83f542396f59f0b205965e5"><span class="std std-ref">get_input_line()</span></a>: <em>“do not trunkate the line by eliminating white spaces at end of line”</em>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_NO_REST">
+<span class="target" id="group__utils_1ga7a2e8c50a0c7ce82e60da1016e1367fd"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_NO_REST</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_NO_REST" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Input switch for <a class="reference internal" href="utils/io/file_formats.html#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a>: <em>“do fill rest array”</em>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_NO_SPAN">
+<span class="target" id="group__utils_1ga0de536599b881c787b0943a2671da476"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_NO_SPAN</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_NO_SPAN" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Input switch for <a class="reference internal" href="utils/io/file_formats.html#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a>: <em>“never allow data to span more than one line”</em>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_NOSKIP_BLANK_LINES">
+<span class="target" id="group__utils_1gab4db885222b3b69608310d7c7e63e286"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_NOSKIP_BLANK_LINES</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_NOSKIP_BLANK_LINES" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Input switch for <a class="reference internal" href="utils/io/file_formats.html#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a>: <em>“do not skip empty lines”</em>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_BLANK_LINE">
+<span class="target" id="group__utils_1ga305474b93ccb79ae4c7754016a8ddd84"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_BLANK_LINE</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_BLANK_LINE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Output flag for <a class="reference internal" href="utils/io/file_formats.html#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a>: <em>“read an empty line”</em>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_NOSKIP_COMMENTS">
+<span class="target" id="group__utils_1ga0f6311f11bed1842e3a527ab27b294c6"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_NOSKIP_COMMENTS</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_NOSKIP_COMMENTS" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Input switch for <a class="reference internal" href="#group__utils_1ga8ef1835eb83f542396f59f0b205965e5"><span class="std std-ref">get_input_line()</span></a>: <em>“do not skip comment lines”</em>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_COMMENT">
+<span class="target" id="group__utils_1gaf2062e0eeefffd3ed639af460b3d4fab"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_COMMENT</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_COMMENT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Output flag for <a class="reference internal" href="utils/io/file_formats.html#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a>: <em>“read a comment”</em>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.MIN2">
+<span class="target" id="group__utils_1gae0b9cd0ce090bd69b951aa73e8fa4f7d"></span><span class="sig-name descname"><span class="n"><span class="pre">MIN2</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">A</span></span>, <span class="n"><span class="pre">B</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.MIN2" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Get the minimum of two comparable values. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.MAX2">
+<span class="target" id="group__utils_1ga33297b3679c713b0c4d897cd0fe3b122"></span><span class="sig-name descname"><span class="n"><span class="pre">MAX2</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">A</span></span>, <span class="n"><span class="pre">B</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.MAX2" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Get the maximum of two comparable values. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.MIN3">
+<span class="target" id="group__utils_1ga721b8d5f3abef17f10293f1f7f8c958e"></span><span class="sig-name descname"><span class="n"><span class="pre">MIN3</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">A</span></span>, <span class="n"><span class="pre">B</span></span>, <span class="n"><span class="pre">C</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.MIN3" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Get the minimum of three comparable values. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.MAX3">
+<span class="target" id="group__utils_1ga8d577123d2e66d2b7d0bf9af6e172b93"></span><span class="sig-name descname"><span class="n"><span class="pre">MAX3</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">A</span></span>, <span class="n"><span class="pre">B</span></span>, <span class="n"><span class="pre">C</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.MAX3" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Get the maximum of three comparable values. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_alloc">
+<span class="target" id="group__utils_1gafae44c31c8772450d6c674a582be3e3c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_alloc</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_alloc" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Allocate space safely. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – The size of the memory to be allocated in bytes </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pointer to the allocated memory </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_realloc">
+<span class="target" id="group__utils_1gac2bb3797d18490febf3557d1ed209c8a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_realloc</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_realloc" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Reallocate space safely. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> – A pointer to the memory region to be reallocated </p></li>
+<li><p><strong>size</strong> – The size of the memory to be allocated in bytes </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pointer to the newly allocated memory </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_init_rand">
+<span class="target" id="group__utils_1ga0ad1f40ea316e5c5918695c35613027a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_init_rand</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_init_rand" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Initialize seed for random number generator. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__utils_1ga940205dee1b00f94551cabbfbe6e654a"><span class="std std-ref">vrna_init_rand_seed()</span></a>, <a class="reference internal" href="#group__utils_1ga384e256ebb295d04a14426179db0dd6e"><span class="std std-ref">vrna_urn()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_init_rand_seed">
+<span class="target" id="group__utils_1ga940205dee1b00f94551cabbfbe6e654a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_init_rand_seed</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">seed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_init_rand_seed" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Initialize the random number generator with a pre-defined seed. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000181"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as an overloaded function <strong>init_rand()</strong> where the argument <code class="docutils literal notranslate"><span class="pre">seed</span></code> is optional. See, e.g.  <span><a class="reference internal" href="api_python.html#RNA.init_rand" title="RNA.init_rand"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.init_rand()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a></span>.</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__utils_1ga0ad1f40ea316e5c5918695c35613027a"><span class="std std-ref">vrna_init_rand()</span></a>, <a class="reference internal" href="#group__utils_1ga384e256ebb295d04a14426179db0dd6e"><span class="std std-ref">vrna_urn()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed</strong> – The seed for the random number generator</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_urn">
+<span class="target" id="group__utils_1ga384e256ebb295d04a14426179db0dd6e"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_urn</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_urn" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>get a random number from [0..1] </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__utils_1ga46111bb3747dbcf4609f0d40ae169ad9"><span class="std std-ref">vrna_int_urn()</span></a>, <a class="reference internal" href="#group__utils_1ga0ad1f40ea316e5c5918695c35613027a"><span class="std std-ref">vrna_init_rand()</span></a>, <a class="reference internal" href="#group__utils_1ga940205dee1b00f94551cabbfbe6e654a"><span class="std std-ref">vrna_init_rand_seed()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Usually implemented by calling <em>erand48()</em>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A random number in range [0..1] </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_int_urn">
+<span class="target" id="group__utils_1ga46111bb3747dbcf4609f0d40ae169ad9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_int_urn</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">from</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">to</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_int_urn" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Generates a pseudo random integer in a specified range. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__utils_1ga384e256ebb295d04a14426179db0dd6e"><span class="std std-ref">vrna_urn()</span></a>, <a class="reference internal" href="#group__utils_1ga0ad1f40ea316e5c5918695c35613027a"><span class="std std-ref">vrna_init_rand()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from</strong> – The first number in range </p></li>
+<li><p><strong>to</strong> – The last number in range </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pseudo random number in range [from, to] </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_time_stamp">
+<span class="target" id="group__utils_1ga0b5134fd776e2aa66ccc2af258721594"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_time_stamp</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_time_stamp" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Get a timestamp. </p>
+<p>Returns a string containing the current date in the format <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Fri</span> <span class="n">Mar</span> <span class="mi">19</span> <span class="mi">21</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">57</span> <span class="mi">1993</span>
+</pre></div>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A string containing the timestamp </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_input_line">
+<span class="target" id="group__utils_1ga8ef1835eb83f542396f59f0b205965e5"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_input_line</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_input_line" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p><p>Retrieve a line from ‘stdin’ savely while skipping comment characters and other features This function returns the type of input it has read if recognized. An option argument allows one to switch between different reading modes.</p>
+<p>Currently available options are:</p>
+<a class="reference internal" href="#group__utils_1gaf2062e0eeefffd3ed639af460b3d4fab"><span class="std std-ref">VRNA_INPUT_COMMENT</span></a>, <a class="reference internal" href="#group__utils_1ga0f6311f11bed1842e3a527ab27b294c6"><span class="std std-ref">VRNA_INPUT_NOSKIP_COMMENTS</span></a>, <a class="reference internal" href="#group__utils_1ga086742158293217a46ae2f71bb296937"><span class="std std-ref">VRNA_INPUT_NO_TRUNCATION</span></a></p>
+<p>pass a collection of options as one value like this: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">get_input_line</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">option_1</span> <span class="o">|</span> <span class="n">option_2</span> <span class="o">|</span> <span class="n">option_n</span><span class="p">)</span>
+</pre></div>
+</div>
+</p>
+<p>If the function recognizes the type of input, it will report it in the return value. It also reports if a user defined ‘quit’ command (-sign on ‘stdin’) was given. Possible return values are:<a class="reference internal" href="#group__utils_1ga2f0d8069e93d3ac54d9320d6bdb8e7e7"><span class="std std-ref">VRNA_INPUT_FASTA_HEADER</span></a>, <a class="reference internal" href="#group__utils_1gad403c9ea58f1836689404c2931419c8c"><span class="std std-ref">VRNA_INPUT_ERROR</span></a>, <a class="reference internal" href="#group__utils_1ga8e3241b321c9c1a78a69e59e2e019a71"><span class="std std-ref">VRNA_INPUT_MISC</span></a>, <a class="reference internal" href="#group__utils_1ga72f3c6ca5c83d2b9baed2922d19c403d"><span class="std std-ref">VRNA_INPUT_QUIT</span></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – A pointer to the character array that contains the line read </p></li>
+<li><p><strong>options</strong> – A collection of options for switching the functions behavior </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A flag with information about what has been read </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_idx_row_wise">
+<span class="target" id="group__utils_1ga27d6f59da187317ab4c0d7e9f15ee57a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_idx_row_wise</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_idx_row_wise" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Get an index mapper array (iindx) for accessing the energy matrices, e.g. in partition function related functions. </p>
+<p>Access of a position “(i,j)” is then accomplished by using <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">~</span> <span class="n">iindx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">j</span>
+</pre></div>
+</div>
+ This function is necessary as most of the two-dimensional energy matrices are actually one-dimensional arrays throughout the ViennaRNA Package</p>
+<p>Consult the implemented code to find out about the mapping formula ;)</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__utils_1ga93a00c17b7644d1e755943d01664cae0"><span class="std std-ref">vrna_idx_col_wise()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> – The length of the RNA sequence </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The mapper array </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_idx_col_wise">
+<span class="target" id="group__utils_1ga93a00c17b7644d1e755943d01664cae0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_idx_col_wise</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_idx_col_wise" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/basic.h&gt;</em><p>Get an index mapper array (indx) for accessing the energy matrices, e.g. in MFE related functions. </p>
+<p>Access of a position “(i,j)” is then accomplished by using <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">~</span> <span class="n">indx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">i</span>
+</pre></div>
+</div>
+ This function is necessary as most of the two-dimensional energy matrices are actually one-dimensional arrays throughout the ViennaRNAPackage</p>
+<p>Consult the implemented code to find out about the mapping formula ;)</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__utils_1ga27d6f59da187317ab4c0d7e9f15ee57a"><span class="std std-ref">vrna_idx_row_wise()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> – The length of the RNA sequence </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The mapper array </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-variables">Variables</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.xsubi">
+<span class="target" id="group__utils_1gaf9a866c8417afda7368bbac939ab3c47"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xsubi</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.xsubi" title="Link to this definition"></a><br /></dt>
+<dd><p>Current 48 bit random number. </p>
+<p>This variable is used by <a class="reference internal" href="#group__utils_1ga384e256ebb295d04a14426179db0dd6e"><span class="std std-ref">vrna_urn()</span></a>. These should be set to some random number seeds before the first call to <a class="reference internal" href="#group__utils_1ga384e256ebb295d04a14426179db0dd6e"><span class="std std-ref">vrna_urn()</span></a>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__utils_1ga384e256ebb295d04a14426179db0dd6e"><span class="std std-ref">vrna_urn()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modified_bases.html" class="btn btn-neutral float-left" title="Post-transcriptional Base Modifications" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utils/alphabet.html" class="btn btn-neutral float-right" title="Utilities to deal with Nucleotide Alphabets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

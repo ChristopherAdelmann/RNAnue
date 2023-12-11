@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="plots" kind="page">
+    <compoundname>plots</compoundname>
+    <title>Plotting</title>
+    <tableofcontents>
+      <tocsect>
+        <name>Producing secondary structure graphs</name>
+        <reference>plots_1utils_ss</reference>
+    </tocsect>
+      <tocsect>
+        <name>Producing (colored) dot plots for base pair probabilities</name>
+        <reference>plots_1utils_dot</reference>
+    </tocsect>
+      <tocsect>
+        <name>Producing (colored) alignments</name>
+        <reference>plots_1utils_aln</reference>
+    </tocsect>
+    </tableofcontents>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Create Plots of Secondary Structures, Feature Motifs, and Sequence Alignments</para>
+<sect1 id="plots_1utils_ss">
+<title>Producing secondary structure graphs</title>
+<para><verbatim>int PS_rna_plot ( char *string,
+                  char *structure,
+                  char *file)
+</verbatim></para>
+<para>Produce a secondary structure graph in PostScript and write it to &apos;filename&apos;.  </para>
+<para><verbatim>int PS_rna_plot_a (
+            char *string,
+            char *structure,
+            char *file,
+            char *pre,
+            char *post)
+</verbatim></para>
+<para>Produce a secondary structure graph in PostScript including additional annotation macros and write it to &apos;filename&apos;.  </para>
+<para><verbatim>int gmlRNA (char *string,
+            char *structure,
+            char *ssfile,
+            char option)
+</verbatim></para>
+<para>Produce a secondary structure graph in Graph Meta Language (gml) and write it to a file.  </para>
+<para><verbatim>int ssv_rna_plot (char *string,
+                  char *structure,
+                  char *ssfile)
+</verbatim></para>
+<para>Produce a secondary structure graph in SStructView format.  </para>
+<para><verbatim>int svg_rna_plot (char *string,
+                  char *structure,
+                  char *ssfile)
+</verbatim></para>
+<para>Produce a secondary structure plot in SVG format and write it to a file.  </para>
+<para><verbatim>int xrna_plot ( char *string,
+                char *structure,
+                char *ssfile)
+</verbatim></para>
+<para>Produce a secondary structure plot for further editing in XRNA.  </para>
+<para><verbatim>int rna_plot_type
+</verbatim></para>
+<para>Switch for changing the secondary structure layout algorithm.  </para>
+<para>Two low-level functions provide direct access to the graph lauyouting algorithms:</para>
+<para><verbatim>int simple_xy_coordinates ( short *pair_table,
+                            float *X,
+                            float *Y)
+</verbatim></para>
+<para>Calculate nucleotide coordinates for secondary structure plot the <emphasis>Simple way</emphasis>  </para>
+<para><verbatim>int naview_xy_coordinates ( short *pair_table,
+                            float *X,
+                            float *Y)
+</verbatim></para>
+<para><simplesect kind="see"><para><ref refid="PS__dot_8h" kindref="compound">PS_dot.h</ref> and <ref refid="naview_8h" kindref="compound">naview.h</ref> for more detailed descriptions.</para>
+</simplesect>
+<htmlonly> 
+&lt;hr&gt;
+&lt;a href=&quot;#toc&quot;&gt;Table of Contents&lt;/a&gt;
+&lt;hr&gt;
+</htmlonly></para>
+</sect1>
+<sect1 id="plots_1utils_dot">
+<title>Producing (colored) dot plots for base pair probabilities</title>
+<para><verbatim>int PS_color_dot_plot ( char *string,
+                        cpair *pi,
+                        char *filename)
+</verbatim></para>
+<para><verbatim>int PS_color_dot_plot_turn (char *seq,
+                            cpair *pi,
+                            char *filename,
+                            int winSize)
+</verbatim></para>
+<para><verbatim>int PS_dot_plot_list (char *seq,
+                      char *filename,
+                      plist *pl,
+                      plist *mf,
+                      char *comment)
+</verbatim></para>
+<para>Produce a postscript dot-plot from two pair lists.  </para>
+<para><verbatim>int PS_dot_plot_turn (char *seq,
+                      struct plist *pl,
+                      char *filename,
+                      int winSize)
+</verbatim></para>
+<para><simplesect kind="see"><para><ref refid="PS__dot_8h" kindref="compound">PS_dot.h</ref> for more detailed descriptions.</para>
+</simplesect>
+</para>
+</sect1>
+<sect1 id="plots_1utils_aln">
+<title>Producing (colored) alignments</title>
+<para><verbatim>int PS_color_aln (
+            const char *structure,
+            const char *filename,
+            const char *seqs[],
+            const char *names[])
+</verbatim></para>
+<para>Produce PostScript sequence alignment color-annotated by consensus structure.   </para>
+</sect1>
+    </detaileddescription>
+    <location file="doc/doxygen/refman.include/plotting.dox"/>
+  </compounddef>
+</doxygen>

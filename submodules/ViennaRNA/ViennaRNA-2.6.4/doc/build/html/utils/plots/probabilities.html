@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pair Probability Plots &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Alignment Plots" href="alignments.html" />
+    <link rel="prev" title="Annotation" href="annotation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../io.html">Files and I/O</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../plots.html">Plotting</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="layouts.html">Layouts and Coordinates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="annotation.html">Annotation</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Pair Probability Plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alignments.html">Alignment Plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deprecated.html">Deprecated Interface for Plotting Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../plots.html">Plotting</a></li>
+      <li class="breadcrumb-item active">Pair Probability Plots</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pair-probability-plots">
+<h1>Pair Probability Plots<a class="headerlink" href="#pair-probability-plots" title="Link to this heading"></a></h1>
+<p>Functions related to plotting of probabilities, such as dot-plots.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__plot__probabilities"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_PROBABILITIES_BP">
+<span class="target" id="group__plot__probabilities_1gacbb7170d7e64a20671b97dafe3825011"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_PROBABILITIES_BP</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_PROBABILITIES_BP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em><p>Option flag for base pair probabilities in probability plot output functions. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_PROBABILITIES_ACC">
+<span class="target" id="group__plot__probabilities_1ga7cf7de27166f5c445e2cf0ffc03b1a7a"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_PROBABILITIES_ACC</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_PROBABILITIES_ACC" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em><p>Option flag for accessibilities in probability plot output functions. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_PROBABILITIES_UD">
+<span class="target" id="group__plot__probabilities_1ga7f35d77121d2080b8c172841248b2060"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_PROBABILITIES_UD</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_PROBABILITIES_UD" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em><p>Option flag for unstructured domain probabilities in probability plot output functions. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_PROBABILITIES_UD_LIN">
+<span class="target" id="group__plot__probabilities_1ga6cce76e1c319a60a8b8e39d8887e2f1a"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_PROBABILITIES_UD_LIN</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_PROBABILITIES_UD_LIN" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em><p>Option flag for unstructured domain probabilities (linear representation) in probability plot output functions. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_PROBABILITIES_SD">
+<span class="target" id="group__plot__probabilities_1ga78f8da179bc3f52b1c1180931ed8b0f7"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_PROBABILITIES_SD</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_PROBABILITIES_SD" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em><p>Option flag for structured domain probabilities (such as G-quadruplexes) in probability plot output functions. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_PROBABILITIES_SC_MOTIF">
+<span class="target" id="group__plot__probabilities_1ga228fe1c75b71cb40726b9423d2bed2a9"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_PROBABILITIES_SC_MOTIF</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_PROBABILITIES_SC_MOTIF" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em><p>Option flag for soft-constraint motif probabilities in probability plot output functions. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_PROBABILITIES_SC_UP">
+<span class="target" id="group__plot__probabilities_1ga41a92625e75a77555b3f6e3a0ef7b89b"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_PROBABILITIES_SC_UP</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_PROBABILITIES_SC_UP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_PROBABILITIES_SC_BP">
+<span class="target" id="group__plot__probabilities_1ga886fa0619733b98667111faa56cd03d6"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_PROBABILITIES_SC_BP</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_PROBABILITIES_SC_BP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_PROBABILITIES_DEFAULT">
+<span class="target" id="group__plot__probabilities_1gaa3a3d5cf87de5120a93eab3be788b6fb"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_PROBABILITIES_DEFAULT</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_PROBABILITIES_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em><p>Default option flag for probability plot output functions. </p>
+<p>Default output includes actual base pair probabilties (<a class="reference internal" href="#group__plot__probabilities_1gacbb7170d7e64a20671b97dafe3825011"><span class="std std-ref">VRNA_PLOT_PROBABILITIES_BP</span></a>), structured domain probabilities such as G-quadruplexes (<a class="reference internal" href="#group__plot__probabilities_1ga78f8da179bc3f52b1c1180931ed8b0f7"><span class="std std-ref">VRNA_PLOT_PROBABILITIES_SD</span></a>), probabilities obtained from soft-constraint motif implementation (<a class="reference internal" href="#group__plot__probabilities_1ga228fe1c75b71cb40726b9423d2bed2a9"><span class="std std-ref">VRNA_PLOT_PROBABILITIES_SC_MOTIF</span></a>), and unstructured domain probabilities (<a class="reference internal" href="#group__plot__probabilities_1ga6cce76e1c319a60a8b8e39d8887e2f1a"><span class="std std-ref">VRNA_PLOT_PROBABILITIES_UD_LIN</span></a>).</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__probabilities_1ga45e56b67e3f333f4335197737b5f9822"><span class="std std-ref">vrna_plot_dp_EPS()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_dp_EPS">
+<span class="target" id="group__plot__probabilities_1ga45e56b67e3f333f4335197737b5f9822"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_dp_EPS</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <a class="reference internal" href="../struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">upper</span></span>, <a class="reference internal" href="../struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lower</span></span>, <a class="reference internal" href="#c.vrna_dotplot_auxdata_t" title="vrna_dotplot_auxdata_t"><span class="n"><span class="pre">vrna_dotplot_auxdata_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">auxdata</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_dp_EPS" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em><p>Produce an encapsulate PostScript (EPS) dot-plot from one or two lists of base pair probabilities. </p>
+<p>This function reads two vrna_ep_t lists <code class="docutils literal notranslate"><span class="pre">upper</span></code> and <code class="docutils literal notranslate"><span class="pre">lower</span></code> (e.g. base pair probabilities and a secondary structure) and produces an EPS “dot plot” with filename <code class="docutils literal notranslate"><span class="pre">'filename'</span></code> where data from <code class="docutils literal notranslate"><span class="pre">upper</span></code> is placed in the upper-triangular and data from <code class="docutils literal notranslate"><span class="pre">lower</span></code><p>is placed in the lower triangular part of the matrix.</p>
+<p>For default output, provide the flag</p>
+<a class="reference internal" href="#group__plot__probabilities_1gaa3a3d5cf87de5120a93eab3be788b6fb"><span class="std std-ref">VRNA_PLOT_PROBABILITIES_DEFAULT</span></a> as <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000165"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded function <code class="docutils literal notranslate"><span class="pre">plot_dp_EPS()</span></code> where the last three parameters may be omitted. The default values for these parameters are <code class="docutils literal notranslate"><span class="pre">lower</span></code> = NULL, <code class="docutils literal notranslate"><span class="pre">auxdata</span></code> = NULL, <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__plot__probabilities_1gaa3a3d5cf87de5120a93eab3be788b6fb"><span class="std std-ref">VRNA_PLOT_PROBABILITIES_DEFAULT</span></a>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.plot_dp_EPS" title="RNA.plot_dp_EPS"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.plot_dp_EPS()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../struct/plist.html#group__struct__utils__plist_1ga6de9e912540e36b1e231a66f6d8319df"><span class="std std-ref">vrna_plist()</span></a>, <a class="reference internal" href="../../partfunc/global.html#group__part__func__global_1ga2d1b1c2e37abe57911ce647123c8ae06"><span class="std std-ref">vrna_plist_from_probs()</span></a>, <a class="reference internal" href="#group__plot__probabilities_1gaa3a3d5cf87de5120a93eab3be788b6fb"><span class="std std-ref">VRNA_PLOT_PROBABILITIES_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – A filename for the EPS output </p></li>
+<li><p><strong>sequence</strong> – The RNA sequence </p></li>
+<li><p><strong>upper</strong> – The base pair probabilities for the upper triangular part </p></li>
+<li><p><strong>lower</strong> – The base pair probabilities for the lower triangular part </p></li>
+<li><p><strong>options</strong> – Options indicating which of the input data should be included in the dot-plot </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 if EPS file was successfully written, 0 otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_dp_PS_list">
+<span class="target" id="group__plot__probabilities_1ga4150e7dc7b6a9960b858d64abcd72290"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_dp_PS_list</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">cp</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <a class="reference internal" href="../struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pl</span></span>, <a class="reference internal" href="../struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">mf</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">comment</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_dp_PS_list" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em><p>Produce a postscript dot-plot from two pair lists. </p>
+<p>This function reads two plist structures (e.g. base pair probabilities and a secondary structure) as produced by <a class="reference internal" href="../../partfunc/global.html#group__part__func__global_1ga2d1b1c2e37abe57911ce647123c8ae06"><span class="std std-ref">vrna_plist_from_probs()</span></a> and <a class="reference internal" href="../struct/plist.html#group__struct__utils__plist_1ga6de9e912540e36b1e231a66f6d8319df"><span class="std std-ref">vrna_plist()</span></a><p>and produces a postscript “dot plot” that is written to ‘filename’.</p>
+<p>Using base pair probabilities in the first and mfe structure in the second plist, the resulting “dot plot” represents each base pairing probability by a square of corresponding area in a upper triangle matrix. The lower part of the matrix contains the minimum free energy structure.</p>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../../partfunc/global.html#group__part__func__global_1ga2d1b1c2e37abe57911ce647123c8ae06"><span class="std std-ref">vrna_plist_from_probs()</span></a>, <a class="reference internal" href="../struct/plist.html#group__struct__utils__plist_1ga6de9e912540e36b1e231a66f6d8319df"><span class="std std-ref">vrna_plist()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq</strong> – The RNA sequence </p></li>
+<li><p><strong>filename</strong> – A filename for the postscript output </p></li>
+<li><p><strong>pl</strong> – The base pair probability pairlist </p></li>
+<li><p><strong>mf</strong> – The mfe secondary structure pairlist </p></li>
+<li><p><strong>comment</strong> – A comment </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 if postscript was successfully written, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_dotplot_auxdata_t">
+<span class="target" id="structvrna__dotplot__auxdata__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_dotplot_auxdata_t</span></span></span><a class="headerlink" href="#c.vrna_dotplot_auxdata_t" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_dotplot_auxdata_t.comment">
+<span class="target" id="structvrna__dotplot__auxdata__t_1a244ff5044623adbb46db61f89a812f4c"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">comment</span></span></span><a class="headerlink" href="#c.vrna_dotplot_auxdata_t.comment" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_dotplot_auxdata_t.title">
+<span class="target" id="structvrna__dotplot__auxdata__t_1a651c8b62c91f07056a2018219f9e3834"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">title</span></span></span><a class="headerlink" href="#c.vrna_dotplot_auxdata_t.title" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_dotplot_auxdata_t.top">
+<span class="target" id="structvrna__dotplot__auxdata__t_1a5834cd1f871a38c76c91560679864a44"></span><a class="reference internal" href="../data_structures.html#c.vrna_data_lin_t" title="vrna_data_lin_t"><span class="n"><span class="pre">vrna_data_lin_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">top</span></span></span><a class="headerlink" href="#c.vrna_dotplot_auxdata_t.top" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_dotplot_auxdata_t.top_title">
+<span class="target" id="structvrna__dotplot__auxdata__t_1a9614c3ff559137f289d318b5a90bab05"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">top_title</span></span></span><a class="headerlink" href="#c.vrna_dotplot_auxdata_t.top_title" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_dotplot_auxdata_t.bottom">
+<span class="target" id="structvrna__dotplot__auxdata__t_1a60035f57164299f6f164d6c7a4dcfd08"></span><a class="reference internal" href="../data_structures.html#c.vrna_data_lin_t" title="vrna_data_lin_t"><span class="n"><span class="pre">vrna_data_lin_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">bottom</span></span></span><a class="headerlink" href="#c.vrna_dotplot_auxdata_t.bottom" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_dotplot_auxdata_t.bottom_title">
+<span class="target" id="structvrna__dotplot__auxdata__t_1a0afcf35613891c523b9934c563fe4ede"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">bottom_title</span></span></span><a class="headerlink" href="#c.vrna_dotplot_auxdata_t.bottom_title" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_dotplot_auxdata_t.left">
+<span class="target" id="structvrna__dotplot__auxdata__t_1a249418dc916bf2609186240c86dd3f66"></span><a class="reference internal" href="../data_structures.html#c.vrna_data_lin_t" title="vrna_data_lin_t"><span class="n"><span class="pre">vrna_data_lin_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">left</span></span></span><a class="headerlink" href="#c.vrna_dotplot_auxdata_t.left" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_dotplot_auxdata_t.left_title">
+<span class="target" id="structvrna__dotplot__auxdata__t_1a69c277c5aae30fae6454933ee29a8123"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">left_title</span></span></span><a class="headerlink" href="#c.vrna_dotplot_auxdata_t.left_title" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_dotplot_auxdata_t.right">
+<span class="target" id="structvrna__dotplot__auxdata__t_1aa22630b90143fb534cd68301cb852095"></span><a class="reference internal" href="../data_structures.html#c.vrna_data_lin_t" title="vrna_data_lin_t"><span class="n"><span class="pre">vrna_data_lin_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">right</span></span></span><a class="headerlink" href="#c.vrna_dotplot_auxdata_t.right" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_dotplot_auxdata_t.right_title">
+<span class="target" id="structvrna__dotplot__auxdata__t_1acb6f56b185c7c27573ea4a2dfcc15f4d"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">right_title</span></span></span><a class="headerlink" href="#c.vrna_dotplot_auxdata_t.right_title" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="annotation.html" class="btn btn-neutral float-left" title="Annotation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="alignments.html" class="btn btn-neutral float-right" title="Alignment Plots" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

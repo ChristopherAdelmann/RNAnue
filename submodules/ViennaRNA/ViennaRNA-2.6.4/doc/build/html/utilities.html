@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utilities &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5248d183"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Manpages" href="manpages.html" />
+    <link rel="prev" title="The Programs barriers and treekin" href="tutorial/barriers_treekin.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="getting_started.html">Getting Started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#global-rna-secondary-structure-prediction">Global RNA Secondary Structure Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#consensus-structure-prediction">Consensus Structure Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#rna-rna-interaction">RNA-RNA interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#plotting-structures">Plotting Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#rna-design">RNA Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#rna-folding-kinetics">RNA folding kinetics</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="getting_started.html#other-utilities">Other Utilities</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#available-tools">Available Tools</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="getting_started.html">Getting Started</a></li>
+      <li class="breadcrumb-item active">Utilities</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="utilities">
+<h1>Utilities<a class="headerlink" href="#utilities" title="Link to this heading"></a></h1>
+<p>We also ship a number of small utilities, many of them to manipulate the
+PostScript files produced by the structure prediction programs <a class="reference internal" href="man/RNAfold.html"><span class="doc">RNAfold</span></a>
+and <a class="reference internal" href="man/RNAalifold.html"><span class="doc">RNAalifold</span></a>.</p>
+<p>Most of the <cite>Perl 5</cite> utilities contain embedded <cite>pod</cite> documentation. Type e.g.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>perldoc<span class="w"> </span>relplot.pl
+</pre></div>
+</div>
+<p>for detailed instructions.</p>
+<section id="available-tools">
+<h2>Available Tools<a class="headerlink" href="#available-tools" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tool Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ct2db</p></td>
+<td><div class="line-block">
+<div class="line">Produce dot bracket notation of an RNA secondary structure</div>
+<div class="line">given as mfold <code class="docutils literal notranslate"><span class="pre">.ct</span></code> file</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>b2mt.pl</p></td>
+<td><div class="line-block">
+<div class="line">Produce a mountain representation of a secondary structure</div>
+<div class="line">from it’s dot-bracket notation, as produced by <a class="reference internal" href="man/RNAfold.html"><span class="doc">RNAfold</span></a>.</div>
+<div class="line">Output consists of simple <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">y</span></code> data suitable as input to a</div>
+<div class="line">plotting program. The mountain representation is a xy plot with</div>
+<div class="line">sequence position on the x-axis and the number of base pairs</div>
+<div class="line">enclosing that position on the y-axis.</div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>RNAfold<span class="w"> </span>&lt;<span class="w"> </span>my.seq<span class="w"> </span><span class="p">|</span><span class="w"> </span>b2mt.pl<span class="w"> </span><span class="p">|</span><span class="w"> </span>xmgrace<span class="w"> </span>-pipe
+</pre></div>
+</div>
+<img alt="mountain plot for 5S RNA" class="align-center" src="_images/5smnt.png" />
+</td>
+</tr>
+<tr class="row-even"><td><p>cmount.pl</p></td>
+<td><div class="line-block">
+<div class="line">Produce a PostScript mountain plot from a color dot plot as</div>
+<div class="line">created by <a class="reference internal" href="man/RNAalifold.html"><span class="doc">RNAalifold</span></a> -p or <code class="docutils literal notranslate"><span class="pre">alidot</span> <span class="pre">-p</span></code>. Each base pair</div>
+<div class="line">is represented by a trapez whose color encodes the number of</div>
+<div class="line">consistent and compensatory mutations supporting that pair:</div>
+<div class="line">Red marks pairs with no sequence variation; ochre, green, turquoise,</div>
+<div class="line">blue, and violet mark pairs with 2,3,4,5,6 different types of pairs,</div>
+<div class="line">respectively.</div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmount.pl<span class="w"> </span>alidot.ps<span class="w"> </span>&gt;<span class="w"> </span>cmount.ps
+</pre></div>
+</div>
+<img alt="color anotated TAR hairpin" class="align-center" src="_images/TAR_ss.png" />
+</td>
+</tr>
+<tr class="row-odd"><td><p>coloraln.pl</p></td>
+<td><div class="line-block">
+<div class="line">Reads a sequence alignment in <code class="docutils literal notranslate"><span class="pre">CLUSTAL</span></code> format and a consensus</div>
+<div class="line">secondary structure (which it extracts from a secondary structure</div>
+<div class="line">plot as produced by <a class="reference internal" href="man/RNAalifold.html"><span class="doc">RNAalifold</span></a>), and produces a postscript figure</div>
+<div class="line">of the alignment annotated using the consensus structure, coloring</div>
+<div class="line">base pair using the same color scheme as <code class="docutils literal notranslate"><span class="pre">cmount.pl</span></code>, <a class="reference internal" href="man/RNAalifold.html"><span class="doc">RNAalifold</span></a></div>
+<div class="line">and <code class="docutils literal notranslate"><span class="pre">alidot</span></code>.</div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>coloraln.pl<span class="w"> </span>-s<span class="w"> </span>alirna.ps<span class="w"> </span>file.aln<span class="w"> </span>&gt;<span class="w"> </span>coloraln.ps
+</pre></div>
+</div>
+<img alt="colored TAR alignment" class="align-center" src="_images/TAR_aln.png" />
+</td>
+</tr>
+<tr class="row-even"><td><p>colorrna.pl</p></td>
+<td><div class="line-block">
+<div class="line">Reads a consensus secondary structure plot and a color dot plot</div>
+<div class="line">as produced by <a class="reference internal" href="man/RNAalifold.html"><span class="doc">RNAalifold</span></a> -p, and writes a new secondary</div>
+<div class="line">structure plot in which base pairs a colored using the color</div>
+<div class="line">information from the dot plot.</div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>colorrna.pl<span class="w"> </span>alirna.ps<span class="w"> </span>alidot.ps<span class="w"> </span>&gt;<span class="w"> </span>colorRNA.ps
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>mountain.pl</p></td>
+<td><div class="line-block">
+<div class="line">Similar to <code class="docutils literal notranslate"><span class="pre">b2mt.pl</span></code>, but produces a mountain plot from the</div>
+<div class="line">pair probabilities contained in a PostScript dot plot. It write</div>
+<div class="line">3 sets of x y data, suitable as input for a plot program. The</div>
+<div class="line">first two sets containing the mountain representation from pair</div>
+<div class="line">probabilities and MFE structure, the third set is the</div>
+<div class="line">“positional entropy” a measure of structural well-definedness.</div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mountain.pl<span class="w"> </span>dot.ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>xmgrace<span class="w"> </span>-pipe
+</pre></div>
+</div>
+<img alt="color mountain plot for HIV TAR hairpin" class="align-center" src="_images/TAR_cmt.png" />
+</td>
+</tr>
+<tr class="row-even"><td><p>refold.pl</p></td>
+<td><p>Refold using consensus structure as constraint</p></td>
+</tr>
+<tr class="row-odd"><td><p>relplot.pl</p></td>
+<td><div class="line-block">
+<div class="line">Reads a postscript secondary structure plot and a dot plot</div>
+<div class="line">containing pair probabilities as produced by <a class="reference internal" href="man/RNAfold.html"><span class="doc">RNAfold</span></a> -p,</div>
+<div class="line">and produces a new structure plot, color annotated with reliability</div>
+<div class="line">information in the form of either pair probabilities or positional</div>
+<div class="line">entropy (default).</div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>relplot.pl<span class="w"> </span>foo_ss.ps<span class="w"> </span>foo_dp.ps<span class="w"> </span>&gt;<span class="w"> </span>foo_rss.ps
+</pre></div>
+</div>
+<img alt="structure of a 5s rRNA with reliability annotation" class="align-center" src="_images/5srel.png" />
+</td>
+</tr>
+<tr class="row-even"><td><p>rotate_ss.pl</p></td>
+<td><div class="line-block">
+<div class="line">Reads a postscript secondary structure plot as produced by</div>
+<div class="line"><a class="reference internal" href="man/RNAfold.html"><span class="doc">RNAfold</span></a> and produces a new rotated and/or mirrored</div>
+<div class="line">structure plot.</div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rotate_ss.pl<span class="w"> </span>-a<span class="w"> </span><span class="m">30</span><span class="w"> </span>-m<span class="w"> </span>foo_ss.ps<span class="w"> </span>&gt;<span class="w"> </span>foo_new_ss.ps
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>switch.pl</p></td>
+<td><div class="line-block">
+<div class="line">Design sequences that can adopt two different structure, i.e.</div>
+<div class="line">design RNA switches. The program will sample the set of sequences</div>
+<div class="line">compatible with two input structures in order to find sequences with</div>
+<div class="line">desired thermodynamic and kinetic properties. In particular it is</div>
+<div class="line">possible to specify two different temperatures such that structure</div>
+<div class="line">1 is favored at T1 and structure 2 at T2 to design temperature</div>
+<div class="line">sensitive switches (RNA thermometers). The desired height of the</div>
+<div class="line">energy barrier separating the two structures, thus determining</div>
+<div class="line">the refolding time between meta-stable states.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>RNAdesign.pl</p></td>
+<td><div class="line-block">
+<div class="line">Flexible design of multi-stable RNA molecules. An initially random</div>
+<div class="line">sequence is iteratively mutated and evaluated according to an</div>
+<div class="line">objective function (see Option: <code class="docutils literal notranslate"><span class="pre">--optfun</span></code>). Whenever a better</div>
+<div class="line">scoring sequence has been found, the mutation is accepted, the</div>
+<div class="line">algorithm terminates once a local minimum is found. This script</div>
+<div class="line">makes heavy use of the <code class="docutils literal notranslate"><span class="pre">RNA::Design</span></code> sub-package that comes</div>
+<div class="line">with the ViennaRNA Package <code class="docutils literal notranslate"><span class="pre">Perl</span> <span class="pre">5</span></code> interface.</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorial/barriers_treekin.html" class="btn btn-neutral float-left" title="The Programs barriers and treekin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="manpages.html" class="btn btn-neutral float-right" title="Manpages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

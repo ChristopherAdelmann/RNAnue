@@ -31,25 +31,40 @@ set(Boost_DEBUG ON)
 add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
 
 ##ViennaRNA
-include(ExternalProject)
-set(VIENNA_BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/build)
+set(VIENNA_BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4/build)
 file(MAKE_DIRECTORY ${VIENNA_BUILD_DIR})
+execute_process(
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4/configure
+        --prefix=${VIENNA_BUILD_DIR}
+        --enable-lto
+        --without-perl
+        --without-python
+        --without-doc
+        --without-kinfold
+        --without-forester
+        --without-kinwalker
+        --without-cla
+        --without-cla-pdf
+        --without-doc-html
+        --without-doc-pdf
+        --without-tutorial
+        --without-tutorial-html
+        --without-tutorial-pdf
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4
+)
 
-ExternalProject_Add(ViennaRNA
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA
-    CONFIGURE_COMMAND 
-    COMMAND "cd ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA"
-    COMMAND "autoreconf -i"
-    COMMAND "./configure --prefix=${VIENNA_BUILD_DIR} --enable-lto --without-perl --without-python --without-doc --without-kinfold --without-forester --without-kinwalker --without-rnalocmin --without-cla --without-cla-pdf --without-doc-html --without-doc-pdf --without-svm --without-swig --without-tutorial --without-tutorial-html --without-tutorial-pdf"          
-    BUILD_COMMAND "make"
-    INSTALL_COMMAND "make install"
-    TEST_COMMAND ""
+execute_process(
+    COMMAND make
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4
+)
+
+execute_process(
+    COMMAND make install
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4
 )
 
 #Compiler flags
 #set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-lRNA -fno-lto")
-
-
 
 
 file(GLOB SOURCES "./source/*.cpp")
@@ -63,7 +78,7 @@ add_executable (RNAnue ${SOURCES}) #${VIENNA_SOURCES}
 target_compile_features(RNAnue PRIVATE cxx_std_20)
 target_link_libraries (RNAnue seqan3::seqan3)
 target_link_libraries (RNAnue Boost::program_options Boost::filesystem Boost::property_tree Boost::foreach Boost::dynamic_bitset)
-target_link_libraries(RNAnue ${VIENNA_BUILD_DIR}/build/lib/libRNA.a)
+target_link_libraries(RNAnue ${VIENNA_BUILD_DIR}/lib/libRNA.a)
 
 if(OpenMP_CXX_FOUND)
     target_link_libraries (RNAnue OpenMP::OpenMP_CXX)

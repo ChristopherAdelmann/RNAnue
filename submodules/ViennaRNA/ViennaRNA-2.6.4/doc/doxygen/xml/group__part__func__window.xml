@@ -1,0 +1,689 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__part__func__window" kind="group">
+    <compoundname>part_func_window</compoundname>
+    <title>Local (sliding window) Partition Function and Equilibrium Probabilities</title>
+    <innerfile refid="part__func__window_8h">part_func_window.h</innerfile>
+    <innergroup refid="group__part__func__window__deprecated">Deprecated Interface for Local (Sliding Window) Partition Function Computation</innergroup>
+      <sectiondef kind="user-defined">
+      <header>Basic local partition function interface</header>
+      <memberdef kind="function" id="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_probs_window</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int ulength, unsigned int options, vrna_probs_window_f cb, void *data)</argsstring>
+        <name>vrna_probs_window</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ulength</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="group__part__func__window_1ga847115aeace6030fa01185cca6e34f9e" kindref="member">vrna_probs_window_f</ref></type>
+          <declname>cb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute various equilibrium probabilities under a sliding window approach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function applies a sliding window scan for the sequence provided with the argument <computeroutput>fc</computeroutput> and reports back equilibrium probabilities through the callback function <computeroutput>cb</computeroutput>. The data reported to the callback depends on the <computeroutput>options</computeroutput> flag.</para>
+<para><simplesect kind="note"><para>The parameter <computeroutput>ulength</computeroutput> only affects computation and resulting data if unpaired probability computations are requested through the <computeroutput>options</computeroutput> flag.</para>
+</simplesect>
+<heading level="4">Options:</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><ref refid="group__part__func__window_1ga296217b76e76e5f7e6927e7210aa9b1f" kindref="member">VRNA_PROBS_WINDOW_BPP</ref> -  Trigger base pairing probabilities.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615" kindref="member">VRNA_PROBS_WINDOW_UP</ref> -  Trigger unpaired probabilities.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1ga9068f4ec008bf1c042a9357f5c2c5e13" kindref="member">VRNA_PROBS_WINDOW_UP_SPLIT</ref> -  Trigger detailed unpaired probabilities split up into different loop type contexts.  </para>
+</listitem></itemizedlist>
+</para>
+<para>Options may be OR-ed together</para>
+<para><simplesect kind="see"><para><ref refid="group__part__func__window_1ga666afcc1cda1822d0cd3b7f7f7f73f2d" kindref="member">vrna_pfl_fold_cb()</ref>, <ref refid="group__part__func__window_1ga25f154804af6463afddcbebe565fd465" kindref="member">vrna_pfl_fold_up_cb()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound with sequence data, model settings and precomputed energy parameters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ulength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximal length of an unpaired segment (only for unpaired probability computations) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The callback function which collects the pair probability data for further processing </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Some arbitrary data structure that is passed to the callback <computeroutput>cb</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option flags to control the behavior of this function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 on failure, non-zero on success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="229" column="1" declfile="ViennaRNA/part_func_window.h" declline="229" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Simplified global partition function computation using sequence(s) or multiple sequence alignment(s)</header>
+      <memberdef kind="function" id="group__part__func__window_1ga1f12fb1ae8b1d0a5d7ab7c2cdddf98c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+        <definition>vrna_ep_t * vrna_pfl_fold</definition>
+        <argsstring>(const char *sequence, int window_size, int max_bp_span, float cutoff)</argsstring>
+        <name>vrna_pfl_fold</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>window_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_bp_span</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>cutoff</declname>
+        </param>
+        <briefdescription>
+<para>Compute base pair probabilities using a sliding-window approach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is a simplified wrapper to <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> that given a nucleid acid sequence, a window size, a maximum base pair span, and a cutoff value computes the pair probabilities for any base pair in any window. The pair probabilities are returned as a list and the user has to take care to free() the memory occupied by the list.</para>
+<para><simplesect kind="note"><para>This function uses default model settings! For custom model settings, we refer to the function <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref>.<linebreak/>
+ In case of any computation errors, this function returns <computeroutput>NULL</computeroutput> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref>, <ref refid="group__part__func__window_1ga666afcc1cda1822d0cd3b7f7f7f73f2d" kindref="member">vrna_pfl_fold_cb()</ref>, <ref refid="group__part__func__window_1gaef3a34027fcf975dda31602d7b4ac4f2" kindref="member">vrna_pfl_fold_up()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nucleic acid input sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size of the sliding window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_bp_span</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum distance along the backbone between two nucleotides that form a base pairs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cutoff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A cutoff value that omits all pairs with lower probability </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of base pair probabilities, terminated by an entry with <ref refid="structvrna__elem__prob__s_1a0f8bb11ded4e605f816d7ad92eb568f6" kindref="member">vrna_ep_t.i</ref> and <ref refid="structvrna__elem__prob__s_1acada5be62ed6843334a918ca543f0c0d" kindref="member">vrna_ep_t.j</ref> set to 0 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="264" column="1" declfile="ViennaRNA/part_func_window.h" declline="264" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__window_1ga666afcc1cda1822d0cd3b7f7f7f73f2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_pfl_fold_cb</definition>
+        <argsstring>(const char *sequence, int window_size, int max_bp_span, vrna_probs_window_f cb, void *data)</argsstring>
+        <name>vrna_pfl_fold_cb</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>window_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_bp_span</declname>
+        </param>
+        <param>
+          <type><ref refid="group__part__func__window_1ga847115aeace6030fa01185cca6e34f9e" kindref="member">vrna_probs_window_f</ref></type>
+          <declname>cb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute base pair probabilities using a sliding-window approach (callback version) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is a simplified wrapper to <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> that given a nucleid acid sequence, a window size, a maximum base pair span, and a cutoff value computes the pair probabilities for any base pair in any window. It is similar to <ref refid="group__part__func__window_1ga1f12fb1ae8b1d0a5d7ab7c2cdddf98c1" kindref="member">vrna_pfl_fold()</ref> but uses a callback mechanism to return the pair probabilities.</para>
+<para>Read the details for <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> for details on the callback implementation!</para>
+<para><simplesect kind="note"><para>This function uses default model settings! For custom model settings, we refer to the function <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref>.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref>, <ref refid="group__part__func__window_1ga1f12fb1ae8b1d0a5d7ab7c2cdddf98c1" kindref="member">vrna_pfl_fold()</ref>, <ref refid="group__part__func__window_1ga25f154804af6463afddcbebe565fd465" kindref="member">vrna_pfl_fold_up_cb()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nucleic acid input sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size of the sliding window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_bp_span</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum distance along the backbone between two nucleotides that form a base pairs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The callback function which collects the pair probability data for further processing </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Some arbitrary data structure that is passed to the callback <computeroutput>cb</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 on failure, non-zero on success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="293" column="1" declfile="ViennaRNA/part_func_window.h" declline="293" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__window_1gaef3a34027fcf975dda31602d7b4ac4f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double **</type>
+        <definition>double ** vrna_pfl_fold_up</definition>
+        <argsstring>(const char *sequence, int ulength, int window_size, int max_bp_span)</argsstring>
+        <name>vrna_pfl_fold_up</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ulength</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>window_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_bp_span</declname>
+        </param>
+        <briefdescription>
+<para>Compute probability of contiguous unpaired segments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is a simplified wrapper to <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> that given a nucleic acid sequence, a maximum length of unpaired segments (<computeroutput>ulength</computeroutput>), a window size, and a maximum base pair span computes the equilibrium probability of any segment not exceeding <computeroutput>ulength</computeroutput>. The probabilities to be unpaired are returned as a 1-based, 2-dimensional matrix with dimensions <formula id="70">$ N \times M $</formula>, where <formula id="71">$N$</formula> is the length of the sequence and <formula id="72">$M$</formula> is the maximum segment length. As an example, the probability of a segment of size 5 starting at position 100 is stored in the matrix entry <formula id="73">$X[100][5]$</formula>.</para>
+<para>It is the users responsibility to free the memory occupied by this matrix.</para>
+<para><simplesect kind="note"><para>This function uses default model settings! For custom model settings, we refer to the function <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nucleic acid input sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ulength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximal length of an unpaired segment </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size of the sliding window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_bp_span</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum distance along the backbone between two nucleotides that form a base pairs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The probabilities to be unpaired for any segment not exceeding <computeroutput>ulength</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="323" column="1" declfile="ViennaRNA/part_func_window.h" declline="323" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__window_1ga25f154804af6463afddcbebe565fd465" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_pfl_fold_up_cb</definition>
+        <argsstring>(const char *sequence, int ulength, int window_size, int max_bp_span, vrna_probs_window_f cb, void *data)</argsstring>
+        <name>vrna_pfl_fold_up_cb</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ulength</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>window_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_bp_span</declname>
+        </param>
+        <param>
+          <type><ref refid="group__part__func__window_1ga847115aeace6030fa01185cca6e34f9e" kindref="member">vrna_probs_window_f</ref></type>
+          <declname>cb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute probability of contiguous unpaired segments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is a simplified wrapper to <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> that given a nucleic acid sequence, a maximum length of unpaired segments (<computeroutput>ulength</computeroutput>), a window size, and a maximum base pair span computes the equilibrium probability of any segment not exceeding <computeroutput>ulength</computeroutput>. It is similar to <ref refid="group__part__func__window_1gaef3a34027fcf975dda31602d7b4ac4f2" kindref="member">vrna_pfl_fold_up()</ref> but uses a callback mechanism to return the unpaired probabilities.</para>
+<para>Read the details for <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> for details on the callback implementation!</para>
+<para><simplesect kind="note"><para>This function uses default model settings! For custom model settings, we refer to the function <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nucleic acid input sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ulength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximal length of an unpaired segment </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size of the sliding window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_bp_span</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum distance along the backbone between two nucleotides that form a base pairs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The callback function which collects the pair probability data for further processing </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Some arbitrary data structure that is passed to the callback <computeroutput>cb</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 on failure, non-zero on success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="353" column="1" declfile="ViennaRNA/part_func_window.h" declline="353" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__part__func__window_1ga847115aeace6030fa01185cca6e34f9e" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* vrna_probs_window_f) (FLT_OR_DBL *pr, int pr_size, int i, int max, unsigned int type, void *data)</definition>
+        <argsstring>)(FLT_OR_DBL *pr, int pr_size, int i, int max, unsigned int type, void *data)</argsstring>
+        <name>vrna_probs_window_f</name>
+        <briefdescription>
+<para>Sliding window probability computation callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="callbacks_1_callbacks000006"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>This function will be called for each probability data set in the sliding window probability computation implementation of <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref>. The argument <emphasis>type</emphasis> specifies the type of probability that is passed to this function. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+<para><heading level="4">Types:</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><ref refid="group__part__func__window_1ga296217b76e76e5f7e6927e7210aa9b1f" kindref="member">VRNA_PROBS_WINDOW_BPP</ref> -  Trigger base pairing probabilities.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615" kindref="member">VRNA_PROBS_WINDOW_UP</ref> -  Trigger unpaired probabilities.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1ga4b79137d9b28b1f9cac7983792ce34a0" kindref="member">VRNA_PROBS_WINDOW_PF</ref> -  Trigger partition function.  </para>
+</listitem></itemizedlist>
+</para>
+<para>The above types usually come exclusively. However, for unpaired probabilities, the <ref refid="group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615" kindref="member">VRNA_PROBS_WINDOW_UP</ref> flag is OR-ed together with one of the loop type contexts</para>
+<para><itemizedlist>
+<listitem><para><ref refid="group__part__func__window_1gaf0bb577130090f6c856d1358804250bf" kindref="member">VRNA_EXT_LOOP</ref> -  Exterior loop.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1ga30170811c320f3a7b23ffff3b3343b91" kindref="member">VRNA_HP_LOOP</ref> -  Hairpin loop.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1ga956a237e7d956b684b7d593cb3eca665" kindref="member">VRNA_INT_LOOP</ref> -  Internal loop.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1gad905b71f02b3799eb84b490435aec837" kindref="member">VRNA_MB_LOOP</ref> -  Multibranch loop.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1ga1fef1ad234755db78ab6b695edce5080" kindref="member">VRNA_ANY_LOOP</ref> -  Any loop.  </para>
+</listitem></itemizedlist>
+</para>
+<para>to indicate the particular type of data available through the <computeroutput>pr</computeroutput> pointer.</para>
+<para><simplesect kind="see"><para><ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref>, <ref refid="group__part__func__window_1ga25f154804af6463afddcbebe565fd465" kindref="member">vrna_pfl_fold_up_cb()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of probabilities </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pr_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the probability array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The i-position (5&apos;) of the probabilities </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The (theoretical) maximum length of the probability array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of data that is provided </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Auxiliary data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="75" column="9" bodyfile="ViennaRNA/part_func_window.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__part__func__window_1gabe710a1182e6db69cc75329dfc9bed67" prot="public" static="no">
+        <type>void()</type>
+        <definition>typedef void() vrna_probs_window_callback(FLT_OR_DBL *pr, int pr_size, int i, int max, unsigned int type, void *data)</definition>
+        <argsstring>(FLT_OR_DBL *pr, int pr_size, int i, int max, unsigned int type, void *data)</argsstring>
+        <name>vrna_probs_window_callback</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="88" column="10" bodyfile="ViennaRNA/part_func_window.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__part__func__window_1gaf0bb577130090f6c856d1358804250bf" prot="public" static="no">
+        <name>VRNA_EXT_LOOP</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+<para>Exterior loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="97" column="9" bodyfile="ViennaRNA/part_func_window.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__part__func__window_1ga30170811c320f3a7b23ffff3b3343b91" prot="public" static="no">
+        <name>VRNA_HP_LOOP</name>
+        <initializer>2U</initializer>
+        <briefdescription>
+<para>Hairpin loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="102" column="9" bodyfile="ViennaRNA/part_func_window.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__part__func__window_1ga956a237e7d956b684b7d593cb3eca665" prot="public" static="no">
+        <name>VRNA_INT_LOOP</name>
+        <initializer>4U</initializer>
+        <briefdescription>
+<para>Internal loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="107" column="9" bodyfile="ViennaRNA/part_func_window.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__part__func__window_1gad905b71f02b3799eb84b490435aec837" prot="public" static="no">
+        <name>VRNA_MB_LOOP</name>
+        <initializer>8U</initializer>
+        <briefdescription>
+<para>Multibranch loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="112" column="9" bodyfile="ViennaRNA/part_func_window.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__part__func__window_1ga1fef1ad234755db78ab6b695edce5080" prot="public" static="no">
+        <name>VRNA_ANY_LOOP</name>
+        <initializer>(<ref refid="group__part__func__window_1gaf0bb577130090f6c856d1358804250bf" kindref="member">VRNA_EXT_LOOP</ref> | <ref refid="group__part__func__window_1ga30170811c320f3a7b23ffff3b3343b91" kindref="member">VRNA_HP_LOOP</ref> | <ref refid="group__part__func__window_1ga956a237e7d956b684b7d593cb3eca665" kindref="member">VRNA_INT_LOOP</ref> | <ref refid="group__part__func__window_1gad905b71f02b3799eb84b490435aec837" kindref="member">VRNA_MB_LOOP</ref>)</initializer>
+        <briefdescription>
+<para>Any loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="117" column="9" bodyfile="ViennaRNA/part_func_window.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__part__func__window_1ga296217b76e76e5f7e6927e7210aa9b1f" prot="public" static="no">
+        <name>VRNA_PROBS_WINDOW_BPP</name>
+        <initializer>4096U</initializer>
+        <briefdescription>
+<para>Trigger base pairing probabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Passing this flag to <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> activates callback execution for base pairing probabilities. In turn, the corresponding callback receives this flag through the <computeroutput>type</computeroutput> argument whenever base pairing probabilities are provided.</para>
+<para>Detailed information for the algorithm to compute unpaired probabilities can be taken from  <verbatim>embed:rst:inline :cite:t:`bernhart:2005` </verbatim>.</para>
+<para><simplesect kind="see"><para><ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="132" column="9" bodyfile="ViennaRNA/part_func_window.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615" prot="public" static="no">
+        <name>VRNA_PROBS_WINDOW_UP</name>
+        <initializer>8192U</initializer>
+        <briefdescription>
+<para>Trigger unpaired probabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Passing this flag to <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> activates callback execution for unpaired probabilities. In turn, the corresponding callback receives this flag through the <computeroutput>type</computeroutput> argument whenever unpaired probabilities are provided.</para>
+<para>Detailed information for the algorithm to compute unpaired probabilities can be taken from  <verbatim>embed:rst:inline :cite:t:`bernhart:2011` </verbatim>.</para>
+<para><simplesect kind="see"><para><ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="146" column="9" bodyfile="ViennaRNA/part_func_window.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__part__func__window_1ga0a13fc668b02f21b225e2334e4caac08" prot="public" static="no">
+        <name>VRNA_PROBS_WINDOW_STACKP</name>
+        <initializer>16384U</initializer>
+        <briefdescription>
+<para>Trigger base pair stack probabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Passing this flag to <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> activates callback execution for stacking probabilities. In turn, the corresponding callback receives this flag through the <computeroutput>type</computeroutput> argument whenever stack probabilities are provided.</para>
+<para><xrefsect id="bug_1_bug000001"><xreftitle>Bug</xreftitle><xrefdescription><para>Currently, this flag is a placeholder doing nothing as the corresponding implementation for stack probability computation is missing.</para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="160" column="9" bodyfile="ViennaRNA/part_func_window.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__part__func__window_1ga9068f4ec008bf1c042a9357f5c2c5e13" prot="public" static="no">
+        <name>VRNA_PROBS_WINDOW_UP_SPLIT</name>
+        <initializer>32768U</initializer>
+        <briefdescription>
+<para>Trigger detailed unpaired probabilities split up into different loop type contexts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Passing this flag to <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> activates callback execution for unpaired probabilities. In contrast to <ref refid="group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615" kindref="member">VRNA_PROBS_WINDOW_UP</ref> this flag requests unpaired probabilities to be split up into different loop type contexts. In turn, the corresponding callback receives the <ref refid="group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615" kindref="member">VRNA_PROBS_WINDOW_UP</ref> flag OR-ed together with the corresponding loop type, i.e.:</para>
+<para><itemizedlist>
+<listitem><para><ref refid="group__part__func__window_1gaf0bb577130090f6c856d1358804250bf" kindref="member">VRNA_EXT_LOOP</ref> -  Exterior loop.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1ga30170811c320f3a7b23ffff3b3343b91" kindref="member">VRNA_HP_LOOP</ref> -  Hairpin loop.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1ga956a237e7d956b684b7d593cb3eca665" kindref="member">VRNA_INT_LOOP</ref> -  Internal loop.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1gad905b71f02b3799eb84b490435aec837" kindref="member">VRNA_MB_LOOP</ref> -  Multibranch loop.  </para>
+</listitem><listitem><para><ref refid="group__part__func__window_1ga1fef1ad234755db78ab6b695edce5080" kindref="member">VRNA_ANY_LOOP</ref> -  Any loop.  </para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref>, <ref refid="group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615" kindref="member">VRNA_PROBS_WINDOW_UP</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="179" column="9" bodyfile="ViennaRNA/part_func_window.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__part__func__window_1ga4b79137d9b28b1f9cac7983792ce34a0" prot="public" static="no">
+        <name>VRNA_PROBS_WINDOW_PF</name>
+        <initializer>65536U</initializer>
+        <briefdescription>
+<para>Trigger partition function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Passing this flag to <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> activates callback execution for partition function. In turn, the corresponding callback receives this flag through it&apos;s <computeroutput>type</computeroutput> argument whenever partition function data is provided.</para>
+<para><simplesect kind="note"><para>Instead of actually providing the partition function <formula id="68">$Z$</formula>, the callback is always provided with the corresponding enemble free energy <formula id="69">$\Delta G = - RT \ln Z$</formula>.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_window.h" line="195" column="9" bodyfile="ViennaRNA/part_func_window.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

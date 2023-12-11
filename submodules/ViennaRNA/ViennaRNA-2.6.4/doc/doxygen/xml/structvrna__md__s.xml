@@ -1,0 +1,760 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="structvrna__md__s" kind="struct" language="C++" prot="public">
+    <compoundname>vrna_md_s</compoundname>
+    <includes refid="model_8h" local="no">ViennaRNA/model.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structvrna__md__s_1a5f7e5c2b65bada5188443470e576aa4b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double vrna_md_s::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>vrna_md_s::temperature</qualifiedname>
+        <briefdescription>
+<para>The temperature used to scale the thermodynamic parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="244" column="11" bodyfile="ViennaRNA/model.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a19524bf1d8d7ab590ed36edbbcaaba2c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double vrna_md_s::betaScale</definition>
+        <argsstring></argsstring>
+        <name>betaScale</name>
+        <qualifiedname>vrna_md_s::betaScale</qualifiedname>
+        <briefdescription>
+<para>A scaling factor for the thermodynamic temperature of the Boltzmann factors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="245" column="11" bodyfile="ViennaRNA/model.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a97b9f2fa2d157c65413d33b1beb5159d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::pf_smooth</definition>
+        <argsstring></argsstring>
+        <name>pf_smooth</name>
+        <qualifiedname>vrna_md_s::pf_smooth</qualifiedname>
+        <briefdescription>
+<para>A flat specifying whether energies in Boltzmann factors need to be smoothed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="246" column="11" bodyfile="ViennaRNA/model.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1adcda4ff2ea77748ae0e8700288282efc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::dangles</definition>
+        <argsstring></argsstring>
+        <name>dangles</name>
+        <qualifiedname>vrna_md_s::dangles</qualifiedname>
+        <briefdescription>
+<para>Specifies the dangle model used in any energy evaluation (0,1,2 or 3) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If set to 0 no stabilizing energies are assigned to bases adjacent to helices in free ends and multiloops (so called dangling ends). Normally (dangles = 1) dangling end energies are assigned only to unpaired bases and a base cannot participate simultaneously in two dangling ends. In the partition function algorithm <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref> these checks are neglected. To provide comparability between free energy minimization and partition function algorithms, the default setting is 2. This treatment of dangling ends gives more favorable energies to helices directly adjacent to one another, which can be beneficial since such helices often do engage in stabilizing interactions through co-axial stacking.<linebreak/>
+If set to 3 co-axial stacking is explicitly included for adjacent helices in multiloops. The option affects only mfe folding and energy evaluation (<ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref> and <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref>), as well as suboptimal folding (<ref refid="group__subopt__wuchty_1gad0cce16455fda0737873d8e1c5846480" kindref="member">vrna_subopt()</ref>) via re-evaluation of energies. Co-axial stacking with one intervening mismatch is not considered so far. Note, that some function do not implement all dangle model but only a subset of (0,1,2,3). In particular, partition function algorithms can only handle 0 and 2. Read the documentation of the particular recurrences or energy evaluation function for information about the provided dangle model. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="247" column="11" bodyfile="ViennaRNA/model.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1add64a96d23e77ef1d0ddf8dfc5228143" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::special_hp</definition>
+        <argsstring></argsstring>
+        <name>special_hp</name>
+        <qualifiedname>vrna_md_s::special_hp</qualifiedname>
+        <briefdescription>
+<para>Include special hairpin contributions for tri, tetra and hexaloops. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="271" column="11" bodyfile="ViennaRNA/model.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a753200bf21cee0ea2df64afe43999f5d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::noLP</definition>
+        <argsstring></argsstring>
+        <name>noLP</name>
+        <qualifiedname>vrna_md_s::noLP</qualifiedname>
+        <briefdescription>
+<para>Only consider canonical structures, i.e. no &apos;lonely&apos; base pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="272" column="11" bodyfile="ViennaRNA/model.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1ad64a5eaf9c4550e7525b36a725fec4b2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::noGU</definition>
+        <argsstring></argsstring>
+        <name>noGU</name>
+        <qualifiedname>vrna_md_s::noGU</qualifiedname>
+        <briefdescription>
+<para>Do not allow GU pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="273" column="11" bodyfile="ViennaRNA/model.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a7e883db1f33f8f3baa5c9b140350c78e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::noGUclosure</definition>
+        <argsstring></argsstring>
+        <name>noGUclosure</name>
+        <qualifiedname>vrna_md_s::noGUclosure</qualifiedname>
+        <briefdescription>
+<para>Do not allow loops to be closed by GU pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="274" column="11" bodyfile="ViennaRNA/model.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1ae259f89a94acae0c7f1412603e7f57b5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::logML</definition>
+        <argsstring></argsstring>
+        <name>logML</name>
+        <qualifiedname>vrna_md_s::logML</qualifiedname>
+        <briefdescription>
+<para>Use logarithmic scaling for multiloops. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="275" column="11" bodyfile="ViennaRNA/model.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a92762e1008503d4623ff5c01e358a464" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::circ</definition>
+        <argsstring></argsstring>
+        <name>circ</name>
+        <qualifiedname>vrna_md_s::circ</qualifiedname>
+        <briefdescription>
+<para>Assume RNA to be circular instead of linear. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="276" column="11" bodyfile="ViennaRNA/model.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1af88a511a2b1f526b4c6213de6cb8fd6e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::gquad</definition>
+        <argsstring></argsstring>
+        <name>gquad</name>
+        <qualifiedname>vrna_md_s::gquad</qualifiedname>
+        <briefdescription>
+<para>Include G-quadruplexes in structure prediction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="277" column="11" bodyfile="ViennaRNA/model.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::uniq_ML</definition>
+        <argsstring></argsstring>
+        <name>uniq_ML</name>
+        <qualifiedname>vrna_md_s::uniq_ML</qualifiedname>
+        <briefdescription>
+<para>Flag to ensure unique multi-branch loop decomposition during folding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="278" column="11" bodyfile="ViennaRNA/model.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a5eee4e3b468eb690d1407e0178dafb3f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::energy_set</definition>
+        <argsstring></argsstring>
+        <name>energy_set</name>
+        <qualifiedname>vrna_md_s::energy_set</qualifiedname>
+        <briefdescription>
+<para>Specifies the energy set that defines set of compatible base pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="279" column="11" bodyfile="ViennaRNA/model.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a31f4471608cbdd03887f63c281823adb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::backtrack</definition>
+        <argsstring></argsstring>
+        <name>backtrack</name>
+        <qualifiedname>vrna_md_s::backtrack</qualifiedname>
+        <briefdescription>
+<para>Specifies whether or not secondary structures should be backtraced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="280" column="11" bodyfile="ViennaRNA/model.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1abb265da25121d22ed11c8435861f0e53" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char vrna_md_s::backtrack_type</definition>
+        <argsstring></argsstring>
+        <name>backtrack_type</name>
+        <qualifiedname>vrna_md_s::backtrack_type</qualifiedname>
+        <briefdescription>
+<para>Specifies in which matrix to backtrack. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="281" column="11" bodyfile="ViennaRNA/model.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1aa0c3e03d9064363e27adcc92b8d0380f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::compute_bpp</definition>
+        <argsstring></argsstring>
+        <name>compute_bpp</name>
+        <qualifiedname>vrna_md_s::compute_bpp</qualifiedname>
+        <briefdescription>
+<para>Specifies whether or not backward recursions for base pair probability (bpp) computation will be performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="282" column="11" bodyfile="ViennaRNA/model.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a3fde4ac9eaf972f503c7a76726cefb59" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char vrna_md_s::nonstandards[64]</definition>
+        <argsstring>[64]</argsstring>
+        <name>nonstandards</name>
+        <qualifiedname>vrna_md_s::nonstandards</qualifiedname>
+        <briefdescription>
+<para>contains allowed non standard bases </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="283" column="11" bodyfile="ViennaRNA/model.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a659e5fcc6e8c9f1a68e7de6548eef3b0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::max_bp_span</definition>
+        <argsstring></argsstring>
+        <name>max_bp_span</name>
+        <qualifiedname>vrna_md_s::max_bp_span</qualifiedname>
+        <briefdescription>
+<para>maximum allowed base pair span </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="284" column="11" bodyfile="ViennaRNA/model.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a9ed7ba42fcc46915c5c0c524f3d255f5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::min_loop_size</definition>
+        <argsstring></argsstring>
+        <name>min_loop_size</name>
+        <qualifiedname>vrna_md_s::min_loop_size</qualifiedname>
+        <briefdescription>
+<para>Minimum size of hairpin loops. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The default value for this field is <ref refid="constants_8h_1ae646250fd59311356c7e5722a81c3a96" kindref="member">TURN</ref>, however, it may be 0 in cofolding context. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="286" column="11" bodyfile="ViennaRNA/model.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1abea42f9229f8d8d6bcbedef316315bfc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::window_size</definition>
+        <argsstring></argsstring>
+        <name>window_size</name>
+        <qualifiedname>vrna_md_s::window_size</qualifiedname>
+        <briefdescription>
+<para>Size of the sliding window for locally optimal structure prediction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="291" column="11" bodyfile="ViennaRNA/model.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1ab53aec4503130877973c6111ae6f0f76" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::oldAliEn</definition>
+        <argsstring></argsstring>
+        <name>oldAliEn</name>
+        <qualifiedname>vrna_md_s::oldAliEn</qualifiedname>
+        <briefdescription>
+<para>Use old alifold energy model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="292" column="11" bodyfile="ViennaRNA/model.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a3df2ae4bd9c133ef8ab92a53b1d035ec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::ribo</definition>
+        <argsstring></argsstring>
+        <name>ribo</name>
+        <qualifiedname>vrna_md_s::ribo</qualifiedname>
+        <briefdescription>
+<para>Use ribosum scoring table in alifold energy model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="293" column="11" bodyfile="ViennaRNA/model.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a62ebefb9d0643e5c4c8a2ec84a105ce6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double vrna_md_s::cv_fact</definition>
+        <argsstring></argsstring>
+        <name>cv_fact</name>
+        <qualifiedname>vrna_md_s::cv_fact</qualifiedname>
+        <briefdescription>
+<para>Co-variance scaling factor for consensus structure prediction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="294" column="11" bodyfile="ViennaRNA/model.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1abcf568e6124bfcb2f847ff4eb0dfded6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double vrna_md_s::nc_fact</definition>
+        <argsstring></argsstring>
+        <name>nc_fact</name>
+        <qualifiedname>vrna_md_s::nc_fact</qualifiedname>
+        <briefdescription>
+<para>Scaling factor to weight co-variance contributions of non-canonical pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="295" column="11" bodyfile="ViennaRNA/model.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1ab6f4cabaa9b4726b13592486d5bc21c7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double vrna_md_s::sfact</definition>
+        <argsstring></argsstring>
+        <name>sfact</name>
+        <qualifiedname>vrna_md_s::sfact</qualifiedname>
+        <briefdescription>
+<para>Scaling factor for partition function scaling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="296" column="11" bodyfile="ViennaRNA/model.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1ad082d0fea31e002b90cdfe5e6382f8b0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::rtype[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>rtype</name>
+        <qualifiedname>vrna_md_s::rtype</qualifiedname>
+        <briefdescription>
+<para>Reverse base pair type array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="297" column="11" bodyfile="ViennaRNA/model.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a66136cf9abc8ff790ec0d33245d68fd5" prot="public" static="no" mutable="no">
+        <type>short</type>
+        <definition>short vrna_md_s::alias[MAXALPHA+1]</definition>
+        <argsstring>[MAXALPHA+1]</argsstring>
+        <name>alias</name>
+        <qualifiedname>vrna_md_s::alias</qualifiedname>
+        <briefdescription>
+<para>alias of an integer nucleotide representation </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="298" column="11" bodyfile="ViennaRNA/model.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1ab4da594c638707e212f64aadb54a7454" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::pair[MAXALPHA+1][MAXALPHA+1]</definition>
+        <argsstring>[MAXALPHA+1][MAXALPHA+1]</argsstring>
+        <name>pair</name>
+        <qualifiedname>vrna_md_s::pair</qualifiedname>
+        <briefdescription>
+<para>Integer representation of a base pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="299" column="11" bodyfile="ViennaRNA/model.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a94bb8f9342aa99d9669c34426f6ef69c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float vrna_md_s::pair_dist[7][7]</definition>
+        <argsstring>[7][7]</argsstring>
+        <name>pair_dist</name>
+        <qualifiedname>vrna_md_s::pair_dist</qualifiedname>
+        <briefdescription>
+<para>Base pair dissimilarity, a.k.a. distance matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="300" column="11" bodyfile="ViennaRNA/model.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a66193a872ba929c87915bcd6d7e540d2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double vrna_md_s::salt</definition>
+        <argsstring></argsstring>
+        <name>salt</name>
+        <qualifiedname>vrna_md_s::salt</qualifiedname>
+        <briefdescription>
+<para>Salt (monovalent) concentration (M) in buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="301" column="11" bodyfile="ViennaRNA/model.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1acf367f80a54bd135a3f889e17bd670a3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::saltMLLower</definition>
+        <argsstring></argsstring>
+        <name>saltMLLower</name>
+        <qualifiedname>vrna_md_s::saltMLLower</qualifiedname>
+        <briefdescription>
+<para>Lower bound of multiloop size to use in loop salt correction linear fitting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="302" column="11" bodyfile="ViennaRNA/model.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a7bc6a05de301754eb5b95a620a72a60a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::saltMLUpper</definition>
+        <argsstring></argsstring>
+        <name>saltMLUpper</name>
+        <qualifiedname>vrna_md_s::saltMLUpper</qualifiedname>
+        <briefdescription>
+<para>Upper bound of multiloop size to use in loop salt correction linear fitting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="303" column="11" bodyfile="ViennaRNA/model.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a467b2618649b277a8843967861e2d287" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_md_s::saltDPXInit</definition>
+        <argsstring></argsstring>
+        <name>saltDPXInit</name>
+        <qualifiedname>vrna_md_s::saltDPXInit</qualifiedname>
+        <briefdescription>
+<para>User-provided salt correction for duplex initialization (in dcal/mol). If set to 99999 the default salt correction is used. If set to 0 there is no salt correction for duplex initialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="304" column="11" bodyfile="ViennaRNA/model.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a510fc89055e7c2bf15bfa9a327256579" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float vrna_md_s::saltDPXInitFact</definition>
+        <argsstring></argsstring>
+        <name>saltDPXInitFact</name>
+        <qualifiedname>vrna_md_s::saltDPXInitFact</qualifiedname>
+        <briefdescription>
+<para><linebreak/>
+ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="308" column="11" bodyfile="ViennaRNA/model.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a6a78867b9eb35045f3624e4c23ed59a7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float vrna_md_s::helical_rise</definition>
+        <argsstring></argsstring>
+        <name>helical_rise</name>
+        <qualifiedname>vrna_md_s::helical_rise</qualifiedname>
+        <briefdescription>
+<para><linebreak/>
+ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="309" column="11" bodyfile="ViennaRNA/model.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__md__s_1a26e1297d205ddb8722cb1f0a2fa2da6e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float vrna_md_s::backbone_length</definition>
+        <argsstring></argsstring>
+        <name>backbone_length</name>
+        <qualifiedname>vrna_md_s::backbone_length</qualifiedname>
+        <briefdescription>
+<para><linebreak/>
+ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/model.h" line="310" column="11" bodyfile="ViennaRNA/model.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The data structure that contains the complete model details used throughout the calculations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>For convenience reasons, we provide the type name <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> to address this data structure without the use of the struct keyword</para>
+<para><simplesect kind="see"><para><ref refid="group__model__details_1ga8ac6ff84936282436f822644bf841f66" kindref="member">vrna_md_set_default()</ref>, <ref refid="group__model__details_1gabad896c3650d420f3f3ddefc69e2bceb" kindref="member">set_model_details()</ref>, <ref refid="group__model__details_1ga36ae40b8c3b82362f5798ad5b047b814" kindref="member">vrna_md_update()</ref>, <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref></para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000128"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This data structure is wrapped as an object <computeroutput>md</computeroutput> with multiple related functions attached as methods.</para>
+<para>A new set of default parameters can be obtained by calling the constructure of <computeroutput>md:</computeroutput> <linebreak/>
+<itemizedlist>
+<listitem><para><computeroutput>md()</computeroutput> <ndash/> Initialize with default settings</para>
+</listitem></itemizedlist>
+</para>
+<para>The resulting object has a list of attached methods which directly correspond to functions that mainly operate on the corresponding <emphasis>C</emphasis> data structure:<linebreak/>
+<itemizedlist>
+<listitem><para><computeroutput>reset()</computeroutput> - <ref refid="group__model__details_1ga8ac6ff84936282436f822644bf841f66" kindref="member">vrna_md_set_default()</ref></para>
+</listitem><listitem><para><computeroutput>set_from_globals()</computeroutput> - <ref refid="group__model__details_1gabad896c3650d420f3f3ddefc69e2bceb" kindref="member">set_model_details()</ref></para>
+</listitem><listitem><para><computeroutput>option_string()</computeroutput> - <ref refid="group__model__details_1ga2207e3b40295825655c629421fe8f349" kindref="member">vrna_md_option_string()</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>Note, that default parameters can be modified by directly setting any of the following global variables. Internally, getting/setting default parameters using their global variable representative translates into calls of the following functions, therefore these wrappers for these functions do not exist in the scripting language interface(s):</para>
+<para></para>
+</parblock></para>
+</xrefdescription></xrefsect><table rows="28" cols="3"><row>
+<entry thead="yes"><para>global variable   </para>
+</entry><entry thead="yes"><para><computeroutput>C getter</computeroutput>   </para>
+</entry><entry thead="yes"><para><computeroutput>C setter</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>temperature   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga96b24a74437f9ba46c4e06343155bf46" kindref="member">vrna_md_defaults_temperature_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gaf9e527e9a2f7e6fd6e42bc6e602f5445" kindref="member">vrna_md_defaults_temperature()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>dangles   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga67ca06f95ae133778c79a4493c9817b8" kindref="member">vrna_md_defaults_dangles_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gac76a5374def8e5e4e644ff6e4cc72dee" kindref="member">vrna_md_defaults_dangles()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>betaScale   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gabb8780f5410c52f970d75b044059bd09" kindref="member">vrna_md_defaults_betaScale_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gae984567db36c3f9b8731ecc917abf3a2" kindref="member">vrna_md_defaults_betaScale()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>tetra_loop   </para>
+</entry><entry thead="no"><para>this is an alias of <emphasis>special_hp</emphasis>   </para>
+</entry><entry thead="no"><para></para>
+</entry></row>
+<row>
+<entry thead="no"><para>special_hp   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga1d68a6efdaa1253cc63fd9cd06452559" kindref="member">vrna_md_defaults_special_hp_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gafff6449a02744add0308e653230c15fc" kindref="member">vrna_md_defaults_special_hp()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>noLonelyPairs   </para>
+</entry><entry thead="no"><para>this is an alias of <emphasis>noLP</emphasis>   </para>
+</entry><entry thead="no"><para></para>
+</entry></row>
+<row>
+<entry thead="no"><para>noLP   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga934344888fbacaed538bbbfe910f2aa6" kindref="member">vrna_md_defaults_noLP_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga2f88ffc393ac9d7987849c965fd29ea8" kindref="member">vrna_md_defaults_noLP()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>noGU   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga5faa7d4e536d7fe36ec25428c0cf2563" kindref="member">vrna_md_defaults_noGU_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga98218f85c7a957a1d1ddf4627fdf5a39" kindref="member">vrna_md_defaults_noGU()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>no_closingGU   </para>
+</entry><entry thead="no"><para>this is an alias of <emphasis>noGUclosure</emphasis>   </para>
+</entry><entry thead="no"><para></para>
+</entry></row>
+<row>
+<entry thead="no"><para>noGUclosure   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga4f7fdad083243a5348d63320ddaa70f3" kindref="member">vrna_md_defaults_noGUclosure_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gade5b9951d71ca2fb357a4e6c0c18ccd1" kindref="member">vrna_md_defaults_noGUclosure()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>logML   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga93f04e070d529c5d0bb87c9681f6ad29" kindref="member">vrna_md_defaults_logML_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga3de50a73455d88c3957386933b8e1f90" kindref="member">vrna_md_defaults_logML()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>circ   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gad3a7e58de344ad93a08925f58f94f6fb" kindref="member">vrna_md_defaults_circ_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga4e1deb3e91a8a99e5c6dd905a5eb0186" kindref="member">vrna_md_defaults_circ()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>gquad   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gae645b8612f879eb38b45244fa9eddb9e" kindref="member">vrna_md_defaults_gquad_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga0685ca2aeb39af76f2421fc308163dce" kindref="member">vrna_md_defaults_gquad()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>uniq_ML   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gab48e70fd024bf838404bcbcca0c874a0" kindref="member">vrna_md_defaults_uniq_ML_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga59b944f61c5d2babec2d4c48c820de67" kindref="member">vrna_md_defaults_uniq_ML()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>energy_set   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga017ed6afb1cba2b7f242412cab618b53" kindref="member">vrna_md_defaults_energy_set_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga8dd29c55787a4576277e1907e92d810c" kindref="member">vrna_md_defaults_energy_set()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>backtrack   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga90da1156e6883ddd68527c2830706648" kindref="member">vrna_md_defaults_backtrack_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga978c468b2fe96a70d5191e3dd17d5599" kindref="member">vrna_md_defaults_backtrack()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>backtrack_type   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga1425b4ebd0e034dead66d79becd64143" kindref="member">vrna_md_defaults_backtrack_type_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga68305274de96b56b7799575e222560d8" kindref="member">vrna_md_defaults_backtrack_type()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>do_backtrack   </para>
+</entry><entry thead="no"><para>this is an alias of <emphasis>compute_bpp</emphasis>   </para>
+</entry><entry thead="no"><para></para>
+</entry></row>
+<row>
+<entry thead="no"><para>compute_bpp   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gaa3a537e61fbe0518673bf9f73fd820f3" kindref="member">vrna_md_defaults_compute_bpp_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gaf1b5db10f1f476767f9a95f8a78e3132" kindref="member">vrna_md_defaults_compute_bpp()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>max_bp_span   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gaa60f989e062fecd4d4bac89c1883da85" kindref="member">vrna_md_defaults_max_bp_span_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga4c4bc962f09b4480cb8499f1cf8ae4ec" kindref="member">vrna_md_defaults_max_bp_span()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>min_loop_size   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga5cc691174a75c652807dc361b617632a" kindref="member">vrna_md_defaults_min_loop_size_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gac152f1e78c1058a10261022c8dfda0f7" kindref="member">vrna_md_defaults_min_loop_size()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>window_size   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga670146a9aa3ba77f4d422d60b7c30ac9" kindref="member">vrna_md_defaults_window_size_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga7b802ce0e8c3181bf5cb580de6d5b26a" kindref="member">vrna_md_defaults_window_size()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>oldAliEn   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga2374492b5019df88022fe4c05f0f3630" kindref="member">vrna_md_defaults_oldAliEn_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga41521d5b9fb7e0f31e7ea73f5792afab" kindref="member">vrna_md_defaults_oldAliEn()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ribo   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga169027f0c0561ea7d87b655e4b336bfc" kindref="member">vrna_md_defaults_ribo_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga937c45e1d06fd6168730a9b08d130be3" kindref="member">vrna_md_defaults_ribo()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>cv_fact   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gae59c68393807217b0a2497adb64d3ee3" kindref="member">vrna_md_defaults_cv_fact_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gad3a3f40baafd91a6ce80a91a68e20053" kindref="member">vrna_md_defaults_cv_fact()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>nc_fact   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga7ac759eaa7159bf5f022745f5da59508" kindref="member">vrna_md_defaults_nc_fact_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gac35e596c850dce3ad55c49119fd7d471" kindref="member">vrna_md_defaults_nc_fact()</ref>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>sfact   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1gab2df6aab954b63fd3592d18e90285dae" kindref="member">vrna_md_defaults_sfact_get()</ref>   </para>
+</entry><entry thead="no"><para><ref refid="group__model__details_1ga3f73d3029d3d0025d4cc311510cd95a3" kindref="member">vrna_md_defaults_sfact()</ref>   </para>
+</entry></row>
+</table>
+</para>
+    </detaileddescription>
+    <location file="ViennaRNA/model.h" line="243" column="1" bodyfile="ViennaRNA/model.h" bodystart="243" bodyend="311"/>
+    <listofallmembers>
+      <member refid="structvrna__md__s_1a66136cf9abc8ff790ec0d33245d68fd5" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>alias</name></member>
+      <member refid="structvrna__md__s_1a26e1297d205ddb8722cb1f0a2fa2da6e" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>backbone_length</name></member>
+      <member refid="structvrna__md__s_1a31f4471608cbdd03887f63c281823adb" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>backtrack</name></member>
+      <member refid="structvrna__md__s_1abb265da25121d22ed11c8435861f0e53" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>backtrack_type</name></member>
+      <member refid="structvrna__md__s_1a19524bf1d8d7ab590ed36edbbcaaba2c" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>betaScale</name></member>
+      <member refid="structvrna__md__s_1a92762e1008503d4623ff5c01e358a464" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>circ</name></member>
+      <member refid="structvrna__md__s_1aa0c3e03d9064363e27adcc92b8d0380f" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>compute_bpp</name></member>
+      <member refid="structvrna__md__s_1a62ebefb9d0643e5c4c8a2ec84a105ce6" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>cv_fact</name></member>
+      <member refid="structvrna__md__s_1adcda4ff2ea77748ae0e8700288282efc" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>dangles</name></member>
+      <member refid="structvrna__md__s_1a5eee4e3b468eb690d1407e0178dafb3f" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>energy_set</name></member>
+      <member refid="structvrna__md__s_1af88a511a2b1f526b4c6213de6cb8fd6e" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>gquad</name></member>
+      <member refid="structvrna__md__s_1a6a78867b9eb35045f3624e4c23ed59a7" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>helical_rise</name></member>
+      <member refid="structvrna__md__s_1ae259f89a94acae0c7f1412603e7f57b5" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>logML</name></member>
+      <member refid="structvrna__md__s_1a659e5fcc6e8c9f1a68e7de6548eef3b0" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>max_bp_span</name></member>
+      <member refid="structvrna__md__s_1a9ed7ba42fcc46915c5c0c524f3d255f5" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>min_loop_size</name></member>
+      <member refid="structvrna__md__s_1abcf568e6124bfcb2f847ff4eb0dfded6" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>nc_fact</name></member>
+      <member refid="structvrna__md__s_1ad64a5eaf9c4550e7525b36a725fec4b2" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>noGU</name></member>
+      <member refid="structvrna__md__s_1a7e883db1f33f8f3baa5c9b140350c78e" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>noGUclosure</name></member>
+      <member refid="structvrna__md__s_1a753200bf21cee0ea2df64afe43999f5d" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>noLP</name></member>
+      <member refid="structvrna__md__s_1a3fde4ac9eaf972f503c7a76726cefb59" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>nonstandards</name></member>
+      <member refid="structvrna__md__s_1ab53aec4503130877973c6111ae6f0f76" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>oldAliEn</name></member>
+      <member refid="structvrna__md__s_1ab4da594c638707e212f64aadb54a7454" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>pair</name></member>
+      <member refid="structvrna__md__s_1a94bb8f9342aa99d9669c34426f6ef69c" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>pair_dist</name></member>
+      <member refid="structvrna__md__s_1a97b9f2fa2d157c65413d33b1beb5159d" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>pf_smooth</name></member>
+      <member refid="structvrna__md__s_1a3df2ae4bd9c133ef8ab92a53b1d035ec" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>ribo</name></member>
+      <member refid="structvrna__md__s_1ad082d0fea31e002b90cdfe5e6382f8b0" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>rtype</name></member>
+      <member refid="structvrna__md__s_1a66193a872ba929c87915bcd6d7e540d2" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>salt</name></member>
+      <member refid="structvrna__md__s_1a467b2618649b277a8843967861e2d287" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>saltDPXInit</name></member>
+      <member refid="structvrna__md__s_1a510fc89055e7c2bf15bfa9a327256579" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>saltDPXInitFact</name></member>
+      <member refid="structvrna__md__s_1acf367f80a54bd135a3f889e17bd670a3" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>saltMLLower</name></member>
+      <member refid="structvrna__md__s_1a7bc6a05de301754eb5b95a620a72a60a" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>saltMLUpper</name></member>
+      <member refid="structvrna__md__s_1ab6f4cabaa9b4726b13592486d5bc21c7" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>sfact</name></member>
+      <member refid="structvrna__md__s_1add64a96d23e77ef1d0ddf8dfc5228143" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>special_hp</name></member>
+      <member refid="structvrna__md__s_1a5f7e5c2b65bada5188443470e576aa4b" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>temperature</name></member>
+      <member refid="structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>uniq_ML</name></member>
+      <member refid="structvrna__md__s_1abea42f9229f8d8d6bcbedef316315bfc" prot="public" virt="non-virtual"><scope>vrna_md_s</scope><name>window_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

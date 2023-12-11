@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHAPE Reactivity Data &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Generate Soft Constraints from Data" href="perturbation.html" />
+    <link rel="prev" title="Experimental Structure Probing Data" href="../probing_data.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SHAPE Reactivity Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perturbation.html">Generate Soft Constraints from Data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../probing_data.html">Experimental Structure Probing Data</a></li>
+      <li class="breadcrumb-item active">SHAPE Reactivity Data</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="shape-reactivity-data">
+<h1>SHAPE Reactivity Data<a class="headerlink" href="#shape-reactivity-data" title="Link to this heading"></a></h1>
+<p>Incorporate SHAPE reactivity structure probing data into the folding
+recursions by means of soft constraints.</p>
+<p>Details for our implementation to incorporate SHAPE reactivity data to guide
+secondary structure prediction can be found in <span id="id1">Lorenz <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id35" title="Ronny Lorenz, Dominik Luntzer, Ivo L. Hofacker, Peter F. Stadler, and Michael T. Wolfinger. Shape directed rna folding. Bioinformatics, 32(1):145-147, 2016. doi:10.1093/bioinformatics/btv523.">2016</a>]</span>.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__SHAPE__reactivities"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_constraints_add_SHAPE">
+<span class="target" id="group__SHAPE__reactivities_1ga2fc1bede8b6ccf153c2a2bbbb0c08646"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_constraints_add_SHAPE</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">shape_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">shape_method</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">shape_conversion</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">verbose</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">constraint_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_constraints_add_SHAPE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/SHAPE.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_constraints_add_SHAPE_ali">
+<span class="target" id="group__SHAPE__reactivities_1ga1b402c8ff2d77abc957faca66da9378d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_constraints_add_SHAPE_ali</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">shape_method</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">shape_files</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">shape_file_association</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">verbose</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">constraint_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_constraints_add_SHAPE_ali" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/SHAPE.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_add_SHAPE_deigan">
+<span class="target" id="group__SHAPE__reactivities_1gad609895467d59ea53faac4f98b71c099"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_add_SHAPE_deigan</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">reactivities</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">m</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">b</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_add_SHAPE_deigan" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/SHAPE.h&gt;</em><p>Add SHAPE reactivity data as soft constraints (Deigan et al. method) </p>
+<p>This approach of SHAPE directed RNA folding uses the simple linear ansatz</p>
+<p><div class="math notranslate nohighlight">
+\[ \Delta G_{\text{SHAPE}}(i) = m \ln(\text{SHAPE reactivity}(i)+1)+ b \]</div>
+</p>
+<p>to convert SHAPE reactivity values to pseudo energies whenever a nucleotide <span class="math notranslate nohighlight">\( i \)</span> contributes to a stacked pair. A positive slope <span class="math notranslate nohighlight">\( m \)</span> penalizes high reactivities in paired regions, while a negative intercept <span class="math notranslate nohighlight">\( b \)</span> results in a confirmatory `bonus’ free energy for correctly predicted base pairs. Since the energy evaluation of a base pair stack involves two pairs, the pseudo energies are added for all four contributing nucleotides. Consequently, the energy term is applied twice for pairs inside a helix and only once for pairs adjacent to other structures. For all other loop types the energy model remains unchanged even when the experimental data highly disagrees with a certain motif.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000042"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">sc_add_SHAPE_deigan()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.sc_add_SHAPE_deigan" title="RNA.fold_compound.sc_add_SHAPE_deigan"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_add_SHAPE_deigan()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../grammar/constraints/soft.html#group__soft__constraints_1gac81478a33880029ca9975bd89cc26fa9"><span class="std std-ref">vrna_sc_remove()</span></a>, <a class="reference internal" href="#group__SHAPE__reactivities_1ga5a673837ebe42d790bdf3ccf8982d3dc"><span class="std std-ref">vrna_sc_add_SHAPE_zarringhalam()</span></a>, <a class="reference internal" href="perturbation.html#group__perturbation_1ga64d7137ab57964928e7cd1be96d2e1ea"><span class="std std-ref">vrna_sc_minimize_pertubation()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For further details, we refer to  <span> <span id="id2">Deigan <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id5" title="Katherine E. Deigan, Tian W. Li, David H. Mathews, and Kevin M. Weeks. Accurate SHAPE-directed RNA structure determination. PNAS, 106:97-102, 2009. doi:10.1073/pnas.080692910.">2009</a>]</span> </span>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> the soft constraints are associated with </p></li>
+<li><p><strong>reactivities</strong> – A vector of normalized SHAPE reactivities </p></li>
+<li><p><strong>m</strong> – The slope of the conversion function </p></li>
+<li><p><strong>b</strong> – The intercept of the conversion function </p></li>
+<li><p><strong>options</strong> – The options flag indicating how/where to store the soft constraints </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 on successful extraction of the method, 0 on errors</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_add_SHAPE_deigan_ali">
+<span class="target" id="group__SHAPE__reactivities_1ga2a3fbf037d5e2844792997a92ef36285"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_add_SHAPE_deigan_ali</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">shape_files</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">shape_file_association</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">m</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">b</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_add_SHAPE_deigan_ali" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/SHAPE.h&gt;</em><p>Add SHAPE reactivity data from files as soft constraints for consensus structure prediction (Deigan et al. method) </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000043"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">sc_add_SHAPE_deigan_ali()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.sc_add_SHAPE_deigan_ali" title="RNA.fold_compound.sc_add_SHAPE_deigan_ali"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_add_SHAPE_deigan_ali()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> the soft constraints are associated with </p></li>
+<li><p><strong>shape_files</strong> – A set of filenames that contain normalized SHAPE reactivity data </p></li>
+<li><p><strong>shape_file_association</strong> – An array of integers that associate the files with sequences in the alignment </p></li>
+<li><p><strong>m</strong> – The slope of the conversion function </p></li>
+<li><p><strong>b</strong> – The intercept of the conversion function </p></li>
+<li><p><strong>options</strong> – The options flag indicating how/where to store the soft constraints </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 on successful extraction of the method, 0 on errors</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_add_SHAPE_zarringhalam">
+<span class="target" id="group__SHAPE__reactivities_1ga5a673837ebe42d790bdf3ccf8982d3dc"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_add_SHAPE_zarringhalam</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">reactivities</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">b</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">default_value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">shape_conversion</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_add_SHAPE_zarringhalam" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/SHAPE.h&gt;</em><p>Add SHAPE reactivity data as soft constraints (Zarringhalam et al. method) </p>
+<p>This method first converts the observed SHAPE reactivity of nucleotide <span class="math notranslate nohighlight">\( i \)</span> into a probability <span class="math notranslate nohighlight">\( q_i \)</span> that position <span class="math notranslate nohighlight">\( i \)</span> is unpaired by means of a non-linear map. Then pseudo-energies of the form</p>
+<p><div class="math notranslate nohighlight">
+\[ \Delta G_{\text{SHAPE}}(x,i) = \beta\ |x_i - q_i| \]</div>
+</p>
+<p>are computed, where <span class="math notranslate nohighlight">\( x_i=0 \)</span> if position <span class="math notranslate nohighlight">\( i \)</span> is unpaired and <span class="math notranslate nohighlight">\( x_i=1 \)</span> if <span class="math notranslate nohighlight">\( i \)</span> is paired in a given secondary structure. The parameter <span class="math notranslate nohighlight">\( \beta \)</span> serves as scaling factor. The magnitude of discrepancy between prediction and experimental observation is represented by <span class="math notranslate nohighlight">\( |x_i - q_i| \)</span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000044"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">sc_add_SHAPE_zarringhalam()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.sc_add_SHAPE_zarringhalam" title="RNA.fold_compound.sc_add_SHAPE_zarringhalam"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_add_SHAPE_zarringhalam()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../grammar/constraints/soft.html#group__soft__constraints_1gac81478a33880029ca9975bd89cc26fa9"><span class="std std-ref">vrna_sc_remove()</span></a>, <a class="reference internal" href="#group__SHAPE__reactivities_1gad609895467d59ea53faac4f98b71c099"><span class="std std-ref">vrna_sc_add_SHAPE_deigan()</span></a>, <a class="reference internal" href="perturbation.html#group__perturbation_1ga64d7137ab57964928e7cd1be96d2e1ea"><span class="std std-ref">vrna_sc_minimize_pertubation()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For further details, we refer to  <span> <span id="id3">Zarringhalam <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id6" title="Kourosh Zarringhalam, Michelle M. Meyer, Ivan Dotu, Jeffrey H. Chuang, and Peter Clote. Integrating chemical footprinting data into RNA secondary structure prediction. PLOS ONE, 2012. doi:10.1371/journal.pone.0045160.">2012</a>]</span> </span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> the soft constraints are associated with </p></li>
+<li><p><strong>reactivities</strong> – A vector of normalized SHAPE reactivities </p></li>
+<li><p><strong>b</strong> – The scaling factor <span class="math notranslate nohighlight">\( \beta \)</span> of the conversion function </p></li>
+<li><p><strong>default_value</strong> – The default value for a nucleotide where reactivity data is missing for </p></li>
+<li><p><strong>shape_conversion</strong> – A flag that specifies how to convert reactivities to probabilities </p></li>
+<li><p><strong>options</strong> – The options flag indicating how/where to store the soft constraints </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 on successful extraction of the method, 0 on errors</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_SHAPE_to_pr">
+<span class="target" id="group__SHAPE__reactivities_1ga67675b3ed48744489a3bcfa4174197cb"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_SHAPE_to_pr</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">shape_conversion</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_SHAPE_to_pr" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/SHAPE.h&gt;</em><p>Convert SHAPE reactivity values to probabilities for being unpaired. </p>
+<p>This function parses the informations from a given file and stores the result in the preallocated string sequence and the <a class="reference internal" href="../utils/data_structures.html#group__data__structures_1ga31125aeace516926bf7f251f759b6126"><span class="std std-ref">FLT_OR_DBL</span></a> array values.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../utils/io/file_formats.html#group__file__formats_1ga646ebf45450a69a7f2533f9ecd283a32"><span class="std std-ref">vrna_file_SHAPE_read()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape_conversion</strong> – String definining the method used for the conversion process </p></li>
+<li><p><strong>values</strong> – Pointer to an array of SHAPE reactivities </p></li>
+<li><p><strong>length</strong> – Length of the array of SHAPE reactivities </p></li>
+<li><p><strong>default_value</strong> – Result used for position with invalid/missing reactivity values </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../probing_data.html" class="btn btn-neutral float-left" title="Experimental Structure Probing Data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="perturbation.html" class="btn btn-neutral float-right" title="Generate Soft Constraints from Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

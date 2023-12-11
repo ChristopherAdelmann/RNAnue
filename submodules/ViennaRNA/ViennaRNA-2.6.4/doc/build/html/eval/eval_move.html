@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energy Evaluation for Atomic Moves &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Evaluation of Structures" href="eval_structures.html" />
+    <link rel="prev" title="Energy Evaluation for Individual Loops" href="eval_loops.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="eval_loops.html">Energy Evaluation for Individual Loops</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Energy Evaluation for Atomic Moves</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="eval_structures.html">Evaluation of Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_parameters.html">Energy Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eval_deprecated.html">Deprecated Interface for Free Energy Evaluation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eval.html#loop-decomposition">Loop Decomposition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eval.html#fine-tuning-of-the-evaluation-model">Fine-tuning of the Evaluation Model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../eval.html">Free Energy Evaluation</a></li>
+      <li class="breadcrumb-item active">Energy Evaluation for Atomic Moves</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="energy-evaluation-for-atomic-moves">
+<h1>Energy Evaluation for Atomic Moves<a class="headerlink" href="#energy-evaluation-for-atomic-moves" title="Link to this heading"></a></h1>
+<p>Functions to evaluate the free energy change of a structure after application of
+(a set of) atomic moves</p>
+<p>Here, atomic moves are not to be confused with moves of actual physical atoms. Instead,
+an atomic move is considered the smallest conformational change a secondary structure
+can undergo to form another, distinguishable structure. We currently support the
+following moves</p>
+<ul class="simple">
+<li><p>Opening (dissociation) of a single base pair</p></li>
+<li><p>Closing (formation) of a single base pair</p></li>
+<li><p>Shifting one pairing partner of an existing pair to a different location</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+</div>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__eval__move"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_eval_move">
+<span class="target" id="group__eval__move_1ga2e542ea644f28d33b05ec81b7cd60ae5"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_eval_move</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">m1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">m2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_eval_move" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/eval.h&gt;</em><p>Calculate energy of a move (closing or opening of a base pair) </p>
+<p>If the parameters m1 and m2 are negative, it is deletion (opening) of a base pair, otherwise it is insertion (opening).</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000072"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">eval_move()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.eval_move" title="RNA.fold_compound.eval_move"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.eval_move()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__eval__move_1ga03995d1cd83b3881af7c89dd4ddbdefc"><span class="std std-ref">vrna_eval_move_pt()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – A vrna_fold_compound_t containing the energy parameters and model details </p></li>
+<li><p><strong>structure</strong> – secondary structure in dot-bracket notation </p></li>
+<li><p><strong>m1</strong> – first coordinate of base pair </p></li>
+<li><p><strong>m2</strong> – second coordinate of base pair </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>energy change of the move in kcal/mol (INF / 100. upon any error)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_eval_move_pt">
+<span class="target" id="group__eval__move_1ga03995d1cd83b3881af7c89dd4ddbdefc"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_eval_move_pt</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">m1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">m2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_eval_move_pt" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/eval.h&gt;</em><p>Calculate energy of a move (closing or opening of a base pair) </p>
+<p>If the parameters m1 and m2 are negative, it is deletion (opening) of a base pair, otherwise it is insertion (opening).</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000073"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">eval_move_pt()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.eval_move_pt" title="RNA.fold_compound.eval_move_pt"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.eval_move_pt()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__eval__move_1ga2e542ea644f28d33b05ec81b7cd60ae5"><span class="std std-ref">vrna_eval_move()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – A vrna_fold_compound_t containing the energy parameters and model details </p></li>
+<li><p><strong>pt</strong> – the pair table of the secondary structure </p></li>
+<li><p><strong>m1</strong> – first coordinate of base pair </p></li>
+<li><p><strong>m2</strong> – second coordinate of base pair </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>energy change of the move in 10cal/mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_eval_move_pt_simple">
+<span class="target" id="group__eval__move_1ga8bd14b548874366b8a2a9c65eff08888"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_eval_move_pt_simple</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">m1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">m2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_eval_move_pt_simple" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/eval.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_eval_move_shift_pt">
+<span class="target" id="group__eval__move_1ga7b651856d7b37cede016a2c6ebd8d9b7"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_eval_move_shift_pt</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="../landscape/neighbors.html#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">m</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_eval_move_shift_pt" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/eval.h&gt;</em></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="eval_loops.html" class="btn btn-neutral float-left" title="Energy Evaluation for Individual Loops" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="eval_structures.html" class="btn btn-neutral float-right" title="Evaluation of Structures" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

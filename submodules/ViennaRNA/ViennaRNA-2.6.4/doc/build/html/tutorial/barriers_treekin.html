@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Programs barriers and treekin &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Utilities" href="../utilities.html" />
+    <link rel="prev" title="The Program RNA2Dfold" href="RNA2Dfold.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../getting_started.html">Getting Started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#global-rna-secondary-structure-prediction">Global RNA Secondary Structure Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#consensus-structure-prediction">Consensus Structure Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-rna-interaction">RNA-RNA interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#plotting-structures">Plotting Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-design">RNA Design</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../getting_started.html#rna-folding-kinetics">RNA folding kinetics</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="RNA2Dfold.html">The Program <code class="docutils literal notranslate"><span class="pre">RNA2Dfold</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The Programs <code class="docutils literal notranslate"><span class="pre">barriers</span></code> and <code class="docutils literal notranslate"><span class="pre">treekin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-short-recall-on-howto-install-compile-a-program">A short recall on howto install/compile a program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#calculate-the-barrier-tree">Calculate the Barrier Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#simulating-the-folding-kinetics">Simulating the Folding Kinetics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#other-utilities">Other Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../getting_started.html">Getting Started</a></li>
+      <li class="breadcrumb-item active">The Programs <code class="docutils literal notranslate"><span class="pre">barriers</span></code> and <code class="docutils literal notranslate"><span class="pre">treekin</span></code></li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-programs-barriers-and-treekin">
+<h1>The Programs <code class="docutils literal notranslate"><span class="pre">barriers</span></code> and <code class="docutils literal notranslate"><span class="pre">treekin</span></code><a class="headerlink" href="#the-programs-barriers-and-treekin" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>The following assumes you already have the <code class="docutils literal notranslate"><span class="pre">barriers</span></code> and <code class="docutils literal notranslate"><span class="pre">treekin</span></code>
+programs installed. They are <strong>not</strong> part of the <code class="docutils literal notranslate"><span class="pre">ViennaRNA</span> <span class="pre">Package</span></code>
+but their latest releases can be found at
+<a class="reference external" href="https://www.tbi.univie.ac.at/RNA/Barriers/">https://www.tbi.univie.ac.at/RNA/Barriers/</a> and
+<a class="reference external" href="https://www.tbi.univie.ac.at/RNA/Treekin/">https://www.tbi.univie.ac.at/RNA/Treekin/</a>, respectively.
+Installation proceeds as shown for the <code class="docutils literal notranslate"><span class="pre">ViennaRNA</span> <span class="pre">Package</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>One problem that often occurs during <code class="docutils literal notranslate"><span class="pre">treekin</span></code> installation is the
+dependency on <code class="docutils literal notranslate"><span class="pre">blas</span></code> and <code class="docutils literal notranslate"><span class="pre">lapack</span></code> packages. For further information
+according to the <code class="docutils literal notranslate"><span class="pre">barriers</span></code> and <code class="docutils literal notranslate"><span class="pre">treekin</span></code> program also see the website.</p>
+</div>
+</section>
+<section id="a-short-recall-on-howto-install-compile-a-program">
+<h2>A short recall on howto install/compile a program<a class="headerlink" href="#a-short-recall-on-howto-install-compile-a-program" title="Link to this heading"></a></h2>
+<ul>
+<li><p>Get the barriers source from <a class="reference external" href="https://www.tbi.univie.ac.at/RNA/Barriers/">https://www.tbi.univie.ac.at/RNA/Barriers/</a></p></li>
+<li><p>extract the archive and go to the directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tar -xzf Barriers-1.5.2.tar.gz
+$ cd Barriers-1.5.2
+</pre></div>
+</div>
+</li>
+<li><p>use the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> option to install in your <code class="docutils literal notranslate"><span class="pre">Progs/</span></code> directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./configure --prefix=$HOME/Tutorial/Progs/barriers-1.5.2
+</pre></div>
+</div>
+</li>
+<li><p>make install:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make
+$ make install
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Now <code class="docutils literal notranslate"><span class="pre">barriers</span></code> is ready to use. Apply the same steps to install <code class="docutils literal notranslate"><span class="pre">treekin</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Copy the <code class="docutils literal notranslate"><span class="pre">barriers</span></code> and <code class="docutils literal notranslate"><span class="pre">treekin</span></code> binaries to your <code class="docutils literal notranslate"><span class="pre">bin</span></code> folder
+or add the path to your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable.</p>
+</div>
+</section>
+<section id="calculate-the-barrier-tree">
+<h2>Calculate the Barrier Tree<a class="headerlink" href="#calculate-the-barrier-tree" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ echo UCCACGGCUGUUAGUGGAUAACGGC | RNAsubopt --noLP -s -e 10 &gt; barseq.sub
+$ barriers -G RNA-noLP --bsize --rates &lt; barseq.sub &gt; barseq.bar
+</pre></div>
+</div>
+<p>You can restrict the number of local minima using the <code class="docutils literal notranslate"><span class="pre">barriers</span></code>
+command-line option <code class="docutils literal notranslate"><span class="pre">--max</span></code> followed by a number. The option <code class="docutils literal notranslate"><span class="pre">-G</span> <span class="pre">RNA-noLP</span></code>
+instructs barriers that the input consists of RNA secondary structures without
+isolated basepairs. <code class="docutils literal notranslate"><span class="pre">--bsize</span></code> adds size of the gradient basins and <code class="docutils literal notranslate"><span class="pre">--rates</span></code>
+tells <code class="docutils literal notranslate"><span class="pre">barriers</span></code> to compute rates between macro states/basins for use with
+<code class="docutils literal notranslate"><span class="pre">treekin</span></code>. Another useful options is <code class="docutils literal notranslate"><span class="pre">--minh</span></code> to print only minima with
+a barrier <span class="math notranslate nohighlight">\(&gt; dE\)</span>. Look at the output file <code class="docutils literal notranslate"><span class="pre">barseq.bar</span></code>, its content
+should be like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">UCCACGGCUGUUAGUGGAUAACGGC</span>
+<span class="mi">1</span> <span class="p">(((((</span><span class="o">........</span><span class="p">)))))</span><span class="o">.......</span>  <span class="o">-</span><span class="mf">6.90</span>    <span class="mi">0</span>  <span class="mf">10.00</span>    <span class="mi">115</span>     <span class="mi">0</span>  <span class="o">-</span><span class="mf">7.354207</span>     <span class="mi">23</span>  <span class="o">-</span><span class="mf">7.012023</span>
+<span class="mi">2</span> <span class="o">......</span><span class="p">(((((((</span><span class="o">.....</span><span class="p">)))))))</span>  <span class="o">-</span><span class="mf">6.80</span>    <span class="mi">1</span>   <span class="mf">9.30</span>     <span class="mi">32</span>    <span class="mi">58</span>  <span class="o">-</span><span class="mf">6.828221</span>     <span class="mi">38</span>  <span class="o">-</span><span class="mf">6.828218</span>
+<span class="mi">3</span> <span class="p">(((</span><span class="o">...</span><span class="p">(((</span><span class="o">...</span><span class="p">))))))</span><span class="o">.......</span>  <span class="o">-</span><span class="mf">0.80</span>    <span class="mi">1</span>   <span class="mf">0.90</span>      <span class="mi">1</span>    <span class="mi">10</span>  <span class="o">-</span><span class="mf">0.800000</span>      <span class="mi">9</span>  <span class="o">-</span><span class="mf">1.075516</span>
+<span class="mi">4</span> <span class="o">....</span><span class="p">((</span><span class="o">..</span><span class="p">((((</span><span class="o">....</span><span class="p">))))</span><span class="o">.</span><span class="p">))</span><span class="o">..</span>  <span class="o">-</span><span class="mf">0.80</span>    <span class="mi">1</span>   <span class="mf">2.70</span>      <span class="mi">5</span>    <span class="mi">37</span>  <span class="o">-</span><span class="mf">0.973593</span>     <span class="mi">11</span>  <span class="o">-</span><span class="mf">0.996226</span>
+<span class="mi">5</span> <span class="o">.........................</span>   <span class="mf">0.00</span>    <span class="mi">1</span>   <span class="mf">0.40</span>      <span class="mi">1</span>    <span class="mi">14</span>  <span class="o">-</span><span class="mf">0.000000</span>     <span class="mi">26</span>  <span class="o">-</span><span class="mf">0.612908</span>
+<span class="mi">6</span> <span class="o">......</span><span class="p">(((</span><span class="o">....</span><span class="p">((</span><span class="o">.....</span><span class="p">)))))</span>   <span class="mf">0.60</span>    <span class="mi">2</span>   <span class="mf">0.40</span>      <span class="mi">1</span>    <span class="mi">22</span>   <span class="mf">0.600000</span>      <span class="mi">3</span>   <span class="mf">0.573278</span>
+<span class="mi">7</span> <span class="o">......</span><span class="p">((((((</span><span class="o">....</span><span class="p">)))</span><span class="o">...</span><span class="p">)))</span>   <span class="mf">1.00</span>    <span class="mi">1</span>   <span class="mf">1.50</span>      <span class="mi">1</span>    <span class="mi">95</span>   <span class="mf">1.000000</span>      <span class="mi">2</span>   <span class="mf">0.948187</span>
+<span class="mi">8</span> <span class="o">.</span><span class="p">((</span><span class="o">....</span><span class="p">((</span><span class="o">......</span><span class="p">))</span><span class="o">.....</span><span class="p">))</span><span class="o">.</span>   <span class="mf">1.40</span>    <span class="mi">1</span>   <span class="mf">0.30</span>      <span class="mi">1</span>    <span class="mi">30</span>   <span class="mf">1.400000</span>      <span class="mi">2</span>   <span class="mf">1.228342</span>
+</pre></div>
+</div>
+<p>The first row holds the input sequence, the successive list the local
+minima ascending in energy. The meaning of the first 5 columns is as follows</p>
+<ul class="simple">
+<li><p>label (number) of the local minima (1=MFE)</p></li>
+<li><p>structure of the minimum</p></li>
+<li><p>free energy of the minimum</p></li>
+<li><p>label of deeper local minimum the current minimum merges with (note that the
+<code class="docutils literal notranslate"><span class="pre">MFE</span></code> has no deeper local minimum to merge with)</p></li>
+<li><p>height of the energy barrier to the local minimum to merge with</p></li>
+<li><p>numbers of structures in the basin we merge with</p></li>
+<li><p>number of basin which we merge to</p></li>
+<li><p>free energy of the basin</p></li>
+<li><p>number of structures in this basin using gradient walk</p></li>
+<li><p>gradient basin (consisting of all structures where gradientwalk ends in the minimum)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">barriers</span></code> produced two additional files, the <em>PostScript</em> file <code class="docutils literal notranslate"><span class="pre">tree.eps</span></code>
+which represents the basic information of the <code class="docutils literal notranslate"><span class="pre">barseq.bar</span></code> file visually:</p>
+<a class="reference internal image-reference" href="../_images/tree.png"><img alt="../_images/tree.png" class="align-center" src="../_images/tree.png" style="width: 50%;" /></a>
+<p>and a text file <code class="docutils literal notranslate"><span class="pre">rates.out</span></code> which holds the matrix of transition probabilities
+between the local minima.</p>
+</section>
+<section id="simulating-the-folding-kinetics">
+<h2>Simulating the Folding Kinetics<a class="headerlink" href="#simulating-the-folding-kinetics" title="Link to this heading"></a></h2>
+<p>The program <code class="docutils literal notranslate"><span class="pre">treekin</span></code> is used to simulate the evolution over time of the
+population densities of local minima starting from an initial population
+density distribution <span class="math notranslate nohighlight">\(p0\)</span> (given on the command-line) and the transition
+rate matrix in the file <code class="docutils literal notranslate"><span class="pre">rates.out</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ treekin -m I --p0 5=1 &lt; barseq.bar | xmgrace -log x -nxy -
+</pre></div>
+</div>
+<p><a class="reference internal" href="../_images/FOO.png"><img alt="kin" src="../_images/FOO.png" style="width: 55%;" /></a> <a class="reference internal" href="../_images/FOO_dp.png"><img alt="dot" src="../_images/FOO_dp.png" style="width: 40%;" /></a></p>
+<p>The simulation starts with all the population density in the open chain
+(local minimum 5, see <code class="docutils literal notranslate"><span class="pre">barseq.bar</span></code>). Over time the population density of
+this state decays (yellow curve) and other local minima get populated.
+The simulation ends with the population densities of the thermodynamic
+equilibrium in which the MFE (black curve) and local minimum 2 (red curve)
+are the only ones populated. (Look at the dot plot of the sequence created
+with <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code> and <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>!)</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="RNA2Dfold.html" class="btn btn-neutral float-left" title="The Program RNA2Dfold" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

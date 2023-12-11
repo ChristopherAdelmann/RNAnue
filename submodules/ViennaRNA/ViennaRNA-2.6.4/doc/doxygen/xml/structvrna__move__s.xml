@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="structvrna__move__s" kind="struct" language="C++" prot="public">
+    <compoundname>vrna_move_s</compoundname>
+    <includes refid="move_8h" local="no">ViennaRNA/landscape/move.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structvrna__move__s_1a8af908c74786675a456d0f20cc8fcb9b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_move_s::pos_5</definition>
+        <argsstring></argsstring>
+        <name>pos_5</name>
+        <qualifiedname>vrna_move_s::pos_5</qualifiedname>
+        <briefdescription>
+<para>The (absolute value of the) 5&apos; position of a base pair, or any position of a shifted pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/move.h" line="80" column="15" bodyfile="ViennaRNA/landscape/move.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__move__s_1a3849db905a45c4e399991df38705a36b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int vrna_move_s::pos_3</definition>
+        <argsstring></argsstring>
+        <name>pos_3</name>
+        <qualifiedname>vrna_move_s::pos_3</qualifiedname>
+        <briefdescription>
+<para>The (absolute value of the) 3&apos; position of a base pair, or any position of a shifted pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/move.h" line="81" column="15" bodyfile="ViennaRNA/landscape/move.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__move__s_1a181681bc3aab907d93e340df4777e759" prot="public" static="no" mutable="no">
+        <type><ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
+        <definition>vrna_move_t* vrna_move_s::next</definition>
+        <argsstring></argsstring>
+        <name>next</name>
+        <qualifiedname>vrna_move_s::next</qualifiedname>
+        <briefdescription>
+<para>The next base pair (if an elementary move changes more than one base pair), or <computeroutput>NULL</computeroutput> Has to be terminated with move 0,0. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/move.h" line="82" column="15" bodyfile="ViennaRNA/landscape/move.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>An atomic representation of the transition / move from one structure to its neighbor. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>An atomic transition / move may be one of the following:<itemizedlist>
+<listitem><para>a <bold>base pair insertion</bold>,</para>
+</listitem><listitem><para>a <bold>base pair removal</bold>, or</para>
+</listitem><listitem><para>a <bold>base pair shift</bold> where an existing base pair changes one of its pairing partner.</para>
+</listitem></itemizedlist>
+</para>
+<para>These moves are encoded by two integer values that represent the affected 5&apos; and 3&apos; nucleotide positions. Furthermore, we use the following convention on the signedness of these encodings:<itemizedlist>
+<listitem><para>both values are positive for <emphasis>insertion moves</emphasis></para>
+</listitem><listitem><para>both values are negative for <emphasis>base pair removals</emphasis></para>
+</listitem><listitem><para>both values have different signedness for <emphasis>shift moves</emphasis>, where the positive value indicates the nucleotide that stays constant, and the others absolute value is the new pairing partner</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>A value of 0 in either field is used as list-end indicator and doesn&apos;t represent any valid move. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>vrna_move_s</label>
+        <link refid="structvrna__move__s"/>
+        <childnode refid="1" relation="usage">
+          <edgelabel>next</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="ViennaRNA/landscape/move.h" line="79" column="1" bodyfile="ViennaRNA/landscape/move.h" bodystart="79" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structvrna__move__s_1a181681bc3aab907d93e340df4777e759" prot="public" virt="non-virtual"><scope>vrna_move_s</scope><name>next</name></member>
+      <member refid="structvrna__move__s_1a3849db905a45c4e399991df38705a36b" prot="public" virt="non-virtual"><scope>vrna_move_s</scope><name>pos_3</name></member>
+      <member refid="structvrna__move__s_1a8af908c74786675a456d0f20cc8fcb9b" prot="public" virt="non-virtual"><scope>vrna_move_s</scope><name>pos_5</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

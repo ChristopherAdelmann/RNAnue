@@ -60,6 +60,8 @@ int main(int argc, char* argv[]) {
         po::options_description general("General");
         general.add_options()("readtype,r", po::value<std::string>(&readType)->default_value("SE"),
                               "single-end (=SE) or paired-end (=PE) reads");
+        general.add_options()("segemehl,g", po::value<std::string>()->default_value("segemehl"),
+                              "path to the segemehl executable or alias (default: segemehl)");
         general.add_options()("trtms,t", po::value<std::string>(),
                               "folder containing the raw reads of the treatments including replicates located within subfolders (condition)");
         general.add_options()("ctrls,s", po::value<std::string>(),

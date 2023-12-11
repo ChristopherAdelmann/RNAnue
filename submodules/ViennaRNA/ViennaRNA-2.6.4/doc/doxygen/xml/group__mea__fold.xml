@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__mea__fold" kind="group">
+    <compoundname>mea_fold</compoundname>
+    <title>Compute the Structure with Maximum Expected Accuracy (MEA)</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__mea__fold_1ga9b87b664ef014c1266aa50d5bc39f2ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_MEA</definition>
+        <argsstring>(vrna_fold_compound_t *fc, double gamma, float *mea)</argsstring>
+        <name>vrna_MEA</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>mea</declname>
+        </param>
+        <briefdescription>
+<para>Compute a MEA (maximum expected accuracy) structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The algorithm maximizes the expected accuracy</para>
+<para><formula id="55">\[
+  A(S) = \sum_{(i,j) \in S} 2 \gamma p_{ij} + \sum_{i \notin S} p^u_i
+\]</formula></para>
+<para>Higher values of <formula id="56">$\gamma$</formula> result in more base pairs of lower probability and thus higher sensitivity. Low values of <formula id="56">$\gamma$</formula> result in structures containing only highly likely pairs (high specificity). The code of the MEA function also demonstrates the use of sparse dynamic programming scheme to reduce the time and memory complexity of folding.</para>
+<para><simplesect kind="pre"><para><ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref> must be executed on input parameter <computeroutput>fc</computeroutput> </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound data structure with pre-filled base pair probability matrix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gamma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The weighting factor for base pairs vs. unpaired nucleotides </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mea</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a variable where the MEA value will be written to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An MEA structure (or NULL on any error)</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000154"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as overloaded method <computeroutput>MEA</computeroutput>(gamma = 1.) to objects of type <computeroutput>fold_compound</computeroutput>. Note, that it returns the MEA structure and MEA value as a tuple (MEA_structure, MEA). See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.MEA()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/MEA.h" line="38" column="1" declfile="ViennaRNA/MEA.h" declline="38" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mea__fold_1ga26afeef667f7013a743d1d1ebe42666a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_MEA_from_plist</definition>
+        <argsstring>(vrna_ep_t *plist, const char *sequence, double gamma, vrna_md_t *md, float *mea)</argsstring>
+        <name>vrna_MEA_from_plist</name>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+          <declname>plist</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+        </param>
+        <param>
+          <type><ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> *</type>
+          <declname>md</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>mea</declname>
+        </param>
+        <briefdescription>
+<para>Compute a MEA (maximum expected accuracy) structure from a list of probabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The algorithm maximizes the expected accuracy</para>
+<para><formula id="55">\[
+  A(S) = \sum_{(i,j) \in S} 2 \gamma p_{ij} + \sum_{i \notin S} p^u_i
+\]</formula></para>
+<para>Higher values of <formula id="56">$\gamma$</formula> result in more base pairs of lower probability and thus higher sensitivity. Low values of <formula id="56">$\gamma$</formula> result in structures containing only highly likely pairs (high specificity). The code of the MEA function also demonstrates the use of sparse dynamic programming scheme to reduce the time and memory complexity of folding.</para>
+<para><simplesect kind="note"><para>The unpaired probabilities <formula id="57">$p^u_i = 1 - \sum_{j \neq i} p_{ij}$</formula> are usually computed from the supplied pairing probabilities <formula id="25">$p_{ij}$</formula> as stored in <computeroutput>plist</computeroutput> entries of type <ref refid="group__struct__utils__plist_1ga7c7484a8a1e6704b1aefaf589f3b27c1" kindref="member">VRNA_PLIST_TYPE_BASEPAIR</ref>. To overwrite individual <formula id="58">$p^u_o$</formula> values simply add entries with type <ref refid="group__struct__utils__plist_1ga7961043acc4f183a7bc7cf2505a8c8b9" kindref="member">VRNA_PLIST_TYPE_UNPAIRED</ref><linebreak/>
+ To include G-Quadruplex support, the corresponding field in <computeroutput>md</computeroutput> must be set.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plist</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A list of base pair probabilities the MEA structure is computed from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The RNA sequence that corresponds to the list of probability values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gamma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The weighting factor for base pairs vs. unpaired nucleotides </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>md</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A model details data structure (maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mea</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a variable where the MEA value will be written to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An MEA structure (or NULL on any error)</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000155"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>MEA_from_plist</computeroutput>(gamma = 1., md = NULL). Note, that it returns the MEA structure and MEA value as a tuple (MEA_structure, MEA). See, e.g.  <verbatim>embed:rst:inline:py:func:`RNA.MEA_from_plist()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/MEA.h" line="74" column="1" declfile="ViennaRNA/MEA.h" declline="74" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mea__fold_1ga396ec6144c6a74fcbab4cea6b42d76c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float MEA</definition>
+        <argsstring>(plist *p, char *structure, double gamma)</argsstring>
+        <name>MEA</name>
+        <param>
+          <type><ref refid="group__data__structures_1ga9608eed021ebfbdd7a901cfdc446c8e9" kindref="member">plist</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+        </param>
+        <briefdescription>
+<para>Computes a MEA (maximum expected accuracy) structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The algorithm maximizes the expected accuracy</para>
+<para><formula id="59">\[ A(S) = \sum_{(i,j) \in S} 2 \gamma p_{ij} + \sum_{i \notin S} p^u_i \]</formula></para>
+<para>Higher values of <formula id="56">$\gamma$</formula> result in more base pairs of lower probability and thus higher sensitivity. Low values of <formula id="56">$\gamma$</formula> result in structures containing only highly likely pairs (high specificity). The code of the MEA function also demonstrates the use of sparse dynamic programming scheme to reduce the time and memory complexity of folding.</para>
+<para><xrefsect id="deprecated_1_deprecated000089"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="group__mea__fold_1ga9b87b664ef014c1266aa50d5bc39f2ac" kindref="member">vrna_MEA()</ref> or <ref refid="group__mea__fold_1ga26afeef667f7013a743d1d1ebe42666a" kindref="member">vrna_MEA_from_plist()</ref> instead! </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/MEA.h" line="117" column="19" declfile="ViennaRNA/MEA.h" declline="117" declcolumn="19"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

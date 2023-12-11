@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RNAsnoop &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="RNAsubopt" href="RNAsubopt.html" />
+    <link rel="prev" title="RNApvmin" href="RNApvmin.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../manpages.html">Manpages</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="RNA2Dfold.html">RNA2Dfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAaliduplex.html">RNAaliduplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAalifold.html">RNAalifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAcofold.html">RNAcofold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAdistance.html">RNAdistance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAdos.html">RNAdos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAduplex.html">RNAduplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAeval.html">RNAeval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAfold.html">RNAfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAheat.html">RNAheat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAinverse.html">RNAinverse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNALalifold.html">RNALalifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNALfold.html">RNALfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAmultifold.html">RNAmultifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNApaln.html">RNApaln</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAparconv.html">RNAparconv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNApdist.html">RNApdist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAPKplex.html">RNAPKplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAplex.html">RNAplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAplfold.html">RNAplfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAplot.html">RNAplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNApvmin.html">RNApvmin</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">RNAsnoop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#description">DESCRIPTION</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#i-o-options">I/O Options:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algorithms">Algorithms:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structure-constraints">Structure Constraints:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting">Plotting:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#references">REFERENCES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#author">AUTHOR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reporting-bugs">REPORTING BUGS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="RNAsubopt.html">RNAsubopt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAup.html">RNAup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../manpages.html">Manpages</a></li>
+      <li class="breadcrumb-item active">RNAsnoop</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rnasnoop">
+<h1>RNAsnoop<a class="headerlink" href="#rnasnoop" title="Link to this heading"></a></h1>
+<p><strong class="program">RNAsnoop</strong> - manual page for RNAsnoop 2.6.4</p>
+<section id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>RNAsnoop<span class="w"> </span><span class="o">[</span>options<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>DESCRIPTION<a class="headerlink" href="#description" title="Link to this heading"></a></h2>
+<p>RNAsnoop 2.6.4</p>
+<p>Find targets of a query H/ACA snoRNA</p>
+<p>reads a target RNA sequence and a H/ACA snoRNA sequence
+from a target and query file, respectively and computes optimal
+and suboptimal secondary structures for their hybridization. The
+calculation can be done roughly in O(nm), where is n the length
+of the target sequence and m is the length of the snoRNA stem, as it
+is specially tailored to the special case of H/ACA snoRNA. For general
+purpose target predictions, please have a look at RNAduplex, RNAup,
+RNAcofold and RNAplex. Accessibility effects can be estimated by
+RNAsnoop if a RNAplfold accessibility profile is provided.</p>
+<p>The computed optimal and suboptimal structure are written to
+stdout, one structure per line. Each line consist
+of: The structure in dot bracket format with a <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> separating the
+two strands. The <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code> brackets represent snoRNA intramolecular
+interactions, while the <code class="docutils literal notranslate"><span class="pre">()</span></code> brackets represent intermolecular
+interactions between the snoRNA and its target.</p>
+<p>The range of the structure in the two sequences in the format
+“from,to : from,to”; the energy of duplex structure in
+kcal/mol. If available the opening energy are also returned.</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><a class="headerlink" href="#cmdoption-help" title="Link to this definition"></a></dt>
+<dd><p>Print help and exit</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-detailed-help">
+<span class="sig-name descname"><span class="pre">--detailed-help</span></span><a class="headerlink" href="#cmdoption-detailed-help" title="Link to this definition"></a></dt>
+<dd><p>Print help, including all details and hidden options, and exit</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-V">
+<span id="cmdoption-version"></span><span class="sig-name descname"><span class="pre">-V</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--version</span></span><a class="headerlink" href="#cmdoption-V" title="Link to this definition"></a></dt>
+<dd><p>Print version and exit</p>
+</dd></dl>
+
+<section id="i-o-options">
+<h3>I/O Options:<a class="headerlink" href="#i-o-options" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Command line options for input and output (pre-)processing</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-s">
+<span id="cmdoption-query"></span><span class="sig-name descname"><span class="pre">-s</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--query</span></span><span class="p"><span class="pre">=</span></span><span class="pre">STRING</span><a class="headerlink" href="#cmdoption-s" title="Link to this definition"></a></dt>
+<dd><p>File containing the query sequence.</p>
+<p>Input sequences can be given piped to RNAsnoop or given in a query file with
+the <a class="reference internal" href="RNAPKplex.html#cmdoption-s"><code class="xref std std-option docutils literal notranslate"><span class="pre">-s</span></code></a> option. Note that the <a class="reference internal" href="RNAPKplex.html#cmdoption-s"><code class="xref std std-option docutils literal notranslate"><span class="pre">-s</span></code></a> option implies that the <a class="reference internal" href="RNAalifold.html#cmdoption-t"><code class="xref std std-option docutils literal notranslate"><span class="pre">-t</span></code></a> option is also
+used.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-t">
+<span id="cmdoption-target"></span><span class="sig-name descname"><span class="pre">-t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--target</span></span><span class="p"><span class="pre">=</span></span><span class="pre">STRING</span><a class="headerlink" href="#cmdoption-t" title="Link to this definition"></a></dt>
+<dd><p>File containing the target sequence.</p>
+<p>Input sequences can be given piped to RNAsnoop or given in a target file with
+the <a class="reference internal" href="RNAalifold.html#cmdoption-t"><code class="xref std std-option docutils literal notranslate"><span class="pre">-t</span></code></a> optionNote that the <a class="reference internal" href="RNAalifold.html#cmdoption-t"><code class="xref std std-option docutils literal notranslate"><span class="pre">-t</span></code></a> option implies that the <a class="reference internal" href="RNAPKplex.html#cmdoption-s"><code class="xref std std-option docutils literal notranslate"><span class="pre">-s</span></code></a> option is also used.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-S">
+<span id="cmdoption-suffix"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--suffix</span></span><span class="p"><span class="pre">=</span></span><span class="pre">STRING</span><a class="headerlink" href="#cmdoption-S" title="Link to this definition"></a></dt>
+<dd><p>Specificy the suffix that was added by RNAup to the accessibility files.</p>
+<p><em>(default=”_u1_to_30.out”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-P">
+<span id="cmdoption-from-RNAplfold"></span><span class="sig-name descname"><span class="pre">-P</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--from-RNAplfold</span></span><span class="p"><span class="pre">=</span></span><span class="pre">STRING</span><a class="headerlink" href="#cmdoption-P" title="Link to this definition"></a></dt>
+<dd><p>Specify the directory where accessibility profile generated by RNAplfold are found.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-U">
+<span id="cmdoption-from-RNAup"></span><span class="sig-name descname"><span class="pre">-U</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--from-RNAup</span></span><span class="p"><span class="pre">=</span></span><span class="pre">STRING</span><a class="headerlink" href="#cmdoption-U" title="Link to this definition"></a></dt>
+<dd><p>Specify the directory where accessibility profiles generated by RNAup are found.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-O">
+<span id="cmdoption-output_directory"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--output_directory</span></span><span class="p"><span class="pre">=</span></span><span class="pre">STRING</span> <span class="pre">Set</span> <span class="pre">where</span> <span class="pre">the</span> <span class="pre">generated</span> <span class="pre">figures</span> <span class="pre">should</span> <span class="pre">be</span><a class="headerlink" href="#cmdoption-O" title="Link to this definition"></a></dt>
+<dd><p>stored.</p>
+<p><em>(default=”./”)</em></p>
+</dd></dl>
+
+</section>
+<section id="algorithms">
+<h3>Algorithms:<a class="headerlink" href="#algorithms" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Options which alter the computing behaviour of RNAplex. Please note that the
+options allowing to filter out snoRNA-RNA duplexes expect the energy to be
+given in decacal/mol instead of kcal/mol. A threshold of <code class="xref std std-option docutils literal notranslate"><span class="pre">-2</span></code>.8(kcal/mol)
+should be given as :option:<a href="#id1"><span class="problematic" id="id2">`</span></a>-280`(decacal/mol).</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-A">
+<span id="cmdoption-alignment-mode"></span><span class="sig-name descname"><span class="pre">-A</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--alignment-mode</span></span><a class="headerlink" href="#cmdoption-A" title="Link to this definition"></a></dt>
+<dd><p>Specify if RNAsnoop gets alignments or single sequences as input.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-f">
+<span id="cmdoption-fast-folding"></span><span class="sig-name descname"><span class="pre">-f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--fast-folding</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-f" title="Link to this definition"></a></dt>
+<dd><p>Speedup of the target search. <em>(default=”1”)</em></p>
+<p>This option allows one to decide if the backtracking has to be
+done (<a class="reference internal" href="RNALalifold.html#cmdoption-f"><code class="xref std std-option docutils literal notranslate"><span class="pre">-f</span></code></a> 1) or not (<a class="reference internal" href="RNALalifold.html#cmdoption-f"><code class="xref std std-option docutils literal notranslate"><span class="pre">-f</span></code></a> 0). For <a class="reference internal" href="RNALalifold.html#cmdoption-f"><code class="xref std std-option docutils literal notranslate"><span class="pre">-f</span></code></a> 1 the structure is computed based
+on the standard energy model. This is the slowest mode of RNAsnoop. <a class="reference internal" href="RNALalifold.html#cmdoption-f"><code class="xref std std-option docutils literal notranslate"><span class="pre">-f</span></code></a>
+0 is the fastest mode, as no structure are recomputed and only the
+interaction energy is returned.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-c">
+<span id="cmdoption-extension-cost"></span><span class="sig-name descname"><span class="pre">-c</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--extension-cost</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-c" title="Link to this definition"></a></dt>
+<dd><p>Cost to add to each nucleotide in a duplex. <em>(default=”0”)</em></p>
+<p>Cost of extending a duplex by one nucleotide. Allows one to find
+compact duplexes, having few/small bulges or interior loops. Only
+useful when no accessibility profiles are available. This option is
+disabled if accessibility profiles are used (<a class="reference internal" href="RNA2Dfold.html#cmdoption-P"><code class="xref std std-option docutils literal notranslate"><span class="pre">-P</span></code></a> option).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-e">
+<span id="cmdoption-energy-threshold"></span><span class="sig-name descname"><span class="pre">-e</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--energy-threshold</span></span><span class="p"><span class="pre">=</span></span><span class="pre">DOUBLE</span> <span class="pre">Maximal</span> <span class="pre">energy</span> <span class="pre">difference</span> <span class="pre">between</span> <span class="pre">the</span> <span class="pre">mfe</span> <span class="pre">and</span><a class="headerlink" href="#cmdoption-e" title="Link to this definition"></a></dt>
+<dd><p>the desired suboptimal.</p>
+<p><em>(default=”-1”)</em></p>
+<p>Energy range for a duplex to be returned. The threshold is set on the total
+energy of interaction, i.e. the hybridizationenergy corrected for opening
+energy if <a class="reference internal" href="RNAcofold.html#cmdoption-a"><code class="xref std std-option docutils literal notranslate"><span class="pre">-a</span></code></a> is set or the energy corrected by <a class="reference internal" href="RNA2Dfold.html#cmdoption-c"><code class="xref std std-option docutils literal notranslate"><span class="pre">-c</span></code></a>. If unset, only the mfe
+will be returned.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-o">
+<span id="cmdoption-minimal-right-duplex"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--minimal-right-duplex</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-o" title="Link to this definition"></a></dt>
+<dd><p>Minimal Right Duplex Energy</p>
+<p><em>(default=”-270”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-l">
+<span id="cmdoption-minimal-loop-energy"></span><span class="sig-name descname"><span class="pre">-l</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--minimal-loop-energy</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span> <span class="pre">Minimal</span> <span class="pre">Right</span> <span class="pre">Duplex</span> <span class="pre">Energy.</span><a class="headerlink" href="#cmdoption-l" title="Link to this definition"></a></dt>
+<dd><p><em>(default=”-280”)</em></p>
+<p>Minimal Stem Loop Energy of the snoRNA. The energy should be
+given in decacalories, i.e. a minimal stem-loop energy of <code class="xref std std-option docutils literal notranslate"><span class="pre">-2</span></code>.8
+kcal/mol corresponds to <code class="xref std std-option docutils literal notranslate"><span class="pre">-280</span></code> decacal/mol.</p>
+</dd></dl>
+
+<p>.HP
+<a class="reference internal" href="RNA2Dfold.html#cmdoption-p"><code class="xref std std-option docutils literal notranslate"><span class="pre">-p</span></code></a>, :option:<a href="#id3"><span class="problematic" id="id4">`</span></a>–minimal-left-duplex`=*INT* Minimal Left Duplex Energy.</p>
+<blockquote>
+<div><p><em>(default=”-170”)</em></p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-q">
+<span id="cmdoption-minimal-duplex"></span><span class="sig-name descname"><span class="pre">-q</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--minimal-duplex</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-q" title="Link to this definition"></a></dt>
+<dd><p>Minimal Duplex Energy.</p>
+<p><em>(default=”-1090”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-d">
+<span id="cmdoption-duplex-distance"></span><span class="sig-name descname"><span class="pre">-d</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--duplex-distance</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-d" title="Link to this definition"></a></dt>
+<dd><p>Distance between target 3’ ends of two consecutive duplexes.</p>
+<p><em>(default=”2”)</em></p>
+<p>Distance between the target 3’ends of two consecutive
+duplexes. Should be set to the maximal length of interaction to get
+good results. Smaller d leads to larger overlaps between consecutive
+duplexes.</p>
+</dd></dl>
+
+<p>.HP
+<a class="reference internal" href="RNA2Dfold.html#cmdoption-h"><code class="xref std std-option docutils literal notranslate"><span class="pre">-h</span></code></a>, :option:<a href="#id5"><span class="problematic" id="id6">`</span></a>–minimal-stem-length`=*INT* Minimal snoRNA stem length.</p>
+<blockquote>
+<div><p><em>(default=”5”)</em></p>
+</div></blockquote>
+<p>.HP
+<a class="reference internal" href="RNALfold.html#cmdoption-i"><code class="xref std std-option docutils literal notranslate"><span class="pre">-i</span></code></a>, :option:<a href="#id7"><span class="problematic" id="id8">`</span></a>–maximal-stem-length`=*INT* Maximal snoRNA stem length.</p>
+<blockquote>
+<div><p><em>(default=”120”)</em></p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-j">
+<span id="cmdoption-minimal-duplex-box-length"></span><span class="sig-name descname"><span class="pre">-j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--minimal-duplex-box-length</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-j" title="Link to this definition"></a></dt>
+<dd><p>Minimal distance between the duplex end and the</p>
+<p>H/ACA box.</p>
+<p><em>(default=”11”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-k">
+<span id="cmdoption-maximal-duplex-box-length"></span><span class="sig-name descname"><span class="pre">-k</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--maximal-duplex-box-length</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-k" title="Link to this definition"></a></dt>
+<dd><p>Maximal distance between the duplex end and the</p>
+<p>H/ACA box.</p>
+<p><em>(default=”16”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-m">
+<span id="cmdoption-minimal-snoRNA-stem-loop-length"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--minimal-snoRNA-stem-loop-length</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-m" title="Link to this definition"></a></dt>
+<dd><p>Minimal number of nucleotides between the</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-beginning">
+<span class="sig-name descname"><span class="pre">beginning</span></span><span class="w"> </span><span class="pre">of</span> <span class="pre">stem</span> <span class="pre">loop</span> <span class="pre">and</span><a class="headerlink" href="#cmdoption-arg-beginning" title="Link to this definition"></a></dt>
+<dd><p>beginning of the snoRNA sequence.</p>
+<p><em>(default=”1”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-n">
+<span id="cmdoption-maximal-snoRNA-stem-loop-length"></span><span class="sig-name descname"><span class="pre">-n</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--maximal-snoRNA-stem-loop-length</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-n" title="Link to this definition"></a></dt>
+<dd><p>Maximal number of nucleotides between the</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-0">
+<span class="sig-name descname"><span class="pre">beginning</span></span><span class="w"> </span><span class="pre">of</span> <span class="pre">stem</span> <span class="pre">loop</span> <span class="pre">and</span><a class="headerlink" href="#cmdoption-arg-0" title="Link to this definition"></a></dt>
+<dd><p>beginning of the snoRNA sequence.</p>
+<p><em>(default=”100000”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-v">
+<span id="cmdoption-minimal-snoRNA-duplex-length"></span><span class="sig-name descname"><span class="pre">-v</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--minimal-snoRNA-duplex-length</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-v" title="Link to this definition"></a></dt>
+<dd><p>Minimal distance between duplex start and</p>
+<p>snoRNA.</p>
+<p><em>(default=”0”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-w">
+<span id="cmdoption-maximal-snoRNA-duplex-length"></span><span class="sig-name descname"><span class="pre">-w</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--maximal-snoRNA-duplex-length</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-w" title="Link to this definition"></a></dt>
+<dd><p>Maximal distance between duplex start and</p>
+<p>snoRNA.</p>
+<p><em>(default=”0”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-x">
+<span id="cmdoption-minimal-duplex-stem-energy"></span><span class="sig-name descname"><span class="pre">-x</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--minimal-duplex-stem-energy</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-x" title="Link to this definition"></a></dt>
+<dd><p>Minimal duplex stem energy.</p>
+<p><em>(default=”-1370”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-y">
+<span id="cmdoption-minimal-total-energy"></span><span class="sig-name descname"><span class="pre">-y</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--minimal-total-energy</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-y" title="Link to this definition"></a></dt>
+<dd><p>Minimal total energy.</p>
+<p><em>(default=”100000”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-a">
+<span id="cmdoption-maximal-stem-asymmetry"></span><span class="sig-name descname"><span class="pre">-a</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--maximal-stem-asymmetry</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-a" title="Link to this definition"></a></dt>
+<dd><p>Maximal snoRNA stem asymmetry.</p>
+<p><em>(default=”30”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-b">
+<span id="cmdoption-minimal-lower-stem-energy"></span><span class="sig-name descname"><span class="pre">-b</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--minimal-lower-stem-energy</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-b" title="Link to this definition"></a></dt>
+<dd><p>Minimal lower stem energy.</p>
+<p><em>(default=”100000”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-L">
+<span id="cmdoption-alignmentLength"></span><span class="sig-name descname"><span class="pre">-L</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--alignmentLength</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-L" title="Link to this definition"></a></dt>
+<dd><p>Limit the extent of the interactions to L nucleotides.</p>
+<p><em>(default=”25”)</em></p>
+</dd></dl>
+
+</section>
+<section id="structure-constraints">
+<h3>Structure Constraints:<a class="headerlink" href="#structure-constraints" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Command line options to interact with the structure constraints feature of
+this program</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-C">
+<span id="cmdoption-constraint"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--constraint</span></span><a class="headerlink" href="#cmdoption-C" title="Link to this definition"></a></dt>
+<dd><p>Calculate the stem structure subject to constraints.</p>
+<p><em>(default=off)</em></p>
+<p>The program reads first the stem sequence, then a string containing
+constraints on the structure encoded with the symbols:</p>
+<p>. (no constraint for this base)</p>
+<div class="line-block">
+<div class="line">(the corresponding base has to be paired</div>
+</div>
+<p>x (the base is unpaired)</p>
+<p>&lt; (base i is paired with a base j&gt;i)</p>
+<p>&gt; (base i is paired with a base j&lt;i)</p>
+<p>and matching brackets ( ) (base i pairs base j)</p>
+<p>With the exception of “|”, constraints will disallow all pairs conflicting
+with the constraint. This is usually sufficient to enforce the constraint,
+but occasionally a base may stay unpaired in spite of constraints. PF folding
+ignores constraints of type “|”.</p>
+</dd></dl>
+
+</section>
+<section id="plotting">
+<h3>Plotting:<a class="headerlink" href="#plotting" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Command line options for changing the default behavior of structure layout
+and pairing probability plots.</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-I">
+<span id="cmdoption-produce-ps"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--produce-ps</span></span><a class="headerlink" href="#cmdoption-I" title="Link to this definition"></a></dt>
+<dd><p>Draw annotated 2D structures for a list of dot-bracket structures.</p>
+<p><em>(default=off)</em></p>
+<p>This option allows one to produce interaction figures in PS-format with
+conservation/accessibility annotation, if available.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-N">
+<span id="cmdoption-direct-redraw"></span><span class="sig-name descname"><span class="pre">-N</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--direct-redraw</span></span><a class="headerlink" href="#cmdoption-N" title="Link to this definition"></a></dt>
+<dd><p>Outputs 2D interactions concurrently with the interaction calculation for each suboptimal interaction. The <a class="reference internal" href="RNAplex.html#cmdoption-I"><code class="xref std std-option docutils literal notranslate"><span class="pre">-I</span></code></a> option should be preferred.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+</section>
+</section>
+<section id="references">
+<h2>REFERENCES<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<p><em>If you use this program in your work you might want to cite:</em></p>
+<p>R. Lorenz, S.H. Bernhart, C. Hoener zu Siederdissen, H. Tafer, C. Flamm, P.F. Stadler and I.L. Hofacker (2011),
+“ViennaRNA Package 2.0”,
+Algorithms for Molecular Biology: 6:26</p>
+<p>I.L. Hofacker, W. Fontana, P.F. Stadler, S. Bonhoeffer, M. Tacker, P. Schuster (1994),
+“Fast Folding and Comparison of RNA Secondary Structures”,
+Monatshefte f. Chemie: 125, pp 167-188</p>
+<p>R. Lorenz, I.L. Hofacker, P.F. Stadler (2016),
+“RNA folding with hard and soft constraints”,
+Algorithms for Molecular Biology 11:1 pp 1-13</p>
+<p>The calculation of duplex structure is based on dynamic programming algorithm originally
+developed by Rehmsmeier and in parallel by Hofacker.</p>
+<p>H. Tafer, S. Kehr, J. Hertel, I.L. Hofacker, P.F. Stadler (2009),
+“RNAsnoop: efficient target prediction for H/ACA snoRNAs.”,
+Bioinformatics: 26(5), pp 610-616</p>
+<p><em>The energy parameters are taken from:</em></p>
+<p>D.H. Mathews, M.D. Disney, D. Matthew, J.L. Childs, S.J. Schroeder, J. Susan, M. Zuker, D.H. Turner (2004),
+“Incorporating chemical modification constraints into a dynamic programming algorithm for prediction of RNA secondary structure”,
+Proc. Natl. Acad. Sci. USA: 101, pp 7287-7292</p>
+<p>D.H Turner, D.H. Mathews (2009),
+“NNDB: The nearest neighbor parameter database for predicting stability of nucleic acid secondary structure”,
+Nucleic Acids Research: 38, pp 280-282</p>
+</section>
+<section id="author">
+<h2>AUTHOR<a class="headerlink" href="#author" title="Link to this heading"></a></h2>
+<p>Hakim Tafer, Ivo L. Hofacker</p>
+</section>
+<section id="reporting-bugs">
+<h2>REPORTING BUGS<a class="headerlink" href="#reporting-bugs" title="Link to this heading"></a></h2>
+<p>If in doubt our program is right, nature is at fault.
+Comments should be sent to <a class="reference external" href="mailto:rna&#37;&#52;&#48;tbi&#46;univie&#46;ac&#46;at">rna<span>&#64;</span>tbi<span>&#46;</span>univie<span>&#46;</span>ac<span>&#46;</span>at</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="RNApvmin.html" class="btn btn-neutral float-left" title="RNApvmin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="RNAsubopt.html" class="btn btn-neutral float-right" title="RNAsubopt" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

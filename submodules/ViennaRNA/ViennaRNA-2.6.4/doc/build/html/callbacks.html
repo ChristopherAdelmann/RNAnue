@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Callback Functions &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5248d183"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Deprecated List" href="deprecated.html" />
+    <link rel="prev" title="RNAlib API v3.0" href="vrna_3.0.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Callback Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#why-callbacks">Why Callbacks?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scripting-language-support">Scripting Language Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#available-callbacks">Available Callbacks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">Concepts and Algorithms</a></li>
+      <li class="breadcrumb-item active">Callback Functions</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="callback-functions">
+<h1>Callback Functions<a class="headerlink" href="#callback-functions" title="Link to this heading"></a></h1>
+<p>Many functions in <em>RNAlib</em> support so-called <em>callback mechanisms</em> to propagate
+the computation results. In essence, this means that a user defines a function
+that takes computation results as input and does whatever should be done with
+these results. Then, this function is provided to our algorithms in <em>RNAlib</em>
+such that they can call the function and provide corresponding data as soon
+as it has been computed.</p>
+<section id="why-callbacks">
+<h2>Why Callbacks?<a class="headerlink" href="#why-callbacks" title="Link to this heading"></a></h2>
+<p>Using callback mechanisms, our library enables users not only to retrieve computed
+data without the need for parsing complicated data structures, but also allows one
+to tweak our implementation to do additional tasks without the requirement of a
+re-implementation of basic algorithms.</p>
+<p>Our implementation of the callback mechanisms always follows the same scheme:</p>
+<p>The user …</p>
+<ul class="simple">
+<li><p>… defines a function that complies with the interface we’ve defined, and</p></li>
+<li><p>… passes a pointer to said function to our implementations</p></li>
+</ul>
+<p>In addition to the specific arguments of our callback interfaces, virtually all callbacks
+receive an additional <em>pass-through-pointer</em> as their last argument. This enables one
+to …</p>
+<ul class="simple">
+<li><p>… encapsulate data, and</p></li>
+<li><p>… provide thread-safe operations,</p></li>
+</ul>
+<p>since this pointer is simply passed through by our library functions. It may therefore hold
+the address of an arbitrary, user-defined data structure.</p>
+</section>
+<section id="scripting-language-support">
+<h2>Scripting Language Support<a class="headerlink" href="#scripting-language-support" title="Link to this heading"></a></h2>
+<p>Our callback mechanisms also work in a cross-language specific manner. This
+means that users can write functions (or methods) in a scripting language,
+such as Python, and use them as callbacks for our C-library. Our scripting
+language interface will take care of transforming the relevant data structures
+from the target language into C and vice-versa. Whenever our algorithms trigger
+the callback, they will then be calling the actual scripting language function
+and provide the corresponding data directly to them.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Keep in mind that the translation between the scripting language and C
+involves many extra function calls to prepare and evaluate the corresponding
+data structures. This in turn impacts the runtime of our algorithms that
+can be substantial. For instance providing callbacks for the hard- or
+soft constraints framework from a scripting language can lead to a slow-down
+of up to a factor of 10.</p>
+</div>
+</section>
+<section id="available-callbacks">
+<h2>Available Callbacks<a class="headerlink" href="#available-callbacks" title="Link to this heading"></a></h2>
+<p>Below, you find an enumeration of the individual callback functions that are available
+in <em>RNAlib</em>:</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="callbacks"></span></dt>
+<dd><p><dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="utils/datastructures/fold_compound.html#group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a"><span class="std std-ref"><span class="pre">vrna_auxdata_free_f</span></span></a>&#160; <span class="pre">)(void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000002"></span> <p>This callback is supposed to free memory occupied by an auxiliary data structure. It will be called when the <a class="reference internal" href="utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> is erased from memory through a call to <a class="reference internal" href="utils/datastructures/fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a> and will be passed the address of memory previously bound to the <a class="reference internal" href="utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> via <a class="reference internal" href="utils/datastructures/fold_compound.html#group__fold__compound_1gad6c0747712712bda6d94702e0de895a7"><span class="std std-ref">vrna_fold_compound_add_auxdata()</span></a>.  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="subopt/stochbt.html#group__subopt__stochbt_1ga4e064a63f93476c9f1dba0e207009a0e"><span class="std std-ref"><span class="pre">vrna_bs_result_f</span></span></a>&#160; <span class="pre">)(const</span> <span class="pre">char</span> <span class="pre">*structure,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000001"></span> <p>This function will be called for each secondary structure that has been successfully backtraced from the partition function DP matrices.  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="grammar/constraints/hard.html#group__hard__constraints_1ga23a523332de2867a1568a0229345ab80"><span class="std std-ref"><span class="pre">vrna_hc_eval_f</span></span></a>&#160; <span class="pre">)(int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">j,</span> <span class="pre">int</span> <span class="pre">k,</span> <span class="pre">int</span> <span class="pre">l,</span> <span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">d,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000014"></span> <p>This callback enables one to over-rule default hard constraints in secondary structure decompositions.  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="partfunc/thermodynamics.html#group__thermodynamics_1gafa73325bee7e6b7c9d1732d70e67d65a"><span class="std std-ref"><span class="pre">vrna_heat_capacity_f</span></span></a>&#160; <span class="pre">)(float</span> <span class="pre">temp,</span> <span class="pre">float</span> <span class="pre">heat_capacity,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000004"></span> <p>This function will be called for each evaluated temperature in the heat capacity prediction.  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="mfe/window.html#group__mfe__window_1gad5ea6c5a692b4f19eab4acf3b1a7cba8"><span class="std std-ref"><span class="pre">vrna_mfe_window_f</span></span></a>&#160; <span class="pre">)(int</span> <span class="pre">start,</span> <span class="pre">int</span> <span class="pre">end,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">*structure,</span> <span class="pre">float</span> <span class="pre">en,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000005"></span> <p>This function will be called for each hit in a sliding window MFE prediction.  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="partfunc/window.html#group__part__func__window_1ga847115aeace6030fa01185cca6e34f9e"><span class="std std-ref"><span class="pre">vrna_probs_window_f</span></span></a>&#160; <span class="pre">)(FLT_OR_DBL</span> <span class="pre">*pr,</span> <span class="pre">int</span> <span class="pre">pr_size,</span> <span class="pre">int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">max,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">type,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000006"></span> <p>This function will be called for each probability data set in the sliding window probability computation implementation of <a class="reference internal" href="partfunc/window.html#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a>. The argument <em>type</em> specifies the type of probability that is passed to this function.  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="utils/datastructures/fold_compound.html#group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761"><span class="std std-ref"><span class="pre">vrna_recursion_status_f</span></span></a>&#160; <span class="pre">)(unsigned</span> <span class="pre">char</span> <span class="pre">status,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000003"></span> <p>This function will be called to notify a third-party implementation about the status of a currently ongoing recursion. The purpose of this callback mechanism is to provide users with a simple way to ensure pre- and post conditions for auxiliary mechanisms attached to our implementations.  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="grammar/constraints/soft.html#group__soft__constraints_1gaaa010a245ab273cd5c265929ff0b8bbd"><span class="std std-ref"><span class="pre">vrna_sc_bt_f</span></span></a>&#160; <span class="pre">)(int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">j,</span> <span class="pre">int</span> <span class="pre">k,</span> <span class="pre">int</span> <span class="pre">l,</span> <span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">d,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000017"></span> <p>This callback enables one to add auxiliary base pairs in the backtracking steps of hairpin- and interior loops.  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="grammar/constraints/soft.html#group__soft__constraints_1ga562554815b6717091125bf9782532740"><span class="std std-ref"><span class="pre">vrna_sc_exp_f</span></span></a>&#160; <span class="pre">)(int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">j,</span> <span class="pre">int</span> <span class="pre">k,</span> <span class="pre">int</span> <span class="pre">l,</span> <span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">d,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000016"></span> <p>This callback enables one to add (pseudo-)energy contributions to individual decompositions of the secondary structure (Partition function variant, i.e. contributions must be returned as Boltzmann factors).  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="grammar/constraints/soft.html#group__soft__constraints_1gae2f7ded586b09b12ddaa627eee355a32"><span class="std std-ref"><span class="pre">vrna_sc_f</span></span></a>&#160; <span class="pre">)(int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">j,</span> <span class="pre">int</span> <span class="pre">k,</span> <span class="pre">int</span> <span class="pre">l,</span> <span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">d,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000015"></span> <p>This callback enables one to add (pseudo-)energy contributions to individual decompositions of the secondary structure.  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="subopt/wuchty.html#group__subopt__wuchty_1ga760ee7f326a411565f9e9f0cf44b2ff8"><span class="std std-ref"><span class="pre">vrna_subopt_result_f</span></span></a>&#160; <span class="pre">)(const</span> <span class="pre">char</span> <span class="pre">*stucture,</span> <span class="pre">float</span> <span class="pre">energy,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000007"></span> <p>This function will be called for each suboptimal secondary structure that is successfully backtraced.  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="grammar/domains_up.html#group__domains__up_1ga5ea006f39d44db3ae9481a748889a0a1"><span class="std std-ref"><span class="pre">vrna_ud_add_probs_f</span></span></a>&#160; <span class="pre">)(vrna_fold_compound_t</span> <span class="pre">*fc,</span> <span class="pre">int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">j,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">loop_type,</span> <span class="pre">FLT_OR_DBL</span> <span class="pre">exp_energy,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000012"></span> <p>A callback function to store equilibrium probabilities for the unstructured domain feature  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="grammar/domains_up.html#group__domains__up_1ga2e9002a489309f2cf59379d8ca6d00f0"><span class="std std-ref"><span class="pre">vrna_ud_exp_f</span></span></a>&#160; <span class="pre">)(vrna_fold_compound_t</span> <span class="pre">*fc,</span> <span class="pre">int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">j,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">loop_type,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000009"></span> <p>This function will be called to determine the additional energy contribution of a specific unstructured domain, e.g. the binding free energy of some ligand (Partition function variant, i.e. the Boltzmann factors instead of actual free energies).  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="grammar/domains_up.html#group__domains__up_1ga59dc10fdd4705c87aacaed15a8b1015d"><span class="std std-ref"><span class="pre">vrna_ud_exp_production_f</span></span></a>&#160; <span class="pre">)(vrna_fold_compound_t</span> <span class="pre">*fc,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000011"></span> <p>The production rule for the unstructured domain grammar extension (Partition function variant)  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="grammar/domains_up.html#group__domains__up_1gaec7ac7d3800d3ddd42eced89b43038ea"><span class="std std-ref"><span class="pre">vrna_ud_f</span></span></a>&#160; <span class="pre">)(vrna_fold_compound_t</span> <span class="pre">*fc,</span> <span class="pre">int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">j,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">loop_type,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000008"></span> <p>This function will be called to determine the additional energy contribution of a specific unstructured domain, e.g. the binding free energy of some ligand.  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="grammar/domains_up.html#group__domains__up_1ga584c32828e8803a32de7c52bdad5c6bd"><span class="std std-ref"><span class="pre">vrna_ud_get_probs_f</span></span></a>&#160; <span class="pre">)(vrna_fold_compound_t</span> <span class="pre">*fc,</span> <span class="pre">int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">j,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">loop_type,</span> <span class="pre">int</span> <span class="pre">motif,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000013"></span> <p>A callback function to retrieve equilibrium probabilities for the unstructured domain feature  </p>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="pre">Global</span> <a class="reference internal" href="grammar/domains_up.html#group__domains__up_1ga6da4dff321fdfaf9742efcd558fa327f"><span class="std std-ref"><span class="pre">vrna_ud_production_f</span></span></a>&#160; <span class="pre">)(vrna_fold_compound_t</span> <span class="pre">*fc,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<dd><p><span class="target" id="callbacks_1_callbacks000010"></span> <p>The production rule for the unstructured domain grammar extension </p>
+</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="vrna_3.0.html" class="btn btn-neutral float-left" title="RNAlib API v3.0" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="deprecated.html" class="btn btn-neutral float-right" title="Deprecated List" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

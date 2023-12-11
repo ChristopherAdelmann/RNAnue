@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suboptimal Structures within an Energy Band around the MFE &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Random Structure Samples from the Ensemble" href="stochbt.html" />
+    <link rel="prev" title="Suboptimal Structures sensu Zuker" href="zuker.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="zuker.html">Suboptimal Structures sensu Zuker</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Suboptimal Structures within an Energy Band around the MFE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stochbt.html">Random Structure Samples from the Ensemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mea.html">Compute the Structure with Maximum Expected Accuracy (MEA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="centroid.html">Compute the Centroid Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+      <li class="breadcrumb-item active">Suboptimal Structures within an Energy Band around the MFE</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="suboptimal-structures-within-an-energy-band-around-the-mfe">
+<h1>Suboptimal Structures within an Energy Band around the MFE<a class="headerlink" href="#suboptimal-structures-within-an-energy-band-around-the-mfe" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__subopt__wuchty"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_subopt_result_f">
+<span class="target" id="group__subopt__wuchty_1ga760ee7f326a411565f9e9f0cf44b2ff8"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_subopt_result_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">stucture</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_subopt_result_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/subopt.h&gt;</em><p>Callback for <a class="reference internal" href="#group__subopt__wuchty_1ga92c2e415167f9e2b0341989a74d24e41"><span class="std std-ref">vrna_subopt_cb()</span></a></p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../callbacks.html#callbacks_1_callbacks000007"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>This function will be called for each suboptimal secondary structure that is successfully backtraced. </p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__wuchty_1ga92c2e415167f9e2b0341989a74d24e41"><span class="std std-ref">vrna_subopt_cb()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param structure<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The suboptimal secondary structure in dot-bracket notation </p>
+</dd>
+<dt class="field-even">Param energy<span class="colon">:</span></dt>
+<dd class="field-even"><p>The free energy of the secondary structure in kcal/mol </p>
+</dd>
+<dt class="field-odd">Param data<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Some arbitrary, auxiliary data address as passed to <a class="reference internal" href="#group__subopt__wuchty_1ga92c2e415167f9e2b0341989a74d24e41"><span class="std std-ref">vrna_subopt_cb()</span></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_subopt">
+<span class="target" id="group__subopt__wuchty_1gad0cce16455fda0737873d8e1c5846480"></span><span class="n"><span class="pre">vrna_subopt_solution_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_subopt</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">delta</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">sorted</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_subopt" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/subopt.h&gt;</em><p>Returns list of subopt structures or writes to fp. </p>
+<p>This function produces <strong>all</strong> suboptimal secondary structures within ‘delta’ * 0.01 kcal/mol of the optimum, see  <span> <span id="id1">Wuchty <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id33" title="S. Wuchty, W. Fontana, I. L. Hofacker, and P. Schuster. Complete suboptimal folding of RNA and the stability of secondary structures. Biopolymers, 49(2):145–165, February 1999. doi:10.1002/(SICI)1097-0282(199902)49:2&lt;145::AID-BIP4&gt;3.0.CO;2-G.">1999</a>]</span> </span>. The results are either directly written to a ‘fp’ (if ‘fp’ is not NULL), or (fp==NULL) returned in a vrna_subopt_solution_t * list terminated by an entry were the ‘structure’ member is NULL.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000177"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <strong><a class="reference internal" href="#group__subopt__wuchty_1ga9913b3a58b8d315be3f4f7f4dbe3c481"><span class="std std-ref">subopt()</span></a></strong> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.subopt" title="RNA.fold_compound.subopt"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.subopt()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__wuchty_1ga92c2e415167f9e2b0341989a74d24e41"><span class="std std-ref">vrna_subopt_cb()</span></a>, <a class="reference internal" href="zuker.html#group__subopt__zuker_1gab8f5a02accffb385d921d96871aa13f4"><span class="std std-ref">vrna_subopt_zuker()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function requires all multibranch loop DP matrices for unique multibranch loop backtracing. Therefore, the supplied <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> <code class="docutils literal notranslate"><span class="pre">fc</span></code> (argument 1) must be initialized with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1, for instance like this: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_md_t</span> <span class="n">md</span><span class="p">;</span>
+<span class="n">vrna_md_set_default</span><span class="p">(</span><span class="o">&amp;</span><span class="n">md</span><span class="p">);</span>
+<span class="n">md</span><span class="o">.</span><span class="n">uniq_ML</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="n">vrna_fold_compound_t</span> <span class="o">*</span><span class="n">fc</span><span class="o">=</span><span class="n">vrna_fold_compound</span><span class="p">(</span><span class="s2">&quot;GGGGGGAAAAAACCCCCC&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">md</span><span class="p">,</span> <span class="n">VRNA_OPTION_DEFAULT</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – </p></li>
+<li><p><strong>delta</strong> – </p></li>
+<li><p><strong>sorted</strong> – Sort results by energy in ascending order </p></li>
+<li><p><strong>fp</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_subopt_cb">
+<span class="target" id="group__subopt__wuchty_1ga92c2e415167f9e2b0341989a74d24e41"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_subopt_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">delta</span></span>, <a class="reference internal" href="#c.vrna_subopt_result_f" title="vrna_subopt_result_f"><span class="n"><span class="pre">vrna_subopt_result_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_subopt_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/subopt.h&gt;</em><p>Generate suboptimal structures within an energy band arround the MFE. </p>
+<p>This is the most generic implementation of the suboptimal structure generator according to  <span> <span id="id2">Wuchty <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id33" title="S. Wuchty, W. Fontana, I. L. Hofacker, and P. Schuster. Complete suboptimal folding of RNA and the stability of secondary structures. Biopolymers, 49(2):145–165, February 1999. doi:10.1002/(SICI)1097-0282(199902)49:2&lt;145::AID-BIP4&gt;3.0.CO;2-G.">1999</a>]</span> </span>. Identical to <a class="reference internal" href="#group__subopt__wuchty_1gad0cce16455fda0737873d8e1c5846480"><span class="std std-ref">vrna_subopt()</span></a>, it computes all secondary structures within an energy band <code class="docutils literal notranslate"><span class="pre">delta</span></code> arround the MFE. However, this function does not print the resulting structures and their corresponding free energies to a file pointer, or returns them as a list. Instead, it calls a user-provided callback function which it passes the structure in dot-bracket format, the corresponding free energy in kcal/mol, and a user-provided data structure each time a structure was backtracked successfully. This function indicates the final output, i.e. the end of the backtracking procedure by passing NULL instead of an actual dot-bracket string to the callback.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000178"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <strong>subopt_cb()</strong> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.subopt_cb" title="RNA.fold_compound.subopt_cb"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.subopt_cb()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__wuchty_1ga760ee7f326a411565f9e9f0cf44b2ff8"><span class="std std-ref">vrna_subopt_result_f</span></a>, <a class="reference internal" href="#group__subopt__wuchty_1gad0cce16455fda0737873d8e1c5846480"><span class="std std-ref">vrna_subopt()</span></a>, <a class="reference internal" href="zuker.html#group__subopt__zuker_1gab8f5a02accffb385d921d96871aa13f4"><span class="std std-ref">vrna_subopt_zuker()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function requires all multibranch loop DP matrices for unique multibranch loop backtracing. Therefore, the supplied <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> <code class="docutils literal notranslate"><span class="pre">fc</span></code> (argument 1) must be initialized with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1, for instance like this: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_md_t</span> <span class="n">md</span><span class="p">;</span>
+<span class="n">vrna_md_set_default</span><span class="p">(</span><span class="o">&amp;</span><span class="n">md</span><span class="p">);</span>
+<span class="n">md</span><span class="o">.</span><span class="n">uniq_ML</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="n">vrna_fold_compound_t</span> <span class="o">*</span><span class="n">fc</span><span class="o">=</span><span class="n">vrna_fold_compound</span><span class="p">(</span><span class="s2">&quot;GGGGGGAAAAAACCCCCC&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">md</span><span class="p">,</span> <span class="n">VRNA_OPTION_DEFAULT</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – fold compount with the sequence data </p></li>
+<li><p><strong>delta</strong> – Energy band arround the MFE in 10cal/mol, i.e. deka-calories </p></li>
+<li><p><strong>cb</strong> – Pointer to a callback function that handles the backtracked structure and its free energy in kcal/mol </p></li>
+<li><p><strong>data</strong> – Pointer to some data structure that is passed along to the callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.subopt">
+<span class="target" id="group__subopt__wuchty_1ga9913b3a58b8d315be3f4f7f4dbe3c481"></span><span class="n"><span class="pre">SOLUTION</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">subopt</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">delta</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.subopt" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/subopt.h&gt;</em><p>Returns list of subopt structures or writes to fp. </p>
+<p>This function produces <strong>all</strong> suboptimal secondary structures within ‘delta’ * 0.01 kcal/mol of the optimum. The results are either directly written to a ‘fp’ (if ‘fp’ is not NULL), or (fp==NULL) returned in a SOLUTION * list terminated by an entry were the ‘structure’ pointer is NULL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq</strong> – </p></li>
+<li><p><strong>structure</strong> – </p></li>
+<li><p><strong>delta</strong> – </p></li>
+<li><p><strong>fp</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.subopt_par">
+<span class="target" id="group__subopt__wuchty_1gaf3597f13ed0e7dba00185f3336312f7c"></span><span class="n"><span class="pre">SOLUTION</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">subopt_par</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <a class="reference internal" href="../eval/energy_parameters.html#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">parameters</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">delta</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">is_constrained</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">is_circular</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.subopt_par" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/subopt.h&gt;</em><p>Returns list of subopt structures or writes to fp. </p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.subopt_circ">
+<span class="target" id="group__subopt__wuchty_1ga72ed97775f3e2ce2159fdcb994da383e"></span><span class="n"><span class="pre">SOLUTION</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">subopt_circ</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">delta</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.subopt_circ" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/subopt.h&gt;</em><p>Returns list of circular subopt structures or writes to fp. </p>
+<p>This function is similar to <a class="reference internal" href="#group__subopt__wuchty_1ga9913b3a58b8d315be3f4f7f4dbe3c481"><span class="std std-ref">subopt()</span></a> but calculates secondary structures assuming the RNA sequence to be circular instead of linear</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq</strong> – </p></li>
+<li><p><strong>sequence</strong> – </p></li>
+<li><p><strong>delta</strong> – </p></li>
+<li><p><strong>fp</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-variables">Variables</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.print_energy">
+<span class="target" id="group__subopt__wuchty_1ga5e57d914bcb5feeecdf520e25313fcfe"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">print_energy</span></span></span><a class="headerlink" href="#c.print_energy" title="Link to this definition"></a><br /></dt>
+<dd><p>printing threshold for use with logML </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.subopt_sorted">
+<span class="target" id="group__subopt__wuchty_1ga873cf8ed69e0437f8efa8b1fec854a0e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">subopt_sorted</span></span></span><a class="headerlink" href="#c.subopt_sorted" title="Link to this definition"></a><br /></dt>
+<dd><p>Sort output by energy. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="zuker.html" class="btn btn-neutral float-left" title="Suboptimal Structures sensu Zuker" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="stochbt.html" class="btn btn-neutral float-right" title="Random Structure Samples from the Ensemble" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

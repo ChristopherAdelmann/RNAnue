@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Program RNAalifold &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Program RNAcofold" href="RNAcofold.html" />
+    <link rel="prev" title="The Program RNAsubopt" href="RNAsubopt.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../getting_started.html">Getting Started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#global-rna-secondary-structure-prediction">Global RNA Secondary Structure Prediction</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../getting_started.html#consensus-structure-prediction">Consensus Structure Prediction</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The Program <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#consensus-structure-from-related-sequences">Consensus Structure from related Sequences</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rnaalifold-output-files"><code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> Output Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structure-predictions-for-the-individual-sequences">Structure predictions for the individual sequences</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-rna-interaction">RNA-RNA interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#plotting-structures">Plotting Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-design">RNA Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-folding-kinetics">RNA folding kinetics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#other-utilities">Other Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../getting_started.html">Getting Started</a></li>
+      <li class="breadcrumb-item active">The Program <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code></li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-program-rnaalifold">
+<h1>The Program <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code><a class="headerlink" href="#the-program-rnaalifold" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> generalizes the folding algorithm for multiple sequence
+alignments (MSA), treating the entire alignment as a single <em>generalized
+sequence</em>.  To assign an energy to a structure on such a generalized
+sequence, the energy is simply averaged over all sequences in the
+alignment. This average energy is augmented by a covariance term, that
+assigns a bonus or penalty to every possible base pair <span class="math notranslate nohighlight">\((i,j)\)</span>
+based on the sequence variation in columns <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> of
+the alignment.</p>
+<p>Compensatory mutations are a strong indication of structural
+conservation, while consistent mutations provide a weaker signal. The
+covariance term used by <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> therefore assigns a bonus
+of 1 kcal/mol to each consistent and 2 kcal/mol for each compensatory
+mutation. Sequences that cannot form a standard base pair incur a
+penalty of <span class="math notranslate nohighlight">\(-1\)</span> kcal/mol. Thus, for every possible consensus pair
+between two columns <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> of the alignment a covariance score
+<span class="math notranslate nohighlight">\(C_{ij}\)</span> is computed by counting the fraction of sequence pairs
+exhibiting consistent and compensatory mutations, as well as the
+fraction of sequences that are inconsistent with the pair. The weight
+of the covariance term relative to the normal energy function, as well
+as the penalty for inconsistent mutations can be changed via command
+line parameters.</p>
+<p>Apart from the covariance term, the folding algorithm in
+<code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> is essentially the same as for single sequence
+folding. In particular, folding an alignment containing just one
+sequence will give the same result as single sequence folding using
+<code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>. For <span class="math notranslate nohighlight">\(N\)</span> sequences of length <span class="math notranslate nohighlight">\(n\)</span> the required CPU
+time scales as <span class="math notranslate nohighlight">\(\mathcal{O}(N\cdot n^2 + n^3)\)</span> while memory
+requirements grow as the square of the sequence length. Thus
+<code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> is in general faster than folding each sequence
+individually. The main advantage, however, is that the accuracy of
+consensus structure predictions is generally much higher than for
+single sequence folding, where typically only between 40% and 70% of
+the base pairs are predicted correctly.</p>
+<p>Apart from prediction of <code class="docutils literal notranslate"><span class="pre">MFE</span></code> structures <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code>
+also implements an algorithm to compute the partition function over
+all possible (consensus) structures and the thermodynamic equilibrium
+probability for each possible pair. These base pairing probabilities
+are useful to see structural alternatives, and to distinguish well
+defined regions, where the predicted structure is most likely correct,
+from ambiguous regions.</p>
+<p>As a first example we’ll produce a consensus structure prediction for
+the following four tRNA sequences.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cat &gt; four.seq
+&gt;M10740 Yeast-PHE
+GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUUUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCA
+&gt;K00349 Drosophila-PHE
+GCCGAAAUAGCUCAGUUGGGAGAGCGUUAGACUGAAGAUCUAAAGGUCCCCGGUUCAAUCCCGGGUUUCGGCA
+&gt;K00283 Halobacterium volcanii Lys-tRNA-1
+GGGCCGGUAGCUCAUUUAGGCAGAGCGUCUGACUCUUAAUCAGACGGUCGCGUGUUCGAAUCGCGUCCGGCCCA
+&gt;AF346993
+CAGAGUGUAGCUUAACACAAAGCACCCAACUUACACUUAGGAGAUUUCAACUUAACUUGACCGCUCUGA
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> uses aligned sequences as input. Thus, our first step will be
+to align the sequences. We use <code class="docutils literal notranslate"><span class="pre">clustalw2</span></code> in this example, since it’s one
+of the most widely used alignment programs and has been shown to work well on
+structural RNAs. Other alignment programs can be used (including programs that
+attempt to do structural alignment of RNAs), but for this example the resulting
+multiple sequence alignment should be in <code class="docutils literal notranslate"><span class="pre">Clustal</span></code> format. Get <code class="docutils literal notranslate"><span class="pre">clustalw2</span></code>
+and install it as you have done it with the other packages:
+<a class="reference external" href="http://www.clustal.org/clustal2">http://www.clustal.org/clustal2</a>.</p>
+</section>
+<section id="consensus-structure-from-related-sequences">
+<h2>Consensus Structure from related Sequences<a class="headerlink" href="#consensus-structure-from-related-sequences" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Prepare a sequence file (use file <code class="docutils literal notranslate"><span class="pre">four.seq</span></code> and copy it to your working directory)</p></li>
+<li><p>Align the sequences</p></li>
+<li><p>Compute the consensus structure from the alignment</p></li>
+<li><p>Inspect the output files <code class="docutils literal notranslate"><span class="pre">alifold.out</span></code>, <code class="docutils literal notranslate"><span class="pre">alirna.ps</span></code>, <code class="docutils literal notranslate"><span class="pre">alidot.ps</span></code></p></li>
+<li><p>For comparison fold the sequences individually using <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ clustalw2 four.seq &gt; four.out
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Clustalw2</span></code> creates two more output files, <code class="docutils literal notranslate"><span class="pre">four.aln</span></code> and <code class="docutils literal notranslate"><span class="pre">four.dnd</span></code>.
+For <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> you need the <code class="docutils literal notranslate"><span class="pre">.aln</span></code> file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAalifold -p four.aln
+$ RNAfold -p &lt; four.seq
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">__GCCGAUGUAGCUCAGUUGGG_AGAGCGCCAGACUGAAAAUCAGAAGGUCCCGUGUUCAAUCCACGGAUCCGGCA__</span>
+<span class="o">..</span><span class="p">(((((((</span><span class="o">..</span><span class="p">((((</span><span class="o">.........</span><span class="p">))))</span><span class="o">.</span><span class="p">(((((</span><span class="o">.......</span><span class="p">)))))</span><span class="o">.....</span><span class="p">(((((</span><span class="o">.......</span><span class="p">))))))))))))</span><span class="o">...</span>
+ <span class="n">minimum</span> <span class="n">free</span> <span class="n">energy</span> <span class="o">=</span> <span class="o">-</span><span class="mf">15.12</span> <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span> <span class="p">(</span><span class="o">-</span><span class="mf">13.70</span> <span class="o">+</span>  <span class="o">-</span><span class="mf">1.43</span><span class="p">)</span>
+<span class="o">..</span><span class="p">(((((({</span><span class="o">..</span><span class="p">((((</span><span class="o">.........</span><span class="p">))))</span><span class="o">.</span><span class="p">(((((</span><span class="o">.......</span><span class="p">)))))</span><span class="o">.....</span><span class="p">(((((</span><span class="o">.......</span><span class="p">)))))}))))))</span><span class="o">...</span>
+ <span class="n">free</span> <span class="n">energy</span> <span class="n">of</span> <span class="n">ensemble</span> <span class="o">=</span> <span class="o">-</span><span class="mf">15.75</span> <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+ <span class="n">frequency</span> <span class="n">of</span> <span class="n">mfe</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">ensemble</span> <span class="mf">0.361603</span>
+<span class="o">..</span><span class="p">(((((((</span><span class="o">..</span><span class="p">((((</span><span class="o">.........</span><span class="p">))))</span><span class="o">.</span><span class="p">(((((</span><span class="o">.......</span><span class="p">)))))</span><span class="o">.....</span><span class="p">(((((</span><span class="o">.......</span><span class="p">))))))))))))</span><span class="o">...</span> <span class="o">-</span><span class="mf">15.20</span> <span class="p">{</span><span class="o">-</span><span class="mf">13.70</span> <span class="o">+</span>  <span class="o">-</span><span class="mf">1.50</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">M10740</span> <span class="n">Yeast</span><span class="o">-</span><span class="n">PHE</span>
+<span class="n">GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUUUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCA</span>
+<span class="p">((((((((</span><span class="o">........</span><span class="p">((((</span><span class="o">.</span><span class="p">((((((</span><span class="o">..</span><span class="p">((((</span><span class="o">...........</span><span class="p">))))</span><span class="o">..</span><span class="p">))))))</span><span class="o">..</span><span class="p">))))</span><span class="o">..</span><span class="p">))))))))</span><span class="o">.</span> <span class="p">(</span><span class="o">-</span><span class="mf">21.60</span><span class="p">)</span>
+<span class="p">((((((({</span><span class="o">...</span><span class="p">,,</span><span class="o">.</span><span class="p">{,((((</span><span class="o">.</span><span class="p">((((((</span><span class="o">..</span><span class="p">((((</span><span class="o">...........</span><span class="p">))))</span><span class="o">..</span><span class="p">))))))</span><span class="o">..</span><span class="p">))))),))))))))</span><span class="o">.</span> <span class="p">[</span><span class="o">-</span><span class="mf">23.20</span><span class="p">]</span>
+<span class="p">((((((((</span><span class="o">.........</span><span class="p">(((</span><span class="o">.</span><span class="p">((((((</span><span class="o">..</span><span class="p">((((</span><span class="o">...........</span><span class="p">))))</span><span class="o">..</span><span class="p">))))))</span><span class="o">..</span><span class="p">)))</span><span class="o">...</span><span class="p">))))))))</span><span class="o">.</span> <span class="p">{</span><span class="o">-</span><span class="mf">20.00</span> <span class="n">d</span><span class="o">=</span><span class="mf">9.63</span><span class="p">}</span>
+ <span class="n">frequency</span> <span class="n">of</span> <span class="n">mfe</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">ensemble</span> <span class="mf">0.0744065</span><span class="p">;</span> <span class="n">ensemble</span> <span class="n">diversity</span> <span class="mf">15.35</span>
+<span class="o">&gt;</span><span class="n">K00349</span> <span class="n">Drosophila</span><span class="o">-</span><span class="n">PHE</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The output contains a consensus sequence and the consensus structure in
+dot-bracket notation. The consensus structure has an energy of
+<span class="math notranslate nohighlight">\(-15.12\)</span> kcal/mol, which in turn consists of the average free energy of
+the structure <span class="math notranslate nohighlight">\(-13.70\)</span> kcal/mol and the covariance term <span class="math notranslate nohighlight">\(-1.43\)</span>
+kcal/mol. The strongly negative covariance term shows that there must be a
+fair number of consistent and compensatory mutations, but in contrast to the
+average free energy it’s not meaningful in the biophysical sense.</p>
+<p>Compare the predicted consensus structure with the structures predicted for
+the individual sequences using <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>. How often is the correct
+<a href="#id1"><span class="problematic" id="id2">``</span></a>clover-leaf’’ shape predicted?</p>
+<p>For better visualization, a structure annotated alignment or color annotated
+structure drawing can be generated by using the <code class="docutils literal notranslate"><span class="pre">--aln</span></code> and <code class="docutils literal notranslate"><span class="pre">--color</span></code>
+options of <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAalifold --color --aln four.aln
+$ gv aln.ps &amp;
+$ gv alirna.ps &amp;
+</pre></div>
+</div>
+</section>
+<section id="rnaalifold-output-files">
+<h2><code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> Output Files<a class="headerlink" href="#rnaalifold-output-files" title="Link to this heading"></a></h2>
+<p>Content of the <code class="docutils literal notranslate"><span class="pre">alifold.out</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">4</span> <span class="n">sequence</span><span class="p">;</span> <span class="n">length</span> <span class="n">of</span> <span class="n">alignment</span> <span class="mi">78</span>
+<span class="n">alifold</span> <span class="n">output</span>
+    <span class="mi">6</span>    <span class="mi">72</span>  <span class="mi">0</span>  <span class="mf">99.8</span><span class="o">%</span>   <span class="mf">0.007</span> <span class="n">GC</span><span class="p">:</span><span class="mi">2</span>    <span class="n">GU</span><span class="p">:</span><span class="mi">1</span>    <span class="n">AU</span><span class="p">:</span><span class="mi">1</span>
+   <span class="mi">33</span>    <span class="mi">43</span>  <span class="mi">0</span>  <span class="mf">98.9</span><span class="o">%</span>   <span class="mf">0.033</span> <span class="n">GC</span><span class="p">:</span><span class="mi">2</span>    <span class="n">GU</span><span class="p">:</span><span class="mi">1</span>    <span class="n">AU</span><span class="p">:</span><span class="mi">1</span>
+   <span class="mi">31</span>    <span class="mi">45</span>  <span class="mi">0</span>  <span class="mf">99.0</span><span class="o">%</span>   <span class="mf">0.030</span> <span class="n">CG</span><span class="p">:</span><span class="mi">3</span>    <span class="n">UA</span><span class="p">:</span><span class="mi">1</span>
+   <span class="mi">15</span>    <span class="mi">25</span>  <span class="mi">0</span>  <span class="mf">98.9</span><span class="o">%</span>   <span class="mf">0.045</span> <span class="n">CG</span><span class="p">:</span><span class="mi">3</span>    <span class="n">UA</span><span class="p">:</span><span class="mi">1</span>
+    <span class="mi">5</span>    <span class="mi">73</span>  <span class="mi">1</span>  <span class="mf">99.7</span><span class="o">%</span>   <span class="mf">0.008</span> <span class="n">CG</span><span class="p">:</span><span class="mi">2</span>    <span class="n">GC</span><span class="p">:</span><span class="mi">1</span>
+   <span class="mi">13</span>    <span class="mi">27</span>  <span class="mi">0</span>  <span class="mf">99.1</span><span class="o">%</span>   <span class="mf">0.042</span> <span class="n">CG</span><span class="p">:</span><span class="mi">4</span>
+   <span class="mi">14</span>    <span class="mi">26</span>  <span class="mi">0</span>  <span class="mf">99.1</span><span class="o">%</span>   <span class="mf">0.042</span> <span class="n">UA</span><span class="p">:</span><span class="mi">4</span>
+    <span class="mi">4</span>    <span class="mi">74</span>  <span class="mi">1</span>  <span class="mf">99.5</span><span class="o">%</span>   <span class="mf">0.015</span> <span class="n">CG</span><span class="p">:</span><span class="mi">3</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The last output file produced by <code class="docutils literal notranslate"><span class="pre">RNAalifold</span> <span class="pre">-p</span></code>, named <code class="docutils literal notranslate"><span class="pre">alifold.out</span></code>,
+is a plain text file with detailed information on all plausible base pairs
+sorted by the likelihood of the pair.  In the example above we see that the
+pair <span class="math notranslate nohighlight">\((6,72)\)</span> has no inconsistent sequences, is predicted almost with
+probability 1, and occurs as a <code class="docutils literal notranslate"><span class="pre">GC</span></code> pair in two sequences, a <code class="docutils literal notranslate"><span class="pre">GU</span></code> pair
+in one, and a <code class="docutils literal notranslate"><span class="pre">AU</span></code> pair in another.</p>
+<p><code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> automatically produces a drawing of the consensus structure
+in Postscript format and writes it to the file <code class="docutils literal notranslate"><span class="pre">alirna.ps</span></code>. In the
+structure graph consistent and compensatory mutations are marked by a
+circle around the variable base(s), i.e. pairs where one pairing partner
+is encircled exhibit consistent mutations, whereas pairs supported by
+compensatory mutations have both bases marked. Pairs that cannot be formed
+by some of the sequences are shown gray instead of black.</p>
+<p>The structure layout and dotplot files <code class="docutils literal notranslate"><span class="pre">alirna.ps</span></code> and <code class="docutils literal notranslate"><span class="pre">alidot.ps</span></code>
+should look as follows:</p>
+<p><a class="reference internal" href="../_images/alirna.png"><img alt="alirna" src="../_images/alirna.png" style="width: 45%;" /></a> <a class="reference internal" href="../_images/alidot.png"><img alt="alidot" src="../_images/alidot.png" style="width: 45%;" /></a></p>
+<p>In the example given, many pairs show such inconsistencies. This is because
+one of the sequences (AF346993) is not aligned well by <code class="docutils literal notranslate"><span class="pre">clustalw</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Subsequent calls to <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> will overwrite any existing output
+<code class="docutils literal notranslate"><span class="pre">alirna.ps</span></code> (<code class="docutils literal notranslate"><span class="pre">alidot.ps</span></code>, <code class="docutils literal notranslate"><span class="pre">alifold.out</span></code>) files in the current
+directory. Be sure to rename any files you want to keep.</p>
+</div>
+</section>
+<section id="structure-predictions-for-the-individual-sequences">
+<h2>Structure predictions for the individual sequences<a class="headerlink" href="#structure-predictions-for-the-individual-sequences" title="Link to this heading"></a></h2>
+<p>The consensus structure computed by <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code> will contain only
+pairs that can be formed by most of the sequences. The structures of the
+individual sequences will typically have additional base pairs that are not
+part of the consensus structure. Moreover, ncRNA may exhibit a highly
+conserved core structure while other regions are more variable. It may
+therefore be desirable to produce structure predictions for one particular
+sequence, while still using covariance information from other sequences.</p>
+<p>This can be accomplished by first computing the consensus structure for all
+sequences using <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code>, then folding individual sequences using
+<code class="docutils literal notranslate"><span class="pre">RNAfold</span> <span class="pre">-C</span></code> with the consensus structure as a constraint. In
+constraint folding mode <code class="docutils literal notranslate"><span class="pre">RNAfold</span> <span class="pre">-C</span></code> allows only base pairs to form
+which are compatible with the constraint structure. This resulting
+structure typically contains most of the constraint (the consensus
+structure)  plus some additional pairs that are specific for this sequence.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">refold.pl</span></code> script removes gaps and maps the consensus structure to
+each individual sequence.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAalifold  RNaseP.aln &gt; RNaseP.alifold
+$ gv alirna.ps
+$ refold.pl RNaseP.aln RNaseP.alifold | head -3 &gt; RNaseP.cfold
+$ RNAfold -C --noLP &lt; RNaseP.cfold &gt; RNaseP.refold
+$ gv E-coli_ss.ps
+</pre></div>
+</div>
+<p>If you compare the refolded structure (<code class="docutils literal notranslate"><span class="pre">E-coli_ss.ps</span></code>) with the
+structure you get by simply folding the E.coli sequence in the
+<code class="docutils literal notranslate"><span class="pre">RNaseP.seq</span></code> file (<code class="docutils literal notranslate"><span class="pre">RNAfold</span> <span class="pre">--noLP</span></code>) you find a clear rearrangement.</p>
+<p>In cases where constrained folding results in a structure that is very
+different from the consensus, or if the energy from constrained
+folding is much worse than from unconstrained folding, this may
+indicate that the sequence in question does not really share a common
+structure with the rest of the alignment or is misaligned. One should
+then either remove or re-align that sequence and recompute the
+consensus structure.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that since RNase P forms sizable pseudo-knots, a perfect
+prediction is impossible in this case.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="RNAsubopt.html" class="btn btn-neutral float-left" title="The Program RNAsubopt" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="RNAcofold.html" class="btn btn-neutral float-right" title="The Program RNAcofold" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

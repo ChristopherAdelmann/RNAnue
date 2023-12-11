@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Partition Function and Equilibrium Properties &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5248d183"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Global Partition Function and Equilibrium Probabilities" href="partfunc/global.html" />
+    <link rel="prev" title="Backtracking MFE structures" href="mfe/backtracking.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Partition Function and Equilibrium Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="partfunc/global.html">Global Partition Function and Equilibrium Probabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partfunc/window.html">Local (sliding window) Partition Function and Equilibrium Probabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partfunc/thermodynamics.html">Predicting various Thermodynamic Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partfunc/global_deprecated.html">Deprecated Interface for Global Partition Function Computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partfunc/window_deprecated.html">Deprecated Interface for Local (Sliding Window) Partition Function Computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#partition-function-api">Partition Function API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#general-partition-function-api">General Partition Function API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">Concepts and Algorithms</a></li>
+      <li class="breadcrumb-item active">Partition Function and Equilibrium Properties</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="partition-function-and-equilibrium-properties">
+<h1>Partition Function and Equilibrium Properties<a class="headerlink" href="#partition-function-and-equilibrium-properties" title="Link to this heading"></a></h1>
+<p>In contrast to methods that compute the property of a single structure in the ensemble,
+e.g. <a class="reference internal" href="mfe.html"><span class="doc">Minimum Free Energy (MFE) Algorithms</span></a>, the partition function algorithms always consider the <em>entire</em>
+equilibrium ensemble. For that purpose, the algorithm(s) made available by
+<span id="id1">McCaskill [<a class="reference internal" href="bibliography.html#id3" title="J.S. McCaskill. The equilibrium partition function and base pair binding probabilities for RNA secondary structure. Biopolymers, 29(6-7):1105–1119, 1990. doi:10.1002/bip.360290621.">1990</a>]</span> and its variants can be used to efficiently compute</p>
+<ul class="simple">
+<li><p>the partition function, and from that</p></li>
+<li><p>various equilibrium probabilities, for instance base pair probabilities,
+probabilities of individual structure motifs, and many more.</p></li>
+</ul>
+<p>The principal idea behind this approach is that in equilibrium, statistical mechanics
+and polymer theory tells us that the frequency or probability <span class="math notranslate nohighlight">\(p(s)\)</span> of a particular
+state <span class="math notranslate nohighlight">\(s\)</span> depends on its energy <span class="math notranslate nohighlight">\(E(s)\)</span> and follows a Boltzmann distribution, i.e.</p>
+<div class="math notranslate nohighlight">
+\[p(s) \propto e^{-\beta E(s)} \text{ with } \beta = \frac{1}{kT}\]</div>
+<p>where <span class="math notranslate nohighlight">\(k \approx 1.987 \cdot 10^{-3} \frac{kcal}{mol~K}\)</span> is the Boltzmann constant,
+and <span class="math notranslate nohighlight">\(T\)</span> the thermodynamic temperature. From that relation, the actual probability
+of state <span class="math notranslate nohighlight">\(s\)</span> can then be obtained using a proper scaling factor, the <em>canonical
+partition function</em></p>
+<div class="math notranslate nohighlight">
+\[Z = \sum_{s \in \Omega} e^{-\beta E(s)}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Omega\)</span> is the finite set of all states. Finally, the equilibrium probability
+of state <span class="math notranslate nohighlight">\(s\)</span> can be computed as</p>
+<div class="math notranslate nohighlight">
+\[p(s) = \frac{e^{-\beta E(s)}}{Z}\]</div>
+<p>Instead of enumerating all states exhaustively to compute <span class="math notranslate nohighlight">\(Z\)</span> one can apply the
+<a class="reference internal" href="grammar.html#secondary-structure-folding-recurrences"><span class="std std-ref">Secondary Structure Folding Recurrences</span></a> again for an efficient computation
+in cubic time. An <em>outside</em> variant of the same recursions is then used to compute
+probabilities for base pairs, stretches of consecutive unpaired nucleotides, or structural
+motifs.</p>
+<div class="admonition-see-also admonition">
+<p class="admonition-title">See also…</p>
+<p>Further details of the Partition function and Base Pair Probability algorithm
+can be obtained from <span id="id2">McCaskill [<a class="reference internal" href="bibliography.html#id3" title="J.S. McCaskill. The equilibrium partition function and base pair binding probabilities for RNA secondary structure. Biopolymers, 29(6-7):1105–1119, 1990. doi:10.1002/bip.360290621.">1990</a>]</span></p>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Specialized Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="partfunc/global.html">Global Partition Function and Equilibrium Probabilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partfunc/window.html">Local (sliding window) Partition Function and Equilibrium Probabilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partfunc/thermodynamics.html">Predicting various Thermodynamic Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partfunc/global_deprecated.html">Deprecated Interface for Global Partition Function Computation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partfunc/window_deprecated.html">Deprecated Interface for Local (Sliding Window) Partition Function Computation</a></li>
+</ul>
+</div>
+<section id="partition-function-api">
+<h2>Partition Function API<a class="headerlink" href="#partition-function-api" title="Link to this heading"></a></h2>
+<p>Similar to our <a class="reference internal" href="mfe.html"><span class="doc">Minimum Free Energy (MFE) Algorithms</span></a>, we provide two different flavors for partition
+function computations:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="partfunc/global.html"><span class="doc">Global Partition Function and Equilibrium Probabilities</span></a> - to compute the partition function for a full length sequence</p></li>
+<li><p><a class="reference internal" href="partfunc/window.html"><span class="doc">Local (sliding window) Partition Function and Equilibrium Probabilities</span></a> - to compute the partition function of each window using a sliding window approach</p></li>
+</ul>
+<p>While the global partition function approach supports predictions using single sequences as
+well as consensus partition functions for multiple sequence alignments (MSA), we currently
+do not support MSA input for the local variant.</p>
+<p>Comparative prediction computes an average of the free energy contributions plus an additional
+covariance pseudo-energy term, exactly as we do for the <a class="reference internal" href="mfe.html"><span class="doc">Minimum Free Energy (MFE) Algorithms</span></a>.</p>
+<p>Boltzmann weights for the free energy contributions of individual loops can be
+found in <a class="reference internal" href="eval/eval_loops.html"><span class="doc">Energy Evaluation for Individual Loops</span></a>.</p>
+<p>Our implementations also provide a stochastic backtracking procedure to draw
+&#64;ref subopt_stochbt according to their equilibrium probabilty.</p>
+</section>
+<section id="general-partition-function-api">
+<h2>General Partition Function API<a class="headerlink" href="#general-partition-function-api" title="Link to this heading"></a></h2>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__pf__fold"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pf_float_precision">
+<span class="target" id="group__pf__fold_1gad2b3594f0b50b68029e0f54fdce59313"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pf_float_precision</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pf_float_precision" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Find out whether partition function computations are using single precision floating points. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="utils/data_structures.html#group__data__structures_1ga31125aeace516926bf7f251f759b6126"><span class="std std-ref">FLT_OR_DBL</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1 if single precision is used, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mfe/backtracking.html" class="btn btn-neutral float-left" title="Backtracking MFE structures" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="partfunc/global.html" class="btn btn-neutral float-right" title="Global Partition Function and Equilibrium Probabilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

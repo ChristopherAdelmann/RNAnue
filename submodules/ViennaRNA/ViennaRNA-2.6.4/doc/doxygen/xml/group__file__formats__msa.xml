@@ -1,0 +1,553 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__file__formats__msa" kind="group">
+    <compoundname>file_formats_msa</compoundname>
+    <title>Multiple Sequence Alignments</title>
+    <innerfile refid="io_2file__formats__msa_8h">file_formats_msa.h</innerfile>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_file_msa_read</definition>
+        <argsstring>(const char *filename, char ***names, char ***aln, char **id, char **structure, unsigned int options)</argsstring>
+        <name>vrna_file_msa_read</name>
+        <param>
+          <type>const char *</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>char ***</type>
+          <declname>names</declname>
+        </param>
+        <param>
+          <type>char ***</type>
+          <declname>aln</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Read a multiple sequence alignment from file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function reads the (first) multiple sequence alignment from an input file. The read alignment is split into the sequence id/name part and the actual sequence information and stored in memory as arrays of ids/names and sequences. If the alignment file format allows for additional information, such as an ID of the entire alignment or consensus structure information, this data is retrieved as well and made available. The <computeroutput>options</computeroutput> parameter allows to specify the set of alignment file formats that should be used to retrieve the data. If 0 is passed as option, the list of alignment file formats defaults to <ref refid="group__file__formats__msa_1ga4acc255373831856a8417b68de8a94c0" kindref="member">VRNA_FILE_FORMAT_MSA_DEFAULT</ref>.</para>
+<para>Currently, the list of parsable multiple sequence alignment file formats consists of:<itemizedlist>
+<listitem><para>msa-formats-clustal</para>
+</listitem><listitem><para>msa-formats-stockholm</para>
+</listitem><listitem><para>msa-formats-fasta</para>
+</listitem><listitem><para>msa-formats-maf</para>
+</listitem></itemizedlist>
+<simplesect kind="note"><para>After successfully reading an alignment, this function performs a validation of the data that includes uniqueness of the sequence identifiers, and equal sequence lengths. This check can be deactivated by passing <ref refid="group__file__formats__msa_1ga229fb3778ecabea4782902b69fa48fd1" kindref="member">VRNA_FILE_FORMAT_MSA_NOCHECK</ref> in the <computeroutput>options</computeroutput> parameter.<linebreak/>
+ It is the users responsibility to free any memory occupied by the output arguments <computeroutput>names</computeroutput>, <computeroutput>aln</computeroutput>, <computeroutput>id</computeroutput>, and <computeroutput>structure</computeroutput> after calling this function. The function automatically sets the latter two arguments to <computeroutput>NULL</computeroutput> in case no corresponding data could be retrieved from the input alignment.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799" kindref="member">vrna_file_msa_read_record()</ref>, <ref refid="group__file__formats__msa_1ga79a23de2c7249f2cccd762e475c81859" kindref="member">VRNA_FILE_FORMAT_MSA_CLUSTAL</ref>, <ref refid="group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b" kindref="member">VRNA_FILE_FORMAT_MSA_STOCKHOLM</ref>, <ref refid="group__file__formats__msa_1gacf6274a2c825f34e4131404665b00604" kindref="member">VRNA_FILE_FORMAT_MSA_FASTA</ref>, <ref refid="group__file__formats__msa_1gab3186d774c01570d2a47d0308eec4927" kindref="member">VRNA_FILE_FORMAT_MSA_MAF</ref>, <ref refid="group__file__formats__msa_1ga4acc255373831856a8417b68de8a94c0" kindref="member">VRNA_FILE_FORMAT_MSA_DEFAULT</ref>, <ref refid="group__file__formats__msa_1ga229fb3778ecabea4782902b69fa48fd1" kindref="member">VRNA_FILE_FORMAT_MSA_NOCHECK</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of input file that contains the alignment </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>names</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An address to the pointer where sequence identifiers should be written to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aln</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An address to the pointer where aligned sequences should be written to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An address to the pointer where the alignment ID should be written to (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An address to the pointer where consensus structure information should be written to (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options to manipulate the behavior of this function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number of sequences in the alignment, or -1 if no alignment record could be found</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000097"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>In the target scripting language, only the first and last argument, <computeroutput>filename</computeroutput> and <computeroutput>options</computeroutput>, are passed to the corresponding function. The other arguments, which serve as output in the C-library, are available as additional return values. This function exists as an overloaded version where the <computeroutput>options</computeroutput> parameter may be omitted! In that case, the <computeroutput>options</computeroutput> parameter defaults to <ref refid="group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b" kindref="member">VRNA_FILE_FORMAT_MSA_STOCKHOLM</ref>. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.file_msa_read()` in the :doc:`/api_python` </verbatim> and  <verbatim>embed:rst:inline :ref:`examples/python:parsing alignments` </verbatim> in the Python examples. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="154" column="1" declfile="ViennaRNA/io/file_formats_msa.h" declline="154" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_file_msa_read_record</definition>
+        <argsstring>(FILE *fp, char ***names, char ***aln, char **id, char **structure, unsigned int options)</argsstring>
+        <name>vrna_file_msa_read_record</name>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+        </param>
+        <param>
+          <type>char ***</type>
+          <declname>names</declname>
+        </param>
+        <param>
+          <type>char ***</type>
+          <declname>aln</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Read a multiple sequence alignment from file handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Similar to <ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref>, this function reads a multiple sequence alignment from an input file handle. Since using a file handle, this function is not limited to the first alignment record, but allows for looping over all alignments within the input.</para>
+<para>The read alignment is split into the sequence id/name part and the actual sequence information and stored in memory as arrays of ids/names and sequences. If the alignment file format allows for additional information, such as an ID of the entire alignment or consensus structure information, this data is retrieved as well and made available. The <computeroutput>options</computeroutput> parameter allows to specify the alignment file format used to retrieve the data. A single format must be specified here, see <ref refid="group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3" kindref="member">vrna_file_msa_detect_format()</ref> for helping to determine the correct MSA file format.</para>
+<para>Currently, the list of parsable multiple sequence alignment file formats consists of:<itemizedlist>
+<listitem><para>msa-formats-clustal</para>
+</listitem><listitem><para>msa-formats-stockholm</para>
+</listitem><listitem><para>msa-formats-fasta</para>
+</listitem><listitem><para>msa-formats-maf</para>
+</listitem></itemizedlist>
+<simplesect kind="note"><para>After successfully reading an alignment, this function performs a validation of the data that includes uniqueness of the sequence identifiers, and equal sequence lengths. This check can be deactivated by passing <ref refid="group__file__formats__msa_1ga229fb3778ecabea4782902b69fa48fd1" kindref="member">VRNA_FILE_FORMAT_MSA_NOCHECK</ref> in the <computeroutput>options</computeroutput> parameter.<linebreak/>
+ It is the users responsibility to free any memory occupied by the output arguments <computeroutput>names</computeroutput>, <computeroutput>aln</computeroutput>, <computeroutput>id</computeroutput>, and <computeroutput>structure</computeroutput> after calling this function. The function automatically sets the latter two arguments to <computeroutput>NULL</computeroutput> in case no corresponding data could be retrieved from the input alignment.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref>, <ref refid="group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3" kindref="member">vrna_file_msa_detect_format()</ref>, <ref refid="group__file__formats__msa_1ga79a23de2c7249f2cccd762e475c81859" kindref="member">VRNA_FILE_FORMAT_MSA_CLUSTAL</ref>, <ref refid="group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b" kindref="member">VRNA_FILE_FORMAT_MSA_STOCKHOLM</ref>, <ref refid="group__file__formats__msa_1gacf6274a2c825f34e4131404665b00604" kindref="member">VRNA_FILE_FORMAT_MSA_FASTA</ref>, <ref refid="group__file__formats__msa_1gab3186d774c01570d2a47d0308eec4927" kindref="member">VRNA_FILE_FORMAT_MSA_MAF</ref>, <ref refid="group__file__formats__msa_1ga4acc255373831856a8417b68de8a94c0" kindref="member">VRNA_FILE_FORMAT_MSA_DEFAULT</ref>, <ref refid="group__file__formats__msa_1ga229fb3778ecabea4782902b69fa48fd1" kindref="member">VRNA_FILE_FORMAT_MSA_NOCHECK</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file pointer the data will be retrieved from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>names</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An address to the pointer where sequence identifiers should be written to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aln</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An address to the pointer where aligned sequences should be written to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An address to the pointer where the alignment ID should be written to (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An address to the pointer where consensus structure information should be written to (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options to manipulate the behavior of this function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number of sequences in the alignment, or -1 if no alignment record could be found</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000098"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>In the target scripting language, only the first and last argument, <computeroutput>fp</computeroutput> and <computeroutput>options</computeroutput>, are passed to the corresponding function. The other arguments, which serve as output in the C-library, are available as additional return values. This function exists as an overloaded version where the <computeroutput>options</computeroutput> parameter may be omitted! In that case, the <computeroutput>options</computeroutput> parameter defaults to <ref refid="group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b" kindref="member">VRNA_FILE_FORMAT_MSA_STOCKHOLM</ref>. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.file_msa_read_record()` in the :doc:`/api_python` </verbatim> and  <verbatim>embed:rst:inline :ref:`examples/python:parsing alignments` </verbatim> in the Python examples. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="218" column="1" declfile="ViennaRNA/io/file_formats_msa.h" declline="218" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int vrna_file_msa_detect_format</definition>
+        <argsstring>(const char *filename, unsigned int options)</argsstring>
+        <name>vrna_file_msa_detect_format</name>
+        <param>
+          <type>const char *</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Detect the format of a multiple sequence alignment file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function attempts to determine the format of a file that supposedly contains a multiple sequence alignment (MSA). This is useful in cases where a MSA file contains more than a single record and therefore <ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref> can not be applied, since it only retrieves the first. Here, one can try to guess the correct file format using this function and then loop over the file, record by record using one of the low-level record retrieval functions for the corresponding MSA file format.</para>
+<para><simplesect kind="note"><para>This function parses the entire first record within the specified file. As a result, it returns <ref refid="group__file__formats__msa_1gabdc948f547e550125de3e7c65878400c" kindref="member">VRNA_FILE_FORMAT_MSA_UNKNOWN</ref> not only if it can&apos;t detect the file&apos;s format, but also in cases where the file doesn&apos;t contain sequences!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref>, vrna_file_stockholm_read_record(), vrna_file_clustal_read_record(), <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of input file that contains the alignment </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options to manipulate the behavior of this function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The MSA file format, or <ref refid="group__file__formats__msa_1gabdc948f547e550125de3e7c65878400c" kindref="member">VRNA_FILE_FORMAT_MSA_UNKNOWN</ref></para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000096"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function exists as an overloaded version where the <computeroutput>options</computeroutput> parameter may be omitted! In that case, the <computeroutput>options</computeroutput> parameter defaults to <ref refid="group__file__formats__msa_1ga4acc255373831856a8417b68de8a94c0" kindref="member">VRNA_FILE_FORMAT_MSA_DEFAULT</ref>. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.file_msa_detect_format()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="252" column="1" declfile="ViennaRNA/io/file_formats_msa.h" declline="252" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats__msa_1gaccca55b71d34def88e18ed9a51ccb2bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_file_msa_write</definition>
+        <argsstring>(const char *filename, const char **names, const char **aln, const char *id, const char *structure, const char *source, unsigned int options)</argsstring>
+        <name>vrna_file_msa_write</name>
+        <param>
+          <type>const char *</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const char **</type>
+          <declname>names</declname>
+        </param>
+        <param>
+          <type>const char **</type>
+          <declname>aln</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Write multiple sequence alignment file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Currently, we only support msa-formats-stockholm output</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b" kindref="member">VRNA_FILE_FORMAT_MSA_STOCKHOLM</ref>, <ref refid="group__file__formats__msa_1ga1577ea0f497d9c501549c863a4f2c089" kindref="member">VRNA_FILE_FORMAT_MSA_APPEND</ref>, <ref refid="group__file__formats__msa_1ga494488a771aa0c602fb4cf445be34d47" kindref="member">VRNA_FILE_FORMAT_MSA_MIS</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output filename </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>names</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The array of sequence names / identifies </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aln</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The array of aligned sequences </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An optional ID for the alignment </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An optional consensus structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A string describing the source of the alignment </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options to manipulate the behavior of this function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Non-null upon successfully writing the alignment to file</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000099"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>In the target scripting language, this function exists as a set of overloaded versions, where the last four parameters may be omitted. If the <computeroutput>options</computeroutput> parameter is missing the options default to (<ref refid="group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b" kindref="member">VRNA_FILE_FORMAT_MSA_STOCKHOLM</ref> | <ref refid="group__file__formats__msa_1ga1577ea0f497d9c501549c863a4f2c089" kindref="member">VRNA_FILE_FORMAT_MSA_APPEND</ref>). See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.file_msa_write()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="274" column="1" declfile="ViennaRNA/io/file_formats_msa.h" declline="274" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__file__formats__msa_1ga79a23de2c7249f2cccd762e475c81859" prot="public" static="no">
+        <name>VRNA_FILE_FORMAT_MSA_CLUSTAL</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+<para>Option flag indicating ClustalW formatted files. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref>, <ref refid="group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799" kindref="member">vrna_file_msa_read_record()</ref>, <ref refid="group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3" kindref="member">vrna_file_msa_detect_format()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="22" column="9" bodyfile="ViennaRNA/io/file_formats_msa.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b" prot="public" static="no">
+        <name>VRNA_FILE_FORMAT_MSA_STOCKHOLM</name>
+        <initializer>2U</initializer>
+        <briefdescription>
+<para>Option flag indicating Stockholm 1.0 formatted files. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref>, <ref refid="group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799" kindref="member">vrna_file_msa_read_record()</ref>, <ref refid="group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3" kindref="member">vrna_file_msa_detect_format()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="29" column="9" bodyfile="ViennaRNA/io/file_formats_msa.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats__msa_1gacf6274a2c825f34e4131404665b00604" prot="public" static="no">
+        <name>VRNA_FILE_FORMAT_MSA_FASTA</name>
+        <initializer>4U</initializer>
+        <briefdescription>
+<para>Option flag indicating FASTA (Pearson) formatted files. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref>, <ref refid="group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799" kindref="member">vrna_file_msa_read_record()</ref>, <ref refid="group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3" kindref="member">vrna_file_msa_detect_format()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="36" column="9" bodyfile="ViennaRNA/io/file_formats_msa.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats__msa_1gab3186d774c01570d2a47d0308eec4927" prot="public" static="no">
+        <name>VRNA_FILE_FORMAT_MSA_MAF</name>
+        <initializer>8U</initializer>
+        <briefdescription>
+<para>Option flag indicating MAF formatted files. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref>, <ref refid="group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799" kindref="member">vrna_file_msa_read_record()</ref>, <ref refid="group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3" kindref="member">vrna_file_msa_detect_format()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="43" column="9" bodyfile="ViennaRNA/io/file_formats_msa.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats__msa_1ga494488a771aa0c602fb4cf445be34d47" prot="public" static="no">
+        <name>VRNA_FILE_FORMAT_MSA_MIS</name>
+        <initializer>16U</initializer>
+        <briefdescription>
+<para>Option flag indicating most informative sequence (MIS) output. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The default reference sequence output for an alignment is simply a consensus sequence. This flag allows to write the most informative equence (MIS) instead.</para>
+<para><simplesect kind="see"><para><ref refid="group__file__formats__msa_1gaccca55b71d34def88e18ed9a51ccb2bf" kindref="member">vrna_file_msa_write()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="53" column="9" bodyfile="ViennaRNA/io/file_formats_msa.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats__msa_1ga4acc255373831856a8417b68de8a94c0" prot="public" static="no">
+        <name>VRNA_FILE_FORMAT_MSA_DEFAULT</name>
+        <initializer>    ( \
+    <ref refid="group__file__formats__msa_1ga79a23de2c7249f2cccd762e475c81859" kindref="member">VRNA_FILE_FORMAT_MSA_CLUSTAL</ref> \
+    | <ref refid="group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b" kindref="member">VRNA_FILE_FORMAT_MSA_STOCKHOLM</ref> \
+    | <ref refid="group__file__formats__msa_1gacf6274a2c825f34e4131404665b00604" kindref="member">VRNA_FILE_FORMAT_MSA_FASTA</ref> \
+    | <ref refid="group__file__formats__msa_1gab3186d774c01570d2a47d0308eec4927" kindref="member">VRNA_FILE_FORMAT_MSA_MAF</ref> \
+    )</initializer>
+        <briefdescription>
+<para>Option flag indicating the set of default file formats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref>, <ref refid="group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799" kindref="member">vrna_file_msa_read_record()</ref>, <ref refid="group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3" kindref="member">vrna_file_msa_detect_format()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="60" column="9" bodyfile="ViennaRNA/io/file_formats_msa.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats__msa_1ga229fb3778ecabea4782902b69fa48fd1" prot="public" static="no">
+        <name>VRNA_FILE_FORMAT_MSA_NOCHECK</name>
+        <initializer>4096U</initializer>
+        <briefdescription>
+<para>Option flag to disable validation of the alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref>, <ref refid="group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799" kindref="member">vrna_file_msa_read_record()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="72" column="9" bodyfile="ViennaRNA/io/file_formats_msa.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats__msa_1gabdc948f547e550125de3e7c65878400c" prot="public" static="no">
+        <name>VRNA_FILE_FORMAT_MSA_UNKNOWN</name>
+        <initializer>8192U</initializer>
+        <briefdescription>
+<para>Return flag of <ref refid="group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3" kindref="member">vrna_file_msa_detect_format()</ref> to indicate unknown or malformatted alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3" kindref="member">vrna_file_msa_detect_format()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="79" column="9" bodyfile="ViennaRNA/io/file_formats_msa.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats__msa_1ga1577ea0f497d9c501549c863a4f2c089" prot="public" static="no">
+        <name>VRNA_FILE_FORMAT_MSA_APPEND</name>
+        <initializer>16384U</initializer>
+        <briefdescription>
+<para>Option flag indicating to append data to a multiple sequence alignment file rather than overwriting it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__file__formats__msa_1gaccca55b71d34def88e18ed9a51ccb2bf" kindref="member">vrna_file_msa_write()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="86" column="9" bodyfile="ViennaRNA/io/file_formats_msa.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats__msa_1ga73aa3701a22c5acfcb2e8927287a0554" prot="public" static="no">
+        <name>VRNA_FILE_FORMAT_MSA_QUIET</name>
+        <initializer>32768U</initializer>
+        <briefdescription>
+<para>Option flag to suppress unnecessary spam messages on <computeroutput>stderr</computeroutput> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref>, <ref refid="group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799" kindref="member">vrna_file_msa_read_record()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="93" column="9" bodyfile="ViennaRNA/io/file_formats_msa.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats__msa_1gad98ca08968d19f221f29d2a1faf26887" prot="public" static="no">
+        <name>VRNA_FILE_FORMAT_MSA_SILENT</name>
+        <initializer>65536U</initializer>
+        <briefdescription>
+<para>Option flag to completely silence any warnings on <computeroutput>stderr</computeroutput> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be" kindref="member">vrna_file_msa_read()</ref>, <ref refid="group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799" kindref="member">vrna_file_msa_read_record()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats_msa.h" line="100" column="9" bodyfile="ViennaRNA/io/file_formats_msa.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

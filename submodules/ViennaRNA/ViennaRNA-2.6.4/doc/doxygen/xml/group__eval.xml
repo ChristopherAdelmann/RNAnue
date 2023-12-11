@@ -1,0 +1,1872 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__eval" kind="group">
+    <compoundname>eval</compoundname>
+    <title>Free Energy Evaluation</title>
+    <innerfile refid="eval_8h">eval.h</innerfile>
+    <innerfile refid="all_8h">all.h</innerfile>
+    <innerfile refid="external_8h">external.h</innerfile>
+    <innerfile refid="hairpin_8h">hairpin.h</innerfile>
+    <innerfile refid="internal_8h">internal.h</innerfile>
+    <innerfile refid="multibranch_8h">multibranch.h</innerfile>
+    <innergroup refid="group__eval__loops">Energy Evaluation for Individual Loops</innergroup>
+    <innergroup refid="group__eval__move">Energy Evaluation for Atomic Moves</innergroup>
+    <innergroup refid="group__eval__deprecated">Deprecated Interface for Free Energy Evaluation</innergroup>
+      <sectiondef kind="user-defined">
+      <header>Basic Energy Evaluation Interface with Dot-Bracket Structure String</header>
+      <memberdef kind="function" id="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_eval_structure</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure)</argsstring>
+        <name>vrna_eval_structure</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows for energy evaluation of a given pair of structure and sequence (alignment). Model details, energy parameters, and possibly soft constraints are used as provided via the parameter &apos;fc&apos;. The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> does not need to contain any DP matrices, but requires all most basic init values as one would get from a call like this: <programlisting filename=".c"><codeline><highlight class="normal">fc<sp/>=<sp/><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound</ref>(sequence,<sp/>NULL,<sp/><ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref>);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Accepts vrna_fold_compound_t of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" kindref="member">VRNA_FC_TYPE_SINGLE</ref> and <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref></para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref>, <ref refid="group__eval_1ga9e8775770750783304d24fe0c4b15293" kindref="member">vrna_eval_structure_pt_verbose()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__eval_1ga40ebcb27ac05241944b570bc7ffd8409" kindref="member">vrna_eval_covar_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000066"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>eval_structure()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.eval_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="76" column="1" declfile="ViennaRNA/eval.h" declline="76" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga40ebcb27ac05241944b570bc7ffd8409" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_eval_covar_structure</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure)</argsstring>
+        <name>vrna_eval_covar_structure</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the pseudo energy derived by the covariance scores of a set of aligned sequences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Consensus structure prediction is driven by covariance scores of base pairs in rows of the provided alignment. This function allows one to retrieve the total amount of this covariance pseudo energy scores. The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> does not need to contain any DP matrices, but requires all most basic init values as one would get from a call like this: <programlisting filename=".c"><codeline><highlight class="normal">fc<sp/>=<sp/><ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative</ref>(alignment,<sp/>NULL,<sp/><ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref>);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Accepts vrna_fold_compound_t of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref> only!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary (consensus) structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The covariance pseudo energy score of the input structure given the input sequence alignment in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000070"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>eval_covar_structure()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.eval_covar_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="101" column="1" declfile="ViennaRNA/eval.h" declline="101" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga4078d8889e54c1f2e832f6c558399498" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_eval_structure_verbose</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure, FILE *file)</argsstring>
+        <name>vrna_eval_structure_verbose</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA and print contributions on a per-loop base. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is a simplyfied version of <ref refid="group__eval_1gaf1fe5f30df6a7a9a1a6c137edcf173d2" kindref="member">vrna_eval_structure_v()</ref> that uses the <emphasis>default</emphasis> verbosity level.</para>
+<para><simplesect kind="see"><para><ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref>, <ref refid="group__eval_1ga9e8775770750783304d24fe0c4b15293" kindref="member">vrna_eval_structure_pt_verbose()</ref>,</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000068"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>eval_structure_verbose()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.eval_structure_verbose()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="119" column="1" declfile="ViennaRNA/eval.h" declline="119" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gaf1fe5f30df6a7a9a1a6c137edcf173d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_eval_structure_v</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_structure_v</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA and print contributions on a per-loop base. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows for detailed energy evaluation of a given sequence/structure pair. In contrast to <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref> this function prints detailed energy contributions based on individual loops to a file handle. If NULL is passed as file handle, this function defaults to print to stdout. Any positive <computeroutput>verbosity_level</computeroutput> activates potential warning message of the energy evaluting functions, while values <formula id="48">$ \ge 1 $</formula> allow for detailed control of what data is printed. A negative parameter <computeroutput>verbosity_level</computeroutput> turns off printing all together.</para>
+<para>Model details, energy parameters, and possibly soft constraints are used as provided via the parameter &apos;fc&apos;. The fold_compound does not need to contain any DP matrices, but all the most basic init values as one would get from a call like this: <programlisting filename=".c"><codeline><highlight class="normal">fc<sp/>=<sp/><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound</ref>(sequence,<sp/>NULL,<sp/><ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref>);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref>, <ref refid="group__eval_1ga9e8775770750783304d24fe0c4b15293" kindref="member">vrna_eval_structure_pt_verbose()</ref>,</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbosity_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The level of verbosity of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in kcal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="150" column="1" declfile="ViennaRNA/eval.h" declline="150" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gad1e50a7f48773295e9da8a789fa43474" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_eval_structure_cstr</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure, int verbosity_level, vrna_cstr_t output_stream)</argsstring>
+        <name>vrna_eval_structure_cstr</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>vrna_cstr_t</type>
+          <declname>output_stream</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="157" column="1" declfile="ViennaRNA/eval.h" declline="157" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Basic Energy Evaluation Interface with Structure Pair Table</header>
+      <memberdef kind="function" id="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_structure_pt</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const short *pt)</argsstring>
+        <name>vrna_eval_structure_pt</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows for energy evaluation of a given sequence/structure pair where the structure is provided in pair_table format as obtained from <ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>. Model details, energy parameters, and possibly soft constraints are used as provided via the parameter &apos;fc&apos;. The fold_compound does not need to contain any DP matrices, but all the most basic init values as one would get from a call like this: <programlisting filename=".c"><codeline><highlight class="normal">fc<sp/>=<sp/><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound</ref>(sequence,<sp/>NULL,<sp/><ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref>);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref>, <ref refid="group__eval_1ga9e8775770750783304d24fe0c4b15293" kindref="member">vrna_eval_structure_pt_verbose()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure as pair_table </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in 10cal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000067"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>eval_structure_pt()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.eval_structure_pt()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="191" column="1" declfile="ViennaRNA/eval.h" declline="191" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga9e8775770750783304d24fe0c4b15293" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_structure_pt_verbose</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const short *pt, FILE *file)</argsstring>
+        <name>vrna_eval_structure_pt_verbose</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is a simplyfied version of <ref refid="group__eval_1gacd6278343e77d13f1d53588e50d303bc" kindref="member">vrna_eval_structure_simple_v()</ref> that uses the <emphasis>default</emphasis> verbosity level.</para>
+<para><simplesect kind="see"><para><ref refid="group__eval_1ga2573093f1546389c1d56cf7ee9d206fb" kindref="member">vrna_eval_structure_pt_v()</ref>, <ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>, <ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure as pair_table </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in 10cal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000069"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>eval_structure_pt_verbose()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.eval_structure_pt_verbose()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="209" column="1" declfile="ViennaRNA/eval.h" declline="209" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga2573093f1546389c1d56cf7ee9d206fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_structure_pt_v</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const short *pt, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_structure_pt_v</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows for energy evaluation of a given sequence/structure pair where the structure is provided in pair_table format as obtained from <ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>. Model details, energy parameters, and possibly soft constraints are used as provided via the parameter &apos;fc&apos;. The fold_compound does not need to contain any DP matrices, but all the most basic init values as one would get from a call like this: <programlisting filename=".c"><codeline><highlight class="normal">fc<sp/>=<sp/><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound</ref>(sequence,<sp/>NULL,<sp/><ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref>);</highlight></codeline>
+</programlisting> In contrast to <ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref> this function prints detailed energy contributions based on individual loops to a file handle. If NULL is passed as file handle, this function defaults to print to stdout. Any positive <computeroutput>verbosity_level</computeroutput> activates potential warning message of the energy evaluting functions, while values <formula id="48">$ \ge 1 $</formula> allow for detailed control of what data is printed. A negative parameter <computeroutput>verbosity_level</computeroutput> turns off printing all together.</para>
+<para><simplesect kind="see"><para><ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>, <ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure as pair_table </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbosity_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The level of verbosity of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in 10cal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="240" column="1" declfile="ViennaRNA/eval.h" declline="240" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Simplified Energy Evaluation with Sequence and Dot-Bracket Strings</header>
+      <memberdef kind="function" id="group__eval_1ga7e5273464b775d4130245681312c1369" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_structure_simple</definition>
+        <argsstring>(const char *string, const char *structure)</argsstring>
+        <name>vrna_eval_structure_simple</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows for energy evaluation of a given sequence/structure pair. In contrast to <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref> this function assumes default model details and default energy parameters in order to evaluate the free energy of the secondary structure. Therefore, it serves as a simple interface function for energy evaluation for situations where no changes on the energy model are required.</para>
+<para><simplesect kind="see"><para><ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref>, <ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref>, <ref refid="group__eval_1ga9e8775770750783304d24fe0c4b15293" kindref="member">vrna_eval_structure_pt_verbose()</ref>,</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000076"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>In the target scripting language, this function serves as a wrapper for <ref refid="group__eval_1gacd6278343e77d13f1d53588e50d303bc" kindref="member">vrna_eval_structure_simple_v()</ref> and, thus, allows for two additional, optional arguments, the verbosity level and a file handle which default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively.. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_structure_simple()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="271" column="1" declfile="ViennaRNA/eval.h" declline="271" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga3e05a23ddf9b083f4e69881e440d4866" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_circ_structure</definition>
+        <argsstring>(const char *string, const char *structure)</argsstring>
+        <name>vrna_eval_circ_structure</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a sequence/structure pair where the sequence is circular. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__eval_1ga7e5273464b775d4130245681312c1369" kindref="member">vrna_eval_structure_simple()</ref>, <ref refid="group__eval_1ga3263504825ef4b523eba797c99921df4" kindref="member">vrna_eval_gquad_structure()</ref>, <ref refid="group__eval_1gac96577cf232c71160f762737a994b7c6" kindref="member">vrna_eval_circ_consensus_structure()</ref>, <ref refid="group__eval_1gac3fb44e0773a51be8efc5f4f595a94a7" kindref="member">vrna_eval_circ_structure_v()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the structure given the circular input sequence in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000077"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>In the target scripting language, this function serves as a wrapper for <ref refid="group__eval_1gac3fb44e0773a51be8efc5f4f595a94a7" kindref="member">vrna_eval_circ_structure_v()</ref> and, thus, allows for two additional, optional arguments, the verbosity level and a file handle which default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively.. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_circ_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="286" column="1" declfile="ViennaRNA/eval.h" declline="286" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga3263504825ef4b523eba797c99921df4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_gquad_structure</definition>
+        <argsstring>(const char *string, const char *structure)</argsstring>
+        <name>vrna_eval_gquad_structure</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a sequence/structure pair where the structure may contain G-Quadruplexes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>G-Quadruplexes are annotated as plus signs (&apos;+&apos;) for each G involved in the motif. Linker sequences must be denoted by dots (&apos;.&apos;) as they are considered unpaired. Below is an example of a 2-layer G-quadruplex: <programlisting filename=".unparsed"><codeline><highlight class="normal">GGAAGGAAAGGAGG</highlight></codeline>
+<codeline><highlight class="normal">++..++...++.++</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="group__eval_1ga7e5273464b775d4130245681312c1369" kindref="member">vrna_eval_structure_simple()</ref>, <ref refid="group__eval_1ga3e05a23ddf9b083f4e69881e440d4866" kindref="member">vrna_eval_circ_structure()</ref>, <ref refid="group__eval_1gaf09a326b3d57a4b30c27bd0e216198ac" kindref="member">vrna_eval_gquad_consensus_structure()</ref>, <ref refid="group__eval_1gaeaa2bdbc1b5d78c667e735fbdff87fff" kindref="member">vrna_eval_gquad_structure_v()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the structure including contributions of G-quadruplexes in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000078"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>In the target scripting language, this function serves as a wrapper for <ref refid="group__eval_1gaeaa2bdbc1b5d78c667e735fbdff87fff" kindref="member">vrna_eval_gquad_structure_v()</ref> and, thus, allows for two additional, optional arguments, the verbosity level and a file handle which default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively.. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_gquad_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="308" column="1" declfile="ViennaRNA/eval.h" declline="308" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga9dba2fc5d7e6ad1359a7c2f350589c0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_circ_gquad_structure</definition>
+        <argsstring>(const char *string, const char *structure)</argsstring>
+        <name>vrna_eval_circ_gquad_structure</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a sequence/structure pair where the sequence is circular and the structure may contain G-Quadruplexes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>G-Quadruplexes are annotated as plus signs (&apos;+&apos;) for each G involved in the motif. Linker sequences must be denoted by dots (&apos;.&apos;) as they are considered unpaired. Below is an example of a 2-layer G-quadruplex: <programlisting filename=".unparsed"><codeline><highlight class="normal">GGAAGGAAAGGAGG</highlight></codeline>
+<codeline><highlight class="normal">++..++...++.++</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="group__eval_1ga7e5273464b775d4130245681312c1369" kindref="member">vrna_eval_structure_simple()</ref>, <ref refid="group__eval_1gac673ebb9ae2a29f54d201e2ac5b85540" kindref="member">vrna_eval_circ_gquad_consensus_structure()</ref>, <ref refid="group__eval_1gab96a6c59923ff06c35f8c2fd2c239727" kindref="member">vrna_eval_circ_gquad_structure_v()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the structure including contributions of G-quadruplexes in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000079"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>In the target scripting language, this function serves as a wrapper for <ref refid="group__eval_1gab96a6c59923ff06c35f8c2fd2c239727" kindref="member">vrna_eval_circ_gquad_structure_v()</ref> and, thus, allows for two additional, optional arguments, the verbosity level and a file handle which default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively.. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_circ_gquad_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="331" column="1" declfile="ViennaRNA/eval.h" declline="331" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga4c2895a7dcd756ef2dc7f76db7c4c53e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_eval_structure_simple_verbose</definition>
+        <argsstring>(const char *string, const char *structure, FILE *file)</argsstring>
+        <name>vrna_eval_structure_simple_verbose</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA and print contributions per loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is a simplyfied version of <ref refid="group__eval_1gacd6278343e77d13f1d53588e50d303bc" kindref="member">vrna_eval_structure_simple_v()</ref> that uses the <emphasis>default</emphasis> verbosity level.</para>
+<para><simplesect kind="see"><para><ref refid="group__eval_1gacd6278343e77d13f1d53588e50d303bc" kindref="member">vrna_eval_structure_simple_v()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref>, <ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref>, <ref refid="group__eval_1ga9e8775770750783304d24fe0c4b15293" kindref="member">vrna_eval_structure_pt_verbose()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in kcal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="350" column="1" declfile="ViennaRNA/eval.h" declline="350" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gacd6278343e77d13f1d53588e50d303bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_structure_simple_v</definition>
+        <argsstring>(const char *string, const char *structure, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_structure_simple_v</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA and print contributions per loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows for detailed energy evaluation of a given sequence/structure pair. In contrast to <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref> this function prints detailed energy contributions based on individual loops to a file handle. If NULL is passed as file handle, this function defaults to print to stdout. Any positive <computeroutput>verbosity_level</computeroutput> activates potential warning message of the energy evaluting functions, while values <formula id="48">$ \ge 1 $</formula> allow for detailed control of what data is printed. A negative parameter <computeroutput>verbosity_level</computeroutput> turns off printing all together.</para>
+<para>In contrast to <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref> this function assumes default model details and default energy parameters in order to evaluate the free energy of the secondary structure. Threefore, it serves as a simple interface function for energy evaluation for situations where no changes on the energy model are required.</para>
+<para><simplesect kind="see"><para><ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref>, <ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref>, <ref refid="group__eval_1ga9e8775770750783304d24fe0c4b15293" kindref="member">vrna_eval_structure_pt_verbose()</ref>,</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbosity_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The level of verbosity of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000084"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloaded version of <ref refid="group__eval_1ga7e5273464b775d4130245681312c1369" kindref="member">vrna_eval_structure_simple()</ref>. The last two arguments for this function are optional and default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_structure_simple()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="379" column="1" declfile="ViennaRNA/eval.h" declline="379" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gac3fb44e0773a51be8efc5f4f595a94a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_circ_structure_v</definition>
+        <argsstring>(const char *string, const char *structure, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_circ_structure_v</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate free energy of a sequence/structure pair, assume sequence to be circular and print contributions per loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is the same as <ref refid="group__eval_1gacd6278343e77d13f1d53588e50d303bc" kindref="member">vrna_eval_structure_simple_v()</ref> but assumes the input sequence to be circularized.</para>
+<para><simplesect kind="see"><para><ref refid="group__eval_1gacd6278343e77d13f1d53588e50d303bc" kindref="member">vrna_eval_structure_simple_v()</ref>, <ref refid="group__eval_1ga3e05a23ddf9b083f4e69881e440d4866" kindref="member">vrna_eval_circ_structure()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbosity_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The level of verbosity of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000085"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloaded version of <ref refid="group__eval_1ga3e05a23ddf9b083f4e69881e440d4866" kindref="member">vrna_eval_circ_structure()</ref>. The last two arguments for this function are optional and default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_circ_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="401" column="1" declfile="ViennaRNA/eval.h" declline="401" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gaeaa2bdbc1b5d78c667e735fbdff87fff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_gquad_structure_v</definition>
+        <argsstring>(const char *string, const char *structure, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_gquad_structure_v</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate free energy of a sequence/structure pair, allow for G-Quadruplexes in the structure and print contributions per loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is the same as <ref refid="group__eval_1gacd6278343e77d13f1d53588e50d303bc" kindref="member">vrna_eval_structure_simple_v()</ref> but allows for annotated G-Quadruplexes in the dot-bracket structure input.</para>
+<para>G-Quadruplexes are annotated as plus signs (&apos;+&apos;) for each G involved in the motif. Linker sequences must be denoted by dots (&apos;.&apos;) as they are considered unpaired. Below is an example of a 2-layer G-quadruplex: <programlisting filename=".unparsed"><codeline><highlight class="normal">GGAAGGAAAGGAGG</highlight></codeline>
+<codeline><highlight class="normal">++..++...++.++</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="group__eval_1gacd6278343e77d13f1d53588e50d303bc" kindref="member">vrna_eval_structure_simple_v()</ref>, <ref refid="group__eval_1ga3263504825ef4b523eba797c99921df4" kindref="member">vrna_eval_gquad_structure()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbosity_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The level of verbosity of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000086"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloaded version of <ref refid="group__eval_1ga3263504825ef4b523eba797c99921df4" kindref="member">vrna_eval_gquad_structure()</ref>. The last two arguments for this function are optional and default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_gquad_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="430" column="1" declfile="ViennaRNA/eval.h" declline="430" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gab96a6c59923ff06c35f8c2fd2c239727" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_circ_gquad_structure_v</definition>
+        <argsstring>(const char *string, const char *structure, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_circ_gquad_structure_v</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate free energy of a sequence/structure pair, assume sequence to be circular, allow for G-Quadruplexes in the structure, and print contributions per loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is the same as <ref refid="group__eval_1gacd6278343e77d13f1d53588e50d303bc" kindref="member">vrna_eval_structure_simple_v()</ref> but assumes the input sequence to be circular and allows for annotated G-Quadruplexes in the dot-bracket structure input.</para>
+<para>G-Quadruplexes are annotated as plus signs (&apos;+&apos;) for each G involved in the motif. Linker sequences must be denoted by dots (&apos;.&apos;) as they are considered unpaired. Below is an example of a 2-layer G-quadruplex: <programlisting filename=".unparsed"><codeline><highlight class="normal">GGAAGGAAAGGAGG</highlight></codeline>
+<codeline><highlight class="normal">++..++...++.++</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbosity_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The level of verbosity of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000087"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloaded version of <ref refid="group__eval_1ga9dba2fc5d7e6ad1359a7c2f350589c0e" kindref="member">vrna_eval_circ_gquad_structure()</ref>. The last two arguments for this function are optional and default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_circ_gquad_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="457" column="1" declfile="ViennaRNA/eval.h" declline="457" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Simplified Energy Evaluation with Sequence Alignments and Consensus Structure Dot-Bracket String</header>
+      <memberdef kind="function" id="group__eval_1ga7762c3a7bdcbc3a14ef93259d322c7d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_consensus_structure_simple</definition>
+        <argsstring>(const char **alignment, const char *structure)</argsstring>
+        <name>vrna_eval_consensus_structure_simple</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA sequence alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows for energy evaluation for a given multiple sequence alignment and consensus structure pair. In contrast to <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref> this function assumes default model details and default energy parameters in order to evaluate the free energy of the secondary structure. Therefore, it serves as a simple interface function for energy evaluation for situations where no changes on the energy model are required.</para>
+<para><simplesect kind="note"><para>The free energy returned from this function already includes the covariation pseudo energies that is used fir comparative structure prediction within this library.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__eval_1ga40ebcb27ac05241944b570bc7ffd8409" kindref="member">vrna_eval_covar_structure()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref>, <ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref>, <ref refid="group__eval_1ga9e8775770750783304d24fe0c4b15293" kindref="member">vrna_eval_structure_pt_verbose()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment in uppercase letters and hyphen (&apos;-&apos;) to denote gaps </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus Secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the consensus structure given the input alignment in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000080"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloadeded version of <ref refid="group__eval_1ga7e5273464b775d4130245681312c1369" kindref="member">vrna_eval_structure_simple()</ref>. Simply pass a sequence alignment as list of strings (including gaps) as first, and the consensus structure as second argument. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_structure_simple()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="494" column="1" declfile="ViennaRNA/eval.h" declline="494" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gac96577cf232c71160f762737a994b7c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_circ_consensus_structure</definition>
+        <argsstring>(const char **alignment, const char *structure)</argsstring>
+        <name>vrna_eval_circ_consensus_structure</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a multiple sequence alignment/consensus structure pair where the sequences are circular. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>The free energy returned from this function already includes the covariation pseudo energies that is used fir comparative structure prediction within this library.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__eval_1ga40ebcb27ac05241944b570bc7ffd8409" kindref="member">vrna_eval_covar_structure()</ref>, <ref refid="group__eval_1ga7762c3a7bdcbc3a14ef93259d322c7d6" kindref="member">vrna_eval_consensus_structure_simple()</ref>, <ref refid="group__eval_1gaf09a326b3d57a4b30c27bd0e216198ac" kindref="member">vrna_eval_gquad_consensus_structure()</ref>, <ref refid="group__eval_1ga3e05a23ddf9b083f4e69881e440d4866" kindref="member">vrna_eval_circ_structure()</ref>, <ref refid="group__eval_1gae89240c230e4740b22a703ee953396b9" kindref="member">vrna_eval_circ_consensus_structure_v()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the consensus structure given the circular input sequence in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000081"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloadeded version of <ref refid="group__eval_1ga3e05a23ddf9b083f4e69881e440d4866" kindref="member">vrna_eval_circ_structure()</ref>. Simply pass a sequence alignment as list of strings (including gaps) as first, and the consensus structure as second argument. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_circ_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="514" column="1" declfile="ViennaRNA/eval.h" declline="514" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gaf09a326b3d57a4b30c27bd0e216198ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_gquad_consensus_structure</definition>
+        <argsstring>(const char **alignment, const char *structure)</argsstring>
+        <name>vrna_eval_gquad_consensus_structure</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a multiple sequence alignment/consensus structure pair where the structure may contain G-Quadruplexes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>G-Quadruplexes are annotated as plus signs (&apos;+&apos;) for each G involved in the motif. Linker sequences must be denoted by dots (&apos;.&apos;) as they are considered unpaired. Below is an example of a 2-layer G-quadruplex: <programlisting filename=".unparsed"><codeline><highlight class="normal">GGAAGGAAAGGAGG</highlight></codeline>
+<codeline><highlight class="normal">++..++...++.++</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>The free energy returned from this function already includes the covariation pseudo energies that is used fir comparative structure prediction within this library.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__eval_1ga40ebcb27ac05241944b570bc7ffd8409" kindref="member">vrna_eval_covar_structure()</ref>, <ref refid="group__eval_1ga7762c3a7bdcbc3a14ef93259d322c7d6" kindref="member">vrna_eval_consensus_structure_simple()</ref>, <ref refid="group__eval_1gac96577cf232c71160f762737a994b7c6" kindref="member">vrna_eval_circ_consensus_structure()</ref>, <ref refid="group__eval_1ga3263504825ef4b523eba797c99921df4" kindref="member">vrna_eval_gquad_structure()</ref>, <ref refid="group__eval_1ga8abc794fc48d43268ced5e8cde017baa" kindref="member">vrna_eval_gquad_consensus_structure_v()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the consensus structure including contributions of G-quadruplexes in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000082"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloadeded version of <ref refid="group__eval_1ga3263504825ef4b523eba797c99921df4" kindref="member">vrna_eval_gquad_structure()</ref>. Simply pass a sequence alignment as list of strings (including gaps) as first, and the consensus structure as second argument. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_gquad_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="541" column="1" declfile="ViennaRNA/eval.h" declline="541" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gac673ebb9ae2a29f54d201e2ac5b85540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_circ_gquad_consensus_structure</definition>
+        <argsstring>(const char **alignment, const char *structure)</argsstring>
+        <name>vrna_eval_circ_gquad_consensus_structure</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a multiple sequence alignment/consensus structure pair where the sequence is circular and the structure may contain G-Quadruplexes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>G-Quadruplexes are annotated as plus signs (&apos;+&apos;) for each G involved in the motif. Linker sequences must be denoted by dots (&apos;.&apos;) as they are considered unpaired. Below is an example of a 2-layer G-quadruplex: <programlisting filename=".unparsed"><codeline><highlight class="normal">GGAAGGAAAGGAGG</highlight></codeline>
+<codeline><highlight class="normal">++..++...++.++</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>The free energy returned from this function already includes the covariation pseudo energies that is used fir comparative structure prediction within this library.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__eval_1ga40ebcb27ac05241944b570bc7ffd8409" kindref="member">vrna_eval_covar_structure()</ref>, <ref refid="group__eval_1ga7762c3a7bdcbc3a14ef93259d322c7d6" kindref="member">vrna_eval_consensus_structure_simple()</ref>, <ref refid="group__eval_1gac96577cf232c71160f762737a994b7c6" kindref="member">vrna_eval_circ_consensus_structure()</ref>, <ref refid="group__eval_1ga3263504825ef4b523eba797c99921df4" kindref="member">vrna_eval_gquad_structure()</ref>, <ref refid="group__eval_1gaecd3e17292a0b3927277434019a5e187" kindref="member">vrna_eval_circ_gquad_consensus_structure_v()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the consensus structure including contributions of G-quadruplexes in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000083"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloadeded version of <ref refid="group__eval_1ga9dba2fc5d7e6ad1359a7c2f350589c0e" kindref="member">vrna_eval_circ_gquad_structure()</ref>. Simply pass a sequence alignment as list of strings (including gaps) as first, and the consensus structure as second argument. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_circ_gquad_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="568" column="1" declfile="ViennaRNA/eval.h" declline="568" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga3e7e57b9b4fafcf739eb6646d45be881" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_eval_consensus_structure_simple_verbose</definition>
+        <argsstring>(const char **alignment, const char *structure, FILE *file)</argsstring>
+        <name>vrna_eval_consensus_structure_simple_verbose</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a consensus structure for an RNA sequence alignment and print contributions per loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is a simplyfied version of <ref refid="group__eval_1gad88927c62ab0a8b534e078e44be1b36e" kindref="member">vrna_eval_consensus_structure_simple_v()</ref> that uses the <emphasis>default</emphasis> verbosity level.</para>
+<para><simplesect kind="note"><para>The free energy returned from this function already includes the covariation pseudo energies that is used fir comparative structure prediction within this library.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__eval_1gad88927c62ab0a8b534e078e44be1b36e" kindref="member">vrna_eval_consensus_structure_simple_v()</ref>, <ref refid="group__eval_1ga4078d8889e54c1f2e832f6c558399498" kindref="member">vrna_eval_structure_verbose()</ref>, <ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref>, <ref refid="group__eval_1ga9e8775770750783304d24fe0c4b15293" kindref="member">vrna_eval_structure_pt_verbose()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment in uppercase letters. Gaps are denoted by hyphens (&apos;-&apos;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the conensus structure given the aligned input sequences in kcal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="592" column="1" declfile="ViennaRNA/eval.h" declline="592" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gad88927c62ab0a8b534e078e44be1b36e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_consensus_structure_simple_v</definition>
+        <argsstring>(const char **alignment, const char *structure, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_consensus_structure_simple_v</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a consensus structure for an RNA sequence alignment and print contributions per loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows for detailed energy evaluation of a given sequence alignment/consensus structure pair. In contrast to <ref refid="group__eval_1ga7762c3a7bdcbc3a14ef93259d322c7d6" kindref="member">vrna_eval_consensus_structure_simple()</ref> this function prints detailed energy contributions based on individual loops to a file handle. If NULL is passed as file handle, this function defaults to print to stdout. Any positive <computeroutput>verbosity_level</computeroutput> activates potential warning message of the energy evaluting functions, while values <formula id="48">$ \ge 1 $</formula> allow for detailed control of what data is printed. A negative parameter <computeroutput>verbosity_level</computeroutput> turns off printing all together.</para>
+<para><simplesect kind="note"><para>The free energy returned from this function already includes the covariation pseudo energies that is used fir comparative structure prediction within this library.</para>
+</simplesect>
+<simplesect kind="see"><para>vrna_eval_consensus_structure(), <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment in uppercase letters. Gaps are denoted by hyphens (&apos;-&apos;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbosity_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The level of verbosity of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the consensus structure given the sequence alignment in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000088"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloaded version of <ref refid="group__eval_1ga7e5273464b775d4130245681312c1369" kindref="member">vrna_eval_structure_simple()</ref>. Simply pass a sequence alignment as list of strings (including gaps) as first, and the consensus structure as second argument. The last two arguments are optional and default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_structure_simple()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="622" column="1" declfile="ViennaRNA/eval.h" declline="622" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gae89240c230e4740b22a703ee953396b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_circ_consensus_structure_v</definition>
+        <argsstring>(const char **alignment, const char *structure, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_circ_consensus_structure_v</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a consensus structure for an alignment of circular RNA sequences and print contributions per loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is identical with <ref refid="group__eval_1gad88927c62ab0a8b534e078e44be1b36e" kindref="member">vrna_eval_consensus_structure_simple_v()</ref> but assumed the aligned sequences to be circular.</para>
+<para><simplesect kind="note"><para>The free energy returned from this function already includes the covariation pseudo energies that is used fir comparative structure prediction within this library.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__eval_1gad88927c62ab0a8b534e078e44be1b36e" kindref="member">vrna_eval_consensus_structure_simple_v()</ref>, <ref refid="group__eval_1gac96577cf232c71160f762737a994b7c6" kindref="member">vrna_eval_circ_consensus_structure()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment in uppercase letters. Gaps are denoted by hyphens (&apos;-&apos;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbosity_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The level of verbosity of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the consensus structure given the sequence alignment in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000089"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloaded version of <ref refid="group__eval_1ga3e05a23ddf9b083f4e69881e440d4866" kindref="member">vrna_eval_circ_structure()</ref>. Simply pass a sequence alignment as list of strings (including gaps) as first, and the consensus structure as second argument. The last two arguments are optional and default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_circ_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="648" column="1" declfile="ViennaRNA/eval.h" declline="648" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga8abc794fc48d43268ced5e8cde017baa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_gquad_consensus_structure_v</definition>
+        <argsstring>(const char **alignment, const char *structure, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_gquad_consensus_structure_v</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a consensus structure for an RNA sequence alignment, allow for annotated G-Quadruplexes in the structure and print contributions per loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is identical with <ref refid="group__eval_1gad88927c62ab0a8b534e078e44be1b36e" kindref="member">vrna_eval_consensus_structure_simple_v()</ref> but allows for annotated G-Quadruplexes in the consensus structure.</para>
+<para>G-Quadruplexes are annotated as plus signs (&apos;+&apos;) for each G involved in the motif. Linker sequences must be denoted by dots (&apos;.&apos;) as they are considered unpaired. Below is an example of a 2-layer G-quadruplex: <programlisting filename=".unparsed"><codeline><highlight class="normal">GGAAGGAAAGGAGG</highlight></codeline>
+<codeline><highlight class="normal">++..++...++.++</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>The free energy returned from this function already includes the covariation pseudo energies that is used fir comparative structure prediction within this library.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__eval_1gad88927c62ab0a8b534e078e44be1b36e" kindref="member">vrna_eval_consensus_structure_simple_v()</ref>, <ref refid="group__eval_1gaf09a326b3d57a4b30c27bd0e216198ac" kindref="member">vrna_eval_gquad_consensus_structure()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment in uppercase letters. Gaps are denoted by hyphens (&apos;-&apos;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbosity_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The level of verbosity of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the consensus structure given the sequence alignment in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000090"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloaded version of <ref refid="group__eval_1ga3263504825ef4b523eba797c99921df4" kindref="member">vrna_eval_gquad_structure()</ref>. Simply pass a sequence alignment as list of strings (including gaps) as first, and the consensus structure as second argument. The last two arguments are optional and default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_gquad_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="681" column="1" declfile="ViennaRNA/eval.h" declline="681" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gaecd3e17292a0b3927277434019a5e187" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>int vrna_eval_circ_gquad_consensus_structure_v</definition>
+        <argsstring>(const char **alignment, const char *structure, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_circ_gquad_consensus_structure_v</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a consensus structure for an alignment of circular RNA sequences, allow for annotated G-Quadruplexes in the structure and print contributions per loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is identical with <ref refid="group__eval_1gad88927c62ab0a8b534e078e44be1b36e" kindref="member">vrna_eval_consensus_structure_simple_v()</ref> but assumes the sequences in the alignment to be circular and allows for annotated G-Quadruplexes in the consensus structure.</para>
+<para>G-Quadruplexes are annotated as plus signs (&apos;+&apos;) for each G involved in the motif. Linker sequences must be denoted by dots (&apos;.&apos;) as they are considered unpaired. Below is an example of a 2-layer G-quadruplex: <programlisting filename=".unparsed"><codeline><highlight class="normal">GGAAGGAAAGGAGG</highlight></codeline>
+<codeline><highlight class="normal">++..++...++.++</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>The free energy returned from this function already includes the covariation pseudo energies that is used fir comparative structure prediction within this library.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__eval_1gad88927c62ab0a8b534e078e44be1b36e" kindref="member">vrna_eval_consensus_structure_simple_v()</ref>, <ref refid="group__eval_1gac673ebb9ae2a29f54d201e2ac5b85540" kindref="member">vrna_eval_circ_gquad_consensus_structure()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment in uppercase letters. Gaps are denoted by hyphens (&apos;-&apos;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbosity_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The level of verbosity of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the consensus structure given the sequence alignment in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000091"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloaded version of <ref refid="group__eval_1ga9dba2fc5d7e6ad1359a7c2f350589c0e" kindref="member">vrna_eval_circ_gquad_structure()</ref>. Simply pass a sequence alignment as list of strings (including gaps) as first, and the consensus structure as second argument. The last two arguments are optional and default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_circ_gquad_structure()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="714" column="1" declfile="ViennaRNA/eval.h" declline="714" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Simplified Energy Evaluation with Sequence String and Structure Pair Table</header>
+      <memberdef kind="function" id="group__eval_1ga0bba59b4d6e53461088666ff4aece7b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_structure_pt_simple</definition>
+        <argsstring>(const char *string, const short *pt)</argsstring>
+        <name>vrna_eval_structure_pt_simple</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>In contrast to <ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref> this function assumes default model details and default energy parameters in order to evaluate the free energy of the secondary structure. Threefore, it serves as a simple interface function for energy evaluation for situations where no changes on the energy model are required.</para>
+<para><simplesect kind="see"><para><ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>, <ref refid="group__eval_1ga7e5273464b775d4130245681312c1369" kindref="member">vrna_eval_structure_simple()</ref>, <ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure as pair_table </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in 10cal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000092"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>In the target scripting language, this function serves as a wrapper for <ref refid="group__eval_1ga2573093f1546389c1d56cf7ee9d206fb" kindref="member">vrna_eval_structure_pt_v()</ref> and, thus, allows for two additional, optional arguments, the verbosity level and a file handle which default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_structure_pt_simple()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="744" column="1" declfile="ViennaRNA/eval.h" declline="744" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga76e152ee9a02be23da14cdddf52b4e44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_structure_pt_simple_verbose</definition>
+        <argsstring>(const char *string, const short *pt, FILE *file)</argsstring>
+        <name>vrna_eval_structure_pt_simple_verbose</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is a simplyfied version of <ref refid="group__eval_1gac40b813d35289da9816d0c1eec94faa5" kindref="member">vrna_eval_structure_pt_simple_v()</ref> that uses the <emphasis>default</emphasis> verbosity level.</para>
+<para><simplesect kind="see"><para><ref refid="group__eval_1gac40b813d35289da9816d0c1eec94faa5" kindref="member">vrna_eval_structure_pt_simple_v()</ref>, <ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>, <ref refid="group__eval_1ga9e8775770750783304d24fe0c4b15293" kindref="member">vrna_eval_structure_pt_verbose()</ref>, <ref refid="group__eval_1ga7e5273464b775d4130245681312c1369" kindref="member">vrna_eval_structure_simple()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure as pair_table </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in 10cal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="762" column="1" declfile="ViennaRNA/eval.h" declline="762" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gac40b813d35289da9816d0c1eec94faa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_structure_pt_simple_v</definition>
+        <argsstring>(const char *string, const short *pt, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_structure_pt_simple_v</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the free energy of an already folded RNA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows for energy evaluation of a given sequence/structure pair where the structure is provided in pair_table format as obtained from <ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>. Model details, energy parameters, and possibly soft constraints are used as provided via the parameter &apos;fc&apos;. The fold_compound does not need to contain any DP matrices, but all the most basic init values as one would get from a call like this: <programlisting filename=".c"><codeline><highlight class="normal">fc<sp/>=<sp/><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound</ref>(sequence,<sp/>NULL,<sp/><ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref>);</highlight></codeline>
+</programlisting> In contrast to <ref refid="group__eval_1ga9e8775770750783304d24fe0c4b15293" kindref="member">vrna_eval_structure_pt_verbose()</ref> this function assumes default model details and default energy parameters in order to evaluate the free energy of the secondary structure. Threefore, it serves as a simple interface function for energy evaluation for situations where no changes on the energy model are required.</para>
+<para><simplesect kind="see"><para><ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>, <ref refid="group__eval_1ga2573093f1546389c1d56cf7ee9d206fb" kindref="member">vrna_eval_structure_pt_v()</ref>, <ref refid="group__eval_1ga7e5273464b775d4130245681312c1369" kindref="member">vrna_eval_structure_simple()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence in uppercase letters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure as pair_table </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbosity_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The level of verbosity of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle where this function should print to (may be NULL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the input structure given the input sequence in 10cal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="792" column="1" declfile="ViennaRNA/eval.h" declline="792" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Simplified Energy Evaluation with Sequence Alignment and Consensus Structure Pair Table</header>
+      <memberdef kind="function" id="group__eval_1gabbb4d2a7aa324ec9cce8f47ce61ab8af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_consensus_structure_pt_simple</definition>
+        <argsstring>(const char **alignment, const short *pt)</argsstring>
+        <name>vrna_eval_consensus_structure_pt_simple</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the Free Energy of a Consensus Secondary Structure given a Sequence Alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>The free energy returned from this function already includes the covariation pseudo energies that is used fir comparative structure prediction within this library.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__eval_1ga7762c3a7bdcbc3a14ef93259d322c7d6" kindref="member">vrna_eval_consensus_structure_simple()</ref>, <ref refid="group__eval_1gaf7227a536cfa4bfd35bf015c865863f6" kindref="member">vrna_eval_structure_pt()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref>, <ref refid="group__eval_1ga40ebcb27ac05241944b570bc7ffd8409" kindref="member">vrna_eval_covar_structure()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment in uppercase letters. Gaps are denoted by hyphens (&apos;-&apos;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in pair table format </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Free energy of the consensus structure in 10cal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000093"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloadeded version of <ref refid="group__eval_1ga0bba59b4d6e53461088666ff4aece7b0" kindref="member">vrna_eval_structure_pt_simple()</ref>. Simply pass a sequence alignment as list of strings (including gaps) as first, and the consensus structure as second argument. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_structure_pt_simple()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="821" column="1" declfile="ViennaRNA/eval.h" declline="821" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1ga2769e4369d023ad2d5c5f4d2ee825c23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_consensus_structure_pt_simple_verbose</definition>
+        <argsstring>(const char **alignment, const short *pt, FILE *file)</argsstring>
+        <name>vrna_eval_consensus_structure_pt_simple_verbose</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="826" column="1" declfile="ViennaRNA/eval.h" declline="826" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval_1gaf2d227b3d54bf9b693a3df52faf5e2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_consensus_structure_pt_simple_v</definition>
+        <argsstring>(const char **alignment, const short *pt, int verbosity_level, FILE *file)</argsstring>
+        <name>vrna_eval_consensus_structure_pt_simple_v</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity_level</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="wrappers_1_wrappers000094"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available through an overloaded version of <ref refid="group__eval_1ga0bba59b4d6e53461088666ff4aece7b0" kindref="member">vrna_eval_structure_pt_simple()</ref>. Simply pass a sequence alignment as list of strings (including gaps) as first, and the consensus structure as second argument. The last two arguments are optional and default to <ref refid="group__eval_1gaf4afe19780b61b4962c613bde324128b" kindref="member">VRNA_VERBOSITY_QUIET</ref> and <computeroutput>NULL</computeroutput>, respectively. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.eval_structure_pt_simple()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="832" column="1" declfile="ViennaRNA/eval.h" declline="832" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__eval_1gaf4afe19780b61b4962c613bde324128b" prot="public" static="no">
+        <name>VRNA_VERBOSITY_QUIET</name>
+        <initializer>-1</initializer>
+        <briefdescription>
+<para>Quiet level verbosity setting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="40" column="9" bodyfile="ViennaRNA/eval.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__eval_1ga47430d9e875084cfb983b22612e3abdf" prot="public" static="no">
+        <name>VRNA_VERBOSITY_DEFAULT</name>
+        <initializer>1</initializer>
+        <briefdescription>
+<para>Default level verbosity setting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="46" column="9" bodyfile="ViennaRNA/eval.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

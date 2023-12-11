@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energy Parameters &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Concepts and Algorithms" href="../api.html" />
+    <link rel="prev" title="Command Files" href="commands.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../io.html">I/O Formats</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rna_structures.html">RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="msa.html">Multiple Sequence Alignments (MSA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html">Command Files</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Energy Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modified-bases">Modified Bases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../io.html">I/O Formats</a></li>
+      <li class="breadcrumb-item active">Energy Parameters</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="energy-parameters">
+<h1>Energy Parameters<a class="headerlink" href="#energy-parameters" title="Link to this heading"></a></h1>
+<section id="modified-bases">
+<h2>Modified Bases<a class="headerlink" href="#modified-bases" title="Link to this heading"></a></h2>
+<p>The functions <a class="reference internal" href="../modified_bases.html#c.vrna_sc_mod" title="vrna_sc_mod"><code class="xref c c-func docutils literal notranslate"><span class="pre">vrna_sc_mod()</span></code></a>, <a class="reference internal" href="../modified_bases.html#c.vrna_sc_mod_json" title="vrna_sc_mod_json"><code class="xref c c-func docutils literal notranslate"><span class="pre">vrna_sc_mod_json()</span></code></a> and alike
+implement an energy correction framework to account for modified bases in the
+secondary structure predictions. To supply these functions with the energy
+parameters and general specifications of the base modification, the following
+<code class="docutils literal notranslate"><span class="pre">JSON</span></code> data format may be used:</p>
+<p>JSON data must consist of a header section <code class="docutils literal notranslate"><span class="pre">modified_bases</span></code> This header
+is an object with the mandatory keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> specifying a name of the modified base</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unmodified</span></code> that consists of a single upper-case letter of the unmodified
+version of this base,</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">one_letter_code</span></code> key to specify which letter is used for the modified
+bases in the subsequent energy parameters, and</p></li>
+<li><p>an array of <cite>pairing_partners`</cite></p></li>
+</ul>
+<p>The latter must be uppercase characters. An optional <code class="docutils literal notranslate"><span class="pre">sources</span></code> key may contain
+an array of related publications, e.g. those the parameters have been derived from.</p>
+<p>Next to the header may follow additional keys to specify the actual energy
+contributions of the modified base in various loop contexts. All energy
+contributions must be specified in free energies <span class="math notranslate nohighlight">\(\Delta G\)</span> in units of
+<span class="math notranslate nohighlight">\(\text{kcal} \cdot \text{mol}^{-1}\)</span>. To allow for rescaling of the free
+energies at temperatures that differ from the default (<span class="math notranslate nohighlight">\(37^\circ C\)</span>),
+enthalpy parameters <span class="math notranslate nohighlight">\(\Delta H\)</span> may be specified as well. Those, however
+are optional. The keys for free energy (at <span class="math notranslate nohighlight">\(37^\circ C\)</span>) and enthalpy
+parameters have the suffixes <code class="docutils literal notranslate"><span class="pre">_energies</span></code> and <code class="docutils literal notranslate"><span class="pre">_enthalpies</span></code>, respectively.</p>
+<p>The parser and underlying framework currently supports the following
+loop contexts:</p>
+<ul>
+<li><p><strong>base pair stacks</strong> (via the <code class="docutils literal notranslate"><span class="pre">stacking</span></code> key prefix).</p>
+<p>This key must point to an object with one key value pair for each
+stacking interaction data is provided for. Here, the key consists
+of four upper-case characters denoting the interacting bases, where
+the the first two represent one strand in 5’ to 3’ direction and the
+last two the opposite strand in 3’ to 5’ direction. The values
+are energies in <span class="math notranslate nohighlight">\(kcal \cdot mol^{-1}\)</span>.</p>
+</li>
+<li><p><strong>terminal mismatches</strong> (via the <code class="docutils literal notranslate"><span class="pre">mismatch</span></code> key prefix).</p>
+<p>This key points to an object with key value pairs for each mismatch
+energy parameter that is available. Keys are 4 characters long
+nucleotide one-letter codes as used in base pair stacks above.
+The second and fourth character denote the two unpaired mismatching
+bases, while the other two represent the closing base pair.</p>
+</li>
+<li><p><strong>dangling ends</strong> (via the <code class="docutils literal notranslate"><span class="pre">dangle5</span></code> and <code class="docutils literal notranslate"><span class="pre">dangle3</span></code> key prefixes).</p>
+<p>The object behind these keys, again, consists of key value pairs
+for each dangling end energy parameter. Keys are 3 characters long
+where the first two represent the two nucleotides that form the
+base pair, and the third is the unpaired base that either stacks
+on the 3’ or 5’ end of the enclosed part of the base pair.</p>
+</li>
+<li><p><strong>terminal pairs</strong> (via the <code class="docutils literal notranslate"><span class="pre">terminal</span></code> key prefix).</p>
+<p>Terminal base pairs, such as AU or GU, sometimes receive an
+additional energy penalty. The object behind this key may
+list energy parameters to apply whenever particular base
+pairs occur at the end of a helix. Each of those parameters
+is specified as key value pair, where the key consists of
+two upper-case characters denoting the terminal base pair.</p>
+</li>
+</ul>
+<p>Below is a JSON template specifying most of the possible input
+parameters. Actual energy parameter files can be found in the
+source code tarball within the <code class="docutils literal notranslate"><span class="pre">misc/</span></code> subdirectory.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;modified_base&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;My modification (M)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sources&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;authors&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Author 1, Author 2&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;title&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UV-melting of modified oligos&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;journal&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Some journal&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;year&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2022</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;doi&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.0000/000000&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;unmodified&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;G&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pairing_partners&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;U&quot;</span><span class="p">,</span><span class="s2">&quot;A&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;one_letter_code&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fallback&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;G&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;stacking_energies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;MAUU&quot;</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="mf">-1.2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;AGMC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="mf">-2.73</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;stacking_enthalpies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;MAUU&quot;</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="mf">-11.1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;AGMC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="mf">-9.73</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;terminal_energies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;MU&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;UM&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;terminal_enthalpies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;MU&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;UM&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;mismatch_energies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;CMGM&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-1.11</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;AGUM&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-0.73</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;mismatch_enthalpies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;CMGM&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-11.11</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;AGUM&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-7.73</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;dangle5_energies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;UAM&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-1.01</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;dangle5_enthalpies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;UAM&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-6.01</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;dangle3_energies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;CGM&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-2.1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;GCM&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-1.3</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>An actual example of real-world data may look like</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;modified_base&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pseudouridine&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sources&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;authors&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Graham A. Hudson, Richard J. Bloomingdale, and Brent M. Znosko&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;title&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Thermodynamic contribution and nearest-neighbor parameters of pseudouridine-adenosine base pairs in oligoribonucleotides&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;journal&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RNA 19:1474-1482&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;year&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2013</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;doi&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.1261/rna.039610.113&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;unmodified&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;U&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pairing_partners&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;A&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;one_letter_code&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fallback&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;U&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;stacking_energies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;APUA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="mf">-2.8</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;CPGA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-2.77</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;GPCA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-3.29</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;UPAA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-1.62</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;PAAU&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-2.10</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;PCAG&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-2.49</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;PGAC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-2.2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;PUAA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-2.74</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;stacking_enthalpies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;APUA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-22.08</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;CPGA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-16.23</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;GPCA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-24.07</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;UPAA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-20.81</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;PAAU&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.47</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;PCAG&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-17.29</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;PGAC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-11.19</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;PUAA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-26.94</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;terminal_energies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;PA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.31</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;AP&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.31</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;terminal_enthalpies&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;PA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-2.04</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;AP&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">-2.04</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;duplexes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;CGAPACGGCUAUGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-9.93</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.12</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGCPACGGCGAUGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.96</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-11.17</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGGPACGGCCAUGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-11.71</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-11.53</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGUPACGGCAAUGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-9.10</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-8.83</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGAPCCGGCUAGGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-11.92</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-11.53</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGCPCCGGCGAGGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.93</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.57</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGGPCCGGCCAGGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.76</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.94</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGUPCCGGCAAGGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-9.76</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.24</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGAPGCGGCUACGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-11.45</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-11.40</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGCPGCGGCGACGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.35</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.45</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGGPGCGGCCACGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.59</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.81</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGUPGCGGCAACGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.34</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.11</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGAPUCGGCUAAGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.42</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.86</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGCPUCGGCGAAGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.06</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-11.91</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGGPUCGGCCAAGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.51</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-12.27</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;CGUPUCGGCAAAGC&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-9.51</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-9.58</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;GCGCAPCGCGUA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-9.90</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-9.71</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;GCGCCPCGCGGA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.63</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.84</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;GCGCGPCGCGCA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.43</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.46</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;GCGCUPCGCGAA&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-8.55</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-8.50</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;PAGCGCAUCGCG&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-8.93</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-8.99</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;PCGCGCAGCGCG&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-9.56</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-9.66</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;PGGCGCACCGCG&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.30</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-10.27</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;PUGCGCAACGCG&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;length1&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;length2&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37&quot;</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="mf">-9.77</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dG37_p&quot;</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mf">-9.65</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="commands.html" class="btn btn-neutral float-left" title="Command Files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../api.html" class="btn btn-neutral float-right" title="Concepts and Algorithms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

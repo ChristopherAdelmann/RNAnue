@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soft Constraints &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The RNA Secondary Structure Landscape" href="../../landscape.html" />
+    <link rel="prev" title="Hard Constraints" href="hard.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../model_details.html">Fine-tuning of the Implemented Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domains_up.html">Unstructured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domains_struc.html">Structured Domains</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../constraints.html">Secondary Structure Constraints</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="hard.html">Hard Constraints</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Soft Constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../constraints.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../constraints.html#general-api-symbols">General API symbols</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../constraints.html#high-level-constraints-interfaces">High Level Constraints Interfaces</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../grammar.html#secondary-structure-folding-recurrences">Secondary Structure Folding Recurrences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../grammar.html#additional-structural-domains">Additional Structural Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../grammar.html#structured-domains">Structured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../grammar.html#unstructured-domains">Unstructured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../grammar.html#domain-extension-api">Domain Extension API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../grammar.html#constraints-on-the-folding-grammar">Constraints on the Folding Grammar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../grammar.html#hard-constraints-api">Hard Constraints API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../grammar.html#soft-constraints-api">Soft Constraints API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../grammar.html">The RNA Folding Grammar</a></li>
+          <li class="breadcrumb-item"><a href="../constraints.html">Secondary Structure Constraints</a></li>
+      <li class="breadcrumb-item active">Soft Constraints</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="soft-constraints">
+<h1>Soft Constraints<a class="headerlink" href="#soft-constraints" title="Link to this heading"></a></h1>
+<p>Functions and data structures for secondary structure soft constraints.</p>
+<p>Soft-constraints are used to change position specific contributions
+in the recursions by adding bonuses/penalties in form of pseudo free energies
+to certain loop configurations.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__soft__constraints"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_sc_t">
+<span class="target" id="group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_sc_s" title="vrna_sc_s"><span class="n"><span class="pre">vrna_sc_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_t</span></span></span><a class="headerlink" href="#c.vrna_sc_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Typename for the soft constraints data structure <a class="reference internal" href="#structvrna__sc__s"><span class="std std-ref">vrna_sc_s</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_sc_f">
+<span class="target" id="group__soft__constraints_1gae2f7ded586b09b12ddaa627eee355a32"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">l</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_sc_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Callback to retrieve pseudo energy contribution for soft constraint feature. </p>
+<p>This is the prototype for callback functions used by the folding recursions to evaluate generic soft constraints. The first four parameters passed indicate the delimiting nucleotide positions of the decomposition, and the parameter <code class="docutils literal notranslate"><span class="pre">denotes</span></code> the decomposition step. The last parameter <code class="docutils literal notranslate"><span class="pre">data</span></code> is the auxiliary data structure associated to the hard constraints via <a class="reference internal" href="#group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e"><span class="std std-ref">vrna_sc_add_data()</span></a>, or NULL if no auxiliary data was added.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../callbacks.html#callbacks_1_callbacks000015"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>This callback enables one to add (pseudo-)energy contributions to individual decompositions of the secondary structure. </p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../constraints.html#group__constraints_1ga8bd41ebc8039378d242e4e8c273716a5"><span class="std std-ref">VRNA_DECOMP_PAIR_HP</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gaeab04f34d7730cff2d651d782f95d857"><span class="std std-ref">VRNA_DECOMP_PAIR_IL</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gaa15b1185673f0b9e900c4748d45f388f"><span class="std std-ref">VRNA_DECOMP_PAIR_ML</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga735517266f2e35e1374b8f1ea77ef23e"><span class="std std-ref">VRNA_DECOMP_ML_ML_ML</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga4a23054c75d8efc785de50e3ea87602f"><span class="std std-ref">VRNA_DECOMP_ML_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga7f4cb9ff7a33e67f0539bd39e7b19a78"><span class="std std-ref">VRNA_DECOMP_ML_ML</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gae6478dda14e50e2f2cb9ef333a29256e"><span class="std std-ref">VRNA_DECOMP_ML_UP</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga63d8ceb8c96ae3b463e529e28cc0fe98"><span class="std std-ref">VRNA_DECOMP_ML_ML_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga4fe48d575830b16c208e280e01ab1497"><span class="std std-ref">VRNA_DECOMP_ML_COAXIAL</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga437adf5115c1999304eff26b41e4c9b6"><span class="std std-ref">VRNA_DECOMP_EXT_EXT</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gaff1ddaffe86d984623910b40cc8a8717"><span class="std std-ref">VRNA_DECOMP_EXT_UP</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gae44b5ace0d9b4a29088069ecb4cec441"><span class="std std-ref">VRNA_DECOMP_EXT_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga803bd818b3f4b2b0a4a5cfa2f7dc2045"><span class="std std-ref">VRNA_DECOMP_EXT_EXT_EXT</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gabb09c5b78b75a44502fc77b950125c1e"><span class="std std-ref">VRNA_DECOMP_EXT_STEM_EXT</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga06efd054c9271438f6d82d4559d9e69f"><span class="std std-ref">VRNA_DECOMP_EXT_EXT_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga2e75d7a77118735b32f25422d9686719"><span class="std std-ref">VRNA_DECOMP_EXT_EXT_STEM1</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689"><span class="std std-ref">vrna_sc_add_f()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e"><span class="std std-ref">vrna_sc_add_exp_f()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd"><span class="std std-ref">vrna_sc_add_bt()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e"><span class="std std-ref">vrna_sc_add_data()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param i<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Left (5’) delimiter position of substructure </p>
+</dd>
+<dt class="field-even">Param j<span class="colon">:</span></dt>
+<dd class="field-even"><p>Right (3’) delimiter position of substructure </p>
+</dd>
+<dt class="field-odd">Param k<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Left delimiter of decomposition </p>
+</dd>
+<dt class="field-even">Param l<span class="colon">:</span></dt>
+<dd class="field-even"><p>Right delimiter of decomposition </p>
+</dd>
+<dt class="field-odd">Param d<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Decomposition step indicator </p>
+</dd>
+<dt class="field-even">Param data<span class="colon">:</span></dt>
+<dd class="field-even"><p>Auxiliary data </p>
+</dd>
+<dt class="field-odd">Return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pseudo energy contribution in deka-kalories per mol </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_sc_exp_f">
+<span class="target" id="group__soft__constraints_1ga562554815b6717091125bf9782532740"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><a class="reference internal" href="../../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_exp_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">l</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_sc_exp_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Callback to retrieve pseudo energy contribution as Boltzmann Factors for soft constraint feature. </p>
+<p>This is the prototype for callback functions used by the partition function recursions to evaluate generic soft constraints. The first four parameters passed indicate the delimiting nucleotide positions of the decomposition, and the parameter <code class="docutils literal notranslate"><span class="pre">denotes</span></code> the decomposition step. The last parameter <code class="docutils literal notranslate"><span class="pre">data</span></code> is the auxiliary data structure associated to the hard constraints via <a class="reference internal" href="#group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e"><span class="std std-ref">vrna_sc_add_data()</span></a>, or NULL if no auxiliary data was added.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../callbacks.html#callbacks_1_callbacks000016"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>This callback enables one to add (pseudo-)energy contributions to individual decompositions of the secondary structure (Partition function variant, i.e. contributions must be returned as Boltzmann factors). </p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../constraints.html#group__constraints_1ga8bd41ebc8039378d242e4e8c273716a5"><span class="std std-ref">VRNA_DECOMP_PAIR_HP</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gaeab04f34d7730cff2d651d782f95d857"><span class="std std-ref">VRNA_DECOMP_PAIR_IL</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gaa15b1185673f0b9e900c4748d45f388f"><span class="std std-ref">VRNA_DECOMP_PAIR_ML</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga735517266f2e35e1374b8f1ea77ef23e"><span class="std std-ref">VRNA_DECOMP_ML_ML_ML</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga4a23054c75d8efc785de50e3ea87602f"><span class="std std-ref">VRNA_DECOMP_ML_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga7f4cb9ff7a33e67f0539bd39e7b19a78"><span class="std std-ref">VRNA_DECOMP_ML_ML</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gae6478dda14e50e2f2cb9ef333a29256e"><span class="std std-ref">VRNA_DECOMP_ML_UP</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga63d8ceb8c96ae3b463e529e28cc0fe98"><span class="std std-ref">VRNA_DECOMP_ML_ML_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga4fe48d575830b16c208e280e01ab1497"><span class="std std-ref">VRNA_DECOMP_ML_COAXIAL</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga437adf5115c1999304eff26b41e4c9b6"><span class="std std-ref">VRNA_DECOMP_EXT_EXT</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gaff1ddaffe86d984623910b40cc8a8717"><span class="std std-ref">VRNA_DECOMP_EXT_UP</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gae44b5ace0d9b4a29088069ecb4cec441"><span class="std std-ref">VRNA_DECOMP_EXT_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga803bd818b3f4b2b0a4a5cfa2f7dc2045"><span class="std std-ref">VRNA_DECOMP_EXT_EXT_EXT</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gabb09c5b78b75a44502fc77b950125c1e"><span class="std std-ref">VRNA_DECOMP_EXT_STEM_EXT</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga06efd054c9271438f6d82d4559d9e69f"><span class="std std-ref">VRNA_DECOMP_EXT_EXT_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga2e75d7a77118735b32f25422d9686719"><span class="std std-ref">VRNA_DECOMP_EXT_EXT_STEM1</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e"><span class="std std-ref">vrna_sc_add_exp_f()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689"><span class="std std-ref">vrna_sc_add_f()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd"><span class="std std-ref">vrna_sc_add_bt()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e"><span class="std std-ref">vrna_sc_add_data()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param i<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Left (5’) delimiter position of substructure </p>
+</dd>
+<dt class="field-even">Param j<span class="colon">:</span></dt>
+<dd class="field-even"><p>Right (3’) delimiter position of substructure </p>
+</dd>
+<dt class="field-odd">Param k<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Left delimiter of decomposition </p>
+</dd>
+<dt class="field-even">Param l<span class="colon">:</span></dt>
+<dd class="field-even"><p>Right delimiter of decomposition </p>
+</dd>
+<dt class="field-odd">Param d<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Decomposition step indicator </p>
+</dd>
+<dt class="field-even">Param data<span class="colon">:</span></dt>
+<dd class="field-even"><p>Auxiliary data </p>
+</dd>
+<dt class="field-odd">Return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pseudo energy contribution in deka-kalories per mol </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_sc_bt_f">
+<span class="target" id="group__soft__constraints_1gaaa010a245ab273cd5c265929ff0b8bbd"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><a class="reference internal" href="../../utils/data_structures.html#c.vrna_basepair_t" title="vrna_basepair_t"><span class="n"><span class="pre">vrna_basepair_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_bt_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">l</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_sc_bt_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Callback to retrieve auxiliary base pairs for soft constraint feature. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../callbacks.html#callbacks_1_callbacks000017"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>This callback enables one to add auxiliary base pairs in the backtracking steps of hairpin- and interior loops. </p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../constraints.html#group__constraints_1ga8bd41ebc8039378d242e4e8c273716a5"><span class="std std-ref">VRNA_DECOMP_PAIR_HP</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gaeab04f34d7730cff2d651d782f95d857"><span class="std std-ref">VRNA_DECOMP_PAIR_IL</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gaa15b1185673f0b9e900c4748d45f388f"><span class="std std-ref">VRNA_DECOMP_PAIR_ML</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga735517266f2e35e1374b8f1ea77ef23e"><span class="std std-ref">VRNA_DECOMP_ML_ML_ML</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga4a23054c75d8efc785de50e3ea87602f"><span class="std std-ref">VRNA_DECOMP_ML_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga7f4cb9ff7a33e67f0539bd39e7b19a78"><span class="std std-ref">VRNA_DECOMP_ML_ML</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gae6478dda14e50e2f2cb9ef333a29256e"><span class="std std-ref">VRNA_DECOMP_ML_UP</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga63d8ceb8c96ae3b463e529e28cc0fe98"><span class="std std-ref">VRNA_DECOMP_ML_ML_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga4fe48d575830b16c208e280e01ab1497"><span class="std std-ref">VRNA_DECOMP_ML_COAXIAL</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga437adf5115c1999304eff26b41e4c9b6"><span class="std std-ref">VRNA_DECOMP_EXT_EXT</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gaff1ddaffe86d984623910b40cc8a8717"><span class="std std-ref">VRNA_DECOMP_EXT_UP</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gae44b5ace0d9b4a29088069ecb4cec441"><span class="std std-ref">VRNA_DECOMP_EXT_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga803bd818b3f4b2b0a4a5cfa2f7dc2045"><span class="std std-ref">VRNA_DECOMP_EXT_EXT_EXT</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1gabb09c5b78b75a44502fc77b950125c1e"><span class="std std-ref">VRNA_DECOMP_EXT_STEM_EXT</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga06efd054c9271438f6d82d4559d9e69f"><span class="std std-ref">VRNA_DECOMP_EXT_EXT_STEM</span></a>, <a class="reference internal" href="../constraints.html#group__constraints_1ga2e75d7a77118735b32f25422d9686719"><span class="std std-ref">VRNA_DECOMP_EXT_EXT_STEM1</span></a>, <a class="reference internal" href="#group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd"><span class="std std-ref">vrna_sc_add_bt()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689"><span class="std std-ref">vrna_sc_add_f()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e"><span class="std std-ref">vrna_sc_add_exp_f()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e"><span class="std std-ref">vrna_sc_add_data()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param i<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Left (5’) delimiter position of substructure </p>
+</dd>
+<dt class="field-even">Param j<span class="colon">:</span></dt>
+<dd class="field-even"><p>Right (3’) delimiter position of substructure </p>
+</dd>
+<dt class="field-odd">Param k<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Left delimiter of decomposition </p>
+</dd>
+<dt class="field-even">Param l<span class="colon">:</span></dt>
+<dd class="field-even"><p>Right delimiter of decomposition </p>
+</dd>
+<dt class="field-odd">Param d<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Decomposition step indicator </p>
+</dd>
+<dt class="field-even">Param data<span class="colon">:</span></dt>
+<dd class="field-even"><p>Auxiliary data </p>
+</dd>
+<dt class="field-odd">Return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of additional base pairs </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_init">
+<span class="target" id="group__soft__constraints_1gab8e024c40f167496df65adfa0db9a9b3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_init</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_init" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Initialize an empty soft constraints data structure within a <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. </p>
+<p>This function adds a proper soft constraints data structure to the <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> data structure. If soft constraints already exist within the fold compound, they are removed.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000045"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">sc_init()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.fold_compound.sc_init" title="RNA.fold_compound.sc_init"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_init()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1ga68900a8a15c83ff352f576b8a298e371"><span class="std std-ref">vrna_sc_set_bp()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gaf6634fa9249945b7cb0e325942d2771b"><span class="std std-ref">vrna_sc_set_up()</span></a>, <a class="reference internal" href="../../probing/SHAPE.html#group__SHAPE__reactivities_1gad609895467d59ea53faac4f98b71c099"><span class="std std-ref">vrna_sc_add_SHAPE_deigan()</span></a>, <a class="reference internal" href="../../probing/SHAPE.html#group__SHAPE__reactivities_1ga5a673837ebe42d790bdf3ccf8982d3dc"><span class="std std-ref">vrna_sc_add_SHAPE_zarringhalam()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gac81478a33880029ca9975bd89cc26fa9"><span class="std std-ref">vrna_sc_remove()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689"><span class="std std-ref">vrna_sc_add_f()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e"><span class="std std-ref">vrna_sc_add_exp_f()</span></a>, vrna_sc_add_pre(), vrna_sc_add_post()</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Accepts vrna_fold_compound_t of type <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a> and <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> where an empty soft constraint feature is to be added to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_set_bp">
+<span class="target" id="group__soft__constraints_1ga68900a8a15c83ff352f576b8a298e371"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_set_bp</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">constraints</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_set_bp" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Set soft constraints for paired nucleotides. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000047"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">sc_set_bp()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.fold_compound.sc_set_bp" title="RNA.fold_compound.sc_set_bp"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_set_bp()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1gac91891f274fe03c2801b21a95fa1b12e"><span class="std std-ref">vrna_sc_add_bp()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gaf6634fa9249945b7cb0e325942d2771b"><span class="std std-ref">vrna_sc_set_up()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gaf99b2e63712bc47106d5b887c915375d"><span class="std std-ref">vrna_sc_add_up()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function replaces any pre-exisitng soft constraints with the ones supplied in <code class="docutils literal notranslate"><span class="pre">constraints</span></code>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> the soft constraints are associated with </p></li>
+<li><p><strong>constraints</strong> – A two-dimensional array of pseudo free energies in <span class="math notranslate nohighlight">\( kcal / mol \)</span></p></li>
+<li><p><strong>options</strong> – The options flag indicating how/where to store the soft constraints </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on successful application of the constraint, 0 otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_add_bp">
+<span class="target" id="group__soft__constraints_1gac91891f274fe03c2801b21a95fa1b12e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_add_bp</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <a class="reference internal" href="../../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="n"><span class="pre">energy</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_add_bp" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Add soft constraints for paired nucleotides. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000048"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as an overloaded method <code class="docutils literal notranslate"><span class="pre">sc_add_bp()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The method either takes arguments for a single base pair (i,j) with the corresponding energy value: </p>
+</dd></dl>
+
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fold_compound</span><span class="o">.</span><span class="n">sc_add_bp</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+ or an entire 2-dimensional matrix with dimensions n x n that stores free energy contributions for any base pair (i,j) with <span class="math notranslate nohighlight">\( 1 \leq i &lt; j \leq n \)</span>: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fold_compound</span><span class="o">.</span><span class="n">sc_add_bp</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+ In both variants, the optional argument <code class="docutils literal notranslate"><span class="pre">options</span></code> defaults to <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4"><span class="std std-ref">VRNA_OPTION_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.fold_compound.sc_add_bp" title="RNA.fold_compound.sc_add_bp"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_add_bp()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. <div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1ga68900a8a15c83ff352f576b8a298e371"><span class="std std-ref">vrna_sc_set_bp()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gaf6634fa9249945b7cb0e325942d2771b"><span class="std std-ref">vrna_sc_set_up()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gaf99b2e63712bc47106d5b887c915375d"><span class="std std-ref">vrna_sc_add_up()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> the soft constraints are associated with </p></li>
+<li><p><strong>i</strong> – The 5’ position of the base pair the soft constraint is added for </p></li>
+<li><p><strong>j</strong> – The 3’ position of the base pair the soft constraint is added for </p></li>
+<li><p><strong>energy</strong> – The free energy (soft-constraint) in <span class="math notranslate nohighlight">\( kcal / mol \)</span></p></li>
+<li><p><strong>options</strong> – The options flag indicating how/where to store the soft constraints </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on successful application of the constraint, 0 otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_set_up">
+<span class="target" id="group__soft__constraints_1gaf6634fa9249945b7cb0e325942d2771b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_set_up</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">constraints</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_set_up" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Set soft constraints for unpaired nucleotides. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000049"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">sc_set_up()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.fold_compound.sc_set_up" title="RNA.fold_compound.sc_set_up"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_set_up()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1gaf99b2e63712bc47106d5b887c915375d"><span class="std std-ref">vrna_sc_add_up()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga68900a8a15c83ff352f576b8a298e371"><span class="std std-ref">vrna_sc_set_bp()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gac91891f274fe03c2801b21a95fa1b12e"><span class="std std-ref">vrna_sc_add_bp()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function replaces any pre-exisitng soft constraints with the ones supplied in <code class="docutils literal notranslate"><span class="pre">constraints</span></code>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> the soft constraints are associated with </p></li>
+<li><p><strong>constraints</strong> – A vector of pseudo free energies in <span class="math notranslate nohighlight">\( kcal / mol \)</span></p></li>
+<li><p><strong>options</strong> – The options flag indicating how/where to store the soft constraints </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on successful application of the constraint, 0 otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_add_up">
+<span class="target" id="group__soft__constraints_1gaf99b2e63712bc47106d5b887c915375d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_add_up</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <a class="reference internal" href="../../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="n"><span class="pre">energy</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_add_up" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Add soft constraints for unpaired nucleotides. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000050"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as an overloaded method <code class="docutils literal notranslate"><span class="pre">sc_add_up()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The method either takes arguments for a single nucleotide <span class="math notranslate nohighlight">\(i \)</span> with the corresponding energy value: </p>
+</dd></dl>
+
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fold_compound</span><span class="o">.</span><span class="n">sc_add_up</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+ or an entire vector that stores free energy contributions for each nucleotide <span class="math notranslate nohighlight">\(i \)</span> with <span class="math notranslate nohighlight">\( 1 \leq i \leq n \)</span>: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fold_compound</span><span class="o">.</span><span class="n">sc_add_bp</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+ In both variants, the optional argument <code class="docutils literal notranslate"><span class="pre">options</span></code> defaults to <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4"><span class="std std-ref">VRNA_OPTION_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.fold_compound.sc_add_up" title="RNA.fold_compound.sc_add_up"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_add_up()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. <div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1gaf6634fa9249945b7cb0e325942d2771b"><span class="std std-ref">vrna_sc_set_up()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gac91891f274fe03c2801b21a95fa1b12e"><span class="std std-ref">vrna_sc_add_bp()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga68900a8a15c83ff352f576b8a298e371"><span class="std std-ref">vrna_sc_set_bp()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> the soft constraints are associated with </p></li>
+<li><p><strong>i</strong> – The nucleotide position the soft constraint is added for </p></li>
+<li><p><strong>energy</strong> – The free energy (soft-constraint) in <span class="math notranslate nohighlight">\( kcal / mol \)</span></p></li>
+<li><p><strong>options</strong> – The options flag indicating how/where to store the soft constraints </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on successful application of the constraint, 0 otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_remove">
+<span class="target" id="group__soft__constraints_1gac81478a33880029ca9975bd89cc26fa9"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_remove</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_remove" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Remove soft constraints from <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000046"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">sc_remove()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.fold_compound.sc_remove" title="RNA.fold_compound.sc_remove"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_remove()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Accepts vrna_fold_compound_t of type <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a> and <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> possibly containing soft constraints</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_free">
+<span class="target" id="group__soft__constraints_1ga6d55446448d69346fc313b993c4fb3e8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_sc_t" title="vrna_sc_t"><span class="n"><span class="pre">vrna_sc_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Free memory occupied by a <a class="reference internal" href="#group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6"><span class="std std-ref">vrna_sc_t</span></a> data structure. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sc</strong> – The data structure to free from memory </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_add_data">
+<span class="target" id="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_add_data</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_auxdata_free_f" title="vrna_auxdata_free_f"><span class="n"><span class="pre">vrna_auxdata_free_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">free_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_add_data" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Add an auxiliary data structure for the generic soft constraints callback function. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000051"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">sc_add_data()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.fold_compound.sc_add_data" title="RNA.fold_compound.sc_add_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_add_data()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689"><span class="std std-ref">vrna_sc_add_f()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e"><span class="std std-ref">vrna_sc_add_exp_f()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd"><span class="std std-ref">vrna_sc_add_bt()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound the generic soft constraint function should be bound to </p></li>
+<li><p><strong>data</strong> – A pointer to the data structure that holds required data for function ‘f’ </p></li>
+<li><p><strong>free_data</strong> – A pointer to a function that free’s the memory occupied by <code class="docutils literal notranslate"><span class="pre">data</span></code> (Maybe NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on successful binding the data (and free-function), 0 otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_add_f">
+<span class="target" id="group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_add_f</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_sc_f" title="vrna_sc_f"><span class="n"><span class="pre">vrna_sc_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">f</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_add_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Bind a function pointer for generic soft constraint feature (MFE version) </p>
+<p>This function allows one to easily bind a function pointer and corresponding data structure to the soft constraint part <a class="reference internal" href="#group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6"><span class="std std-ref">vrna_sc_t</span></a> of the <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. The function for evaluating the generic soft constraint feature has to return a pseudo free energy <span class="math notranslate nohighlight">\( \hat{E} \)</span> in <span class="math notranslate nohighlight">\( dacal/mol \)</span>, where <span class="math notranslate nohighlight">\( 1 dacal/mol = 10 cal/mol \)</span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000052"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">sc_add_f()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.fold_compound.sc_add_f" title="RNA.fold_compound.sc_add_f"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_add_f()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e"><span class="std std-ref">vrna_sc_add_data()</span></a>, <a class="reference internal" href="#group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd"><span class="std std-ref">vrna_sc_add_bt()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e"><span class="std std-ref">vrna_sc_add_exp_f()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound the generic soft constraint function should be bound to </p></li>
+<li><p><strong>f</strong> – A pointer to the function that evaluates the generic soft constraint feature </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on successful binding the callback function, 0 otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_add_bt">
+<span class="target" id="group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_add_bt</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_sc_bt_f" title="vrna_sc_bt_f"><span class="n"><span class="pre">vrna_sc_bt_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">f</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_add_bt" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Bind a backtracking function pointer for generic soft constraint feature. </p>
+<p>This function allows one to easily bind a function pointer to the soft constraint part <a class="reference internal" href="#group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6"><span class="std std-ref">vrna_sc_t</span></a> of the <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. The provided function should be used for backtracking purposes in loop regions that were altered via the generic soft constraint feature. It has to return an array of <a class="reference internal" href="../../utils/data_structures.html#group__data__structures_1gac8c5669d3fb813cacf506489689305ce"><span class="std std-ref">vrna_basepair_t</span></a> data structures, were the last element in the list is indicated by a value of -1 in it’s i position.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000053"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">sc_add_bt()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.fold_compound.sc_add_bt" title="RNA.fold_compound.sc_add_bt"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_add_bt()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e"><span class="std std-ref">vrna_sc_add_data()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689"><span class="std std-ref">vrna_sc_add_f()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e"><span class="std std-ref">vrna_sc_add_exp_f()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound the generic soft constraint function should be bound to </p></li>
+<li><p><strong>f</strong> – A pointer to the function that returns additional base pairs </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on successful binding the callback function, 0 otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_add_exp_f">
+<span class="target" id="group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_add_exp_f</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_sc_exp_f" title="vrna_sc_exp_f"><span class="n"><span class="pre">vrna_sc_exp_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">exp_f</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_add_exp_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em><p>Bind a function pointer for generic soft constraint feature (PF version) </p>
+<p>This function allows one to easily bind a function pointer and corresponding data structure to the soft constraint part <a class="reference internal" href="#group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6"><span class="std std-ref">vrna_sc_t</span></a> of the <a class="reference internal" href="../../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. The function for evaluating the generic soft constraint feature has to return a pseudo free energy <span class="math notranslate nohighlight">\( \hat{E} \)</span> as Boltzmann factor, i.e. <span class="math notranslate nohighlight">\( exp(- \hat{E} / kT) \)</span>. The required unit for <span class="math notranslate nohighlight">\( E \)</span> is <span class="math notranslate nohighlight">\( cal/mol \)</span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000054"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">sc_add_exp_f()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.fold_compound.sc_add_exp_f" title="RNA.fold_compound.sc_add_exp_f"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_add_exp_f()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd"><span class="std std-ref">vrna_sc_add_bt()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689"><span class="std std-ref">vrna_sc_add_f()</span></a>, <a class="reference internal" href="#group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e"><span class="std std-ref">vrna_sc_add_data()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound the generic soft constraint function should be bound to </p></li>
+<li><p><strong>exp_f</strong> – A pointer to the function that evaluates the generic soft constraint feature </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on successful binding the callback function, 0 otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_sc_s">
+<span class="target" id="structvrna__sc__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_s</span></span></span><a class="headerlink" href="#c.vrna_sc_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/constraints/soft.h&gt;</em></div>
+<p>The soft constraints data structure. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.type">
+<span class="target" id="structvrna__sc__s_1a97c2625bd6d1bbdaf8ac440f551d2281"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_sc_type_e</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><a class="headerlink" href="#c.vrna_sc_s.type" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.n">
+<span class="target" id="structvrna__sc__s_1ab47470efd4ee0211ca78641f57009def"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">n</span></span></span><a class="headerlink" href="#c.vrna_sc_s.n" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.state">
+<span class="target" id="structvrna__sc__s_1a0b46b319b627a4de54deabf2358368a9"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">state</span></span></span><a class="headerlink" href="#c.vrna_sc_s.state" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.energy_up">
+<span class="target" id="structvrna__sc__s_1a57e4dbb924ab11f304e3762a3a9b07a1"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">energy_up</span></span></span><a class="headerlink" href="#c.vrna_sc_s.energy_up" title="Link to this definition"></a><br /></dt>
+<dd><p>Energy contribution for stretches of unpaired nucleotides. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.exp_energy_up">
+<span class="target" id="structvrna__sc__s_1ad3b4972d3b6c23865587e4ac56a37375"></span><a class="reference internal" href="../../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">exp_energy_up</span></span></span><a class="headerlink" href="#c.vrna_sc_s.exp_energy_up" title="Link to this definition"></a><br /></dt>
+<dd><p>Boltzmann Factors of the energy contributions for unpaired sequence stretches. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.up_storage">
+<span class="target" id="structvrna__sc__s_1a16c564d3170b7357620860de1e5faed6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">up_storage</span></span></span><a class="headerlink" href="#c.vrna_sc_s.up_storage" title="Link to this definition"></a><br /></dt>
+<dd><p>Storage container for energy contributions per unpaired nucleotide. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.bp_storage">
+<span class="target" id="structvrna__sc__s_1a8e261e29462f6bdba3259e5eb61e48e8"></span><span class="n"><span class="pre">vrna_sc_bp_storage_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">bp_storage</span></span></span><a class="headerlink" href="#c.vrna_sc_s.bp_storage" title="Link to this definition"></a><br /></dt>
+<dd><p>Storage container for energy contributions per base pair. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.energy_bp">
+<span class="target" id="structvrna__sc__s_1ad139b8e06632e00cbcf3909815d0d03d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">energy_bp</span></span></span><a class="headerlink" href="#c.vrna_sc_s.energy_bp" title="Link to this definition"></a><br /></dt>
+<dd><p>Energy contribution for base pairs. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.exp_energy_bp">
+<span class="target" id="structvrna__sc__s_1a62c22be478cd630541c91f73e6cb0d75"></span><a class="reference internal" href="../../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">exp_energy_bp</span></span></span><a class="headerlink" href="#c.vrna_sc_s.exp_energy_bp" title="Link to this definition"></a><br /></dt>
+<dd><p>Boltzmann Factors of the energy contribution for base pairs. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.energy_bp_local">
+<span class="target" id="structvrna__sc__s_1ad939d2511afe7b3db9b802fdeff2bac4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">energy_bp_local</span></span></span><a class="headerlink" href="#c.vrna_sc_s.energy_bp_local" title="Link to this definition"></a><br /></dt>
+<dd><p>Energy contribution for base pairs (sliding window approach) </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.exp_energy_bp_local">
+<span class="target" id="structvrna__sc__s_1a6d882019efc1e09d385ef751765b3a80"></span><a class="reference internal" href="../../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">exp_energy_bp_local</span></span></span><a class="headerlink" href="#c.vrna_sc_s.exp_energy_bp_local" title="Link to this definition"></a><br /></dt>
+<dd><p>Boltzmann Factors of the energy contribution for base pairs (sliding window approach) </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c">
+<span class="target" id="structvrna__sc__s_1ac8bdad53c8b539e4e90c660f0e774e35"></span><span class="sig-name descname"><span class="pre">union</span> <span class="pre">vrna_sc_s</span></span></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.energy_stack">
+<span class="target" id="structvrna__sc__s_1ac20dded6068e81acd0f1139092f66a22"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">energy_stack</span></span></span><a class="headerlink" href="#c.vrna_sc_s.energy_stack" title="Link to this definition"></a><br /></dt>
+<dd><p>Pseudo Energy contribution per base pair involved in a stack. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.exp_energy_stack">
+<span class="target" id="structvrna__sc__s_1a4a0058fe3d5ba3416f0aaab677610115"></span><a class="reference internal" href="../../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">exp_energy_stack</span></span></span><a class="headerlink" href="#c.vrna_sc_s.exp_energy_stack" title="Link to this definition"></a><br /></dt>
+<dd><p>Boltzmann weighted pseudo energy contribution per nucleotide involved in a stack. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.f">
+<span class="target" id="structvrna__sc__s_1a16a4e6c60a18917e0f1f94c1f2670c0a"></span><a class="reference internal" href="#c.vrna_sc_f" title="vrna_sc_f"><span class="n"><span class="pre">vrna_sc_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">f</span></span></span><a class="headerlink" href="#c.vrna_sc_s.f" title="Link to this definition"></a><br /></dt>
+<dd><p>A function pointer used for pseudo energy contribution in MFE calculations. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689"><span class="std std-ref">vrna_sc_add_f()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.bt">
+<span class="target" id="structvrna__sc__s_1af1967d443ba9d6aa285fa5d5f9059d92"></span><a class="reference internal" href="#c.vrna_sc_bt_f" title="vrna_sc_bt_f"><span class="n"><span class="pre">vrna_sc_bt_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bt</span></span></span><a class="headerlink" href="#c.vrna_sc_s.bt" title="Link to this definition"></a><br /></dt>
+<dd><p>A function pointer used to obtain backtraced base pairs in loop regions that were altered by soft constrained pseudo energy contributions. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd"><span class="std std-ref">vrna_sc_add_bt()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.exp_f">
+<span class="target" id="structvrna__sc__s_1a1ff207e74ee11948936a2443bff9813b"></span><a class="reference internal" href="#c.vrna_sc_exp_f" title="vrna_sc_exp_f"><span class="n"><span class="pre">vrna_sc_exp_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">exp_f</span></span></span><a class="headerlink" href="#c.vrna_sc_s.exp_f" title="Link to this definition"></a><br /></dt>
+<dd><p>A function pointer used for pseudo energy contribution boltzmann factors in PF calculations. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e"><span class="std std-ref">vrna_sc_add_exp_f()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.data">
+<span class="target" id="structvrna__sc__s_1a7574680143df97b9029146c2150bf06d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><a class="headerlink" href="#c.vrna_sc_s.data" title="Link to this definition"></a><br /></dt>
+<dd><p>A pointer to the data object provided for for pseudo energy contribution functions of the generic soft constraints feature. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.prepare_data">
+<span class="target" id="structvrna__sc__s_1a7e8e14209f773fab99d4e25493ee07d0"></span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_auxdata_prepare_f" title="vrna_auxdata_prepare_f"><span class="n"><span class="pre">vrna_auxdata_prepare_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">prepare_data</span></span></span><a class="headerlink" href="#c.vrna_sc_s.prepare_data" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sc_s.free_data">
+<span class="target" id="structvrna__sc__s_1ade4aac85657ebb03c5cba6514df2cca0"></span><a class="reference internal" href="../../utils/datastructures/fold_compound.html#c.vrna_auxdata_free_f" title="vrna_auxdata_free_f"><span class="n"><span class="pre">vrna_auxdata_free_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">free_data</span></span></span><a class="headerlink" href="#c.vrna_sc_s.free_data" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="hard.html" class="btn btn-neutral float-left" title="Hard Constraints" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../landscape.html" class="btn btn-neutral float-right" title="The RNA Secondary Structure Landscape" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

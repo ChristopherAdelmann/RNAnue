@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loading / Saving Energy Parameter Sets &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Converting Energy Parameter Files" href="convert.html" />
+    <link rel="prev" title="Salt Corrections" href="salt.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../eval_loops.html">Energy Evaluation for Individual Loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eval_move.html">Energy Evaluation for Atomic Moves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eval_structures.html">Evaluation of Structures</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../energy_parameters.html">Energy Parameters</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="salt.html">Salt Corrections</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Loading / Saving Energy Parameter Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="convert.html">Converting Energy Parameter Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../energy_parameters.html#available-parameter-sets">Available Parameter Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../energy_parameters.html#energy-parameter-api">Energy Parameter API</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../eval_deprecated.html">Deprecated Interface for Free Energy Evaluation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../eval.html#loop-decomposition">Loop Decomposition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../eval.html#fine-tuning-of-the-evaluation-model">Fine-tuning of the Evaluation Model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../eval.html">Free Energy Evaluation</a></li>
+          <li class="breadcrumb-item"><a href="../energy_parameters.html">Energy Parameters</a></li>
+      <li class="breadcrumb-item active">Loading / Saving Energy Parameter Sets</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="loading-saving-energy-parameter-sets">
+<h1>Loading / Saving Energy Parameter Sets<a class="headerlink" href="#loading-saving-energy-parameter-sets" title="Link to this heading"></a></h1>
+<p>Read and Write energy parameter sets from and to files or strings</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__energy__parameters__rw"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PARAMETER_FORMAT_DEFAULT">
+<span class="target" id="group__energy__parameters__rw_1ga2d46720ac5bf0e56ce0dbbff459667d2"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PARAMETER_FORMAT_DEFAULT</span></span></span><a class="headerlink" href="#c.VRNA_PARAMETER_FORMAT_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Default Energy Parameter File format. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gabcd9cc7040a6b633b56b1cbd6a14d68e"><span class="std std-ref">vrna_params_load_from_string()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-enums">Enums</p>
+<dl class="c enum">
+<dt class="sig sig-object c" id="c.parset">
+<span class="target" id="group__energy__parameters__rw_1ga7bf2bb363bcf5ce50d60255d256e5682"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parset</span></span></span><a class="headerlink" href="#c.parset" title="Link to this definition"></a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.UNKNOWN">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a6ce26a62afab55d7606ad4e92428b30c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UNKNOWN</span></span></span><a class="headerlink" href="#c.parset.UNKNOWN" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.QUIT">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a76bdc8adfd6c6463ab269ff4c06be9b4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QUIT</span></span></span><a class="headerlink" href="#c.parset.QUIT" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.S">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682af1ce01387d2348f8b858721a7db81670"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">S</span></span></span><a class="headerlink" href="#c.parset.S" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.S_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682ae1f521d6cb3b00b6c4dbe42ec526926f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">S_H</span></span></span><a class="headerlink" href="#c.parset.S_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.HP">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a3b47f547ec1200c4854206be912c2c4c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HP</span></span></span><a class="headerlink" href="#c.parset.HP" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.HP_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a511a3fcf662ed1bedd6e50bbf9693041"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HP_H</span></span></span><a class="headerlink" href="#c.parset.HP_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.B">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a3f2a77ecd272aa6d6b5902faa5e5fc68"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">B</span></span></span><a class="headerlink" href="#c.parset.B" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.B_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a019826668fa75e445746726aace50b96"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">B_H</span></span></span><a class="headerlink" href="#c.parset.B_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.IL">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682aa4c436132f18c991292ad07fe2fbbd46"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IL</span></span></span><a class="headerlink" href="#c.parset.IL" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.IL_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a9f2a1b5f221520d546698d957e653080"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IL_H</span></span></span><a class="headerlink" href="#c.parset.IL_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MMH">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a6fa7436f35d08e2fa94d414f8be36145"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MMH</span></span></span><a class="headerlink" href="#c.parset.MMH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MMH_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682aa48db87a064cfdd22bde4ee4320a2a72"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MMH_H</span></span></span><a class="headerlink" href="#c.parset.MMH_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MMI">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a24d12acc0725d15ccecb34f0f0b25df7"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MMI</span></span></span><a class="headerlink" href="#c.parset.MMI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MMI_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682ac1325a6137ab07244106df6477b146cb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MMI_H</span></span></span><a class="headerlink" href="#c.parset.MMI_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MMI1N">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a2a87595b7bc9c421a92d2335a38921be"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MMI1N</span></span></span><a class="headerlink" href="#c.parset.MMI1N" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MMI1N_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682ae0e3bfa002ade2b8f909b52598dfa4af"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MMI1N_H</span></span></span><a class="headerlink" href="#c.parset.MMI1N_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MMI23">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a15bcd1ce5d91ad0209d3947205c9cd37"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MMI23</span></span></span><a class="headerlink" href="#c.parset.MMI23" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MMI23_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a4f57a2f9b66ed6524a629d91841e8d66"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MMI23_H</span></span></span><a class="headerlink" href="#c.parset.MMI23_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MMM">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a94238d66fd2dc72950407a908db0c3c1"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MMM</span></span></span><a class="headerlink" href="#c.parset.MMM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MMM_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a8547b16d4ea4f460c3ad3444c7326887"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MMM_H</span></span></span><a class="headerlink" href="#c.parset.MMM_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MME">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a104b87bd084bcabeb666af63ca609c9f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MME</span></span></span><a class="headerlink" href="#c.parset.MME" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MME_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682af2afcec538843f0877ec5ce9720bc1e9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MME_H</span></span></span><a class="headerlink" href="#c.parset.MME_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.D5">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a9bfc9615ce2836fe43fe37e0eda2a68a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">D5</span></span></span><a class="headerlink" href="#c.parset.D5" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.D5_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a9107c311da59f65e04053ae3a8b9b443"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">D5_H</span></span></span><a class="headerlink" href="#c.parset.D5_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.D3">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682ade8ef7573c5fa770f07ac7616cbf5d34"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">D3</span></span></span><a class="headerlink" href="#c.parset.D3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.D3_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a74fd1bb58d8b533e0a70f1609d59b8cf"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">D3_H</span></span></span><a class="headerlink" href="#c.parset.D3_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.INT11">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682ad852245f105685db67b11f2d8ee36dee"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">INT11</span></span></span><a class="headerlink" href="#c.parset.INT11" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.INT11_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a9db2fd49a2484e406757005de60c0155"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">INT11_H</span></span></span><a class="headerlink" href="#c.parset.INT11_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.INT21">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682af056796af7b26c9a40101915d03e23ad"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">INT21</span></span></span><a class="headerlink" href="#c.parset.INT21" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.INT21_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682abc2cc90fb7f664817def63b07a9f1b95"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">INT21_H</span></span></span><a class="headerlink" href="#c.parset.INT21_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.INT22">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a6f7a79af5633b0ef773730b3c78b7920"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">INT22</span></span></span><a class="headerlink" href="#c.parset.INT22" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.INT22_H">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a8a370d06c036da9da38797c119326b1a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">INT22_H</span></span></span><a class="headerlink" href="#c.parset.INT22_H" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.ML">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682a96795f73b23b0c8607ad96746efc6540"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ML</span></span></span><a class="headerlink" href="#c.parset.ML" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.TL">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682aca301a4c4fa25b27fff84becdd631048"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TL</span></span></span><a class="headerlink" href="#c.parset.TL" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.TRI">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682acde3f260abb10fb9633e1ca01de9e78d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TRI</span></span></span><a class="headerlink" href="#c.parset.TRI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.HEX">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682ad3c20094c5fe3327350484d01c44c137"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HEX</span></span></span><a class="headerlink" href="#c.parset.HEX" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.NIN">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682acd3f0e23689c384d9c43644a9c2eccc0"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NIN</span></span></span><a class="headerlink" href="#c.parset.NIN" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.parset.MISC">
+<span class="target" id="group__energy__parameters__rw_1gga7bf2bb363bcf5ce50d60255d256e5682ac598b9c49caca3da6b36b030315b7ce9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MISC</span></span></span><a class="headerlink" href="#c.parset.MISC" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_load">
+<span class="target" id="group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_load</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_load" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Load energy parameters from a file. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000135"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded function <code class="docutils literal notranslate"><span class="pre">params_load</span></code>(fname=””, options=<a class="reference internal" href="#group__energy__parameters__rw_1ga2d46720ac5bf0e56ce0dbbff459667d2"><span class="std std-ref">VRNA_PARAMETER_FORMAT_DEFAULT</span></a>). Here, the empty filename string indicates to load default RNA parameters, i.e. this is equivalent to calling <a class="reference internal" href="#group__energy__parameters__rw_1ga413bc688695c9a707dbcc678412d6792"><span class="std std-ref">vrna_params_load_defaults()</span></a>. See, e.g.  <span><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.fold_compound.params_load()</span></code> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabcd9cc7040a6b633b56b1cbd6a14d68e"><span class="std std-ref">vrna_params_load_from_string()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga413bc688695c9a707dbcc678412d6792"><span class="std std-ref">vrna_params_load_defaults()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga7327fe66ef60c33ba80a87c04db0ee83"><span class="std std-ref">vrna_params_load_RNA_Turner2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga804393b6dfe06a2c6cae89219dffabb1"><span class="std std-ref">vrna_params_load_RNA_Turner1999()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga511a1c17c0fd10a1fbb0936674712ff8"><span class="std std-ref">vrna_params_load_RNA_Andronescu2007()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga3a87fe5e73eb906c0fa26f2c42c787fd"><span class="std std-ref">vrna_params_load_RNA_Langdon2018()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga00e07504d66dc24aca7befb4bdaa0db1"><span class="std std-ref">vrna_params_load_RNA_misc_special_hairpins()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gafa45b5734355baa634ca0a2e2857563e"><span class="std std-ref">vrna_params_load_DNA_Mathews2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga4d897130a700f86b7d4035a95f25615a"><span class="std std-ref">vrna_params_load_DNA_Mathews1999()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> – The path to the file containing the energy parameters </p></li>
+<li><p><strong>options</strong> – File format bit-mask (usually <a class="reference internal" href="#group__energy__parameters__rw_1ga2d46720ac5bf0e56ce0dbbff459667d2"><span class="std std-ref">VRNA_PARAMETER_FORMAT_DEFAULT</span></a>) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on success, 0 on failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_save">
+<span class="target" id="group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_save</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_save" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Save energy parameters to a file. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000136"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded function <code class="docutils literal notranslate"><span class="pre">params_save</span></code>(fname, options=<a class="reference internal" href="#group__energy__parameters__rw_1ga2d46720ac5bf0e56ce0dbbff459667d2"><span class="std std-ref">VRNA_PARAMETER_FORMAT_DEFAULT</span></a>). See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.params_save" title="RNA.params_save"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.params_save()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> – A filename (path) for the file where the current energy parameters will be written to </p></li>
+<li><p><strong>options</strong> – File format bit-mask (usually <a class="reference internal" href="#group__energy__parameters__rw_1ga2d46720ac5bf0e56ce0dbbff459667d2"><span class="std std-ref">VRNA_PARAMETER_FORMAT_DEFAULT</span></a>) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on success, 0 on failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_load_from_string">
+<span class="target" id="group__energy__parameters__rw_1gabcd9cc7040a6b633b56b1cbd6a14d68e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_load_from_string</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_load_from_string" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Load energy paramters from string. </p>
+<p>The string must follow the default energy parameter file convention! The optional <code class="docutils literal notranslate"><span class="pre">name</span></code> argument allows one to specify a name for the parameter set which is stored internally.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000137"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded function <code class="docutils literal notranslate"><span class="pre">params_load_from_string</span></code>(string, name=””, options=<a class="reference internal" href="#group__energy__parameters__rw_1ga2d46720ac5bf0e56ce0dbbff459667d2"><span class="std std-ref">VRNA_PARAMETER_FORMAT_DEFAULT</span></a>). See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.params_load_from_string" title="RNA.params_load_from_string"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.params_load_from_string()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga413bc688695c9a707dbcc678412d6792"><span class="std std-ref">vrna_params_load_defaults()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga7327fe66ef60c33ba80a87c04db0ee83"><span class="std std-ref">vrna_params_load_RNA_Turner2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga804393b6dfe06a2c6cae89219dffabb1"><span class="std std-ref">vrna_params_load_RNA_Turner1999()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga511a1c17c0fd10a1fbb0936674712ff8"><span class="std std-ref">vrna_params_load_RNA_Andronescu2007()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga3a87fe5e73eb906c0fa26f2c42c787fd"><span class="std std-ref">vrna_params_load_RNA_Langdon2018()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga00e07504d66dc24aca7befb4bdaa0db1"><span class="std std-ref">vrna_params_load_RNA_misc_special_hairpins()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gafa45b5734355baa634ca0a2e2857563e"><span class="std std-ref">vrna_params_load_DNA_Mathews2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga4d897130a700f86b7d4035a95f25615a"><span class="std std-ref">vrna_params_load_DNA_Mathews1999()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – A 0-terminated string containing energy parameters </p></li>
+<li><p><strong>name</strong> – A name for the parameter set in <code class="docutils literal notranslate"><span class="pre">string</span></code> (Maybe <code class="docutils literal notranslate"><span class="pre">NULL</span></code>) </p></li>
+<li><p><strong>options</strong> – File format bit-mask (usually <a class="reference internal" href="#group__energy__parameters__rw_1ga2d46720ac5bf0e56ce0dbbff459667d2"><span class="std std-ref">VRNA_PARAMETER_FORMAT_DEFAULT</span></a>) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on success, 0 on failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_load_defaults">
+<span class="target" id="group__energy__parameters__rw_1ga413bc688695c9a707dbcc678412d6792"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_load_defaults</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_load_defaults" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Load default RNA energy parameter set. </p>
+<p>This is a convenience function to load the Turner 2004 RNA free energy parameters. It’s the same as calling <a class="reference internal" href="#group__energy__parameters__rw_1ga7327fe66ef60c33ba80a87c04db0ee83"><span class="std std-ref">vrna_params_load_RNA_Turner2004()</span></a></p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000138"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded function <code class="docutils literal notranslate"><span class="pre">params_load()</span></code>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.params_load" title="RNA.params_load"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.params_load()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gabcd9cc7040a6b633b56b1cbd6a14d68e"><span class="std std-ref">vrna_params_load_from_string()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga7327fe66ef60c33ba80a87c04db0ee83"><span class="std std-ref">vrna_params_load_RNA_Turner2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga804393b6dfe06a2c6cae89219dffabb1"><span class="std std-ref">vrna_params_load_RNA_Turner1999()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga511a1c17c0fd10a1fbb0936674712ff8"><span class="std std-ref">vrna_params_load_RNA_Andronescu2007()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga3a87fe5e73eb906c0fa26f2c42c787fd"><span class="std std-ref">vrna_params_load_RNA_Langdon2018()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga00e07504d66dc24aca7befb4bdaa0db1"><span class="std std-ref">vrna_params_load_RNA_misc_special_hairpins()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gafa45b5734355baa634ca0a2e2857563e"><span class="std std-ref">vrna_params_load_DNA_Mathews2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga4d897130a700f86b7d4035a95f25615a"><span class="std std-ref">vrna_params_load_DNA_Mathews1999()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Non-zero on success, 0 on failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_load_RNA_Turner2004">
+<span class="target" id="group__energy__parameters__rw_1ga7327fe66ef60c33ba80a87c04db0ee83"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_load_RNA_Turner2004</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_load_RNA_Turner2004" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Load Turner 2004 RNA energy parameter set. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000139"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><span class="pre">params_load_RNA_Turner2004()</span></code>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.params_load_RNA_Turner2004" title="RNA.params_load_RNA_Turner2004"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.params_load_RNA_Turner2004()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gabcd9cc7040a6b633b56b1cbd6a14d68e"><span class="std std-ref">vrna_params_load_from_string()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga413bc688695c9a707dbcc678412d6792"><span class="std std-ref">vrna_params_load_defaults()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga804393b6dfe06a2c6cae89219dffabb1"><span class="std std-ref">vrna_params_load_RNA_Turner1999()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga511a1c17c0fd10a1fbb0936674712ff8"><span class="std std-ref">vrna_params_load_RNA_Andronescu2007()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga3a87fe5e73eb906c0fa26f2c42c787fd"><span class="std std-ref">vrna_params_load_RNA_Langdon2018()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga00e07504d66dc24aca7befb4bdaa0db1"><span class="std std-ref">vrna_params_load_RNA_misc_special_hairpins()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gafa45b5734355baa634ca0a2e2857563e"><span class="std std-ref">vrna_params_load_DNA_Mathews2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga4d897130a700f86b7d4035a95f25615a"><span class="std std-ref">vrna_params_load_DNA_Mathews1999()</span></a></p>
+</div>
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function also resets the default geometric parameters as stored in <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> to those of RNA. Only subsequently initialized <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> structures will be affected by this change.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Non-zero on success, 0 on failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_load_RNA_Turner1999">
+<span class="target" id="group__energy__parameters__rw_1ga804393b6dfe06a2c6cae89219dffabb1"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_load_RNA_Turner1999</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_load_RNA_Turner1999" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Load Turner 1999 RNA energy parameter set. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000140"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><span class="pre">params_load_RNA_Turner1999()</span></code>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.params_load_RNA_Turner1999" title="RNA.params_load_RNA_Turner1999"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.params_load_RNA_Turner1999()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gabcd9cc7040a6b633b56b1cbd6a14d68e"><span class="std std-ref">vrna_params_load_from_string()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga7327fe66ef60c33ba80a87c04db0ee83"><span class="std std-ref">vrna_params_load_RNA_Turner2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga413bc688695c9a707dbcc678412d6792"><span class="std std-ref">vrna_params_load_defaults()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga511a1c17c0fd10a1fbb0936674712ff8"><span class="std std-ref">vrna_params_load_RNA_Andronescu2007()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga3a87fe5e73eb906c0fa26f2c42c787fd"><span class="std std-ref">vrna_params_load_RNA_Langdon2018()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga00e07504d66dc24aca7befb4bdaa0db1"><span class="std std-ref">vrna_params_load_RNA_misc_special_hairpins()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gafa45b5734355baa634ca0a2e2857563e"><span class="std std-ref">vrna_params_load_DNA_Mathews2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga4d897130a700f86b7d4035a95f25615a"><span class="std std-ref">vrna_params_load_DNA_Mathews1999()</span></a></p>
+</div>
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function also resets the default geometric parameters as stored in <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> to those of RNA. Only subsequently initialized <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> structures will be affected by this change.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Non-zero on success, 0 on failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_load_RNA_Andronescu2007">
+<span class="target" id="group__energy__parameters__rw_1ga511a1c17c0fd10a1fbb0936674712ff8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_load_RNA_Andronescu2007</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_load_RNA_Andronescu2007" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Load Andronsecu 2007 RNA energy parameter set. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000141"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><span class="pre">params_load_RNA_Andronescu2007()</span></code>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.params_load_RNA_Andronescu2007" title="RNA.params_load_RNA_Andronescu2007"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.params_load_RNA_Andronescu2007()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gabcd9cc7040a6b633b56b1cbd6a14d68e"><span class="std std-ref">vrna_params_load_from_string()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga7327fe66ef60c33ba80a87c04db0ee83"><span class="std std-ref">vrna_params_load_RNA_Turner2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga804393b6dfe06a2c6cae89219dffabb1"><span class="std std-ref">vrna_params_load_RNA_Turner1999()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga413bc688695c9a707dbcc678412d6792"><span class="std std-ref">vrna_params_load_defaults()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga3a87fe5e73eb906c0fa26f2c42c787fd"><span class="std std-ref">vrna_params_load_RNA_Langdon2018()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga00e07504d66dc24aca7befb4bdaa0db1"><span class="std std-ref">vrna_params_load_RNA_misc_special_hairpins()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gafa45b5734355baa634ca0a2e2857563e"><span class="std std-ref">vrna_params_load_DNA_Mathews2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga4d897130a700f86b7d4035a95f25615a"><span class="std std-ref">vrna_params_load_DNA_Mathews1999()</span></a></p>
+</div>
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function also resets the default geometric parameters as stored in <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> to those of RNA. Only subsequently initialized <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> structures will be affected by this change.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Non-zero on success, 0 on failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_load_RNA_Langdon2018">
+<span class="target" id="group__energy__parameters__rw_1ga3a87fe5e73eb906c0fa26f2c42c787fd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_load_RNA_Langdon2018</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_load_RNA_Langdon2018" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Load Langdon 2018 RNA energy parameter set. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000142"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><span class="pre">params_load_RNA_Langdon2018()</span></code>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.params_load_RNA_Langdon2018" title="RNA.params_load_RNA_Langdon2018"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.params_load_RNA_Langdon2018()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gabcd9cc7040a6b633b56b1cbd6a14d68e"><span class="std std-ref">vrna_params_load_from_string()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga7327fe66ef60c33ba80a87c04db0ee83"><span class="std std-ref">vrna_params_load_RNA_Turner2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga804393b6dfe06a2c6cae89219dffabb1"><span class="std std-ref">vrna_params_load_RNA_Turner1999()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga511a1c17c0fd10a1fbb0936674712ff8"><span class="std std-ref">vrna_params_load_RNA_Andronescu2007()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga413bc688695c9a707dbcc678412d6792"><span class="std std-ref">vrna_params_load_defaults()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga00e07504d66dc24aca7befb4bdaa0db1"><span class="std std-ref">vrna_params_load_RNA_misc_special_hairpins()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gafa45b5734355baa634ca0a2e2857563e"><span class="std std-ref">vrna_params_load_DNA_Mathews2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga4d897130a700f86b7d4035a95f25615a"><span class="std std-ref">vrna_params_load_DNA_Mathews1999()</span></a></p>
+</div>
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function also resets the default geometric parameters as stored in <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> to those of RNA. Only subsequently initialized <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> structures will be affected by this change.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Non-zero on success, 0 on failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_load_RNA_misc_special_hairpins">
+<span class="target" id="group__energy__parameters__rw_1ga00e07504d66dc24aca7befb4bdaa0db1"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_load_RNA_misc_special_hairpins</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_load_RNA_misc_special_hairpins" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Load Misc Special Hairpin RNA energy parameter set. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000143"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><span class="pre">params_load_RNA_misc_special_hairpins()</span></code>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.params_load_RNA_misc_special_hairpins" title="RNA.params_load_RNA_misc_special_hairpins"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.params_load_RNA_misc_special_hairpins()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gabcd9cc7040a6b633b56b1cbd6a14d68e"><span class="std std-ref">vrna_params_load_from_string()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga7327fe66ef60c33ba80a87c04db0ee83"><span class="std std-ref">vrna_params_load_RNA_Turner2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga804393b6dfe06a2c6cae89219dffabb1"><span class="std std-ref">vrna_params_load_RNA_Turner1999()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga511a1c17c0fd10a1fbb0936674712ff8"><span class="std std-ref">vrna_params_load_RNA_Andronescu2007()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga3a87fe5e73eb906c0fa26f2c42c787fd"><span class="std std-ref">vrna_params_load_RNA_Langdon2018()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga413bc688695c9a707dbcc678412d6792"><span class="std std-ref">vrna_params_load_defaults()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gafa45b5734355baa634ca0a2e2857563e"><span class="std std-ref">vrna_params_load_DNA_Mathews2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga4d897130a700f86b7d4035a95f25615a"><span class="std std-ref">vrna_params_load_DNA_Mathews1999()</span></a></p>
+</div>
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function also resets the default geometric parameters as stored in <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> to those of RNA. Only subsequently initialized <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> structures will be affected by this change.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Non-zero on success, 0 on failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_load_DNA_Mathews2004">
+<span class="target" id="group__energy__parameters__rw_1gafa45b5734355baa634ca0a2e2857563e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_load_DNA_Mathews2004</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_load_DNA_Mathews2004" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Load Mathews 2004 DNA energy parameter set. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000144"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><span class="pre">params_load_DNA_Mathews2004()</span></code>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.params_load_DNA_Mathews2004" title="RNA.params_load_DNA_Mathews2004"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.params_load_DNA_Mathews2004()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gabcd9cc7040a6b633b56b1cbd6a14d68e"><span class="std std-ref">vrna_params_load_from_string()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga7327fe66ef60c33ba80a87c04db0ee83"><span class="std std-ref">vrna_params_load_RNA_Turner2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga804393b6dfe06a2c6cae89219dffabb1"><span class="std std-ref">vrna_params_load_RNA_Turner1999()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga511a1c17c0fd10a1fbb0936674712ff8"><span class="std std-ref">vrna_params_load_RNA_Andronescu2007()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga3a87fe5e73eb906c0fa26f2c42c787fd"><span class="std std-ref">vrna_params_load_RNA_Langdon2018()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga00e07504d66dc24aca7befb4bdaa0db1"><span class="std std-ref">vrna_params_load_RNA_misc_special_hairpins()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga413bc688695c9a707dbcc678412d6792"><span class="std std-ref">vrna_params_load_defaults()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga4d897130a700f86b7d4035a95f25615a"><span class="std std-ref">vrna_params_load_DNA_Mathews1999()</span></a></p>
+</div>
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function also resets the default geometric parameters as stored in <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> to those of DNA. Only subsequently initialized <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> structures will be affected by this change.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Non-zero on success, 0 on failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_load_DNA_Mathews1999">
+<span class="target" id="group__energy__parameters__rw_1ga4d897130a700f86b7d4035a95f25615a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_load_DNA_Mathews1999</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_load_DNA_Mathews1999" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Load Mathews 1999 DNA energy parameter set. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000145"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><span class="pre">params_load_DNA_Mathews1999()</span></code>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.params_load_DNA_Mathews1999" title="RNA.params_load_DNA_Mathews1999"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.params_load_DNA_Mathews1999()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gabcd9cc7040a6b633b56b1cbd6a14d68e"><span class="std std-ref">vrna_params_load_from_string()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga7327fe66ef60c33ba80a87c04db0ee83"><span class="std std-ref">vrna_params_load_RNA_Turner2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga804393b6dfe06a2c6cae89219dffabb1"><span class="std std-ref">vrna_params_load_RNA_Turner1999()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga511a1c17c0fd10a1fbb0936674712ff8"><span class="std std-ref">vrna_params_load_RNA_Andronescu2007()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga3a87fe5e73eb906c0fa26f2c42c787fd"><span class="std std-ref">vrna_params_load_RNA_Langdon2018()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga00e07504d66dc24aca7befb4bdaa0db1"><span class="std std-ref">vrna_params_load_RNA_misc_special_hairpins()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1gafa45b5734355baa634ca0a2e2857563e"><span class="std std-ref">vrna_params_load_DNA_Mathews2004()</span></a>, <a class="reference internal" href="#group__energy__parameters__rw_1ga413bc688695c9a707dbcc678412d6792"><span class="std std-ref">vrna_params_load_defaults()</span></a></p>
+</div>
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function also resets the default geometric parameters as stored in <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> to those of DNA. Only subsequently initialized <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> structures will be affected by this change.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Non-zero on success, 0 on failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.last_parameter_file">
+<span class="target" id="group__energy__parameters__rw_1gaa236318707a7c17e1323e43d5b2783a8"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">last_parameter_file</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.last_parameter_file" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Get the file name of the parameter file that was most recently loaded. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The file name of the last parameter file, or NULL if parameters are still at defaults </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.read_parameter_file">
+<span class="target" id="group__energy__parameters__rw_1ga165a142a3c68fb6655c69ef4ab7cd749"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_parameter_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.read_parameter_file" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Read energy parameters from a file. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000154"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__energy__parameters__rw_1gabb0583595c67094986ef90cb4f1c7555"><span class="std std-ref">vrna_params_load()</span></a> instead! </p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> – The path to the file containing the energy parameters </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.write_parameter_file">
+<span class="target" id="group__energy__parameters__rw_1ga8a43459be386a7489feeab68dc2c6c76"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_parameter_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.write_parameter_file" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em><p>Write energy parameters to a file. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000155"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__energy__parameters__rw_1ga0de3731b3e4017c52bd678549f6c4ae5"><span class="std std-ref">vrna_params_save()</span></a> instead! </p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> – A filename (path) for the file where the current energy parameters will be written to </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gettype">
+<span class="target" id="group__energy__parameters__rw_1gaaab17a97b765b302b16f7b9eb4004801"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><a class="reference internal" href="#c.parset" title="parset"><span class="n"><span class="pre">parset</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gettype</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ident</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gettype" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.settype">
+<span class="target" id="group__energy__parameters__rw_1ga0bf80f844de39676b24adbe658dc01fd"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">settype</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><a class="reference internal" href="#c.parset" title="parset"><span class="n"><span class="pre">parset</span></span></a><span class="w"> </span><span class="n"><span class="pre">s</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.settype" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/io.h&gt;</em></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="salt.html" class="btn btn-neutral float-left" title="Salt Corrections" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="convert.html" class="btn btn-neutral float-right" title="Converting Energy Parameter Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

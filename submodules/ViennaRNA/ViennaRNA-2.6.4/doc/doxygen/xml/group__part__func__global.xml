@@ -1,0 +1,510 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__part__func__global" kind="group">
+    <compoundname>part_func_global</compoundname>
+    <title>Global Partition Function and Equilibrium Probabilities</title>
+    <innerfile refid="part__func_8h">part_func.h</innerfile>
+    <innerclass refid="structvrna__dimer__pf__s" prot="public">vrna_dimer_pf_s</innerclass>
+    <innerclass refid="structvrna__multimer__pf__s" prot="public">vrna_multimer_pf_s</innerclass>
+    <innergroup refid="group__kl__neighborhood__pf">Computing Partition Functions of a Distance Based Partitioning</innergroup>
+    <innergroup refid="group__thermodynamics">Predicting various thermodynamic properties</innergroup>
+    <innergroup refid="group__part__func__global__deprecated">Deprecated Interface for Global Partition Function Computation</innergroup>
+      <sectiondef kind="user-defined">
+      <header>Basic global partition function interface</header>
+      <memberdef kind="function" id="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref></type>
+        <definition>float vrna_pf</definition>
+        <argsstring>(vrna_fold_compound_t *fc, char *structure)</argsstring>
+        <name>vrna_pf</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Compute the partition function <formula id="63">$Q$</formula> for a given RNA sequence, or sequence alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If <emphasis>structure</emphasis> is not a NULL pointer on input, it contains on return a string consisting of the letters &quot; . , | { } ( ) &quot; denoting bases that are essentially unpaired, weakly paired, strongly paired without preference, weakly upstream (downstream) paired, or strongly up- (down-)stream paired bases, respectively. If the model&apos;s compute_bpp is set to 0 base pairing probabilities will not be computed (saving CPU time), otherwise after calculations took place <ref refid="fold__vars_8h_1ac98ec419070aee6831b44e5c700f090f" kindref="member">pr</ref> will contain the probability that bases <emphasis>i</emphasis> and <emphasis>j</emphasis> pair.</para>
+<para><simplesect kind="note"><para>This function is polymorphic. It accepts <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" kindref="member">VRNA_FC_TYPE_SINGLE</ref>, and <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref>. Also, this function may return INF / 100. in case of contradicting constraints or numerical over-/underflow. In the latter case, a corresponding warning will be issued to <computeroutput>stdout</computeroutput>.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__part__func__global_1gac4a2a74a79e49818bc35412a2b392c7e" kindref="member">vrna_pf_fold()</ref>, <ref refid="group__part__func__global_1ga87e5a77b6e50dd54e9d032a9b92973be" kindref="member">vrna_pf_circfold()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__part__func__global_1ga374e31a0f326b2c5da5b84e143a63f38" kindref="member">vrna_pf_alifold()</ref>, <ref refid="group__part__func__global_1gab70fe6c9a78b79cc5669881720926e1d" kindref="member">vrna_pf_circalifold()</ref>, <ref refid="group__struct__utils_1gacb5f1fafaf20eaf6a63052153499f0bb" kindref="member">vrna_db_from_probs()</ref>, <ref refid="group__energy__parameters_1ga049c8196ed6b9af9f13c633f0fe7acc0" kindref="member">vrna_exp_params()</ref>, <ref refid="group__aln__utils_1gaac78a02d9939e68d570ff296547ff519" kindref="member">vrna_aln_pinfo()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound data structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where position-wise pairing propensity will be stored. (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The ensemble free energy <formula id="64">$G = -RT \cdot \log(Q) $</formula> in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000146"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>pf()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.pf()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="115" column="1" declfile="ViennaRNA/part_func.h" declline="115" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__global_1gae796019c176a158f0e9d7741a85c1743" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__pf__cofold_1ga444df1587c9a2ca15b8eb25188f629c3" kindref="member">vrna_dimer_pf_t</ref></type>
+        <definition>vrna_dimer_pf_t vrna_pf_dimer</definition>
+        <argsstring>(vrna_fold_compound_t *fc, char *structure)</argsstring>
+        <name>vrna_pf_dimer</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Calculate partition function and base pair probabilities of nucleic acid/nucleic acid dimers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the cofold partition function folding.</para>
+<para><simplesect kind="note"><para>This function may return INF / 100. for the <computeroutput>FA</computeroutput>, <computeroutput>FB</computeroutput>, <computeroutput>FAB</computeroutput>, <computeroutput>F0AB</computeroutput> members of the output data structure in case of contradicting constraints or numerical over-/underflow. In the latter case, a corresponding warning will be issued to <computeroutput>stdout</computeroutput>.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref> for how to retrieve the necessary data structure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the fold compound data structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Will hold the structure or constraints </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>vrna_dimer_pf_t structure containing a set of energies needed for concentration computations.</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000147"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>pf_dimer()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.pf_dimer()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="138" column="1" declfile="ViennaRNA/part_func.h" declline="138" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__global_1ga62ecd03a44e6572e42d3a1454575e07a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref> *</type>
+        <definition>FLT_OR_DBL * vrna_pf_substrands</definition>
+        <argsstring>(vrna_fold_compound_t *fc, size_t complex_size)</argsstring>
+        <name>vrna_pf_substrands</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>complex_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="143" column="1" declfile="ViennaRNA/part_func.h" declline="143" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__global_1ga712a2644d65adac165ccaf2a537fc541" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref></type>
+        <definition>FLT_OR_DBL vrna_pf_add</definition>
+        <argsstring>(FLT_OR_DBL dG1, FLT_OR_DBL dG2, double kT)</argsstring>
+        <name>vrna_pf_add</name>
+        <param>
+          <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref></type>
+          <declname>dG1</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref></type>
+          <declname>dG2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>kT</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="147" column="1" declfile="ViennaRNA/part_func.h" declline="147" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Simplified global partition function computation using sequence(s) or multiple sequence alignment(s)</header>
+      <memberdef kind="function" id="group__part__func__global_1gac4a2a74a79e49818bc35412a2b392c7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_pf_fold</definition>
+        <argsstring>(const char *sequence, char *structure, vrna_ep_t **pl)</argsstring>
+        <name>vrna_pf_fold</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> **</type>
+          <declname>pl</declname>
+        </param>
+        <briefdescription>
+<para>Compute Partition function <formula id="63">$Q$</formula> (and base pair probabilities) for an RNA sequence using a comparative method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref> computes the partition function and, if required, base pair probabilities for an RNA sequence using default options. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__part__func__global_1ga87e5a77b6e50dd54e9d032a9b92973be" kindref="member">vrna_pf_circfold()</ref>, <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where position-wise pairing propensity will be stored. (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a list of <ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> to store pairing probabilities (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The ensemble free energy <formula id="64">$G = -RT \cdot \log(Q) $</formula> in kcal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="181" column="1" declfile="ViennaRNA/part_func.h" declline="181" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__global_1ga87e5a77b6e50dd54e9d032a9b92973be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_pf_circfold</definition>
+        <argsstring>(const char *sequence, char *structure, vrna_ep_t **pl)</argsstring>
+        <name>vrna_pf_circfold</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> **</type>
+          <declname>pl</declname>
+        </param>
+        <briefdescription>
+<para>Compute Partition function <formula id="63">$Q$</formula> (and base pair probabilities) for a circular RNA sequences using a comparative method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref> computes the partition function and, if required, base pair probabilities for a circular RNA sequence using default options. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+Folding of circular RNA sequences is handled as a post-processing step of the forward recursions. See  <verbatim>embed:rst:inline :cite:t:`hofacker:2006` </verbatim> for further details.</para>
+<para><simplesect kind="see"><para><ref refid="group__part__func__global_1gac4a2a74a79e49818bc35412a2b392c7e" kindref="member">vrna_pf_fold()</ref>, <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A circular RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where position-wise pairing propensity will be stored. (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a list of <ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> to store pairing probabilities (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The ensemble free energy <formula id="64">$G = -RT \cdot \log(Q) $</formula> in kcal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="211" column="1" declfile="ViennaRNA/part_func.h" declline="211" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__global_1ga374e31a0f326b2c5da5b84e143a63f38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_pf_alifold</definition>
+        <argsstring>(const char **sequences, char *structure, vrna_ep_t **pl)</argsstring>
+        <name>vrna_pf_alifold</name>
+        <param>
+          <type>const char **</type>
+          <declname>sequences</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> **</type>
+          <declname>pl</declname>
+        </param>
+        <briefdescription>
+<para>Compute Partition function <formula id="63">$Q$</formula> (and base pair probabilities) for an RNA sequence alignment using a comparative method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref> computes the partition function and, if required, base pair probabilities for an RNA sequence alignment using default options. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__part__func__global_1gab70fe6c9a78b79cc5669881720926e1d" kindref="member">vrna_pf_circalifold()</ref>, <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where position-wise pairing propensity will be stored. (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a list of <ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> to store pairing probabilities (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The ensemble free energy <formula id="64">$G = -RT \cdot \log(Q) $</formula> in kcal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="238" column="1" declfile="ViennaRNA/part_func.h" declline="238" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__global_1gab70fe6c9a78b79cc5669881720926e1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_pf_circalifold</definition>
+        <argsstring>(const char **sequences, char *structure, vrna_ep_t **pl)</argsstring>
+        <name>vrna_pf_circalifold</name>
+        <param>
+          <type>const char **</type>
+          <declname>sequences</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> **</type>
+          <declname>pl</declname>
+        </param>
+        <briefdescription>
+<para>Compute Partition function <formula id="63">$Q$</formula> (and base pair probabilities) for an alignment of circular RNA sequences using a comparative method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref> computes the partition function and, if required, base pair probabilities for an RNA sequence alignment using default options. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+Folding of circular RNA sequences is handled as a post-processing step of the forward recursions. See  <verbatim>embed:rst:inline :cite:t:`hofacker:2006` </verbatim> for further details.</para>
+<para><simplesect kind="see"><para><ref refid="group__part__func__global_1ga374e31a0f326b2c5da5b84e143a63f38" kindref="member">vrna_pf_alifold()</ref>, <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sequence alignment of circular RNAs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where position-wise pairing propensity will be stored. (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a list of <ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> to store pairing probabilities (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The ensemble free energy <formula id="64">$G = -RT \cdot \log(Q) $</formula> in kcal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="268" column="1" declfile="ViennaRNA/part_func.h" declline="268" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__global_1gaf2b846f7ac382686f35ff7b9202fdd5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__pf__cofold_1ga444df1587c9a2ca15b8eb25188f629c3" kindref="member">vrna_dimer_pf_t</ref></type>
+        <definition>vrna_dimer_pf_t vrna_pf_co_fold</definition>
+        <argsstring>(const char *seq, char *structure, vrna_ep_t **pl)</argsstring>
+        <name>vrna_pf_co_fold</name>
+        <param>
+          <type>const char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> **</type>
+          <declname>pl</declname>
+        </param>
+        <briefdescription>
+<para>Calculate partition function and base pair probabilities of nucleic acid/nucleic acid dimers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__part__func__global_1gae796019c176a158f0e9d7741a85c1743" kindref="member">vrna_pf_dimer()</ref> computes the partition function and, if required, base pair probabilities for an RNA-RNA interaction using default options. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__part__func__global_1gae796019c176a158f0e9d7741a85c1743" kindref="member">vrna_pf_dimer()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__part__func__global_1gae796019c176a158f0e9d7741a85c1743" kindref="member">vrna_pf_dimer()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Two concatenated RNA sequences with a delimiting &apos;&amp;&apos; in between </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where position-wise pairing propensity will be stored. (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a list of <ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> to store pairing probabilities (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>vrna_dimer_pf_t structure containing a set of energies needed for concentration computations. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="300" column="1" declfile="ViennaRNA/part_func.h" declline="300" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__part__func__global_1ga2d1b1c2e37abe57911ce647123c8ae06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+        <definition>vrna_ep_t * vrna_plist_from_probs</definition>
+        <argsstring>(vrna_fold_compound_t *fc, double cut_off)</argsstring>
+        <name>vrna_plist_from_probs</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>cut_off</declname>
+        </param>
+        <briefdescription>
+<para>Create a <ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> from base pair probability matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The probability matrix provided via the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> is parsed and all pair probabilities above the given threshold are used to create an entry in the plist</para>
+<para>The end of the plist is marked by sequence positions i as well as j equal to 0. This condition should be used to stop looping over its entries</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cut_off</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The cutoff value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the plist that is to be created </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="507" column="11" declfile="ViennaRNA/utils/structures.h" declline="507" declcolumn="11"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

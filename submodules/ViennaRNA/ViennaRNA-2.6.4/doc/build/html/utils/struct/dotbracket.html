@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dot-Bracket Notation of Secondary Structures &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Washington University Secondary Structure (WUSS) notation" href="wuss.html" />
+    <link rel="prev" title="Secondary Structure Utilities" href="../structures.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../structures.html">Secondary Structure Utilities</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Dot-Bracket Notation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wuss.html">Washington University Secondary Structure (WUSS) notation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pairtable.html">Pair Table Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plist.html">Pair List Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="abstract_shapes.html">Abstract Shapes Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="helix_list.html">Helix List Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trees.html">Tree Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="metrics.html">Distance measures between Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deprecated.html">Deprecated Interface for Secondary Structure Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../io.html">Files and I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../structures.html">Secondary Structure Utilities</a></li>
+      <li class="breadcrumb-item active">Dot-Bracket Notation of Secondary Structures</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dot-bracket-notation-of-secondary-structures">
+<h1>Dot-Bracket Notation of Secondary Structures<a class="headerlink" href="#dot-bracket-notation-of-secondary-structures" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__struct__utils__dot__bracket"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_BRACKETS_ALPHA">
+<span class="target" id="group__struct__utils__dot__bracket_1ga7e3f630af8d69bb0e917145aacf2f96d"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_BRACKETS_ALPHA</span></span></span><a class="headerlink" href="#c.VRNA_BRACKETS_ALPHA" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Bitflag to indicate secondary structure notations using uppercase/lowercase letters from the latin alphabet. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148"><span class="std std-ref">vrna_ptable_from_string()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_BRACKETS_RND">
+<span class="target" id="group__struct__utils__dot__bracket_1gac92d5fa7c6625bce2670ece510a24fbd"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_BRACKETS_RND</span></span></span><a class="headerlink" href="#c.VRNA_BRACKETS_RND" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Bitflag to indicate secondary structure notations using round brackets (parenthesis), <code class="docutils literal notranslate"><span class="pre">()</span></code></p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148"><span class="std std-ref">vrna_ptable_from_string()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gafd1304f5a86e2e3f1425e725cde44fa2"><span class="std std-ref">vrna_db_flatten()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga690425199c8b71545e7196e3af1436f8"><span class="std std-ref">vrna_db_flatten_to()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_BRACKETS_CLY">
+<span class="target" id="group__struct__utils__dot__bracket_1gaf41be40e79cb756c4e0bb8edb4d803d2"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_BRACKETS_CLY</span></span></span><a class="headerlink" href="#c.VRNA_BRACKETS_CLY" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Bitflag to indicate secondary structure notations using curly brackets, <code class="docutils literal notranslate"><span class="pre">{}</span></code></p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148"><span class="std std-ref">vrna_ptable_from_string()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gafd1304f5a86e2e3f1425e725cde44fa2"><span class="std std-ref">vrna_db_flatten()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga690425199c8b71545e7196e3af1436f8"><span class="std std-ref">vrna_db_flatten_to()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_BRACKETS_ANG">
+<span class="target" id="group__struct__utils__dot__bracket_1ga863e03f7f73f10fc9bbcbefbdda4bec8"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_BRACKETS_ANG</span></span></span><a class="headerlink" href="#c.VRNA_BRACKETS_ANG" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Bitflag to indicate secondary structure notations using angular brackets, <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code></p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148"><span class="std std-ref">vrna_ptable_from_string()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gafd1304f5a86e2e3f1425e725cde44fa2"><span class="std std-ref">vrna_db_flatten()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga690425199c8b71545e7196e3af1436f8"><span class="std std-ref">vrna_db_flatten_to()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_BRACKETS_SQR">
+<span class="target" id="group__struct__utils__dot__bracket_1ga60525d61d7496eeea490a37f3d6bf757"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_BRACKETS_SQR</span></span></span><a class="headerlink" href="#c.VRNA_BRACKETS_SQR" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Bitflag to indicate secondary structure notations using square brackets, <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148"><span class="std std-ref">vrna_ptable_from_string()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gafd1304f5a86e2e3f1425e725cde44fa2"><span class="std std-ref">vrna_db_flatten()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga690425199c8b71545e7196e3af1436f8"><span class="std std-ref">vrna_db_flatten_to()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_BRACKETS_DEFAULT">
+<span class="target" id="group__struct__utils__dot__bracket_1ga559ebf76b1b289f85309f4206e99aa1a"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_BRACKETS_DEFAULT</span></span></span><a class="headerlink" href="#c.VRNA_BRACKETS_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Default bitmask to indicate secondary structure notation using any pair of brackets. </p>
+<p>This set of matching brackets/parenthesis is always nested, i.e. pseudo-knot free, in WUSS format. However, in general different kinds of brackets are mostly used for annotating pseudo-knots. Thus special care has to be taken to remove pseudo-knots if this bitmask is used in functions that return secondary structures without pseudo-knots!</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148"><span class="std std-ref">vrna_ptable_from_string()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gafd1304f5a86e2e3f1425e725cde44fa2"><span class="std std-ref">vrna_db_flatten()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga690425199c8b71545e7196e3af1436f8"><span class="std std-ref">vrna_db_flatten_to()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga97dbebaa3fc49524cf5afa338a6c52ee"><span class="std std-ref">vrna_db_pk_remove()</span></a> <a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1ga41fab98dc67b6b8d0e2332e7ae08fd14"><span class="std std-ref">vrna_pt_pk_remove()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_BRACKETS_ANY">
+<span class="target" id="group__struct__utils__dot__bracket_1ga013a9da903462d2f2b037f0c6ffb46e4"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_BRACKETS_ANY</span></span></span><a class="headerlink" href="#c.VRNA_BRACKETS_ANY" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Bitmask to indicate secondary structure notation using any pair of brackets or uppercase/lowercase alphabet letters. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148"><span class="std std-ref">vrna_ptable_from_string()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga97dbebaa3fc49524cf5afa338a6c52ee"><span class="std std-ref">vrna_db_pk_remove()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gafd1304f5a86e2e3f1425e725cde44fa2"><span class="std std-ref">vrna_db_flatten()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga690425199c8b71545e7196e3af1436f8"><span class="std std-ref">vrna_db_flatten_to()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_db_pack">
+<span class="target" id="group__struct__utils__dot__bracket_1ga9db9613100e9f750017d3e13a874bb7d"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_db_pack</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">struc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_db_pack" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Pack secondary secondary structure, 5:1 compression using base 3 encoding. </p>
+<p>Returns a binary string encoding of the secondary structure using a 5:1 compression scheme. The string is NULL terminated and can therefore be used with standard string functions such as strcmp(). Useful for programs that need to keep many structures in memory.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__dot__bracket_1ga9c8c7296b5bb75f7d32c20dc004eb723"><span class="std std-ref">vrna_db_unpack()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>struc</strong> – The secondary structure in dot-bracket notation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The binary encoded structure </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_db_unpack">
+<span class="target" id="group__struct__utils__dot__bracket_1ga9c8c7296b5bb75f7d32c20dc004eb723"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_db_unpack</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">packed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_db_unpack" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Unpack secondary structure previously packed with <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga9db9613100e9f750017d3e13a874bb7d"><span class="std std-ref">vrna_db_pack()</span></a></p>
+<p>Translate a compressed binary string produced by <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga9db9613100e9f750017d3e13a874bb7d"><span class="std std-ref">vrna_db_pack()</span></a> back into the familiar dot-bracket notation.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__dot__bracket_1ga9db9613100e9f750017d3e13a874bb7d"><span class="std std-ref">vrna_db_pack()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>packed</strong> – The binary encoded packed secondary structure </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The unpacked secondary structure in dot-bracket notation </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_db_flatten">
+<span class="target" id="group__struct__utils__dot__bracket_1gafd1304f5a86e2e3f1425e725cde44fa2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_db_flatten</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_db_flatten" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Substitute pairs of brackets in a string with parenthesis. </p>
+<p>This function can be used to replace brackets of unusual types, such as angular brackets <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code> , to dot-bracket format. The <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter is used tpo specify which types of brackets will be replaced by round parenthesis <code class="docutils literal notranslate"></code>() .</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000167"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p><p>This function flattens an input structure string in-place! The second parameter is optional and defaults to <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga559ebf76b1b289f85309f4206e99aa1a"><span class="std std-ref">VRNA_BRACKETS_DEFAULT</span></a>.</p>
+<p>An overloaded version of this function exists, where an additional second parameter can be passed to specify the target brackets, i.e. the type of matching pair characters all brackets will be flattened to. Therefore, in the scripting language interface this function is a replacement for <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga690425199c8b71545e7196e3af1436f8"><span class="std std-ref">vrna_db_flatten_to()</span></a>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.db_flatten" title="RNA.db_flatten"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.db_flatten()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__dot__bracket_1ga690425199c8b71545e7196e3af1436f8"><span class="std std-ref">vrna_db_flatten_to()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gac92d5fa7c6625bce2670ece510a24fbd"><span class="std std-ref">VRNA_BRACKETS_RND</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga863e03f7f73f10fc9bbcbefbdda4bec8"><span class="std std-ref">VRNA_BRACKETS_ANG</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gaf41be40e79cb756c4e0bb8edb4d803d2"><span class="std std-ref">VRNA_BRACKETS_CLY</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga60525d61d7496eeea490a37f3d6bf757"><span class="std std-ref">VRNA_BRACKETS_SQR</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga559ebf76b1b289f85309f4206e99aa1a"><span class="std std-ref">VRNA_BRACKETS_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The structure string where brackets are flattened in-place </p></li>
+<li><p><strong>options</strong> – A bitmask to specify which types of brackets should be flattened out</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_db_flatten_to">
+<span class="target" id="group__struct__utils__dot__bracket_1ga690425199c8b71545e7196e3af1436f8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_db_flatten_to</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_db_flatten_to" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Substitute pairs of brackets in a string with another type of pair characters. </p>
+<p>This function can be used to replace brackets in a structure annotation string, such as square brackets <code class="docutils literal notranslate"></code>[] , to another type of pair characters, e.g. angular brackets <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code> .</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">target</span></code> array must contain a character for the ‘pair open’ annotation at position 0, and one for ‘pair close’ at position 1. T<code class="docutils literal notranslate"><span class="pre">options</span></code> parameter is used to specify which types of brackets will be replaced by the new pairs.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000168"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as an overloaded version of <a class="reference internal" href="#group__struct__utils__dot__bracket_1gafd1304f5a86e2e3f1425e725cde44fa2"><span class="std std-ref">vrna_db_flatten()</span></a>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.db_flatten" title="RNA.db_flatten"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.db_flatten()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__dot__bracket_1gafd1304f5a86e2e3f1425e725cde44fa2"><span class="std std-ref">vrna_db_flatten()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gac92d5fa7c6625bce2670ece510a24fbd"><span class="std std-ref">VRNA_BRACKETS_RND</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga863e03f7f73f10fc9bbcbefbdda4bec8"><span class="std std-ref">VRNA_BRACKETS_ANG</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gaf41be40e79cb756c4e0bb8edb4d803d2"><span class="std std-ref">VRNA_BRACKETS_CLY</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga60525d61d7496eeea490a37f3d6bf757"><span class="std std-ref">VRNA_BRACKETS_SQR</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga559ebf76b1b289f85309f4206e99aa1a"><span class="std std-ref">VRNA_BRACKETS_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – The structure string where brackets are flattened in-place </p></li>
+<li><p><strong>target</strong> – The new pair characters the string will be flattened to </p></li>
+<li><p><strong>options</strong> – A bitmask to specify which types of brackets should be flattened out</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_db_from_ptable">
+<span class="target" id="group__struct__utils__dot__bracket_1ga3f43bc74c6d785236cece6451996fcc3"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_db_from_ptable</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_db_from_ptable" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Convert a pair table into dot-parenthesis notation. </p>
+<p>This function also converts pair table formatted structures that contain pseudoknots. Non-nested base pairs result in additional pairs of parenthesis and brackets within the resulting dot-parenthesis string. The following pairs are awailable: (), []. {}. &lt;&gt;, as well as pairs of matching upper-/lower-case characters from the alphabet A-Z.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In cases where the level of non-nested base pairs exceeds the maximum number of 30 different base pair indicators (4 parenthesis/brackets, 26 matching characters), a warning is printed and the remaining base pairs are left out from the conversion.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt</strong> – The pair table to be copied </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A char pointer to the dot-bracket string </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_db_from_plist">
+<span class="target" id="group__struct__utils__dot__bracket_1ga38f267a2a22f7d564dcdc449c1fd96ca"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_db_from_plist</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pairs</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">n</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_db_from_plist" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Convert a list of base pairs into dot-bracket notation. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="plist.html#group__struct__utils__plist_1ga6de9e912540e36b1e231a66f6d8319df"><span class="std std-ref">vrna_plist()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pairs</strong> – A <a class="reference internal" href="plist.html#group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca"><span class="std std-ref">vrna_ep_t</span></a> containing the pairs to be included in the dot-bracket string </p></li>
+<li><p><strong>n</strong> – The length of the structure (number of nucleotides) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The dot-bracket string containing the provided base pairs </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_db_to_element_string">
+<span class="target" id="group__struct__utils__dot__bracket_1ga0689c339dc8c7ce35a31b031067370de"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_db_to_element_string</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_db_to_element_string" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Convert a secondary structure in dot-bracket notation to a nucleotide annotation of loop contexts. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string annotating each nucleotide according to it’s structural context </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_db_pk_remove">
+<span class="target" id="group__struct__utils__dot__bracket_1ga97dbebaa3fc49524cf5afa338a6c52ee"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_db_pk_remove</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_db_pk_remove" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Remove pseudo-knots from an input structure. </p>
+<p>This function removes pseudo-knots from an input structure by determining the minimum number of base pairs that need to be removed to make the structure pseudo-knot free.</p>
+<p>To accomplish that, we use a dynamic programming algorithm similar to the Nussinov maxmimum matching approach.</p>
+<p>The input structure must be in a dot-bracket string like form where crossing base pairs are denoted by the use of additional types of matching brackets, e.g. <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">{}</span></code>, <code class="docutils literal notranslate"></code>[], <code class="docutils literal notranslate"><span class="pre">{}</span></code>. Furthermore, crossing pairs may be annotated by matching uppercase/lowercase letters from the alphabet <code class="docutils literal notranslate"><span class="pre">A-Z</span></code>. For the latter, the uppercase letter must be the 5’ and the lowercase letter the 3’ nucleotide of the base pair. The actual type of brackets to be recognized by this function must be specifed through the <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000169"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as an overloaded function <code class="docutils literal notranslate"><span class="pre">db_pk_remove()</span></code> where the optional second parameter <code class="docutils literal notranslate"><span class="pre">options</span></code> defaults to <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga013a9da903462d2f2b037f0c6ffb46e4"><span class="std std-ref">VRNA_BRACKETS_ANY</span></a>. See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.db_pk_remove" title="RNA.db_pk_remove"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.db_pk_remove()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1ga41fab98dc67b6b8d0e2332e7ae08fd14"><span class="std std-ref">vrna_pt_pk_remove()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gafd1304f5a86e2e3f1425e725cde44fa2"><span class="std std-ref">vrna_db_flatten()</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gac92d5fa7c6625bce2670ece510a24fbd"><span class="std std-ref">VRNA_BRACKETS_RND</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga863e03f7f73f10fc9bbcbefbdda4bec8"><span class="std std-ref">VRNA_BRACKETS_ANG</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1gaf41be40e79cb756c4e0bb8edb4d803d2"><span class="std std-ref">VRNA_BRACKETS_CLY</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga60525d61d7496eeea490a37f3d6bf757"><span class="std std-ref">VRNA_BRACKETS_SQR</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga7e3f630af8d69bb0e917145aacf2f96d"><span class="std std-ref">VRNA_BRACKETS_ALPHA</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga559ebf76b1b289f85309f4206e99aa1a"><span class="std std-ref">VRNA_BRACKETS_DEFAULT</span></a>, <a class="reference internal" href="#group__struct__utils__dot__bracket_1ga013a9da903462d2f2b037f0c6ffb46e4"><span class="std std-ref">VRNA_BRACKETS_ANY</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Brackets in the input structure string that are not covered by the <code class="docutils literal notranslate"><span class="pre">options</span></code> bitmask will be silently ignored!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – Input structure in dot-bracket format that may include pseudo-knots </p></li>
+<li><p><strong>options</strong> – A bitmask to specify which types of brackets should be processed </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input structure devoid of pseudo-knots in dot-bracket notation</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../structures.html" class="btn btn-neutral float-left" title="Secondary Structure Utilities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="wuss.html" class="btn btn-neutral float-right" title="Washington University Secondary Structure (WUSS) notation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,383 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__part__func__window__deprecated" kind="group">
+    <compoundname>part_func_window_deprecated</compoundname>
+    <title>Deprecated Interface for Local (Sliding Window) Partition Function Computation</title>
+    <innerfile refid="LPfold_8h">LPfold.h</innerfile>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__part__func__window__deprecated_1ga5a019014d37fe6105131dfc2fc447880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void update_pf_paramsLP</definition>
+        <argsstring>(int length)</argsstring>
+        <name>update_pf_paramsLP</name>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/LPfold.h" line="42" column="7" declfile="ViennaRNA/LPfold.h" declline="42" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__window__deprecated_1gab5aa36df48576d25cd42aea2c0bd021d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void update_pf_paramsLP_par</definition>
+        <argsstring>(int length, vrna_exp_param_t *parameters)</argsstring>
+        <name>update_pf_paramsLP_par</name>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type><ref refid="group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8" kindref="member">vrna_exp_param_t</ref> *</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/LPfold.h" line="53" column="7" declfile="ViennaRNA/LPfold.h" declline="53" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__window__deprecated_1gaf6d77f10775c1d58c8199d5ec95d4228" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+        <definition>vrna_ep_t * pfl_fold</definition>
+        <argsstring>(char *sequence, int winSize, int pairSize, float cutoffb, double **pU, vrna_ep_t **dpp2, FILE *pUfp, FILE *spup)</argsstring>
+        <name>pfl_fold</name>
+        <param>
+          <type>char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>winSize</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>pairSize</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>cutoffb</declname>
+        </param>
+        <param>
+          <type>double **</type>
+          <declname>pU</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> **</type>
+          <declname>dpp2</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>pUfp</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>spup</declname>
+        </param>
+        <briefdescription>
+<para>Compute partition functions for locally stable secondary structures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>pfl_fold computes partition functions for every window of size &apos;winSize&apos; possible in a RNA molecule, allowing only pairs with a span smaller than &apos;pairSize&apos;. It returns the mean pair probabilities averaged over all windows containing the pair in &apos;pl&apos;. &apos;winSize&apos; should always be &gt;= &apos;pairSize&apos;. Note that in contrast to <ref refid="group__mfe__window__deprecated_1gafdd1e11b5c7ad443b9f86b818e67bab4" kindref="member">Lfold()</ref>, bases outside of the window do not influence the structure at all. Only probabilities higher than &apos;cutoffb&apos; are kept.</para>
+<para>If &apos;pU&apos; is supplied (i.e is not the NULL pointer), <ref refid="group__part__func__window__deprecated_1gaf6d77f10775c1d58c8199d5ec95d4228" kindref="member">pfl_fold()</ref> will also compute the mean probability that regions of length &apos;u&apos; and smaller are unpaired. The parameter &apos;u&apos; is supplied in &apos;pup[0][0]&apos;. On return the &apos;pup&apos; array will contain these probabilities, with the entry on &apos;pup[x][y]&apos; containing the mean probability that x and the y-1 preceding bases are unpaired. The &apos;pU&apos; array needs to be large enough to hold n+1 float* entries, where n is the sequence length.</para>
+<para>If an array dpp2 is supplied, the probability of base pair (i,j) given that there already exists a base pair (i+1,j-1) is also computed and saved in this array. If pUfp is given (i.e. not NULL), pU is not saved but put out imediately. If spup is given (i.e. is not NULL), the pair probabilities in pl are not saved but put out imediately.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>winSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of the window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pairSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum size of base pair </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cutoffb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>cutoffb for base pairs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pU</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array holding all unpaired probabilities </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dpp2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of dependent pair probabilities </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pUfp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file pointer for pU </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file pointer for pair probabilities </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>list of pair probabilities </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/LPfold.h" line="101" column="12" declfile="ViennaRNA/LPfold.h" declline="101" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__window__deprecated_1gab34f3add76cd5b99441bcd983ff9db83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+        <definition>vrna_ep_t * pfl_fold_par</definition>
+        <argsstring>(char *sequence, int winSize, int pairSize, float cutoffb, double **pU, vrna_ep_t **dpp2, FILE *pUfp, FILE *spup, vrna_exp_param_t *parameters)</argsstring>
+        <name>pfl_fold_par</name>
+        <param>
+          <type>char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>winSize</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>pairSize</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>cutoffb</declname>
+        </param>
+        <param>
+          <type>double **</type>
+          <declname>pU</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> **</type>
+          <declname>dpp2</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>pUfp</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>spup</declname>
+        </param>
+        <param>
+          <type><ref refid="group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8" kindref="member">vrna_exp_param_t</ref> *</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+<para>Compute partition functions for locally stable secondary structures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/LPfold.h" line="119" column="12" declfile="ViennaRNA/LPfold.h" declline="119" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__window__deprecated_1ga0bcb751860bbf34e3dfee8c2fbdb3ef3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void putoutpU_prob</definition>
+        <argsstring>(double **pU, int length, int ulength, FILE *fp, int energies)</argsstring>
+        <name>putoutpU_prob</name>
+        <param>
+          <type>double **</type>
+          <declname>pU</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ulength</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>energies</declname>
+        </param>
+        <briefdescription>
+<para>Writes the unpaired probabilities (pU) or opening energies into a file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Can write either the unpaired probabilities (accessibilities) pU or the opening energies -log(pU)kT into a file</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pU</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pair probabilities </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>length of RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ulength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum length of unpaired stretch </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file pointer of destination file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energies</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>switch to put out as opening energies </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/LPfold.h" line="150" column="10" declfile="ViennaRNA/LPfold.h" declline="150" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__part__func__window__deprecated_1ga9acb00ee10e96b1ca4ea394cd8bcec75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void putoutpU_prob_bin</definition>
+        <argsstring>(double **pU, int length, int ulength, FILE *fp, int energies)</argsstring>
+        <name>putoutpU_prob_bin</name>
+        <param>
+          <type>double **</type>
+          <declname>pU</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ulength</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>energies</declname>
+        </param>
+        <briefdescription>
+<para>Writes the unpaired probabilities (pU) or opening energies into a binary file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Can write either the unpaired probabilities (accessibilities) pU or the opening energies -log(pU)kT into a file</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pU</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pair probabilities </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>length of RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ulength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum length of unpaired stretch </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file pointer of destination file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energies</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>switch to put out as opening energies </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/LPfold.h" line="181" column="10" declfile="ViennaRNA/LPfold.h" declline="181" declcolumn="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

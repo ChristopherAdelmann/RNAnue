@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tree Representation of Secondary Structures &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Distance measures between Secondary Structures" href="metrics.html" />
+    <link rel="prev" title="Helix List Representation of Secondary Structures" href="helix_list.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../structures.html">Secondary Structure Utilities</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dotbracket.html">Dot-Bracket Notation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wuss.html">Washington University Secondary Structure (WUSS) notation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pairtable.html">Pair Table Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plist.html">Pair List Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="abstract_shapes.html">Abstract Shapes Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="helix_list.html">Helix List Representation of Secondary Structures</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Tree Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="metrics.html">Distance measures between Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deprecated.html">Deprecated Interface for Secondary Structure Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../io.html">Files and I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../structures.html">Secondary Structure Utilities</a></li>
+      <li class="breadcrumb-item active">Tree Representation of Secondary Structures</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tree-representation-of-secondary-structures">
+<h1>Tree Representation of Secondary Structures<a class="headerlink" href="#tree-representation-of-secondary-structures" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__struct__utils__tree"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_STRUCTURE_TREE_HIT">
+<span class="target" id="group__struct__utils__tree_1ga3ad5609bc93ef20034c3ab989365c1f0"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_STRUCTURE_TREE_HIT</span></span></span><a class="headerlink" href="#c.VRNA_STRUCTURE_TREE_HIT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Homeomorphically Irreducible Tree (HIT) representation of a secondary structure. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"><span class="std std-ref">vrna_db_to_tree_string()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_STRUCTURE_TREE_SHAPIRO_SHORT">
+<span class="target" id="group__struct__utils__tree_1ga549e259a963d77e2d5b7e14083fc016e"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_STRUCTURE_TREE_SHAPIRO_SHORT</span></span></span><a class="headerlink" href="#c.VRNA_STRUCTURE_TREE_SHAPIRO_SHORT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>(short) Coarse Grained representation of a secondary structure </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"><span class="std std-ref">vrna_db_to_tree_string()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_STRUCTURE_TREE_SHAPIRO">
+<span class="target" id="group__struct__utils__tree_1ga4acd9991a0250ccd4cd44c4725b31927"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_STRUCTURE_TREE_SHAPIRO</span></span></span><a class="headerlink" href="#c.VRNA_STRUCTURE_TREE_SHAPIRO" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>(full) Coarse Grained representation of a secondary structure </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"><span class="std std-ref">vrna_db_to_tree_string()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_STRUCTURE_TREE_SHAPIRO_EXT">
+<span class="target" id="group__struct__utils__tree_1ga8666a10982a4f7a26892066ff07b4b48"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_STRUCTURE_TREE_SHAPIRO_EXT</span></span></span><a class="headerlink" href="#c.VRNA_STRUCTURE_TREE_SHAPIRO_EXT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>(extended) Coarse Grained representation of a secondary structure </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"><span class="std std-ref">vrna_db_to_tree_string()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_STRUCTURE_TREE_SHAPIRO_WEIGHT">
+<span class="target" id="group__struct__utils__tree_1ga91f2e3a3a502d5445fd7fe5983a5fe92"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_STRUCTURE_TREE_SHAPIRO_WEIGHT</span></span></span><a class="headerlink" href="#c.VRNA_STRUCTURE_TREE_SHAPIRO_WEIGHT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>(weighted) Coarse Grained representation of a secondary structure </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"><span class="std std-ref">vrna_db_to_tree_string()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_STRUCTURE_TREE_EXPANDED">
+<span class="target" id="group__struct__utils__tree_1gab3b65489d1322da65d3a3e53242307ef"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_STRUCTURE_TREE_EXPANDED</span></span></span><a class="headerlink" href="#c.VRNA_STRUCTURE_TREE_EXPANDED" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Expanded Tree representation of a secondary structure. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"><span class="std std-ref">vrna_db_to_tree_string()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_db_to_tree_string">
+<span class="target" id="group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_db_to_tree_string</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_db_to_tree_string" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Convert a Dot-Bracket structure string into tree string representation. </p>
+<p>This function allows one to convert a secondary structure in dot-bracket notation into one of the various tree representations for secondary structures. The resulting tree is then represented as a string of parenthesis and node symbols, similar to to the Newick format.</p>
+<p>Currently we support conversion into the following formats, denoted by the value of parameter <code class="docutils literal notranslate"><span class="pre">type:</span></code> <ul class="simple">
+<li><p><a class="reference internal" href="#group__struct__utils__tree_1ga3ad5609bc93ef20034c3ab989365c1f0"><span class="std std-ref">VRNA_STRUCTURE_TREE_HIT</span></a> -  Homeomorphically Irreducible Tree (HIT) representation of a secondary structure.   (See also  <span> <span id="id1">Fontana <em>et al.</em> [<a class="reference internal" href="../../bibliography.html#id25" title="W. Fontana, P.F. Stadler, E.G. Bornberg-Bauer, T. Griesmacher, I.L. Hofacker, M. Tacker, P. Tarazona, E.D. Weinberger, and P. Schuster. RNA folding and combinatory landscapes. Physical review E, 47(3):2083, 1993. doi:10.1103/PhysRevE.47.2083.">1993</a>]</span> </span>)</p></li>
+<li><p><a class="reference internal" href="#group__struct__utils__tree_1ga549e259a963d77e2d5b7e14083fc016e"><span class="std std-ref">VRNA_STRUCTURE_TREE_SHAPIRO_SHORT</span></a> -  (short) Coarse Grained representation of a secondary structure   (same as  <span> <span id="id2">Shapiro [<a class="reference internal" href="../../bibliography.html#id27" title="B.A. Shapiro. An algorithm for comparing multiple RNA secondary structures. Computer applications in the biosciences: CABIOS, 4(3):387–393, 1988. doi:10.1093/bioinformatics/4.3.387.">1988</a>]</span> </span>, but with root node <code class="docutils literal notranslate"><span class="pre">R</span></code> and without <code class="docutils literal notranslate"><span class="pre">S</span></code> nodes for the stems)</p></li>
+<li><p><a class="reference internal" href="#group__struct__utils__tree_1ga4acd9991a0250ccd4cd44c4725b31927"><span class="std std-ref">VRNA_STRUCTURE_TREE_SHAPIRO</span></a> -  (full) Coarse Grained representation of a secondary structure   (See also  <span> <span id="id3">Shapiro [<a class="reference internal" href="../../bibliography.html#id27" title="B.A. Shapiro. An algorithm for comparing multiple RNA secondary structures. Computer applications in the biosciences: CABIOS, 4(3):387–393, 1988. doi:10.1093/bioinformatics/4.3.387.">1988</a>]</span> </span>)</p></li>
+<li><p><a class="reference internal" href="#group__struct__utils__tree_1ga8666a10982a4f7a26892066ff07b4b48"><span class="std std-ref">VRNA_STRUCTURE_TREE_SHAPIRO_EXT</span></a> -  (extended) Coarse Grained representation of a secondary structure   (same as  <span> <span id="id4">Shapiro [<a class="reference internal" href="../../bibliography.html#id27" title="B.A. Shapiro. An algorithm for comparing multiple RNA secondary structures. Computer applications in the biosciences: CABIOS, 4(3):387–393, 1988. doi:10.1093/bioinformatics/4.3.387.">1988</a>]</span> </span>, but external nodes denoted as <code class="docutils literal notranslate"><span class="pre">E</span></code> )</p></li>
+<li><p><a class="reference internal" href="#group__struct__utils__tree_1ga91f2e3a3a502d5445fd7fe5983a5fe92"><span class="std std-ref">VRNA_STRUCTURE_TREE_SHAPIRO_WEIGHT</span></a> -  (weighted) Coarse Grained representation of a secondary structure   (same as <a class="reference internal" href="#group__struct__utils__tree_1ga8666a10982a4f7a26892066ff07b4b48"><span class="std std-ref">VRNA_STRUCTURE_TREE_SHAPIRO_EXT</span></a> but with additional weights for number of unpaired nucleotides in loop, and number of pairs in stems)</p></li>
+<li><p><a class="reference internal" href="#group__struct__utils__tree_1gab3b65489d1322da65d3a3e53242307ef"><span class="std std-ref">VRNA_STRUCTURE_TREE_EXPANDED</span></a> -  Expanded Tree representation of a secondary structure.  </p></li>
+</ul>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>sec_structure_representations_tree</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The null-terminated dot-bracket structure string </p></li>
+<li><p><strong>type</strong> – A switch to determine the type of tree string representation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tree representation of the input <code class="docutils literal notranslate"><span class="pre">structure</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_tree_string_unweight">
+<span class="target" id="group__struct__utils__tree_1ga6531febe012d26927a87fae9e7bb4e76"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_tree_string_unweight</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_tree_string_unweight" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Remove weights from a linear string tree representation of a secondary structure. </p>
+<p>This function strips the weights of a linear string tree representation such as <code class="docutils literal notranslate"><span class="pre">HIT</span></code>, or Coarse Grained Tree sensu  <span> <span id="id5">Shapiro [<a class="reference internal" href="../../bibliography.html#id27" title="B.A. Shapiro. An algorithm for comparing multiple RNA secondary structures. Computer applications in the biosciences: CABIOS, 4(3):387–393, 1988. doi:10.1093/bioinformatics/4.3.387.">1988</a>]</span> </span></p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"><span class="std std-ref">vrna_db_to_tree_string()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – A linear string tree representation of a secondary structure with weights </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A linear string tree representation of a secondary structure without weights </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_tree_string_to_db">
+<span class="target" id="group__struct__utils__tree_1ga33f017d7a065a92a1055a818b0ccbef4"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_tree_string_to_db</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">tree</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_tree_string_to_db" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Convert a linear tree string representation of a secondary structure back to Dot-Bracket notation. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"><span class="std std-ref">vrna_db_to_tree_string()</span></a>, <a class="reference internal" href="#group__struct__utils__tree_1gab3b65489d1322da65d3a3e53242307ef"><span class="std std-ref">VRNA_STRUCTURE_TREE_EXPANDED</span></a>, <a class="reference internal" href="#group__struct__utils__tree_1ga3ad5609bc93ef20034c3ab989365c1f0"><span class="std std-ref">VRNA_STRUCTURE_TREE_HIT</span></a>, sec_structure_representations_tree</p>
+</div>
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function only accepts <em>Expanded</em> and <em>HIT</em> tree representations!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> – A linear tree string representation of a secondary structure </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dot-bracket notation of the secondary structure provided in <code class="docutils literal notranslate"><span class="pre">tree</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="helix_list.html" class="btn btn-neutral float-left" title="Helix List Representation of Secondary Structures" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="metrics.html" class="btn btn-neutral float-right" title="Distance measures between Secondary Structures" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buffers &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Messages" href="../messages.html" />
+    <link rel="prev" title="Strings" href="strings.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../io.html">Files and I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../data_structures.html">(Abstract) Data Structures</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="fold_compound.html">The Fold Compound</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dp_matrices.html">The Dynamic Programming Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="hash_tables.html">Hash Tables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="heaps.html">Heaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arrays.html">Arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strings.html">Strings</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Buffers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../data_structures.html">(Abstract) Data Structures</a></li>
+      <li class="breadcrumb-item active">Buffers</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="buffers">
+<h1>Buffers<a class="headerlink" href="#buffers" title="Link to this heading"></a></h1>
+<p>Functions that provide dynamically buffered stream-like data structures.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__buffer__utils"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_cstr_t">
+<span class="target" id="group__buffer__utils_1ga445bbbcfca238a956bbc11862892adc8"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_t</span></span></span><a class="headerlink" href="#c.vrna_cstr_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_ostream_t">
+<span class="target" id="group__buffer__utils_1ga8da189552af21ab6e4e88bdcc240870c"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_ordered_stream_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ostream_t</span></span></span><a class="headerlink" href="#c.vrna_ostream_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/stream_output.h&gt;</em><p>An ordered output stream structure with unordered insert capabilities. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_stream_output_f">
+<span class="target" id="group__buffer__utils_1ga587647e75f26bdf830b4a5f291e5fdc2"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_stream_output_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">auxdata</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_stream_output_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/stream_output.h&gt;</em><p>Ordered stream processing callback. </p>
+<p>This callback will be processed in sequential order as soon as sequential data in the output stream becomes available.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The callback must also release the memory occupied by the data passed since the stream will lose any reference to it after the callback has been executed.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Param auxdata<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A shared pointer for all calls, as provided by the second argument to <a class="reference internal" href="#group__buffer__utils_1ga64421b7126cc1b17a472e6f5e878ba9a"><span class="std std-ref">vrna_ostream_init()</span></a></p>
+</dd>
+<dt class="field-even">Param i<span class="colon">:</span></dt>
+<dd class="field-even"><p>The index number of the data passed to <code class="docutils literal notranslate"><span class="pre">data</span></code></p>
+</dd>
+<dt class="field-odd">Param data<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A block of data ready for processing </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="target" id="group__buffer__utils_1ga4adb94338a6f0a1a451e03c1bdac0d9d"></span><span class="sig-name descname"><span class="pre">void()</span> <span class="pre">vrna_callback_stream_output</span> <span class="pre">(void</span> <span class="pre">*auxdata,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">i,</span> <span class="pre">void</span> <span class="pre">*data)</span></span></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/stream_output.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr">
+<span class="target" id="group__buffer__utils_1gadb2818f368e10a3b60a96bb3c80228d2"></span><a class="reference internal" href="#c.vrna_cstr_t" title="vrna_cstr_t"><span class="n"><span class="pre">vrna_cstr_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">size</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em><p>Create a dynamic char * stream data structure. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__buffer__utils_1ga7ec48ec280f699928c70428cc245dc77"><span class="std std-ref">vrna_cstr_free()</span></a>, <a class="reference internal" href="#group__buffer__utils_1ga5a3f6a0a73b3d2d38fe011cdaed0ad28"><span class="std std-ref">vrna_cstr_close()</span></a>, <a class="reference internal" href="#group__buffer__utils_1gab59ad4781f7de960bdd1af5b1965c94b"><span class="std std-ref">vrna_cstr_fflush()</span></a>, <a class="reference internal" href="#group__buffer__utils_1gacf6e3934e61bea12bdc38a8f97b0c75d"><span class="std std-ref">vrna_cstr_discard()</span></a>, vrna_cstr_printf()</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – The initial size of the buffer in characters </p></li>
+<li><p><strong>output</strong> – An optional output file stream handle that is used to write the collected data to (defaults to <em>stdout</em> if <em>NULL</em>) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_discard">
+<span class="target" id="group__buffer__utils_1gacf6e3934e61bea12bdc38a8f97b0c75d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_discard</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_discard" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em><p>Discard the current content of the dynamic char * stream data structure. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__buffer__utils_1ga7ec48ec280f699928c70428cc245dc77"><span class="std std-ref">vrna_cstr_free()</span></a>, <a class="reference internal" href="#group__buffer__utils_1ga5a3f6a0a73b3d2d38fe011cdaed0ad28"><span class="std std-ref">vrna_cstr_close()</span></a>, <a class="reference internal" href="#group__buffer__utils_1gab59ad4781f7de960bdd1af5b1965c94b"><span class="std std-ref">vrna_cstr_fflush()</span></a>, vrna_cstr_printf()</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buf</strong> – The dynamic char * stream data structure to free </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_free">
+<span class="target" id="group__buffer__utils_1ga7ec48ec280f699928c70428cc245dc77"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_cstr_t" title="vrna_cstr_t"><span class="n"><span class="pre">vrna_cstr_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">buf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em><p>Free the memory occupied by a dynamic char * stream data structure. </p>
+<p>This function first flushes any remaining character data within the stream and then free’s the memory occupied by the data structure.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__buffer__utils_1ga5a3f6a0a73b3d2d38fe011cdaed0ad28"><span class="std std-ref">vrna_cstr_close()</span></a>, <a class="reference internal" href="#group__buffer__utils_1gab59ad4781f7de960bdd1af5b1965c94b"><span class="std std-ref">vrna_cstr_fflush()</span></a>, <a class="reference internal" href="#group__buffer__utils_1gadb2818f368e10a3b60a96bb3c80228d2"><span class="std std-ref">vrna_cstr()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buf</strong> – The dynamic char * stream data structure to free </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_close">
+<span class="target" id="group__buffer__utils_1ga5a3f6a0a73b3d2d38fe011cdaed0ad28"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_close</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_cstr_t" title="vrna_cstr_t"><span class="n"><span class="pre">vrna_cstr_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">buf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_close" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em><p>Free the memory occupied by a dynamic char * stream and close the output stream. </p>
+<p>This function first flushes any remaining character data within the stream then closes the attached output file stream (if any), and finally free’s the memory occupied by the data structure.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__buffer__utils_1ga7ec48ec280f699928c70428cc245dc77"><span class="std std-ref">vrna_cstr_free()</span></a>, <a class="reference internal" href="#group__buffer__utils_1gab59ad4781f7de960bdd1af5b1965c94b"><span class="std std-ref">vrna_cstr_fflush()</span></a>, <a class="reference internal" href="#group__buffer__utils_1gadb2818f368e10a3b60a96bb3c80228d2"><span class="std std-ref">vrna_cstr()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buf</strong> – The dynamic char * stream data structure to free </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_fflush">
+<span class="target" id="group__buffer__utils_1gab59ad4781f7de960bdd1af5b1965c94b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_fflush</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_fflush" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em><p>Flush the dynamic char * output stream. </p>
+<p>This function flushes the collected char * stream, either by writing to the attached file handle, or simply by writing to <em>stdout</em> if no file handle has been attached upon construction using <a class="reference internal" href="#group__buffer__utils_1gadb2818f368e10a3b60a96bb3c80228d2"><span class="std std-ref">vrna_cstr()</span></a>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__buffer__utils_1gadb2818f368e10a3b60a96bb3c80228d2"><span class="std std-ref">vrna_cstr()</span></a>, <a class="reference internal" href="#group__buffer__utils_1ga5a3f6a0a73b3d2d38fe011cdaed0ad28"><span class="std std-ref">vrna_cstr_close()</span></a>, <a class="reference internal" href="#group__buffer__utils_1ga7ec48ec280f699928c70428cc245dc77"><span class="std std-ref">vrna_cstr_free()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buf</strong> – The dynamic char * stream data structure to flush </p></li>
+</ul>
+</dd>
+<dt class="field-even">Post<span class="colon">:</span></dt>
+<dd class="field-even"><p>The stream buffer is empty after execution of this function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_string">
+<span class="target" id="group__buffer__utils_1ga2da94823776195dd1d7ba21ef1d07ca6"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_string</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_cstr_t" title="vrna_cstr_t"><span class="n"><span class="pre">vrna_cstr_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">buf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_string" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_vprintf">
+<span class="target" id="group__buffer__utils_1ga35fdc69cf004aa57784f1764a31b20a6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_vprintf</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_cstr_t" title="vrna_cstr_t"><span class="n"><span class="pre">vrna_cstr_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="n"><span class="pre">va_list</span></span><span class="w"> </span><span class="n"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_vprintf" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_printf">
+<span class="target" id="group__buffer__utils_1ga3c7eaa46b1e74c4641e4fa5927079462"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_printf</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_cstr_t" title="vrna_cstr_t"><span class="n"><span class="pre">vrna_cstr_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_printf" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_message_info">
+<span class="target" id="group__buffer__utils_1gaa0da077cf03f29808229ab8c0e1e63eb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_message_info</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_cstr_t" title="vrna_cstr_t"><span class="n"><span class="pre">vrna_cstr_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_message_info" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_message_vinfo">
+<span class="target" id="group__buffer__utils_1ga791a25424f0bc9769ec16a22794c7137"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_message_vinfo</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_cstr_t" title="vrna_cstr_t"><span class="n"><span class="pre">vrna_cstr_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="n"><span class="pre">va_list</span></span><span class="w"> </span><span class="n"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_message_vinfo" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_message_warning">
+<span class="target" id="group__buffer__utils_1gab6bfc368a0647080c602c1f00ab39cc7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_message_warning</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_message_warning" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_message_vwarning">
+<span class="target" id="group__buffer__utils_1ga8a901b135bd17f1485f35f508161bf3d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_message_vwarning</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="n"><span class="pre">va_list</span></span><span class="w"> </span><span class="n"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_message_vwarning" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_print_fasta_header">
+<span class="target" id="group__buffer__utils_1ga0a320b027c942dc85c508788272dd861"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_print_fasta_header</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_cstr_t" title="vrna_cstr_t"><span class="n"><span class="pre">vrna_cstr_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">head</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_print_fasta_header" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_printf_structure">
+<span class="target" id="group__buffer__utils_1ga29af50810807da04d6a244f8801728f9"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_printf_structure</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_printf_structure" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_vprintf_structure">
+<span class="target" id="group__buffer__utils_1gad4cd97b8943fdb83652cb6b46d91bb44"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_vprintf_structure</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="n"><span class="pre">va_list</span></span><span class="w"> </span><span class="n"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_vprintf_structure" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_printf_comment">
+<span class="target" id="group__buffer__utils_1ga31409fdd5c038ee488bdf1ffcc630253"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_printf_comment</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_printf_comment" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_vprintf_comment">
+<span class="target" id="group__buffer__utils_1ga9824160bbe620784fcca5f10c4ff247c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_vprintf_comment</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="n"><span class="pre">va_list</span></span><span class="w"> </span><span class="n"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_vprintf_comment" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_printf_thead">
+<span class="target" id="group__buffer__utils_1gae5e551ba77b488a728d7e1700ecb0df8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_printf_thead</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_printf_thead" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_vprintf_thead">
+<span class="target" id="group__buffer__utils_1ga6455c968e6190156267d5afdb8f211a0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_vprintf_thead</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="n"><span class="pre">va_list</span></span><span class="w"> </span><span class="n"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_vprintf_thead" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_printf_tbody">
+<span class="target" id="group__buffer__utils_1ga525e2673039eb2967cfcb118281ece3c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_printf_tbody</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_printf_tbody" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_vprintf_tbody">
+<span class="target" id="group__buffer__utils_1gab10cb243cdf925c41d6d84a5a1df9760"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_vprintf_tbody</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="n"><span class="pre">va_list</span></span><span class="w"> </span><span class="n"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_vprintf_tbody" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_print_eval_sd_corr">
+<span class="target" id="group__buffer__utils_1gac98b1980d652521c5a9ac27aa346ee75"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_print_eval_sd_corr</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_print_eval_sd_corr" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_print_eval_ext_loop">
+<span class="target" id="group__buffer__utils_1ga505ecc6943085cd1cc6fd341d1e348a1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_print_eval_ext_loop</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_print_eval_ext_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_print_eval_hp_loop">
+<span class="target" id="group__buffer__utils_1gae2c1ac264f384409aa1139a51babc748"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_print_eval_hp_loop</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">si</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">sj</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_print_eval_hp_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_print_eval_hp_loop_revert">
+<span class="target" id="group__buffer__utils_1gaa522278605adb1ad42bae9d62a09e988"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_print_eval_hp_loop_revert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">si</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">sj</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_print_eval_hp_loop_revert" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_print_eval_int_loop">
+<span class="target" id="group__buffer__utils_1ga55d54d7101aa074ca3378ae04e81d694"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_print_eval_int_loop</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">si</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">sj</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">k</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">l</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">sk</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">sl</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_print_eval_int_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_print_eval_int_loop_revert">
+<span class="target" id="group__buffer__utils_1gabb06b1803686adfa47bf071d519ecbc2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_print_eval_int_loop_revert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">si</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">sj</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">k</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">l</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">sk</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">sl</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_print_eval_int_loop_revert" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_print_eval_mb_loop">
+<span class="target" id="group__buffer__utils_1ga505f808eec6da7d3f710701d4b0b6643"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_print_eval_mb_loop</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">si</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">sj</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_print_eval_mb_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_print_eval_mb_loop_revert">
+<span class="target" id="group__buffer__utils_1gae4a4bd3b6c54d4d859bbe85ad7b2d7ec"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_print_eval_mb_loop_revert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">si</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">sj</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_print_eval_mb_loop_revert" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cstr_print_eval_gquad">
+<span class="target" id="group__buffer__utils_1gaa815169705bef4af78500a4217ebfbb3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cstr_print_eval_gquad</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_cstr_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buf</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">L</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">l</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cstr_print_eval_gquad" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/char_stream.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ostream_init">
+<span class="target" id="group__buffer__utils_1ga64421b7126cc1b17a472e6f5e878ba9a"></span><a class="reference internal" href="#c.vrna_ostream_t" title="vrna_ostream_t"><span class="n"><span class="pre">vrna_ostream_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ostream_init</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_stream_output_f" title="vrna_stream_output_f"><span class="n"><span class="pre">vrna_stream_output_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">output</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">auxdata</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ostream_init" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/stream_output.h&gt;</em><p>Get an initialized ordered output stream. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__buffer__utils_1gaf813ec90e1446ba82c89f9a39688a3b3"><span class="std std-ref">vrna_ostream_free()</span></a>, <a class="reference internal" href="#group__buffer__utils_1gaebca91932705d71bcbf00bd8d82bd7c8"><span class="std std-ref">vrna_ostream_request()</span></a>, <a class="reference internal" href="#group__buffer__utils_1ga6253c42abdeaf3b41a38204865e1f0f7"><span class="std std-ref">vrna_ostream_provide()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output</strong> – A callback function that processes and releases data in the stream </p></li>
+<li><p><strong>auxdata</strong> – A pointer to auxiliary data passed as first argument to the <code class="docutils literal notranslate"><span class="pre">output</span></code> callback </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An initialized ordered output stream </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ostream_free">
+<span class="target" id="group__buffer__utils_1gaf813ec90e1446ba82c89f9a39688a3b3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ostream_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_ostream_t" title="vrna_ostream_t"><span class="n"><span class="pre">vrna_ostream_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">dat</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ostream_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/stream_output.h&gt;</em><p>Free an initialized ordered output stream. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__buffer__utils_1ga64421b7126cc1b17a472e6f5e878ba9a"><span class="std std-ref">vrna_ostream_init()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dat</strong> – The output stream for which occupied memory should be free’d </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ostream_threadsafe">
+<span class="target" id="group__buffer__utils_1ga4e60fb5548f6b56003860aa046a74ee2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ostream_threadsafe</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ostream_threadsafe" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/stream_output.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ostream_request">
+<span class="target" id="group__buffer__utils_1gaebca91932705d71bcbf00bd8d82bd7c8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ostream_request</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_ostream_t" title="vrna_ostream_t"><span class="n"><span class="pre">vrna_ostream_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">dat</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ostream_request" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/stream_output.h&gt;</em><p>Request index in ordered output stream. </p>
+<p>This function must be called prior to <a class="reference internal" href="#group__buffer__utils_1ga6253c42abdeaf3b41a38204865e1f0f7"><span class="std std-ref">vrna_ostream_provide()</span></a> to indicate that data associted with a certain index number is expected to be inserted into the stream in the future.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__buffer__utils_1ga64421b7126cc1b17a472e6f5e878ba9a"><span class="std std-ref">vrna_ostream_init()</span></a>, <a class="reference internal" href="#group__buffer__utils_1ga6253c42abdeaf3b41a38204865e1f0f7"><span class="std std-ref">vrna_ostream_provide()</span></a>, <a class="reference internal" href="#group__buffer__utils_1gaf813ec90e1446ba82c89f9a39688a3b3"><span class="std std-ref">vrna_ostream_free()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dat</strong> – The output stream for which the index is requested </p></li>
+<li><p><strong>num</strong> – The index to request data for </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ostream_provide">
+<span class="target" id="group__buffer__utils_1ga6253c42abdeaf3b41a38204865e1f0f7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ostream_provide</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_ostream_t" title="vrna_ostream_t"><span class="n"><span class="pre">vrna_ostream_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">dat</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ostream_provide" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/stream_output.h&gt;</em><p>Provide output stream data for a particular index. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__buffer__utils_1gaebca91932705d71bcbf00bd8d82bd7c8"><span class="std std-ref">vrna_ostream_request()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dat</strong> – The output stream for which data is provided </p></li>
+<li><p><strong>i</strong> – The index of the provided data </p></li>
+<li><p><strong>data</strong> – The data provided </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>The index data is provided for must have been requested using <a class="reference internal" href="#group__buffer__utils_1gaebca91932705d71bcbf00bd8d82bd7c8"><span class="std std-ref">vrna_ostream_request()</span></a> beforehand.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="strings.html" class="btn btn-neutral float-left" title="Strings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../messages.html" class="btn btn-neutral float-right" title="Messages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

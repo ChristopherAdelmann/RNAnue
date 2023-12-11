@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command Files &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Energy Parameters" href="parameters.html" />
+    <link rel="prev" title="Multiple Sequence Alignments (MSA)" href="msa.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../io.html">I/O Formats</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rna_structures.html">RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="msa.html">Multiple Sequence Alignments (MSA)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Command Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#constraint-commands">Constraint commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rna-folding-grammar-exensions">RNA folding grammar exensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specification-of-the-loop-type-context">Specification of the loop type context</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#controlling-the-orientation-of-base-pairing">Controlling the orientation of base pairing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sequence-coordinates">Sequence coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#valid-constraint-commands">Valid constraint commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#valid-domain-extensions-commands">Valid domain extensions commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">Energy Parameters</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../io.html">I/O Formats</a></li>
+      <li class="breadcrumb-item active">Command Files</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="command-files">
+<h1>Command Files<a class="headerlink" href="#command-files" title="Link to this heading"></a></h1>
+<p>The RNAlib and many programs of the ViennaRNA Package can parse and apply data from
+so-called <em>command files</em>. These commands may refer to structure constraints or even
+extensions of the RNA folding grammar (such as <a class="reference internal" href="../grammar.html#unstructured-domains"><span class="std std-ref">Unstructured Domains</span></a>).</p>
+<p>Commands are given as a line of whitespace delimited data fields. The syntax we use
+extends the constraint definitions used in the <a class="reference external" href="http://mfold.rna.albany.edu/?q=mfold">mfold</a>
+or <a class="reference external" href="http://mfold.rna.albany.edu/?q=DINAMelt/software">UNAfold</a> software, where
+each line begins with a command character followed by a set of positions.</p>
+<p>However, we introduce several new commands, and allow for an optional loop type context
+specifier in form of a sequence of characters, and an orientation flag that enables one
+to force a nucleotide to pair upstream, or downstream.</p>
+<section id="constraint-commands">
+<h2>Constraint commands<a class="headerlink" href="#constraint-commands" title="Link to this heading"></a></h2>
+<p>The following set of commands is recognized:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">F</span></code> … Force</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">P</span></code> … Prohibit</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">C</span></code> … Conflicts/Context dependency</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">A</span></code> … Allow (for non-canonical pairs)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">E</span></code> … Soft constraints for unpaired position(s), or base pair(s)</p></li>
+</ul>
+</section>
+<section id="rna-folding-grammar-exensions">
+<h2>RNA folding grammar exensions<a class="headerlink" href="#rna-folding-grammar-exensions" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">UD</span></code> … Add ligand binding using the <a class="reference internal" href="../grammar.html#unstructured-domains"><span class="std std-ref">Unstructured Domains</span></a> feature</p></li>
+</ul>
+</section>
+<section id="specification-of-the-loop-type-context">
+<h2>Specification of the loop type context<a class="headerlink" href="#specification-of-the-loop-type-context" title="Link to this heading"></a></h2>
+<p>The optional loop type context specifier <code class="docutils literal notranslate"><span class="pre">[LOOP]</span></code> may be a combination of the following:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">E</span></code> … Exterior loop</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">H</span></code> … Hairpin loop</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">I</span></code> … Internal/Interior loop</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">M</span></code> … Multibranch loop</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">A</span></code> … All loops</p></li>
+</ul>
+<p>For structure constraints, we additionally allow one to address base pairs enclosed
+by a particular kind of loop, which results in the specifier <code class="docutils literal notranslate"><span class="pre">[WHERE]</span></code> which consists
+of <code class="docutils literal notranslate"><span class="pre">[LOOP]</span></code> plus the following character:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">i</span></code> … enclosed pair of an Interior loop</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">m</span></code> … enclosed pair of a Multibranch loop</p></li>
+</ul>
+<p>If no <code class="docutils literal notranslate"><span class="pre">[LOOP]</span></code> or <code class="docutils literal notranslate"><span class="pre">[WHERE]</span></code> flags are set, all contexts are considered
+(equivalent to <code class="docutils literal notranslate"><span class="pre">A</span></code> ).</p>
+</section>
+<section id="controlling-the-orientation-of-base-pairing">
+<h2>Controlling the orientation of base pairing<a class="headerlink" href="#controlling-the-orientation-of-base-pairing" title="Link to this heading"></a></h2>
+<p>For particular nucleotides that are forced to pair, the following <code class="docutils literal notranslate"><span class="pre">[ORIENTATION]</span></code> flags
+may be used:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">U</span></code> … Upstream</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">D</span></code> … Downstream</p></li>
+</ul>
+<p>If no <code class="docutils literal notranslate"><span class="pre">[ORIENTATION]</span></code> flag is set, both directions are considered.</p>
+</section>
+<section id="sequence-coordinates">
+<h2>Sequence coordinates<a class="headerlink" href="#sequence-coordinates" title="Link to this heading"></a></h2>
+<p>Sequence positions of nucleotides/base pairs are 1-based and consist of three
+positions <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span>, and <span class="math notranslate nohighlight">\(k\)</span>. Alternativly, four positions may
+be provided as a pair of two position ranges <span class="math notranslate nohighlight">\([i:j]\)</span>, and <span class="math notranslate nohighlight">\([k:l]\)</span>
+using the <code class="docutils literal notranslate"><span class="pre">-</span></code> sign as delimiter within each range, i.e. <code class="docutils literal notranslate"><span class="pre">i-j</span></code>, and <code class="docutils literal notranslate"><span class="pre">k-l</span></code>.</p>
+</section>
+<section id="valid-constraint-commands">
+<h2>Valid constraint commands<a class="headerlink" href="#valid-constraint-commands" title="Link to this heading"></a></h2>
+<p>Below are resulting general cases that are considered <em>valid</em> constraints:</p>
+<ul>
+<li><p><strong>“Forcing a range of nucleotide positions to be paired”</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="n">i</span> <span class="mi">0</span> <span class="n">k</span> <span class="p">[</span><span class="n">WHERE</span><span class="p">]</span> <span class="p">[</span><span class="n">ORIENTATION</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Description:</p>
+<p>Enforces the set of <span class="math notranslate nohighlight">\(k\)</span> consecutive nucleotides starting at
+position <span class="math notranslate nohighlight">\(i\)</span> to be paired. The optional loop type specifier <code class="docutils literal notranslate"><span class="pre">[WHERE]</span></code>
+allows to force them to appear as closing/enclosed pairs of certain types of
+loops.</p>
+</li>
+<li><p><strong>“Forcing a set of consecutive base pairs to form”</strong>::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="n">i</span> <span class="n">j</span> <span class="n">k</span> <span class="p">[</span><span class="n">WHERE</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Description:</p>
+<p>Enforces the base pairs <span class="math notranslate nohighlight">\((i,j), \ldots, (i+(k-1), j-(k-1))\)</span> to form.
+The optional loop type specifier <code class="docutils literal notranslate"><span class="pre">[WHERE]</span></code> allows to specify in which loop
+context the base pair must appear.</p>
+</li>
+<li><p><strong>“Prohibiting a range of nucleotide positions to be paired”</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="n">i</span> <span class="mi">0</span> <span class="n">k</span> <span class="p">[</span><span class="n">WHERE</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Description:</p>
+<p>Prohibit a set of <span class="math notranslate nohighlight">\(k\)</span> consecutive nucleotides to participate
+in base pairing, i.e. make these positions unpaired. The optional loop type
+specifier <code class="docutils literal notranslate"><span class="pre">[WHERE]</span></code> allows to force the nucleotides to appear within the
+loop of specific types.</p>
+</li>
+<li><p><strong>“Probibiting a set of consecutive base pairs to form”</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="n">i</span> <span class="n">j</span> <span class="n">k</span> <span class="p">[</span><span class="n">WHERE</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Description:</p>
+<p>Probibit the base pairs <span class="math notranslate nohighlight">\((i,j), \ldots, (i+(k-1), j-(k-1))\)</span> to form.
+The optional loop type specifier <code class="docutils literal notranslate"><span class="pre">[WHERE]</span></code> allows to specify the type of
+loop they are disallowed to be the closing or an enclosed pair of.</p>
+</li>
+<li><p><strong>“Prohibiting two ranges of nucleotides to pair with each other”</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="n">i</span><span class="o">-</span><span class="n">j</span> <span class="n">k</span><span class="o">-</span><span class="n">l</span> <span class="p">[</span><span class="n">WHERE</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Description:</p>
+<p>Prohibit any nucleotide <span class="math notranslate nohighlight">\(p \in [i:j]\)</span> to pair with any other nucleotide
+<span class="math notranslate nohighlight">\(q \in [k:l]\)</span>. The optional loop type specifier <code class="docutils literal notranslate"><span class="pre">[WHERE]</span></code> allows to
+specify the type of loop they are disallowed to be the closing or an enclosed pair of.</p>
+</li>
+<li><p><strong>“Enforce a loop context for a range of nucleotide positions”</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="n">i</span> <span class="mi">0</span> <span class="n">k</span> <span class="p">[</span><span class="n">WHERE</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Description:</p>
+<p>This command enforces nucleotides to be unpaired similar to <em>prohibiting</em> nucleotides to be paired,
+as described above. It too marks the corresponding nucleotides to be unpaired, however,
+the <code class="docutils literal notranslate"><span class="pre">[WHERE]</span></code> flag can be used to enforce specfic loop types the nucleotides must appear in.</p>
+</li>
+<li><p><strong>“Remove pairs that conflict with a set of consecutive base pairs”</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="n">i</span> <span class="n">j</span> <span class="n">k</span>
+</pre></div>
+</div>
+<p>Description:</p>
+<p>Remove all base pairs that conflict with a set of consecutive base pairs
+<span class="math notranslate nohighlight">\((i,j), \ldots, (i+(k-1), j-(k-1))\)</span>. Two base pairs <span class="math notranslate nohighlight">\((i,j)\)</span> and
+<span class="math notranslate nohighlight">\((p,q)\)</span> conflict with each other if <span class="math notranslate nohighlight">\(i &lt; p &lt; j &lt; q\)</span>, or
+<span class="math notranslate nohighlight">\(p &lt; i &lt; q &lt; j\)</span>.</p>
+</li>
+<li><p><strong>“Allow a set of consecutive (non-canonical) base pairs to form”</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="n">i</span> <span class="n">j</span> <span class="n">k</span> <span class="p">[</span><span class="n">WHERE</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Description:</p>
+<p>This command enables the formation of the consecutive base pairs
+<span class="math notranslate nohighlight">\((i,j), \ldots, (i+(k-1), j-(k-1))\)</span>, no matter if they are <em>canonical</em>,
+or <em>non-canonical</em>. In contrast to the above <code class="docutils literal notranslate"><span class="pre">F</span></code> and <code class="docutils literal notranslate"><span class="pre">W</span></code> commands, which remove
+conflicting base pairs, the <code class="docutils literal notranslate"><span class="pre">A</span></code> command does not. Therefore, it may be used to
+allow <em>non-canoncial</em> base pair interactions. Since the RNAlib does not contain
+free energy contributions <span class="math notranslate nohighlight">\(E_{ij}\)</span> for non-canonical base pairs <span class="math notranslate nohighlight">\((i,j)\)</span>,
+they are scored as the <em>maximum</em> of similar, known contributions. In terms of a
+<em>Nussinov</em> like scoring function the free energy of non-canonical base pairs is
+therefore estimated as</p>
+<div class="math notranslate nohighlight">
+\[E_{ij} = \min \left[  \max_{(i,k) \in \{GC, CG, AU, UA, GU, UG\}} E_{ik}, \max_{(k,j) \in \{GC, CG, AU, UA, GU, UG\}} E_{kj} \right].\]</div>
+<p>The optional loop type specifier <code class="docutils literal notranslate"><span class="pre">[WHERE]</span></code> allows to specify in which loop
+context the base pair may appear.</p>
+</li>
+<li><p><strong>“Apply pseudo free energy to a range of unpaired nucleotide positions”</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="n">i</span> <span class="mi">0</span> <span class="n">k</span> <span class="n">e</span>
+</pre></div>
+</div>
+<p>Description:</p>
+<p>Use this command to apply a pseudo free energy of <span class="math notranslate nohighlight">\(e\)</span> to the set of <span class="math notranslate nohighlight">\(k\)</span>
+consecutive nucleotides, starting at position <span class="math notranslate nohighlight">\(i\)</span>. The pseudo free energy is
+applied only if these nucleotides are considered unpaired in the recursions, or
+evaluations, and is expected to be given in units of <span class="math notranslate nohighlight">\(\text{kcal} \cdot \text{mol}^{-1}\)</span>.</p>
+</li>
+<li><p><strong>“Apply pseudo free energy to a set of consecutive base pairs”</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="n">i</span> <span class="n">j</span> <span class="n">k</span> <span class="n">e</span>
+</pre></div>
+</div>
+<p>Description:</p>
+<p>Use this command to apply a pseudo free energy of <span class="math notranslate nohighlight">\(e\)</span> to the set of base pairs
+<span class="math notranslate nohighlight">\((i,j), \ldots, (i+(k-1), j-(k-1))\)</span>. Energies are expected to be given in
+units of <span class="math notranslate nohighlight">\(\text{kcal} \cdot \text{mol}^{-1}\)</span>.</p>
+</li>
+</ul>
+</section>
+<section id="valid-domain-extensions-commands">
+<h2>Valid domain extensions commands<a class="headerlink" href="#valid-domain-extensions-commands" title="Link to this heading"></a></h2>
+<ul>
+<li><p><strong>“Add ligand binding to unpaired motif (a.k.a. unstructured domains)”</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">UD</span> <span class="n">m</span> <span class="n">e</span> <span class="p">[</span><span class="n">LOOP</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Description:</p>
+<p>Add ligand binding to unpaired sequence motif <span class="math notranslate nohighlight">\(m\)</span> (given in IUPAC format,
+capital letters) with binding energy <span class="math notranslate nohighlight">\(e\)</span> in particular loop type(s).</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">UD</span>  <span class="n">AAA</span>   <span class="o">-</span><span class="mf">5.0</span>    <span class="n">A</span>
+</pre></div>
+</div>
+<p>The above example applies a binding free energy of <span class="math notranslate nohighlight">\(-5\,\text{kcal} \cdot \text{mol}^{-1}\)</span>
+for a motif <code class="docutils literal notranslate"><span class="pre">AAA</span></code> that may be present in all loop types.</p>
+</li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="msa.html" class="btn btn-neutral float-left" title="Multiple Sequence Alignments (MSA)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="parameters.html" class="btn btn-neutral float-right" title="Energy Parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plotting &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Layouts and Coordinates" href="plots/layouts.html" />
+    <link rel="prev" title="Command Files" href="io/commands.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="io.html">Files and I/O</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Plotting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plots/layouts.html">Layouts and Coordinates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plots/annotation.html">Annotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plots/probabilities.html">Pair Probability Plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plots/alignments.html">Alignment Plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plots/deprecated.html">Deprecated Interface for Plotting Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../utils.html">Utilities</a></li>
+      <li class="breadcrumb-item active">Plotting</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="plotting">
+<h1>Plotting<a class="headerlink" href="#plotting" title="Link to this heading"></a></h1>
+<p>Functions for Creating Secondary Structure Plots, Dot-Plots, and more.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Specialized Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plots/layouts.html">Layouts and Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plots/annotation.html">Annotation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plots/probabilities.html">Pair Probability Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plots/alignments.html">Alignment Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plots/deprecated.html">Deprecated Interface for Plotting Utilities</a></li>
+</ul>
+</div>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__plotting__utils"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_PS_rnaplot">
+<span class="target" id="group__plotting__utils_1gabdc8f6548ba4a3bc3cd868ccbcfdb86a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_PS_rnaplot</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span>, <a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md_p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_PS_rnaplot" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/structures.h&gt;</em><p>Produce a secondary structure graph in PostScript and write it to ‘filename’. </p>
+<p>Note that this function has changed from previous versions and now expects the structure to be plotted in dot-bracket notation as an argument. It does not make use of the global base_pair array anymore.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq</strong> – The RNA sequence </p></li>
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>file</strong> – The filename of the postscript output </p></li>
+<li><p><strong>md_p</strong> – Model parameters used to generate a commandline option string in the output (Maybe NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_PS_rnaplot_a">
+<span class="target" id="group__plotting__utils_1ga139a31dd0ba9fc6612431f67de901c31"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_PS_rnaplot_a</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pre</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">post</span></span>, <a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md_p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_PS_rnaplot_a" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/structures.h&gt;</em><p>Produce a secondary structure graph in PostScript including additional annotation macros and write it to ‘filename’. </p>
+<p>Same as <a class="reference internal" href="#group__plotting__utils_1gabdc8f6548ba4a3bc3cd868ccbcfdb86a"><span class="std std-ref">vrna_file_PS_rnaplot()</span></a> but adds extra PostScript macros for various annotations (see generated PS code). The ‘pre’ and ‘post’ variables contain PostScript code that is verbatim copied in the resulting PS file just before and after the structure plot. If both arguments (‘pre’ and ‘post’) are NULL, no additional macros will be printed into the PostScript.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq</strong> – The RNA sequence </p></li>
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>file</strong> – The filename of the postscript output </p></li>
+<li><p><strong>pre</strong> – PostScript code to appear before the secondary structure plot </p></li>
+<li><p><strong>post</strong> – PostScript code to appear after the secondary structure plot </p></li>
+<li><p><strong>md_p</strong> – Model parameters used to generate a commandline option string in the output (Maybe NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_PS_rnaplot_layout">
+<span class="target" id="group__plotting__utils_1ga170bae75ff28e84edd4d9c32b86083e9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_PS_rnaplot_layout</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ssfile</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pre</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">post</span></span>, <a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md_p</span></span>, <a class="reference internal" href="plots/layouts.html#c.vrna_plot_layout_t" title="vrna_plot_layout_t"><span class="n"><span class="pre">vrna_plot_layout_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">layout</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_PS_rnaplot_layout" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/structures.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PS_rna_plot_snoop_a">
+<span class="target" id="group__plotting__utils_1ga6d0abe209468084b5a24c837e2d222a6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PS_rna_plot_snoop_a</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ssfile</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">relative_access</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seqs</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PS_rna_plot_snoop_a" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/structures.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gmlRNA">
+<span class="target" id="group__plotting__utils_1ga70834bc8c0aad4fe6824ff76ccb8f329"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gmlRNA</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ssfile</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">option</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gmlRNA" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/structures.h&gt;</em><p>Produce a secondary structure graph in Graph Meta Language (gml) and write it to a file. </p>
+<p>If ‘option’ is an uppercase letter the RNA sequence is used to label nodes, if ‘option’ equals <em>‘X’</em> or <em>‘x’</em> the resulting file will coordinates for an initial layout of the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – The RNA sequence </p></li>
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>ssfile</strong> – The filename of the gml output </p></li>
+<li><p><strong>option</strong> – The option flag </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.ssv_rna_plot">
+<span class="target" id="group__plotting__utils_1gadd368528755f9a830727b680243541df"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ssv_rna_plot</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ssfile</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.ssv_rna_plot" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/structures.h&gt;</em><p>Produce a secondary structure graph in SStructView format. </p>
+<p>Write coord file for SStructView</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – The RNA sequence </p></li>
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>ssfile</strong> – The filename of the ssv output </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.svg_rna_plot">
+<span class="target" id="group__plotting__utils_1gae7853539b5df98f294b4af434e979304"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">svg_rna_plot</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ssfile</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.svg_rna_plot" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/structures.h&gt;</em><p>Produce a secondary structure plot in SVG format and write it to a file. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – The RNA sequence </p></li>
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>ssfile</strong> – The filename of the svg output </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.xrna_plot">
+<span class="target" id="group__plotting__utils_1ga2f6d5953e6a323df898896b8d6614483"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xrna_plot</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ssfile</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.xrna_plot" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/structures.h&gt;</em><p>Produce a secondary structure plot for further editing in XRNA. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – The RNA sequence </p></li>
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>ssfile</strong> – The filename of the xrna output </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PS_rna_plot">
+<span class="target" id="group__plotting__utils_1ga0873c7cc4cd7a11c9a2cea19dde7e9c9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PS_rna_plot</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PS_rna_plot" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/structures.h&gt;</em><p>Produce a secondary structure graph in PostScript and write it to ‘filename’. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000178"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__plotting__utils_1gabdc8f6548ba4a3bc3cd868ccbcfdb86a"><span class="std std-ref">vrna_file_PS_rnaplot()</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PS_rna_plot_a">
+<span class="target" id="group__plotting__utils_1ga47856b2504b566588785597b6ebb8271"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PS_rna_plot_a</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pre</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">post</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PS_rna_plot_a" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/structures.h&gt;</em><p>Produce a secondary structure graph in PostScript including additional annotation macros and write it to ‘filename’. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000179"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__plotting__utils_1ga139a31dd0ba9fc6612431f67de901c31"><span class="std std-ref">vrna_file_PS_rnaplot_a()</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PS_rna_plot_a_gquad">
+<span class="target" id="group__plotting__utils_1ga32fa0f97625119e9d24dd2e7153abc4f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PS_rna_plot_a_gquad</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ssfile</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pre</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">post</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PS_rna_plot_a_gquad" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/structures.h&gt;</em><p>Produce a secondary structure graph in PostScript including additional annotation macros and write it to ‘filename’ (detect and draw g-quadruplexes) </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000180"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__plotting__utils_1ga139a31dd0ba9fc6612431f67de901c31"><span class="std std-ref">vrna_file_PS_rnaplot_a()</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="io/commands.html" class="btn btn-neutral float-left" title="Command Files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plots/layouts.html" class="btn btn-neutral float-right" title="Layouts and Coordinates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

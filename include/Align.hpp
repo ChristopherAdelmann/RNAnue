@@ -55,6 +55,7 @@ typedef std::vector<
 class Align {
     private:
         po::variables_map params;
+        std::string segemehlSysCall;
         std::string index;
 
         void sortAlignments(std::string alignmentsPath);

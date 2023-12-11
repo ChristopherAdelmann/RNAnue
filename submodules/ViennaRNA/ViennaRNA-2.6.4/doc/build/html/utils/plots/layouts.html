@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Layouts and Coordinates &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Annotation" href="annotation.html" />
+    <link rel="prev" title="Plotting" href="../plots.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../io.html">Files and I/O</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../plots.html">Plotting</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Layouts and Coordinates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="annotation.html">Annotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="probabilities.html">Pair Probability Plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alignments.html">Alignment Plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deprecated.html">Deprecated Interface for Plotting Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../plots.html">Plotting</a></li>
+      <li class="breadcrumb-item active">Layouts and Coordinates</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="layouts-and-coordinates">
+<h1>Layouts and Coordinates<a class="headerlink" href="#layouts-and-coordinates" title="Link to this heading"></a></h1>
+<p>Functions to compute coordinate layouts for secondary structure plots.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__plot__layout__utils"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_TYPE_SIMPLE">
+<span class="target" id="group__plot__layout__utils_1gae6d17b9f0a53cf5205a9181e0f8422e9"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_TYPE_SIMPLE</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_TYPE_SIMPLE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Definition of Plot type <em>simple</em></p>
+<p>This is the plot type definition for several RNA structure plotting functions telling them to use <strong>Simple</strong> plotting algorithm</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="deprecated.html#group__plotting__utils__deprecated_1ga5964c4581431b098b80027d6e14dcdd4"><span class="std std-ref">rna_plot_type</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1ga139a31dd0ba9fc6612431f67de901c31"><span class="std std-ref">vrna_file_PS_rnaplot_a()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gabdc8f6548ba4a3bc3cd868ccbcfdb86a"><span class="std std-ref">vrna_file_PS_rnaplot()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gae7853539b5df98f294b4af434e979304"><span class="std std-ref">svg_rna_plot()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1ga70834bc8c0aad4fe6824ff76ccb8f329"><span class="std std-ref">gmlRNA()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gadd368528755f9a830727b680243541df"><span class="std std-ref">ssv_rna_plot()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1ga2f6d5953e6a323df898896b8d6614483"><span class="std std-ref">xrna_plot()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_TYPE_NAVIEW">
+<span class="target" id="group__plot__layout__utils_1ga94d4c863ecac2f220f76658afb92f964"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_TYPE_NAVIEW</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_TYPE_NAVIEW" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Definition of Plot type <em>Naview</em></p>
+<p>This is the plot type definition for several RNA structure plotting functions telling them to use <strong>Naview</strong> plotting algorithm  <span> <span id="id7">[<a class="reference internal" href="../../bibliography.html#id15" title="R.E. Bruccoleri and G. Heinrich. An improved algorithm for nucleic acid secondary structure display. Computer applications in the biosciences: CABIOS, 4(1):167–173, 1988. doi:10.1093/bioinformatics/4.1.167.">Bruccoleri and Heinrich, 1988</a>]</span> </span>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="deprecated.html#group__plotting__utils__deprecated_1ga5964c4581431b098b80027d6e14dcdd4"><span class="std std-ref">rna_plot_type</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1ga139a31dd0ba9fc6612431f67de901c31"><span class="std std-ref">vrna_file_PS_rnaplot_a()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gabdc8f6548ba4a3bc3cd868ccbcfdb86a"><span class="std std-ref">vrna_file_PS_rnaplot()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gae7853539b5df98f294b4af434e979304"><span class="std std-ref">svg_rna_plot()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1ga70834bc8c0aad4fe6824ff76ccb8f329"><span class="std std-ref">gmlRNA()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gadd368528755f9a830727b680243541df"><span class="std std-ref">ssv_rna_plot()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1ga2f6d5953e6a323df898896b8d6614483"><span class="std std-ref">xrna_plot()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_TYPE_CIRCULAR">
+<span class="target" id="group__plot__layout__utils_1ga8c9eac631348da92136c8363ecdd9fb9"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_TYPE_CIRCULAR</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_TYPE_CIRCULAR" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Definition of Plot type <em>Circular</em></p>
+<p>This is the plot type definition for several RNA structure plotting functions telling them to produce a <strong>Circular plot</strong></p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="deprecated.html#group__plotting__utils__deprecated_1ga5964c4581431b098b80027d6e14dcdd4"><span class="std std-ref">rna_plot_type</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1ga139a31dd0ba9fc6612431f67de901c31"><span class="std std-ref">vrna_file_PS_rnaplot_a()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gabdc8f6548ba4a3bc3cd868ccbcfdb86a"><span class="std std-ref">vrna_file_PS_rnaplot()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gae7853539b5df98f294b4af434e979304"><span class="std std-ref">svg_rna_plot()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1ga70834bc8c0aad4fe6824ff76ccb8f329"><span class="std std-ref">gmlRNA()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gadd368528755f9a830727b680243541df"><span class="std std-ref">ssv_rna_plot()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1ga2f6d5953e6a323df898896b8d6614483"><span class="std std-ref">xrna_plot()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_TYPE_TURTLE">
+<span class="target" id="group__plot__layout__utils_1ga382c1c5c0b1943500aa4bb55b7658a33"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_TYPE_TURTLE</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_TYPE_TURTLE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Definition of Plot type <em>Turtle</em><span> <span id="id8">[<a class="reference internal" href="../../bibliography.html#id41" title="Daniel Wiegreffe, Daniel Alexander, Peter F Stadler, and Dirk Zeckzer. RNApuzzler: efficient outerplanar drawing of RNA-secondary structures. Bioinformatics, 35(8):1342–1349, 2019. doi:10.1093/bioinformatics/bty817.">Wiegreffe <em>et al.</em>, 2019</a>]</span> </span>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_TYPE_PUZZLER">
+<span class="target" id="group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_TYPE_PUZZLER</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_TYPE_PUZZLER" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Definition of Plot type <em>RNApuzzler</em><span> <span id="id9">[<a class="reference internal" href="../../bibliography.html#id41" title="Daniel Wiegreffe, Daniel Alexander, Peter F Stadler, and Dirk Zeckzer. RNApuzzler: efficient outerplanar drawing of RNA-secondary structures. Bioinformatics, 35(8):1342–1349, 2019. doi:10.1093/bioinformatics/bty817.">Wiegreffe <em>et al.</em>, 2019</a>]</span> </span>. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PLOT_TYPE_DEFAULT">
+<span class="target" id="group__plot__layout__utils_1ga519e6a330060a3de11640f030ab34424"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PLOT_TYPE_DEFAULT</span></span></span><a class="headerlink" href="#c.VRNA_PLOT_TYPE_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_t">
+<span class="target" id="group__plot__layout__utils_1gac986fe092abc2a6a93ceb5141e4dd28b"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_plot_layout_s" title="vrna_plot_layout_s"><span class="n"><span class="pre">vrna_plot_layout_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_layout_t</span></span></span><a class="headerlink" href="#c.vrna_plot_layout_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>RNA secondary structure figure layout. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e"><span class="std std-ref">vrna_plot_layout()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931"><span class="std std-ref">vrna_plot_layout_free()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c"><span class="std std-ref">vrna_plot_layout_simple()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458"><span class="std std-ref">vrna_plot_layout_circular()</span></a>, vrna_plot_layout_naview(), <a class="reference internal" href="#group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098"><span class="std std-ref">vrna_plot_layout_turtle()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43"><span class="std std-ref">vrna_plot_layout_puzzler()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_layout">
+<span class="target" id="group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e"></span><a class="reference internal" href="#c.vrna_plot_layout_t" title="vrna_plot_layout_t"><span class="n"><span class="pre">vrna_plot_layout_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_layout</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">plot_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_layout" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Create a layout (coordinates, etc.) for a secondary structure plot. </p>
+<p>This function can be used to create a secondary structure nucleotide layout that is then further processed by an actual plotting function. The layout algorithm can be specified using the <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> parameter, and the following algorithms are currently supported:<ul class="simple">
+<li><p><a class="reference internal" href="#group__plot__layout__utils_1gae6d17b9f0a53cf5205a9181e0f8422e9"><span class="std std-ref">VRNA_PLOT_TYPE_SIMPLE</span></a></p></li>
+<li><p><a class="reference internal" href="#group__plot__layout__utils_1ga94d4c863ecac2f220f76658afb92f964"><span class="std std-ref">VRNA_PLOT_TYPE_NAVIEW</span></a></p></li>
+<li><p><a class="reference internal" href="#group__plot__layout__utils_1ga8c9eac631348da92136c8363ecdd9fb9"><span class="std std-ref">VRNA_PLOT_TYPE_CIRCULAR</span></a></p></li>
+<li><p><a class="reference internal" href="#group__plot__layout__utils_1ga382c1c5c0b1943500aa4bb55b7658a33"><span class="std std-ref">VRNA_PLOT_TYPE_TURTLE</span></a></p></li>
+<li><p><a class="reference internal" href="#group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae"><span class="std std-ref">VRNA_PLOT_TYPE_PUZZLER</span></a></p></li>
+</ul>
+</p>
+<p>Passing an unsupported selection leads to the default algorithm <a class="reference internal" href="#group__plot__layout__utils_1ga94d4c863ecac2f220f76658afb92f964"><span class="std std-ref">VRNA_PLOT_TYPE_NAVIEW</span></a></p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931"><span class="std std-ref">vrna_plot_layout_free()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c"><span class="std std-ref">vrna_plot_layout_simple()</span></a>, vrna_plot_layout_naview(), <a class="reference internal" href="#group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458"><span class="std std-ref">vrna_plot_layout_circular()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098"><span class="std std-ref">vrna_plot_layout_turtle()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43"><span class="std std-ref">vrna_plot_layout_puzzler()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a>, vrna_file_PS_rnaplot_layout()</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If only X-Y coordinates of the corresponding structure layout are required, consider using <a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a> instead!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>plot_type</strong> – The layout algorithm to be used </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The layout data structure for the provided secondary structure </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_simple">
+<span class="target" id="group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c"></span><a class="reference internal" href="#c.vrna_plot_layout_t" title="vrna_plot_layout_t"><span class="n"><span class="pre">vrna_plot_layout_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_layout_simple</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_layout_simple" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Create a layout (coordinates, etc.) for a <em>simple</em> secondary structure plot. </p>
+<p>This function basically is a wrapper to <a class="reference internal" href="#group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e"><span class="std std-ref">vrna_plot_layout()</span></a> that passes the <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> <a class="reference internal" href="#group__plot__layout__utils_1gae6d17b9f0a53cf5205a9181e0f8422e9"><span class="std std-ref">VRNA_PLOT_TYPE_SIMPLE</span></a>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931"><span class="std std-ref">vrna_plot_layout_free()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e"><span class="std std-ref">vrna_plot_layout()</span></a>, vrna_plot_layout_naview(), <a class="reference internal" href="#group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458"><span class="std std-ref">vrna_plot_layout_circular()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098"><span class="std std-ref">vrna_plot_layout_turtle()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43"><span class="std std-ref">vrna_plot_layout_puzzler()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6"><span class="std std-ref">vrna_plot_coords_simple()</span></a>, vrna_file_PS_rnaplot_layout()</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If only X-Y coordinates of the corresponding structure layout are required, consider using <a class="reference internal" href="#group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6"><span class="std std-ref">vrna_plot_coords_simple()</span></a> instead!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The layout data structure for the provided secondary structure </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_circular">
+<span class="target" id="group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458"></span><a class="reference internal" href="#c.vrna_plot_layout_t" title="vrna_plot_layout_t"><span class="n"><span class="pre">vrna_plot_layout_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_layout_circular</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_layout_circular" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Create a layout (coordinates, etc.) for a <em>circular</em> secondary structure plot. </p>
+<p>This function basically is a wrapper to <a class="reference internal" href="#group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e"><span class="std std-ref">vrna_plot_layout()</span></a> that passes the <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> <a class="reference internal" href="#group__plot__layout__utils_1ga8c9eac631348da92136c8363ecdd9fb9"><span class="std std-ref">VRNA_PLOT_TYPE_CIRCULAR</span></a>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931"><span class="std std-ref">vrna_plot_layout_free()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e"><span class="std std-ref">vrna_plot_layout()</span></a>, vrna_plot_layout_naview(), <a class="reference internal" href="#group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c"><span class="std std-ref">vrna_plot_layout_simple()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098"><span class="std std-ref">vrna_plot_layout_turtle()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43"><span class="std std-ref">vrna_plot_layout_puzzler()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911"><span class="std std-ref">vrna_plot_coords_circular()</span></a>, vrna_file_PS_rnaplot_layout()</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If only X-Y coordinates of the corresponding structure layout are required, consider using <a class="reference internal" href="#group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911"><span class="std std-ref">vrna_plot_coords_circular()</span></a> instead!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The layout data structure for the provided secondary structure </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_turtle">
+<span class="target" id="group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098"></span><a class="reference internal" href="#c.vrna_plot_layout_t" title="vrna_plot_layout_t"><span class="n"><span class="pre">vrna_plot_layout_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_layout_turtle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_layout_turtle" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Create a layout (coordinates, etc.) for a secondary structure plot using the <em>Turtle Algorithm</em><span> <span id="id1">[<a class="reference internal" href="../../bibliography.html#id41" title="Daniel Wiegreffe, Daniel Alexander, Peter F Stadler, and Dirk Zeckzer. RNApuzzler: efficient outerplanar drawing of RNA-secondary structures. Bioinformatics, 35(8):1342–1349, 2019. doi:10.1093/bioinformatics/bty817.">Wiegreffe <em>et al.</em>, 2019</a>]</span> </span>. </p>
+<p>This function basically is a wrapper to <a class="reference internal" href="#group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e"><span class="std std-ref">vrna_plot_layout()</span></a> that passes the <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> <a class="reference internal" href="#group__plot__layout__utils_1ga382c1c5c0b1943500aa4bb55b7658a33"><span class="std std-ref">VRNA_PLOT_TYPE_TURTLE</span></a>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931"><span class="std std-ref">vrna_plot_layout_free()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e"><span class="std std-ref">vrna_plot_layout()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c"><span class="std std-ref">vrna_plot_layout_simple()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458"><span class="std std-ref">vrna_plot_layout_circular()</span></a>, vrna_plot_layout_naview(), <a class="reference internal" href="#group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43"><span class="std std-ref">vrna_plot_layout_puzzler()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19"><span class="std std-ref">vrna_plot_coords_turtle()</span></a>, vrna_file_PS_rnaplot_layout()</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If only X-Y coordinates of the corresponding structure layout are required, consider using <a class="reference internal" href="#group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19"><span class="std std-ref">vrna_plot_coords_turtle()</span></a> instead!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The layout data structure for the provided secondary structure </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_puzzler">
+<span class="target" id="group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43"></span><a class="reference internal" href="#c.vrna_plot_layout_t" title="vrna_plot_layout_t"><span class="n"><span class="pre">vrna_plot_layout_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_layout_puzzler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <a class="reference internal" href="#c.vrna_plot_options_puzzler_t" title="vrna_plot_options_puzzler_t"><span class="n"><span class="pre">vrna_plot_options_puzzler_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_layout_puzzler" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Create a layout (coordinates, etc.) for a secondary structure plot using the <em>RNApuzzler Algorithm</em><span> <span id="id2">[<a class="reference internal" href="../../bibliography.html#id41" title="Daniel Wiegreffe, Daniel Alexander, Peter F Stadler, and Dirk Zeckzer. RNApuzzler: efficient outerplanar drawing of RNA-secondary structures. Bioinformatics, 35(8):1342–1349, 2019. doi:10.1093/bioinformatics/bty817.">Wiegreffe <em>et al.</em>, 2019</a>]</span> </span>. </p>
+<p>This function basically is a wrapper to <a class="reference internal" href="#group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e"><span class="std std-ref">vrna_plot_layout()</span></a> that passes the <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> <a class="reference internal" href="#group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae"><span class="std std-ref">VRNA_PLOT_TYPE_PUZZLER</span></a>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931"><span class="std std-ref">vrna_plot_layout_free()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e"><span class="std std-ref">vrna_plot_layout()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c"><span class="std std-ref">vrna_plot_layout_simple()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458"><span class="std std-ref">vrna_plot_layout_circular()</span></a>, vrna_plot_layout_naview(), <a class="reference internal" href="#group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098"><span class="std std-ref">vrna_plot_layout_turtle()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3"><span class="std std-ref">vrna_plot_coords_puzzler()</span></a>, vrna_file_PS_rnaplot_layout()</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If only X-Y coordinates of the corresponding structure layout are required, consider using <a class="reference internal" href="#group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3"><span class="std std-ref">vrna_plot_coords_puzzler()</span></a> instead!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The layout data structure for the provided secondary structure </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_free">
+<span class="target" id="group__plot__layout__utils_1ga996128730020a2d7a7368b4248195931"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_layout_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_plot_layout_t" title="vrna_plot_layout_t"><span class="n"><span class="pre">vrna_plot_layout_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">layout</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_layout_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Free memory occupied by a figure layout data structure. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1gac986fe092abc2a6a93ceb5141e4dd28b"><span class="std std-ref">vrna_plot_layout_t</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga27768f2479dffe0c01edf28486da840e"><span class="std std-ref">vrna_plot_layout()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1818430e3f62a9026318fd7f4e5cee4c"><span class="std std-ref">vrna_plot_layout_simple()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gac3332324c4fdb299c573cf15c7d14458"><span class="std std-ref">vrna_plot_layout_circular()</span></a>, vrna_plot_layout_naview(), <a class="reference internal" href="#group__plot__layout__utils_1ga0896374afd1bbc6086affc636fbd9098"><span class="std std-ref">vrna_plot_layout_turtle()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43"><span class="std std-ref">vrna_plot_layout_puzzler()</span></a>, vrna_file_PS_rnaplot_layout()</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layout</strong> – The layout data structure to free </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_coords">
+<span class="target" id="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_coords</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">y</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">plot_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_coords" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Compute nucleotide coordinates for secondary structure plot. </p>
+<p>This function takes a secondary structure and computes X-Y coordinates for each nucleotide that then can be used to create a structure plot. The parameter <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> is used to select the underlying layout algorithm. Currently, the following selections are provided:<ul class="simple">
+<li><p><a class="reference internal" href="#group__plot__layout__utils_1gae6d17b9f0a53cf5205a9181e0f8422e9"><span class="std std-ref">VRNA_PLOT_TYPE_SIMPLE</span></a></p></li>
+<li><p><a class="reference internal" href="#group__plot__layout__utils_1ga94d4c863ecac2f220f76658afb92f964"><span class="std std-ref">VRNA_PLOT_TYPE_NAVIEW</span></a></p></li>
+<li><p><a class="reference internal" href="#group__plot__layout__utils_1ga8c9eac631348da92136c8363ecdd9fb9"><span class="std std-ref">VRNA_PLOT_TYPE_CIRCULAR</span></a></p></li>
+<li><p><a class="reference internal" href="#group__plot__layout__utils_1ga382c1c5c0b1943500aa4bb55b7658a33"><span class="std std-ref">VRNA_PLOT_TYPE_TURTLE</span></a></p></li>
+<li><p><a class="reference internal" href="#group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae"><span class="std std-ref">VRNA_PLOT_TYPE_PUZZLER</span></a></p></li>
+</ul>
+</p>
+<p>Passing an unsupported selection leads to the default algorithm <a class="reference internal" href="#group__plot__layout__utils_1ga94d4c863ecac2f220f76658afb92f964"><span class="std std-ref">VRNA_PLOT_TYPE_NAVIEW</span></a></p>
+<p>Here is a simple example how to use this function, assuming variable <code class="docutils literal notranslate"><span class="pre">structure</span></code> contains a valid dot-bracket string: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">vrna_plot_coords</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;all fine&quot;</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;some failure occured!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">free</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">free</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b"><span class="std std-ref">vrna_plot_coords_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6"><span class="std std-ref">vrna_plot_coords_simple()</span></a>, vrna_plot_coords_naview() <a class="reference internal" href="#group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911"><span class="std std-ref">vrna_plot_coords_circular()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19"><span class="std std-ref">vrna_plot_coords_turtle()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3"><span class="std std-ref">vrna_plot_coords_puzzler()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> to the corresponding memory locations. It’s the users responsibility to cleanup this memory after usage!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>x</strong> – <strong>[inout]</strong> The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>y</strong> – <strong>[inout]</strong> The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>plot_type</strong> – The layout algorithm to be used </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The length of the structure on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_coords_pt">
+<span class="target" id="group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_coords_pt</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">y</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">plot_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_coords_pt" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Compute nucleotide coordinates for secondary structure plot. </p>
+<p>Same as <a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a> but takes a pair table with the structure information as input.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd"><span class="std std-ref">vrna_plot_coords_simple_pt()</span></a>, vrna_plot_coords_naview_pt() <a class="reference internal" href="#group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460"><span class="std std-ref">vrna_plot_coords_circular_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf"><span class="std std-ref">vrna_plot_coords_turtle_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24"><span class="std std-ref">vrna_plot_coords_puzzler_pt()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> to the corresponding memory locations. It’s the users responsibility to cleanup this memory after usage!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt</strong> – The pair table that holds the secondary structure </p></li>
+<li><p><strong>x</strong> – <strong>[inout]</strong> The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>y</strong> – <strong>[inout]</strong> The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>plot_type</strong> – The layout algorithm to be used </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The length of the structure on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_coords_simple">
+<span class="target" id="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_coords_simple</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">y</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_coords_simple" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Compute nucleotide coordinates for secondary structure plot the <em>Simple way</em></p>
+<p>This function basically is a wrapper to <a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a> that passes the <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> <a class="reference internal" href="#group__plot__layout__utils_1gae6d17b9f0a53cf5205a9181e0f8422e9"><span class="std std-ref">VRNA_PLOT_TYPE_SIMPLE</span></a>.</p>
+<p>Here is a simple example how to use this function, assuming variable <code class="docutils literal notranslate"><span class="pre">structure</span></code> contains a valid dot-bracket string: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">vrna_plot_coords_simple</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;all fine&quot;</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;some failure occured!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">free</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">free</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd"><span class="std std-ref">vrna_plot_coords_simple_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911"><span class="std std-ref">vrna_plot_coords_circular()</span></a>, vrna_plot_coords_naview(), <a class="reference internal" href="#group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19"><span class="std std-ref">vrna_plot_coords_turtle()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3"><span class="std std-ref">vrna_plot_coords_puzzler()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> to the corresponding memory locations. It’s the users responsibility to cleanup this memory after usage!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>x</strong> – <strong>[inout]</strong> The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>y</strong> – <strong>[inout]</strong> The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The length of the structure on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_coords_simple_pt">
+<span class="target" id="group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_coords_simple_pt</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">y</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_coords_simple_pt" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Compute nucleotide coordinates for secondary structure plot the <em>Simple way</em></p>
+<p>Same as <a class="reference internal" href="#group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6"><span class="std std-ref">vrna_plot_coords_simple()</span></a> but takes a pair table with the structure information as input.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b"><span class="std std-ref">vrna_plot_coords_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6"><span class="std std-ref">vrna_plot_coords_simple()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460"><span class="std std-ref">vrna_plot_coords_circular_pt()</span></a>, vrna_plot_coords_naview_pt(), <a class="reference internal" href="#group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf"><span class="std std-ref">vrna_plot_coords_turtle_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24"><span class="std std-ref">vrna_plot_coords_puzzler_pt()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> to the corresponding memory locations. It’s the users responsibility to cleanup this memory after usage!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt</strong> – The pair table that holds the secondary structure </p></li>
+<li><p><strong>x</strong> – <strong>[inout]</strong> The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>y</strong> – <strong>[inout]</strong> The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The length of the structure on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_coords_circular">
+<span class="target" id="group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_coords_circular</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">y</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_coords_circular" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Compute coordinates of nucleotides mapped in equal distancies onto a unit circle. </p>
+<p>This function basically is a wrapper to <a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a> that passes the <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> <a class="reference internal" href="#group__plot__layout__utils_1ga8c9eac631348da92136c8363ecdd9fb9"><span class="std std-ref">VRNA_PLOT_TYPE_CIRCULAR</span></a>.</p>
+<p>In order to draw nice arcs using quadratic bezier curves that connect base pairs one may calculate a second tangential point <span class="math notranslate nohighlight">\(P^t\)</span> in addition to the actual R<sup>2</sup> coordinates. the simplest way to do so may be to compute a radius scaling factor <span class="math notranslate nohighlight">\(rs\)</span> in the interval <span class="math notranslate nohighlight">\([0,1]\)</span> that weights the proportion of base pair span to the actual length of the sequence. This scaling factor can then be used to calculate the coordinates for <span class="math notranslate nohighlight">\(P^t\)</span>, i.e.</p>
+<p><div class="math notranslate nohighlight">
+\[ P^{t}_x[i] = X[i] * rs \]</div>
+</p>
+<p>and</p>
+<p><div class="math notranslate nohighlight">
+\[ P^{t}_y[i] = Y[i] * rs \]</div>
+.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460"><span class="std std-ref">vrna_plot_coords_circular_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6"><span class="std std-ref">vrna_plot_coords_simple()</span></a>, vrna_plot_coords_naview(), <a class="reference internal" href="#group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19"><span class="std std-ref">vrna_plot_coords_turtle()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3"><span class="std std-ref">vrna_plot_coords_puzzler()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> to the corresponding memory locations. It’s the users responsibility to cleanup this memory after usage!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>x</strong> – <strong>[inout]</strong> The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>y</strong> – <strong>[inout]</strong> The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The length of the structure on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_coords_circular_pt">
+<span class="target" id="group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_coords_circular_pt</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">y</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_coords_circular_pt" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Compute nucleotide coordinates for a <em>Circular Plot</em></p>
+<p>Same as <a class="reference internal" href="#group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911"><span class="std std-ref">vrna_plot_coords_circular()</span></a> but takes a pair table with the structure information as input.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b"><span class="std std-ref">vrna_plot_coords_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911"><span class="std std-ref">vrna_plot_coords_circular()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd"><span class="std std-ref">vrna_plot_coords_simple_pt()</span></a>, vrna_plot_coords_naview_pt(), <a class="reference internal" href="#group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf"><span class="std std-ref">vrna_plot_coords_turtle_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24"><span class="std std-ref">vrna_plot_coords_puzzler_pt()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On success, this function allocates memory for X and Y coordinates and assigns the pointers at addressess <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> to the corresponding memory locations. It’s the users responsibility to cleanup this memory after usage!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt</strong> – The pair table that holds the secondary structure </p></li>
+<li><p><strong>x</strong> – <strong>[inout]</strong> The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>y</strong> – <strong>[inout]</strong> The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The length of the structure on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_coords_puzzler">
+<span class="target" id="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_coords_puzzler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arc_coords</span></span>, <a class="reference internal" href="#c.vrna_plot_options_puzzler_t" title="vrna_plot_options_puzzler_t"><span class="n"><span class="pre">vrna_plot_options_puzzler_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_coords_puzzler" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/RNApuzzler/RNApuzzler.h&gt;</em><p>Compute nucleotide coordinates for secondary structure plot using the <em>RNApuzzler</em> algorithm  <span> <span id="id3">[<a class="reference internal" href="../../bibliography.html#id41" title="Daniel Wiegreffe, Daniel Alexander, Peter F Stadler, and Dirk Zeckzer. RNApuzzler: efficient outerplanar drawing of RNA-secondary structures. Bioinformatics, 35(8):1342–1349, 2019. doi:10.1093/bioinformatics/bty817.">Wiegreffe <em>et al.</em>, 2019</a>]</span> </span>. </p>
+<p>This function basically is a wrapper to <a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a> that passes the <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> <a class="reference internal" href="#group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae"><span class="std std-ref">VRNA_PLOT_TYPE_PUZZLER</span></a>.</p>
+<p>Here is a simple example how to use this function, assuming variable <code class="docutils literal notranslate"><span class="pre">structure</span></code> contains a valid dot-bracket string and using the default options (<code class="docutils literal notranslate"><span class="pre">options</span></code> = NULL): <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="w">  </span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">;</span>
+<span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="n">arcs</span><span class="p">;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">vrna_plot_coords_puzzler</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">arcs</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;all fine&quot;</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;some failure occured!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">free</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">free</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+<span class="n">free</span><span class="p">(</span><span class="n">arcs</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24"><span class="std std-ref">vrna_plot_coords_puzzler_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911"><span class="std std-ref">vrna_plot_coords_circular()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6"><span class="std std-ref">vrna_plot_coords_simple()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19"><span class="std std-ref">vrna_plot_coords_turtle()</span></a>, vrna_plot_coords_naview(), <a class="reference internal" href="#group__plot__layout__utils_1ga375ca7af7028a447d457748c4c138a8a"><span class="std std-ref">vrna_plot_options_puzzler()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On success, this function allocates memory for X, Y and arc coordinates and assigns the pointers at addressess <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">arc_coords</span></code> to the corresponding memory locations. It’s the users responsibility to cleanup this memory after usage!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>x</strong> – <strong>[inout]</strong> The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>y</strong> – <strong>[inout]</strong> The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>arc_coords</strong> – <strong>[inout]</strong> The address of a pointer that will hold arc coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>options</strong> – The options for the RNApuzzler algorithm (or NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The length of the structure on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_coords_puzzler_pt">
+<span class="target" id="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_coords_puzzler_pt</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">pair_table</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arc_coords</span></span>, <a class="reference internal" href="#c.vrna_plot_options_puzzler_t" title="vrna_plot_options_puzzler_t"><span class="n"><span class="pre">vrna_plot_options_puzzler_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">puzzler</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_coords_puzzler_pt" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/RNApuzzler/RNApuzzler.h&gt;</em><p>Compute nucleotide coordinates for secondary structure plot using the <em>RNApuzzler</em> algorithm  <span> <span id="id4">[<a class="reference internal" href="../../bibliography.html#id41" title="Daniel Wiegreffe, Daniel Alexander, Peter F Stadler, and Dirk Zeckzer. RNApuzzler: efficient outerplanar drawing of RNA-secondary structures. Bioinformatics, 35(8):1342–1349, 2019. doi:10.1093/bioinformatics/bty817.">Wiegreffe <em>et al.</em>, 2019</a>]</span> </span>. </p>
+<p>Same as <a class="reference internal" href="#group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3"><span class="std std-ref">vrna_plot_coords_puzzler()</span></a> but takes a pair table with the structure information as input.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b"><span class="std std-ref">vrna_plot_coords_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3"><span class="std std-ref">vrna_plot_coords_puzzler()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460"><span class="std std-ref">vrna_plot_coords_circular_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd"><span class="std std-ref">vrna_plot_coords_simple_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf"><span class="std std-ref">vrna_plot_coords_turtle_pt()</span></a>, vrna_plot_coords_naview_pt()</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On success, this function allocates memory for X, Y and arc coordinates and assigns the pointers at addressess <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">arc_coords</span></code> to the corresponding memory locations. It’s the users responsibility to cleanup this memory after usage!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt</strong> – The pair table that holds the secondary structure </p></li>
+<li><p><strong>x</strong> – <strong>[inout]</strong> The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>y</strong> – <strong>[inout]</strong> The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>arc_coords</strong> – <strong>[inout]</strong> The address of a pointer that will hold arc coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>options</strong> – The options for the RNApuzzler algorithm (or NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The length of the structure on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler">
+<span class="target" id="group__plot__layout__utils_1ga375ca7af7028a447d457748c4c138a8a"></span><a class="reference internal" href="#c.vrna_plot_options_puzzler_t" title="vrna_plot_options_puzzler_t"><span class="n"><span class="pre">vrna_plot_options_puzzler_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_options_puzzler</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_options_puzzler" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/RNApuzzler/RNApuzzler.h&gt;</em><p>Create an RNApuzzler options data structure. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga551344268c4245f3f75994a51c517a30"><span class="std std-ref">vrna_plot_options_puzzler_free()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3"><span class="std std-ref">vrna_plot_coords_puzzler()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24"><span class="std std-ref">vrna_plot_coords_puzzler_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43"><span class="std std-ref">vrna_plot_layout_puzzler()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An RNApuzzler options data structure with default settings </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_free">
+<span class="target" id="group__plot__layout__utils_1ga551344268c4245f3f75994a51c517a30"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_options_puzzler_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_plot_options_puzzler_t" title="vrna_plot_options_puzzler_t"><span class="n"><span class="pre">vrna_plot_options_puzzler_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_options_puzzler_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/RNApuzzler/RNApuzzler.h&gt;</em><p>Free memory occupied by an RNApuzzler options data structure. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga375ca7af7028a447d457748c4c138a8a"><span class="std std-ref">vrna_plot_options_puzzler()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3"><span class="std std-ref">vrna_plot_coords_puzzler()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24"><span class="std std-ref">vrna_plot_coords_puzzler_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga1ac934431fd36f6b82719d6898e1de43"><span class="std std-ref">vrna_plot_layout_puzzler()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>options</strong> – A pointer to the options data structure to free </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_coords_turtle">
+<span class="target" id="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_coords_turtle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arc_coords</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_coords_turtle" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/RNApuzzler/RNAturtle.h&gt;</em><p>Compute nucleotide coordinates for secondary structure plot using the <em>RNAturtle</em> algorithm  <span> <span id="id5">[<a class="reference internal" href="../../bibliography.html#id41" title="Daniel Wiegreffe, Daniel Alexander, Peter F Stadler, and Dirk Zeckzer. RNApuzzler: efficient outerplanar drawing of RNA-secondary structures. Bioinformatics, 35(8):1342–1349, 2019. doi:10.1093/bioinformatics/bty817.">Wiegreffe <em>et al.</em>, 2019</a>]</span> </span>. </p>
+<p>This function basically is a wrapper to <a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a> that passes the <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> <a class="reference internal" href="#group__plot__layout__utils_1ga382c1c5c0b1943500aa4bb55b7658a33"><span class="std std-ref">VRNA_PLOT_TYPE_TURTLE</span></a>.</p>
+<p>Here is a simple example how to use this function, assuming variable <code class="docutils literal notranslate"><span class="pre">structure</span></code> contains a valid dot-bracket string: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="w">  </span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">;</span>
+<span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="n">arcs</span><span class="p">;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">vrna_plot_coords_turtle</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">arcs</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;all fine&quot;</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;some failure occured!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">free</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">free</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+<span class="n">free</span><span class="p">(</span><span class="n">arcs</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a"><span class="std std-ref">vrna_plot_coords()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf"><span class="std std-ref">vrna_plot_coords_turtle_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911"><span class="std std-ref">vrna_plot_coords_circular()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6"><span class="std std-ref">vrna_plot_coords_simple()</span></a>, vrna_plot_coords_naview(), <a class="reference internal" href="#group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3"><span class="std std-ref">vrna_plot_coords_puzzler()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On success, this function allocates memory for X, Y and arc coordinates and assigns the pointers at addressess <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">arc_coords</span></code> to the corresponding memory locations. It’s the users responsibility to cleanup this memory after usage!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>x</strong> – <strong>[inout]</strong> The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>y</strong> – <strong>[inout]</strong> The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>arc_coords</strong> – <strong>[inout]</strong> The address of a pointer that will hold arc coordinates (pointer will point to memory, or NULL on failure) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The length of the structure on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_plot_coords_turtle_pt">
+<span class="target" id="group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_coords_turtle_pt</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">pair_table</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arc_coords</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_plot_coords_turtle_pt" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/RNApuzzler/RNAturtle.h&gt;</em><p>Compute nucleotide coordinates for secondary structure plot using the <em>RNAturtle</em> algorithm  <span> <span id="id6">[<a class="reference internal" href="../../bibliography.html#id41" title="Daniel Wiegreffe, Daniel Alexander, Peter F Stadler, and Dirk Zeckzer. RNApuzzler: efficient outerplanar drawing of RNA-secondary structures. Bioinformatics, 35(8):1342–1349, 2019. doi:10.1093/bioinformatics/bty817.">Wiegreffe <em>et al.</em>, 2019</a>]</span> </span>. </p>
+<p>Same as <a class="reference internal" href="#group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19"><span class="std std-ref">vrna_plot_coords_turtle()</span></a> but takes a pair table with the structure information as input.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b"><span class="std std-ref">vrna_plot_coords_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19"><span class="std std-ref">vrna_plot_coords_turtle()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460"><span class="std std-ref">vrna_plot_coords_circular_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd"><span class="std std-ref">vrna_plot_coords_simple_pt()</span></a>, <a class="reference internal" href="#group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24"><span class="std std-ref">vrna_plot_coords_puzzler_pt()</span></a>, vrna_plot_coords_naview_pt()</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On success, this function allocates memory for X, Y and arc coordinates and assigns the pointers at addressess <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">arc_coords</span></code> to the corresponding memory locations. It’s the users responsibility to cleanup this memory after usage!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt</strong> – The pair table that holds the secondary structure </p></li>
+<li><p><strong>x</strong> – <strong>[inout]</strong> The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>y</strong> – <strong>[inout]</strong> The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </p></li>
+<li><p><strong>arc_coords</strong> – <strong>[inout]</strong> The address of a pointer that will hold arc coordinates (pointer will point to memory, or NULL on failure) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The length of the structure on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_s">
+<span class="target" id="structvrna__plot__layout__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_layout_s</span></span></span><a class="headerlink" href="#c.vrna_plot_layout_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_s.length">
+<span class="target" id="structvrna__plot__layout__s_1aa92d06838d41a8adc6b6e43368cfd550"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">length</span></span></span><a class="headerlink" href="#c.vrna_plot_layout_s.length" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_s.x">
+<span class="target" id="structvrna__plot__layout__s_1a0d59ec47bf0fe4879aa0a25ea09b6e74"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">x</span></span></span><a class="headerlink" href="#c.vrna_plot_layout_s.x" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_s.y">
+<span class="target" id="structvrna__plot__layout__s_1a36827154a3369f8f6518c8fcd2607cb0"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">y</span></span></span><a class="headerlink" href="#c.vrna_plot_layout_s.y" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_s.arcs">
+<span class="target" id="structvrna__plot__layout__s_1a050123b408054979b1034c8d0e3c47a8"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">arcs</span></span></span><a class="headerlink" href="#c.vrna_plot_layout_s.arcs" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_layout_s.bbox">
+<span class="target" id="structvrna__plot__layout__s_1a164e0d5a70e3830a8ecc938ac181da98"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bbox</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">4</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_plot_layout_s.bbox" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t">
+<span class="target" id="structvrna__plot__options__puzzler__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plot_options_puzzler_t</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/plotting/RNApuzzler/RNApuzzler.h&gt;</em></div>
+<p>Options data structure for RNApuzzler algorithm implementation. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.drawArcs">
+<span class="target" id="structvrna__plot__options__puzzler__t_1a36f827aa6ad6e95cdd7b2e9c72e8a29f"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">drawArcs</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.drawArcs" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.paired">
+<span class="target" id="structvrna__plot__options__puzzler__t_1a110ab956c12fc4fffb910adde0ecd3d4"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">paired</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.paired" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.unpaired">
+<span class="target" id="structvrna__plot__options__puzzler__t_1ab211b8584b71cea51d4fe1efd7e9ae5b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unpaired</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.unpaired" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.checkAncestorIntersections">
+<span class="target" id="structvrna__plot__options__puzzler__t_1aacb446d01c9662a32a7597e82c47a5f0"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">checkAncestorIntersections</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.checkAncestorIntersections" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.checkSiblingIntersections">
+<span class="target" id="structvrna__plot__options__puzzler__t_1a8fa7380258a500904624ac50c18e8871"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">checkSiblingIntersections</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.checkSiblingIntersections" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.checkExteriorIntersections">
+<span class="target" id="structvrna__plot__options__puzzler__t_1ab07bd2cd544236cdd41b1fd57aa785e5"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">checkExteriorIntersections</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.checkExteriorIntersections" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.allowFlipping">
+<span class="target" id="structvrna__plot__options__puzzler__t_1ab232f12775a071ecf2490cf2c9a888d7"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">allowFlipping</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.allowFlipping" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.optimize">
+<span class="target" id="structvrna__plot__options__puzzler__t_1ac9b708ad27bda64172a212e45c10bed6"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">optimize</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.optimize" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.maximumNumberOfConfigChangesAllowed">
+<span class="target" id="structvrna__plot__options__puzzler__t_1adfac04e933edf75040ed4ecfedea8924"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">maximumNumberOfConfigChangesAllowed</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.maximumNumberOfConfigChangesAllowed" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.config">
+<span class="target" id="structvrna__plot__options__puzzler__t_1abdf40624eff6a365f2e6fe25b97f8b43"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">config</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.config" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.filename">
+<span class="target" id="structvrna__plot__options__puzzler__t_1a30e3e50b7276e29db62dcfc5109b0f17"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">filename</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.filename" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.numberOfChangesAppliedToConfig">
+<span class="target" id="structvrna__plot__options__puzzler__t_1af2923e874831b8c71c178db70bef08d6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">numberOfChangesAppliedToConfig</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.numberOfChangesAppliedToConfig" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_plot_options_puzzler_t.psNumber">
+<span class="target" id="structvrna__plot__options__puzzler__t_1ace8eda4f0809a5ebdf67bb56c63efb38"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">psNumber</span></span></span><a class="headerlink" href="#c.vrna_plot_options_puzzler_t.psNumber" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../plots.html" class="btn btn-neutral float-left" title="Plotting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="annotation.html" class="btn btn-neutral float-right" title="Annotation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

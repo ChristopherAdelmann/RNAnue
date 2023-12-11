@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RNApdist &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="RNAPKplex" href="RNAPKplex.html" />
+    <link rel="prev" title="RNAparconv" href="RNAparconv.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../manpages.html">Manpages</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="RNA2Dfold.html">RNA2Dfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAaliduplex.html">RNAaliduplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAalifold.html">RNAalifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAcofold.html">RNAcofold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAdistance.html">RNAdistance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAdos.html">RNAdos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAduplex.html">RNAduplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAeval.html">RNAeval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAfold.html">RNAfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAheat.html">RNAheat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAinverse.html">RNAinverse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNALalifold.html">RNALalifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNALfold.html">RNALfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAmultifold.html">RNAmultifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNApaln.html">RNApaln</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAparconv.html">RNAparconv</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">RNApdist</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#description">DESCRIPTION</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#i-o-options">I/O Options:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algorithms">Algorithms:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#energy-parameters">Energy Parameters:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-details">Model Details:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#references">REFERENCES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#author">AUTHOR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reporting-bugs">REPORTING BUGS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="RNAPKplex.html">RNAPKplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAplex.html">RNAplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAplfold.html">RNAplfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAplot.html">RNAplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNApvmin.html">RNApvmin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAsnoop.html">RNAsnoop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAsubopt.html">RNAsubopt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAup.html">RNAup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../manpages.html">Manpages</a></li>
+      <li class="breadcrumb-item active">RNApdist</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rnapdist">
+<h1>RNApdist<a class="headerlink" href="#rnapdist" title="Link to this heading"></a></h1>
+<p><strong class="program">RNApdist</strong> - manual page for RNApdist 2.6.4</p>
+<section id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>RNApdist<span class="w"> </span><span class="o">[</span>OPTION<span class="o">]</span>...
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>DESCRIPTION<a class="headerlink" href="#description" title="Link to this heading"></a></h2>
+<p>RNApdist 2.6.4</p>
+<p>Calculate distances between thermodynamic RNA secondary structures ensembles</p>
+<p>This program reads RNA sequences from stdin and calculates structure distances
+between the thermodynamic ensembles of their secondary structures.</p>
+<p>To do this the partition function and matrix of base pairing probabilities is
+computed for each sequence. The probability matrix is then condensed into a
+vector holding for each base the probabilities of being unpaired, paired
+upstream, or paired downstream, respectively. These profiles are compared
+by a standard alignment algorithm.</p>
+<p>The base pair probabilities are also saved as postscript “dot plots” (as in
+RNAfold) in the files  “name_dp.ps”, where name is the name of the sequence,
+or a number if unnamed.</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-h">
+<span id="cmdoption-help"></span><span class="sig-name descname"><span class="pre">-h</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--help</span></span><a class="headerlink" href="#cmdoption-h" title="Link to this definition"></a></dt>
+<dd><p>Print help and exit</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-detailed-help">
+<span class="sig-name descname"><span class="pre">--detailed-help</span></span><a class="headerlink" href="#cmdoption-detailed-help" title="Link to this definition"></a></dt>
+<dd><p>Print help, including all details and hidden options, and exit</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-full-help">
+<span class="sig-name descname"><span class="pre">--full-help</span></span><a class="headerlink" href="#cmdoption-full-help" title="Link to this definition"></a></dt>
+<dd><p>Print help, including hidden options, and exit</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-V">
+<span id="cmdoption-version"></span><span class="sig-name descname"><span class="pre">-V</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--version</span></span><a class="headerlink" href="#cmdoption-V" title="Link to this definition"></a></dt>
+<dd><p>Print version and exit</p>
+</dd></dl>
+
+<section id="i-o-options">
+<h3>I/O Options:<a class="headerlink" href="#i-o-options" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Command line options for input and output (pre-)processing</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-noconv">
+<span class="sig-name descname"><span class="pre">--noconv</span></span><a class="headerlink" href="#cmdoption-noconv" title="Link to this definition"></a></dt>
+<dd><p>Do not automatically substitute nucleotide “T” with “U”.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+</section>
+<section id="algorithms">
+<h3>Algorithms:<a class="headerlink" href="#algorithms" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Select additional algorithms which should be included in the calculations.</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-X">
+<span id="cmdoption-compare"></span><span class="sig-name descname"><span class="pre">-X</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--compare</span></span><span class="p"><span class="pre">=</span></span><span class="pre">p|m|f|c</span><a class="headerlink" href="#cmdoption-X" title="Link to this definition"></a></dt>
+<dd><p>Specify the comparison directive. <em>(default=”p”)</em></p>
+<p>Possible arguments for this option are: <code class="xref std std-option docutils literal notranslate"><span class="pre">-Xp</span></code> compare the structures pairwise
+(p), i.e. first with 2nd, third with 4th etc.
+<code class="xref std std-option docutils literal notranslate"><span class="pre">-Xm</span></code> calculate the distance matrix between all structures. The output is
+formatted as a lower triangle matrix.
+<code class="xref std std-option docutils literal notranslate"><span class="pre">-Xf</span></code> compare each structure to the first one.
+<code class="xref std std-option docutils literal notranslate"><span class="pre">-Xc</span></code> compare continuously, that is i-th with (i+1)th structure.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-B">
+<span id="cmdoption-backtrack"></span><span class="sig-name descname"><span class="pre">-B</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--backtrack</span></span><span class="p"><span class="pre">[</span></span><span class="pre">=&lt;filename&gt;</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#cmdoption-B" title="Link to this definition"></a></dt>
+<dd><p>Print an “alignment” with gaps of the profiles. The aligned structures are written to &lt;filename&gt;, if specified.</p>
+<p><em>(default=”none”)</em></p>
+<p>Within the profile output, the following symbols will be used:</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-0">
+<span class="sig-name descname"><span class="pre">()</span></span><a class="headerlink" href="#cmdoption-arg-0" title="Link to this definition"></a></dt>
+<dd><p>essentially upstream (downstream) paired bases</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-1">
+<span class="sig-name descname"><span class="pre">{}</span></span><a class="headerlink" href="#cmdoption-arg-1" title="Link to this definition"></a></dt>
+<dd><p>weakly upstream (downstream) paired bases</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-2">
+<span class="sig-name descname"><span class="pre">|</span></span><a class="headerlink" href="#cmdoption-arg-2" title="Link to this definition"></a></dt>
+<dd><p>strongly paired bases without preference</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-3">
+<span class="sig-name descname"><span class="pre">,</span></span><a class="headerlink" href="#cmdoption-arg-3" title="Link to this definition"></a></dt>
+<dd><p>weakly paired bases without preference</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-.">
+<span class="sig-name descname"><span class="pre">.</span></span><a class="headerlink" href="#cmdoption-arg-." title="Link to this definition"></a></dt>
+<dd><p>essentially unpaired bases.</p>
+<p>If &lt;filename&gt; is not specified, the output is written to stdout, unless the</p>
+<p>“-Xm” option is set in which case “backtrack.file” is used.</p>
+</dd></dl>
+
+</section>
+<section id="energy-parameters">
+<h3>Energy Parameters:<a class="headerlink" href="#energy-parameters" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Energy parameter sets can be adapted or loaded from user-provided input files</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-T">
+<span id="cmdoption-temp"></span><span class="sig-name descname"><span class="pre">-T</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--temp</span></span><span class="p"><span class="pre">=</span></span><span class="pre">DOUBLE</span><a class="headerlink" href="#cmdoption-T" title="Link to this definition"></a></dt>
+<dd><p>Rescale energy parameters to a temperature of temp C. Default is 37C.</p>
+<p><em>(default=”37.0”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-P">
+<span id="cmdoption-paramFile"></span><span class="sig-name descname"><span class="pre">-P</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--paramFile</span></span><span class="p"><span class="pre">=</span></span><span class="pre">paramfile</span><a class="headerlink" href="#cmdoption-P" title="Link to this definition"></a></dt>
+<dd><p>Read energy parameters from paramfile, instead of using the default parameter set.</p>
+<p>Different sets of energy parameters for RNA and DNA should accompany your
+distribution.
+See the RNAlib documentation for details on the file format. When passing the
+placeholder file name “DNA”, DNA parameters are loaded without the need to
+actually specify any input file.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-4">
+<span id="cmdoption-noTetra"></span><span class="sig-name descname"><span class="pre">-4</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--noTetra</span></span><a class="headerlink" href="#cmdoption-4" title="Link to this definition"></a></dt>
+<dd><p>Do not include special tabulated stabilizing energies for tri-, tetra- and hexaloop hairpins.</p>
+<p><em>(default=off)</em></p>
+<p>Mostly for testing.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-salt">
+<span class="sig-name descname"><span class="pre">--salt</span></span><span class="p"><span class="pre">=</span></span><span class="pre">DOUBLE</span><a class="headerlink" href="#cmdoption-salt" title="Link to this definition"></a></dt>
+<dd><p>Set salt concentration in molar (M). Default is 1.021M.</p>
+</dd></dl>
+
+</section>
+<section id="model-details">
+<h3>Model Details:<a class="headerlink" href="#model-details" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Tweak the energy model and pairing rules additionally using the following
+parameters</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-d">
+<span id="cmdoption-dangles"></span><span class="sig-name descname"><span class="pre">-d</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--dangles</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-d" title="Link to this definition"></a></dt>
+<dd><p>set energy model for treatment of dangling bases.</p>
+<p>(possible values=”0”, “2” default=”2”)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-noLP">
+<span class="sig-name descname"><span class="pre">--noLP</span></span><a class="headerlink" href="#cmdoption-noLP" title="Link to this definition"></a></dt>
+<dd><p>Produce structures without lonely pairs (helices of length 1).</p>
+<p><em>(default=off)</em></p>
+<p>For partition function folding this only disallows pairs that can only occur
+isolated. Other pairs may still occasionally occur as helices of length 1.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-noGU">
+<span class="sig-name descname"><span class="pre">--noGU</span></span><a class="headerlink" href="#cmdoption-noGU" title="Link to this definition"></a></dt>
+<dd><p>Do not allow GU pairs.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-noClosingGU">
+<span class="sig-name descname"><span class="pre">--noClosingGU</span></span><a class="headerlink" href="#cmdoption-noClosingGU" title="Link to this definition"></a></dt>
+<dd><p>Do not allow GU pairs at the end of helices.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-nsp">
+<span class="sig-name descname"><span class="pre">--nsp</span></span><span class="p"><span class="pre">=</span></span><span class="pre">STRING</span><a class="headerlink" href="#cmdoption-nsp" title="Link to this definition"></a></dt>
+<dd><p>Allow other pairs in addition to the usual AU,GC,and GU pairs.</p>
+<p>Its argument is a comma separated list of additionally allowed pairs. If the
+first character is a “-” then AB will imply that AB and BA are allowed
+pairs.
+e.g. RNAfold <code class="xref std std-option docutils literal notranslate"><span class="pre">-nsp</span></code> <code class="xref std std-option docutils literal notranslate"><span class="pre">-GA</span></code>  will allow GA and AG pairs. Nonstandard pairs are
+given 0 stacking energy.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-e">
+<span id="cmdoption-energyModel"></span><span class="sig-name descname"><span class="pre">-e</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--energyModel</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-e" title="Link to this definition"></a></dt>
+<dd><p>Set energy model.</p>
+<p>Rarely used option to fold sequences from the artificial ABCD… alphabet,
+where A pairs B, C-D etc.  Use the energy parameters for GC (<a class="reference internal" href="RNALalifold.html#cmdoption-e"><code class="xref std std-option docutils literal notranslate"><span class="pre">-e</span></code></a> 1) or AU (<a class="reference internal" href="RNALalifold.html#cmdoption-e"><code class="xref std std-option docutils literal notranslate"><span class="pre">-e</span></code></a>
+2) pairs.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-helical-rise">
+<span class="sig-name descname"><span class="pre">--helical-rise</span></span><span class="p"><span class="pre">=</span></span><span class="pre">FLOAT</span><a class="headerlink" href="#cmdoption-helical-rise" title="Link to this definition"></a></dt>
+<dd><p>Set the helical rise of the helix in units of Angstrom.</p>
+<p><em>(default=”2.8”)</em></p>
+<p>Use with caution! This value will be re-set automatically to 3.4 in case DNA
+parameters are loaded via <a class="reference internal" href="RNA2Dfold.html#cmdoption-P"><code class="xref std std-option docutils literal notranslate"><span class="pre">-P</span></code></a> DNA and no further value is provided.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-backbone-length">
+<span class="sig-name descname"><span class="pre">--backbone-length</span></span><span class="p"><span class="pre">=</span></span><span class="pre">FLOAT</span><a class="headerlink" href="#cmdoption-backbone-length" title="Link to this definition"></a></dt>
+<dd><p>Set the average backbone length for looped regions in units of Angstrom.</p>
+<p><em>(default=”6.0”)</em></p>
+<p>Use with caution! This value will be re-set automatically to 6.76 in case DNA
+parameters are loaded via <a class="reference internal" href="RNA2Dfold.html#cmdoption-P"><code class="xref std std-option docutils literal notranslate"><span class="pre">-P</span></code></a> DNA and no further value is provided.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="references">
+<h2>REFERENCES<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<p><em>If you use this program in your work you might want to cite:</em></p>
+<p>R. Lorenz, S.H. Bernhart, C. Hoener zu Siederdissen, H. Tafer, C. Flamm, P.F. Stadler and I.L. Hofacker (2011),
+“ViennaRNA Package 2.0”,
+Algorithms for Molecular Biology: 6:26</p>
+<p>I.L. Hofacker, W. Fontana, P.F. Stadler, S. Bonhoeffer, M. Tacker, P. Schuster (1994),
+“Fast Folding and Comparison of RNA Secondary Structures”,
+Monatshefte f. Chemie: 125, pp 167-188</p>
+<p>R. Lorenz, I.L. Hofacker, P.F. Stadler (2016),
+“RNA folding with hard and soft constraints”,
+Algorithms for Molecular Biology 11:1 pp 1-13</p>
+<p>S. Bonhoeffer, J.S. McCaskill, P.F. Stadler, P. Schuster (1993),
+“RNA multi-structure landscapes”,
+Euro Biophys J:22, pp 13-24</p>
+<p><em>The energy parameters are taken from:</em></p>
+<p>D.H. Mathews, M.D. Disney, D. Matthew, J.L. Childs, S.J. Schroeder, J. Susan, M. Zuker, D.H. Turner (2004),
+“Incorporating chemical modification constraints into a dynamic programming algorithm for prediction of RNA secondary structure”,
+Proc. Natl. Acad. Sci. USA: 101, pp 7287-7292</p>
+<p>D.H Turner, D.H. Mathews (2009),
+“NNDB: The nearest neighbor parameter database for predicting stability of nucleic acid secondary structure”,
+Nucleic Acids Research: 38, pp 280-282</p>
+</section>
+<section id="author">
+<h2>AUTHOR<a class="headerlink" href="#author" title="Link to this heading"></a></h2>
+<p>Peter F Stadler, Ivo L Hofacker, Sebastian Bonhoeffer.</p>
+</section>
+<section id="reporting-bugs">
+<h2>REPORTING BUGS<a class="headerlink" href="#reporting-bugs" title="Link to this heading"></a></h2>
+<p>If in doubt our program is right, nature is at fault.
+Comments should be sent to <a class="reference external" href="mailto:rna&#37;&#52;&#48;tbi&#46;univie&#46;ac&#46;at">rna<span>&#64;</span>tbi<span>&#46;</span>univie<span>&#46;</span>ac<span>&#46;</span>at</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="RNAparconv.html" class="btn btn-neutral float-left" title="RNAparconv" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="RNAPKplex.html" class="btn btn-neutral float-right" title="RNAPKplex" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

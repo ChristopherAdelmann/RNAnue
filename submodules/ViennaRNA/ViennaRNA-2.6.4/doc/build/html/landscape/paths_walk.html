@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Folding Paths that start at a single Secondary Structure &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Deprecated Interface for (Re-)folding Paths, Saddle Points, and Energy Barriers" href="paths_deprecated.html" />
+    <link rel="prev" title="Direct Refolding Paths between two Secondary Structures" href="paths_direct.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="neighbors.html">Neighborhood Relation and Move Sets for Secondary Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="paths.html">(Re-)folding Paths, Saddle Points, Energy Barriers, and Local Minima</a></li>
+<li class="toctree-l3"><a class="reference internal" href="paths_direct.html">Direct Refolding Paths between two Secondary Structures</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Folding Paths that start at a single Secondary Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="paths_deprecated.html">Deprecated Interface for (Re-)folding Paths, Saddle Points, and Energy Barriers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+      <li class="breadcrumb-item active">Folding Paths that start at a single Secondary Structure</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="folding-paths-that-start-at-a-single-secondary-structure">
+<h1>Folding Paths that start at a single Secondary Structure<a class="headerlink" href="#folding-paths-that-start-at-a-single-secondary-structure" title="Link to this heading"></a></h1>
+<p>Implementation of gradient- and random walks starting from
+a single secondary structure.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__paths__walk"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PATH_STEEPEST_DESCENT">
+<span class="target" id="group__paths__walk_1ga705cea2b3243a38a2d6e3b1e141ed061"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PATH_STEEPEST_DESCENT</span></span></span><a class="headerlink" href="#c.VRNA_PATH_STEEPEST_DESCENT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/walk.h&gt;</em><p>Option flag to request a steepest descent / gradient path. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"><span class="std std-ref">vrna_path()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PATH_RANDOM">
+<span class="target" id="group__paths__walk_1ga0b84bd36bfd783130297797c51dd85ae"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PATH_RANDOM</span></span></span><a class="headerlink" href="#c.VRNA_PATH_RANDOM" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/walk.h&gt;</em><p>Option flag to request a random walk path. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"><span class="std std-ref">vrna_path()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PATH_NO_TRANSITION_OUTPUT">
+<span class="target" id="group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PATH_NO_TRANSITION_OUTPUT</span></span></span><a class="headerlink" href="#c.VRNA_PATH_NO_TRANSITION_OUTPUT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/walk.h&gt;</em><p>Option flag to omit returning the transition path. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"><span class="std std-ref">vrna_path()</span></a>, <a class="reference internal" href="#group__paths__walk_1ga1625c4e8859b5e9aadf78f3cab81f418"><span class="std std-ref">vrna_path_gradient()</span></a>, <a class="reference internal" href="#group__paths__walk_1ga1f7fa62038eb40a3591f09c8fbb8b68b"><span class="std std-ref">vrna_path_random()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PATH_DEFAULT">
+<span class="target" id="group__paths__walk_1gaf1bb1f8fec8d24e3b821f621b19f77b4"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PATH_DEFAULT</span></span></span><a class="headerlink" href="#c.VRNA_PATH_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/walk.h&gt;</em><p>Option flag to request defaults (steepest descent / default move set) </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"><span class="std std-ref">vrna_path()</span></a>, <a class="reference internal" href="#group__paths__walk_1ga705cea2b3243a38a2d6e3b1e141ed061"><span class="std std-ref">VRNA_PATH_STEEPEST_DESCENT</span></a>, <a class="reference internal" href="neighbors.html#group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1"><span class="std std-ref">VRNA_MOVESET_DEFAULT</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_path">
+<span class="target" id="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"></span><a class="reference internal" href="neighbors.html#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_path</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">steps</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_path" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/walk.h&gt;</em><p>Compute a path, store the final structure, and return a list of transition moves from the start to the final structure. </p>
+<p>This function computes, given a start structure in pair table format, a transition path, updates the pair table to the final structure of the path. Finally, if not requested otherwise by using the <a class="reference internal" href="#group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d"><span class="std std-ref">VRNA_PATH_NO_TRANSITION_OUTPUT</span></a> flag in the <code class="docutils literal notranslate"><span class="pre">options</span></code> field, this function returns a list of individual transitions that lead from the start to the final structure if requested.</p>
+<p>The currently available transition paths are<ul class="simple">
+<li><p>Steepest Descent / Gradient walk (flag: <a class="reference internal" href="#group__paths__walk_1ga705cea2b3243a38a2d6e3b1e141ed061"><span class="std std-ref">VRNA_PATH_STEEPEST_DESCENT</span></a>)</p></li>
+<li><p>Random walk (flag: <a class="reference internal" href="#group__paths__walk_1ga0b84bd36bfd783130297797c51dd85ae"><span class="std std-ref">VRNA_PATH_RANDOM</span></a>)</p></li>
+</ul>
+</p>
+<p>The type of transitions must be set through the <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000182"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as an overloaded method <code class="docutils literal notranslate"><span class="pre">path()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The optional parameter <code class="docutils literal notranslate"><span class="pre">options</span></code> defaults to <a class="reference internal" href="#group__paths__walk_1gaf1bb1f8fec8d24e3b821f621b19f77b4"><span class="std std-ref">VRNA_PATH_DEFAULT</span></a> if it is omitted. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.path" title="RNA.fold_compound.path"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.path()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__paths__walk_1ga1625c4e8859b5e9aadf78f3cab81f418"><span class="std std-ref">vrna_path_gradient()</span></a>, <a class="reference internal" href="#group__paths__walk_1ga1f7fa62038eb40a3591f09c8fbb8b68b"><span class="std std-ref">vrna_path_random()</span></a>, <a class="reference internal" href="../utils/struct/pairtable.html#group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107"><span class="std std-ref">vrna_ptable()</span></a>, <a class="reference internal" href="../utils/struct/pairtable.html#group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d"><span class="std std-ref">vrna_ptable_copy()</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> <a class="reference internal" href="#group__paths__walk_1ga705cea2b3243a38a2d6e3b1e141ed061"><span class="std std-ref">VRNA_PATH_STEEPEST_DESCENT</span></a>, <a class="reference internal" href="#group__paths__walk_1ga0b84bd36bfd783130297797c51dd85ae"><span class="std std-ref">VRNA_PATH_RANDOM</span></a>, <a class="reference internal" href="neighbors.html#group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1"><span class="std std-ref">VRNA_MOVESET_DEFAULT</span></a>, <a class="reference internal" href="neighbors.html#group__neighbors_1ga68ea27c81de4b74e48b775c04052590b"><span class="std std-ref">VRNA_MOVESET_SHIFT</span></a>, <a class="reference internal" href="#group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d"><span class="std std-ref">VRNA_PATH_NO_TRANSITION_OUTPUT</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since the result is written to the input structure you may want to use <a class="reference internal" href="../utils/struct/pairtable.html#group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d"><span class="std std-ref">vrna_ptable_copy()</span></a> before calling this function to keep the initial structure</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – <strong>[in]</strong> A vrna_fold_compound_t containing the energy parameters and model details </p></li>
+<li><p><strong>pt</strong> – <strong>[inout]</strong> The pair table containing the start structure. Used to update to the final structure after execution of this function </p></li>
+<li><p><strong>options</strong> – <strong>[in]</strong> Options to modify the behavior of this function </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of transition moves (default), or NULL (if options &amp; <a class="reference internal" href="#group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d"><span class="std std-ref">VRNA_PATH_NO_TRANSITION_OUTPUT</span></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_path_gradient">
+<span class="target" id="group__paths__walk_1ga1625c4e8859b5e9aadf78f3cab81f418"></span><a class="reference internal" href="neighbors.html#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_path_gradient</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_path_gradient" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/walk.h&gt;</em><p>Compute a steepest descent / gradient path, store the final structure, and return a list of transition moves from the start to the final structure. </p>
+<p>This function computes, given a start structure in pair table format, a steepest descent path, updates the pair table to the final structure of the path. Finally, if not requested otherwise by using the <a class="reference internal" href="#group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d"><span class="std std-ref">VRNA_PATH_NO_TRANSITION_OUTPUT</span></a> flag in the <code class="docutils literal notranslate"><span class="pre">options</span></code> field, this function returns a list of individual transitions that lead from the start to the final structure if requested.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000183"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as an overloaded method <code class="docutils literal notranslate"><span class="pre">path_gradient()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The optional parameter <code class="docutils literal notranslate"><span class="pre">options</span></code> defaults to <a class="reference internal" href="#group__paths__walk_1gaf1bb1f8fec8d24e3b821f621b19f77b4"><span class="std std-ref">VRNA_PATH_DEFAULT</span></a> if it is omitted. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.path_gradient" title="RNA.fold_compound.path_gradient"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.path_gradient()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__paths__walk_1ga1f7fa62038eb40a3591f09c8fbb8b68b"><span class="std std-ref">vrna_path_random()</span></a>, <a class="reference internal" href="#group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"><span class="std std-ref">vrna_path()</span></a>, <a class="reference internal" href="../utils/struct/pairtable.html#group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107"><span class="std std-ref">vrna_ptable()</span></a>, <a class="reference internal" href="../utils/struct/pairtable.html#group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d"><span class="std std-ref">vrna_ptable_copy()</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> <a class="reference internal" href="neighbors.html#group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1"><span class="std std-ref">VRNA_MOVESET_DEFAULT</span></a>, <a class="reference internal" href="neighbors.html#group__neighbors_1ga68ea27c81de4b74e48b775c04052590b"><span class="std std-ref">VRNA_MOVESET_SHIFT</span></a>, <a class="reference internal" href="#group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d"><span class="std std-ref">VRNA_PATH_NO_TRANSITION_OUTPUT</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since the result is written to the input structure you may want to use <a class="reference internal" href="../utils/struct/pairtable.html#group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d"><span class="std std-ref">vrna_ptable_copy()</span></a> before calling this function to keep the initial structure</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – <strong>[in]</strong> A vrna_fold_compound_t containing the energy parameters and model details </p></li>
+<li><p><strong>pt</strong> – <strong>[inout]</strong> The pair table containing the start structure. Used to update to the final structure after execution of this function </p></li>
+<li><p><strong>options</strong> – <strong>[in]</strong> Options to modify the behavior of this function </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of transition moves (default), or NULL (if options &amp; <a class="reference internal" href="#group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d"><span class="std std-ref">VRNA_PATH_NO_TRANSITION_OUTPUT</span></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_path_random">
+<span class="target" id="group__paths__walk_1ga1f7fa62038eb40a3591f09c8fbb8b68b"></span><a class="reference internal" href="neighbors.html#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_path_random</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">steps</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_path_random" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/walk.h&gt;</em><p>Generate a random walk / path of a given length, store the final structure, and return a list of transition moves from the start to the final structure. </p>
+<p>This function generates, given a start structure in pair table format, a random walk / path, updates the pair table to the final structure of the path. Finally, if not requested otherwise by using the <a class="reference internal" href="#group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d"><span class="std std-ref">VRNA_PATH_NO_TRANSITION_OUTPUT</span></a> flag in the <code class="docutils literal notranslate"><span class="pre">options</span></code> field, this function returns a list of individual transitions that lead from the start to the final structure if requested.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000184"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as an overloaded method <code class="docutils literal notranslate"><span class="pre">path_gradient()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The optional parameter <code class="docutils literal notranslate"><span class="pre">options</span></code> defaults to <a class="reference internal" href="#group__paths__walk_1gaf1bb1f8fec8d24e3b821f621b19f77b4"><span class="std std-ref">VRNA_PATH_DEFAULT</span></a> if it is omitted. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.path_random" title="RNA.fold_compound.path_random"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.path_random()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__paths__walk_1ga1625c4e8859b5e9aadf78f3cab81f418"><span class="std std-ref">vrna_path_gradient()</span></a>, <a class="reference internal" href="#group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"><span class="std std-ref">vrna_path()</span></a>, <a class="reference internal" href="../utils/struct/pairtable.html#group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107"><span class="std std-ref">vrna_ptable()</span></a>, <a class="reference internal" href="../utils/struct/pairtable.html#group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d"><span class="std std-ref">vrna_ptable_copy()</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> <a class="reference internal" href="neighbors.html#group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1"><span class="std std-ref">VRNA_MOVESET_DEFAULT</span></a>, <a class="reference internal" href="neighbors.html#group__neighbors_1ga68ea27c81de4b74e48b775c04052590b"><span class="std std-ref">VRNA_MOVESET_SHIFT</span></a>, <a class="reference internal" href="#group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d"><span class="std std-ref">VRNA_PATH_NO_TRANSITION_OUTPUT</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since the result is written to the input structure you may want to use <a class="reference internal" href="../utils/struct/pairtable.html#group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d"><span class="std std-ref">vrna_ptable_copy()</span></a> before calling this function to keep the initial structure</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – <strong>[in]</strong> A vrna_fold_compound_t containing the energy parameters and model details </p></li>
+<li><p><strong>pt</strong> – <strong>[inout]</strong> The pair table containing the start structure. Used to update to the final structure after execution of this function </p></li>
+<li><p><strong>steps</strong> – <strong>[in]</strong> The length of the path, i.e. the total number of transitions / moves </p></li>
+<li><p><strong>options</strong> – <strong>[in]</strong> Options to modify the behavior of this function </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of transition moves (default), or NULL (if options &amp; <a class="reference internal" href="#group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d"><span class="std std-ref">VRNA_PATH_NO_TRANSITION_OUTPUT</span></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="paths_direct.html" class="btn btn-neutral float-left" title="Direct Refolding Paths between two Secondary Structures" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="paths_deprecated.html" class="btn btn-neutral float-right" title="Deprecated Interface for (Re-)folding Paths, Saddle Points, and Energy Barriers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

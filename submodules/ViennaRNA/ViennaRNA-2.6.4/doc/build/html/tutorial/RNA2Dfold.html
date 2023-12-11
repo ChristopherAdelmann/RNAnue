@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Program RNA2Dfold &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Programs barriers and treekin" href="barriers_treekin.html" />
+    <link rel="prev" title="The Program switch.pl" href="switch.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../getting_started.html">Getting Started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#global-rna-secondary-structure-prediction">Global RNA Secondary Structure Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#consensus-structure-prediction">Consensus Structure Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-rna-interaction">RNA-RNA interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#plotting-structures">Plotting Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-design">RNA Design</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../getting_started.html#rna-folding-kinetics">RNA folding kinetics</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The Program <code class="docutils literal notranslate"><span class="pre">RNA2Dfold</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="barriers_treekin.html">The Programs <code class="docutils literal notranslate"><span class="pre">barriers</span></code> and <code class="docutils literal notranslate"><span class="pre">treekin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#other-utilities">Other Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../getting_started.html">Getting Started</a></li>
+      <li class="breadcrumb-item active">The Program <code class="docutils literal notranslate"><span class="pre">RNA2Dfold</span></code></li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-program-rna2dfold">
+<h1>The Program <code class="docutils literal notranslate"><span class="pre">RNA2Dfold</span></code><a class="headerlink" href="#the-program-rna2dfold" title="Link to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">RNA2Dfold</span></code> is a tool for computing the MFE structure, partition function and
+representative sample structures of <span class="math notranslate nohighlight">\(\kappa, \lambda\)</span> neighborhoods
+and projects an high dimensional energy landscape of RNA into two dimensions <span id="id1">[<a class="reference internal" href="../bibliography.html#id30" title="Ronny Lorenz, Christoph Flamm, and Ivo L. Hofacker. 2d projections of RNA folding landscapes. In Ivo Grosse, Steffen Neumann, Stefan Posch, Falk Schreiber, and Peter F. Stadler, editors, German Conference on Bioinformatics 2009, volume 157 of Lecture Notes in Informatics, 11–20. Bonn, September 2009. Gesellschaft f. Informatik. URL: https://dl.gi.de/items/8f88acfe-c389-4dfe-b975-84a638900683.">Lorenz <em>et al.</em>, 2009</a>]</span>.
+Therefore a sequence and two user-defined reference structures are expected by
+the program. For each of the resulting distance class, the MFE representative,
+the Boltzmann probabilities and the Gibbs free energy is computed. Additionally,
+representative suboptimal secondary structures from each partition can be
+calculated.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNA2Dfold -p &lt; 2dfold.inp &gt; 2dfold.out
+</pre></div>
+</div>
+<p>The outputfile <code class="docutils literal notranslate"><span class="pre">2dfold.out</span></code> should look like below, check it out, e.g. using
+<code class="docutils literal notranslate"><span class="pre">less</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CGUCAGCUGGGAUGCCAGCCUGCCCCGAAAGGGGCUUGGCGUUUUGGUUGUUGAUUCAACGAUCAC</span>
+<span class="p">((((((((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">..</span><span class="p">(((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">.</span><span class="p">)))))</span><span class="o">...</span><span class="p">(((((((((</span><span class="o">...</span><span class="p">)))))))))</span><span class="o">.</span> <span class="p">(</span><span class="o">-</span><span class="mf">30.40</span><span class="p">)</span>
+<span class="p">((((((((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">..</span><span class="p">(((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">.</span><span class="p">)))))</span><span class="o">...</span><span class="p">(((((((((</span><span class="o">...</span><span class="p">)))))))))</span><span class="o">.</span> <span class="p">(</span><span class="o">-</span><span class="mf">30.40</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">ref</span> <span class="mi">1</span><span class="o">&gt;</span>
+<span class="o">..................................................................</span> <span class="p">(</span>  <span class="mf">0.00</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">ref</span> <span class="mi">2</span><span class="o">&gt;</span>
+<span class="n">free</span> <span class="n">energy</span> <span class="n">of</span> <span class="n">ensemble</span> <span class="o">=</span> <span class="o">-</span><span class="mf">31.15</span> <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+<span class="n">k</span>       <span class="n">l</span>       <span class="n">P</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">)</span> <span class="n">P</span><span class="p">(</span><span class="n">MFE</span> <span class="ow">in</span> <span class="n">neighborhood</span><span class="p">)</span>  <span class="n">P</span><span class="p">(</span><span class="n">MFE</span> <span class="ow">in</span> <span class="n">ensemble</span><span class="p">)</span>      <span class="n">MFE</span>     <span class="n">E_gibbs</span> <span class="n">MFE</span><span class="o">-</span><span class="n">structure</span>
+<span class="mi">0</span>       <span class="mi">24</span>      <span class="mf">0.29435909</span>      <span class="mf">1.00000000</span>      <span class="mf">0.29435892</span>      <span class="o">-</span><span class="mf">30.40</span>  <span class="o">-</span><span class="mf">30.40</span>  <span class="p">((((((((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">..</span><span class="p">(((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">.</span><span class="p">)))))</span><span class="o">...</span><span class="p">(((((((((</span><span class="o">...</span><span class="p">)))))))))</span><span class="o">.</span>
+<span class="mi">1</span>       <span class="mi">23</span>      <span class="mf">0.17076902</span>      <span class="mf">0.47069889</span>      <span class="mf">0.08038083</span>      <span class="o">-</span><span class="mf">29.60</span>  <span class="o">-</span><span class="mf">30.06</span>  <span class="p">((((((((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">..</span><span class="p">(((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">.</span><span class="p">)))))</span><span class="o">....</span><span class="p">((((((((</span><span class="o">...</span><span class="p">))))))))</span><span class="o">..</span>
+<span class="mi">2</span>       <span class="mi">22</span>      <span class="mf">0.03575448</span>      <span class="mf">0.37731068</span>      <span class="mf">0.01349056</span>      <span class="o">-</span><span class="mf">28.50</span>  <span class="o">-</span><span class="mf">29.10</span>  <span class="p">((((</span><span class="o">.</span><span class="p">(((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">..</span><span class="p">(((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">..</span><span class="p">))))</span><span class="o">....</span><span class="p">((((((((</span><span class="o">...</span><span class="p">))))))))</span><span class="o">..</span>
+<span class="mi">2</span>       <span class="mi">24</span>      <span class="mf">0.00531223</span>      <span class="mf">0.42621709</span>      <span class="mf">0.00226416</span>      <span class="o">-</span><span class="mf">27.40</span>  <span class="o">-</span><span class="mf">27.93</span>  <span class="p">((((((((((</span><span class="o">....</span><span class="p">))))</span><span class="o">...</span><span class="p">(((((</span><span class="o">....</span><span class="p">)))))))))))</span><span class="o">...</span><span class="p">(((((((((</span><span class="o">...</span><span class="p">)))))))))</span><span class="o">.</span>
+<span class="mi">3</span>       <span class="mi">21</span>      <span class="mf">0.00398349</span>      <span class="mf">0.29701636</span>      <span class="mf">0.00118316</span>      <span class="o">-</span><span class="mf">27.00</span>  <span class="o">-</span><span class="mf">27.75</span>  <span class="o">.</span><span class="p">(((</span><span class="o">.</span><span class="p">(((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">..</span><span class="p">(((((</span><span class="o">....</span><span class="p">)))))</span><span class="o">..</span><span class="p">)))</span><span class="o">.....</span><span class="p">((((((((</span><span class="o">...</span><span class="p">))))))))</span><span class="o">..</span>
+<span class="mi">3</span>       <span class="mi">23</span>      <span class="mf">0.00233909</span>      <span class="mf">0.26432372</span>      <span class="mf">0.00061828</span>      <span class="o">-</span><span class="mf">26.60</span>  <span class="o">-</span><span class="mf">27.42</span>  <span class="p">((((((((((</span><span class="o">....</span><span class="p">))))</span><span class="o">...</span><span class="p">(((((</span><span class="o">....</span><span class="p">)))))))))))</span><span class="o">....</span><span class="p">((((((((</span><span class="o">...</span><span class="p">))))))))</span><span class="o">..</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>For visualizing the output the <code class="docutils literal notranslate"><span class="pre">ViennaRNA</span> <span class="pre">Package</span></code> includes two scripts
+<code class="docutils literal notranslate"><span class="pre">2Dlandscape_pf.gri</span></code>, <code class="docutils literal notranslate"><span class="pre">2Dlandscape_mfe.gri</span></code> located in <code class="docutils literal notranslate"><span class="pre">/usr/share/ViennaRNA/</span></code>.
+<code class="docutils literal notranslate"><span class="pre">gri</span></code> (a language for scientific graphics programing) is needed to create a colored
+postscript plot. We use the partition function script to show the free energies of
+the distance classes (graph below, left):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ gri ../Progs/VRP/share/ViennaRNA/2Dlandscape_pf.gri 2dfold.out
+</pre></div>
+</div>
+<p>Compare the output file with the colored plot and determine the MFE minima with
+corresponding distance classes. For easier comparision the outputfile of <code class="docutils literal notranslate"><span class="pre">RNA2Dfold</span></code>
+can be sorted by a simple sort command. For further information regarding sort use
+the <code class="docutils literal notranslate"><span class="pre">--help</span></code> option.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sort -k6 -n 2dfold.out &gt; sort.out
+</pre></div>
+</div>
+<p>Now we choose the structure with the lowest energy besides our startstructure,
+replace the open chain structure from our old input with that structure and repeat
+the steps above with our new values:</p>
+<ul class="simple">
+<li><p>run <code class="docutils literal notranslate"><span class="pre">RNA2Dfold</span></code></p></li>
+<li><p>plot it using <code class="docutils literal notranslate"><span class="pre">2Dlandscape_pf.gri</span></code></p></li>
+</ul>
+<p>The new projection (right graph) shows the two major local minima which are
+separated by 39 bp (red dots in figure below) and both are likely to be populated
+with high probability. The landscape gives an estimate of the energy barrier
+separating the two minima (about -20 kcal/mol).</p>
+<p>The red dots mark the distance from open chain to the MFE structure respectively
+the distance from the 2nd best structure to the MFE. Note that the red dots were
+manually added to the image afterwards so don’t panic if you don’t see them in your
+gri output.</p>
+<p><a class="reference internal" href="../_images/2dfold_out_m.png"><img alt="2df1" src="../_images/2dfold_out_m.png" style="width: 45%;" /></a> <a class="reference internal" href="../_images/2dfold_2_out_m.png"><img alt="2df2" src="../_images/2dfold_2_out_m.png" style="width: 45%;" /></a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="switch.html" class="btn btn-neutral float-left" title="The Program switch.pl" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="barriers_treekin.html" class="btn btn-neutral float-right" title="The Programs barriers and treekin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

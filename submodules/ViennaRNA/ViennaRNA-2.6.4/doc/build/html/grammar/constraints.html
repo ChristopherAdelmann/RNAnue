@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secondary Structure Constraints &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Hard Constraints" href="constraints/hard.html" />
+    <link rel="prev" title="Structured Domains" href="domains_struc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="model_details.html">Fine-tuning of the Implemented Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domains_up.html">Unstructured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domains_struc.html">Structured Domains</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Secondary Structure Constraints</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="constraints/hard.html">Hard Constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="constraints/soft.html">Soft Constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#general-api-symbols">General API symbols</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#high-level-constraints-interfaces">High Level Constraints Interfaces</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#secondary-structure-folding-recurrences">Secondary Structure Folding Recurrences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#additional-structural-domains">Additional Structural Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#structured-domains">Structured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#unstructured-domains">Unstructured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#domain-extension-api">Domain Extension API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#constraints-on-the-folding-grammar">Constraints on the Folding Grammar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#hard-constraints-api">Hard Constraints API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#soft-constraints-api">Soft Constraints API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../grammar.html">The RNA Folding Grammar</a></li>
+      <li class="breadcrumb-item active">Secondary Structure Constraints</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="secondary-structure-constraints">
+<h1>Secondary Structure Constraints<a class="headerlink" href="#secondary-structure-constraints" title="Link to this heading"></a></h1>
+<p>Secondary structure constraints provide an easy control of which structures
+the prediction algorithms actually include into their solution space and how
+these structures are evaluated.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Specialized Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="constraints/hard.html">Hard Constraints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constraints/soft.html">Soft Constraints</a></li>
+</ul>
+</div>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>Secondary Structure constraints can be subdivided into two groups:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="constraints/hard.html"><span class="doc">Hard Constraints</span></a>, and</p></li>
+<li><p><a class="reference internal" href="constraints/soft.html"><span class="doc">Soft Constraints</span></a>.</p></li>
+</ul>
+</div></blockquote>
+<p>While <em>hard constraints</em> directly influence the production rules used in the folding
+recursions by allowing, disallowing, or enforcing certain decomposition steps,
+<em>soft constraints</em> are used to change position specific contributions
+in the recursions by adding bonuses/penalties in form of pseudo free energies
+to certain loop configurations.</p>
+<p>Secondary structure constraints are always applied at decomposition level, i.e.
+in each step of the recursive structure decomposition, for instance during MFE
+prediction. Below is a visualization of the decomposition scheme</p>
+<img alt="../_images/recursions.png" src="../_images/recursions.png" />
+<p>For <a class="reference internal" href="constraints/hard.html"><span class="doc">Hard Constraints</span></a> the following option flags may be used to constrain
+the pairing behavior of single, or pairs of nucleotides:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="constraints/hard.html#c.VRNA_CONSTRAINT_CONTEXT_EXT_LOOP" title="VRNA_CONSTRAINT_CONTEXT_EXT_LOOP"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_CONSTRAINT_CONTEXT_EXT_LOOP</span></code></a></p></li>
+<li><p><a class="reference internal" href="constraints/hard.html#c.VRNA_CONSTRAINT_CONTEXT_HP_LOOP" title="VRNA_CONSTRAINT_CONTEXT_HP_LOOP"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_CONSTRAINT_CONTEXT_HP_LOOP</span></code></a></p></li>
+<li><p><a class="reference internal" href="constraints/hard.html#c.VRNA_CONSTRAINT_CONTEXT_INT_LOOP" title="VRNA_CONSTRAINT_CONTEXT_INT_LOOP"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_CONSTRAINT_CONTEXT_INT_LOOP</span></code></a></p></li>
+<li><p><a class="reference internal" href="constraints/hard.html#c.VRNA_CONSTRAINT_CONTEXT_INT_LOOP_ENC" title="VRNA_CONSTRAINT_CONTEXT_INT_LOOP_ENC"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_CONSTRAINT_CONTEXT_INT_LOOP_ENC</span></code></a></p></li>
+<li><p><a class="reference internal" href="constraints/hard.html#c.VRNA_CONSTRAINT_CONTEXT_MB_LOOP" title="VRNA_CONSTRAINT_CONTEXT_MB_LOOP"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_CONSTRAINT_CONTEXT_MB_LOOP</span></code></a></p></li>
+<li><p><a class="reference internal" href="constraints/hard.html#c.VRNA_CONSTRAINT_CONTEXT_MB_LOOP_ENC" title="VRNA_CONSTRAINT_CONTEXT_MB_LOOP_ENC"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_CONSTRAINT_CONTEXT_MB_LOOP_ENC</span></code></a></p></li>
+<li><p><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_CONSTRAINT_CONTEXT_ENFORCE</span></code></p></li>
+<li><p><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_CONSTRAINT_CONTEXT_NO_REMOVE</span></code></p></li>
+<li><p><a class="reference internal" href="constraints/hard.html#c.VRNA_CONSTRAINT_CONTEXT_ALL_LOOPS" title="VRNA_CONSTRAINT_CONTEXT_ALL_LOOPS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_CONSTRAINT_CONTEXT_ALL_LOOPS</span></code></a></p></li>
+</ul>
+</div></blockquote>
+<p>However, for <a class="reference internal" href="constraints/soft.html"><span class="doc">Soft Constraints</span></a> we do not allow for simple loop type
+dependent constraining. But soft constraints are equipped with generic constraint
+support. This enables the user to pass arbitrary callback functions that
+return auxiliary energy contributions for evaluation the evaluation of any
+decomposition.</p>
+<p>The callback will then always be notified about the type of decomposition
+that is happening, and the corresponding delimiting sequence positions. The
+following decomposition steps are distinguished, and should be captured by
+the user’s implementation of the callback:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_PAIR_HP" title="VRNA_DECOMP_PAIR_HP"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_PAIR_HP</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_PAIR_IL" title="VRNA_DECOMP_PAIR_IL"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_PAIR_IL</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_PAIR_ML" title="VRNA_DECOMP_PAIR_ML"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_PAIR_ML</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_ML_ML_ML" title="VRNA_DECOMP_ML_ML_ML"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_ML_ML_ML</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_ML_STEM" title="VRNA_DECOMP_ML_STEM"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_ML_STEM</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_ML_ML" title="VRNA_DECOMP_ML_ML"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_ML_ML</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_ML_UP" title="VRNA_DECOMP_ML_UP"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_ML_UP</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_ML_ML_STEM" title="VRNA_DECOMP_ML_ML_STEM"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_ML_ML_STEM</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_ML_COAXIAL" title="VRNA_DECOMP_ML_COAXIAL"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_ML_COAXIAL</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_EXT_EXT" title="VRNA_DECOMP_EXT_EXT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_EXT_EXT</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_EXT_UP" title="VRNA_DECOMP_EXT_UP"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_EXT_UP</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_EXT_STEM" title="VRNA_DECOMP_EXT_STEM"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_EXT_STEM</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_EXT_EXT_EXT" title="VRNA_DECOMP_EXT_EXT_EXT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_EXT_EXT_EXT</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_EXT_STEM_EXT" title="VRNA_DECOMP_EXT_STEM_EXT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_EXT_STEM_EXT</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_EXT_STEM_OUTSIDE" title="VRNA_DECOMP_EXT_STEM_OUTSIDE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_EXT_STEM_OUTSIDE</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_EXT_EXT_STEM" title="VRNA_DECOMP_EXT_EXT_STEM"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_EXT_EXT_STEM</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.VRNA_DECOMP_EXT_EXT_STEM1" title="VRNA_DECOMP_EXT_EXT_STEM1"><code class="xref c c-macro docutils literal notranslate"><span class="pre">VRNA_DECOMP_EXT_EXT_STEM1</span></code></a></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="general-api-symbols">
+<h2>General API symbols<a class="headerlink" href="#general-api-symbols" title="Link to this heading"></a></h2>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__constraints"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_CONSTRAINT_FILE">
+<span class="target" id="group__constraints_1ga62e0ed0c33002c09423de4e646f85a2b"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_CONSTRAINT_FILE</span></span></span><a class="headerlink" href="#c.VRNA_CONSTRAINT_FILE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Flag for <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec"><span class="std std-ref">vrna_constraints_add()</span></a> to indicate that constraints are present in a text file. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000158"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use 0 instead!</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec"><span class="std std-ref">vrna_constraints_add()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_CONSTRAINT_SOFT_MFE">
+<span class="target" id="group__constraints_1ga62aa195893d02d1a79ca94952748df36"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_CONSTRAINT_SOFT_MFE</span></span></span><a class="headerlink" href="#c.VRNA_CONSTRAINT_SOFT_MFE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicate generation of constraints for MFE folding. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000159"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This flag has no meaning anymore, since constraints are now always stored! (since v2.2.6)</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_CONSTRAINT_SOFT_PF">
+<span class="target" id="group__constraints_1ga03fb5000c19b9a2082bf4ea30a543045"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_CONSTRAINT_SOFT_PF</span></span></span><a class="headerlink" href="#c.VRNA_CONSTRAINT_SOFT_PF" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicate generation of constraints for partition function computation. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000160"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7"><span class="std std-ref">VRNA_OPTION_PF</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_PAIR_HP">
+<span class="target" id="group__constraints_1ga8bd41ebc8039378d242e4e8c273716a5"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_PAIR_HP</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_PAIR_HP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Flag passed to generic softt constraints callback to indicate hairpin loop decomposition step. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates a hairpin loop enclosed by the base pair <span class="math notranslate nohighlight">\((i,j)\)</span>.</p>
+<p><img alt="../_images/decomp_hp.svg" src="../_images/decomp_hp.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_PAIR_IL">
+<span class="target" id="group__constraints_1gaeab04f34d7730cff2d651d782f95d857"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_PAIR_IL</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_PAIR_IL" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for interior loop decomposition step. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates an interior loop enclosed by the base pair <span class="math notranslate nohighlight">\((i,j)\)</span>, and enclosing the base pair <span class="math notranslate nohighlight">\((k,l)\)</span>.</p>
+<p><img alt="../_images/decomp_il.svg" src="../_images/decomp_il.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_PAIR_ML">
+<span class="target" id="group__constraints_1gaa15b1185673f0b9e900c4748d45f388f"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_PAIR_ML</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_PAIR_ML" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for multibranch loop decomposition step. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates a multibranch loop enclosed by the base pair <span class="math notranslate nohighlight">\((i,j)\)</span>, and consisting of some enclosed multi loop content from k to l.</p>
+<p><img alt="../_images/decomp_ml.svg" src="../_images/decomp_ml.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_ML_ML_ML">
+<span class="target" id="group__constraints_1ga735517266f2e35e1374b8f1ea77ef23e"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_ML_ML_ML</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_ML_ML_ML" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of multibranch loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates a multibranch loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will be decomposed into two multibranch loop parts <span class="math notranslate nohighlight">\([i:k]\)</span>, and <span class="math notranslate nohighlight">\([l:j]\)</span>.</p>
+<p><img alt="../_images/decomp_ml_ml_ml.svg" src="../_images/decomp_ml_ml_ml.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_ML_STEM">
+<span class="target" id="group__constraints_1ga4a23054c75d8efc785de50e3ea87602f"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_ML_STEM</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_ML_STEM" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of multibranch loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates a multibranch loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will be considered a single stem branching off with base pair <span class="math notranslate nohighlight">\((k,l)\)</span>.</p>
+<p><img alt="../_images/decomp_ml_stem.svg" src="../_images/decomp_ml_stem.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_ML_ML">
+<span class="target" id="group__constraints_1ga7f4cb9ff7a33e67f0539bd39e7b19a78"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_ML_ML</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_ML_ML" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of multibranch loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates a multibranch loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will be decomposed into a (usually) smaller multibranch loop part <span class="math notranslate nohighlight">\([k:l]\)</span>.</p>
+<p><img alt="../_images/decomp_ml_ml.svg" src="../_images/decomp_ml_ml.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_ML_UP">
+<span class="target" id="group__constraints_1gae6478dda14e50e2f2cb9ef333a29256e"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_ML_UP</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_ML_UP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of multibranch loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates a multibranch loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will be considered a multibranch loop part that only consists of unpaired nucleotides.</p>
+<p><img alt="../_images/decomp_ml_up.svg" src="../_images/decomp_ml_up.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_ML_ML_STEM">
+<span class="target" id="group__constraints_1ga63d8ceb8c96ae3b463e529e28cc0fe98"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_ML_ML_STEM</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_ML_ML_STEM" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of multibranch loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates a multibranch loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will decomposed into a multibranch loop part <span class="math notranslate nohighlight">\([i:k]\)</span>, and a stem with enclosing base pair <span class="math notranslate nohighlight">\((l,j)\)</span>.</p>
+<p><img alt="../_images/decomp_ml_ml_stem.svg" src="../_images/decomp_ml_ml_stem.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_ML_COAXIAL">
+<span class="target" id="group__constraints_1ga4fe48d575830b16c208e280e01ab1497"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_ML_COAXIAL</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_ML_COAXIAL" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of multibranch loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates a multibranch loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, where two stems with enclosing pairs <span class="math notranslate nohighlight">\((i,k)\)</span> and <span class="math notranslate nohighlight">\((l,j)\)</span> are coaxially stacking onto each other.</p>
+<p><img alt="../_images/decomp_ml_coaxial.svg" src="../_images/decomp_ml_coaxial.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_ML_COAXIAL_ENC">
+<span class="target" id="group__constraints_1ga0224727f7b8ad2f23eb0a3fd28d8b3fb"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_ML_COAXIAL_ENC</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_ML_COAXIAL_ENC" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of multibranch loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates a multibranch loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, where two stems with enclosing pairs <span class="math notranslate nohighlight">\((i,k)\)</span> and <span class="math notranslate nohighlight">\((l,j)\)</span> are coaxially stacking onto each other.</p>
+<p><img alt="../_images/decomp_ml_coaxial.svg" src="../_images/decomp_ml_coaxial.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_EXT_EXT">
+<span class="target" id="group__constraints_1ga437adf5115c1999304eff26b41e4c9b6"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_EXT_EXT</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_EXT_EXT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of exterior loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates an exterior loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will be decomposed into a (usually) smaller exterior loop part <span class="math notranslate nohighlight">\([k:l]\)</span>.</p>
+<p><img alt="../_images/decomp_ext_ext.svg" src="../_images/decomp_ext_ext.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_EXT_UP">
+<span class="target" id="group__constraints_1gaff1ddaffe86d984623910b40cc8a8717"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_EXT_UP</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_EXT_UP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of exterior loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates an exterior loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will be considered as an exterior loop component consisting of only unpaired nucleotides.</p>
+<p><img alt="../_images/decomp_ext_up.svg" src="../_images/decomp_ext_up.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_EXT_STEM">
+<span class="target" id="group__constraints_1gae44b5ace0d9b4a29088069ecb4cec441"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_EXT_STEM</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_EXT_STEM" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of exterior loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates an exterior loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will be considered a stem with enclosing pair <span class="math notranslate nohighlight">\((k,l)\)</span>.</p>
+<p><img alt="../_images/decomp_ext_stem.svg" src="../_images/decomp_ext_stem.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_EXT_EXT_EXT">
+<span class="target" id="group__constraints_1ga803bd818b3f4b2b0a4a5cfa2f7dc2045"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_EXT_EXT_EXT</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_EXT_EXT_EXT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of exterior loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates an exterior loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will be decomposed into two exterior loop parts <span class="math notranslate nohighlight">\([i:k]\)</span> and <span class="math notranslate nohighlight">\([l:j]\)</span>.</p>
+<p><img alt="../_images/decomp_ext_ext_ext.svg" src="../_images/decomp_ext_ext_ext.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_EXT_STEM_EXT">
+<span class="target" id="group__constraints_1gabb09c5b78b75a44502fc77b950125c1e"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_EXT_STEM_EXT</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_EXT_STEM_EXT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of exterior loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates an exterior loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will be decomposed into a stem branching off with base pair <span class="math notranslate nohighlight">\((i,k)\)</span>, and an exterior loop part <span class="math notranslate nohighlight">\([l:j]\)</span>.</p>
+<p><img alt="../_images/decomp_ext_stem_ext.svg" src="../_images/decomp_ext_stem_ext.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_EXT_STEM_OUTSIDE">
+<span class="target" id="group__constraints_1gae7554cd3ff089360c02e4920229e221c"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_EXT_STEM_OUTSIDE</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_EXT_STEM_OUTSIDE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of exterior loop part. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_EXT_EXT_STEM">
+<span class="target" id="group__constraints_1ga06efd054c9271438f6d82d4559d9e69f"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_EXT_EXT_STEM</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_EXT_EXT_STEM" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of exterior loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates an exterior loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will be decomposed into an exterior loop part <span class="math notranslate nohighlight">\([i:k]\)</span>, and a stem branching off with base pair <span class="math notranslate nohighlight">\((l,j)\)</span>.</p>
+<p><img alt="../_images/decomp_ext_ext_stem.svg" src="../_images/decomp_ext_ext_stem.svg" /></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_DECOMP_EXT_EXT_STEM1">
+<span class="target" id="group__constraints_1ga2e75d7a77118735b32f25422d9686719"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_DECOMP_EXT_EXT_STEM1</span></span></span><a class="headerlink" href="#c.VRNA_DECOMP_EXT_EXT_STEM1" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/basic.h&gt;</em><p>Indicator for decomposition of exterior loop part. </p>
+<p>This flag notifies the soft or hard constraint callback function that the current decomposition step evaluates an exterior loop part in the interval <span class="math notranslate nohighlight">\([i:j]\)</span>, which will be decomposed into an exterior loop part <span class="math notranslate nohighlight">\([i:k]\)</span>, and a stem branching off with base pair <span class="math notranslate nohighlight">\((l,j-1)\)</span>.</p>
+<p><img alt="../_images/decomp_ext_ext_stem1.svg" src="../_images/decomp_ext_ext_stem1.svg" /></p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_message_constraint_options">
+<span class="target" id="group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_message_constraint_options</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">option</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_message_constraint_options" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/hard.h&gt;</em><p>Print a help message for pseudo dot-bracket structure constraint characters to stdout. (constraint support is specified by option parameter) </p>
+<p>Currently available options are:<a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga13053547a2de5532b64b64d35e097ae1"><span class="std std-ref">VRNA_CONSTRAINT_DB_PIPE</span></a> (paired with another base)<a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga369bea82eae75fbe626f409fa425747e"><span class="std std-ref">VRNA_CONSTRAINT_DB_DOT</span></a> (no constraint at all)<a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga7283bbe0f8954f7b030ecc3f2d1932b2"><span class="std std-ref">VRNA_CONSTRAINT_DB_X</span></a> (base must not pair)VRNA_CONSTRAINT_DB_ANG_BRACK (paired downstream/upstream)<a class="reference internal" href="constraints/hard.html#group__hard__constraints_1gac17b034852c914bc5879954c65d7e74b"><span class="std std-ref">VRNA_CONSTRAINT_DB_RND_BRACK</span></a><p>(base i pairs base j)</p>
+<p>pass a collection of options as one value like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_message_constraints</span><span class="p">(</span><span class="n">option_1</span> <span class="o">|</span> <span class="n">option_2</span> <span class="o">|</span> <span class="n">option_n</span><span class="p">)</span>
+</pre></div>
+</div>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f"><span class="std std-ref">vrna_message_constraint_options_all()</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec"><span class="std std-ref">vrna_constraints_add()</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga4bfc2f15c4f261c62a11af9d2aa80c90"><span class="std std-ref">VRNA_CONSTRAINT_DB</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga13053547a2de5532b64b64d35e097ae1"><span class="std std-ref">VRNA_CONSTRAINT_DB_PIPE</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga369bea82eae75fbe626f409fa425747e"><span class="std std-ref">VRNA_CONSTRAINT_DB_DOT</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga7283bbe0f8954f7b030ecc3f2d1932b2"><span class="std std-ref">VRNA_CONSTRAINT_DB_X</span></a>, VRNA_CONSTRAINT_DB_ANG_BRACK, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1gac17b034852c914bc5879954c65d7e74b"><span class="std std-ref">VRNA_CONSTRAINT_DB_RND_BRACK</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga31d0ebb9755ca8a4acafc14f00ca755d"><span class="std std-ref">VRNA_CONSTRAINT_DB_INTERMOL</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga5c17253f5a39d1d49b0fb11f5196982a"><span class="std std-ref">VRNA_CONSTRAINT_DB_INTRAMOL</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>option</strong> – Option switch that tells which constraint help will be printed </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_message_constraint_options_all">
+<span class="target" id="group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_message_constraint_options_all</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_message_constraint_options_all" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/hard.h&gt;</em><p>Print structure constraint characters to stdout (full constraint support) </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670"><span class="std std-ref">vrna_message_constraint_options()</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec"><span class="std std-ref">vrna_constraints_add()</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga4bfc2f15c4f261c62a11af9d2aa80c90"><span class="std std-ref">VRNA_CONSTRAINT_DB</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga13053547a2de5532b64b64d35e097ae1"><span class="std std-ref">VRNA_CONSTRAINT_DB_PIPE</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga369bea82eae75fbe626f409fa425747e"><span class="std std-ref">VRNA_CONSTRAINT_DB_DOT</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga7283bbe0f8954f7b030ecc3f2d1932b2"><span class="std std-ref">VRNA_CONSTRAINT_DB_X</span></a>, VRNA_CONSTRAINT_DB_ANG_BRACK, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1gac17b034852c914bc5879954c65d7e74b"><span class="std std-ref">VRNA_CONSTRAINT_DB_RND_BRACK</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga31d0ebb9755ca8a4acafc14f00ca755d"><span class="std std-ref">VRNA_CONSTRAINT_DB_INTERMOL</span></a>, <a class="reference internal" href="constraints/hard.html#group__hard__constraints_1ga5c17253f5a39d1d49b0fb11f5196982a"><span class="std std-ref">VRNA_CONSTRAINT_DB_INTRAMOL</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="high-level-constraints-interfaces">
+<h2>High Level Constraints Interfaces<a class="headerlink" href="#high-level-constraints-interfaces" title="Link to this heading"></a></h2>
+<p>High-level interfaces that build upon the soft constraints framework
+can be obtained by the implementations in the submodules:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../modified_bases.html"><span class="doc">Post-transcriptional Base Modifications</span></a></p></li>
+<li><p><a class="reference internal" href="../probing/SHAPE.html"><span class="doc">SHAPE Reactivity Data</span></a></p></li>
+<li><p><a class="reference internal" href="../ligands/constraints.html"><span class="doc">Incorporating Ligands Binding to Specific Sequence/Structure Motifs</span></a></p></li>
+</ul>
+<p>An implementation that generates soft constraints for unpaired nucleotides
+by minimizing the discrepancy between their predicted and expected pairing
+probability is available in submodule <a class="reference internal" href="../probing/perturbation.html"><span class="doc">Generate Soft Constraints from Data</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="domains_struc.html" class="btn btn-neutral float-left" title="Structured Domains" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="constraints/hard.html" class="btn btn-neutral float-right" title="Hard Constraints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

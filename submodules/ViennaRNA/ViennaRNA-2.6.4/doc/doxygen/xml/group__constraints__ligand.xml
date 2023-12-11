@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__constraints__ligand" kind="group">
+    <compoundname>constraints_ligand</compoundname>
+    <title>Incorporating Ligands Binding to Specific Sequence/Structure Motifs using Soft Constraints</title>
+    <innerclass refid="structvrna__sc__motif__s" prot="public">vrna_sc_motif_s</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__constraints__ligand_1ga56615bc45d2aa4d6d3326fb74183c9ac" prot="public" static="no">
+        <type>struct <ref refid="structvrna__sc__motif__s" kindref="compound">vrna_sc_motif_s</ref></type>
+        <definition>typedef struct vrna_sc_motif_s vrna_sc_motif_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_sc_motif_t</name>
+        <briefdescription>
+<para>Type definition for soft constraint motif. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/ligand.h" line="17" column="30" bodyfile="ViennaRNA/constraints/ligand.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__constraints__ligand_1ga2bd49930c9695b2f4b85989d1daa62d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_sc_add_hi_motif</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *seq, const char *structure, FLT_OR_DBL energy, unsigned int options)</argsstring>
+        <name>vrna_sc_add_hi_motif</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref></type>
+          <declname>energy</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Add soft constraints for hairpin or interior loop binding motif. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Here is an example that adds a theophylline binding motif. Free energy contribution is derived from <formula id="108">$k_d = 0.1 \mu M$</formula>, taken from Jenison et al. 1994. At <formula id="109">$1M$</formula> concentration the corresponding binding free energy amounts to <formula id="110">$-9.93~kcal/mol$</formula>.</para>
+<para><image type="xml" name="theo_aptamer.svg"></image>
+</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><ref refid="group__constraints__ligand_1ga2bd49930c9695b2f4b85989d1daa62d3" kindref="member">vrna_sc_add_hi_motif</ref>(fc,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;GAUACCAG&amp;CCCUUGGCAGC&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;(...((((&amp;)...)))...)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-9.93,<sp/><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref>);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> the motif is applied to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sequence motif (may be interspaced by &apos;&amp;&apos; character </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The structure motif (may be interspaced by &apos;&amp;&apos; character </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The free energy of the motif (e.g. binding free energy) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>non-zero value if application of the motif using soft constraints was successful</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000041"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>sc_add_hi_motif()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The last parameter is optional an defaults to <computeroutput>options</computeroutput> = <ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_add_hi_motif()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/ligand.h" line="57" column="1" declfile="ViennaRNA/constraints/ligand.h" declline="57" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__constraints__ligand_1ga07bd6a7f23a2d559bcec021e03805daa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__constraints__ligand_1ga56615bc45d2aa4d6d3326fb74183c9ac" kindref="member">vrna_sc_motif_t</ref> *</type>
+        <definition>vrna_sc_motif_t * vrna_sc_ligand_detect_motifs</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure)</argsstring>
+        <name>vrna_sc_ligand_detect_motifs</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/ligand.h" line="65" column="1" declfile="ViennaRNA/constraints/ligand.h" declline="65" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__constraints__ligand_1ga20c8604a3074bfaec21979c5ce545460" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__constraints__ligand_1ga56615bc45d2aa4d6d3326fb74183c9ac" kindref="member">vrna_sc_motif_t</ref> *</type>
+        <definition>vrna_sc_motif_t * vrna_sc_ligand_get_all_motifs</definition>
+        <argsstring>(vrna_fold_compound_t *fc)</argsstring>
+        <name>vrna_sc_ligand_get_all_motifs</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/ligand.h" line="70" column="1" declfile="ViennaRNA/constraints/ligand.h" declline="70" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

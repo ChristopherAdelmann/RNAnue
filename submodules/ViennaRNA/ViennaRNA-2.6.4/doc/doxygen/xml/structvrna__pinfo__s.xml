@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="structvrna__pinfo__s" kind="struct" language="C++" prot="public">
+    <compoundname>vrna_pinfo_s</compoundname>
+    <includes refid="utils_2alignments_8h" local="no">ViennaRNA/utils/alignments.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structvrna__pinfo__s_1ab91db0a87ef8402dc151795ba5a64c6f" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned vrna_pinfo_s::i</definition>
+        <argsstring></argsstring>
+        <name>i</name>
+        <qualifiedname>vrna_pinfo_s::i</qualifiedname>
+        <briefdescription>
+<para>nucleotide position i </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="94" column="13" bodyfile="ViennaRNA/utils/alignments.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__pinfo__s_1a4142e38d6ba127acccdf680300a88e1f" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned vrna_pinfo_s::j</definition>
+        <argsstring></argsstring>
+        <name>j</name>
+        <qualifiedname>vrna_pinfo_s::j</qualifiedname>
+        <briefdescription>
+<para>nucleotide position j </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="95" column="13" bodyfile="ViennaRNA/utils/alignments.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__pinfo__s_1a71990eae41fa100db8b557e4512ec281" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float vrna_pinfo_s::p</definition>
+        <argsstring></argsstring>
+        <name>p</name>
+        <qualifiedname>vrna_pinfo_s::p</qualifiedname>
+        <briefdescription>
+<para>Probability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="96" column="13" bodyfile="ViennaRNA/utils/alignments.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__pinfo__s_1a5ab2a63f3da8e12c6d54d8e9dd9e3e73" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float vrna_pinfo_s::ent</definition>
+        <argsstring></argsstring>
+        <name>ent</name>
+        <qualifiedname>vrna_pinfo_s::ent</qualifiedname>
+        <briefdescription>
+<para>Pseudo entropy for <formula id="138">$ p(i,j) = S_i + S_j - p_ij*ln(p_ij) $</formula>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="97" column="13" bodyfile="ViennaRNA/utils/alignments.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__pinfo__s_1aa5feac5559b36dcd7cb38111c45d444d" prot="public" static="no" mutable="no">
+        <type>short</type>
+        <definition>short vrna_pinfo_s::bp[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>bp</name>
+        <qualifiedname>vrna_pinfo_s::bp</qualifiedname>
+        <briefdescription>
+<para>Frequencies of pair_types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="98" column="13" bodyfile="ViennaRNA/utils/alignments.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__pinfo__s_1a0720ae74ce53802a759ee9f98e9c8c43" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char vrna_pinfo_s::comp</definition>
+        <argsstring></argsstring>
+        <name>comp</name>
+        <qualifiedname>vrna_pinfo_s::comp</qualifiedname>
+        <briefdescription>
+<para>1 iff pair is in mfe structure </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="99" column="13" bodyfile="ViennaRNA/utils/alignments.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A base pair info structure. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>For each base pair (i,j) with i,j in [0, n-1] the structure lists:<itemizedlist>
+<listitem><para>its probability &apos;p&apos;</para>
+</listitem><listitem><para>an entropy-like measure for its well-definedness &apos;ent&apos;</para>
+</listitem><listitem><para>the frequency of each type of pair in &apos;bp[]&apos;<itemizedlist>
+<listitem><para>&apos;bp[0]&apos; contains the number of non-compatible sequences</para>
+</listitem><listitem><para>&apos;bp[1]&apos; the number of CG pairs, etc. </para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="ViennaRNA/utils/alignments.h" line="93" column="1" bodyfile="ViennaRNA/utils/alignments.h" bodystart="93" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structvrna__pinfo__s_1aa5feac5559b36dcd7cb38111c45d444d" prot="public" virt="non-virtual"><scope>vrna_pinfo_s</scope><name>bp</name></member>
+      <member refid="structvrna__pinfo__s_1a0720ae74ce53802a759ee9f98e9c8c43" prot="public" virt="non-virtual"><scope>vrna_pinfo_s</scope><name>comp</name></member>
+      <member refid="structvrna__pinfo__s_1a5ab2a63f3da8e12c6d54d8e9dd9e3e73" prot="public" virt="non-virtual"><scope>vrna_pinfo_s</scope><name>ent</name></member>
+      <member refid="structvrna__pinfo__s_1ab91db0a87ef8402dc151795ba5a64c6f" prot="public" virt="non-virtual"><scope>vrna_pinfo_s</scope><name>i</name></member>
+      <member refid="structvrna__pinfo__s_1a4142e38d6ba127acccdf680300a88e1f" prot="public" virt="non-virtual"><scope>vrna_pinfo_s</scope><name>j</name></member>
+      <member refid="structvrna__pinfo__s_1a71990eae41fa100db8b557e4512ec281" prot="public" virt="non-virtual"><scope>vrna_pinfo_s</scope><name>p</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5248d183"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The Program RNAfold" href="tutorial/RNAfold.html" />
+    <link rel="prev" title="Configuration" href="configuration.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#global-rna-secondary-structure-prediction">Global RNA Secondary Structure Prediction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/RNAfold.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/RNApvmin.html">The Program <code class="docutils literal notranslate"><span class="pre">RNApvmin</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/RNAsubopt.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#consensus-structure-prediction">Consensus Structure Prediction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/RNAalifold.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rna-rna-interaction">RNA-RNA interaction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/RNAcofold.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAcofold</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/RNAduplex.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAduplex</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#plotting-structures">Plotting Structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/RNAplot.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAplot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rna-design">RNA Design</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/RNAinverse.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAinverse</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/switch.html">The Program <code class="docutils literal notranslate"><span class="pre">switch.pl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rna-folding-kinetics">RNA folding kinetics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/RNA2Dfold.html">The Program <code class="docutils literal notranslate"><span class="pre">RNA2Dfold</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/barriers_treekin.html">The Programs <code class="docutils literal notranslate"><span class="pre">barriers</span></code> and <code class="docutils literal notranslate"><span class="pre">treekin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#other-utilities">Other Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<p>Here you find some more or less elaborate tutorials and manuals on how
+to use our software.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The tutorials provided below are mostly taken from <a class="reference external" href="https://www.tbi.univie.ac.at/RNA/tutorial/">A short Tutorial
+on RNA Bioinformatics The ViennaRNA Package and related Programs</a>. Since they have not
+been updated for quite some time, some of the described features may
+not work as expected and novel features of our programs may not be
+mentioned.</p>
+<p>We will be working on extending this part of the documentation in
+the future.</p>
+</div>
+<section id="global-rna-secondary-structure-prediction">
+<h2>Global RNA Secondary Structure Prediction<a class="headerlink" href="#global-rna-secondary-structure-prediction" title="Link to this heading"></a></h2>
+<p>Several tools for structure prediction of single RNA sequences are
+available within the <code class="docutils literal notranslate"><span class="pre">ViennaRNA</span> <span class="pre">Package</span></code>, each with its own special
+subset of implemented algorithms.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/RNAfold.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/RNApvmin.html">The Program <code class="docutils literal notranslate"><span class="pre">RNApvmin</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/RNAsubopt.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="consensus-structure-prediction">
+<h2>Consensus Structure Prediction<a class="headerlink" href="#consensus-structure-prediction" title="Link to this heading"></a></h2>
+<p>Consensus structures can be predicted by a modified version of the
+secondary structure prediction algorithm that takes as input a set of
+aligned sequences instead of a single sequence.</p>
+<p>Sequence co-variations are a direct consequence of RNA base pairing
+rules and can be deduced to alignments. RNA helices normally contain
+only 6 out of the 16 possible combinations: the Watson-Crick pairs
+<code class="docutils literal notranslate"><span class="pre">GC</span></code>, <code class="docutils literal notranslate"><span class="pre">CG</span></code>, <code class="docutils literal notranslate"><span class="pre">AU</span></code>, <code class="docutils literal notranslate"><span class="pre">UA</span></code>, and the somewhat weaker wobble pairs
+<code class="docutils literal notranslate"><span class="pre">GU</span></code> and <code class="docutils literal notranslate"><span class="pre">UG</span></code>. Mutations in helical regions therefore have to be
+correlated. In particular we often find <em>compensatory mutations</em>
+where a mutation on one side of the helix is compensated by a second
+mutation on the other side, e.g. a <code class="docutils literal notranslate"><span class="pre">CG</span></code> pair changes into a
+<code class="docutils literal notranslate"><span class="pre">UA</span></code> pair. Mutations where only one pairing partner changes (such
+as <code class="docutils literal notranslate"><span class="pre">CG</span></code> to <code class="docutils literal notranslate"><span class="pre">UG</span></code> are termed <em>consistent mutations</em>.</p>
+<p>The energy function consists of the mean energy averaged over the
+sequences, plus a covariance term that favors pairs with consistent
+and compensatory mutations and penalizes pairs that cannot be formed
+by all structures. For details see <span id="id1">Hofacker <em>et al.</em> [<a class="reference internal" href="bibliography.html#id20" title="I.L. Hofacker, M. Fekete, and P.F. Stadler. Secondary structure prediction for aligned RNA sequences. Journal of molecular biology, 319(5):1059–1066, 2002. doi:10.1016/S0022-2836(02)00308-X.">2002</a>]</span> and
+<span id="id2">Bernhart <em>et al.</em> [<a class="reference internal" href="bibliography.html#id22" title="S.H. Bernhart, I.L. Hofacker, S. Will, A.R. Gruber, and P.F. Stadler. RNAalifold: improved consensus structure prediction for RNA alignments. BMC bioinformatics, 9(1):474, 2008. doi:10.1186/1471-2105-9-474.">2008</a>]</span>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/RNAalifold.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAalifold</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="rna-rna-interaction">
+<h2>RNA-RNA interaction<a class="headerlink" href="#rna-rna-interaction" title="Link to this heading"></a></h2>
+<p>A common problem is the prediction of binding sites between two RNAs, as in
+the case of miRNA-mRNA interactions. Following tools of the <code class="docutils literal notranslate"><span class="pre">ViennaRNA</span> <span class="pre">Package</span></code>
+can be used to calculate base pairing probabilities.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/RNAcofold.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAcofold</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/RNAduplex.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAduplex</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="plotting-structures">
+<h2>Plotting Structures<a class="headerlink" href="#plotting-structures" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/RNAplot.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAplot</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="rna-design">
+<h2>RNA Design<a class="headerlink" href="#rna-design" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/RNAinverse.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAinverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/switch.html">The Program <code class="docutils literal notranslate"><span class="pre">switch.pl</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="rna-folding-kinetics">
+<h2>RNA folding kinetics<a class="headerlink" href="#rna-folding-kinetics" title="Link to this heading"></a></h2>
+<p>RNA folding kinetics describes the dynamical process of how a RNA molecule
+approaches to its unique folded biological active conformation (often
+referred to as the native state) starting from an initial ensemble of
+disordered conformations e.g. the unfolded open chain. The key for
+resolving the dynamical behavior of a folding RNA chain lies in the
+understanding of the ways in which the molecule explores its astronomically
+large free energy landscape, a rugged and complex hyper-surface established
+by all the feasible base pairing patterns a RNA sequence can form. The
+challenge is to understand how the interplay of formation and break up of
+base pairing interactions along the RNA chain can lead to an efficient
+search in the energy landscape which reaches the native state of the
+molecule on a biologically meaningful time scale.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/RNA2Dfold.html">The Program <code class="docutils literal notranslate"><span class="pre">RNA2Dfold</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/barriers_treekin.html">The Programs <code class="docutils literal notranslate"><span class="pre">barriers</span></code> and <code class="docutils literal notranslate"><span class="pre">treekin</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="other-utilities">
+<h2>Other Utilities<a class="headerlink" href="#other-utilities" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="configuration.html" class="btn btn-neutral float-left" title="Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorial/RNAfold.html" class="btn btn-neutral float-right" title="The Program RNAfold" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

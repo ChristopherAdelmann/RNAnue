@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RNAalifold &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="RNAcofold" href="RNAcofold.html" />
+    <link rel="prev" title="RNAaliduplex" href="RNAaliduplex.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../manpages.html">Manpages</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="RNA2Dfold.html">RNA2Dfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAaliduplex.html">RNAaliduplex</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">RNAalifold</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#description">DESCRIPTION</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#i-o-options">I/O Options:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algorithms">Algorithms:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structure-constraints">Structure Constraints:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#energy-parameters">Energy Parameters:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-details">Model Details:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting">Plotting:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#references">REFERENCES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">EXAMPLES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-aliout-file">THE ALIOUT FILE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#author">AUTHOR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reporting-bugs">REPORTING BUGS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#see-also">SEE ALSO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="RNAcofold.html">RNAcofold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAdistance.html">RNAdistance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAdos.html">RNAdos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAduplex.html">RNAduplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAeval.html">RNAeval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAfold.html">RNAfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAheat.html">RNAheat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAinverse.html">RNAinverse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNALalifold.html">RNALalifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNALfold.html">RNALfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAmultifold.html">RNAmultifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNApaln.html">RNApaln</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAparconv.html">RNAparconv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNApdist.html">RNApdist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAPKplex.html">RNAPKplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAplex.html">RNAplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAplfold.html">RNAplfold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAplot.html">RNAplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNApvmin.html">RNApvmin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAsnoop.html">RNAsnoop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAsubopt.html">RNAsubopt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNAup.html">RNAup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../manpages.html">Manpages</a></li>
+      <li class="breadcrumb-item active">RNAalifold</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rnaalifold">
+<h1>RNAalifold<a class="headerlink" href="#rnaalifold" title="Link to this heading"></a></h1>
+<p><strong class="program">RNAalifold</strong> - manual page for RNAalifold 2.6.4</p>
+<section id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>RNAalifold<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>&lt;input0.aln&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>&lt;input1.aln&gt;<span class="o">]</span>...
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>DESCRIPTION<a class="headerlink" href="#description" title="Link to this heading"></a></h2>
+<p>RNAalifold 2.6.4</p>
+<p>calculate secondary structures for a set of aligned RNAs</p>
+<p>Read aligned RNA sequences from stdin or file.aln and calculate their minimum
+free energy (mfe) structure, partition function (pf) and base pairing
+probability matrix. Currently, input alignments have to be in CLUSTAL,
+Stockholm, FASTA, or MAF format. The input format must be set manually in
+interactive mode (default is Clustal), but will be determined automagically
+from the input file, if not expplicitly set. It returns the mfe structure in
+bracket notation, its energy, the free energy of the thermodynamic ensemble and
+the frequency of the mfe structure in the ensemble to stdout.  It also produces
+Postscript files with plots of the resulting secondary structure graph
+(“alirna.ps”) and a “dot plot” of the base pairing matrix (“alidot.ps”).
+The file “alifold.out” will contain a list of likely pairs sorted by
+credibility, suitable for viewing  with “AliDot.pl”. Be warned that output
+file will overwrite any existing files of the same name.</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-h">
+<span id="cmdoption-help"></span><span class="sig-name descname"><span class="pre">-h</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--help</span></span><a class="headerlink" href="#cmdoption-h" title="Link to this definition"></a></dt>
+<dd><p>Print help and exit</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-detailed-help">
+<span class="sig-name descname"><span class="pre">--detailed-help</span></span><a class="headerlink" href="#cmdoption-detailed-help" title="Link to this definition"></a></dt>
+<dd><p>Print help, including all details and hidden options, and exit</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-full-help">
+<span class="sig-name descname"><span class="pre">--full-help</span></span><a class="headerlink" href="#cmdoption-full-help" title="Link to this definition"></a></dt>
+<dd><p>Print help, including hidden options, and exit</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-V">
+<span id="cmdoption-version"></span><span class="sig-name descname"><span class="pre">-V</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--version</span></span><a class="headerlink" href="#cmdoption-V" title="Link to this definition"></a></dt>
+<dd><p>Print version and exit</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-v">
+<span id="cmdoption-verbose"></span><span class="sig-name descname"><span class="pre">-v</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--verbose</span></span><a class="headerlink" href="#cmdoption-v" title="Link to this definition"></a></dt>
+<dd><p>Be verbose.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-q">
+<span id="cmdoption-quiet"></span><span class="sig-name descname"><span class="pre">-q</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--quiet</span></span><a class="headerlink" href="#cmdoption-q" title="Link to this definition"></a></dt>
+<dd><p>Be quiet. <em>(default=off)</em></p>
+<p>This option can be used to minimize the output of additional information and
+non-severe warnings which otherwise might spam stdout/stderr.</p>
+</dd></dl>
+
+<section id="i-o-options">
+<h3>I/O Options:<a class="headerlink" href="#i-o-options" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Command line options for input and output (pre-)processing</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-f">
+<span id="cmdoption-input-format"></span><span class="sig-name descname"><span class="pre">-f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--input-format</span></span><span class="p"><span class="pre">=</span></span><span class="pre">C|S|F|M</span><a class="headerlink" href="#cmdoption-f" title="Link to this definition"></a></dt>
+<dd><p>File format of the input multiple sequence alignment (MSA).</p>
+<p>If this parameter is set, the input is considered to be in a particular file
+format. Otherwise, the program tries to determine the file format
+automatically, if an input file was provided in the set of parameters. In
+case the input MSA is provided in interactive mode, or from a terminal (TTY),
+the programs default is to assume CLUSTALW format.
+Currently, the following formats are available: ClustalW (<code class="docutils literal notranslate"><span class="pre">C</span></code>), Stockholm 1.0
+(<code class="docutils literal notranslate"><span class="pre">S</span></code>), FASTA/Pearson (<code class="docutils literal notranslate"><span class="pre">F</span></code>), and MAF (<code class="docutils literal notranslate"><span class="pre">M</span></code>).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-mis">
+<span class="sig-name descname"><span class="pre">--mis</span></span><a class="headerlink" href="#cmdoption-mis" title="Link to this definition"></a></dt>
+<dd><p>Output “most informative sequence” instead of simple consensus: For each column of the alignment output the set of nucleotides with frequency greater than average in IUPAC notation.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-j">
+<span id="cmdoption-jobs"></span><span class="sig-name descname"><span class="pre">-j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--jobs</span></span><span class="p"><span class="pre">[</span></span><span class="pre">=number</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#cmdoption-j" title="Link to this definition"></a></dt>
+<dd><p>Split batch input into jobs and start processing in parallel using multiple threads. A value of 0 indicates to use as many parallel threads as computation cores are available.</p>
+<p><em>(default=”0”)</em></p>
+<p>Default processing of input data is performed in a serial fashion, i.e. one
+alignment at a time. Using this switch, a user can instead start the
+computation for many alignments in the input in parallel. RNAalifold will
+create as many parallel computation slots as specified and assigns input
+alignments of the input file(s) to the available slots. Note, that this
+increases memory consumption since input alignments have to be kept in memory
+until an empty compute slot is available and each running job requires its
+own dynamic programming matrices.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-unordered">
+<span class="sig-name descname"><span class="pre">--unordered</span></span><a class="headerlink" href="#cmdoption-unordered" title="Link to this definition"></a></dt>
+<dd><p>Do not try to keep output in order with input while parallel processing is in place.</p>
+<p><em>(default=off)</em></p>
+<p>When parallel input processing (<a class="reference internal" href="#cmdoption-j"><code class="xref std std-option docutils literal notranslate"><span class="pre">--jobs</span></code></a> flag) is enabled, the order in which
+input is processed depends on the host machines job scheduler. Therefore, any
+output to stdout or files generated by this program will most likely not
+follow the order of the corresponding input data set. The default of
+RNAalifold is to use a specialized data structure to still keep the results
+output in order with the input data. However, this comes with a trade-off in
+terms of memory consumption, since all output must be kept in memory for as
+long as no chunks of consecutive, ordered output are available. By setting
+this flag, RNAalifold will not buffer individual results but print them as
+soon as they have been computated.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-noconv">
+<span class="sig-name descname"><span class="pre">--noconv</span></span><a class="headerlink" href="#cmdoption-noconv" title="Link to this definition"></a></dt>
+<dd><p>Do not automatically substitute nucleotide “T” with “U”.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-n">
+<span id="cmdoption-continuous-ids"></span><span class="sig-name descname"><span class="pre">-n</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--continuous-ids</span></span><a class="headerlink" href="#cmdoption-n" title="Link to this definition"></a></dt>
+<dd><p>Use continuous alignment ID numbering when no alignment ID can be retrieved from input data.</p>
+<p><em>(default=off)</em></p>
+<p>Due to its past, RNAalifold produces a specific set of output file names for
+the first input alignment, “alirna.ps”, “alidot.ps”, etc. But for all
+further alignments in the input, it usually adopts a naming scheme based on
+IDs, which may be retrieved from the input alignment’s meta-data, or
+generated by a prefix followed by an increasing counter. Setting this flag
+instructs RNAalifold to use the ID naming scheme also for the first
+alignment.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-auto-id">
+<span class="sig-name descname"><span class="pre">--auto-id</span></span><a class="headerlink" href="#cmdoption-auto-id" title="Link to this definition"></a></dt>
+<dd><p>Automatically generate an ID for each alignment.</p>
+<p><em>(default=off)</em></p>
+<p>The default mode of RNAalifold is to automatically determine an ID from the
+input alignment if the input file format allows to do that. Alignment IDs
+are, for instance, usually given in Stockholm 1.0 formatted input. If this
+flag is active, RNAalifold ignores any IDs retrieved from the input and
+automatically generates an ID for each alignment.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-id-prefix">
+<span class="sig-name descname"><span class="pre">--id-prefix</span></span><span class="p"><span class="pre">=</span></span><span class="pre">STRING</span><a class="headerlink" href="#cmdoption-id-prefix" title="Link to this definition"></a></dt>
+<dd><p>Prefix for automatically generated IDs (as used in output file names).</p>
+<p><em>(default=”alignment”)</em></p>
+<p>If this parameter is set, each alignment will be prefixed with the provided
+string. Hence, the output files will obey the following naming scheme:
+“prefix_xxxx_ss.ps” (secondary structure plot), “prefix_xxxx_dp.ps”
+(dot-plot), “prefix_xxxx_aln.ps” (annotated alignment), etc. where xxxx is
+the alignment number beginning with the second alignment in the input. Use
+this setting in conjunction with the <a class="reference internal" href="#cmdoption-n"><code class="xref std std-option docutils literal notranslate"><span class="pre">--continuous-ids</span></code></a> flag to assign IDs
+beginning with the first input alignment.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-id-delim">
+<span class="sig-name descname"><span class="pre">--id-delim</span></span><span class="p"><span class="pre">=</span></span><span class="pre">CHAR</span><a class="headerlink" href="#cmdoption-id-delim" title="Link to this definition"></a></dt>
+<dd><p>Change the delimiter between prefix and increasing number for automatically generated IDs (as used in output file names).</p>
+<p><em>(default=”_”)</em></p>
+<p>This parameter can be used to change the default delimiter <code class="docutils literal notranslate"><span class="pre">_</span></code> between the
+prefix string and the increasing number for automatically generated ID.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-id-digits">
+<span class="sig-name descname"><span class="pre">--id-digits</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-id-digits" title="Link to this definition"></a></dt>
+<dd><p>Specify the number of digits of the counter in automatically generated alignment IDs.</p>
+<p><em>(default=”4”)</em></p>
+<p>When alignments IDs are automatically generated, they receive an increasing
+number, starting with 1. This number will always be left-padded by leading
+zeros, such that the number takes up a certain width. Using this parameter,
+the width can be specified to the users need. We allow numbers in the range
+[1:18].</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-id-start">
+<span class="sig-name descname"><span class="pre">--id-start</span></span><span class="p"><span class="pre">=</span></span><span class="pre">LONG</span><a class="headerlink" href="#cmdoption-id-start" title="Link to this definition"></a></dt>
+<dd><p>Specify the first number in automatically generated alignment IDs.</p>
+<p><em>(default=”1”)</em></p>
+<p>When alignment IDs are automatically generated, they receive an increasing
+number, usually starting with 1. Using this parameter, the first number can
+be specified to the users requirements. Note: negative numbers are not
+allowed.
+Note: Setting this parameter implies continuous alignment IDs, i.e. it
+activates the <a class="reference internal" href="#cmdoption-n"><code class="xref std std-option docutils literal notranslate"><span class="pre">--continuous-ids</span></code></a> flag.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-filename-delim">
+<span class="sig-name descname"><span class="pre">--filename-delim</span></span><span class="p"><span class="pre">=</span></span><span class="pre">CHAR</span><a class="headerlink" href="#cmdoption-filename-delim" title="Link to this definition"></a></dt>
+<dd><p>Change the delimiting character used in sanitized filenames.</p>
+<p><em>(default=”ID-delimiter”)</em></p>
+<p>This parameter can be used to change the delimiting character used while
+sanitizing filenames, i.e. replacing invalid characters. Note, that the
+default delimiter ALWAYS is the first character of the “ID delimiter” as
+supplied through the <a class="reference internal" href="RNALalifold.html#cmdoption-id-delim"><code class="xref std std-option docutils literal notranslate"><span class="pre">--id-delim</span></code></a> option. If the delimiter is a whitespace
+character or empty, invalid characters will be simply removed rather than
+substituted. Currently, we regard the following characters as illegal for use
+in filenames: backslash <code class="docutils literal notranslate"><span class="pre">\</span></code>, slash <code class="docutils literal notranslate"><span class="pre">/</span></code>, question mark <code class="docutils literal notranslate"><span class="pre">?</span></code>, percent sign <code class="docutils literal notranslate"><span class="pre">%</span></code>,
+asterisk <code class="docutils literal notranslate"><span class="pre">*</span></code>, colon <code class="docutils literal notranslate"><span class="pre">:</span></code>, pipe symbol <code class="docutils literal notranslate"><span class="pre">|</span></code>, double quote <code class="docutils literal notranslate"><span class="pre">&quot;</span></code>, triangular
+brackets <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>.</p>
+</dd></dl>
+
+</section>
+<section id="algorithms">
+<h3>Algorithms:<a class="headerlink" href="#algorithms" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Select additional algorithms which should be included in the calculations.</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-p">
+<span id="cmdoption-partfunc"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--partfunc</span></span><span class="p"><span class="pre">[</span></span><span class="pre">=INT</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#cmdoption-p" title="Link to this definition"></a></dt>
+<dd><p>Calculate the partition function and base pairing probability matrix in addition to the mfe structure. Default is calculation of mfe structure only.</p>
+<p><em>(default=”1”)</em></p>
+<p>In addition to the MFE structure we print a coarse representation of the pair
+probabilities in form of a pseudo bracket notation, followed by the ensemble
+free energy, as well as the centroid structure derived from the pair
+probabilities together with its free energy and distance to the ensemble.
+Finally it prints the frequency of the mfe structure.</p>
+<p>An additionally passed value to this option changes the behavior of partition
+function calculation:
+<code class="xref std std-option docutils literal notranslate"><span class="pre">-p0</span></code> deactivates the calculation of the pair probabilities, saving about 50%
+in runtime. This prints the ensemble free energy <code class="docutils literal notranslate"><span class="pre">dG=-kT</span> <span class="pre">ln(Z)</span></code>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-betaScale">
+<span class="sig-name descname"><span class="pre">--betaScale</span></span><span class="p"><span class="pre">=</span></span><span class="pre">DOUBLE</span><a class="headerlink" href="#cmdoption-betaScale" title="Link to this definition"></a></dt>
+<dd><p>Set the scaling of the Boltzmann factors. <em>(default=”1.”)</em></p>
+<p>The argument provided with this option is used to scale the thermodynamic
+temperature in the Boltzmann factors independently from the temperature of
+the individual loop energy contributions. The Boltzmann factors then become
+<code class="docutils literal notranslate"><span class="pre">exp(-</span> <span class="pre">dG/(kTn*betaScale))</span></code> where <code class="docutils literal notranslate"><span class="pre">k</span></code> is the Boltzmann constant, <code class="docutils literal notranslate"><span class="pre">dG</span></code> the
+free energy contribution of the state, <code class="docutils literal notranslate"><span class="pre">T</span></code> the absolute temperature and <code class="docutils literal notranslate"><span class="pre">n</span></code>
+the number of sequences.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-S">
+<span id="cmdoption-pfScale"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--pfScale</span></span><span class="p"><span class="pre">=</span></span><span class="pre">DOUBLE</span><a class="headerlink" href="#cmdoption-S" title="Link to this definition"></a></dt>
+<dd><p>In the calculation of the pf use scale*mfe as an estimate for the ensemble free energy (used to avoid overflows).</p>
+<p><em>(default=”1.07”)</em></p>
+<p>The default is 1.07, useful values are 1.0 to 1.2. Occasionally needed for
+long sequences.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-MEA">
+<span class="sig-name descname"><span class="pre">--MEA</span></span><span class="p"><span class="pre">[</span></span><span class="pre">=gamma</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#cmdoption-MEA" title="Link to this definition"></a></dt>
+<dd><p>Compute MEA (maximum expected accuracy) structure.</p>
+<p><em>(default=”1.”)</em></p>
+<p>The expected accuracy is computed from the pair probabilities: each base pair
+<code class="docutils literal notranslate"><span class="pre">(i,j)</span></code> receives a score <code class="docutils literal notranslate"><span class="pre">2*gamma*p_ij</span></code> and the score of an unpaired base is
+given by the probability of not forming a pair. The parameter gamma tunes the
+importance of correctly predicted pairs versus unpaired bases. Thus, for
+small values of gamma the MEA structure will contain only pairs with very
+high probability. Using <a class="reference internal" href="#cmdoption-MEA"><code class="xref std std-option docutils literal notranslate"><span class="pre">--MEA</span></code></a> implies <a class="reference internal" href="RNA2Dfold.html#cmdoption-p"><code class="xref std std-option docutils literal notranslate"><span class="pre">-p</span></code></a> for computing the pair
+probabilities.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-sci">
+<span class="sig-name descname"><span class="pre">--sci</span></span><a class="headerlink" href="#cmdoption-sci" title="Link to this definition"></a></dt>
+<dd><p>Compute the structure conservation index (SCI) for the MFE consensus structure of the alignment.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-c">
+<span id="cmdoption-circ"></span><span class="sig-name descname"><span class="pre">-c</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--circ</span></span><a class="headerlink" href="#cmdoption-c" title="Link to this definition"></a></dt>
+<dd><p>Assume a circular (instead of linear) RNA molecule.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-bppmThreshold">
+<span class="sig-name descname"><span class="pre">--bppmThreshold</span></span><span class="p"><span class="pre">=</span></span><span class="pre">cutoff</span><a class="headerlink" href="#cmdoption-bppmThreshold" title="Link to this definition"></a></dt>
+<dd><p>Set the threshold/cutoff for base pair probabilities included in the postscript output.</p>
+<p><em>(default=”1e-6”)</em></p>
+<p>By setting the threshold the base pair probabilities that are included in the
+output can be varied. By default only those exceeding <code class="docutils literal notranslate"><span class="pre">1e-6</span></code> in probability
+will be shown as squares in the dot plot. Changing the threshold to any other
+value allows for increase or decrease of data.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-g">
+<span id="cmdoption-gquad"></span><span class="sig-name descname"><span class="pre">-g</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--gquad</span></span><a class="headerlink" href="#cmdoption-g" title="Link to this definition"></a></dt>
+<dd><p>Incoorporate G-Quadruplex formation into the structure prediction algorithm.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-s">
+<span id="cmdoption-stochBT"></span><span class="sig-name descname"><span class="pre">-s</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--stochBT</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-s" title="Link to this definition"></a></dt>
+<dd><p>Stochastic backtrack. Compute a certain number of random structures with a probability dependend on the partition function. See <a class="reference internal" href="RNA2Dfold.html#cmdoption-p"><code class="xref std std-option docutils literal notranslate"><span class="pre">-p</span></code></a> option in RNAsubopt.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-stochBT_en">
+<span class="sig-name descname"><span class="pre">--stochBT_en</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-stochBT_en" title="Link to this definition"></a></dt>
+<dd><p>same as <a class="reference internal" href="RNAPKplex.html#cmdoption-s"><code class="xref std std-option docutils literal notranslate"><span class="pre">-s</span></code></a> option but also print out the energies and probabilities of the backtraced structures.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-N">
+<span id="cmdoption-nonRedundant"></span><span class="sig-name descname"><span class="pre">-N</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--nonRedundant</span></span><a class="headerlink" href="#cmdoption-N" title="Link to this definition"></a></dt>
+<dd><p>Enable non-redundant sampling strategy.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+</section>
+<section id="structure-constraints">
+<h3>Structure Constraints:<a class="headerlink" href="#structure-constraints" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Command line options to interact with the structure constraints feature of
+this program</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-maxBPspan">
+<span class="sig-name descname"><span class="pre">--maxBPspan</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-maxBPspan" title="Link to this definition"></a></dt>
+<dd><p>Set the maximum base pair span.</p>
+<p><em>(default=”-1”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-C">
+<span id="cmdoption-constraint"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--constraint</span></span><span class="p"><span class="pre">[</span></span><span class="pre">=filename</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#cmdoption-C" title="Link to this definition"></a></dt>
+<dd><p>Calculate structures subject to constraints. The constraining structure will be read from <code class="docutils literal notranslate"><span class="pre">stdin</span></code>, the alignment has to be given as a file name on the command line.</p>
+<p><em>(default=””)</em></p>
+<p>The program reads first the sequence, then a string containing constraints on
+the structure encoded with the symbols:</p>
+<p><code class="docutils literal notranslate"><span class="pre">.</span></code> (no constraint for this base)</p>
+<p><code class="docutils literal notranslate"><span class="pre">|</span></code> (the corresponding base has to be paired</p>
+<p><code class="docutils literal notranslate"><span class="pre">x</span></code> (the base is unpaired)</p>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;</span></code> (base i is paired with a base j&gt;i)</p>
+<p><code class="docutils literal notranslate"><span class="pre">&gt;</span></code> (base i is paired with a base j&lt;i)</p>
+<p>and matching brackets <code class="docutils literal notranslate"><span class="pre">(</span></code> <code class="docutils literal notranslate"><span class="pre">)</span></code> (base i pairs base j)</p>
+<p>With the exception of <code class="docutils literal notranslate"><span class="pre">|</span></code>, constraints will disallow all pairs conflicting
+with the constraint. This is usually sufficient to enforce the constraint,
+but occasionally a base may stay unpaired in spite of constraints. PF folding
+ignores constraints of type <code class="docutils literal notranslate"><span class="pre">|</span></code>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-batch">
+<span class="sig-name descname"><span class="pre">--batch</span></span><a class="headerlink" href="#cmdoption-batch" title="Link to this definition"></a></dt>
+<dd><p>Use constraints for all alignment records. <em>(default=off)</em></p>
+<p>Usually, constraints provided from input file are only applied to a single
+sequence alignment. Therefore, RNAalifold will stop its computation and quit
+after the first input alignment was processed. Using this switch, RNAalifold
+processes all sequence alignments in the input and applies the same provided
+constraints to each of them.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-enforceConstraint">
+<span class="sig-name descname"><span class="pre">--enforceConstraint</span></span><a class="headerlink" href="#cmdoption-enforceConstraint" title="Link to this definition"></a></dt>
+<dd><p>Enforce base pairs given by round brackets <code class="docutils literal notranslate"><span class="pre">(</span></code> <code class="docutils literal notranslate"><span class="pre">)</span></code> in structure constraint.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-SS_cons">
+<span class="sig-name descname"><span class="pre">--SS_cons</span></span><a class="headerlink" href="#cmdoption-SS_cons" title="Link to this definition"></a></dt>
+<dd><p>Use consensus structures from Stockholm file (<code class="docutils literal notranslate"><span class="pre">#=GF</span> <span class="pre">SS_cons</span></code>) as constraint.</p>
+<p><em>(default=off)</em></p>
+<p>Stockholm formatted alignment files have the possibility to store a secondary
+structure string in one of if (<code class="docutils literal notranslate"><span class="pre">#=GC</span></code>) column annotation meta tags. The
+corresponding tag name is usually <code class="docutils literal notranslate"><span class="pre">SS_cons</span></code>, a consensus secondary structure.
+Activating this flag allows one to use this consensus secondary structure
+from the input file as structure constraint. Currently, only the following
+characters are interpreted:</p>
+<p><code class="docutils literal notranslate"><span class="pre">(</span></code> <code class="docutils literal notranslate"><span class="pre">)</span></code> [mathing parenthesis: column i pairs with column j]</p>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;</span></code> <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> [matching angular brackets: column i pairs with column j]</p>
+<p>All other characters are not interpreted (yet).
+Note: Activating this flag implies <a class="reference internal" href="#cmdoption-C"><code class="xref std std-option docutils literal notranslate"><span class="pre">--constraint</span></code></a>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-shape">
+<span class="sig-name descname"><span class="pre">--shape</span></span><span class="p"><span class="pre">=</span></span><span class="pre">file1,file2</span><a class="headerlink" href="#cmdoption-shape" title="Link to this definition"></a></dt>
+<dd><p>Use SHAPE reactivity data to guide structure predictions.</p>
+<p>Multiple shapefiles for the individual sequences in the alignment may be
+specified  as a comma separated list. An optional association of particular
+shape files to a specific  sequence in the alignment can be expressed by
+prepending the sequence number to the filename,  e.g.
+“5=seq5.shape,3=seq3.shape” will assign the reactivity values from file
+seq5.shape to  the fifth sequence in the alignment, and the values from file
+seq3.shape to sequence 3. If  no assignment is specified, the reactivity
+values are assigned to corresponding sequences in  the order they are given.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-shapeMethod">
+<span class="sig-name descname"><span class="pre">--shapeMethod</span></span><span class="p"><span class="pre">=</span></span><span class="pre">D[mX][bY]</span><a class="headerlink" href="#cmdoption-shapeMethod" title="Link to this definition"></a></dt>
+<dd><p>Specify the method how to convert SHAPE reactivity data to pseudo energy contributions.</p>
+<p><em>(default=”D”)</em></p>
+<p>Currently, the only data conversion method available is that of to Deigan et
+al 2009.  This method is the default and is recognized by a capital <code class="docutils literal notranslate"><span class="pre">D</span></code> in
+the provided parameter, i.e.:  <a class="reference internal" href="RNALalifold.html#cmdoption-shapeMethod"><code class="xref std std-option docutils literal notranslate"><span class="pre">--shapeMethod=</span></code></a>”D” is the default setting.
+The slope <code class="docutils literal notranslate"><span class="pre">m</span></code> and the intercept <code class="docutils literal notranslate"><span class="pre">b</span></code> can be set to a  non-default value if
+necessary. Otherwise m=1.8 and b=-0.6 as stated in the paper mentionen
+before.  To alter these parameters, e.g. m=1.9 and b=-0.7, use a  parameter
+string like this: <a class="reference internal" href="RNALalifold.html#cmdoption-shapeMethod"><code class="xref std std-option docutils literal notranslate"><span class="pre">--shapeMethod=</span></code></a>”Dm1.9b-0.7”. You may also provide only one
+of the two  parameters like: <a class="reference internal" href="RNALalifold.html#cmdoption-shapeMethod"><code class="xref std std-option docutils literal notranslate"><span class="pre">--shapeMethod=</span></code></a>”Dm1.9” or
+<a class="reference internal" href="RNALalifold.html#cmdoption-shapeMethod"><code class="xref std std-option docutils literal notranslate"><span class="pre">--shapeMethod=</span></code></a>”Db-0.7”.</p>
+</dd></dl>
+
+</section>
+<section id="energy-parameters">
+<h3>Energy Parameters:<a class="headerlink" href="#energy-parameters" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Energy parameter sets can be adapted or loaded from user-provided input files</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-T">
+<span id="cmdoption-temp"></span><span class="sig-name descname"><span class="pre">-T</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--temp</span></span><span class="p"><span class="pre">=</span></span><span class="pre">DOUBLE</span><a class="headerlink" href="#cmdoption-T" title="Link to this definition"></a></dt>
+<dd><p>Rescale energy parameters to a temperature of temp C. Default is 37C.</p>
+<p><em>(default=”37.0”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-P">
+<span id="cmdoption-paramFile"></span><span class="sig-name descname"><span class="pre">-P</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--paramFile</span></span><span class="p"><span class="pre">=</span></span><span class="pre">paramfile</span><a class="headerlink" href="#cmdoption-P" title="Link to this definition"></a></dt>
+<dd><p>Read energy parameters from paramfile, instead of using the default parameter set.</p>
+<p>Different sets of energy parameters for RNA and DNA should accompany your
+distribution.
+See the RNAlib documentation for details on the file format. The placeholder
+file name <code class="docutils literal notranslate"><span class="pre">DNA</span></code> can be used to load DNA parameters without the need to
+actually specify any input file.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-4">
+<span id="cmdoption-noTetra"></span><span class="sig-name descname"><span class="pre">-4</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--noTetra</span></span><a class="headerlink" href="#cmdoption-4" title="Link to this definition"></a></dt>
+<dd><p>Do not include special tabulated stabilizing energies for tri-, tetra- and hexaloop hairpins.</p>
+<p><em>(default=off)</em></p>
+<p>Mostly for testing.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-salt">
+<span class="sig-name descname"><span class="pre">--salt</span></span><span class="p"><span class="pre">=</span></span><span class="pre">DOUBLE</span><a class="headerlink" href="#cmdoption-salt" title="Link to this definition"></a></dt>
+<dd><p>Set salt concentration in molar (M). Default is 1.021M.</p>
+</dd></dl>
+
+</section>
+<section id="model-details">
+<h3>Model Details:<a class="headerlink" href="#model-details" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Tweak the energy model and pairing rules additionally using the following
+parameters</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-d">
+<span id="cmdoption-dangles"></span><span class="sig-name descname"><span class="pre">-d</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--dangles</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-d" title="Link to this definition"></a></dt>
+<dd><p>How to treat “dangling end” energies for bases adjacent to helices in free ends and multi-loops.</p>
+<p><em>(default=”2”)</em></p>
+<p>With <code class="xref std std-option docutils literal notranslate"><span class="pre">-d2</span></code> dangling energies will be added for the bases adjacent to a helix on
+both sides</p>
+<p>in any case.</p>
+<p>The option <code class="xref std std-option docutils literal notranslate"><span class="pre">-d0</span></code> ignores dangling ends altogether (mostly for debugging).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-noLP">
+<span class="sig-name descname"><span class="pre">--noLP</span></span><a class="headerlink" href="#cmdoption-noLP" title="Link to this definition"></a></dt>
+<dd><p>Produce structures without lonely pairs (helices of length 1).</p>
+<p><em>(default=off)</em></p>
+<p>For partition function folding this only disallows pairs that can only occur
+isolated. Other pairs may still occasionally occur as helices of length 1.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-noGU">
+<span class="sig-name descname"><span class="pre">--noGU</span></span><a class="headerlink" href="#cmdoption-noGU" title="Link to this definition"></a></dt>
+<dd><p>Do not allow GU pairs.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-noClosingGU">
+<span class="sig-name descname"><span class="pre">--noClosingGU</span></span><a class="headerlink" href="#cmdoption-noClosingGU" title="Link to this definition"></a></dt>
+<dd><p>Do not allow GU pairs at the end of helices.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-cfactor">
+<span class="sig-name descname"><span class="pre">--cfactor</span></span><span class="p"><span class="pre">=</span></span><span class="pre">DOUBLE</span><a class="headerlink" href="#cmdoption-cfactor" title="Link to this definition"></a></dt>
+<dd><p>Set the weight of the covariance term in the energy function</p>
+<p><em>(default=”1.0”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-nfactor">
+<span class="sig-name descname"><span class="pre">--nfactor</span></span><span class="p"><span class="pre">=</span></span><span class="pre">DOUBLE</span><a class="headerlink" href="#cmdoption-nfactor" title="Link to this definition"></a></dt>
+<dd><p>Set the penalty for non-compatible sequences in the covariance term of the energy function</p>
+<p><em>(default=”1.0”)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-E">
+<span id="cmdoption-endgaps"></span><span class="sig-name descname"><span class="pre">-E</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--endgaps</span></span><a class="headerlink" href="#cmdoption-E" title="Link to this definition"></a></dt>
+<dd><p>Score pairs with endgaps same as gap-gap pairs.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-R">
+<span id="cmdoption-ribosum_file"></span><span class="sig-name descname"><span class="pre">-R</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--ribosum_file</span></span><span class="p"><span class="pre">=</span></span><span class="pre">ribosumfile</span><a class="headerlink" href="#cmdoption-R" title="Link to this definition"></a></dt>
+<dd><p>use specified Ribosum Matrix instead of normal</p>
+<p>energy model.</p>
+<p>Matrixes to use should be 6x6 matrices, the order of the terms is <code class="docutils literal notranslate"><span class="pre">AU</span></code>, <code class="docutils literal notranslate"><span class="pre">CG</span></code>,
+<code class="docutils literal notranslate"><span class="pre">GC</span></code>, <code class="docutils literal notranslate"><span class="pre">GU</span></code>, <code class="docutils literal notranslate"><span class="pre">UA</span></code>, <code class="docutils literal notranslate"><span class="pre">UG</span></code>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-r">
+<span id="cmdoption-ribosum_scoring"></span><span class="sig-name descname"><span class="pre">-r</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--ribosum_scoring</span></span><a class="headerlink" href="#cmdoption-r" title="Link to this definition"></a></dt>
+<dd><p>use ribosum scoring matrix. <em>(default=off)</em></p>
+<p>The matrix is chosen according to the minimal and maximal pairwise identities
+of the sequences in the file.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-old">
+<span class="sig-name descname"><span class="pre">--old</span></span><a class="headerlink" href="#cmdoption-old" title="Link to this definition"></a></dt>
+<dd><p>use old energy evaluation, treating gaps as characters.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-nsp">
+<span class="sig-name descname"><span class="pre">--nsp</span></span><span class="p"><span class="pre">=</span></span><span class="pre">STRING</span><a class="headerlink" href="#cmdoption-nsp" title="Link to this definition"></a></dt>
+<dd><p>Allow other pairs in addition to the usual AU,GC,and GU pairs.</p>
+<p>Its argument is a comma separated list of additionally allowed pairs. If the
+first character is a “-” then AB will imply that AB and BA are allowed
+pairs, e.g. <a class="reference internal" href="RNALalifold.html#cmdoption-nsp"><code class="xref std std-option docutils literal notranslate"><span class="pre">--nsp=</span></code></a>”-GA”  will allow GA and AG pairs. Nonstandard pairs are
+given 0 stacking energy.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-e">
+<span id="cmdoption-energyModel"></span><span class="sig-name descname"><span class="pre">-e</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--energyModel</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-e" title="Link to this definition"></a></dt>
+<dd><p>Set energy model.</p>
+<p>Rarely used option to fold sequences from the artificial ABCD… alphabet,
+where A pairs B, C-D etc.  Use the energy parameters for GC (<a class="reference internal" href="RNALalifold.html#cmdoption-e"><code class="xref std std-option docutils literal notranslate"><span class="pre">-e</span></code></a> 1) or AU (<a class="reference internal" href="RNALalifold.html#cmdoption-e"><code class="xref std std-option docutils literal notranslate"><span class="pre">-e</span></code></a>
+2) pairs.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-helical-rise">
+<span class="sig-name descname"><span class="pre">--helical-rise</span></span><span class="p"><span class="pre">=</span></span><span class="pre">FLOAT</span><a class="headerlink" href="#cmdoption-helical-rise" title="Link to this definition"></a></dt>
+<dd><p>Set the helical rise of the helix in units of Angstrom.</p>
+<p><em>(default=”2.8”)</em></p>
+<p>Use with caution! This value will be re-set automatically to 3.4 in case DNA
+parameters are loaded via <a class="reference internal" href="RNA2Dfold.html#cmdoption-P"><code class="xref std std-option docutils literal notranslate"><span class="pre">-P</span></code></a> DNA and no further value is provided.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-backbone-length">
+<span class="sig-name descname"><span class="pre">--backbone-length</span></span><span class="p"><span class="pre">=</span></span><span class="pre">FLOAT</span><a class="headerlink" href="#cmdoption-backbone-length" title="Link to this definition"></a></dt>
+<dd><p>Set the average backbone length for looped regions in units of Angstrom.</p>
+<p><em>(default=”6.0”)</em></p>
+<p>Use with caution! This value will be re-set automatically to 6.76 in case DNA
+parameters are loaded via <a class="reference internal" href="RNA2Dfold.html#cmdoption-P"><code class="xref std std-option docutils literal notranslate"><span class="pre">-P</span></code></a> DNA and no further value is provided.</p>
+</dd></dl>
+
+</section>
+<section id="plotting">
+<h3>Plotting:<a class="headerlink" href="#plotting" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Command line options for changing the default behavior of structure layout
+and pairing probability plots</p>
+</div></blockquote>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-color">
+<span class="sig-name descname"><span class="pre">--color</span></span><a class="headerlink" href="#cmdoption-color" title="Link to this definition"></a></dt>
+<dd><p>Produce a colored version of the consensus structure plot “alirna.ps” (default b&amp;w only)</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-aln">
+<span class="sig-name descname"><span class="pre">--aln</span></span><a class="headerlink" href="#cmdoption-aln" title="Link to this definition"></a></dt>
+<dd><p>Produce a colored and structure annotated alignment in PostScript format in the file “aln.ps” in the current directory.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-aln-EPS-cols">
+<span class="sig-name descname"><span class="pre">--aln-EPS-cols</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-aln-EPS-cols" title="Link to this definition"></a></dt>
+<dd><p>Number of columns in colored EPS alignment output.</p>
+<p><em>(default=”60”)</em></p>
+<p>A value less than 1 indicates that the output should not be wrapped at all.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-aln-stk">
+<span class="sig-name descname"><span class="pre">--aln-stk</span></span><span class="p"><span class="pre">[</span></span><span class="pre">=prefix</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#cmdoption-aln-stk" title="Link to this definition"></a></dt>
+<dd><p>Create a multi-Stockholm formatted output file. <em>(default=”RNAalifold_results”)</em></p>
+<p>The default file name used for the output is “RNAalifold_results.stk”.
+Users may change the filename to “prefix.stk” by specifying the prefix as
+optional argument. The file will be create in the current directory if it
+does not already exist. In case the file already exists, output will be
+appended to it. Note: Any special characters in the filename will be replaced
+by the filename delimiter, hence there is no way to pass an entire directory
+path through this option yet. (See also the “–filename-delim” parameter)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-noPS">
+<span class="sig-name descname"><span class="pre">--noPS</span></span><a class="headerlink" href="#cmdoption-noPS" title="Link to this definition"></a></dt>
+<dd><p>Do not produce postscript drawing of the mfe structure.</p>
+<p><em>(default=off)</em></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-noDP">
+<span class="sig-name descname"><span class="pre">--noDP</span></span><a class="headerlink" href="#cmdoption-noDP" title="Link to this definition"></a></dt>
+<dd><p>Do not produce dot-plot postscript file containing base pair or stack probabilitities.</p>
+<p><em>(default=off)</em></p>
+<p>In combination with the <a class="reference internal" href="RNA2Dfold.html#cmdoption-p"><code class="xref std std-option docutils literal notranslate"><span class="pre">-p</span></code></a> option, this flag turns-off creation of individual
+dot-plot files. Consequently, computed base pair probability output is
+omitted but centroid and MEA structure prediction is still performed.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-t">
+<span id="cmdoption-layout-type"></span><span class="sig-name descname"><span class="pre">-t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="sig-name descname"><span class="pre">--layout-type</span></span><span class="p"><span class="pre">=</span></span><span class="pre">INT</span><a class="headerlink" href="#cmdoption-t" title="Link to this definition"></a></dt>
+<dd><p>Choose the layout algorithm. <em>(default=”1”)</em></p>
+<p>Select the layout algorithm that computes the nucleotide coordinates.
+Currently, the following algorithms are available:</p>
+<p><code class="docutils literal notranslate"><span class="pre">0</span></code>: simple radial layout</p>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Naview layout (Bruccoleri et al. 1988)</p>
+<p><code class="docutils literal notranslate"><span class="pre">2</span></code>: circular layout</p>
+<p><code class="docutils literal notranslate"><span class="pre">3</span></code>: RNAturtle (Wiegreffe et al. 2018)</p>
+<p><code class="docutils literal notranslate"><span class="pre">4</span></code>: RNApuzzler (Wiegreffe et al. 2018)</p>
+</dd></dl>
+
+<p>Caveats:</p>
+<p>Sequences are not weighted. If possible, do not mix very similar and dissimilar
+sequences. Duplicate sequences, for example, can distort the prediction.</p>
+</section>
+</section>
+<section id="references">
+<h2>REFERENCES<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<p><em>If you use this program in your work you might want to cite:</em></p>
+<p>R. Lorenz, S.H. Bernhart, C. Hoener zu Siederdissen, H. Tafer, C. Flamm, P.F. Stadler and I.L. Hofacker (2011),
+“ViennaRNA Package 2.0”,
+Algorithms for Molecular Biology: 6:26</p>
+<p>I.L. Hofacker, W. Fontana, P.F. Stadler, S. Bonhoeffer, M. Tacker, P. Schuster (1994),
+“Fast Folding and Comparison of RNA Secondary Structures”,
+Monatshefte f. Chemie: 125, pp 167-188</p>
+<p>R. Lorenz, I.L. Hofacker, P.F. Stadler (2016),
+“RNA folding with hard and soft constraints”,
+Algorithms for Molecular Biology 11:1 pp 1-13</p>
+<p>The algorithm is a variant of the dynamic programming algorithms of M. Zuker and P. Stiegler (mfe)
+and J.S. McCaskill (pf) adapted for sets of aligned sequences with covariance information.</p>
+<p>Ivo L. Hofacker, Martin Fekete, and Peter F. Stadler (2002),
+“Secondary Structure Prediction for Aligned RNA Sequences”,
+J.Mol.Biol.: 319, pp 1059-1066.</p>
+<p>Stephan H. Bernhart, Ivo L. Hofacker, Sebastian Will, Andreas R. Gruber, and Peter F. Stadler (2008),
+“RNAalifold: Improved consensus structure prediction for RNA alignments”,
+BMC Bioinformatics: 9, pp 474</p>
+<p><em>The energy parameters are taken from:</em></p>
+<p>D.H. Mathews, M.D. Disney, D. Matthew, J.L. Childs, S.J. Schroeder, J. Susan, M. Zuker, D.H. Turner (2004),
+“Incorporating chemical modification constraints into a dynamic programming algorithm for prediction of RNA secondary structure”,
+Proc. Natl. Acad. Sci. USA: 101, pp 7287-7292</p>
+<p>D.H Turner, D.H. Mathews (2009),
+“NNDB: The nearest neighbor parameter database for predicting stability of nucleic acid secondary structure”,
+Nucleic Acids Research: 38, pp 280-282</p>
+</section>
+<section id="examples">
+<h2>EXAMPLES<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<p>A simple call to compute consensus MFE structure, ensemble free energy,
+base pair probabilities, centroid structure, and MEA structure for a
+multiple sequence alignment (MSA) provided as Stockholm formatted file
+alignment.stk might look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAalifold -p --MEA alignment.stk
+</pre></div>
+</div>
+<p>Consider the following MSA file for three sequences</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># STOCKHOLM 1.0</span>
+
+<span class="c1">#=GF AC   RF01293</span>
+<span class="c1">#=GF ID   ACA59</span>
+<span class="c1">#=GF DE   Small nucleolar RNA ACA59</span>
+<span class="c1">#=GF AU   Wilkinson A</span>
+<span class="c1">#=GF SE   Predicted; WAR; Wilkinson A</span>
+<span class="c1">#=GF SS   Predicted; WAR; Wilkinson A</span>
+<span class="c1">#=GF GA   43.00</span>
+<span class="c1">#=GF TC   44.90</span>
+<span class="c1">#=GF NC   40.30</span>
+<span class="c1">#=GF TP   Gene; snRNA; snoRNA; HACA-box;</span>
+<span class="c1">#=GF BM   cmbuild -F CM SEED</span>
+<span class="c1">#=GF CB   cmcalibrate --mpi CM</span>
+<span class="c1">#=GF SM   cmsearch --cpu 4 --verbose --nohmmonly -E 1000 -Z 549862.597050 CM SEQDB</span>
+<span class="c1">#=GF DR   snoRNABase; ACA59;</span>
+<span class="c1">#=GF DR   SO; 0001263; ncRNA_gene;</span>
+<span class="c1">#=GF DR   GO; 0006396; RNA processing;</span>
+<span class="c1">#=GF DR   GO; 0005730; nucleolus;</span>
+<span class="c1">#=GF RN   [1]</span>
+<span class="c1">#=GF RM   15199136</span>
+<span class="c1">#=GF RT   Human box H/ACA pseudouridylation guide RNA machinery.</span>
+<span class="c1">#=GF RA   Kiss AM, Jady BE, Bertrand E, Kiss T</span>
+<span class="c1">#=GF RL   Mol Cell Biol. 2004;24:5797-5807.</span>
+<span class="c1">#=GF WK   Small_nucleolar_RNA</span>
+<span class="c1">#=GF SQ   3</span>
+
+
+<span class="n">AL031296</span><span class="mf">.1</span><span class="o">/</span><span class="mi">85969</span><span class="o">-</span><span class="mi">86120</span>     <span class="n">CUGCCUCACAACGUUUGUGCCUCAGUUACCCGUAGAUGUAGUGAGGGUAACAAUACUUACUCUCGUUGGUGAUAAGGAACAGCU</span>
+<span class="n">AANU01225121</span><span class="mf">.1</span><span class="o">/</span><span class="mi">438</span><span class="o">-</span><span class="mi">603</span>     <span class="n">CUGCCUCACAACAUUUGUGCCUCAGUUACUCAUAGAUGUAGUGAGGGUGACAAUACUUACUCUCGUUGGUGAUAAGGAACAGCU</span>
+<span class="n">AAWR02037329</span><span class="mf">.1</span><span class="o">/</span><span class="mi">29294</span><span class="o">-</span><span class="mi">29150</span> <span class="o">---</span><span class="n">CUCGACACCACU</span><span class="o">---</span><span class="n">GCCUCGGUUACCCAUCGGUGCAGUGCGGGUAGUAGUACCAAUGCUAAUUAGUUGUGAGGACCAACU</span>
+<span class="c1">#=GC SS_cons               -----((((,&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;___________&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;,,,,&lt;&lt;&lt;&lt;&lt;&lt;&lt;______&gt;&gt;&gt;&gt;&gt;&gt;&gt;,,,,,))))::::::::::::</span>
+<span class="c1">#=GC RF                    CUGCcccaCAaCacuuguGCCUCaGUUACcCauagguGuAGUGaGgGuggcAaUACccaCcCucgUUgGuggUaAGGAaCAgCU</span>
+<span class="o">//</span>
+</pre></div>
+</div>
+<p>Then, the above program call will produce this output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">3</span> <span class="n">sequences</span><span class="p">;</span> <span class="n">length</span> <span class="n">of</span> <span class="n">alignment</span> <span class="mf">84.</span>
+<span class="o">&gt;</span><span class="n">ACA59</span>
+<span class="n">CUGCCUCACAACAUUUGUGCCUCAGUUACCCAUAGAUGUAGUGAGGGUAACAAUACUUACUCUCGUUGGUGAUAAGGAACAGCU</span>
+<span class="o">...</span><span class="p">((((((</span><span class="o">.</span><span class="p">(((((((((</span><span class="o">...........</span><span class="p">)))))))))</span><span class="o">.</span><span class="p">))))))</span><span class="o">..........</span><span class="p">(((((</span><span class="o">......</span><span class="p">)))))</span><span class="o">............</span> <span class="p">(</span><span class="o">-</span><span class="mf">12.54</span> <span class="o">=</span> <span class="o">-</span><span class="mf">12.77</span> <span class="o">+</span>   <span class="mf">0.23</span><span class="p">)</span>
+<span class="o">...</span><span class="p">((((((</span><span class="o">.</span><span class="p">(((((((((</span><span class="o">...........</span><span class="p">)))))))))</span><span class="o">.</span><span class="p">)))))){{,</span><span class="o">.......</span><span class="p">{{{{,</span><span class="o">......</span><span class="p">}))))</span><span class="o">............</span> <span class="p">[</span><span class="o">-</span><span class="mf">14.38</span><span class="p">]</span>
+<span class="o">...</span><span class="p">((((((</span><span class="o">.</span><span class="p">(((((((((</span><span class="o">...........</span><span class="p">)))))))))</span><span class="o">.</span><span class="p">))))))</span><span class="o">..........</span><span class="p">((((</span><span class="o">........</span><span class="p">))))</span><span class="o">............</span> <span class="p">{</span><span class="o">-</span><span class="mf">12.44</span> <span class="o">=</span> <span class="o">-</span><span class="mf">12.33</span> <span class="o">+</span>  <span class="o">-</span><span class="mf">0.10</span> <span class="n">d</span><span class="o">=</span><span class="mf">10.94</span><span class="p">}</span>
+<span class="o">...</span><span class="p">((((((</span><span class="o">.</span><span class="p">(((((((((</span><span class="o">...........</span><span class="p">)))))))))</span><span class="o">.</span><span class="p">))))))</span><span class="o">..........</span><span class="p">((((</span><span class="o">........</span><span class="p">))))</span><span class="o">............</span> <span class="p">{</span><span class="o">-</span><span class="mf">12.44</span> <span class="o">=</span> <span class="o">-</span><span class="mf">12.33</span> <span class="o">+</span>  <span class="o">-</span><span class="mf">0.10</span> <span class="n">MEA</span><span class="o">=</span><span class="mf">66.65</span><span class="p">}</span>
+<span class="n">frequency</span> <span class="n">of</span> <span class="n">mfe</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">ensemble</span> <span class="mf">0.368739</span><span class="p">;</span> <span class="n">ensemble</span> <span class="n">diversity</span> <span class="mf">17.77</span>
+</pre></div>
+</div>
+<p>Here, the first line is written to <em>stderr</em> and simply states the number of sequences and
+the length of the alignment. This line can be suppressed using the <a class="reference internal" href="RNALalifold.html#cmdoption-q"><code class="xref std std-option docutils literal notranslate"><span class="pre">--quiet</span></code></a> option.
+The main output then consists of 7 lines, where the first two resemble the FASTA header
+with the ID as read from the input data set, followed by the consensus sequence in the
+second line. The third line consists of the consensus secondary structure in dot-bracket
+notation followed by the averaged minimum free energy in parenthesis. This energy is
+composed of two major contributions, the actual free energies derived from the Nearest
+Neighbor model, and the covariance pseudo-energy term, which are both displayed after
+the equal sign. The fourth line shows the base pair propensity in pseudo dot-bracket
+notation followed by the ensemble free energy dG = -kT ln(Z) in square brackets.
+Similarly, the next two lines state the controid- and the MEA structure in dot-bracket
+notation, followed by their corresponding free energy contributions, the mean distance
+(d) to the ensemble as well as the maximum expected accuracy (MEA). Again, the free
+energies are split into Nearest Neighbor contribution and the covariance pseudo-energy
+term.</p>
+<p>Furthermore, RNAalifold will produce three output files: ACA59_ss.ps, ACA59_dp.ps, and
+ACA59_ali.out that contain the secondary structure drawing, the base pair probability
+dot-plot, and a detailed table of base pair probabilities, respectively.</p>
+</section>
+<section id="the-aliout-file">
+<h2>THE ALIOUT FILE<a class="headerlink" href="#the-aliout-file" title="Link to this heading"></a></h2>
+<p>When computing base pair probabilities (<a class="reference internal" href="RNA2Dfold.html#cmdoption-p"><code class="xref std std-option docutils literal notranslate"><span class="pre">--partfunc</span></code></a> option), RNAalifold will produce
+a file with the suffix <cite>ali.out</cite>. This file contains the base pairing probabilities between
+different alignment columns together with some detailed statistics for the individual
+sequences within the alignment. The file is a simple text file with a two line header that
+states the number of sequences and length of the alignment. The first couple of lines
+of this file may look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">3</span> <span class="n">sequence</span><span class="p">;</span> <span class="n">length</span> <span class="n">of</span> <span class="n">alignment</span> <span class="mi">84</span>
+<span class="n">alifold</span> <span class="n">output</span>
+<span class="mi">14</span>    <span class="mi">36</span>  <span class="mi">0</span>  <span class="mf">92.7</span><span class="o">%</span>   <span class="mf">0.212</span> <span class="n">CG</span><span class="p">:</span><span class="mi">1</span>    <span class="n">UA</span><span class="p">:</span><span class="mi">2</span>
+<span class="mi">13</span>    <span class="mi">37</span>  <span class="mi">0</span>  <span class="mf">92.7</span><span class="o">%</span>   <span class="mf">0.218</span> <span class="n">GU</span><span class="p">:</span><span class="mi">1</span>    <span class="n">AU</span><span class="p">:</span><span class="mi">2</span>
+<span class="mi">12</span>    <span class="mi">38</span>  <span class="mi">0</span>  <span class="mf">92.7</span><span class="o">%</span>   <span class="mf">0.231</span> <span class="n">CG</span><span class="p">:</span><span class="mi">3</span>
+<span class="mi">15</span>    <span class="mi">35</span>  <span class="mi">0</span>  <span class="mf">91.9</span><span class="o">%</span>   <span class="mf">0.239</span> <span class="n">UG</span><span class="p">:</span><span class="mi">3</span>
+<span class="mi">16</span>    <span class="mi">34</span>  <span class="mi">0</span>  <span class="mf">85.2</span><span class="o">%</span>   <span class="mf">0.434</span> <span class="n">UA</span><span class="p">:</span><span class="mi">2</span>    <span class="o">--</span><span class="p">:</span><span class="mi">1</span>
+<span class="mi">8</span>    <span class="mi">42</span>  <span class="mi">0</span>  <span class="mf">80.7</span><span class="o">%</span>   <span class="mf">0.526</span> <span class="n">AU</span><span class="p">:</span><span class="mi">3</span>   <span class="o">+</span>
+<span class="mi">9</span>    <span class="mi">41</span>  <span class="mi">0</span>  <span class="mf">80.4</span><span class="o">%</span>   <span class="mf">0.542</span> <span class="n">CG</span><span class="p">:</span><span class="mi">3</span>   <span class="o">+</span>
+<span class="mi">7</span>    <span class="mi">43</span>  <span class="mi">1</span>  <span class="mf">80.1</span><span class="o">%</span>   <span class="mf">0.541</span> <span class="n">CG</span><span class="p">:</span><span class="mi">2</span>   <span class="o">+</span>
+</pre></div>
+</div>
+<p>Starting with the third row, there are at least six and at most 13 columns separated by
+whitespaces stating: (1) the i-position and (2) the j-position of a potential base pair
+(i, j), followed by (3) the number of counter examples, i.e. the number of sequences in
+the alignment that can’t form a canonical base pair with their respective sequence positions.
+Next is (4) the base pair probabilitiy in percent, (5) a pseudo entropy measure
+S_ij = S_i + S_j - p_ij ln(p_ij), where S_i and S_j are the positional entropies for the
+two alignment columns i and j, and p_ij is the base pair probability. Finally, the last
+columns (6-12) state the number of particular base pairs for the individual sequences in
+the alignment. Here, we distinguish the base pairs “GC”,”CG”,”AU”,”UA”,”GU”,”UG”, and
+the special case “–” that represents gaps at both positions i and j.
+Finally, base pairs that are not part of the MFE structure are marked by an additional
+“+” sign in the last column.</p>
+</section>
+<section id="author">
+<h2>AUTHOR<a class="headerlink" href="#author" title="Link to this heading"></a></h2>
+<p>Ivo L Hofacker, Stephan Bernhart, Ronny Lorenz</p>
+</section>
+<section id="reporting-bugs">
+<h2>REPORTING BUGS<a class="headerlink" href="#reporting-bugs" title="Link to this heading"></a></h2>
+<p>If in doubt our program is right, nature is at fault.
+Comments should be sent to <a class="reference external" href="mailto:rna&#37;&#52;&#48;tbi&#46;univie&#46;ac&#46;at">rna<span>&#64;</span>tbi<span>&#46;</span>univie<span>&#46;</span>ac<span>&#46;</span>at</a>.</p>
+</section>
+<section id="see-also">
+<h2>SEE ALSO<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<p>The ALIDOT package <a class="reference external" href="http://www.tbi.univie.ac.at/RNA/Alidot/">http://www.tbi.univie.ac.at/RNA/Alidot/</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="RNAaliduplex.html" class="btn btn-neutral float-left" title="RNAaliduplex" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="RNAcofold.html" class="btn btn-neutral float-right" title="RNAcofold" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

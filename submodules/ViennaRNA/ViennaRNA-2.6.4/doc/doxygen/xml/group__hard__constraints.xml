@@ -1,0 +1,791 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__hard__constraints" kind="group">
+    <compoundname>hard_constraints</compoundname>
+    <title>Hard Constraints</title>
+    <innerfile refid="hard_8h">hard.h</innerfile>
+    <innerclass refid="structvrna__hc__s" prot="public">vrna_hc_s</innerclass>
+    <innerclass refid="structvrna__hc__up__s" prot="public">vrna_hc_up_s</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__hard__constraints_1gac7e4c4f8abe3163a68110c5bff24e01d" prot="public" static="no">
+        <type>struct <ref refid="structvrna__hc__s" kindref="compound">vrna_hc_s</ref></type>
+        <definition>typedef struct vrna_hc_s vrna_hc_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_hc_t</name>
+        <briefdescription>
+<para>Typename for the hard constraints data structure <ref refid="structvrna__hc__s" kindref="compound">vrna_hc_s</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="27" column="24" bodyfile="ViennaRNA/constraints/hard.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__hard__constraints_1ga8cd53427a942a81c87ec526bbff32ef9" prot="public" static="no">
+        <type>struct <ref refid="structvrna__hc__up__s" kindref="compound">vrna_hc_up_s</ref></type>
+        <definition>typedef struct vrna_hc_up_s vrna_hc_up_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_hc_up_t</name>
+        <briefdescription>
+<para>Typename for the single nucleotide hard constraint data structure <ref refid="structvrna__hc__up__s" kindref="compound">vrna_hc_up_s</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="33" column="27" bodyfile="ViennaRNA/constraints/hard.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__hard__constraints_1ga23a523332de2867a1568a0229345ab80" prot="public" static="no">
+        <type>unsigned char(*</type>
+        <definition>typedef unsigned char(* vrna_hc_eval_f) (int i, int j, int k, int l, unsigned char d, void *data)</definition>
+        <argsstring>)(int i, int j, int k, int l, unsigned char d, void *data)</argsstring>
+        <name>vrna_hc_eval_f</name>
+        <briefdescription>
+<para>Callback to evaluate whether or not a particular decomposition step is contributing to the solution space. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the prototype for callback functions used by the folding recursions to evaluate generic hard constraints. The first four parameters passed indicate the delimiting nucleotide positions of the decomposition, and the parameter <computeroutput>denotes</computeroutput> the decomposition step. The last parameter <computeroutput>data</computeroutput> is the auxiliary data structure associated to the hard constraints via <ref refid="hard_8h_1aba4f4528b605d0b18ac5b3153ee93eae" kindref="member">vrna_hc_add_data()</ref>, or NULL if no auxiliary data was added.</para>
+<para><xrefsect id="callbacks_1_callbacks000014"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>This callback enables one to over-rule default hard constraints in secondary structure decompositions. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__constraints_1ga8bd41ebc8039378d242e4e8c273716a5" kindref="member">VRNA_DECOMP_PAIR_HP</ref>, <ref refid="group__constraints_1gaeab04f34d7730cff2d651d782f95d857" kindref="member">VRNA_DECOMP_PAIR_IL</ref>, <ref refid="group__constraints_1gaa15b1185673f0b9e900c4748d45f388f" kindref="member">VRNA_DECOMP_PAIR_ML</ref>, <ref refid="group__constraints_1ga735517266f2e35e1374b8f1ea77ef23e" kindref="member">VRNA_DECOMP_ML_ML_ML</ref>, <ref refid="group__constraints_1ga4a23054c75d8efc785de50e3ea87602f" kindref="member">VRNA_DECOMP_ML_STEM</ref>, <ref refid="group__constraints_1ga7f4cb9ff7a33e67f0539bd39e7b19a78" kindref="member">VRNA_DECOMP_ML_ML</ref>, <ref refid="group__constraints_1gae6478dda14e50e2f2cb9ef333a29256e" kindref="member">VRNA_DECOMP_ML_UP</ref>, <ref refid="group__constraints_1ga63d8ceb8c96ae3b463e529e28cc0fe98" kindref="member">VRNA_DECOMP_ML_ML_STEM</ref>, <ref refid="group__constraints_1ga4fe48d575830b16c208e280e01ab1497" kindref="member">VRNA_DECOMP_ML_COAXIAL</ref>, <ref refid="group__constraints_1ga437adf5115c1999304eff26b41e4c9b6" kindref="member">VRNA_DECOMP_EXT_EXT</ref>, <ref refid="group__constraints_1gaff1ddaffe86d984623910b40cc8a8717" kindref="member">VRNA_DECOMP_EXT_UP</ref>, <ref refid="group__constraints_1gae44b5ace0d9b4a29088069ecb4cec441" kindref="member">VRNA_DECOMP_EXT_STEM</ref>, <ref refid="group__constraints_1ga803bd818b3f4b2b0a4a5cfa2f7dc2045" kindref="member">VRNA_DECOMP_EXT_EXT_EXT</ref>, <ref refid="group__constraints_1gabb09c5b78b75a44502fc77b950125c1e" kindref="member">VRNA_DECOMP_EXT_STEM_EXT</ref>, <ref refid="group__constraints_1ga06efd054c9271438f6d82d4559d9e69f" kindref="member">VRNA_DECOMP_EXT_EXT_STEM</ref>, <ref refid="group__constraints_1ga2e75d7a77118735b32f25422d9686719" kindref="member">VRNA_DECOMP_EXT_EXT_STEM1</ref>, <ref refid="hard_8h_1ac30609e180b7ac6fe26f8a59bafbb03e" kindref="member">vrna_hc_add_f()</ref>, <ref refid="hard_8h_1aba4f4528b605d0b18ac5b3153ee93eae" kindref="member">vrna_hc_add_data()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left (5&apos;) delimiter position of substructure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right (3&apos;) delimiter position of substructure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left delimiter of decomposition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right delimiter of decomposition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decomposition step indicator </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Auxiliary data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A non-zero value if the decomposition is valid, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="71" column="18" bodyfile="ViennaRNA/constraints/hard.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_constraints_add</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *constraint, unsigned int options)</argsstring>
+        <name>vrna_constraints_add</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>constraint</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Add constraints to a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this function to add/update the hard/soft constraints The function allows for passing a string &apos;constraint&apos; that can either be a filename that points to a constraints definition file or it may be a pseudo dot-bracket notation indicating hard constraints. For the latter, the user has to pass the <ref refid="group__hard__constraints_1ga4bfc2f15c4f261c62a11af9d2aa80c90" kindref="member">VRNA_CONSTRAINT_DB</ref> option. Also, the user has to specify, which characters are allowed to be interpreted as constraints by passing the corresponding options via the third parameter.</para>
+<para>The following is an example for adding hard constraints given in pseudo dot-bracket notation. Here, <computeroutput>fc</computeroutput> is the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> object, <computeroutput>structure</computeroutput> is a char array with the hard constraint in dot-bracket notation, and <computeroutput>enforceConstraints</computeroutput> is a flag indicating whether or not constraints for base pairs should be enforced instead of just doing a removal of base pair that conflict with the constraint.</para>
+<para><programlisting filename="RNAfold.c"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>constraint_options<sp/>=<sp/><ref refid="group__hard__constraints_1ga1c3864bdc92147a4d93de2b1b4356177" kindref="member">VRNA_CONSTRAINT_DB_DEFAULT</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(enforceConstraints)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constraint_options<sp/>|=<sp/><ref refid="group__hard__constraints_1ga29ebe940110d60ab798fdacbcdbbfb7d" kindref="member">VRNA_CONSTRAINT_DB_ENFORCE_BP</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(canonicalBPonly)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constraint_options<sp/>|=<sp/>VRNA_CONSTRAINT_DB_CANONICAL_BP;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add</ref>(fc,<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)cstruc,<sp/>constraint_options);</highlight></codeline>
+</programlisting></para>
+<para>In constrat to the above, constraints may also be read from file:</para>
+<para><programlisting filename="RNAfold.c"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add</ref>(fc,<sp/>constraints_file,<sp/><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref>);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gadfe1b73edc675a5c0363b81d55173144" kindref="member">vrna_hc_add_from_db()</ref>, <ref refid="group__hard__constraints_1ga7d76b2644078157bbe4c661394ac7191" kindref="member">vrna_hc_add_up()</ref>, <ref refid="group__hard__constraints_1gafe5379c54a6450f028f41d1e78ea5feb" kindref="member">vrna_hc_add_up_batch()</ref> vrna_hc_add_bp_unspecific(), <ref refid="group__hard__constraints_1gad128c58afef8e43dae0840d8f5d30efc" kindref="member">vrna_hc_add_bp()</ref>, <ref refid="group__hard__constraints_1ga4fdb1e98f0d1a2d5728dd3a3aae4a357" kindref="member">vrna_hc_init()</ref>, <ref refid="group__soft__constraints_1gaf6634fa9249945b7cb0e325942d2771b" kindref="member">vrna_sc_set_up()</ref>, <ref refid="group__soft__constraints_1ga68900a8a15c83ff352f576b8a298e371" kindref="member">vrna_sc_set_bp()</ref>, <ref refid="group__SHAPE__reactivities_1gad609895467d59ea53faac4f98b71c099" kindref="member">vrna_sc_add_SHAPE_deigan()</ref>, <ref refid="group__SHAPE__reactivities_1ga5a673837ebe42d790bdf3ccf8982d3dc" kindref="member">vrna_sc_add_SHAPE_zarringhalam()</ref>, <ref refid="group__hard__constraints_1ga696dcf77887d856c6f21ea266d8b9ca2" kindref="member">vrna_hc_free()</ref>, <ref refid="group__soft__constraints_1ga6d55446448d69346fc313b993c4fb3e8" kindref="member">vrna_sc_free()</ref>, <ref refid="group__hard__constraints_1ga4bfc2f15c4f261c62a11af9d2aa80c90" kindref="member">VRNA_CONSTRAINT_DB</ref>, <ref refid="group__hard__constraints_1ga1c3864bdc92147a4d93de2b1b4356177" kindref="member">VRNA_CONSTRAINT_DB_DEFAULT</ref>, <ref refid="group__hard__constraints_1ga13053547a2de5532b64b64d35e097ae1" kindref="member">VRNA_CONSTRAINT_DB_PIPE</ref>, <ref refid="group__hard__constraints_1ga369bea82eae75fbe626f409fa425747e" kindref="member">VRNA_CONSTRAINT_DB_DOT</ref>, <ref refid="group__hard__constraints_1ga7283bbe0f8954f7b030ecc3f2d1932b2" kindref="member">VRNA_CONSTRAINT_DB_X</ref>, <ref refid="hard_8h_1ad54c1315a47d55653dcaa5de6e544b77" kindref="member">VRNA_CONSTRAINT_DB_ANG_BRACK</ref>, <ref refid="group__hard__constraints_1gac17b034852c914bc5879954c65d7e74b" kindref="member">VRNA_CONSTRAINT_DB_RND_BRACK</ref>, <ref refid="group__hard__constraints_1ga5c17253f5a39d1d49b0fb11f5196982a" kindref="member">VRNA_CONSTRAINT_DB_INTRAMOL</ref>, <ref refid="group__hard__constraints_1ga31d0ebb9755ca8a4acafc14f00ca755d" kindref="member">VRNA_CONSTRAINT_DB_INTERMOL</ref>, <ref refid="group__hard__constraints_1ga75cfab03cdc97c95b3ce8bb29f52b08e" kindref="member">VRNA_CONSTRAINT_DB_GQUAD</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>constraint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A string with either the filename of the constraint definitions or a pseudo dot-bracket notation of the hard constraint. May be NULL. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The option flags </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/basic.h" line="338" column="1" declfile="ViennaRNA/constraints/basic.h" declline="338" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__hard__constraints_1ga4fdb1e98f0d1a2d5728dd3a3aae4a357" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_hc_init</definition>
+        <argsstring>(vrna_fold_compound_t *fc)</argsstring>
+        <name>vrna_hc_init</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+<para>Initialize/Reset hard constraints to default values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function resets the hard constraints to their default values, i.e. all positions may be unpaired in all contexts, and base pairs are allowed in all contexts, if they resemble canonical pairs. Previously set hard constraints will be removed before initialization.</para>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gad128c58afef8e43dae0840d8f5d30efc" kindref="member">vrna_hc_add_bp()</ref>, <ref refid="group__hard__constraints_1gac0d3409d8d24c870d85ca65c656c9460" kindref="member">vrna_hc_add_bp_nonspecific()</ref>, <ref refid="group__hard__constraints_1ga7d76b2644078157bbe4c661394ac7191" kindref="member">vrna_hc_add_up()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000036"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>hc_init()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.hc_init()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="490" column="1" declfile="ViennaRNA/constraints/hard.h" declline="490" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__hard__constraints_1ga7d76b2644078157bbe4c661394ac7191" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_hc_add_up</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int i, unsigned char option)</argsstring>
+        <name>vrna_hc_add_up</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>unsigned char</type>
+          <declname>option</declname>
+        </param>
+        <briefdescription>
+<para>Make a certain nucleotide unpaired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gad128c58afef8e43dae0840d8f5d30efc" kindref="member">vrna_hc_add_bp()</ref>, <ref refid="group__hard__constraints_1gac0d3409d8d24c870d85ca65c656c9460" kindref="member">vrna_hc_add_bp_nonspecific()</ref>, <ref refid="group__hard__constraints_1ga4fdb1e98f0d1a2d5728dd3a3aae4a357" kindref="member">vrna_hc_init()</ref>, <ref refid="group__hard__constraints_1ga9418eda62a5dec070896702c279d2548" kindref="member">VRNA_CONSTRAINT_CONTEXT_EXT_LOOP</ref>, <ref refid="group__hard__constraints_1ga79203702b197b6b9d3b78eed40663eb1" kindref="member">VRNA_CONSTRAINT_CONTEXT_HP_LOOP</ref>, <ref refid="group__hard__constraints_1ga21feeab3a9e5fa5a9e3d9ac0fcf5994f" kindref="member">VRNA_CONSTRAINT_CONTEXT_INT_LOOP</ref>, <ref refid="group__hard__constraints_1ga456ecd2ff00056bb64da8dd4f61bbfc5" kindref="member">VRNA_CONSTRAINT_CONTEXT_MB_LOOP</ref>, <ref refid="group__hard__constraints_1ga886d9127c49bb982a4b67cd7581e8a5a" kindref="member">VRNA_CONSTRAINT_CONTEXT_ALL_LOOPS</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> the hard constraints are associated with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position that needs to stay unpaired (1-based) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>option</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options flag indicating how/where to store the hard constraints </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="523" column="1" declfile="ViennaRNA/constraints/hard.h" declline="523" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__hard__constraints_1gafe5379c54a6450f028f41d1e78ea5feb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_hc_add_up_batch</definition>
+        <argsstring>(vrna_fold_compound_t *fc, vrna_hc_up_t *constraints)</argsstring>
+        <name>vrna_hc_add_up_batch</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type><ref refid="group__hard__constraints_1ga8cd53427a942a81c87ec526bbff32ef9" kindref="member">vrna_hc_up_t</ref> *</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Apply a list of hard constraints for single nucleotides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> the hard constraints are associated with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list off constraints to apply, last entry must have position attribute set to 0 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="545" column="1" declfile="ViennaRNA/constraints/hard.h" declline="545" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__hard__constraints_1gad128c58afef8e43dae0840d8f5d30efc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_hc_add_bp</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int i, int j, unsigned char option)</argsstring>
+        <name>vrna_hc_add_bp</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>unsigned char</type>
+          <declname>option</declname>
+        </param>
+        <briefdescription>
+<para>Favorize/Enforce a certain base pair (i,j) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gac0d3409d8d24c870d85ca65c656c9460" kindref="member">vrna_hc_add_bp_nonspecific()</ref>, <ref refid="group__hard__constraints_1ga7d76b2644078157bbe4c661394ac7191" kindref="member">vrna_hc_add_up()</ref>, <ref refid="group__hard__constraints_1ga4fdb1e98f0d1a2d5728dd3a3aae4a357" kindref="member">vrna_hc_init()</ref>, <ref refid="group__hard__constraints_1ga9418eda62a5dec070896702c279d2548" kindref="member">VRNA_CONSTRAINT_CONTEXT_EXT_LOOP</ref>, <ref refid="group__hard__constraints_1ga79203702b197b6b9d3b78eed40663eb1" kindref="member">VRNA_CONSTRAINT_CONTEXT_HP_LOOP</ref>, <ref refid="group__hard__constraints_1ga21feeab3a9e5fa5a9e3d9ac0fcf5994f" kindref="member">VRNA_CONSTRAINT_CONTEXT_INT_LOOP</ref>, <ref refid="group__hard__constraints_1ga0536288e04ff6332ecdc23ca4705402b" kindref="member">VRNA_CONSTRAINT_CONTEXT_INT_LOOP_ENC</ref>, <ref refid="group__hard__constraints_1ga456ecd2ff00056bb64da8dd4f61bbfc5" kindref="member">VRNA_CONSTRAINT_CONTEXT_MB_LOOP</ref>, <ref refid="group__hard__constraints_1ga02a3d703ddbcfce393e4bbfcb9db7077" kindref="member">VRNA_CONSTRAINT_CONTEXT_MB_LOOP_ENC</ref>, <ref refid="hard_8h_1a1aa55f2c6347e670e003b1a765632dad" kindref="member">VRNA_CONSTRAINT_CONTEXT_ENFORCE</ref>, <ref refid="group__hard__constraints_1ga886d9127c49bb982a4b67cd7581e8a5a" kindref="member">VRNA_CONSTRAINT_CONTEXT_ALL_LOOPS</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> the hard constraints are associated with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 5&apos; located nucleotide position of the base pair (1-based) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 3&apos; located nucleotide position of the base pair (1-based) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>option</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options flag indicating how/where to store the hard constraints </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="571" column="1" declfile="ViennaRNA/constraints/hard.h" declline="571" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__hard__constraints_1gac0d3409d8d24c870d85ca65c656c9460" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_hc_add_bp_nonspecific</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int i, int d, unsigned char option)</argsstring>
+        <name>vrna_hc_add_bp_nonspecific</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>unsigned char</type>
+          <declname>option</declname>
+        </param>
+        <briefdescription>
+<para>Enforce a nucleotide to be paired (upstream/downstream) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gad128c58afef8e43dae0840d8f5d30efc" kindref="member">vrna_hc_add_bp()</ref>, <ref refid="group__hard__constraints_1ga7d76b2644078157bbe4c661394ac7191" kindref="member">vrna_hc_add_up()</ref>, <ref refid="group__hard__constraints_1ga4fdb1e98f0d1a2d5728dd3a3aae4a357" kindref="member">vrna_hc_init()</ref>, <ref refid="group__hard__constraints_1ga9418eda62a5dec070896702c279d2548" kindref="member">VRNA_CONSTRAINT_CONTEXT_EXT_LOOP</ref>, <ref refid="group__hard__constraints_1ga79203702b197b6b9d3b78eed40663eb1" kindref="member">VRNA_CONSTRAINT_CONTEXT_HP_LOOP</ref>, <ref refid="group__hard__constraints_1ga21feeab3a9e5fa5a9e3d9ac0fcf5994f" kindref="member">VRNA_CONSTRAINT_CONTEXT_INT_LOOP</ref>, <ref refid="group__hard__constraints_1ga0536288e04ff6332ecdc23ca4705402b" kindref="member">VRNA_CONSTRAINT_CONTEXT_INT_LOOP_ENC</ref>, <ref refid="group__hard__constraints_1ga456ecd2ff00056bb64da8dd4f61bbfc5" kindref="member">VRNA_CONSTRAINT_CONTEXT_MB_LOOP</ref>, <ref refid="group__hard__constraints_1ga02a3d703ddbcfce393e4bbfcb9db7077" kindref="member">VRNA_CONSTRAINT_CONTEXT_MB_LOOP_ENC</ref>, <ref refid="group__hard__constraints_1ga886d9127c49bb982a4b67cd7581e8a5a" kindref="member">VRNA_CONSTRAINT_CONTEXT_ALL_LOOPS</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> the hard constraints are associated with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position that needs to stay unpaired (1-based) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The direction of base pairing ( <formula id="105">$ d &lt; 0 $</formula>: pairs upstream, <formula id="106">$ d &gt; 0 $</formula>: pairs downstream, <formula id="107">$ d == 0 $</formula>: no direction) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>option</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options flag indicating in which loop type context the pairs may appear </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="604" column="1" declfile="ViennaRNA/constraints/hard.h" declline="604" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__hard__constraints_1ga696dcf77887d856c6f21ea266d8b9ca2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_hc_free</definition>
+        <argsstring>(vrna_hc_t *hc)</argsstring>
+        <name>vrna_hc_free</name>
+        <param>
+          <type><ref refid="group__hard__constraints_1gac7e4c4f8abe3163a68110c5bff24e01d" kindref="member">vrna_hc_t</ref> *</type>
+          <declname>hc</declname>
+        </param>
+        <briefdescription>
+<para>Free the memory allocated by a <ref refid="group__hard__constraints_1gac7e4c4f8abe3163a68110c5bff24e01d" kindref="member">vrna_hc_t</ref> data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this function to free all memory that was allocated for a data structure of type <ref refid="group__hard__constraints_1gac7e4c4f8abe3163a68110c5bff24e01d" kindref="member">vrna_hc_t</ref> .</para>
+<para><simplesect kind="see"><para>get_hard_constraints(), <ref refid="group__hard__constraints_1gac7e4c4f8abe3163a68110c5bff24e01d" kindref="member">vrna_hc_t</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="622" column="1" declfile="ViennaRNA/constraints/hard.h" declline="622" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__hard__constraints_1gadfe1b73edc675a5c0363b81d55173144" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_hc_add_from_db</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *constraint, unsigned int options)</argsstring>
+        <name>vrna_hc_add_from_db</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>constraint</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Add hard constraints from pseudo dot-bracket notation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows one to apply hard constraints from a pseudo dot-bracket notation. The <computeroutput>options</computeroutput> parameter controls, which characters are recognized by the parser. Use the <ref refid="group__hard__constraints_1ga1c3864bdc92147a4d93de2b1b4356177" kindref="member">VRNA_CONSTRAINT_DB_DEFAULT</ref> convenience macro, if you want to allow all known characters</para>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1ga13053547a2de5532b64b64d35e097ae1" kindref="member">VRNA_CONSTRAINT_DB_PIPE</ref>, <ref refid="group__hard__constraints_1ga369bea82eae75fbe626f409fa425747e" kindref="member">VRNA_CONSTRAINT_DB_DOT</ref>, <ref refid="group__hard__constraints_1ga7283bbe0f8954f7b030ecc3f2d1932b2" kindref="member">VRNA_CONSTRAINT_DB_X</ref>, <ref refid="hard_8h_1ad54c1315a47d55653dcaa5de6e544b77" kindref="member">VRNA_CONSTRAINT_DB_ANG_BRACK</ref>, <ref refid="group__hard__constraints_1gac17b034852c914bc5879954c65d7e74b" kindref="member">VRNA_CONSTRAINT_DB_RND_BRACK</ref>, <ref refid="group__hard__constraints_1ga5c17253f5a39d1d49b0fb11f5196982a" kindref="member">VRNA_CONSTRAINT_DB_INTRAMOL</ref>, <ref refid="group__hard__constraints_1ga31d0ebb9755ca8a4acafc14f00ca755d" kindref="member">VRNA_CONSTRAINT_DB_INTERMOL</ref>, <ref refid="group__hard__constraints_1ga75cfab03cdc97c95b3ce8bb29f52b08e" kindref="member">VRNA_CONSTRAINT_DB_GQUAD</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>constraint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pseudo dot-bracket notation of the hard constraint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The option flags</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000040"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>hc_add_from_db()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.hc_add_from_db()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="670" column="1" declfile="ViennaRNA/constraints/hard.h" declline="670" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__hard__constraints_1ga4bfc2f15c4f261c62a11af9d2aa80c90" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_DB</name>
+        <initializer>16384U</initializer>
+        <briefdescription>
+<para>Flag for <ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add()</ref> to indicate that constraint is passed in pseudo dot-bracket notation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add()</ref>, <ref refid="group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670" kindref="member">vrna_message_constraint_options()</ref>, <ref refid="group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f" kindref="member">vrna_message_constraint_options_all()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="102" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga29ebe940110d60ab798fdacbcdbbfb7d" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_DB_ENFORCE_BP</name>
+        <initializer>32768U</initializer>
+        <briefdescription>
+<para>Switch for dot-bracket structure constraint to enforce base pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This flag should be used to really enforce base pairs given in dot-bracket constraint rather than just weakly-enforcing them.</para>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gadfe1b73edc675a5c0363b81d55173144" kindref="member">vrna_hc_add_from_db()</ref>, <ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add()</ref>, <ref refid="group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670" kindref="member">vrna_message_constraint_options()</ref>, <ref refid="group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f" kindref="member">vrna_message_constraint_options_all()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="115" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga13053547a2de5532b64b64d35e097ae1" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_DB_PIPE</name>
+        <initializer>65536U</initializer>
+        <briefdescription>
+<para>Flag that is used to indicate the pipe &apos;|&apos; sign in pseudo dot-bracket notation of hard constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this definition to indicate the pipe sign &apos;|&apos; (paired with another base)</para>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gadfe1b73edc675a5c0363b81d55173144" kindref="member">vrna_hc_add_from_db()</ref>, <ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add()</ref>, <ref refid="group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670" kindref="member">vrna_message_constraint_options()</ref>, <ref refid="group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f" kindref="member">vrna_message_constraint_options_all()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="128" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga369bea82eae75fbe626f409fa425747e" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_DB_DOT</name>
+        <initializer>131072U</initializer>
+        <briefdescription>
+<para>dot &apos;.&apos; switch for structure constraints (no constraint at all) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gadfe1b73edc675a5c0363b81d55173144" kindref="member">vrna_hc_add_from_db()</ref>, <ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add()</ref>, <ref refid="group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670" kindref="member">vrna_message_constraint_options()</ref>, <ref refid="group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f" kindref="member">vrna_message_constraint_options_all()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="138" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga7283bbe0f8954f7b030ecc3f2d1932b2" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_DB_X</name>
+        <initializer>262144U</initializer>
+        <briefdescription>
+<para>&apos;x&apos; switch for structure constraint (base must not pair) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gadfe1b73edc675a5c0363b81d55173144" kindref="member">vrna_hc_add_from_db()</ref>, <ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add()</ref>, <ref refid="group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670" kindref="member">vrna_message_constraint_options()</ref>, <ref refid="group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f" kindref="member">vrna_message_constraint_options_all()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="147" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1gac17b034852c914bc5879954c65d7e74b" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_DB_RND_BRACK</name>
+        <initializer>1048576U</initializer>
+        <briefdescription>
+<para>round brackets &apos;(&apos;,&apos;)&apos; switch for structure constraint (base i pairs base j) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gadfe1b73edc675a5c0363b81d55173144" kindref="member">vrna_hc_add_from_db()</ref>, <ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add()</ref>, <ref refid="group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670" kindref="member">vrna_message_constraint_options()</ref>, <ref refid="group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f" kindref="member">vrna_message_constraint_options_all()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="163" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga5c17253f5a39d1d49b0fb11f5196982a" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_DB_INTRAMOL</name>
+        <initializer>2097152U</initializer>
+        <briefdescription>
+<para>Flag that is used to indicate the character &apos;l&apos; in pseudo dot-bracket notation of hard constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this definition to indicate the usage of &apos;l&apos; character (intramolecular pairs only)</para>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gadfe1b73edc675a5c0363b81d55173144" kindref="member">vrna_hc_add_from_db()</ref>, <ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add()</ref>, <ref refid="group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670" kindref="member">vrna_message_constraint_options()</ref>, <ref refid="group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f" kindref="member">vrna_message_constraint_options_all()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="176" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga31d0ebb9755ca8a4acafc14f00ca755d" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_DB_INTERMOL</name>
+        <initializer>4194304U</initializer>
+        <briefdescription>
+<para>Flag that is used to indicate the character &apos;e&apos; in pseudo dot-bracket notation of hard constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this definition to indicate the usage of &apos;e&apos; character (intermolecular pairs only)</para>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gadfe1b73edc675a5c0363b81d55173144" kindref="member">vrna_hc_add_from_db()</ref>, <ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add()</ref>, <ref refid="group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670" kindref="member">vrna_message_constraint_options()</ref>, <ref refid="group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f" kindref="member">vrna_message_constraint_options_all()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="189" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga75cfab03cdc97c95b3ce8bb29f52b08e" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_DB_GQUAD</name>
+        <initializer>8388608U</initializer>
+        <briefdescription>
+<para>&apos;+&apos; switch for structure constraint (base is involved in a gquad) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gadfe1b73edc675a5c0363b81d55173144" kindref="member">vrna_hc_add_from_db()</ref>, <ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add()</ref>, <ref refid="group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670" kindref="member">vrna_message_constraint_options()</ref>, <ref refid="group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f" kindref="member">vrna_message_constraint_options_all()</ref></para>
+</simplesect>
+<simplesect kind="warning"><para>This flag is for future purposes only! No implementation recognizes it yet. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="201" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga10ce6bd2355945f3c8161b7a30a2c322" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_DB_WUSS</name>
+        <initializer>33554432U</initializer>
+        <briefdescription>
+<para>Flag to indicate Washington University Secondary Structure (WUSS) notation of the hard constraint string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This secondary structure notation for RNAs is usually used as consensus secondary structure (SS_cons) entry in Stockholm formatted files </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="213" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga1c3864bdc92147a4d93de2b1b4356177" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_DB_DEFAULT</name>
+        <initializer>  (<ref refid="group__hard__constraints_1ga4bfc2f15c4f261c62a11af9d2aa80c90" kindref="member">VRNA_CONSTRAINT_DB</ref> \
+   | <ref refid="group__hard__constraints_1ga13053547a2de5532b64b64d35e097ae1" kindref="member">VRNA_CONSTRAINT_DB_PIPE</ref> \
+   | <ref refid="group__hard__constraints_1ga369bea82eae75fbe626f409fa425747e" kindref="member">VRNA_CONSTRAINT_DB_DOT</ref> \
+   | <ref refid="group__hard__constraints_1ga7283bbe0f8954f7b030ecc3f2d1932b2" kindref="member">VRNA_CONSTRAINT_DB_X</ref> \
+   | <ref refid="hard_8h_1ad54c1315a47d55653dcaa5de6e544b77" kindref="member">VRNA_CONSTRAINT_DB_ANG_BRACK</ref> \
+   | <ref refid="group__hard__constraints_1gac17b034852c914bc5879954c65d7e74b" kindref="member">VRNA_CONSTRAINT_DB_RND_BRACK</ref> \
+   | <ref refid="group__hard__constraints_1ga5c17253f5a39d1d49b0fb11f5196982a" kindref="member">VRNA_CONSTRAINT_DB_INTRAMOL</ref> \
+   | <ref refid="group__hard__constraints_1ga31d0ebb9755ca8a4acafc14f00ca755d" kindref="member">VRNA_CONSTRAINT_DB_INTERMOL</ref> \
+   | <ref refid="group__hard__constraints_1ga75cfab03cdc97c95b3ce8bb29f52b08e" kindref="member">VRNA_CONSTRAINT_DB_GQUAD</ref> \
+  )</initializer>
+        <briefdescription>
+<para>Switch for dot-bracket structure constraint with default symbols. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This flag conveniently combines all possible symbols in dot-bracket notation for hard constraints and <ref refid="group__hard__constraints_1ga4bfc2f15c4f261c62a11af9d2aa80c90" kindref="member">VRNA_CONSTRAINT_DB</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__hard__constraints_1gadfe1b73edc675a5c0363b81d55173144" kindref="member">vrna_hc_add_from_db()</ref>, <ref refid="group__hard__constraints_1ga74dd0cf2be4b70680a48488923d4cdec" kindref="member">vrna_constraints_add()</ref>, <ref refid="group__constraints_1gaa1f20b53bf09ac2e6b0dbb13f7d89670" kindref="member">vrna_message_constraint_options()</ref>, <ref refid="group__constraints_1gaec7e13fa0465c2acc7a621d1aecb709f" kindref="member">vrna_message_constraint_options_all()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="227" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga9418eda62a5dec070896702c279d2548" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_CONTEXT_EXT_LOOP</name>
+        <initializer>(unsigned char)0x01</initializer>
+        <briefdescription>
+<para>Hard constraints flag, base pair in the exterior loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="245" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga79203702b197b6b9d3b78eed40663eb1" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_CONTEXT_HP_LOOP</name>
+        <initializer>(unsigned char)0x02</initializer>
+        <briefdescription>
+<para>Hard constraints flag, base pair encloses hairpin loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="253" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga21feeab3a9e5fa5a9e3d9ac0fcf5994f" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_CONTEXT_INT_LOOP</name>
+        <initializer>(unsigned char)0x04</initializer>
+        <briefdescription>
+<para>Hard constraints flag, base pair encloses an interior loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="261" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga0536288e04ff6332ecdc23ca4705402b" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_CONTEXT_INT_LOOP_ENC</name>
+        <initializer>(unsigned char)0x08</initializer>
+        <briefdescription>
+<para>Hard constraints flag, base pair encloses a multi branch loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="269" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga456ecd2ff00056bb64da8dd4f61bbfc5" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_CONTEXT_MB_LOOP</name>
+        <initializer>(unsigned char)0x10</initializer>
+        <briefdescription>
+<para>Hard constraints flag, base pair is enclosed in an interior loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="277" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga02a3d703ddbcfce393e4bbfcb9db7077" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_CONTEXT_MB_LOOP_ENC</name>
+        <initializer>(unsigned char)0x20</initializer>
+        <briefdescription>
+<para>Hard constraints flag, base pair is enclosed in a multi branch loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="285" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__hard__constraints_1ga886d9127c49bb982a4b67cd7581e8a5a" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_CONTEXT_ALL_LOOPS</name>
+        <initializer>                                                              (unsigned char)(<ref refid="hard_8h_1a10675929fdc14c5f81df49d77933067a" kindref="member">VRNA_CONSTRAINT_CONTEXT_CLOSING_LOOPS</ref> | \
+                                                              <ref refid="hard_8h_1ae03ed6ba25cf3cefdf36516e4081eb17" kindref="member">VRNA_CONSTRAINT_CONTEXT_ENCLOSED_LOOPS</ref>)</initializer>
+        <briefdescription>
+<para>Constraint context flag indicating any loop context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/constraints/hard.h" line="323" column="9" bodyfile="ViennaRNA/constraints/hard.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

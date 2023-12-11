@@ -1,0 +1,735 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__domains__up" kind="group">
+    <compoundname>domains_up</compoundname>
+    <title>Unstructured Domains</title>
+    <innerfile refid="unstructured__domains_8h">unstructured_domains.h</innerfile>
+    <innerclass refid="structvrna__unstructured__domain__s" prot="public">vrna_unstructured_domain_s</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__domains__up_1ga0009117b14d29143e8b18ab891f48c2d" prot="public" static="no">
+        <type>struct <ref refid="structvrna__unstructured__domain__s" kindref="compound">vrna_unstructured_domain_s</ref></type>
+        <definition>typedef struct vrna_unstructured_domain_s vrna_ud_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_ud_t</name>
+        <briefdescription>
+<para>Typename for the ligand binding extension data structure <ref refid="structvrna__unstructured__domain__s" kindref="compound">vrna_unstructured_domain_s</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="28" column="41" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__domains__up_1gaec7ac7d3800d3ddd42eced89b43038ea" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* vrna_ud_f) (vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, void *data)</definition>
+        <argsstring>)(vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, void *data)</argsstring>
+        <name>vrna_ud_f</name>
+        <briefdescription>
+<para>Callback to retrieve binding free energy of a ligand bound to an unpaired sequence segment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="callbacks_1_callbacks000008"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>This function will be called to determine the additional energy contribution of a specific unstructured domain, e.g. the binding free energy of some ligand. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start of the unstructured domain (5&apos; end) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The end of the unstructured domain (3&apos; end) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>loop_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The loop context of the unstructured domain </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Auxiliary data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The auxiliary energy contribution in deka-cal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="54" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__domains__up_1ga2e9002a489309f2cf59379d8ca6d00f0" prot="public" static="no">
+        <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref>(*</type>
+        <definition>typedef FLT_OR_DBL(* vrna_ud_exp_f) (vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, void *data)</definition>
+        <argsstring>)(vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, void *data)</argsstring>
+        <name>vrna_ud_exp_f</name>
+        <briefdescription>
+<para>Callback to retrieve Boltzmann factor of the binding free energy of a ligand bound to an unpaired sequence segment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="callbacks_1_callbacks000009"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>This function will be called to determine the additional energy contribution of a specific unstructured domain, e.g. the binding free energy of some ligand (Partition function variant, i.e. the Boltzmann factors instead of actual free energies). </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start of the unstructured domain (5&apos; end) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The end of the unstructured domain (3&apos; end) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>loop_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The loop context of the unstructured domain </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Auxiliary data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The auxiliary energy contribution as Boltzmann factor </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="85" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__domains__up_1ga6da4dff321fdfaf9742efcd558fa327f" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* vrna_ud_production_f) (vrna_fold_compound_t *fc, void *data)</definition>
+        <argsstring>)(vrna_fold_compound_t *fc, void *data)</argsstring>
+        <name>vrna_ud_production_f</name>
+        <briefdescription>
+<para>Callback for pre-processing the production rule of the ligand binding to unpaired stretches feature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="callbacks_1_callbacks000010"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>The production rule for the unstructured domain grammar extension </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="108" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__domains__up_1ga59dc10fdd4705c87aacaed15a8b1015d" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* vrna_ud_exp_production_f) (vrna_fold_compound_t *fc, void *data)</definition>
+        <argsstring>)(vrna_fold_compound_t *fc, void *data)</argsstring>
+        <name>vrna_ud_exp_production_f</name>
+        <briefdescription>
+<para>Callback for pre-processing the production rule of the ligand binding to unpaired stretches feature (partition function variant) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="callbacks_1_callbacks000011"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>The production rule for the unstructured domain grammar extension (Partition function variant) </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="125" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__domains__up_1ga5ea006f39d44db3ae9481a748889a0a1" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* vrna_ud_add_probs_f) (vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, FLT_OR_DBL exp_energy, void *data)</definition>
+        <argsstring>)(vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, FLT_OR_DBL exp_energy, void *data)</argsstring>
+        <name>vrna_ud_add_probs_f</name>
+        <briefdescription>
+<para>Callback to store/add equilibrium probability for a ligand bound to an unpaired sequence segment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="callbacks_1_callbacks000012"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>A callback function to store equilibrium probabilities for the unstructured domain feature </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="142" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__domains__up_1ga584c32828e8803a32de7c52bdad5c6bd" prot="public" static="no">
+        <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref>(*</type>
+        <definition>typedef FLT_OR_DBL(* vrna_ud_get_probs_f) (vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, int motif, void *data)</definition>
+        <argsstring>)(vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, int motif, void *data)</argsstring>
+        <name>vrna_ud_get_probs_f</name>
+        <briefdescription>
+<para>Callback to retrieve equilibrium probability for a ligand bound to an unpaired sequence segment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="callbacks_1_callbacks000013"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>A callback function to retrieve equilibrium probabilities for the unstructured domain feature </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="166" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__domains__up_1ga89440fa4f7b951ad9dcd6da567f37ea2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structvrna__unstructured__domain__motif__s" kindref="compound">vrna_ud_motif_t</ref> *</type>
+        <definition>vrna_ud_motif_t * vrna_ud_motifs_centroid</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure)</argsstring>
+        <name>vrna_ud_motifs_centroid</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Detect unstructured domains in centroid structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Given a centroid structure and a set of unstructured domains compute the list of unstructured domain motifs present in the centroid. Since we do not explicitly annotate unstructured domain motifs in dot-bracket strings, this function can be used to check for the presence and location of unstructured domain motifs under the assumption that the dot-bracket string is the centroid structure of the equiibrium ensemble.</para>
+<para><simplesect kind="see"><para><ref refid="group__centroid__fold_1gac39e7be7392b2c72bd3a6a14612be5e2" kindref="member">vrna_centroid()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold_compound data structure with pre-computed equilibrium probabilities and model settings </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The centroid structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of unstructured domain motifs (possibly NULL). The last element terminates the list with <computeroutput>start=0</computeroutput>, <computeroutput>number=-1</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="288" column="1" declfile="ViennaRNA/unstructured_domains.h" declline="288" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__domains__up_1ga3694cf090ccb64f8398e0f4c786aad50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structvrna__unstructured__domain__motif__s" kindref="compound">vrna_ud_motif_t</ref> *</type>
+        <definition>vrna_ud_motif_t * vrna_ud_motifs_MEA</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure, vrna_ep_t *probability_list)</argsstring>
+        <name>vrna_ud_motifs_MEA</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+          <declname>probability_list</declname>
+        </param>
+        <briefdescription>
+<para>Detect unstructured domains in MEA structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Given an MEA structure and a set of unstructured domains compute the list of unstructured domain motifs present in the MEA structure. Since we do not explicitly annotate unstructured domain motifs in dot-bracket strings, this function can be used to check for the presence and location of unstructured domain motifs under the assumption that the dot-bracket string is the MEA structure of the equiibrium ensemble.</para>
+<para><simplesect kind="see"><para><ref refid="group__mea__fold_1ga396ec6144c6a74fcbab4cea6b42d76c3" kindref="member">MEA()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold_compound data structure with pre-computed equilibrium probabilities and model settings </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The MEA structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>probability_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list of probabilities to extract the MEA structure from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of unstructured domain motifs (possibly NULL). The last element terminates the list with <computeroutput>start=0</computeroutput>, <computeroutput>number=-1</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="314" column="1" declfile="ViennaRNA/unstructured_domains.h" declline="314" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__domains__up_1ga46d6cfffebf89032019004a026c8f63c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structvrna__unstructured__domain__motif__s" kindref="compound">vrna_ud_motif_t</ref> *</type>
+        <definition>vrna_ud_motif_t * vrna_ud_motifs_MFE</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure)</argsstring>
+        <name>vrna_ud_motifs_MFE</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Detect unstructured domains in MFE structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Given an MFE structure and a set of unstructured domains compute the list of unstructured domain motifs present in the MFE structure. Since we do not explicitly annotate unstructured domain motifs in dot-bracket strings, this function can be used to check for the presence and location of unstructured domain motifs under the assumption that the dot-bracket string is the MFE structure of the equiibrium ensemble.</para>
+<para><simplesect kind="see"><para><ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold_compound data structure with model settings </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The MFE structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of unstructured domain motifs (possibly NULL). The last element terminates the list with <computeroutput>start=0</computeroutput>, <computeroutput>number=-1</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="339" column="1" declfile="ViennaRNA/unstructured_domains.h" declline="339" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__domains__up_1gaf82f92ab38dd65169cce575fc5f52184" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_ud_add_motif</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *motif, double motif_en, const char *motif_name, unsigned int loop_type)</argsstring>
+        <name>vrna_ud_add_motif</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>motif</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>motif_en</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>motif_name</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>loop_type</declname>
+        </param>
+        <briefdescription>
+<para>Add an unstructured domain motif, e.g. for ligand binding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function adds a ligand binding motif and the associated binding free energy to the <ref refid="group__domains__up_1ga0009117b14d29143e8b18ab891f48c2d" kindref="member">vrna_ud_t</ref> attribute of a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. The motif data will then be used in subsequent secondary structure predictions. Multiple calls to this function with different motifs append all additional data to a list of ligands, which all will be evaluated. Ligand motif data can be removed from the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> again using the <ref refid="group__domains__up_1ga35f92cdc7a7b75a19c46df14b992d517" kindref="member">vrna_ud_remove()</ref> function. The loop type parameter allows one to limit the ligand binding to particular loop type, such as the exterior loop, hairpin loops, interior loops, or multibranch loops.</para>
+<para><simplesect kind="see"><para><ref refid="group__domains__up_1gaac911374e86236a51bfd42e1f098eaba" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_EXT_LOOP</ref>, <ref refid="group__domains__up_1ga23b610ea9564346c45cc1e2bbb62adf7" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_HP_LOOP</ref>, <ref refid="group__domains__up_1gac4a0feccd9654c149203200248c2716b" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_INT_LOOP</ref>, <ref refid="group__domains__up_1ga67b80796655e5227a4ed662bfbe398b0" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_MB_LOOP</ref>, <ref refid="group__domains__up_1ga3c6be4cce70f1af9e885788856101699" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_ALL_LOOPS</ref>, <ref refid="group__domains__up_1ga35f92cdc7a7b75a19c46df14b992d517" kindref="member">vrna_ud_remove()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> data structure the ligand motif should be bound to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>motif</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sequence motif the ligand binds to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>motif_en</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binding free energy of the ligand in kcal/mol </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>motif_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name/id of the motif (may be <computeroutput>NULL</computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>loop_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The loop type the ligand binds to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="368" column="7" declfile="ViennaRNA/unstructured_domains.h" declline="368" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__domains__up_1ga35f92cdc7a7b75a19c46df14b992d517" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_ud_remove</definition>
+        <argsstring>(vrna_fold_compound_t *fc)</argsstring>
+        <name>vrna_ud_remove</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+<para>Remove ligand binding to unpaired stretches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function removes all ligand motifs that were bound to a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> using the <ref refid="group__domains__up_1gaf82f92ab38dd65169cce575fc5f52184" kindref="member">vrna_ud_add_motif()</ref> function.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> data structure the ligand motif data should be removed from</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000102"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>ud_remove()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.ud_remove()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="405" column="7" declfile="ViennaRNA/unstructured_domains.h" declline="405" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__domains__up_1gafb5dba76a97912e7b09174550015aa98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_ud_set_data</definition>
+        <argsstring>(vrna_fold_compound_t *fc, void *data, vrna_auxdata_free_f free_cb)</argsstring>
+        <name>vrna_ud_set_data</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a" kindref="member">vrna_auxdata_free_f</ref></type>
+          <declname>free_cb</declname>
+        </param>
+        <briefdescription>
+<para>Attach an auxiliary data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function binds an arbitrary, auxiliary data structure for user-implemented ligand binding. The optional callback <computeroutput>free_cb</computeroutput> will be passed the bound data structure whenever the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> is removed from memory to avoid memory leaks.</para>
+<para><simplesect kind="see"><para><ref refid="group__domains__up_1gaeaa09aa8b60bc87d3ad92d446cb1b8c0" kindref="member">vrna_ud_set_prod_rule_cb()</ref>, <ref refid="group__domains__up_1ga6518ec8abbeb4126f7f990f21d93a95f" kindref="member">vrna_ud_set_exp_prod_rule_cb()</ref>, <ref refid="group__domains__up_1ga35f92cdc7a7b75a19c46df14b992d517" kindref="member">vrna_ud_remove()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> data structure the auxiliary data structure should be bound to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the auxiliary data structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>free_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a callback function that free&apos;s memory occupied by <computeroutput>data</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000103"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>ud_set_data()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.ud_set_data()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="424" column="7" declfile="ViennaRNA/unstructured_domains.h" declline="424" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__domains__up_1gaeaa09aa8b60bc87d3ad92d446cb1b8c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_ud_set_prod_rule_cb</definition>
+        <argsstring>(vrna_fold_compound_t *fc, vrna_ud_production_f pre_cb, vrna_ud_f e_cb)</argsstring>
+        <name>vrna_ud_set_prod_rule_cb</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type><ref refid="group__domains__up_1ga6da4dff321fdfaf9742efcd558fa327f" kindref="member">vrna_ud_production_f</ref></type>
+          <declname>pre_cb</declname>
+        </param>
+        <param>
+          <type><ref refid="group__domains__up_1gaec7ac7d3800d3ddd42eced89b43038ea" kindref="member">vrna_ud_f</ref></type>
+          <declname>e_cb</declname>
+        </param>
+        <briefdescription>
+<para>Attach production rule callbacks for free energies computations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this function to bind a user-implemented grammar extension for unstructured domains.</para>
+<para>The callback <computeroutput>e_cb</computeroutput> needs to evaluate the free energy contribution <formula id="77">$f(i,j)$</formula> of the unpaired segment <formula id="78">$[i,j]$</formula>. It will be executed in each of the regular secondary structure production rules. Whenever the callback is passed the <ref refid="group__domains__up_1gaab12b58d59be76446a9f76fad2fe624c" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_MOTIF</ref> flag via its <computeroutput>loop_type</computeroutput> parameter the contribution of any ligand that consecutively binds from position <formula id="31">$i$</formula> to <formula id="79">$j$</formula> (the white box) is requested. Otherwise, the callback usually performs a lookup in the precomputed <computeroutput>B</computeroutput> matrices. Which <computeroutput>B</computeroutput> matrix is addressed will be indicated by the flags <ref refid="group__domains__up_1gaac911374e86236a51bfd42e1f098eaba" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_EXT_LOOP</ref>, <ref refid="group__domains__up_1ga23b610ea9564346c45cc1e2bbb62adf7" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_HP_LOOP</ref> <ref refid="group__domains__up_1gac4a0feccd9654c149203200248c2716b" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_INT_LOOP</ref>, and <ref refid="group__domains__up_1ga67b80796655e5227a4ed662bfbe398b0" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_MB_LOOP</ref>. As their names already imply, they specify exterior loops (<computeroutput>F</computeroutput> production rule), hairpin loops and interior loops (<computeroutput>C</computeroutput> production rule), and multibranch loops (<computeroutput>M</computeroutput> and <computeroutput>M1</computeroutput> production rule).</para>
+<para><image type="xml" name="ligands_up_callback.svg"></image>
+</para>
+<para>The <computeroutput>pre_cb</computeroutput> callback will be executed as a pre-processing step right before the regular secondary structure rules. Usually one would use this callback to fill the dynamic programming matrices <computeroutput>U</computeroutput> and preparations of the auxiliary data structure <ref refid="structvrna__unstructured__domain__s_1a8802b1b0512999a9f35202031811ce17" kindref="member">vrna_unstructured_domain_s.data</ref></para>
+<para><image type="xml" name="B_prod_rule.svg"></image>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> data structure the callback will be bound to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pre_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a callback function for the <computeroutput>B</computeroutput> production rule </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>e_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a callback function for free energy evaluation</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000104"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>ud_set_prod_rule_cb()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.ud_set_prod_rule_cb()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="461" column="6" declfile="ViennaRNA/unstructured_domains.h" declline="461" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__domains__up_1ga6518ec8abbeb4126f7f990f21d93a95f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_ud_set_exp_prod_rule_cb</definition>
+        <argsstring>(vrna_fold_compound_t *fc, vrna_ud_exp_production_f pre_cb, vrna_ud_exp_f exp_e_cb)</argsstring>
+        <name>vrna_ud_set_exp_prod_rule_cb</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type><ref refid="group__domains__up_1ga59dc10fdd4705c87aacaed15a8b1015d" kindref="member">vrna_ud_exp_production_f</ref></type>
+          <declname>pre_cb</declname>
+        </param>
+        <param>
+          <type><ref refid="group__domains__up_1ga2e9002a489309f2cf59379d8ca6d00f0" kindref="member">vrna_ud_exp_f</ref></type>
+          <declname>exp_e_cb</declname>
+        </param>
+        <briefdescription>
+<para>Attach production rule for partition function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is the partition function companion of <ref refid="group__domains__up_1gaeaa09aa8b60bc87d3ad92d446cb1b8c0" kindref="member">vrna_ud_set_prod_rule_cb()</ref>.</para>
+<para>Use it to bind callbacks to (i) fill the <computeroutput>U</computeroutput> production rule dynamic programming matrices and/or prepare the <ref refid="structvrna__unstructured__domain__s_1a8802b1b0512999a9f35202031811ce17" kindref="member">vrna_unstructured_domain_s.data</ref>, and (ii) provide a callback to retrieve partition functions for subsegments <formula id="80">$ [i,j] $</formula>.</para>
+<para><image type="xml" name="B_prod_rule.svg"></image>
+</para>
+<para><image type="xml" name="ligands_up_callback.svg"></image>
+</para>
+<para><simplesect kind="see"><para><ref refid="group__domains__up_1gaeaa09aa8b60bc87d3ad92d446cb1b8c0" kindref="member">vrna_ud_set_prod_rule_cb()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> data structure the callback will be bound to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pre_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a callback function for the <computeroutput>B</computeroutput> production rule </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>exp_e_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a callback function that retrieves the partition function for a segment <formula id="78">$[i,j]$</formula> that may be bound by one or more ligands.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000105"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>ud_set_exp_prod_rule_cb()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.ud_set_exp_prod_rule_cb()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="488" column="7" declfile="ViennaRNA/unstructured_domains.h" declline="488" declcolumn="7"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__domains__up_1gaac911374e86236a51bfd42e1f098eaba" prot="public" static="no">
+        <name>VRNA_UNSTRUCTURED_DOMAIN_EXT_LOOP</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+<para>Flag to indicate ligand bound to unpiared stretch in the exterior loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="186" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__domains__up_1ga23b610ea9564346c45cc1e2bbb62adf7" prot="public" static="no">
+        <name>VRNA_UNSTRUCTURED_DOMAIN_HP_LOOP</name>
+        <initializer>2U</initializer>
+        <briefdescription>
+<para>Flag to indicate ligand bound to unpaired stretch in a hairpin loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="192" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__domains__up_1gac4a0feccd9654c149203200248c2716b" prot="public" static="no">
+        <name>VRNA_UNSTRUCTURED_DOMAIN_INT_LOOP</name>
+        <initializer>4U</initializer>
+        <briefdescription>
+<para>Flag to indicate ligand bound to unpiared stretch in an interior loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="198" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__domains__up_1ga67b80796655e5227a4ed662bfbe398b0" prot="public" static="no">
+        <name>VRNA_UNSTRUCTURED_DOMAIN_MB_LOOP</name>
+        <initializer>8U</initializer>
+        <briefdescription>
+<para>Flag to indicate ligand bound to unpiared stretch in a multibranch loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="204" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__domains__up_1gaab12b58d59be76446a9f76fad2fe624c" prot="public" static="no">
+        <name>VRNA_UNSTRUCTURED_DOMAIN_MOTIF</name>
+        <initializer>16U</initializer>
+        <briefdescription>
+<para>Flag to indicate ligand binding without additional unbound nucleotides (motif-only) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="210" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__domains__up_1ga3c6be4cce70f1af9e885788856101699" prot="public" static="no">
+        <name>VRNA_UNSTRUCTURED_DOMAIN_ALL_LOOPS</name>
+        <initializer>                                              (<ref refid="group__domains__up_1gaac911374e86236a51bfd42e1f098eaba" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_EXT_LOOP</ref> | \
+                                              <ref refid="group__domains__up_1ga23b610ea9564346c45cc1e2bbb62adf7" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_HP_LOOP</ref> | \
+                                              <ref refid="group__domains__up_1gac4a0feccd9654c149203200248c2716b" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_INT_LOOP</ref> | \
+                                              <ref refid="group__domains__up_1ga67b80796655e5227a4ed662bfbe398b0" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_MB_LOOP</ref>)</initializer>
+        <briefdescription>
+<para>Flag to indicate ligand bound to unpiared stretch in any loop (convenience macro) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/unstructured_domains.h" line="216" column="9" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

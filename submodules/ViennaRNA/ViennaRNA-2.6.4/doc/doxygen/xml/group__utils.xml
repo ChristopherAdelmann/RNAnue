@@ -1,0 +1,624 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__utils" kind="group">
+    <compoundname>utils</compoundname>
+    <title>Utilities</title>
+    <innerfile refid="alphabet_8h">alphabet.h</innerfile>
+    <innerfile refid="combinatorics_8h">combinatorics.h</innerfile>
+    <innerfile refid="commands_8h">commands.h</innerfile>
+    <innerfile refid="sequence_8h">sequence.h</innerfile>
+    <innerfile refid="io_2file__formats__msa_8h">file_formats_msa.h</innerfile>
+    <innerfile refid="io_2utils_8h">utils.h</innerfile>
+    <innerfile refid="plotting_2utils_8h">utils.h</innerfile>
+    <innerfile refid="utils_2alignments_8h">alignments.h</innerfile>
+    <innerfile refid="utils_2basic_8h">basic.h</innerfile>
+    <innerfile refid="strings_8h">strings.h</innerfile>
+    <innerfile refid="utils_2units_8h">units.h</innerfile>
+    <innerfile refid="BoyerMoore_8h">BoyerMoore.h</innerfile>
+    <innerfile refid="datastructures_2char__stream_8h">char_stream.h</innerfile>
+    <innerfile refid="datastructures_2stream__output_8h">stream_output.h</innerfile>
+    <innergroup refid="group__alphabet__utils">Utilities to deal with Nucleotide Alphabets</innergroup>
+    <innergroup refid="group__string__utils">(Nucleic Acid Sequence) String Utilitites</innergroup>
+    <innergroup refid="group__struct__utils">Secondary Structure Utilities</innergroup>
+    <innergroup refid="group__aln__utils">Multiple Sequence Alignment Utilities</innergroup>
+    <innergroup refid="group__file__utils">Files and I/O</innergroup>
+    <innergroup refid="group__plotting__utils">Plotting</innergroup>
+    <innergroup refid="group__search__utils">Search Algorithms</innergroup>
+    <innergroup refid="group__combinatorics__utils">Combinatorics Algorithms</innergroup>
+    <innergroup refid="group__data__structures">(Abstract) Data Structures</innergroup>
+    <innergroup refid="group__message__utils">Messages</innergroup>
+    <innergroup refid="group__units">Unit Conversion</innergroup>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__utils_1gaf9a866c8417afda7368bbac939ab3c47" prot="public" static="no" mutable="no">
+        <type>unsigned short</type>
+        <definition>unsigned short xsubi[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>xsubi</name>
+        <briefdescription>
+<para>Current 48 bit random number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This variable is used by <ref refid="group__utils_1ga384e256ebb295d04a14426179db0dd6e" kindref="member">vrna_urn()</ref>. These should be set to some random number seeds before the first call to <ref refid="group__utils_1ga384e256ebb295d04a14426179db0dd6e" kindref="member">vrna_urn()</ref>.</para>
+<para><simplesect kind="see"><para><ref refid="group__utils_1ga384e256ebb295d04a14426179db0dd6e" kindref="member">vrna_urn()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="188" column="23" declfile="ViennaRNA/utils/basic.h" declline="188" declcolumn="23"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__utils_1gafae44c31c8772450d6c674a582be3e3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * vrna_alloc</definition>
+        <argsstring>(unsigned size)</argsstring>
+        <name>vrna_alloc</name>
+        <param>
+          <type>unsigned</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Allocate space safely. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size of the memory to be allocated in bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the allocated memory </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="143" column="1" declfile="ViennaRNA/utils/basic.h" declline="143" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utils_1gac2bb3797d18490febf3557d1ed209c8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * vrna_realloc</definition>
+        <argsstring>(void *p, unsigned size)</argsstring>
+        <name>vrna_realloc</name>
+        <param>
+          <type>void *</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Reallocate space safely. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the memory region to be reallocated </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size of the memory to be allocated in bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the newly allocated memory </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="154" column="1" declfile="ViennaRNA/utils/basic.h" declline="154" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utils_1ga0ad1f40ea316e5c5918695c35613027a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_init_rand</definition>
+        <argsstring>(void)</argsstring>
+        <name>vrna_init_rand</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Initialize seed for random number generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__utils_1ga940205dee1b00f94551cabbfbe6e654a" kindref="member">vrna_init_rand_seed()</ref>, <ref refid="group__utils_1ga384e256ebb295d04a14426179db0dd6e" kindref="member">vrna_urn()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="166" column="1" declfile="ViennaRNA/utils/basic.h" declline="166" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utils_1ga940205dee1b00f94551cabbfbe6e654a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_init_rand_seed</definition>
+        <argsstring>(unsigned int seed)</argsstring>
+        <name>vrna_init_rand_seed</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the random number generator with a pre-defined seed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__utils_1ga0ad1f40ea316e5c5918695c35613027a" kindref="member">vrna_init_rand()</ref>, <ref refid="group__utils_1ga384e256ebb295d04a14426179db0dd6e" kindref="member">vrna_urn()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The seed for the random number generator</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000181"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para>This function is available as an overloaded function <bold><ref refid="utils_2basic_8h_1a8aaa6d9be6f803f496d9b97375c371f3" kindref="member">init_rand()</ref></bold> where the argument <computeroutput>seed</computeroutput> is optional. See, e.g.  <verbatim>embed:rst:inline:py:func:`RNA.init_rand()` in the :doc:`/api_python`</verbatim>.</para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="177" column="1" declfile="ViennaRNA/utils/basic.h" declline="177" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utils_1ga384e256ebb295d04a14426179db0dd6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double vrna_urn</definition>
+        <argsstring>(void)</argsstring>
+        <name>vrna_urn</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>get a random number from [0..1] </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Usually implemented by calling <emphasis>erand48()</emphasis>.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__utils_1ga46111bb3747dbcf4609f0d40ae169ad9" kindref="member">vrna_int_urn()</ref>, <ref refid="group__utils_1ga0ad1f40ea316e5c5918695c35613027a" kindref="member">vrna_init_rand()</ref>, <ref refid="group__utils_1ga940205dee1b00f94551cabbfbe6e654a" kindref="member">vrna_init_rand_seed()</ref></para>
+</simplesect>
+<simplesect kind="return"><para>A random number in range [0..1] </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="200" column="1" declfile="ViennaRNA/utils/basic.h" declline="200" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utils_1ga46111bb3747dbcf4609f0d40ae169ad9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_int_urn</definition>
+        <argsstring>(int from, int to)</argsstring>
+        <name>vrna_int_urn</name>
+        <param>
+          <type>int</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Generates a pseudo random integer in a specified range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__utils_1ga384e256ebb295d04a14426179db0dd6e" kindref="member">vrna_urn()</ref>, <ref refid="group__utils_1ga0ad1f40ea316e5c5918695c35613027a" kindref="member">vrna_init_rand()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The first number in range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The last number in range </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pseudo random number in range [from, to] </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="213" column="1" declfile="ViennaRNA/utils/basic.h" declline="213" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utils_1ga0b5134fd776e2aa66ccc2af258721594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_time_stamp</definition>
+        <argsstring>(void)</argsstring>
+        <name>vrna_time_stamp</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Get a timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a string containing the current date in the format <verbatim>Fri Mar 19 21:10:57 1993 </verbatim></para>
+<para><simplesect kind="return"><para>A string containing the timestamp </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="226" column="1" declfile="ViennaRNA/utils/basic.h" declline="226" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utils_1ga8ef1835eb83f542396f59f0b205965e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int get_input_line</definition>
+        <argsstring>(char **string, unsigned int options)</argsstring>
+        <name>get_input_line</name>
+        <param>
+          <type>char **</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieve a line from &apos;stdin&apos; savely while skipping comment characters and other features This function returns the type of input it has read if recognized. An option argument allows one to switch between different reading modes.<linebreak/>
+Currently available options are:<linebreak/>
+<ref refid="group__utils_1gaf2062e0eeefffd3ed639af460b3d4fab" kindref="member">VRNA_INPUT_COMMENT</ref>, <ref refid="group__utils_1ga0f6311f11bed1842e3a527ab27b294c6" kindref="member">VRNA_INPUT_NOSKIP_COMMENTS</ref>, <ref refid="group__utils_1ga086742158293217a46ae2f71bb296937" kindref="member">VRNA_INPUT_NO_TRUNCATION</ref></para>
+<para>pass a collection of options as one value like this: <verbatim>get_input_line(string, option_1 | option_2 | option_n) </verbatim></para>
+<para>If the function recognizes the type of input, it will report it in the return value. It also reports if a user defined &apos;quit&apos; command (-sign on &apos;stdin&apos;) was given. Possible return values are:<linebreak/>
+<ref refid="group__utils_1ga2f0d8069e93d3ac54d9320d6bdb8e7e7" kindref="member">VRNA_INPUT_FASTA_HEADER</ref>, <ref refid="group__utils_1gad403c9ea58f1836689404c2931419c8c" kindref="member">VRNA_INPUT_ERROR</ref>, <ref refid="group__utils_1ga8e3241b321c9c1a78a69e59e2e019a71" kindref="member">VRNA_INPUT_MISC</ref>, <ref refid="group__utils_1ga72f3c6ca5c83d2b9baed2922d19c403d" kindref="member">VRNA_INPUT_QUIT</ref></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array that contains the line read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A collection of options for switching the functions behavior </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A flag with information about what has been read </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="250" column="1" declfile="ViennaRNA/utils/basic.h" declline="250" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utils_1ga27d6f59da187317ab4c0d7e9f15ee57a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int *</type>
+        <definition>int * vrna_idx_row_wise</definition>
+        <argsstring>(unsigned int length)</argsstring>
+        <name>vrna_idx_row_wise</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Get an index mapper array (iindx) for accessing the energy matrices, e.g. in partition function related functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Access of a position &quot;(i,j)&quot; is then accomplished by using <verbatim>(i,j) ~ iindx[i]-j </verbatim> This function is necessary as most of the two-dimensional energy matrices are actually one-dimensional arrays throughout the ViennaRNA Package</para>
+<para>Consult the implemented code to find out about the mapping formula ;)</para>
+<para><simplesect kind="see"><para><ref refid="group__utils_1ga93a00c17b7644d1e755943d01664cae0" kindref="member">vrna_idx_col_wise()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The mapper array </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="269" column="1" declfile="ViennaRNA/utils/basic.h" declline="269" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utils_1ga93a00c17b7644d1e755943d01664cae0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int *</type>
+        <definition>int * vrna_idx_col_wise</definition>
+        <argsstring>(unsigned int length)</argsstring>
+        <name>vrna_idx_col_wise</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Get an index mapper array (indx) for accessing the energy matrices, e.g. in MFE related functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Access of a position &quot;(i,j)&quot; is then accomplished by using <verbatim>(i,j) ~ indx[j]+i </verbatim> This function is necessary as most of the two-dimensional energy matrices are actually one-dimensional arrays throughout the ViennaRNAPackage</para>
+<para>Consult the implemented code to find out about the mapping formula ;)</para>
+<para><simplesect kind="see"><para><ref refid="group__utils_1ga27d6f59da187317ab4c0d7e9f15ee57a" kindref="member">vrna_idx_row_wise()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The mapper array </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="288" column="1" declfile="ViennaRNA/utils/basic.h" declline="288" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__utils_1gad17d551e31d1828c68acf40684849b7e" prot="public" static="no">
+        <name>PUBLIC</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="29" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga5e151c615eda34903514212f05a5ccf8" prot="public" static="no">
+        <name>PRIVATE</name>
+        <initializer>static</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="30" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1gad403c9ea58f1836689404c2931419c8c" prot="public" static="no">
+        <name>VRNA_INPUT_ERROR</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+<para>Output flag of <ref refid="group__utils_1ga8ef1835eb83f542396f59f0b205965e5" kindref="member">get_input_line()</ref>: <emphasis>&quot;An ERROR has occured, maybe EOF&quot;</emphasis>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="35" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga72f3c6ca5c83d2b9baed2922d19c403d" prot="public" static="no">
+        <name>VRNA_INPUT_QUIT</name>
+        <initializer>2U</initializer>
+        <briefdescription>
+<para>Output flag of <ref refid="group__utils_1ga8ef1835eb83f542396f59f0b205965e5" kindref="member">get_input_line()</ref>: <emphasis>&quot;the user requested quitting the program&quot;</emphasis>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="39" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga8e3241b321c9c1a78a69e59e2e019a71" prot="public" static="no">
+        <name>VRNA_INPUT_MISC</name>
+        <initializer>4U</initializer>
+        <briefdescription>
+<para>Output flag of <ref refid="group__utils_1ga8ef1835eb83f542396f59f0b205965e5" kindref="member">get_input_line()</ref>: <emphasis>&quot;something was read&quot;</emphasis>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="43" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga2f0d8069e93d3ac54d9320d6bdb8e7e7" prot="public" static="no">
+        <name>VRNA_INPUT_FASTA_HEADER</name>
+        <initializer>8U</initializer>
+        <briefdescription>
+<para>Input/Output flag of <ref refid="group__utils_1ga8ef1835eb83f542396f59f0b205965e5" kindref="member">get_input_line()</ref>:<linebreak/>
+if used as input option this tells <ref refid="group__utils_1ga8ef1835eb83f542396f59f0b205965e5" kindref="member">get_input_line()</ref> that the data to be read should comply with the FASTA format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>the function will return this flag if a fasta header was read </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="52" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga8566d6787972100e68b5a2a159b4cf45" prot="public" static="no">
+        <name>VRNA_INPUT_SEQUENCE</name>
+        <initializer>16U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="59" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1gac08a9df45b9721b97a47dbfe7a6e5f85" prot="public" static="no">
+        <name>VRNA_INPUT_CONSTRAINT</name>
+        <initializer>32U</initializer>
+        <briefdescription>
+<para>Input flag for <ref refid="group__utils_1ga8ef1835eb83f542396f59f0b205965e5" kindref="member">get_input_line()</ref>:<linebreak/>
+Tell <ref refid="group__utils_1ga8ef1835eb83f542396f59f0b205965e5" kindref="member">get_input_line()</ref> that we assume to read a structure constraint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="65" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga086742158293217a46ae2f71bb296937" prot="public" static="no">
+        <name>VRNA_INPUT_NO_TRUNCATION</name>
+        <initializer>256U</initializer>
+        <briefdescription>
+<para>Input switch for <ref refid="group__utils_1ga8ef1835eb83f542396f59f0b205965e5" kindref="member">get_input_line()</ref>: <emphasis>&quot;do not trunkate the line by eliminating white spaces at end of line&quot;</emphasis>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="71" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga7a2e8c50a0c7ce82e60da1016e1367fd" prot="public" static="no">
+        <name>VRNA_INPUT_NO_REST</name>
+        <initializer>512U</initializer>
+        <briefdescription>
+<para>Input switch for <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref>: <emphasis>&quot;do fill rest array&quot;</emphasis>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="76" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga0de536599b881c787b0943a2671da476" prot="public" static="no">
+        <name>VRNA_INPUT_NO_SPAN</name>
+        <initializer>1024U</initializer>
+        <briefdescription>
+<para>Input switch for <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref>: <emphasis>&quot;never allow data to span more than one line&quot;</emphasis>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="81" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1gab4db885222b3b69608310d7c7e63e286" prot="public" static="no">
+        <name>VRNA_INPUT_NOSKIP_BLANK_LINES</name>
+        <initializer>2048U</initializer>
+        <briefdescription>
+<para>Input switch for <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref>: <emphasis>&quot;do not skip empty lines&quot;</emphasis>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="86" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga305474b93ccb79ae4c7754016a8ddd84" prot="public" static="no">
+        <name>VRNA_INPUT_BLANK_LINE</name>
+        <initializer>4096U</initializer>
+        <briefdescription>
+<para>Output flag for <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref>: <emphasis>&quot;read an empty line&quot;</emphasis>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="91" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga0f6311f11bed1842e3a527ab27b294c6" prot="public" static="no">
+        <name>VRNA_INPUT_NOSKIP_COMMENTS</name>
+        <initializer>128U</initializer>
+        <briefdescription>
+<para>Input switch for <ref refid="group__utils_1ga8ef1835eb83f542396f59f0b205965e5" kindref="member">get_input_line()</ref>: <emphasis>&quot;do not skip comment lines&quot;</emphasis>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="96" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1gaf2062e0eeefffd3ed639af460b3d4fab" prot="public" static="no">
+        <name>VRNA_INPUT_COMMENT</name>
+        <initializer>8192U</initializer>
+        <briefdescription>
+<para>Output flag for <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref>: <emphasis>&quot;read a comment&quot;</emphasis>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="101" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1gae0b9cd0ce090bd69b951aa73e8fa4f7d" prot="public" static="no">
+        <name>MIN2</name>
+        <param><defname>A</defname></param>
+        <param><defname>B</defname></param>
+        <initializer>((A) &lt; (B) ? (A) : (B))</initializer>
+        <briefdescription>
+<para>Get the minimum of two comparable values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="106" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga33297b3679c713b0c4d897cd0fe3b122" prot="public" static="no">
+        <name>MAX2</name>
+        <param><defname>A</defname></param>
+        <param><defname>B</defname></param>
+        <initializer>((A) &gt; (B) ? (A) : (B))</initializer>
+        <briefdescription>
+<para>Get the maximum of two comparable values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="111" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga721b8d5f3abef17f10293f1f7f8c958e" prot="public" static="no">
+        <name>MIN3</name>
+        <param><defname>A</defname></param>
+        <param><defname>B</defname></param>
+        <param><defname>C</defname></param>
+        <initializer>(<ref refid="group__utils_1gae0b9cd0ce090bd69b951aa73e8fa4f7d" kindref="member">MIN2</ref>((<ref refid="group__utils_1gae0b9cd0ce090bd69b951aa73e8fa4f7d" kindref="member">MIN2</ref>((A), (B))), (C)))</initializer>
+        <briefdescription>
+<para>Get the minimum of three comparable values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="116" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__utils_1ga8d577123d2e66d2b7d0bf9af6e172b93" prot="public" static="no">
+        <name>MAX3</name>
+        <param><defname>A</defname></param>
+        <param><defname>B</defname></param>
+        <param><defname>C</defname></param>
+        <initializer>(<ref refid="group__utils_1ga33297b3679c713b0c4d897cd0fe3b122" kindref="member">MAX2</ref>((<ref refid="group__utils_1ga33297b3679c713b0c4d897cd0fe3b122" kindref="member">MAX2</ref>((A), (B))), (C)))</initializer>
+        <briefdescription>
+<para>Get the maximum of three comparable values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/basic.h" line="121" column="9" bodyfile="ViennaRNA/utils/basic.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

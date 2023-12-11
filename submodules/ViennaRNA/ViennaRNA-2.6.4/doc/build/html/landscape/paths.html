@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>(Re-)folding Paths, Saddle Points, Energy Barriers, and Local Minima &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Direct Refolding Paths between two Secondary Structures" href="paths_direct.html" />
+    <link rel="prev" title="Neighborhood Relation and Move Sets for Secondary Structures" href="neighbors.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="neighbors.html">Neighborhood Relation and Move Sets for Secondary Structures</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">(Re-)folding Paths, Saddle Points, Energy Barriers, and Local Minima</a></li>
+<li class="toctree-l3"><a class="reference internal" href="paths_direct.html">Direct Refolding Paths between two Secondary Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="paths_walk.html">Folding Paths that start at a single Secondary Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="paths_deprecated.html">Deprecated Interface for (Re-)folding Paths, Saddle Points, and Energy Barriers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+      <li class="breadcrumb-item active">(Re-)folding Paths, Saddle Points, Energy Barriers, and Local Minima</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="re-folding-paths-saddle-points-energy-barriers-and-local-minima">
+<h1>(Re-)folding Paths, Saddle Points, Energy Barriers, and Local Minima<a class="headerlink" href="#re-folding-paths-saddle-points-energy-barriers-and-local-minima" title="Link to this heading"></a></h1>
+<p>API for various RNA folding path algorithms.</p>
+<p>This part of our API allows for generating RNA secondary structure (re-)folding
+paths between two secondary structures or simply starting from a single
+structure.</p>
+<p>This is most important if an estimate of the refolding energy barrier between
+two structures is required, or a structure’s corresponding local minimum needs
+to be determined, e.g. through a gradient-descent walk.</p>
+<p>This part of the interface is further split into the following sections:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="paths_direct.html"><span class="doc">Direct Refolding Paths between two Secondary Structures</span></a>, and</p></li>
+<li><p><a class="reference internal" href="paths_walk.html"><span class="doc">Folding Paths that start at a single Secondary Structure</span></a></p></li>
+</ul>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__paths"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PATH_TYPE_DOT_BRACKET">
+<span class="target" id="group__paths_1ga3e964156b52440b65fae5e2a48750d8e"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PATH_TYPE_DOT_BRACKET</span></span></span><a class="headerlink" href="#c.VRNA_PATH_TYPE_DOT_BRACKET" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/paths.h&gt;</em><p>Flag to indicate producing a (re-)folding path as list of dot-bracket structures. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__paths_1ga818d4f3d1cf8723d6905990b08d909fe"><span class="std std-ref">vrna_path_t</span></a>, <a class="reference internal" href="paths_direct.html#group__paths__direct_1ga3790a24ca64d68acfa6e67b525151a5f"><span class="std std-ref">vrna_path_options_findpath()</span></a>, <a class="reference internal" href="paths_direct.html#group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8"><span class="std std-ref">vrna_path_direct()</span></a>, <a class="reference internal" href="paths_direct.html#group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0"><span class="std std-ref">vrna_path_direct_ub()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PATH_TYPE_MOVES">
+<span class="target" id="group__paths_1gaa73703da105dc6c98957fb8247c93f1f"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PATH_TYPE_MOVES</span></span></span><a class="headerlink" href="#c.VRNA_PATH_TYPE_MOVES" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/paths.h&gt;</em><p>Flag to indicate producing a (re-)folding path as list of transition moves. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__paths_1ga818d4f3d1cf8723d6905990b08d909fe"><span class="std std-ref">vrna_path_t</span></a>, <a class="reference internal" href="paths_direct.html#group__paths__direct_1ga3790a24ca64d68acfa6e67b525151a5f"><span class="std std-ref">vrna_path_options_findpath()</span></a>, <a class="reference internal" href="paths_direct.html#group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8"><span class="std std-ref">vrna_path_direct()</span></a>, <a class="reference internal" href="paths_direct.html#group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0"><span class="std std-ref">vrna_path_direct_ub()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_path_t">
+<span class="target" id="group__paths_1ga818d4f3d1cf8723d6905990b08d909fe"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_path_s" title="vrna_path_s"><span class="n"><span class="pre">vrna_path_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_path_t</span></span></span><a class="headerlink" href="#c.vrna_path_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/paths.h&gt;</em><p>Typename for the refolding path data structure <a class="reference internal" href="#structvrna__path__s"><span class="std std-ref">vrna_path_s</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_path_options_t">
+<span class="target" id="group__paths_1gaa99d8ec48f64de53eda0d51b1ed0d3d1"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_path_options_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_path_options_t</span></span></span><a class="headerlink" href="#c.vrna_path_options_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/paths.h&gt;</em><p>Options data structure for (re-)folding path implementations. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_path_free">
+<span class="target" id="group__paths_1ga3763dc16760d09277a1b1c3f3061d0c7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_path_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_path_t" title="vrna_path_t"><span class="n"><span class="pre">vrna_path_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_path_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/paths.h&gt;</em><p>Release (free) memory occupied by a (re-)folding path. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="paths_direct.html#group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8"><span class="std std-ref">vrna_path_direct()</span></a>, <a class="reference internal" href="paths_direct.html#group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0"><span class="std std-ref">vrna_path_direct_ub()</span></a>, <a class="reference internal" href="paths_direct.html#group__paths__direct_1ga2fed8ff126f5becd82cedd81a25c9bf0"><span class="std std-ref">vrna_path_findpath()</span></a>, <a class="reference internal" href="paths_direct.html#group__paths__direct_1gad00765c2f269fddfa319310af22d4f67"><span class="std std-ref">vrna_path_findpath_ub()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – The refolding path to be free’d </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_path_options_free">
+<span class="target" id="group__paths_1gaa64a86b13cb165346a0d0c788781512a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_path_options_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_path_options_t" title="vrna_path_options_t"><span class="n"><span class="pre">vrna_path_options_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_path_options_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/paths.h&gt;</em><p>Release (free) memory occupied by an options data structure for (re-)folding path implementations. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="paths_direct.html#group__paths__direct_1ga3790a24ca64d68acfa6e67b525151a5f"><span class="std std-ref">vrna_path_options_findpath()</span></a>, <a class="reference internal" href="paths_direct.html#group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8"><span class="std std-ref">vrna_path_direct()</span></a>, <a class="reference internal" href="paths_direct.html#group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0"><span class="std std-ref">vrna_path_direct_ub()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>options</strong> – The options data structure to be free’d </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_path_s">
+<span class="target" id="structvrna__path__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_path_s</span></span></span><a class="headerlink" href="#c.vrna_path_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/landscape/paths.h&gt;</em></div>
+<p>An element of a refolding path list. </p>
+<p>Usually, one has to deal with an array of <a class="reference internal" href="#structvrna__path__s"><span class="std std-ref">vrna_path_s</span></a>, e.g. returned from one of the refolding-path algorithms.</p>
+<p>Since in most cases the length of the list is not known in advance, such lists have an <em>end-of-list</em> marker, which is either:<ul class="simple">
+<li><p>a value of <em>NULL</em> for <a class="reference internal" href="#structvrna__path__s_1a141b70a59cb81d10bc65bbb7a0f6db77"><span class="std std-ref">vrna_path_s::s</span></a> if <a class="reference internal" href="#structvrna__path__s_1a5fc9e0a7dc0e0f8ad67f24c18f2dc852"><span class="std std-ref">vrna_path_s::type</span></a> = <a class="reference internal" href="#group__paths_1ga3e964156b52440b65fae5e2a48750d8e"><span class="std std-ref">VRNA_PATH_TYPE_DOT_BRACKET</span></a>, or</p></li>
+<li><p>a <a class="reference internal" href="#structvrna__path__s_1a13da6bb5167362199947765b06a84005"><span class="std std-ref">vrna_path_s::move</span></a> with zero in both fields <a class="reference internal" href="neighbors.html#structvrna__move__s_1a8af908c74786675a456d0f20cc8fcb9b"><span class="std std-ref">vrna_move_t::pos_5</span></a> and <a class="reference internal" href="neighbors.html#structvrna__move__s_1a3849db905a45c4e399991df38705a36b"><span class="std std-ref">vrna_move_t::pos_3</span></a> if <a class="reference internal" href="#structvrna__path__s_1a5fc9e0a7dc0e0f8ad67f24c18f2dc852"><span class="std std-ref">vrna_path_s::type</span></a> = <a class="reference internal" href="#group__paths_1gaa73703da105dc6c98957fb8247c93f1f"><span class="std std-ref">VRNA_PATH_TYPE_MOVES</span></a>.</p></li>
+</ul>
+</p>
+<p>In the following we show an example for how to cover both cases of iteration: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_path_t</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path</span><span class="p">;</span><span class="w"> </span><span class="c1">// path was returned from one of the refolding path functions, e.g. vrna_path_direct()</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">VRNA_PATH_TYPE_DOT_BRACKET</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(;</span><span class="w"> </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s [%6.2f]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">en</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">VRNA_PATH_TYPE_MOVES</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(;</span><span class="w"> </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">move</span><span class="p">.</span><span class="n">pos_5</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;move %d:%d, dG = %6.2f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">move</span><span class="p">.</span><span class="n">pos_5</span><span class="p">,</span><span class="w"> </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">move</span><span class="p">.</span><span class="n">pos_3</span><span class="p">,</span><span class="w"> </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">en</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__paths_1ga3763dc16760d09277a1b1c3f3061d0c7"><span class="std std-ref">vrna_path_free()</span></a></p>
+</div>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_path_s.type">
+<span class="target" id="structvrna__path__s_1a5fc9e0a7dc0e0f8ad67f24c18f2dc852"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><a class="headerlink" href="#c.vrna_path_s.type" title="Link to this definition"></a><br /></dt>
+<dd><p>The type of the path element. </p>
+<p>A value of <a class="reference internal" href="#group__paths_1ga3e964156b52440b65fae5e2a48750d8e"><span class="std std-ref">VRNA_PATH_TYPE_DOT_BRACKET</span></a> indicates that <a class="reference internal" href="#structvrna__path__s_1a141b70a59cb81d10bc65bbb7a0f6db77"><span class="std std-ref">vrna_path_s::s</span></a> consists of the secondary structure in dot-bracket notation, and <a class="reference internal" href="#structvrna__path__s_1ac25160bf31d28097358278f367e41227"><span class="std std-ref">vrna_path_s::en</span></a><p>the corresponding free energy.</p>
+<p>On the other hand, if the value is</p>
+<a class="reference internal" href="#group__paths_1gaa73703da105dc6c98957fb8247c93f1f"><span class="std std-ref">VRNA_PATH_TYPE_MOVES</span></a>, <a class="reference internal" href="#structvrna__path__s_1a141b70a59cb81d10bc65bbb7a0f6db77"><span class="std std-ref">vrna_path_s::s</span></a> is <em>NULL</em> and <a class="reference internal" href="#structvrna__path__s_1a13da6bb5167362199947765b06a84005"><span class="std std-ref">vrna_path_s::move</span></a> is set to the transition move that transforms a previous structure into it’s neighbor along the path. In this case, the attribute <a class="reference internal" href="#structvrna__path__s_1ac25160bf31d28097358278f367e41227"><span class="std std-ref">vrna_path_s::en</span></a> states the change in free energy with respect to the structure before application of <a class="reference internal" href="#structvrna__path__s_1a13da6bb5167362199947765b06a84005"><span class="std std-ref">vrna_path_s::move</span></a>. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_path_s.en">
+<span class="target" id="structvrna__path__s_1ac25160bf31d28097358278f367e41227"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">en</span></span></span><a class="headerlink" href="#c.vrna_path_s.en" title="Link to this definition"></a><br /></dt>
+<dd><p>Free energy of current structure. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_path_s.s">
+<span class="target" id="structvrna__path__s_1a141b70a59cb81d10bc65bbb7a0f6db77"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">s</span></span></span><a class="headerlink" href="#c.vrna_path_s.s" title="Link to this definition"></a><br /></dt>
+<dd><p>Secondary structure in dot-bracket notation. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_path_s.move">
+<span class="target" id="structvrna__path__s_1a13da6bb5167362199947765b06a84005"></span><a class="reference internal" href="neighbors.html#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">move</span></span></span><a class="headerlink" href="#c.vrna_path_s.move" title="Link to this definition"></a><br /></dt>
+<dd><p>Move that transforms the previous structure into it’s next neighbor along the path. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="neighbors.html" class="btn btn-neutral float-left" title="Neighborhood Relation and Move Sets for Secondary Structures" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="paths_direct.html" class="btn btn-neutral float-right" title="Direct Refolding Paths between two Secondary Structures" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

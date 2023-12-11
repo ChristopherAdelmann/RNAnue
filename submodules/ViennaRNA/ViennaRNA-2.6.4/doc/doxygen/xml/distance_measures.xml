@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="distance_measures" kind="page">
+    <compoundname>distance_measures</compoundname>
+    <title>Distance Measures</title>
+    <tableofcontents>
+      <tocsect>
+        <name>Functions for Tree Edit Distances</name>
+        <reference>distance_measures_1sec_tree_edit_distance</reference>
+    </tocsect>
+      <tocsect>
+        <name>Functions for String Alignment</name>
+        <reference>distance_measures_1sec_string_alignment</reference>
+    </tocsect>
+      <tocsect>
+        <name>Functions for Comparison of Base Pair Probabilities</name>
+        <reference>distance_measures_1sec_compare_base_pair_probs</reference>
+    </tocsect>
+    </tableofcontents>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A simple measure of dissimilarity between secondary structures of equal length is the base pair distance, given by the number of pairs present in only one of the two structures being compared. I.e. the number of base pairs that have to be opened or closed to transform one structure into the other. It is therefore particularly useful for comparing structures on the same sequence. It is implemented by</para>
+<para><verbatim>int bp_distance(const char *str1,
+                const char *str2)
+</verbatim></para>
+<para>Compute the &quot;base pair&quot; distance between two secondary structures s1 and s2.  </para>
+<para>For other cases a distance measure that allows for gaps is preferable. We can define distances between structures as edit distances between trees or their string representations. In the case of string distances this is the same as &quot;sequence alignment&quot;. Given a set of edit operations and edit costs, the edit distance is given by the minimum sum of the costs along an edit path converting one object into the other. Edit distances like these always define a metric. The edit operations used by us are insertion, deletion and replacement of nodes. String editing does not pay attention to the matching of brackets, while in tree editing matching brackets represent a single node of the tree. <ref refid="structTree" kindref="compound">Tree</ref> editing is therefore usually preferable, although somewhat slower. String edit distances are always smaller or equal to tree edit distances.</para>
+<para>The different level of detail in the structure representations defined above naturally leads to different measures of distance. For full structures we use a cost of 1 for deletion or insertion of an unpaired base and 2 for a base pair. Replacing an unpaired base for a pair incurs a cost of 1.</para>
+<para>Two cost matrices are provided for coarse grained structures:</para>
+<para><verbatim>/*  Null,   H,   B,   I,   M,   S,   E    */
+   {   0,   2,   2,   2,   2,   1,   1},   /* Null replaced */
+   {   2,   0,   2,   2,   2, INF, INF},   /* H    replaced */
+   {   2,   2,   0,   1,   2, INF, INF},   /* B    replaced */
+   {   2,   2,   1,   0,   2, INF, INF},   /* I    replaced */
+   {   2,   2,   2,   2,   0, INF, INF},   /* M    replaced */
+   {   1, INF, INF, INF, INF,   0, INF},   /* S    replaced */
+   {   1, INF, INF, INF, INF, INF,   0},   /* E    replaced */
+
+
+/* Null,   H,   B,   I,   M,   S,   E   */
+   {   0, 100,   5,   5,  75,   5,   5},   /* Null replaced */
+   { 100,   0,   8,   8,   8, INF, INF},   /* H    replaced */
+   {   5,   8,   0,   3,   8, INF, INF},   /* B    replaced */
+   {   5,   8,   3,   0,   8, INF, INF},   /* I    replaced */
+   {  75,   8,   8,   8,   0, INF, INF},   /* M    replaced */
+   {   5, INF, INF, INF, INF,   0, INF},   /* S    replaced */
+   {   5, INF, INF, INF, INF, INF,   0},   /* E    replaced */
+</verbatim></para>
+<para>The lower matrix uses the costs given in  <verbatim>embed:rst:inline :cite:t:`shapiro:1990` </verbatim>. All distance functions use the following global variables:</para>
+<para><verbatim>int  cost_matrix;
+</verbatim></para>
+<para>Specify the cost matrix to be used for distance calculations.  </para>
+<para><verbatim>int   edit_backtrack;
+</verbatim></para>
+<para>Produce an alignment of the two structures being compared by tracing the editing path giving the minimum distance.  </para>
+<para><verbatim>char *aligned_line[4];
+</verbatim></para>
+<para>Contains the two aligned structures after a call to one of the distance functions with <ref refid="dist__vars_8h_1aa03194c513af6b860e7b33e370b82bdb" kindref="member">edit_backtrack</ref> set to 1.  </para>
+<para><simplesect kind="see"><para>utils.h, <ref refid="dist__vars_8h" kindref="compound">dist_vars.h</ref> and <ref refid="stringdist_8h" kindref="compound">stringdist.h</ref> for more details</para>
+</simplesect>
+</para>
+<sect1 id="distance_measures_1sec_tree_edit_distance">
+<title>Functions for Tree Edit Distances</title>
+<para><verbatim>Tree   *make_tree (char *struc)
+</verbatim></para>
+<para>Constructs a <ref refid="structTree" kindref="compound">Tree</ref> ( essentially the postorder list ) of the structure &apos;struc&apos;, for use in <ref refid="treedist_8h_1a3b21f1925f7071f46d93431a835217bb" kindref="member">tree_edit_distance()</ref>.  </para>
+<para><verbatim>float   tree_edit_distance (Tree *T1,
+                            Tree *T2) 
+</verbatim></para>
+<para>Calculates the edit distance of the two trees.  </para>
+<para><verbatim>void    free_tree(Tree *t)
+</verbatim></para>
+<para>Free the memory allocated for <ref refid="structTree" kindref="compound">Tree</ref> t.  </para>
+<para><simplesect kind="see"><para><ref refid="dist__vars_8h" kindref="compound">dist_vars.h</ref> and <ref refid="treedist_8h" kindref="compound">treedist.h</ref> for prototypes and more detailed descriptions</para>
+</simplesect>
+</para>
+</sect1>
+<sect1 id="distance_measures_1sec_string_alignment">
+<title>Functions for String Alignment</title>
+<para><verbatim>swString *Make_swString (char *string)
+</verbatim></para>
+<para>Convert a structure into a format suitable for <ref refid="stringdist_8h_1a89e3c335ef17780576d7c0e713830db9" kindref="member">string_edit_distance()</ref>.  </para>
+<para><verbatim>float     string_edit_distance (swString *T1,
+                                swString *T2)
+</verbatim></para>
+<para>Calculate the string edit distance of T1 and T2.  </para>
+<para><simplesect kind="see"><para><ref refid="dist__vars_8h" kindref="compound">dist_vars.h</ref> and <ref refid="stringdist_8h" kindref="compound">stringdist.h</ref> for prototypes and more detailed descriptions</para>
+</simplesect>
+</para>
+</sect1>
+<sect1 id="distance_measures_1sec_compare_base_pair_probs">
+<title>Functions for Comparison of Base Pair Probabilities</title>
+<para>For comparison of base pair probability matrices, the matrices are first condensed into probability profiles which are the compared by alignment.</para>
+<para><verbatim>float *Make_bp_profile_bppm ( double *bppm,
+                              int length)
+</verbatim></para>
+<para>condense pair probability matrix into a vector containing probabilities for unpaired, upstream paired and downstream paired.  </para>
+<para><verbatim>float profile_edit_distance ( const float *T1,
+                              const float *T2)
+</verbatim></para>
+<para>Align the 2 probability profiles T1, T2<linebreak/>
+.  </para>
+<para><simplesect kind="see"><para>ProfileDist.h for prototypes and more details of the above functions </para>
+</simplesect>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="doc/doxygen/refman.include/distance_measures.dox"/>
+  </compounddef>
+</doxygen>

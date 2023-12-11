@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Fold Compound &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The Dynamic Programming Matrices" href="dp_matrices.html" />
+    <link rel="prev" title="(Abstract) Data Structures" href="../data_structures.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../io.html">Files and I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../data_structures.html">(Abstract) Data Structures</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">The Fold Compound</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dp_matrices.html">The Dynamic Programming Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="hash_tables.html">Hash Tables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="heaps.html">Heaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arrays.html">Arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strings.html">Strings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="buffers.html">Buffers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../data_structures.html">(Abstract) Data Structures</a></li>
+      <li class="breadcrumb-item active">The Fold Compound</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-fold-compound">
+<h1>The Fold Compound<a class="headerlink" href="#the-fold-compound" title="Link to this heading"></a></h1>
+<p>This module provides interfaces that deal with the most basic data structure used
+in structure predicting and energy evaluating function of the RNAlib.</p>
+<p>Throughout the entire RNAlib, the <a class="reference internal" href="#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">vrna_fold_compound_t</span></code></a>, is used to group
+information and data that is required for structure prediction and energy evaluation.
+Here, you’ll find interface functions to create, modify, and delete <a class="reference internal" href="#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">vrna_fold_compound_t</span></code></a>
+data structures.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__fold__compound"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_STATUS_MFE_PRE">
+<span class="target" id="group__fold__compound_1ga1a5053dc8acbb0111e852988726f07d6"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_STATUS_MFE_PRE</span></span></span><a class="headerlink" href="#c.VRNA_STATUS_MFE_PRE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Status message indicating that MFE computations are about to begin. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#structvrna__fc__s_1aef282a5d126e0038f3855e59a99ef360"><span class="std std-ref">vrna_fold_compound_t.stat_cb</span></a>, <a class="reference internal" href="#group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761"><span class="std std-ref">vrna_recursion_status_f()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc"><span class="std std-ref">vrna_fold()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1gaf973483d8acbc8cc9aacfc8a9b7f0074"><span class="std std-ref">vrna_circfold()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1ga6c9d3bef3e92c6d423ffac9f981418c1"><span class="std std-ref">vrna_alifold()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1ga17a1be7490468c29c335ba9bffacba53"><span class="std std-ref">vrna_circalifold()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1ga9ef3a297201dbf838a8daff2b45c0c82"><span class="std std-ref">vrna_cofold()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_STATUS_MFE_POST">
+<span class="target" id="group__fold__compound_1ga47c900ca76e56e59e2e83a06e0bde641"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_STATUS_MFE_POST</span></span></span><a class="headerlink" href="#c.VRNA_STATUS_MFE_POST" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Status message indicating that MFE computations are finished. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#structvrna__fc__s_1aef282a5d126e0038f3855e59a99ef360"><span class="std std-ref">vrna_fold_compound_t.stat_cb</span></a>, <a class="reference internal" href="#group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761"><span class="std std-ref">vrna_recursion_status_f()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc"><span class="std std-ref">vrna_fold()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1gaf973483d8acbc8cc9aacfc8a9b7f0074"><span class="std std-ref">vrna_circfold()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1ga6c9d3bef3e92c6d423ffac9f981418c1"><span class="std std-ref">vrna_alifold()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1ga17a1be7490468c29c335ba9bffacba53"><span class="std std-ref">vrna_circalifold()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1ga9ef3a297201dbf838a8daff2b45c0c82"><span class="std std-ref">vrna_cofold()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_STATUS_PF_PRE">
+<span class="target" id="group__fold__compound_1ga91795d35ebdb6f32be50459f24b3d114"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_STATUS_PF_PRE</span></span></span><a class="headerlink" href="#c.VRNA_STATUS_PF_PRE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Status message indicating that Partition function computations are about to begin. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#structvrna__fc__s_1aef282a5d126e0038f3855e59a99ef360"><span class="std std-ref">vrna_fold_compound_t.stat_cb</span></a>, <a class="reference internal" href="#group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761"><span class="std std-ref">vrna_recursion_status_f()</span></a>, <a class="reference internal" href="../../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_STATUS_PF_POST">
+<span class="target" id="group__fold__compound_1ga1c6fa243533fd026e50f7d595eaaa565"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_STATUS_PF_POST</span></span></span><a class="headerlink" href="#c.VRNA_STATUS_PF_POST" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Status message indicating that Partition function computations are finished. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#structvrna__fc__s_1aef282a5d126e0038f3855e59a99ef360"><span class="std std-ref">vrna_fold_compound_t.stat_cb</span></a>, <a class="reference internal" href="#group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761"><span class="std std-ref">vrna_recursion_status_f()</span></a>, <a class="reference internal" href="../../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OPTION_DEFAULT">
+<span class="target" id="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OPTION_DEFAULT</span></span></span><a class="headerlink" href="#c.VRNA_OPTION_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Option flag to specify default settings/requirements. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OPTION_MFE">
+<span class="target" id="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OPTION_MFE</span></span></span><a class="headerlink" href="#c.VRNA_OPTION_MFE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Option flag to specify requirement of Minimum Free Energy (MFE) DP matrices and corresponding set of energy parameters. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, <a class="reference internal" href="#group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e"><span class="std std-ref">VRNA_OPTION_EVAL_ONLY</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OPTION_PF">
+<span class="target" id="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OPTION_PF</span></span></span><a class="headerlink" href="#c.VRNA_OPTION_PF" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Option flag to specify requirement of Partition Function (PF) DP matrices and corresponding set of Boltzmann factors. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, <a class="reference internal" href="#group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e"><span class="std std-ref">VRNA_OPTION_EVAL_ONLY</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OPTION_HYBRID">
+<span class="target" id="group__fold__compound_1ga8f681fa12b8d4b348bf58415fd1fc82f"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OPTION_HYBRID</span></span></span><a class="headerlink" href="#c.VRNA_OPTION_HYBRID" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Option flag to specify requirement of dimer DP matrices. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OPTION_EVAL_ONLY">
+<span class="target" id="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OPTION_EVAL_ONLY</span></span></span><a class="headerlink" href="#c.VRNA_OPTION_EVAL_ONLY" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Option flag to specify that neither MFE, nor PF DP matrices are required. </p>
+<p>Use this flag in conjuntion with <a class="reference internal" href="#group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee"><span class="std std-ref">VRNA_OPTION_MFE</span></a>, and <a class="reference internal" href="#group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7"><span class="std std-ref">VRNA_OPTION_PF</span></a> to save memory for a <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> obtained from <a class="reference internal" href="#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, or <a class="reference internal" href="#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a> in cases where only energy evaluation but no structure prediction is required.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, <a class="reference internal" href="../../eval/eval_structures.html#group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e"><span class="std std-ref">vrna_eval_structure()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OPTION_WINDOW">
+<span class="target" id="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OPTION_WINDOW</span></span></span><a class="headerlink" href="#c.VRNA_OPTION_WINDOW" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Option flag to specify requirement of DP matrices for local folding approaches. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OPTION_F5">
+<span class="target" id="group__fold__compound_1ga10fd4c73c91557495f1a41d6cc72e595"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OPTION_F5</span></span></span><a class="headerlink" href="#c.VRNA_OPTION_F5" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OPTION_F3">
+<span class="target" id="group__fold__compound_1gabca873cc37c26910db8b37bf864db252"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OPTION_F3</span></span></span><a class="headerlink" href="#c.VRNA_OPTION_F3" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OPTION_WINDOW_F5">
+<span class="target" id="group__fold__compound_1gaf4c7bf371bdb153d8c2955a7b4cffe8b"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OPTION_WINDOW_F5</span></span></span><a class="headerlink" href="#c.VRNA_OPTION_WINDOW_F5" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OPTION_WINDOW_F3">
+<span class="target" id="group__fold__compound_1ga371ddcb556d7578433661dd7591a787c"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OPTION_WINDOW_F3</span></span></span><a class="headerlink" href="#c.VRNA_OPTION_WINDOW_F3" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_fold_compound_t">
+<span class="target" id="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_fc_s" title="vrna_fc_s"><span class="n"><span class="pre">vrna_fc_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></span><a class="headerlink" href="#c.vrna_fold_compound_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Typename for the fold_compound data structure <a class="reference internal" href="#structvrna__fc__s"><span class="std std-ref">vrna_fc_s</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_auxdata_free_f">
+<span class="target" id="group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_auxdata_free_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_auxdata_free_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Callback to free memory allocated for auxiliary user-provided data. </p>
+<p>This type of user-implemented function usually deletes auxiliary data structures. The user must take care to free all the memory occupied by the data structure passed.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../callbacks.html#callbacks_1_callbacks000002"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>This callback is supposed to free memory occupied by an auxiliary data structure. It will be called when the <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> is erased from memory through a call to <a class="reference internal" href="#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a> and will be passed the address of memory previously bound to the <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> via <a class="reference internal" href="#group__fold__compound_1gad6c0747712712bda6d94702e0de895a7"><span class="std std-ref">vrna_fold_compound_add_auxdata()</span></a>. </p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1gad6c0747712712bda6d94702e0de895a7"><span class="std std-ref">vrna_fold_compound_add_auxdata()</span></a>, <a class="reference internal" href="#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a>, <a class="reference internal" href="#group__fold__compound_1ga579952cc017127b81e89a186c0d6b9c2"><span class="std std-ref">vrna_fold_compound_add_callback()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param data<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The data that needs to be free’d </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_auxdata_prepare_f">
+<span class="target" id="group__fold__compound_1gab78664b2ef71ae6d147d6e74bf2862d3"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_auxdata_prepare_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">event_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_auxdata_prepare_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="target" id="group__fold__compound_1ga7806651f51b195013839a218b3bbd5a3"></span><span class="sig-name descname"><span class="pre">void()</span> <span class="pre">vrna_callback_free_auxdata</span> <span class="pre">(void</span> <span class="pre">*data)</span></span></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Callback to free memory allocated for auxiliary user-provided data. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000078"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a"><span class="std std-ref">vrna_auxdata_free_f(void *data)</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_recursion_status_f">
+<span class="target" id="group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_recursion_status_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_recursion_status_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Callback to perform specific user-defined actions before, or after recursive computations. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../callbacks.html#callbacks_1_callbacks000003"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>This function will be called to notify a third-party implementation about the status of a currently ongoing recursion. The purpose of this callback mechanism is to provide users with a simple way to ensure pre- and post conditions for auxiliary mechanisms attached to our implementations. </p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1gad6c0747712712bda6d94702e0de895a7"><span class="std std-ref">vrna_fold_compound_add_auxdata()</span></a>, <a class="reference internal" href="#group__fold__compound_1ga579952cc017127b81e89a186c0d6b9c2"><span class="std std-ref">vrna_fold_compound_add_callback()</span></a>, <a class="reference internal" href="../../mfe/global.html#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, <a class="reference internal" href="../../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a>, <a class="reference internal" href="#group__fold__compound_1ga1a5053dc8acbb0111e852988726f07d6"><span class="std std-ref">VRNA_STATUS_MFE_PRE</span></a>, <a class="reference internal" href="#group__fold__compound_1ga47c900ca76e56e59e2e83a06e0bde641"><span class="std std-ref">VRNA_STATUS_MFE_POST</span></a>, <a class="reference internal" href="#group__fold__compound_1ga91795d35ebdb6f32be50459f24b3d114"><span class="std std-ref">VRNA_STATUS_PF_PRE</span></a>, <a class="reference internal" href="#group__fold__compound_1ga1c6fa243533fd026e50f7d595eaaa565"><span class="std std-ref">VRNA_STATUS_PF_POST</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param status<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The status indicator </p>
+</dd>
+<dt class="field-even">Param data<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data structure that was assigned with <a class="reference internal" href="#group__fold__compound_1gad6c0747712712bda6d94702e0de895a7"><span class="std std-ref">vrna_fold_compound_add_auxdata()</span></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="target" id="group__fold__compound_1gac86036fa8cad1108832335063243cdc8"></span><span class="sig-name descname"><span class="pre">void()</span> <span class="pre">vrna_callback_recursion_status</span> <span class="pre">(unsigned</span> <span class="pre">char</span> <span class="pre">status,</span> <span class="pre">void</span> <span class="pre">*data)</span></span></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-enums">Enums</p>
+<dl class="c enum">
+<dt class="sig sig-object c" id="c.vrna_fc_type_e">
+<span class="target" id="group__fold__compound_1ga01a4ff86fa71deaaa5d1abbd95a1447d"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fc_type_e</span></span></span><a class="headerlink" href="#c.vrna_fc_type_e" title="Link to this definition"></a><br /></dt>
+<dd><p>An enumerator that is used to specify the type of a <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. </p>
+<p><em>Values:</em></p>
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.vrna_fc_type_e.VRNA_FC_TYPE_SINGLE">
+<span class="target" id="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FC_TYPE_SINGLE</span></span></span><a class="headerlink" href="#c.vrna_fc_type_e.VRNA_FC_TYPE_SINGLE" title="Link to this definition"></a><br /></dt>
+<dd><p>Type is suitable for single, and hybridizing sequences </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.vrna_fc_type_e.VRNA_FC_TYPE_COMPARATIVE">
+<span class="target" id="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FC_TYPE_COMPARATIVE</span></span></span><a class="headerlink" href="#c.vrna_fc_type_e.VRNA_FC_TYPE_COMPARATIVE" title="Link to this definition"></a><br /></dt>
+<dd><p>Type is suitable for sequence alignments (consensus structure prediction) </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_fold_compound">
+<span class="target" id="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"></span><a class="reference internal" href="#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fold_compound</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md_p</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_fold_compound" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Retrieve a <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> data structure for single sequences and hybridizing sequences. </p>
+<p>This function provides an easy interface to obtain a prefilled <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> by passing a single sequence, or two contatenated sequences as input. For the latter, sequences need to be seperated by an ‘&amp;’ character like this: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">char</span> <span class="o">*</span><span class="n">sequence</span> <span class="o">=</span> <span class="s2">&quot;GGGG&amp;CCCC&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</p>
+<p>The optional parameter <code class="docutils literal notranslate"><span class="pre">md_p</span></code> can be used to specify the model details for successive computations based on the content of the generated <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. Passing NULL will instruct the function to use default model details. The third parameter <code class="docutils literal notranslate"><span class="pre">options</span></code> may be used to specify dynamic programming (DP) matrix requirements.</p>
+<p><em>Options</em></p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="#group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4"><span class="std std-ref">VRNA_OPTION_DEFAULT</span></a> -  Option flag to specify default settings/requirements.  </p></li>
+<li><p><a class="reference internal" href="#group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee"><span class="std std-ref">VRNA_OPTION_MFE</span></a> -  Option flag to specify requirement of Minimum Free Energy (MFE) DP matrices and corresponding set of energy parameters.  </p></li>
+<li><p><a class="reference internal" href="#group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7"><span class="std std-ref">VRNA_OPTION_PF</span></a> -  Option flag to specify requirement of Partition Function (PF) DP matrices and corresponding set of Boltzmann factors.  </p></li>
+<li><p><a class="reference internal" href="#group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e"><span class="std std-ref">VRNA_OPTION_WINDOW</span></a> -  Option flag to specify requirement of DP matrices for local folding approaches.  </p></li>
+</ul>
+</p>
+<p>The above options may be OR-ed together.</p>
+<p>If you just need the folding compound serving as a container for your data, you can simply pass <a class="reference internal" href="#group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4"><span class="std std-ref">VRNA_OPTION_DEFAULT</span></a> to the <code class="docutils literal notranslate"><span class="pre">option</span></code> parameter. This creates a <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> without DP matrices, thus saving memory. Subsequent calls of any structure prediction function will then take care of allocating the memory required for the DP matrices. If you only intend to evaluate structures instead of actually predicting them, you may use the <a class="reference internal" href="#group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e"><span class="std std-ref">VRNA_OPTION_EVAL_ONLY</span></a> macro. This will seriously speedup the creation of the <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a>, <a class="reference internal" href="#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The sequence string must be uppercase, and should contain only RNA (resp. DNA) alphabet depending on what energy parameter set is used</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – A single sequence, or two concatenated sequences seperated by an ‘&amp;’ character </p></li>
+<li><p><strong>md_p</strong> – An optional set of model details </p></li>
+<li><p><strong>options</strong> – The options for DP matrices memory allocation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A prefilled vrna_fold_compound_t ready to be used for computations (may be <code class="docutils literal notranslate"><span class="pre">NULL</span></code> on error) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_fold_compound_comparative">
+<span class="target" id="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"></span><a class="reference internal" href="#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fold_compound_comparative</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequences</span></span>, <a class="reference internal" href="../../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md_p</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_fold_compound_comparative" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Retrieve a <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> data structure for sequence alignments. </p>
+<p>This function provides an easy interface to obtain a prefilled <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> by passing an alignment of sequences.</p>
+<p>The optional parameter <code class="docutils literal notranslate"><span class="pre">md_p</span></code> can be used to specify the model details for successive computations based on the content of the generated <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. Passing NULL will instruct the function to use default model details. The third parameter <code class="docutils literal notranslate"><span class="pre">options</span></code> may be used to specify dynamic programming (DP) matrix requirements.</p>
+<p><em>Options</em></p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="#group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4"><span class="std std-ref">VRNA_OPTION_DEFAULT</span></a> -  Option flag to specify default settings/requirements.  </p></li>
+<li><p><a class="reference internal" href="#group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee"><span class="std std-ref">VRNA_OPTION_MFE</span></a> -  Option flag to specify requirement of Minimum Free Energy (MFE) DP matrices and corresponding set of energy parameters.  </p></li>
+<li><p><a class="reference internal" href="#group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7"><span class="std std-ref">VRNA_OPTION_PF</span></a> -  Option flag to specify requirement of Partition Function (PF) DP matrices and corresponding set of Boltzmann factors.  </p></li>
+<li><p><a class="reference internal" href="#group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e"><span class="std std-ref">VRNA_OPTION_WINDOW</span></a> -  Option flag to specify requirement of DP matrices for local folding approaches.  </p></li>
+</ul>
+</p>
+<p>The above options may be OR-ed together.</p>
+<p>If you just need the folding compound serving as a container for your data, you can simply pass <a class="reference internal" href="#group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4"><span class="std std-ref">VRNA_OPTION_DEFAULT</span></a> to the <code class="docutils literal notranslate"><span class="pre">option</span></code> parameter. This creates a <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> without DP matrices, thus saving memory. Subsequent calls of any structure prediction function will then take care of allocating the memory required for the DP matrices. If you only intend to evaluate structures instead of actually predicting them, you may use the <a class="reference internal" href="#group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e"><span class="std std-ref">VRNA_OPTION_EVAL_ONLY</span></a> macro. This will seriously speedup the creation of the <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a>, <a class="reference internal" href="#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="../../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a>, <a class="reference internal" href="#group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee"><span class="std std-ref">VRNA_OPTION_MFE</span></a>, <a class="reference internal" href="#group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7"><span class="std std-ref">VRNA_OPTION_PF</span></a>, <a class="reference internal" href="#group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e"><span class="std std-ref">VRNA_OPTION_EVAL_ONLY</span></a>, read_clustal()</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The sequence strings must be uppercase, and should contain only RNA (resp. DNA) alphabet including gap characters depending on what energy parameter set is used.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequences</strong> – A sequence alignment including ‘gap’ characters </p></li>
+<li><p><strong>md_p</strong> – An optional set of model details </p></li>
+<li><p><strong>options</strong> – The options for DP matrices memory allocation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A prefilled vrna_fold_compound_t ready to be used for computations (may be <code class="docutils literal notranslate"><span class="pre">NULL</span></code> on error) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_fold_compound_comparative2">
+<span class="target" id="group__fold__compound_1ga249143e997e79cec842a2bad2b8bd02e"></span><a class="reference internal" href="#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fold_compound_comparative2</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequences</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">names</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">orientation</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">start</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">genome_size</span></span>, <a class="reference internal" href="../../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md_p</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_fold_compound_comparative2" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_fold_compound_TwoD">
+<span class="target" id="group__fold__compound_1ga5186f53af9c11edab6e0269c2c6f6231"></span><a class="reference internal" href="#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fold_compound_TwoD</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s2</span></span>, <a class="reference internal" href="../../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md_p</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_fold_compound_TwoD" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_fold_compound_prepare">
+<span class="target" id="group__fold__compound_1ga051b4bb675cc11b8ced15a6780fd26b7"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fold_compound_prepare</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_fold_compound_prepare" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_fold_compound_free">
+<span class="target" id="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fold_compound_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_fold_compound_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Free memory occupied by a <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, <a class="reference internal" href="dp_matrices.html#group__dp__matrices_1gaf429b1838e68cb677db6aef7e8f0ffc8"><span class="std std-ref">vrna_mx_mfe_free()</span></a>, <a class="reference internal" href="dp_matrices.html#group__dp__matrices_1gab9d4eaceb36345b71d349b12787c5e0a"><span class="std std-ref">vrna_mx_pf_free()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> that is to be erased from memory </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_fold_compound_add_auxdata">
+<span class="target" id="group__fold__compound_1gad6c0747712712bda6d94702e0de895a7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fold_compound_add_auxdata</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <a class="reference internal" href="#c.vrna_auxdata_free_f" title="vrna_auxdata_free_f"><span class="n"><span class="pre">vrna_auxdata_free_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">f</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_fold_compound_add_auxdata" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Add auxiliary data to the <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. </p>
+<p>This function allows one to bind arbitrary data to a <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> which may later on be used by one of the callback functions, e.g. <a class="reference internal" href="#group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761"><span class="std std-ref">vrna_recursion_status_f()</span></a>. To allow for proper cleanup of the memory occupied by this auxiliary data, the user may also provide a pointer to a cleanup function that free’s the corresponding memory. This function will be called automatically when the <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> is free’d with <a class="reference internal" href="#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a"><span class="std std-ref">vrna_auxdata_free_f()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before attaching the arbitrary data pointer, this function will call the <a class="reference internal" href="#group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a"><span class="std std-ref">vrna_auxdata_free_f()</span></a> on any pre-existing data that is already attached.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound the arbitrary data pointer should be associated with </p></li>
+<li><p><strong>data</strong> – A pointer to an arbitrary data structure </p></li>
+<li><p><strong>f</strong> – A pointer to function that free’s memory occupied by the arbitrary data (May be NULL) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_fold_compound_add_callback">
+<span class="target" id="group__fold__compound_1ga579952cc017127b81e89a186c0d6b9c2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fold_compound_add_callback</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_recursion_status_f" title="vrna_recursion_status_f"><span class="n"><span class="pre">vrna_recursion_status_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">f</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_fold_compound_add_callback" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/fold_compound.h&gt;</em><p>Add a recursion status callback to the <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. </p>
+<p>Binding a recursion status callback function to a <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> allows one to perform arbitrary operations just before, or after an actual recursive computations, e.g. MFE prediction, is performed by the RNAlib. The callback function will be provided with a pointer to its <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>, and a status message. Hence, it has complete access to all variables that incluence the recursive computations.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761"><span class="std std-ref">vrna_recursion_status_f()</span></a>, <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>, <a class="reference internal" href="#group__fold__compound_1ga1a5053dc8acbb0111e852988726f07d6"><span class="std std-ref">VRNA_STATUS_MFE_PRE</span></a>, <a class="reference internal" href="#group__fold__compound_1ga47c900ca76e56e59e2e83a06e0bde641"><span class="std std-ref">VRNA_STATUS_MFE_POST</span></a>, <a class="reference internal" href="#group__fold__compound_1ga91795d35ebdb6f32be50459f24b3d114"><span class="std std-ref">VRNA_STATUS_PF_PRE</span></a>, <a class="reference internal" href="#group__fold__compound_1ga1c6fa243533fd026e50f7d595eaaa565"><span class="std std-ref">VRNA_STATUS_PF_POST</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound the callback function should be attached to </p></li>
+<li><p><strong>f</strong> – The pointer to the recursion status callback function </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_fc_s">
+<span class="target" id="structvrna__fc__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fc_s</span></span></span><a class="headerlink" href="#c.vrna_fc_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/fold_compound.h&gt;</em></div>
+<p>The most basic data structure required by many functions throughout the RNAlib. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000100"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p><p></p>
+<p>This data structure is wrapped as class <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with several related functions attached as methods.</p>
+<p>A new <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> can be obtained by calling one of its constructors:<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fold_compound(seq)</span></code> - Initialize with a single sequence, or two concatenated sequences separated by an ampersand character <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> (for cofolding)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fold_compound(aln)</span></code> - Initialize with a sequence alignment <em>aln</em> stored as a list of sequences (with gap characters).</p></li>
+</ul>
+</p>
+<p>The resulting object has a list of attached methods which in most cases directly correspond to functions that mainly operate on the corresponding <code class="docutils literal notranslate"><span class="pre">C</span></code> data structure:<ul class="simple">
+<li><p><code class="docutils literal notranslate"><a class="reference internal" href="#structvrna__fc__s_1a391bcf8ac5997784aaf780cdd251c464"><span class="std std-ref"><span class="pre">type()</span></span></a></code> - Get the type of the <em>fold_compound</em> (See <a class="reference internal" href="#group__fold__compound_1ga01a4ff86fa71deaaa5d1abbd95a1447d"><span class="std std-ref">vrna_fc_type_e</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><a class="reference internal" href="#structvrna__fc__s_1a95fbfed770b858e50c766505dc4bf998"><span class="std std-ref"><span class="pre">length()</span></span></a></code> - Get the length of the <a class="reference internal" href="#structvrna__fc__s_1a87f6abcda89cfb7a486c97e1f5371525"><span class="std std-ref">sequence(s)</span></a> or alignment stored within the <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>.</p></li>
+</ul>
+</p>
+<p>See, e.g.  <span><a class="reference internal" href="../../api_python.html#RNA.fold_compound" title="RNA.fold_compound"><code class="xref py py-class docutils literal notranslate"><span class="pre">RNA.fold_compound</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#structvrna__fc__s_1a391bcf8ac5997784aaf780cdd251c464"><span class="std std-ref">vrna_fold_compound_t.type</span></a>, <a class="reference internal" href="#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, <a class="reference internal" href="#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a>, <a class="reference internal" href="#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, <a class="reference internal" href="#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please read the documentation of this data structure carefully! Some attributes are only available for specific types this data structure can adopt.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Reading/Writing from/to attributes that are not within the scope of the current type usually result in undefined behavior!</p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-common-data-fields">Common data fields</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.type">
+<span class="target" id="structvrna__fc__s_1a391bcf8ac5997784aaf780cdd251c464"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_fc_type_e" title="vrna_fc_type_e"><span class="n"><span class="pre">vrna_fc_type_e</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><a class="headerlink" href="#c.vrna_fc_s.type" title="Link to this definition"></a><br /></dt>
+<dd><p>The type of the <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. </p>
+<p>Currently possible values are <a class="reference internal" href="#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a> </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not edit this attribute, it will be automagically set by the corresponding get() methods for the <a class="reference internal" href="#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. The value specified in this attribute dictates the set of other attributes to use within this data structure. </p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.length">
+<span class="target" id="structvrna__fc__s_1a95fbfed770b858e50c766505dc4bf998"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">length</span></span></span><a class="headerlink" href="#c.vrna_fc_s.length" title="Link to this definition"></a><br /></dt>
+<dd><p>The length of the sequence (or sequence alignment) </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.cutpoint">
+<span class="target" id="structvrna__fc__s_1ae1a7bbff0256577e2b22709bac11fdb4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cutpoint</span></span></span><a class="headerlink" href="#c.vrna_fc_s.cutpoint" title="Link to this definition"></a><br /></dt>
+<dd><p>The position of the (cofold) cutpoint within the provided sequence. If there is no cutpoint, this field will be set to -1. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.strand_number">
+<span class="target" id="structvrna__fc__s_1a23304c5186dfae97bc69dc19d37f70c3"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">strand_number</span></span></span><a class="headerlink" href="#c.vrna_fc_s.strand_number" title="Link to this definition"></a><br /></dt>
+<dd><p>The strand number a particular nucleotide is associated with. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.strand_order">
+<span class="target" id="structvrna__fc__s_1a3bf15e0e44539f9f622fd09227bf3de1"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">strand_order</span></span></span><a class="headerlink" href="#c.vrna_fc_s.strand_order" title="Link to this definition"></a><br /></dt>
+<dd><p>The strand order, i.e. permutation of current concatenated sequence. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.strand_order_uniq">
+<span class="target" id="structvrna__fc__s_1af698d79085056aa9a9075e834b0748ed"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">strand_order_uniq</span></span></span><a class="headerlink" href="#c.vrna_fc_s.strand_order_uniq" title="Link to this definition"></a><br /></dt>
+<dd><p>The strand order array where identical sequences have the same ID. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.strand_start">
+<span class="target" id="structvrna__fc__s_1a571ee9a932f633c7d9167ae029573935"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">strand_start</span></span></span><a class="headerlink" href="#c.vrna_fc_s.strand_start" title="Link to this definition"></a><br /></dt>
+<dd><p>The start position of a particular strand within the current concatenated sequence. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.strand_end">
+<span class="target" id="structvrna__fc__s_1aaa1b51bc6eb47cc661fea834d7175a54"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">strand_end</span></span></span><a class="headerlink" href="#c.vrna_fc_s.strand_end" title="Link to this definition"></a><br /></dt>
+<dd><p>The end (last) position of a particular strand within the current concatenated sequence. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.strands">
+<span class="target" id="structvrna__fc__s_1ad8962b97f5e5e233d9bfb5b16a691d26"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">strands</span></span></span><a class="headerlink" href="#c.vrna_fc_s.strands" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of interacting strands. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.nucleotides">
+<span class="target" id="structvrna__fc__s_1a855b503aefd052430bf463d8518d2ff5"></span><a class="reference internal" href="../alphabet.html#c.vrna_seq_t" title="vrna_seq_t"><span class="n"><span class="pre">vrna_seq_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">nucleotides</span></span></span><a class="headerlink" href="#c.vrna_fc_s.nucleotides" title="Link to this definition"></a><br /></dt>
+<dd><p>Set of nucleotide sequences. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.alignment">
+<span class="target" id="structvrna__fc__s_1a0387efd460429ca0847c8009d327c0fb"></span><a class="reference internal" href="../alphabet.html#c.vrna_msa_t" title="vrna_msa_t"><span class="n"><span class="pre">vrna_msa_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">alignment</span></span></span><a class="headerlink" href="#c.vrna_fc_s.alignment" title="Link to this definition"></a><br /></dt>
+<dd><p>Set of alignments. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.hc">
+<span class="target" id="structvrna__fc__s_1aceaa904dbf50092d403ca99422e8f824"></span><a class="reference internal" href="../../grammar/constraints/hard.html#c.vrna_hc_t" title="vrna_hc_t"><span class="n"><span class="pre">vrna_hc_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">hc</span></span></span><a class="headerlink" href="#c.vrna_fc_s.hc" title="Link to this definition"></a><br /></dt>
+<dd><p>The hard constraints data structure used for structure prediction. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.matrices">
+<span class="target" id="structvrna__fc__s_1aca8be7bdc65bafe2172c6ee777f18568"></span><a class="reference internal" href="dp_matrices.html#c.vrna_mx_mfe_t" title="vrna_mx_mfe_t"><span class="n"><span class="pre">vrna_mx_mfe_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">matrices</span></span></span><a class="headerlink" href="#c.vrna_fc_s.matrices" title="Link to this definition"></a><br /></dt>
+<dd><p>The MFE DP matrices. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.exp_matrices">
+<span class="target" id="structvrna__fc__s_1afc38ed5a1028a2712d2365274bf49727"></span><a class="reference internal" href="dp_matrices.html#c.vrna_mx_pf_t" title="vrna_mx_pf_t"><span class="n"><span class="pre">vrna_mx_pf_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">exp_matrices</span></span></span><a class="headerlink" href="#c.vrna_fc_s.exp_matrices" title="Link to this definition"></a><br /></dt>
+<dd><p>The PF DP matrices </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.params">
+<span class="target" id="structvrna__fc__s_1a19b8720c2c5321c1b97c830bd17566ea"></span><a class="reference internal" href="../../eval/energy_parameters.html#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">params</span></span></span><a class="headerlink" href="#c.vrna_fc_s.params" title="Link to this definition"></a><br /></dt>
+<dd><p>The precomputed free energy contributions for each type of loop. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.exp_params">
+<span class="target" id="structvrna__fc__s_1a7052a5d24f6091b9c5f79edcc9456a12"></span><a class="reference internal" href="../../eval/energy_parameters.html#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">exp_params</span></span></span><a class="headerlink" href="#c.vrna_fc_s.exp_params" title="Link to this definition"></a><br /></dt>
+<dd><p>The precomputed free energy contributions as Boltzmann factors </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.iindx">
+<span class="target" id="structvrna__fc__s_1afdead4cf55c882d3497e779573e17e03"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">iindx</span></span></span><a class="headerlink" href="#c.vrna_fc_s.iindx" title="Link to this definition"></a><br /></dt>
+<dd><p>DP matrix accessor </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.jindx">
+<span class="target" id="structvrna__fc__s_1a5037235dee512efd85ca543780bbca1a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">jindx</span></span></span><a class="headerlink" href="#c.vrna_fc_s.jindx" title="Link to this definition"></a><br /></dt>
+<dd><p>DP matrix accessor </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-user-defined-data-fields">User-defined data fields</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.stat_cb">
+<span class="target" id="structvrna__fc__s_1aef282a5d126e0038f3855e59a99ef360"></span><a class="reference internal" href="#c.vrna_recursion_status_f" title="vrna_recursion_status_f"><span class="n"><span class="pre">vrna_recursion_status_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stat_cb</span></span></span><a class="headerlink" href="#c.vrna_fc_s.stat_cb" title="Link to this definition"></a><br /></dt>
+<dd><p>Recursion status callback (usually called just before, and after recursive computations in the library. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761"><span class="std std-ref">vrna_recursion_status_f()</span></a>, <a class="reference internal" href="#group__fold__compound_1ga579952cc017127b81e89a186c0d6b9c2"><span class="std std-ref">vrna_fold_compound_add_callback()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.auxdata">
+<span class="target" id="structvrna__fc__s_1a20048e0c369e9f24b55423d600037c68"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">auxdata</span></span></span><a class="headerlink" href="#c.vrna_fc_s.auxdata" title="Link to this definition"></a><br /></dt>
+<dd><p>A pointer to auxiliary, user-defined data. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__fold__compound_1gad6c0747712712bda6d94702e0de895a7"><span class="std std-ref">vrna_fold_compound_add_auxdata()</span></a>, <a class="reference internal" href="#structvrna__fc__s_1a02b2bfc9d563b4748f933308de09791c"><span class="std std-ref">vrna_fold_compound_t.free_auxdata</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.free_auxdata">
+<span class="target" id="structvrna__fc__s_1a02b2bfc9d563b4748f933308de09791c"></span><a class="reference internal" href="#c.vrna_auxdata_free_f" title="vrna_auxdata_free_f"><span class="n"><span class="pre">vrna_auxdata_free_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">free_auxdata</span></span></span><a class="headerlink" href="#c.vrna_fc_s.free_auxdata" title="Link to this definition"></a><br /></dt>
+<dd><p>A callback to free auxiliary user data whenever the fold_compound itself is free’d. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#structvrna__fc__s_1a20048e0c369e9f24b55423d600037c68"><span class="std std-ref">vrna_fold_compound_t.auxdata</span></a>, <a class="reference internal" href="#group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a"><span class="std std-ref">vrna_auxdata_free_f()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-secondary-structure-decomposition-(grammar)-related-data-fields">Secondary Structure Decomposition (grammar) related data fields</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.domains_struc">
+<span class="target" id="structvrna__fc__s_1ac25a84f2658de0d7a54cd710c16198b1"></span><span class="n"><span class="pre">vrna_sd_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">domains_struc</span></span></span><a class="headerlink" href="#c.vrna_fc_s.domains_struc" title="Link to this definition"></a><br /></dt>
+<dd><p>Additional structured domains. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.domains_up">
+<span class="target" id="structvrna__fc__s_1a4f70b6d32681fc8ca061236f21819ae7"></span><a class="reference internal" href="../../grammar/domains_up.html#c.vrna_ud_t" title="vrna_ud_t"><span class="n"><span class="pre">vrna_ud_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">domains_up</span></span></span><a class="headerlink" href="#c.vrna_fc_s.domains_up" title="Link to this definition"></a><br /></dt>
+<dd><p>Additional unstructured domains. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.aux_grammar">
+<span class="target" id="structvrna__fc__s_1a42f34f531718cead0550a1ed59785e6d"></span><a class="reference internal" href="../../grammar.html#c.vrna_gr_aux_t" title="vrna_gr_aux_t"><span class="n"><span class="pre">vrna_gr_aux_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">aux_grammar</span></span></span><a class="headerlink" href="#c.vrna_fc_s.aux_grammar" title="Link to this definition"></a><br /></dt>
+<dd><p>Additional decomposition grammar rules. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-data-fields-available-for-single/hybrid-structure-prediction">Data fields available for single/hybrid structure prediction</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.sequence">
+<span class="target" id="structvrna__fc__s_1a87f6abcda89cfb7a486c97e1f5371525"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">sequence</span></span></span><a class="headerlink" href="#c.vrna_fc_s.sequence" title="Link to this definition"></a><br /></dt>
+<dd><p>The input sequence string. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_SINGLE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.sequence_encoding">
+<span class="target" id="structvrna__fc__s_1a9934bdb695d35a3544285cbcc19f9763"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">sequence_encoding</span></span></span><a class="headerlink" href="#c.vrna_fc_s.sequence_encoding" title="Link to this definition"></a><br /></dt>
+<dd><p>Numerical encoding of the input sequence. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>vrna_sequence_encode() </p>
+</div>
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_SINGLE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.encoding5">
+<span class="target" id="structvrna__fc__s_1a7a230013f7a1ccbd0345e9fc56ca4982"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">encoding5</span></span></span><a class="headerlink" href="#c.vrna_fc_s.encoding5" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.encoding3">
+<span class="target" id="structvrna__fc__s_1ae38ca011ec0e06fbff139b885d7f476e"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">encoding3</span></span></span><a class="headerlink" href="#c.vrna_fc_s.encoding3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.sequence_encoding2">
+<span class="target" id="structvrna__fc__s_1aaf9064092f674882e78665e1646ffdbf"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">sequence_encoding2</span></span></span><a class="headerlink" href="#c.vrna_fc_s.sequence_encoding2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.ptype">
+<span class="target" id="structvrna__fc__s_1a3fbea559f1d1976b2d67c215cdeee0b2"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ptype</span></span></span><a class="headerlink" href="#c.vrna_fc_s.ptype" title="Link to this definition"></a><br /></dt>
+<dd><p>Pair type array. </p>
+<p>Contains the numerical encoding of the pair type for each pair (i,j) used in MFE, Partition function and Evaluation computations. <div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../../utils.html#group__utils_1ga93a00c17b7644d1e755943d01664cae0"><span class="std std-ref">vrna_idx_col_wise()</span></a>, <a class="reference internal" href="../alphabet.html#group__alphabet__utils_1ga495e6f5c88129128114fcb437b1fddeb"><span class="std std-ref">vrna_ptypes()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This array is always indexed via jindx, in contrast to previously different indexing between mfe and pf variants! </p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_SINGLE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.ptype_pf_compat">
+<span class="target" id="structvrna__fc__s_1a7fe1235ce3d41287695f1ae1e283e8fc"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ptype_pf_compat</span></span></span><a class="headerlink" href="#c.vrna_fc_s.ptype_pf_compat" title="Link to this definition"></a><br /></dt>
+<dd><p>ptype array indexed via iindx </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000079"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This attribute will vanish in the future! It’s meant for backward compatibility only! </p>
+</dd></dl>
+
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_SINGLE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.sc">
+<span class="target" id="structvrna__fc__s_1ac7089e90460ad3990a308808c8044c9f"></span><a class="reference internal" href="../../grammar/constraints/soft.html#c.vrna_sc_t" title="vrna_sc_t"><span class="n"><span class="pre">vrna_sc_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">sc</span></span></span><a class="headerlink" href="#c.vrna_fc_s.sc" title="Link to this definition"></a><br /></dt>
+<dd><p>The soft constraints for usage in structure prediction and evaluation. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_SINGLE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-data-fields-for-consensus-structure-prediction">Data fields for consensus structure prediction</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.sequences">
+<span class="target" id="structvrna__fc__s_1a965dbb42f2e13cace5aa3bbab4396530"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">sequences</span></span></span><a class="headerlink" href="#c.vrna_fc_s.sequences" title="Link to this definition"></a><br /></dt>
+<dd><p>The aligned sequences. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The end of the alignment is indicated by a NULL pointer in the second dimension </p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_COMPARATIVE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.n_seq">
+<span class="target" id="structvrna__fc__s_1a614702ab74478e786272be44f8cebfe3"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">n_seq</span></span></span><a class="headerlink" href="#c.vrna_fc_s.n_seq" title="Link to this definition"></a><br /></dt>
+<dd><p>The number of sequences in the alignment. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_COMPARATIVE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.cons_seq">
+<span class="target" id="structvrna__fc__s_1ac472afde64d8b3c8b84e4809fda7d814"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">cons_seq</span></span></span><a class="headerlink" href="#c.vrna_fc_s.cons_seq" title="Link to this definition"></a><br /></dt>
+<dd><p>The consensus sequence of the aligned sequences. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_COMPARATIVE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.S_cons">
+<span class="target" id="structvrna__fc__s_1aa3fab7ae38ebfed2028375221d295686"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">S_cons</span></span></span><a class="headerlink" href="#c.vrna_fc_s.S_cons" title="Link to this definition"></a><br /></dt>
+<dd><p>Numerical encoding of the consensus sequence. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_COMPARATIVE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.S">
+<span class="target" id="structvrna__fc__s_1aebb37297f92c7bd22aac6343f8f61d61"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">S</span></span></span><a class="headerlink" href="#c.vrna_fc_s.S" title="Link to this definition"></a><br /></dt>
+<dd><p>Numerical encoding of the sequences in the alignment. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_COMPARATIVE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.S5">
+<span class="target" id="structvrna__fc__s_1a78d089b475e2230bd536b9a6ed8bb17c"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">S5</span></span></span><a class="headerlink" href="#c.vrna_fc_s.S5" title="Link to this definition"></a><br /></dt>
+<dd><p>S5[s][i] holds next base 5’ of i in sequence s. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_COMPARATIVE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.S3">
+<span class="target" id="structvrna__fc__s_1af6ab2a25b84d2308ee23f6b11b5fd52d"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">S3</span></span></span><a class="headerlink" href="#c.vrna_fc_s.S3" title="Link to this definition"></a><br /></dt>
+<dd><p>Sl[s][i] holds next base 3’ of i in sequence s. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_COMPARATIVE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.Ss">
+<span class="target" id="structvrna__fc__s_1abf4a526147da57db63990892987fea29"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Ss</span></span></span><a class="headerlink" href="#c.vrna_fc_s.Ss" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.a2s">
+<span class="target" id="structvrna__fc__s_1a1e8ab3e7d0ba41bdd86e12044903881a"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">a2s</span></span></span><a class="headerlink" href="#c.vrna_fc_s.a2s" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.pscore">
+<span class="target" id="structvrna__fc__s_1a14dc7755af6019ddbd0cf94b209e89dd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pscore</span></span></span><a class="headerlink" href="#c.vrna_fc_s.pscore" title="Link to this definition"></a><br /></dt>
+<dd><p>Precomputed array of pair types expressed as pairing scores. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_COMPARATIVE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.pscore_local">
+<span class="target" id="structvrna__fc__s_1ad966c15907e6c2e32b0910c7a3154509"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pscore_local</span></span></span><a class="headerlink" href="#c.vrna_fc_s.pscore_local" title="Link to this definition"></a><br /></dt>
+<dd><p>Precomputed array of pair types expressed as pairing scores. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_COMPARATIVE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.pscore_pf_compat">
+<span class="target" id="structvrna__fc__s_1abf5e82d14649b6179ae60ed7da6e4fc0"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pscore_pf_compat</span></span></span><a class="headerlink" href="#c.vrna_fc_s.pscore_pf_compat" title="Link to this definition"></a><br /></dt>
+<dd><p>Precomputed array of pair types expressed as pairing scores indexed via iindx. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000080"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This attribute will vanish in the future! </p>
+</dd></dl>
+
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_COMPARATIVE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.scs">
+<span class="target" id="structvrna__fc__s_1ac2b047fddabc51a76a96511174e47db1"></span><a class="reference internal" href="../../grammar/constraints/soft.html#c.vrna_sc_t" title="vrna_sc_t"><span class="n"><span class="pre">vrna_sc_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">scs</span></span></span><a class="headerlink" href="#c.vrna_fc_s.scs" title="Link to this definition"></a><br /></dt>
+<dd><p>A set of soft constraints (for each sequence in the alignment) </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">==</span><span class="n">VRNA_FC_TYPE_COMPARATIVE</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.oldAliEn">
+<span class="target" id="structvrna__fc__s_1ac539df9233472dd76d070f4a821185a9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">oldAliEn</span></span></span><a class="headerlink" href="#c.vrna_fc_s.oldAliEn" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-additional-data-fields-for-distance-class-partitioning">Additional data fields for Distance Class Partitioning</p>
+<p>These data fields are typically populated with meaningful data only if used in the context of Distance Class Partitioning </p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.maxD1">
+<span class="target" id="structvrna__fc__s_1a426305721b16023f2f3247f7354d2c46"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">maxD1</span></span></span><a class="headerlink" href="#c.vrna_fc_s.maxD1" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum allowed base pair distance to first reference. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.maxD2">
+<span class="target" id="structvrna__fc__s_1a38695774fd396c892f9a70d39978b231"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">maxD2</span></span></span><a class="headerlink" href="#c.vrna_fc_s.maxD2" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum allowed base pair distance to second reference. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.reference_pt1">
+<span class="target" id="structvrna__fc__s_1aa279ba4bd0ff541d435d3a049687f3ac"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">reference_pt1</span></span></span><a class="headerlink" href="#c.vrna_fc_s.reference_pt1" title="Link to this definition"></a><br /></dt>
+<dd><p>A pairtable of the first reference structure. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.reference_pt2">
+<span class="target" id="structvrna__fc__s_1a926ad253f5f0eed642bc227493d0278d"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">reference_pt2</span></span></span><a class="headerlink" href="#c.vrna_fc_s.reference_pt2" title="Link to this definition"></a><br /></dt>
+<dd><p>A pairtable of the second reference structure. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.referenceBPs1">
+<span class="target" id="structvrna__fc__s_1a62a8d4ab8dadffbf09da917adff6c71e"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">referenceBPs1</span></span></span><a class="headerlink" href="#c.vrna_fc_s.referenceBPs1" title="Link to this definition"></a><br /></dt>
+<dd><p>Matrix containing number of basepairs of reference structure1 in interval [i,j]. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.referenceBPs2">
+<span class="target" id="structvrna__fc__s_1a19187f33433e84683730dedff8544f71"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">referenceBPs2</span></span></span><a class="headerlink" href="#c.vrna_fc_s.referenceBPs2" title="Link to this definition"></a><br /></dt>
+<dd><p>Matrix containing number of basepairs of reference structure2 in interval [i,j]. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.bpdist">
+<span class="target" id="structvrna__fc__s_1a5c53e55583ce096148075bc240fc2bce"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">bpdist</span></span></span><a class="headerlink" href="#c.vrna_fc_s.bpdist" title="Link to this definition"></a><br /></dt>
+<dd><p>Matrix containing base pair distance of reference structure 1 and 2 on interval [i,j]. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.mm1">
+<span class="target" id="structvrna__fc__s_1a0af5a888bac2ae32107da32776144504"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">mm1</span></span></span><a class="headerlink" href="#c.vrna_fc_s.mm1" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum matching matrix, reference struct 1 disallowed. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.mm2">
+<span class="target" id="structvrna__fc__s_1a54c0b979274b285a7e093ed54aa3252e"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">mm2</span></span></span><a class="headerlink" href="#c.vrna_fc_s.mm2" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum matching matrix, reference struct 2 disallowed. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-additional-data-fields-for-local-folding">Additional data fields for local folding</p>
+<p>These data fields are typically populated with meaningful data only if used in the context of local folding </p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.window_size">
+<span class="target" id="structvrna__fc__s_1adacbf7cdfb47d3072683ab509de735f6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">window_size</span></span></span><a class="headerlink" href="#c.vrna_fc_s.window_size" title="Link to this definition"></a><br /></dt>
+<dd><p>window size for local folding sliding window approach </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.ptype_local">
+<span class="target" id="structvrna__fc__s_1a2ecb8ff5e21190936a8a146be7a251ff"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ptype_local</span></span></span><a class="headerlink" href="#c.vrna_fc_s.ptype_local" title="Link to this definition"></a><br /></dt>
+<dd><p>Pair type array (for local folding) </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_fc_s.zscore_data">
+<span class="target" id="structvrna__fc__s_1ab9e9e3fd24c960c6e2390be1a070e4c5"></span><span class="n"><span class="pre">vrna_zsc_dat_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">zscore_data</span></span></span><a class="headerlink" href="#c.vrna_fc_s.zscore_data" title="Link to this definition"></a><br /></dt>
+<dd><p>Data structure with settings for z-score computations. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c">
+<span class="target" id="structvrna__fc__s_1a9101b94d97b83e82a79707938a5b2389"></span><span class="sig-name descname"><span class="pre">union</span> <span class="pre">vrna_fc_s</span></span></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../data_structures.html" class="btn btn-neutral float-left" title="(Abstract) Data Structures" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dp_matrices.html" class="btn btn-neutral float-right" title="The Dynamic Programming Matrices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

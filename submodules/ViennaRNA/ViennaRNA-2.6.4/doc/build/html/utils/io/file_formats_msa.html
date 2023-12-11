@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multiple Sequence Alignments &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Command Files" href="commands.html" />
+    <link rel="prev" title="Nucleic Acid Sequences and Structures" href="file_formats.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../io.html">Files and I/O</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="file_formats.html">Nucleic Acid Sequences and Structures</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Multiple Sequence Alignments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commands.html">Command Files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../io.html">Files and I/O</a></li>
+      <li class="breadcrumb-item active">Multiple Sequence Alignments</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="multiple-sequence-alignments">
+<h1>Multiple Sequence Alignments<a class="headerlink" href="#multiple-sequence-alignments" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__file__formats__msa"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_FILE_FORMAT_MSA_CLUSTAL">
+<span class="target" id="group__file__formats__msa_1ga79a23de2c7249f2cccd762e475c81859"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FILE_FORMAT_MSA_CLUSTAL</span></span></span><a class="headerlink" href="#c.VRNA_FILE_FORMAT_MSA_CLUSTAL" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Option flag indicating ClustalW formatted files. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799"><span class="std std-ref">vrna_file_msa_read_record()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3"><span class="std std-ref">vrna_file_msa_detect_format()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_FILE_FORMAT_MSA_STOCKHOLM">
+<span class="target" id="group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FILE_FORMAT_MSA_STOCKHOLM</span></span></span><a class="headerlink" href="#c.VRNA_FILE_FORMAT_MSA_STOCKHOLM" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Option flag indicating Stockholm 1.0 formatted files. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799"><span class="std std-ref">vrna_file_msa_read_record()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3"><span class="std std-ref">vrna_file_msa_detect_format()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_FILE_FORMAT_MSA_FASTA">
+<span class="target" id="group__file__formats__msa_1gacf6274a2c825f34e4131404665b00604"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FILE_FORMAT_MSA_FASTA</span></span></span><a class="headerlink" href="#c.VRNA_FILE_FORMAT_MSA_FASTA" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Option flag indicating FASTA (Pearson) formatted files. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799"><span class="std std-ref">vrna_file_msa_read_record()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3"><span class="std std-ref">vrna_file_msa_detect_format()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_FILE_FORMAT_MSA_MAF">
+<span class="target" id="group__file__formats__msa_1gab3186d774c01570d2a47d0308eec4927"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FILE_FORMAT_MSA_MAF</span></span></span><a class="headerlink" href="#c.VRNA_FILE_FORMAT_MSA_MAF" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Option flag indicating MAF formatted files. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799"><span class="std std-ref">vrna_file_msa_read_record()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3"><span class="std std-ref">vrna_file_msa_detect_format()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_FILE_FORMAT_MSA_MIS">
+<span class="target" id="group__file__formats__msa_1ga494488a771aa0c602fb4cf445be34d47"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FILE_FORMAT_MSA_MIS</span></span></span><a class="headerlink" href="#c.VRNA_FILE_FORMAT_MSA_MIS" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Option flag indicating most informative sequence (MIS) output. </p>
+<p>The default reference sequence output for an alignment is simply a consensus sequence. This flag allows to write the most informative equence (MIS) instead.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gaccca55b71d34def88e18ed9a51ccb2bf"><span class="std std-ref">vrna_file_msa_write()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_FILE_FORMAT_MSA_DEFAULT">
+<span class="target" id="group__file__formats__msa_1ga4acc255373831856a8417b68de8a94c0"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FILE_FORMAT_MSA_DEFAULT</span></span></span><a class="headerlink" href="#c.VRNA_FILE_FORMAT_MSA_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Option flag indicating the set of default file formats. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799"><span class="std std-ref">vrna_file_msa_read_record()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3"><span class="std std-ref">vrna_file_msa_detect_format()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_FILE_FORMAT_MSA_NOCHECK">
+<span class="target" id="group__file__formats__msa_1ga229fb3778ecabea4782902b69fa48fd1"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FILE_FORMAT_MSA_NOCHECK</span></span></span><a class="headerlink" href="#c.VRNA_FILE_FORMAT_MSA_NOCHECK" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Option flag to disable validation of the alignment. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799"><span class="std std-ref">vrna_file_msa_read_record()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_FILE_FORMAT_MSA_UNKNOWN">
+<span class="target" id="group__file__formats__msa_1gabdc948f547e550125de3e7c65878400c"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FILE_FORMAT_MSA_UNKNOWN</span></span></span><a class="headerlink" href="#c.VRNA_FILE_FORMAT_MSA_UNKNOWN" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Return flag of <a class="reference internal" href="#group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3"><span class="std std-ref">vrna_file_msa_detect_format()</span></a> to indicate unknown or malformatted alignment. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3"><span class="std std-ref">vrna_file_msa_detect_format()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_FILE_FORMAT_MSA_APPEND">
+<span class="target" id="group__file__formats__msa_1ga1577ea0f497d9c501549c863a4f2c089"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FILE_FORMAT_MSA_APPEND</span></span></span><a class="headerlink" href="#c.VRNA_FILE_FORMAT_MSA_APPEND" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Option flag indicating to append data to a multiple sequence alignment file rather than overwriting it. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gaccca55b71d34def88e18ed9a51ccb2bf"><span class="std std-ref">vrna_file_msa_write()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_FILE_FORMAT_MSA_QUIET">
+<span class="target" id="group__file__formats__msa_1ga73aa3701a22c5acfcb2e8927287a0554"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FILE_FORMAT_MSA_QUIET</span></span></span><a class="headerlink" href="#c.VRNA_FILE_FORMAT_MSA_QUIET" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Option flag to suppress unnecessary spam messages on <code class="docutils literal notranslate"><span class="pre">stderr</span></code></p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799"><span class="std std-ref">vrna_file_msa_read_record()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_FILE_FORMAT_MSA_SILENT">
+<span class="target" id="group__file__formats__msa_1gad98ca08968d19f221f29d2a1faf26887"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_FILE_FORMAT_MSA_SILENT</span></span></span><a class="headerlink" href="#c.VRNA_FILE_FORMAT_MSA_SILENT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Option flag to completely silence any warnings on <code class="docutils literal notranslate"><span class="pre">stderr</span></code></p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799"><span class="std std-ref">vrna_file_msa_read_record()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_msa_read">
+<span class="target" id="group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_msa_read</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">names</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">aln</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_msa_read" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Read a multiple sequence alignment from file. </p>
+<p>This function reads the (first) multiple sequence alignment from an input file. The read alignment is split into the sequence id/name part and the actual sequence information and stored in memory as arrays of ids/names and sequences. If the alignment file format allows for additional information, such as an ID of the entire alignment or consensus structure information, this data is retrieved as well and made available. The <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter allows to specify the set of alignment file formats that should be used to retrieve the data. If 0 is passed as option, the list of alignment file formats defaults to <a class="reference internal" href="#group__file__formats__msa_1ga4acc255373831856a8417b68de8a94c0"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_DEFAULT</span></a>.</p>
+<p>Currently, the list of parsable multiple sequence alignment file formats consists of:<ul class="simple">
+<li><p>msa-formats-clustal</p></li>
+<li><p>msa-formats-stockholm</p></li>
+<li><p>msa-formats-fasta</p></li>
+<li><p>msa-formats-maf</p></li>
+</ul>
+<dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000097"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>In the target scripting language, only the first and last argument, <code class="docutils literal notranslate"><span class="pre">filename</span></code> and <code class="docutils literal notranslate"><span class="pre">options</span></code>, are passed to the corresponding function. The other arguments, which serve as output in the C-library, are available as additional return values. This function exists as an overloaded version where the <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter may be omitted! In that case, the <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter defaults to <a class="reference internal" href="#group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_STOCKHOLM</span></a>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.file_msa_read" title="RNA.file_msa_read"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.file_msa_read()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span> and  <span> <a class="reference internal" href="../../examples/python.html#parsing-alignments"><span class="std std-ref">Parsing Alignments</span></a> </span> in the Python examples. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799"><span class="std std-ref">vrna_file_msa_read_record()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1ga79a23de2c7249f2cccd762e475c81859"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_CLUSTAL</span></a>, <a class="reference internal" href="#group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_STOCKHOLM</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gacf6274a2c825f34e4131404665b00604"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_FASTA</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gab3186d774c01570d2a47d0308eec4927"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_MAF</span></a>, <a class="reference internal" href="#group__file__formats__msa_1ga4acc255373831856a8417b68de8a94c0"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_DEFAULT</span></a>, <a class="reference internal" href="#group__file__formats__msa_1ga229fb3778ecabea4782902b69fa48fd1"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_NOCHECK</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>After successfully reading an alignment, this function performs a validation of the data that includes uniqueness of the sequence identifiers, and equal sequence lengths. This check can be deactivated by passing <a class="reference internal" href="#group__file__formats__msa_1ga229fb3778ecabea4782902b69fa48fd1"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_NOCHECK</span></a> in the <code class="docutils literal notranslate"><span class="pre">options</span></code><p>parameter.</p>
+<p>It is the users responsibility to free any memory occupied by the output arguments</p>
+<code class="docutils literal notranslate"><span class="pre">names</span></code>, <code class="docutils literal notranslate"><span class="pre">aln</span></code>, <code class="docutils literal notranslate"><span class="pre">id</span></code>, and <code class="docutils literal notranslate"><span class="pre">structure</span></code> after calling this function. The function automatically sets the latter two arguments to <code class="docutils literal notranslate"><span class="pre">NULL</span></code> in case no corresponding data could be retrieved from the input alignment.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – The name of input file that contains the alignment </p></li>
+<li><p><strong>names</strong> – An address to the pointer where sequence identifiers should be written to </p></li>
+<li><p><strong>aln</strong> – An address to the pointer where aligned sequences should be written to </p></li>
+<li><p><strong>id</strong> – An address to the pointer where the alignment ID should be written to (Maybe NULL) </p></li>
+<li><p><strong>structure</strong> – An address to the pointer where consensus structure information should be written to (Maybe NULL) </p></li>
+<li><p><strong>options</strong> – Options to manipulate the behavior of this function </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of sequences in the alignment, or -1 if no alignment record could be found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_msa_read_record">
+<span class="target" id="group__file__formats__msa_1gad4203a438622b2df7bc2f16578d54799"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_msa_read_record</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">names</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">aln</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_msa_read_record" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Read a multiple sequence alignment from file handle. </p>
+<p>Similar to <a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a>, this function reads a multiple sequence alignment from an input file handle. Since using a file handle, this function is not limited to the first alignment record, but allows for looping over all alignments within the input.</p>
+<p>The read alignment is split into the sequence id/name part and the actual sequence information and stored in memory as arrays of ids/names and sequences. If the alignment file format allows for additional information, such as an ID of the entire alignment or consensus structure information, this data is retrieved as well and made available. The <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter allows to specify the alignment file format used to retrieve the data. A single format must be specified here, see <a class="reference internal" href="#group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3"><span class="std std-ref">vrna_file_msa_detect_format()</span></a> for helping to determine the correct MSA file format.</p>
+<p>Currently, the list of parsable multiple sequence alignment file formats consists of:<ul class="simple">
+<li><p>msa-formats-clustal</p></li>
+<li><p>msa-formats-stockholm</p></li>
+<li><p>msa-formats-fasta</p></li>
+<li><p>msa-formats-maf</p></li>
+</ul>
+<dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000098"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>In the target scripting language, only the first and last argument, <code class="docutils literal notranslate"><span class="pre">fp</span></code> and <code class="docutils literal notranslate"><span class="pre">options</span></code>, are passed to the corresponding function. The other arguments, which serve as output in the C-library, are available as additional return values. This function exists as an overloaded version where the <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter may be omitted! In that case, the <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter defaults to <a class="reference internal" href="#group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_STOCKHOLM</span></a>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.file_msa_read_record" title="RNA.file_msa_read_record"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.file_msa_read_record()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span> and  <span> <a class="reference internal" href="../../examples/python.html#parsing-alignments"><span class="std std-ref">Parsing Alignments</span></a> </span> in the Python examples. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3"><span class="std std-ref">vrna_file_msa_detect_format()</span></a>, <a class="reference internal" href="#group__file__formats__msa_1ga79a23de2c7249f2cccd762e475c81859"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_CLUSTAL</span></a>, <a class="reference internal" href="#group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_STOCKHOLM</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gacf6274a2c825f34e4131404665b00604"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_FASTA</span></a>, <a class="reference internal" href="#group__file__formats__msa_1gab3186d774c01570d2a47d0308eec4927"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_MAF</span></a>, <a class="reference internal" href="#group__file__formats__msa_1ga4acc255373831856a8417b68de8a94c0"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_DEFAULT</span></a>, <a class="reference internal" href="#group__file__formats__msa_1ga229fb3778ecabea4782902b69fa48fd1"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_NOCHECK</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>After successfully reading an alignment, this function performs a validation of the data that includes uniqueness of the sequence identifiers, and equal sequence lengths. This check can be deactivated by passing <a class="reference internal" href="#group__file__formats__msa_1ga229fb3778ecabea4782902b69fa48fd1"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_NOCHECK</span></a> in the <code class="docutils literal notranslate"><span class="pre">options</span></code><p>parameter.</p>
+<p>It is the users responsibility to free any memory occupied by the output arguments</p>
+<code class="docutils literal notranslate"><span class="pre">names</span></code>, <code class="docutils literal notranslate"><span class="pre">aln</span></code>, <code class="docutils literal notranslate"><span class="pre">id</span></code>, and <code class="docutils literal notranslate"><span class="pre">structure</span></code> after calling this function. The function automatically sets the latter two arguments to <code class="docutils literal notranslate"><span class="pre">NULL</span></code> in case no corresponding data could be retrieved from the input alignment.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fp</strong> – The file pointer the data will be retrieved from </p></li>
+<li><p><strong>names</strong> – An address to the pointer where sequence identifiers should be written to </p></li>
+<li><p><strong>aln</strong> – An address to the pointer where aligned sequences should be written to </p></li>
+<li><p><strong>id</strong> – An address to the pointer where the alignment ID should be written to (Maybe NULL) </p></li>
+<li><p><strong>structure</strong> – An address to the pointer where consensus structure information should be written to (Maybe NULL) </p></li>
+<li><p><strong>options</strong> – Options to manipulate the behavior of this function </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of sequences in the alignment, or -1 if no alignment record could be found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_msa_detect_format">
+<span class="target" id="group__file__formats__msa_1gade4fa8136ebb2d0f7eb3f8b59a8658e3"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_msa_detect_format</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_msa_detect_format" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Detect the format of a multiple sequence alignment file. </p>
+<p>This function attempts to determine the format of a file that supposedly contains a multiple sequence alignment (MSA). This is useful in cases where a MSA file contains more than a single record and therefore <a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a> can not be applied, since it only retrieves the first. Here, one can try to guess the correct file format using this function and then loop over the file, record by record using one of the low-level record retrieval functions for the corresponding MSA file format.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000096"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function exists as an overloaded version where the <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter may be omitted! In that case, the <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter defaults to <a class="reference internal" href="#group__file__formats__msa_1ga4acc255373831856a8417b68de8a94c0"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.file_msa_detect_format" title="RNA.file_msa_detect_format"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.file_msa_detect_format()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1gad02d5d12bda54611c915a1019323b7be"><span class="std std-ref">vrna_file_msa_read()</span></a>, vrna_file_stockholm_read_record(), vrna_file_clustal_read_record(), <a class="reference internal" href="file_formats.html#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function parses the entire first record within the specified file. As a result, it returns <a class="reference internal" href="#group__file__formats__msa_1gabdc948f547e550125de3e7c65878400c"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_UNKNOWN</span></a> not only if it can’t detect the file’s format, but also in cases where the file doesn’t contain sequences!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – The name of input file that contains the alignment </p></li>
+<li><p><strong>options</strong> – Options to manipulate the behavior of this function </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The MSA file format, or <a class="reference internal" href="#group__file__formats__msa_1gabdc948f547e550125de3e7c65878400c"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_UNKNOWN</span></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_msa_write">
+<span class="target" id="group__file__formats__msa_1gaccca55b71d34def88e18ed9a51ccb2bf"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_msa_write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">names</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">aln</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_msa_write" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats_msa.h&gt;</em><p>Write multiple sequence alignment file. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../wrappers.html#wrappers_1_wrappers000099"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>In the target scripting language, this function exists as a set of overloaded versions, where the last four parameters may be omitted. If the <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter is missing the options default to (<a class="reference internal" href="#group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_STOCKHOLM</span></a> | <a class="reference internal" href="#group__file__formats__msa_1ga1577ea0f497d9c501549c863a4f2c089"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_APPEND</span></a>). See, e.g.  <span> <a class="reference internal" href="../../api_python.html#RNA.file_msa_write" title="RNA.file_msa_write"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.file_msa_write()</span></code></a> in the <a class="reference internal" href="../../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats__msa_1ga62be992445cd8ab2ad7a8fded944338b"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_STOCKHOLM</span></a>, <a class="reference internal" href="#group__file__formats__msa_1ga1577ea0f497d9c501549c863a4f2c089"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_APPEND</span></a>, <a class="reference internal" href="#group__file__formats__msa_1ga494488a771aa0c602fb4cf445be34d47"><span class="std std-ref">VRNA_FILE_FORMAT_MSA_MIS</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently, we only support msa-formats-stockholm output</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – The output filename </p></li>
+<li><p><strong>names</strong> – The array of sequence names / identifies </p></li>
+<li><p><strong>aln</strong> – The array of aligned sequences </p></li>
+<li><p><strong>id</strong> – An optional ID for the alignment </p></li>
+<li><p><strong>structure</strong> – An optional consensus structure </p></li>
+<li><p><strong>source</strong> – A string describing the source of the alignment </p></li>
+<li><p><strong>options</strong> – Options to manipulate the behavior of this function </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-null upon successfully writing the alignment to file</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="file_formats.html" class="btn btn-neutral float-left" title="Nucleic Acid Sequences and Structures" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="commands.html" class="btn btn-neutral float-right" title="Command Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

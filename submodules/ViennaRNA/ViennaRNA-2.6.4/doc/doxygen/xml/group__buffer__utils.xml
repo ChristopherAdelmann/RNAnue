@@ -1,0 +1,1171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__buffer__utils" kind="group">
+    <compoundname>buffer_utils</compoundname>
+    <title>Buffers</title>
+    <innerfile refid="datastructures_2char__stream_8h">char_stream.h</innerfile>
+    <innerfile refid="datastructures_2stream__output_8h">stream_output.h</innerfile>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__buffer__utils_1ga445bbbcfca238a956bbc11862892adc8" prot="public" static="no">
+        <type>struct vrna_cstr_s *</type>
+        <definition>typedef struct vrna_cstr_s* vrna_cstr_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_cstr_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="19" column="26" bodyfile="ViennaRNA/datastructures/char_stream.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__buffer__utils_1ga8da189552af21ab6e4e88bdcc240870c" prot="public" static="no">
+        <type>struct vrna_ordered_stream_s *</type>
+        <definition>typedef struct vrna_ordered_stream_s* vrna_ostream_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_ostream_t</name>
+        <briefdescription>
+<para>An ordered output stream structure with unordered insert capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/stream_output.h" line="33" column="36" bodyfile="ViennaRNA/datastructures/stream_output.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__buffer__utils_1ga587647e75f26bdf830b4a5f291e5fdc2" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* vrna_stream_output_f) (void *auxdata, unsigned int i, void *data)</definition>
+        <argsstring>)(void *auxdata, unsigned int i, void *data)</argsstring>
+        <name>vrna_stream_output_f</name>
+        <briefdescription>
+<para>Ordered stream processing callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This callback will be processed in sequential order as soon as sequential data in the output stream becomes available.</para>
+<para><simplesect kind="note"><para>The callback must also release the memory occupied by the data passed since the stream will lose any reference to it after the callback has been executed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>auxdata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A shared pointer for all calls, as provided by the second argument to <ref refid="group__buffer__utils_1ga64421b7126cc1b17a472e6f5e878ba9a" kindref="member">vrna_ostream_init()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index number of the data passed to <computeroutput>data</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A block of data ready for processing </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/stream_output.h" line="49" column="9" bodyfile="ViennaRNA/datastructures/stream_output.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__buffer__utils_1ga4adb94338a6f0a1a451e03c1bdac0d9d" prot="public" static="no">
+        <type>void()</type>
+        <definition>typedef void() vrna_callback_stream_output(void *auxdata, unsigned int i, void *data)</definition>
+        <argsstring>(void *auxdata, unsigned int i, void *data)</argsstring>
+        <name>vrna_callback_stream_output</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/stream_output.h" line="55" column="10" bodyfile="ViennaRNA/datastructures/stream_output.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__buffer__utils_1gadb2818f368e10a3b60a96bb3c80228d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vrna_cstr_t</type>
+        <definition>vrna_cstr_t vrna_cstr</definition>
+        <argsstring>(size_t size, FILE *output)</argsstring>
+        <name>vrna_cstr</name>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Create a dynamic char * stream data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__buffer__utils_1ga7ec48ec280f699928c70428cc245dc77" kindref="member">vrna_cstr_free()</ref>, <ref refid="group__buffer__utils_1ga5a3f6a0a73b3d2d38fe011cdaed0ad28" kindref="member">vrna_cstr_close()</ref>, <ref refid="group__buffer__utils_1gab59ad4781f7de960bdd1af5b1965c94b" kindref="member">vrna_cstr_fflush()</ref>, <ref refid="group__buffer__utils_1gacf6e3934e61bea12bdc38a8f97b0c75d" kindref="member">vrna_cstr_discard()</ref>, vrna_cstr_printf()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The initial size of the buffer in characters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An optional output file stream handle that is used to write the collected data to (defaults to <emphasis>stdout</emphasis> if <emphasis>NULL</emphasis>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="30" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="30" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gacf6e3934e61bea12bdc38a8f97b0c75d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_discard</definition>
+        <argsstring>(struct vrna_cstr_s *buf)</argsstring>
+        <name>vrna_cstr_discard</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Discard the current content of the dynamic char * stream data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__buffer__utils_1ga7ec48ec280f699928c70428cc245dc77" kindref="member">vrna_cstr_free()</ref>, <ref refid="group__buffer__utils_1ga5a3f6a0a73b3d2d38fe011cdaed0ad28" kindref="member">vrna_cstr_close()</ref>, <ref refid="group__buffer__utils_1gab59ad4781f7de960bdd1af5b1965c94b" kindref="member">vrna_cstr_fflush()</ref>, vrna_cstr_printf()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The dynamic char * stream data structure to free </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="42" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="42" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga7ec48ec280f699928c70428cc245dc77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_free</definition>
+        <argsstring>(vrna_cstr_t buf)</argsstring>
+        <name>vrna_cstr_free</name>
+        <param>
+          <type>vrna_cstr_t</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Free the memory occupied by a dynamic char * stream data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function first flushes any remaining character data within the stream and then free&apos;s the memory occupied by the data structure.</para>
+<para><simplesect kind="see"><para><ref refid="group__buffer__utils_1ga5a3f6a0a73b3d2d38fe011cdaed0ad28" kindref="member">vrna_cstr_close()</ref>, <ref refid="group__buffer__utils_1gab59ad4781f7de960bdd1af5b1965c94b" kindref="member">vrna_cstr_fflush()</ref>, <ref refid="group__buffer__utils_1gadb2818f368e10a3b60a96bb3c80228d2" kindref="member">vrna_cstr()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The dynamic char * stream data structure to free </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="56" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="56" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga5a3f6a0a73b3d2d38fe011cdaed0ad28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_close</definition>
+        <argsstring>(vrna_cstr_t buf)</argsstring>
+        <name>vrna_cstr_close</name>
+        <param>
+          <type>vrna_cstr_t</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Free the memory occupied by a dynamic char * stream and close the output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function first flushes any remaining character data within the stream then closes the attached output file stream (if any), and finally free&apos;s the memory occupied by the data structure.</para>
+<para><simplesect kind="see"><para><ref refid="group__buffer__utils_1ga7ec48ec280f699928c70428cc245dc77" kindref="member">vrna_cstr_free()</ref>, <ref refid="group__buffer__utils_1gab59ad4781f7de960bdd1af5b1965c94b" kindref="member">vrna_cstr_fflush()</ref>, <ref refid="group__buffer__utils_1gadb2818f368e10a3b60a96bb3c80228d2" kindref="member">vrna_cstr()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The dynamic char * stream data structure to free </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="71" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="71" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gab59ad4781f7de960bdd1af5b1965c94b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_fflush</definition>
+        <argsstring>(struct vrna_cstr_s *buf)</argsstring>
+        <name>vrna_cstr_fflush</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Flush the dynamic char * output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function flushes the collected char * stream, either by writing to the attached file handle, or simply by writing to <emphasis>stdout</emphasis> if no file handle has been attached upon construction using <ref refid="group__buffer__utils_1gadb2818f368e10a3b60a96bb3c80228d2" kindref="member">vrna_cstr()</ref>.</para>
+<para><simplesect kind="post"><para>The stream buffer is empty after execution of this function</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__buffer__utils_1gadb2818f368e10a3b60a96bb3c80228d2" kindref="member">vrna_cstr()</ref>, <ref refid="group__buffer__utils_1ga5a3f6a0a73b3d2d38fe011cdaed0ad28" kindref="member">vrna_cstr_close()</ref>, <ref refid="group__buffer__utils_1ga7ec48ec280f699928c70428cc245dc77" kindref="member">vrna_cstr_free()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The dynamic char * stream data structure to flush </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="88" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="88" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga2da94823776195dd1d7ba21ef1d07ca6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * vrna_cstr_string</definition>
+        <argsstring>(vrna_cstr_t buf)</argsstring>
+        <name>vrna_cstr_string</name>
+        <param>
+          <type>vrna_cstr_t</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="92" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="92" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga35fdc69cf004aa57784f1764a31b20a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_cstr_vprintf</definition>
+        <argsstring>(vrna_cstr_t buf, const char *format, va_list args)</argsstring>
+        <name>vrna_cstr_vprintf</name>
+        <param>
+          <type>vrna_cstr_t</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>va_list</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="96" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="96" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga3c7eaa46b1e74c4641e4fa5927079462" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_cstr_printf</definition>
+        <argsstring>(vrna_cstr_t buf, const char *format,...)</argsstring>
+        <name>vrna_cstr_printf</name>
+        <param>
+          <type>vrna_cstr_t</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>...</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="102" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="102" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gaa0da077cf03f29808229ab8c0e1e63eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_message_info</definition>
+        <argsstring>(vrna_cstr_t buf, const char *format,...)</argsstring>
+        <name>vrna_cstr_message_info</name>
+        <param>
+          <type>vrna_cstr_t</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>...</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="108" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="108" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga791a25424f0bc9769ec16a22794c7137" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_message_vinfo</definition>
+        <argsstring>(vrna_cstr_t buf, const char *format, va_list args)</argsstring>
+        <name>vrna_cstr_message_vinfo</name>
+        <param>
+          <type>vrna_cstr_t</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>va_list</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="114" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="114" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gab6bfc368a0647080c602c1f00ab39cc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_message_warning</definition>
+        <argsstring>(struct vrna_cstr_s *buf, const char *format,...)</argsstring>
+        <name>vrna_cstr_message_warning</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>...</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="120" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="120" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga8a901b135bd17f1485f35f508161bf3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_message_vwarning</definition>
+        <argsstring>(struct vrna_cstr_s *buf, const char *format, va_list args)</argsstring>
+        <name>vrna_cstr_message_vwarning</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>va_list</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="126" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="126" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga0a320b027c942dc85c508788272dd861" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_print_fasta_header</definition>
+        <argsstring>(vrna_cstr_t buf, const char *head)</argsstring>
+        <name>vrna_cstr_print_fasta_header</name>
+        <param>
+          <type>vrna_cstr_t</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>head</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="132" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="132" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga29af50810807da04d6a244f8801728f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_printf_structure</definition>
+        <argsstring>(struct vrna_cstr_s *buf, const char *structure, const char *format,...)</argsstring>
+        <name>vrna_cstr_printf_structure</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>...</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="137" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="137" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gad4cd97b8943fdb83652cb6b46d91bb44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_vprintf_structure</definition>
+        <argsstring>(struct vrna_cstr_s *buf, const char *structure, const char *format, va_list args)</argsstring>
+        <name>vrna_cstr_vprintf_structure</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>va_list</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="144" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="144" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga31409fdd5c038ee488bdf1ffcc630253" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_printf_comment</definition>
+        <argsstring>(struct vrna_cstr_s *buf, const char *format,...)</argsstring>
+        <name>vrna_cstr_printf_comment</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>...</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="151" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="151" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga9824160bbe620784fcca5f10c4ff247c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_vprintf_comment</definition>
+        <argsstring>(struct vrna_cstr_s *buf, const char *format, va_list args)</argsstring>
+        <name>vrna_cstr_vprintf_comment</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>va_list</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="157" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="157" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gae5e551ba77b488a728d7e1700ecb0df8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_printf_thead</definition>
+        <argsstring>(struct vrna_cstr_s *buf, const char *format,...)</argsstring>
+        <name>vrna_cstr_printf_thead</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>...</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="163" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="163" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga6455c968e6190156267d5afdb8f211a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_vprintf_thead</definition>
+        <argsstring>(struct vrna_cstr_s *buf, const char *format, va_list args)</argsstring>
+        <name>vrna_cstr_vprintf_thead</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>va_list</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="169" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="169" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga525e2673039eb2967cfcb118281ece3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_printf_tbody</definition>
+        <argsstring>(struct vrna_cstr_s *buf, const char *format,...)</argsstring>
+        <name>vrna_cstr_printf_tbody</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>...</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="175" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="175" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gab10cb243cdf925c41d6d84a5a1df9760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_vprintf_tbody</definition>
+        <argsstring>(struct vrna_cstr_s *buf, const char *format, va_list args)</argsstring>
+        <name>vrna_cstr_vprintf_tbody</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>va_list</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="181" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="181" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gac98b1980d652521c5a9ac27aa346ee75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_print_eval_sd_corr</definition>
+        <argsstring>(struct vrna_cstr_s *buf)</argsstring>
+        <name>vrna_cstr_print_eval_sd_corr</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="187" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="187" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga505ecc6943085cd1cc6fd341d1e348a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_print_eval_ext_loop</definition>
+        <argsstring>(struct vrna_cstr_s *buf, int energy)</argsstring>
+        <name>vrna_cstr_print_eval_ext_loop</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="191" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="191" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gae2c1ac264f384409aa1139a51babc748" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_print_eval_hp_loop</definition>
+        <argsstring>(struct vrna_cstr_s *buf, int i, int j, char si, char sj, int energy)</argsstring>
+        <name>vrna_cstr_print_eval_hp_loop</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>si</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>sj</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="196" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="196" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gaa522278605adb1ad42bae9d62a09e988" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_print_eval_hp_loop_revert</definition>
+        <argsstring>(struct vrna_cstr_s *buf, int i, int j, char si, char sj, int energy)</argsstring>
+        <name>vrna_cstr_print_eval_hp_loop_revert</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>si</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>sj</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="205" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="205" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga55d54d7101aa074ca3378ae04e81d694" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_print_eval_int_loop</definition>
+        <argsstring>(struct vrna_cstr_s *buf, int i, int j, char si, char sj, int k, int l, char sk, char sl, int energy)</argsstring>
+        <name>vrna_cstr_print_eval_int_loop</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>si</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>sj</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>sk</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>sl</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="214" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="214" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gabb06b1803686adfa47bf071d519ecbc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_print_eval_int_loop_revert</definition>
+        <argsstring>(struct vrna_cstr_s *buf, int i, int j, char si, char sj, int k, int l, char sk, char sl, int energy)</argsstring>
+        <name>vrna_cstr_print_eval_int_loop_revert</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>si</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>sj</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>sk</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>sl</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="227" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="227" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga505f808eec6da7d3f710701d4b0b6643" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_print_eval_mb_loop</definition>
+        <argsstring>(struct vrna_cstr_s *buf, int i, int j, char si, char sj, int energy)</argsstring>
+        <name>vrna_cstr_print_eval_mb_loop</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>si</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>sj</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="240" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="240" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gae4a4bd3b6c54d4d859bbe85ad7b2d7ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_print_eval_mb_loop_revert</definition>
+        <argsstring>(struct vrna_cstr_s *buf, int i, int j, char si, char sj, int energy)</argsstring>
+        <name>vrna_cstr_print_eval_mb_loop_revert</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>si</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>sj</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="249" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="249" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gaa815169705bef4af78500a4217ebfbb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_cstr_print_eval_gquad</definition>
+        <argsstring>(struct vrna_cstr_s *buf, int i, int L, int l[3], int energy)</argsstring>
+        <name>vrna_cstr_print_eval_gquad</name>
+        <param>
+          <type>struct vrna_cstr_s *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>L</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>l</declname>
+          <array>[3]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/char_stream.h" line="258" column="1" declfile="ViennaRNA/datastructures/char_stream.h" declline="258" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga64421b7126cc1b17a472e6f5e878ba9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__buffer__utils_1ga8da189552af21ab6e4e88bdcc240870c" kindref="member">vrna_ostream_t</ref></type>
+        <definition>vrna_ostream_t vrna_ostream_init</definition>
+        <argsstring>(vrna_stream_output_f output, void *auxdata)</argsstring>
+        <name>vrna_ostream_init</name>
+        <param>
+          <type><ref refid="group__buffer__utils_1ga587647e75f26bdf830b4a5f291e5fdc2" kindref="member">vrna_stream_output_f</ref></type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>auxdata</declname>
+        </param>
+        <briefdescription>
+<para>Get an initialized ordered output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__buffer__utils_1gaf813ec90e1446ba82c89f9a39688a3b3" kindref="member">vrna_ostream_free()</ref>, <ref refid="group__buffer__utils_1gaebca91932705d71bcbf00bd8d82bd7c8" kindref="member">vrna_ostream_request()</ref>, <ref refid="group__buffer__utils_1ga6253c42abdeaf3b41a38204865e1f0f7" kindref="member">vrna_ostream_provide()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A callback function that processes and releases data in the stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>auxdata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to auxiliary data passed as first argument to the <computeroutput>output</computeroutput> callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An initialized ordered output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/stream_output.h" line="68" column="1" declfile="ViennaRNA/datastructures/stream_output.h" declline="68" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gaf813ec90e1446ba82c89f9a39688a3b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_ostream_free</definition>
+        <argsstring>(vrna_ostream_t dat)</argsstring>
+        <name>vrna_ostream_free</name>
+        <param>
+          <type><ref refid="group__buffer__utils_1ga8da189552af21ab6e4e88bdcc240870c" kindref="member">vrna_ostream_t</ref></type>
+          <declname>dat</declname>
+        </param>
+        <briefdescription>
+<para>Free an initialized ordered output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__buffer__utils_1ga64421b7126cc1b17a472e6f5e878ba9a" kindref="member">vrna_ostream_init()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream for which occupied memory should be free&apos;d </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/stream_output.h" line="80" column="1" declfile="ViennaRNA/datastructures/stream_output.h" declline="80" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga4e60fb5548f6b56003860aa046a74ee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_ostream_threadsafe</definition>
+        <argsstring>(void)</argsstring>
+        <name>vrna_ostream_threadsafe</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/stream_output.h" line="84" column="1" declfile="ViennaRNA/datastructures/stream_output.h" declline="84" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1gaebca91932705d71bcbf00bd8d82bd7c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_ostream_request</definition>
+        <argsstring>(vrna_ostream_t dat, unsigned int num)</argsstring>
+        <name>vrna_ostream_request</name>
+        <param>
+          <type><ref refid="group__buffer__utils_1ga8da189552af21ab6e4e88bdcc240870c" kindref="member">vrna_ostream_t</ref></type>
+          <declname>dat</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>num</declname>
+        </param>
+        <briefdescription>
+<para>Request index in ordered output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function must be called prior to <ref refid="group__buffer__utils_1ga6253c42abdeaf3b41a38204865e1f0f7" kindref="member">vrna_ostream_provide()</ref> to indicate that data associted with a certain index number is expected to be inserted into the stream in the future.</para>
+<para><simplesect kind="see"><para><ref refid="group__buffer__utils_1ga64421b7126cc1b17a472e6f5e878ba9a" kindref="member">vrna_ostream_init()</ref>, <ref refid="group__buffer__utils_1ga6253c42abdeaf3b41a38204865e1f0f7" kindref="member">vrna_ostream_provide()</ref>, <ref refid="group__buffer__utils_1gaf813ec90e1446ba82c89f9a39688a3b3" kindref="member">vrna_ostream_free()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream for which the index is requested </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index to request data for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/stream_output.h" line="100" column="1" declfile="ViennaRNA/datastructures/stream_output.h" declline="100" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buffer__utils_1ga6253c42abdeaf3b41a38204865e1f0f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_ostream_provide</definition>
+        <argsstring>(vrna_ostream_t dat, unsigned int i, void *data)</argsstring>
+        <name>vrna_ostream_provide</name>
+        <param>
+          <type><ref refid="group__buffer__utils_1ga8da189552af21ab6e4e88bdcc240870c" kindref="member">vrna_ostream_t</ref></type>
+          <declname>dat</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Provide output stream data for a particular index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="pre"><para>The index data is provided for must have been requested using <ref refid="group__buffer__utils_1gaebca91932705d71bcbf00bd8d82bd7c8" kindref="member">vrna_ostream_request()</ref> beforehand.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__buffer__utils_1gaebca91932705d71bcbf00bd8d82bd7c8" kindref="member">vrna_ostream_request()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream for which data is provided </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index of the provided data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data provided </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/stream_output.h" line="117" column="1" declfile="ViennaRNA/datastructures/stream_output.h" declline="117" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

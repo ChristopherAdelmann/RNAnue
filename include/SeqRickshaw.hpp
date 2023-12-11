@@ -47,8 +47,8 @@
 
 #include <seqan3/core/debug_stream.hpp>
 
-#include <range/v3/all.hpp>
-#include <range/v3/view/transform.hpp>
+#include <numeric>
+#include <ranges>
 
 namespace pt = boost::property_tree;
 namespace fs = boost::filesystem;

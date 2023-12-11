@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Local (sliding window) MFE Prediction &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Deprecated Interface for Local (sliding window) MFE Prediction" href="window_deprecated.html" />
+    <link rel="prev" title="Deprecated Interface for Global MFE Prediction" href="global_deprecated.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="global.html">Global MFE Prediction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_deprecated.html">Deprecated Interface for Global MFE Prediction</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Local (sliding window) MFE Prediction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="window_deprecated.html">Deprecated Interface for Local (sliding window) MFE Prediction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="backtracking.html">Backtracking MFE structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mfe.html#zuker-s-algorithm">Zuker’s Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mfe.html#mfe-for-circular-rnas">MFE for circular RNAs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mfe.html#mfe-algorithm-api">MFE Algorithm API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+      <li class="breadcrumb-item active">Local (sliding window) MFE Prediction</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="local-sliding-window-mfe-prediction">
+<h1>Local (sliding window) MFE Prediction<a class="headerlink" href="#local-sliding-window-mfe-prediction" title="Link to this heading"></a></h1>
+<p>Variations of the local (sliding window) Minimum Free Energy (MFE) prediction algorithm.</p>
+<p>We provide implementations for the local (sliding window) MFE prediction algorithm for</p>
+<ul class="simple">
+<li><p>Single sequences,</p></li>
+<li><p>Multiple sequence alignments (MSA), and</p></li>
+</ul>
+<p>Note, that our implementation scans an RNA sequence (or MSA) from the 3’ to the 5’
+end, and reports back locally optimal (consensus) structures, the corresponding free
+energy, and the position of the sliding window in global coordinates.</p>
+<p>For any particular RNA sequence (or MSA) multiple locally optimal (consensus)
+secondary structures may be predicted. Thus, we tried to implement an interface that
+allows for an effortless conversion of the corresponding hits into any target data
+structure. As a consequence, we provide two distinct ways to retrieve the corresponding
+predictions, either</p>
+<ul class="simple">
+<li><p>through directly writing to an open <code class="docutils literal notranslate"><span class="pre">FILE</span></code> stream on-the-fly, or</p></li>
+<li><p>through a callback function mechanism.</p></li>
+</ul>
+<p>The latter allows one to store the results in any possible target data structure. Our
+implementations then pass the results through the user-implemented callback as soon as
+the prediction for a particular window is finished.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__mfe__window"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-basic-local-(sliding-window)-mfe-prediction-interface">Basic local (sliding window) MFE prediction interface</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mfe_window">
+<span class="target" id="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mfe_window</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mfe_window" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em><p>Local MFE prediction using a sliding window approach. </p>
+<p>Computes minimum free energy structures using a sliding window approach, where base pairs may not span outside the window. In contrast to <a class="reference internal" href="global.html#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, where a maximum base pair span may be set using the <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1a659e5fcc6e8c9f1a68e7de6548eef3b0"><span class="std std-ref">vrna_md_t.max_bp_span</span></a> attribute and one globally optimal structure is predicted, this function uses a sliding window to retrieve all locally optimal structures within each window. The size of the sliding window is set in the <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1abea42f9229f8d8d6bcbedef316315bfc"><span class="std std-ref">vrna_md_t.window_size</span></a> attribute, prior to the retrieval of the <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> using <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> with option <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e"><span class="std std-ref">VRNA_OPTION_WINDOW</span></a></p>
+<p>The predicted structures are written on-the-fly, either to stdout, if a NULL pointer is passed as file parameter, or to the corresponding filehandle.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000118"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">mfe_window()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The parameter <code class="docutils literal notranslate"><span class="pre">FILE</span></code> has default value of <code class="docutils literal notranslate"><span class="pre">NULL</span></code> and can be omitted. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.mfe_window" title="RNA.fold_compound.mfe_window"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.mfe_window()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="#group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa"><span class="std std-ref">vrna_mfe_window_zscore()</span></a>, <a class="reference internal" href="global.html#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, <a class="reference internal" href="#group__mfe__window_1ga4918cce52bf69c1913cda503b2ac75d8"><span class="std std-ref">vrna_Lfold()</span></a>, <a class="reference internal" href="#group__mfe__window_1ga27fddda5fc63eb49c861e38845fc34b4"><span class="std std-ref">vrna_Lfoldz()</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e"><span class="std std-ref">VRNA_OPTION_WINDOW</span></a>, <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1a659e5fcc6e8c9f1a68e7de6548eef3b0"><span class="std std-ref">vrna_md_t.max_bp_span</span></a>, <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1abea42f9229f8d8d6bcbedef316315bfc"><span class="std std-ref">vrna_md_t.window_size</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> with preallocated memory for the DP matrices </p></li>
+<li><p><strong>file</strong> – The output file handle where predictions are written to (maybe NULL)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mfe_window_cb">
+<span class="target" id="group__mfe__window_1ga3ade396421340b0f2f989c7936fda3d9"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mfe_window_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_mfe_window_f" title="vrna_mfe_window_f"><span class="n"><span class="pre">vrna_mfe_window_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mfe_window_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em><p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000119"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">mfe_window_cb()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The parameter <code class="docutils literal notranslate"><span class="pre">data</span></code> has default value of <code class="docutils literal notranslate"><span class="pre">NULL</span></code> and can be omitted. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.mfe_window_cb" title="RNA.fold_compound.mfe_window_cb"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.mfe_window_cb()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mfe_window_zscore">
+<span class="target" id="group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mfe_window_zscore</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">min_z</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mfe_window_zscore" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em><p>Local MFE prediction using a sliding window approach (with z-score cut-off) </p>
+<p>Computes minimum free energy structures using a sliding window approach, where base pairs may not span outside the window. This function is the z-score version of <a class="reference internal" href="#group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2"><span class="std std-ref">vrna_mfe_window()</span></a>, i.e. only predictions above a certain z-score cut-off value are printed. As for <a class="reference internal" href="#group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2"><span class="std std-ref">vrna_mfe_window()</span></a>, the size of the sliding window is set in the <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1abea42f9229f8d8d6bcbedef316315bfc"><span class="std std-ref">vrna_md_t.window_size</span></a> attribute, prior to the retrieval of the <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> using <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> with option <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e"><span class="std std-ref">VRNA_OPTION_WINDOW</span></a>.</p>
+<p>The predicted structures are written on-the-fly, either to stdout, if a NULL pointer is passed as file parameter, or to the corresponding filehandle.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000120"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">mfe_window_zscore()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The parameter <code class="docutils literal notranslate"><span class="pre">FILE</span></code> has default value of <code class="docutils literal notranslate"><span class="pre">NULL</span></code> and can be omitted. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.mfe_window_zscore" title="RNA.fold_compound.mfe_window_zscore"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.mfe_window_zscore()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="#group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa"><span class="std std-ref">vrna_mfe_window_zscore()</span></a>, <a class="reference internal" href="global.html#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, <a class="reference internal" href="#group__mfe__window_1ga4918cce52bf69c1913cda503b2ac75d8"><span class="std std-ref">vrna_Lfold()</span></a>, <a class="reference internal" href="#group__mfe__window_1ga27fddda5fc63eb49c861e38845fc34b4"><span class="std std-ref">vrna_Lfoldz()</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e"><span class="std std-ref">VRNA_OPTION_WINDOW</span></a>, <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1a659e5fcc6e8c9f1a68e7de6548eef3b0"><span class="std std-ref">vrna_md_t.max_bp_span</span></a>, <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1abea42f9229f8d8d6bcbedef316315bfc"><span class="std std-ref">vrna_md_t.window_size</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> with preallocated memory for the DP matrices </p></li>
+<li><p><strong>min_z</strong> – The minimal z-score for a predicted structure to appear in the output </p></li>
+<li><p><strong>file</strong> – The output file handle where predictions are written to (maybe NULL)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mfe_window_zscore_cb">
+<span class="target" id="group__mfe__window_1ga5df4a67ce381ed329c289370b0c8adcb"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mfe_window_zscore_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">min_z</span></span>, <a class="reference internal" href="#c.vrna_mfe_window_zscore_f" title="vrna_mfe_window_zscore_f"><span class="n"><span class="pre">vrna_mfe_window_zscore_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mfe_window_zscore_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em><p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000121"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">mfe_window_zscore_cb()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The parameter <code class="docutils literal notranslate"><span class="pre">data</span></code> has default value of <code class="docutils literal notranslate"><span class="pre">NULL</span></code> and can be omitted. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.mfe_window_zscore" title="RNA.fold_compound.mfe_window_zscore"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.mfe_window_zscore()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-simplified-local-mfe-prediction-using-sequence(s)-or-multiple-sequence-alignment(s)">Simplified local MFE prediction using sequence(s) or multiple sequence alignment(s)</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_Lfold">
+<span class="target" id="group__mfe__window_1ga4918cce52bf69c1913cda503b2ac75d8"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_Lfold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">window_size</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_Lfold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em><p>Local MFE prediction using a sliding window approach (simplified interface) </p>
+<p>This simplified interface to <a class="reference internal" href="#group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2"><span class="std std-ref">vrna_mfe_window()</span></a> computes the MFE and locally optimal secondary structure using default options. Structures are predicted using a sliding window approach, where base pairs may not span outside the window. Memory required for dynamic programming (DP) matrices will be allocated and free’d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000122"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded function <code class="docutils literal notranslate"><a class="reference internal" href="window_deprecated.html#group__mfe__window__deprecated_1gafdd1e11b5c7ad443b9f86b818e67bab4"><span class="std std-ref"><span class="pre">Lfold()</span></span></a></code> in the global namespace. The parameter <code class="docutils literal notranslate"><span class="pre">file</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">NULL</span></code> and may be omitted. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.Lfold" title="RNA.Lfold"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.Lfold()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2"><span class="std std-ref">vrna_mfe_window()</span></a>, <a class="reference internal" href="#group__mfe__window_1ga27fddda5fc63eb49c861e38845fc34b4"><span class="std std-ref">vrna_Lfoldz()</span></a>, <a class="reference internal" href="#group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa"><span class="std std-ref">vrna_mfe_window_zscore()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <a class="reference internal" href="#group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2"><span class="std std-ref">vrna_mfe_window()</span></a>, and the data structure <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> instead.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – The nucleic acid sequence </p></li>
+<li><p><strong>window_size</strong> – The window size for locally optimal structures </p></li>
+<li><p><strong>file</strong> – The output file handle where predictions are written to (if NULL, output is written to stdout)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_Lfold_cb">
+<span class="target" id="group__mfe__window_1ga84dcc36fd88063e1692c2e1e68a5f689"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_Lfold_cb</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">window_size</span></span>, <a class="reference internal" href="#c.vrna_mfe_window_f" title="vrna_mfe_window_f"><span class="n"><span class="pre">vrna_mfe_window_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_Lfold_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em><p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000123"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded function <code class="docutils literal notranslate"><span class="pre">Lfold_cb()</span></code> in the global namespace. The parameter <code class="docutils literal notranslate"><span class="pre">data</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">NULL</span></code> and may be omitted. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.Lfold_cb" title="RNA.Lfold_cb"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.Lfold_cb()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_Lfoldz">
+<span class="target" id="group__mfe__window_1ga27fddda5fc63eb49c861e38845fc34b4"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_Lfoldz</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">window_size</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">min_z</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_Lfoldz" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em><p>Local MFE prediction using a sliding window approach with z-score cut-off (simplified interface) </p>
+<p>This simplified interface to <a class="reference internal" href="#group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa"><span class="std std-ref">vrna_mfe_window_zscore()</span></a> computes the MFE and locally optimal secondary structure using default options. Structures are predicted using a sliding window approach, where base pairs may not span outside the window. Memory required for dynamic programming (DP) matrices will be allocated and free’d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing. This function is the z-score version of <a class="reference internal" href="#group__mfe__window_1ga4918cce52bf69c1913cda503b2ac75d8"><span class="std std-ref">vrna_Lfold()</span></a>, i.e. only predictions above a certain z-score cut-off value are printed.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa"><span class="std std-ref">vrna_mfe_window_zscore()</span></a>, <a class="reference internal" href="#group__mfe__window_1ga4918cce52bf69c1913cda503b2ac75d8"><span class="std std-ref">vrna_Lfold()</span></a>, <a class="reference internal" href="#group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2"><span class="std std-ref">vrna_mfe_window()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <a class="reference internal" href="#group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2"><span class="std std-ref">vrna_mfe_window()</span></a>, and the data structure <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> instead.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – The nucleic acid sequence </p></li>
+<li><p><strong>window_size</strong> – The window size for locally optimal structures </p></li>
+<li><p><strong>min_z</strong> – The minimal z-score for a predicted structure to appear in the output </p></li>
+<li><p><strong>file</strong> – The output file handle where predictions are written to (if NULL, output is written to stdout) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_Lfoldz_cb">
+<span class="target" id="group__mfe__window_1gae982184f119219b616f3e5a8b3f558ec"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_Lfoldz_cb</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">window_size</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">min_z</span></span>, <a class="reference internal" href="#c.vrna_mfe_window_zscore_f" title="vrna_mfe_window_zscore_f"><span class="n"><span class="pre">vrna_mfe_window_zscore_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_Lfoldz_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em><p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000125"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded function <code class="docutils literal notranslate"><span class="pre">Lfoldz_cb()</span></code> in the global namespace. The parameter <code class="docutils literal notranslate"><span class="pre">data</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">NULL</span></code> and may be omitted. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.Lfoldz_cb" title="RNA.Lfoldz_cb"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.Lfoldz_cb()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_aliLfold">
+<span class="target" id="group__mfe__window_1gaa43d3de352753529a4578cb02cd8bc52"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_aliLfold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">alignment</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">maxdist</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_aliLfold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em><p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000126"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded function <code class="docutils literal notranslate"><span class="pre">aliLfold()</span></code> in the global namespace. The parameter <code class="docutils literal notranslate"><span class="pre">fp</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">NULL</span></code> and may be omitted. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.aliLfold" title="RNA.aliLfold"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.aliLfold()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_aliLfold_cb">
+<span class="target" id="group__mfe__window_1gae9b2e312c316961d4a067f9b789cc9d7"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_aliLfold_cb</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">alignment</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">maxdist</span></span>, <a class="reference internal" href="#c.vrna_mfe_window_f" title="vrna_mfe_window_f"><span class="n"><span class="pre">vrna_mfe_window_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_aliLfold_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em><p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000127"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded function <code class="docutils literal notranslate"><span class="pre">aliLfold_cb()</span></code> in the global namespace. The parameter <code class="docutils literal notranslate"><span class="pre">data</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">NULL</span></code> and may be omitted. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.aliLfold_cb" title="RNA.aliLfold_cb"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.aliLfold_cb()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_mfe_window_f">
+<span class="target" id="group__mfe__window_1gad5ea6c5a692b4f19eab4acf3b1a7cba8"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mfe_window_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">en</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_mfe_window_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em><p>The default callback for sliding window MFE structure predictions. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../callbacks.html#callbacks_1_callbacks000005"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>This function will be called for each hit in a sliding window MFE prediction. </p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2"><span class="std std-ref">vrna_mfe_window()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param start<span class="colon">:</span></dt>
+<dd class="field-odd"><p>provides the first position of the hit (1-based, relative to entire sequence/alignment) </p>
+</dd>
+<dt class="field-even">Param end<span class="colon">:</span></dt>
+<dd class="field-even"><p>provides the last position of the hit (1-based, relative to the entire sequence/alignment) </p>
+</dd>
+<dt class="field-odd">Param structure<span class="colon">:</span></dt>
+<dd class="field-odd"><p>provides the (sub)structure in dot-bracket notation </p>
+</dd>
+<dt class="field-even">Param en<span class="colon">:</span></dt>
+<dd class="field-even"><p>is the free energy of the structure hit in kcal/mol </p>
+</dd>
+<dt class="field-odd">Param data<span class="colon">:</span></dt>
+<dd class="field-odd"><p>is some arbitrary data pointer passed through by the function executing the callback </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="target" id="group__mfe__window_1ga4f3e5bc214ef803074ace313cb9571b4"></span><span class="sig-name descname"><span class="pre">void()</span> <span class="pre">vrna_mfe_window_callback</span> <span class="pre">(int</span> <span class="pre">start,</span> <span class="pre">int</span> <span class="pre">end,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">*structure,</span> <span class="pre">float</span> <span class="pre">en,</span> <span class="pre">void</span> <span class="pre">*data)</span></span></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_mfe_window_zscore_f">
+<span class="target" id="group__mfe__window_1ga5290fbbca58e0a80cf16c27c3fa050bf"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mfe_window_zscore_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">en</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">zscore</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_mfe_window_zscore_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="target" id="group__mfe__window_1gafeb8eb92805a0f0045dc20646ed0255b"></span><span class="sig-name descname"><span class="pre">void()</span> <span class="pre">vrna_mfe_window_zscore_callback</span> <span class="pre">(int</span> <span class="pre">start,</span> <span class="pre">int</span> <span class="pre">end,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">*structure,</span> <span class="pre">float</span> <span class="pre">en,</span> <span class="pre">float</span> <span class="pre">zscore,</span> <span class="pre">void</span> <span class="pre">*data)</span></span></dt>
+<dd><em>#include &lt;ViennaRNA/mfe_window.h&gt;</em></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="global_deprecated.html" class="btn btn-neutral float-left" title="Deprecated Interface for Global MFE Prediction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="window_deprecated.html" class="btn btn-neutral float-right" title="Deprecated Interface for Local (sliding window) MFE Prediction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

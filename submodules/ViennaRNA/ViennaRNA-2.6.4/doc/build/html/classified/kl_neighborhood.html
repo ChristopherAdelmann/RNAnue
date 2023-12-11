@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Distance Based Partitioning of the Secondary Structure Space &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Density of States" href="dos.html" />
+    <link rel="prev" title="Classified Dynamic Programming Variants" href="../class_fold.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Distance Based Partitioning of the Secondary Structure Space</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mfe-variants">MFE Variants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#partition-function-variants">Partition Function Variants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stochastic-backtracking">Stochastic Backtracking</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dos.html">Density of States</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+      <li class="breadcrumb-item active">Distance Based Partitioning of the Secondary Structure Space</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="distance-based-partitioning-of-the-secondary-structure-space">
+<h1>Distance Based Partitioning of the Secondary Structure Space<a class="headerlink" href="#distance-based-partitioning-of-the-secondary-structure-space" title="Link to this heading"></a></h1>
+<p>The secondary structure space is divided into partitions according to the base
+pair distance to two given reference structures and all relevant properties are
+calculated for each of the resulting partitions.</p>
+<div class="admonition-see-also admonition">
+<p class="admonition-title">See also…</p>
+<p>For further details, we refer to <span id="id1">Lorenz <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id30" title="Ronny Lorenz, Christoph Flamm, and Ivo L. Hofacker. 2d projections of RNA folding landscapes. In Ivo Grosse, Steffen Neumann, Stefan Posch, Falk Schreiber, and Peter F. Stadler, editors, German Conference on Bioinformatics 2009, volume 157 of Lecture Notes in Informatics, 11–20. Bonn, September 2009. Gesellschaft f. Informatik. URL: https://dl.gi.de/items/8f88acfe-c389-4dfe-b975-84a638900683.">2009</a>]</span></p>
+</div>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#general" id="id2">General</a></p></li>
+<li><p><a class="reference internal" href="#mfe-variants" id="id3">MFE Variants</a></p></li>
+<li><p><a class="reference internal" href="#partition-function-variants" id="id4">Partition Function Variants</a></p></li>
+<li><p><a class="reference internal" href="#stochastic-backtracking" id="id5">Stochastic Backtracking</a></p></li>
+</ul>
+</nav>
+<section id="general">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">General</a><a class="headerlink" href="#general" title="Link to this heading"></a></h2>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__kl__neighborhood"></span></dt>
+<dd></dd></dl>
+
+</section>
+<section id="mfe-variants">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">MFE Variants</a><a class="headerlink" href="#mfe-variants" title="Link to this heading"></a></h2>
+<p>Compute the minimum free energy (MFE) and secondary structures for a partitioning
+of the secondary structure space according to the base pair distance to two fixed
+reference structures basepair distance to two fixed reference structures.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__kl__neighborhood__mfe"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.TwoDfold_solution">
+<span class="target" id="group__kl__neighborhood__mfe_1ga09e71024abb1a2bd19d9137596376e15"></span><span class="sig-name descname"><span class="n"><span class="pre">TwoDfold_solution</span></span></span><a class="headerlink" href="#c.TwoDfold_solution" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/2Dfold.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mfe_TwoD">
+<span class="target" id="group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"></span><a class="reference internal" href="#c.vrna_sol_TwoD_t" title="vrna_sol_TwoD_t"><span class="n"><span class="pre">vrna_sol_TwoD_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mfe_TwoD</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">distance1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">distance2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mfe_TwoD" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/2Dfold.h&gt;</em><p>Compute MFE’s and representative for distance partitioning. </p>
+<p>This function computes the minimum free energies and a representative secondary structure for each distance class according to the two references specified in the datastructure ‘vars’. The maximum basepair distance to each of both references may be set by the arguments ‘distance1’ and ‘distance2’, respectively. If both distance arguments are set to ‘-1’, no restriction is assumed and the calculation is performed for each distance class possible.</p>
+<p>The returned list contains an entry for each distance class. If a maximum basepair distance to either of the references was passed, an entry with k=l=-1 will be appended in the list, denoting the class where all structures exceeding the maximum will be thrown into. The end of the list is denoted by an attribute value of INF in the k-attribute of the list entry.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>vrna_fold_compound_TwoD(), <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a>, <a class="reference internal" href="#group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb"><span class="std std-ref">vrna_pf_TwoD()</span></a> <a class="reference internal" href="#group__kl__neighborhood__mfe_1ga1297d34a208f6e3df1670420baaaaead"><span class="std std-ref">vrna_backtrack5_TwoD()</span></a>, <a class="reference internal" href="#structvrna__sol__TwoD__t"><span class="std std-ref">vrna_sol_TwoD_t</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The datastructure containing all precomputed folding attributes </p></li>
+<li><p><strong>distance1</strong> – maximum distance to reference1 (-1 means no restriction) </p></li>
+<li><p><strong>distance2</strong> – maximum distance to reference2 (-1 means no restriction) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of minimum free energies (and corresponding structures) for each distance class </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_backtrack5_TwoD">
+<span class="target" id="group__kl__neighborhood__mfe_1ga1297d34a208f6e3df1670420baaaaead"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_backtrack5_TwoD</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">k</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">l</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_backtrack5_TwoD" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/2Dfold.h&gt;</em><p>Backtrack a minimum free energy structure from a 5’ section of specified length. </p>
+<p>This function allows one to backtrack a secondary structure beginning at the 5’ end, a specified length and residing in a specific distance class. If the argument ‘k’ gets a value of -1, the structure that is backtracked is assumed to reside in the distance class where all structures exceeding the maximum basepair distance specified in <a class="reference internal" href="#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a> belong to.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The argument ‘vars’ must contain precalculated energy values in the energy matrices, i.e. a call to <a class="reference internal" href="#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a> preceding this function is mandatory!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The datastructure containing all precomputed folding attributes </p></li>
+<li><p><strong>j</strong> – The length in nucleotides beginning from the 5’ end </p></li>
+<li><p><strong>k</strong> – distance to reference1 (may be -1) </p></li>
+<li><p><strong>l</strong> – distance to reference2 </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_TwoDfold_variables">
+<span class="target" id="group__kl__neighborhood__mfe_1ga9dd36b619bffbbead5735ff5f0d91ee2"></span><a class="reference internal" href="#c.TwoDfold_vars" title="TwoDfold_vars"><span class="n"><span class="pre">TwoDfold_vars</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_TwoDfold_variables</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">circ</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_TwoDfold_variables" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/2Dfold.h&gt;</em><p>Get a structure of type <a class="reference internal" href="#structTwoDfold__vars"><span class="std std-ref">TwoDfold_vars</span></a> prefilled with current global settings. </p>
+<p>This function returns a datastructure of type <a class="reference internal" href="#structTwoDfold__vars"><span class="std std-ref">TwoDfold_vars</span></a>. The data fields inside the <a class="reference internal" href="#structTwoDfold__vars"><span class="std std-ref">TwoDfold_vars</span></a> are prefilled by global settings and all memory allocations necessary to start a computation are already done for the convenience of the user</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000002"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use the new API that relies on <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> and the corresponding functions vrna_fold_compound_TwoD(), <a class="reference internal" href="#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Make sure that the reference structures are compatible with the sequence according to Watson-Crick- and Wobble-base pairing</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq</strong> – The RNA sequence </p></li>
+<li><p><strong>structure1</strong> – The first reference structure in dot-bracket notation </p></li>
+<li><p><strong>structure2</strong> – The second reference structure in dot-bracket notation </p></li>
+<li><p><strong>circ</strong> – A switch to indicate the assumption to fold a circular instead of linear RNA (0=OFF, 1=ON) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A datastructure prefilled with folding options and allocated memory </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.destroy_TwoDfold_variables">
+<span class="target" id="group__kl__neighborhood__mfe_1ga05bf4f31d216b1b160fd2d3d68e9b487"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">destroy_TwoDfold_variables</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.TwoDfold_vars" title="TwoDfold_vars"><span class="n"><span class="pre">TwoDfold_vars</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">our_variables</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.destroy_TwoDfold_variables" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/2Dfold.h&gt;</em><p>Destroy a <a class="reference internal" href="#structTwoDfold__vars"><span class="std std-ref">TwoDfold_vars</span></a> datastructure without memory loss. </p>
+<p>This function free’s all allocated memory that depends on the datastructure given.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000003"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use the new API that relies on <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> and the corresponding functions vrna_fold_compound_TwoD(), <a class="reference internal" href="#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>our_variables</strong> – A pointer to the datastructure to be destroyed </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.TwoDfoldList">
+<span class="target" id="group__kl__neighborhood__mfe_1gad2c0d04ff67eb827b6f4ea78e65a719c"></span><a class="reference internal" href="#c.TwoDfold_solution" title="TwoDfold_solution"><span class="n"><span class="pre">TwoDfold_solution</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">TwoDfoldList</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.TwoDfold_vars" title="TwoDfold_vars"><span class="n"><span class="pre">TwoDfold_vars</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">vars</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">distance1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">distance2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.TwoDfoldList" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/2Dfold.h&gt;</em><p>Compute MFE’s and representative for distance partitioning. </p>
+<p>This function computes the minimum free energies and a representative secondary structure for each distance class according to the two references specified in the datastructure ‘vars’. The maximum basepair distance to each of both references may be set by the arguments ‘distance1’ and ‘distance2’, respectively. If both distance arguments are set to ‘-1’, no restriction is assumed and the calculation is performed for each distance class possible.</p>
+<p>The returned list contains an entry for each distance class. If a maximum basepair distance to either of the references was passed, an entry with k=l=-1 will be appended in the list, denoting the class where all structures exceeding the maximum will be thrown into. The end of the list is denoted by an attribute value of INF in the k-attribute of the list entry.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000004"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use the new API that relies on <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> and the corresponding functions vrna_fold_compound_TwoD(), <a class="reference internal" href="#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vars</strong> – the datastructure containing all predefined folding attributes </p></li>
+<li><p><strong>distance1</strong> – maximum distance to reference1 (-1 means no restriction) </p></li>
+<li><p><strong>distance2</strong> – maximum distance to reference2 (-1 means no restriction) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.TwoDfold_backtrack_f5">
+<span class="target" id="group__kl__neighborhood__mfe_1ga83816eb31ac4d0d7403354d1916495c0"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">TwoDfold_backtrack_f5</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">k</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">l</span></span>, <a class="reference internal" href="#c.TwoDfold_vars" title="TwoDfold_vars"><span class="n"><span class="pre">TwoDfold_vars</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">vars</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.TwoDfold_backtrack_f5" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/2Dfold.h&gt;</em><p>Backtrack a minimum free energy structure from a 5’ section of specified length. </p>
+<p>This function allows one to backtrack a secondary structure beginning at the 5’ end, a specified length and residing in a specific distance class. If the argument ‘k’ gets a value of -1, the structure that is backtracked is assumed to reside in the distance class where all structures exceeding the maximum basepair distance specified in TwoDfold() belong to.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000005"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use the new API that relies on <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> and the corresponding functions vrna_fold_compound_TwoD(), <a class="reference internal" href="#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a>, <a class="reference internal" href="#group__kl__neighborhood__mfe_1ga1297d34a208f6e3df1670420baaaaead"><span class="std std-ref">vrna_backtrack5_TwoD()</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The argument ‘vars’ must contain precalculated energy values in the energy matrices, i.e. a call to TwoDfold() preceding this function is mandatory!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>j</strong> – The length in nucleotides beginning from the 5’ end </p></li>
+<li><p><strong>k</strong> – distance to reference1 (may be -1) </p></li>
+<li><p><strong>l</strong> – distance to reference2 </p></li>
+<li><p><strong>vars</strong> – the datastructure containing all predefined folding attributes </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.TwoDfold">
+<span class="target" id="group__kl__neighborhood__mfe_1gafcf26281cf10e489b53cbfbe910ef694"></span><a class="reference internal" href="#c.TwoDfold_solution" title="TwoDfold_solution"><span class="n"><span class="pre">TwoDfold_solution</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">TwoDfold</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.TwoDfold_vars" title="TwoDfold_vars"><span class="n"><span class="pre">TwoDfold_vars</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">our_variables</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">distance1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">distance2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.TwoDfold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/2Dfold.h&gt;</em></dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_sol_TwoD_t">
+<span class="target" id="structvrna__sol__TwoD__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sol_TwoD_t</span></span></span><a class="headerlink" href="#c.vrna_sol_TwoD_t" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/2Dfold.h&gt;</em></div>
+<p>Solution element returned from <a class="reference internal" href="#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a></p>
+<p>This element contains free energy and structure for the appropriate kappa (k), lambda (l) neighborhood The datastructure contains two integer attributes ‘k’ and ‘l’ as well as an attribute ‘en’ of type float representing the free energy in kcal/mol and an attribute ‘s’ of type char* containg the secondary structure representative,</p>
+<p>A value of INF in k denotes the end of a list</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a></p>
+</div>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sol_TwoD_t.k">
+<span class="target" id="structvrna__sol__TwoD__t_1ac111e850bb3b3a11b6b5707912cfa1b8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k</span></span></span><a class="headerlink" href="#c.vrna_sol_TwoD_t.k" title="Link to this definition"></a><br /></dt>
+<dd><p>Distance to first reference. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sol_TwoD_t.l">
+<span class="target" id="structvrna__sol__TwoD__t_1ab8e95cd920901175a2cc8de726ab1d36"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">l</span></span></span><a class="headerlink" href="#c.vrna_sol_TwoD_t.l" title="Link to this definition"></a><br /></dt>
+<dd><p>Distance to second reference. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sol_TwoD_t.en">
+<span class="target" id="structvrna__sol__TwoD__t_1a7577863a6a84224dfee39b321c03cab1"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">en</span></span></span><a class="headerlink" href="#c.vrna_sol_TwoD_t.en" title="Link to this definition"></a><br /></dt>
+<dd><p>Free energy in kcal/mol. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sol_TwoD_t.s">
+<span class="target" id="structvrna__sol__TwoD__t_1ac5942d2505a6cd7e4a8073a321d5d2d5"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">s</span></span></span><a class="headerlink" href="#c.vrna_sol_TwoD_t.s" title="Link to this definition"></a><br /></dt>
+<dd><p>MFE representative structure in dot-bracket notation. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.TwoDfold_vars">
+<span class="target" id="structTwoDfold__vars"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TwoDfold_vars</span></span></span><a class="headerlink" href="#c.TwoDfold_vars" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/2Dfold.h&gt;</em></div>
+<p>Variables compound for 2Dfold MFE folding. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000001"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This data structure will be removed from the library soon! Use <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> and the corresponding functions vrna_fold_compound_TwoD(), <a class="reference internal" href="#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a> instead! </p>
+</dd></dl>
+
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.P">
+<span class="target" id="structTwoDfold__vars_1a70da9e83ad87c37013b4bf0b265dd307"></span><a class="reference internal" href="../eval/energy_parameters.html#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">P</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.P" title="Link to this definition"></a><br /></dt>
+<dd><p>Precomputed energy parameters and model details. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.do_backtrack">
+<span class="target" id="structTwoDfold__vars_1ade5c7e9337a458ae20bac75abdc52d64"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">do_backtrack</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.do_backtrack" title="Link to this definition"></a><br /></dt>
+<dd><p>Flag whether to do backtracing of the structure(s) or not. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.ptype">
+<span class="target" id="structTwoDfold__vars_1aedf60b8b26dae05ad266d3e098d18208"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ptype</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.ptype" title="Link to this definition"></a><br /></dt>
+<dd><p>Precomputed array of pair types. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.sequence">
+<span class="target" id="structTwoDfold__vars_1a3596f3d4d320318c4b8428e2abc7ab56"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">sequence</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.sequence" title="Link to this definition"></a><br /></dt>
+<dd><p>The input sequence </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.S">
+<span class="target" id="structTwoDfold__vars_1adcf49c88c890de55d2215532bf22006c"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">S</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.S" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.S1">
+<span class="target" id="structTwoDfold__vars_1ab9ee459ffbfb5d2c138a033516056cdc"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">S1</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.S1" title="Link to this definition"></a><br /></dt>
+<dd><p>The input sequences in numeric form. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.maxD1">
+<span class="target" id="structTwoDfold__vars_1a621ed2ab02116f3f8f5e7120dec429eb"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">maxD1</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.maxD1" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum allowed base pair distance to first reference. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.maxD2">
+<span class="target" id="structTwoDfold__vars_1a03f198a4abdb3b784486d2ba5c533aa4"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">maxD2</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.maxD2" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum allowed base pair distance to second reference. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.mm1">
+<span class="target" id="structTwoDfold__vars_1aa11f5bcd8c4fe70a91c155c877c855d5"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">mm1</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.mm1" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum matching matrix, reference struct 1 disallowed. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.mm2">
+<span class="target" id="structTwoDfold__vars_1a2eaa93316b6beb17531f0c078806036c"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">mm2</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.mm2" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum matching matrix, reference struct 2 disallowed. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.my_iindx">
+<span class="target" id="structTwoDfold__vars_1a1a20cb06b58b75d1a3dbdbc8bc60d0a7"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">my_iindx</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.my_iindx" title="Link to this definition"></a><br /></dt>
+<dd><p>Index for moving in quadratic distancy dimensions. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.temperature">
+<span class="target" id="structTwoDfold__vars_1aaaecad48586cf29db9cfe78ba0d03e64"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">temperature</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.temperature" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.referenceBPs1">
+<span class="target" id="structTwoDfold__vars_1a536525b98c1b633d4c5f2da4f8d78c18"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">referenceBPs1</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.referenceBPs1" title="Link to this definition"></a><br /></dt>
+<dd><p>Matrix containing number of basepairs of reference structure1 in interval [i,j]. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.referenceBPs2">
+<span class="target" id="structTwoDfold__vars_1aa7abf73c3114cb5f0dc90e702fa9dd0f"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">referenceBPs2</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.referenceBPs2" title="Link to this definition"></a><br /></dt>
+<dd><p>Matrix containing number of basepairs of reference structure2 in interval [i,j]. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.bpdist">
+<span class="target" id="structTwoDfold__vars_1af1106e1a592e2dccc92b3452340549e0"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">bpdist</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.bpdist" title="Link to this definition"></a><br /></dt>
+<dd><p>Matrix containing base pair distance of reference structure 1 and 2 on interval [i,j]. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.reference_pt1">
+<span class="target" id="structTwoDfold__vars_1ac3d9b7ee368f1cd0be1bd06dbfb8afe7"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">reference_pt1</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.reference_pt1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.reference_pt2">
+<span class="target" id="structTwoDfold__vars_1a1cfef43ced426d71c2c4ffe32e82343b"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">reference_pt2</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.reference_pt2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.circ">
+<span class="target" id="structTwoDfold__vars_1ae3a4308de89bdaa394375718c894c977"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">circ</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.circ" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.dangles">
+<span class="target" id="structTwoDfold__vars_1a2344e233bfc046e7261d8c5bea534153"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dangles</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.dangles" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.seq_length">
+<span class="target" id="structTwoDfold__vars_1a4016860ccba7e21fdccd500446731696"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">seq_length</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.seq_length" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_F5">
+<span class="target" id="structTwoDfold__vars_1a0962f20b286965412ded96cf24db8024"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_F5</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_F5" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_F3">
+<span class="target" id="structTwoDfold__vars_1a11b9d64797932fc1994b5b0064f13468"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_F3</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_F3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_C">
+<span class="target" id="structTwoDfold__vars_1a93d2182608ed62830adfc456b0ce5681"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_C</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_C" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_M">
+<span class="target" id="structTwoDfold__vars_1aa6964c9af06773c3026a0f5d682f9fd8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_M" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_M1">
+<span class="target" id="structTwoDfold__vars_1af52b99762db1c3bf20a3284c5f3ed6c3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M1</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_M1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_M2">
+<span class="target" id="structTwoDfold__vars_1a6a5669cfcd3565d339f57a125dcb5e06"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M2</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_M2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_Fc">
+<span class="target" id="structTwoDfold__vars_1a4eb4d9478bceacf9ad8bd38e41c943f9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_Fc</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_Fc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_FcH">
+<span class="target" id="structTwoDfold__vars_1a8becf4cbe447676dd299b2232337cd3e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_FcH</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_FcH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_FcI">
+<span class="target" id="structTwoDfold__vars_1abaf57df415bd53e0189d4430c59eb22c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_FcI</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_FcI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_FcM">
+<span class="target" id="structTwoDfold__vars_1aa64e1390f197b238f49c6ffb37992eb2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_FcM</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_FcM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_min_values">
+<span class="target" id="structTwoDfold__vars_1aa2f2e9bd13105d15a657e71f5261256b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_values</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_min_values" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_max_values">
+<span class="target" id="structTwoDfold__vars_1a6df00730e6359d27b26290c95e3cf0fd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_values</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_max_values" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_min_values">
+<span class="target" id="structTwoDfold__vars_1aed74c3f883cab18bac7d9c66d8cff110"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_values</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_min_values" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_max_values">
+<span class="target" id="structTwoDfold__vars_1adf0b5de14ba5fc0ab3788bc0ff4f9d88"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_values</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_max_values" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_min_values_m">
+<span class="target" id="structTwoDfold__vars_1a0c688cbbb88902a6642dad7fb41ca9f3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_values_m</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_min_values_m" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_max_values_m">
+<span class="target" id="structTwoDfold__vars_1a3bf30e9fb08b16e7c6a2706581a2e5cb"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_values_m</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_max_values_m" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_min_values_m">
+<span class="target" id="structTwoDfold__vars_1a9e942b87356975775dea195841fcf847"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_values_m</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_min_values_m" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_max_values_m">
+<span class="target" id="structTwoDfold__vars_1a85df676ac4b99098d72f6e8e48d6afc5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_values_m</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_max_values_m" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_min_values_m1">
+<span class="target" id="structTwoDfold__vars_1a80f9152af7100a3c24d48cdf7639378b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_values_m1</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_min_values_m1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_max_values_m1">
+<span class="target" id="structTwoDfold__vars_1afd0de56d6593a46ae805d0ec8d3651a2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_values_m1</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_max_values_m1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_min_values_m1">
+<span class="target" id="structTwoDfold__vars_1a5cc247c342c307157d972103602b011f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_values_m1</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_min_values_m1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_max_values_m1">
+<span class="target" id="structTwoDfold__vars_1a252a584f7f74c8b2787a128f05c9113d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_values_m1</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_max_values_m1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_min_values_f">
+<span class="target" id="structTwoDfold__vars_1a4a39ccf97d767d6bb62f34d6b1d10717"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_values_f</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_min_values_f" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_max_values_f">
+<span class="target" id="structTwoDfold__vars_1a8a566aec285da022ff58f128044fd560"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_values_f</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_max_values_f" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_min_values_f">
+<span class="target" id="structTwoDfold__vars_1a01d07ecba1cfdf7f0c06d870368ebbab"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_values_f</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_min_values_f" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_max_values_f">
+<span class="target" id="structTwoDfold__vars_1a88bee3289b67c7d86f421670a43bf3af"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_values_f</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_max_values_f" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_min_values_f3">
+<span class="target" id="structTwoDfold__vars_1a8d646363b251672235b7c4169b71c4b0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_values_f3</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_min_values_f3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_max_values_f3">
+<span class="target" id="structTwoDfold__vars_1a361ec8bdefe30a1046f383a5eeac4968"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_values_f3</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_max_values_f3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_min_values_f3">
+<span class="target" id="structTwoDfold__vars_1ab25721e4aefc57087242f587de8e80ab"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_values_f3</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_min_values_f3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_max_values_f3">
+<span class="target" id="structTwoDfold__vars_1a799795b75fefc94c7d88a04cf32dab72"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_values_f3</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_max_values_f3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_min_values_m2">
+<span class="target" id="structTwoDfold__vars_1a4253d7631384345b004bc82b8403eb77"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_values_m2</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_min_values_m2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_max_values_m2">
+<span class="target" id="structTwoDfold__vars_1a1915aa04bfdea4692bd5c3aceab74e45"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_values_m2</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_max_values_m2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_min_values_m2">
+<span class="target" id="structTwoDfold__vars_1a78592d73ab65ca433ecb773a83c9b582"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_values_m2</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_min_values_m2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_max_values_m2">
+<span class="target" id="structTwoDfold__vars_1ad80cc03831c345b789dad446d5e260fe"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_values_m2</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_max_values_m2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_min_values_fc">
+<span class="target" id="structTwoDfold__vars_1a2852dd3d4f444b08dfebbc053cac983d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_values_fc</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_min_values_fc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_max_values_fc">
+<span class="target" id="structTwoDfold__vars_1a6debaf91b138e5e086ac6863dad01919"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_values_fc</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_max_values_fc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_min_values_fc">
+<span class="target" id="structTwoDfold__vars_1a39ee4a1728c0d80e11c8a4694c8629d5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_values_fc</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_min_values_fc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_max_values_fc">
+<span class="target" id="structTwoDfold__vars_1aed3b5efc50bb9453942277f96626665f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_values_fc</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_max_values_fc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_min_values_fcH">
+<span class="target" id="structTwoDfold__vars_1ac13b16138da81ff2b0c69fc4e6ab6dd4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_values_fcH</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_min_values_fcH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_max_values_fcH">
+<span class="target" id="structTwoDfold__vars_1a8588fe680089b986a90913bc72a7c6c8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_values_fcH</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_max_values_fcH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_min_values_fcH">
+<span class="target" id="structTwoDfold__vars_1a125e8cde969ce3347f19e825dbcec07b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_values_fcH</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_min_values_fcH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_max_values_fcH">
+<span class="target" id="structTwoDfold__vars_1a8f1fade15528029e22fd3efc1d0a871b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_values_fcH</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_max_values_fcH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_min_values_fcI">
+<span class="target" id="structTwoDfold__vars_1ab08a49838984eb8fe427730bc8154b43"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_values_fcI</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_min_values_fcI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_max_values_fcI">
+<span class="target" id="structTwoDfold__vars_1a98cd89c6459c18bd647a18a9b17bfb93"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_values_fcI</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_max_values_fcI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_min_values_fcI">
+<span class="target" id="structTwoDfold__vars_1aceb32df051435d3ecc25910688585e7b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_values_fcI</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_min_values_fcI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_max_values_fcI">
+<span class="target" id="structTwoDfold__vars_1a860e9a6784233960a1d45e711de381d8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_values_fcI</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_max_values_fcI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_min_values_fcM">
+<span class="target" id="structTwoDfold__vars_1a2073680dc7da5be8a404fd4036687973"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_values_fcM</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_min_values_fcM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.l_max_values_fcM">
+<span class="target" id="structTwoDfold__vars_1a80385035862e790db8ffb1e81438ec2a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_values_fcM</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.l_max_values_fcM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_min_values_fcM">
+<span class="target" id="structTwoDfold__vars_1a482a03df6cd5ef76ae591d4686a051d7"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_values_fcM</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_min_values_fcM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.k_max_values_fcM">
+<span class="target" id="structTwoDfold__vars_1a89e4d533071054720a83ea70a97a4105"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_values_fcM</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.k_max_values_fcM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_F5_rem">
+<span class="target" id="structTwoDfold__vars_1af414b6e4fc8a32e323998504cbdf3db8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_F5_rem</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_F5_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_F3_rem">
+<span class="target" id="structTwoDfold__vars_1ae4b7da33649295a9c835a6f29c3f2fab"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_F3_rem</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_F3_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_C_rem">
+<span class="target" id="structTwoDfold__vars_1a5da3f78defa76f754b726aac74104b9d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_C_rem</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_C_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_M_rem">
+<span class="target" id="structTwoDfold__vars_1a14c12c19248fd07a78e0e1d15c9ead83"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M_rem</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_M_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_M1_rem">
+<span class="target" id="structTwoDfold__vars_1a18476d051e6bb22c3339cc1c6fedbb2c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M1_rem</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_M1_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_M2_rem">
+<span class="target" id="structTwoDfold__vars_1af68fca5278bdefe01539e4e59816554d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M2_rem</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_M2_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_Fc_rem">
+<span class="target" id="structTwoDfold__vars_1a8f69e0e4572dae4bf862eb0d5f25b95f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">E_Fc_rem</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_Fc_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_FcH_rem">
+<span class="target" id="structTwoDfold__vars_1aa0e78a2b1e48a2545abb5e008f4d92c9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">E_FcH_rem</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_FcH_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_FcI_rem">
+<span class="target" id="structTwoDfold__vars_1ace876be5e864db1f26967dc8f05a2b89"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">E_FcI_rem</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_FcI_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.E_FcM_rem">
+<span class="target" id="structTwoDfold__vars_1a2ea4f8e3d9f3047c4983ed0e299a4f8d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">E_FcM_rem</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.E_FcM_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.TwoDfold_vars.compatibility">
+<span class="target" id="structTwoDfold__vars_1a2f12b3838cfdb8d3c769d36cb517459d"></span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">compatibility</span></span></span><a class="headerlink" href="#c.TwoDfold_vars.compatibility" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="partition-function-variants">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Partition Function Variants</a><a class="headerlink" href="#partition-function-variants" title="Link to this heading"></a></h2>
+<p>Compute the partition function and stochastically sample secondary structures for
+a partitioning of the secondary structure space according to the base pair distance
+to two fixed reference structures.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__kl__neighborhood__pf"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pf_TwoD">
+<span class="target" id="group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb"></span><a class="reference internal" href="#c.vrna_sol_TwoD_pf_t" title="vrna_sol_TwoD_pf_t"><span class="n"><span class="pre">vrna_sol_TwoD_pf_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pf_TwoD</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">maxDistance1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">maxDistance2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pf_TwoD" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/2Dpfold.h&gt;</em><p>Compute the partition function for all distance classes. </p>
+<p>This function computes the partition functions for all distance classes according the two reference structures specified in the datastructure ‘vars’. Similar to <a class="reference internal" href="#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a> the arguments maxDistance1 and maxDistance2 specify the maximum distance to both reference structures. A value of ‘-1’ in either of them makes the appropriate distance restrictionless, i.e. all basepair distancies to the reference are taken into account during computation. In case there is a restriction, the returned solution contains an entry where the attribute k=l=-1 contains the partition function for all structures exceeding the restriction. A value of INF in the attribute ‘k’ of the returned list denotes the end of the list</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>vrna_fold_compound_TwoD(), <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound</span></a> <a class="reference internal" href="#structvrna__sol__TwoD__pf__t"><span class="std std-ref">vrna_sol_TwoD_pf_t</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The datastructure containing all necessary folding attributes and matrices </p></li>
+<li><p><strong>maxDistance1</strong> – The maximum basepair distance to reference1 (may be -1) </p></li>
+<li><p><strong>maxDistance2</strong> – The maximum basepair distance to reference2 (may be -1) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of partition funtions for the corresponding distance classes </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_sol_TwoD_pf_t">
+<span class="target" id="structvrna__sol__TwoD__pf__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sol_TwoD_pf_t</span></span></span><a class="headerlink" href="#c.vrna_sol_TwoD_pf_t" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/2Dpfold.h&gt;</em></div>
+<p>Solution element returned from <a class="reference internal" href="#group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb"><span class="std std-ref">vrna_pf_TwoD()</span></a></p>
+<p>This element contains the partition function for the appropriate kappa (k), lambda (l) neighborhood The datastructure contains two integer attributes ‘k’ and ‘l’ as well as an attribute ‘q’ of type <a class="reference internal" href="../utils/data_structures.html#group__data__structures_1ga31125aeace516926bf7f251f759b6126"><span class="std std-ref">FLT_OR_DBL</span></a></p>
+<p>A value of INF in k denotes the end of a list</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb"><span class="std std-ref">vrna_pf_TwoD()</span></a></p>
+</div>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sol_TwoD_pf_t.k">
+<span class="target" id="structvrna__sol__TwoD__pf__t_1ad1f23b46dc4ebd373abdeb0382d87b83"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k</span></span></span><a class="headerlink" href="#c.vrna_sol_TwoD_pf_t.k" title="Link to this definition"></a><br /></dt>
+<dd><p>Distance to first reference. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sol_TwoD_pf_t.l">
+<span class="target" id="structvrna__sol__TwoD__pf__t_1a01133c264eff2c988d144e07803d1b8b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">l</span></span></span><a class="headerlink" href="#c.vrna_sol_TwoD_pf_t.l" title="Link to this definition"></a><br /></dt>
+<dd><p>Distance to second reference. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sol_TwoD_pf_t.q">
+<span class="target" id="structvrna__sol__TwoD__pf__t_1a17ebbf425b8769ded74b5c7b85e58ee1"></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">q</span></span></span><a class="headerlink" href="#c.vrna_sol_TwoD_pf_t.q" title="Link to this definition"></a><br /></dt>
+<dd><p>partition function </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="stochastic-backtracking">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Stochastic Backtracking</a><a class="headerlink" href="#stochastic-backtracking" title="Link to this heading"></a></h2>
+<p>Functions related to stochastic backtracking from a specified distance class.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__kl__neighborhood__stochbt"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_TwoD">
+<span class="target" id="group__kl__neighborhood__stochbt_1ga8527c142361ad019ef9b80c50591f215"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_TwoD</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">d1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">d2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack_TwoD" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/2Dpfold.h&gt;</em><p>Sample secondary structure representatives from a set of distance classes according to their Boltzmann probability. </p>
+<p>If the argument ‘d1’ is set to ‘-1’, the structure will be backtracked in the distance class where all structures exceeding the maximum basepair distance to either of the references reside.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb"><span class="std std-ref">vrna_pf_TwoD()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – <strong>[inout]</strong> The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> datastructure containing all necessary folding attributes and matrices </p></li>
+<li><p><strong>d1</strong> – <strong>[in]</strong> The distance to reference1 (may be -1) </p></li>
+<li><p><strong>d2</strong> – <strong>[in]</strong> The distance to reference2 </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>The argument ‘vars’ must contain precalculated partition function matrices, i.e. a call to <a class="reference internal" href="#group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb"><span class="std std-ref">vrna_pf_TwoD()</span></a> preceding this function is mandatory!</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sampled secondary structure in dot-bracket notation </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack5_TwoD">
+<span class="target" id="group__kl__neighborhood__stochbt_1gae375170cbf15744a9cf2db33d0a2cb75"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack5_TwoD</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">d1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">d2</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack5_TwoD" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/2Dpfold.h&gt;</em><p>Sample secondary structure representatives with a specified length from a set of distance classes according to their Boltzmann probability. </p>
+<p>This function does essentially the same as <a class="reference internal" href="#group__kl__neighborhood__stochbt_1ga8527c142361ad019ef9b80c50591f215"><span class="std std-ref">vrna_pbacktrack_TwoD()</span></a> with the only difference that partial structures, i.e. structures beginning from the 5’ end with a specified length of the sequence, are backtracked</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__kl__neighborhood__stochbt_1ga8527c142361ad019ef9b80c50591f215"><span class="std std-ref">vrna_pbacktrack_TwoD()</span></a>, <a class="reference internal" href="#group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb"><span class="std std-ref">vrna_pf_TwoD()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function does not work (since it makes no sense) for circular RNA sequences!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – <strong>[inout]</strong> The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> datastructure containing all necessary folding attributes and matrices </p></li>
+<li><p><strong>d1</strong> – <strong>[in]</strong> The distance to reference1 (may be -1) </p></li>
+<li><p><strong>d2</strong> – <strong>[in]</strong> The distance to reference2 </p></li>
+<li><p><strong>length</strong> – <strong>[in]</strong> The length of the structure beginning from the 5’ end </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>The argument ‘vars’ must contain precalculated partition function matrices, i.e. a call to <a class="reference internal" href="#group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb"><span class="std std-ref">vrna_pf_TwoD()</span></a> preceding this function is mandatory!</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sampled secondary structure in dot-bracket notation </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../class_fold.html" class="btn btn-neutral float-left" title="Classified Dynamic Programming Variants" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dos.html" class="btn btn-neutral float-right" title="Density of States" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

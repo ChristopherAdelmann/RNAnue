@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>(Abstract) Data Structures &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Fold Compound" href="datastructures/fold_compound.html" />
+    <link rel="prev" title="Combinatorics Algorithms" href="combinatorics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="io.html">Files and I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">(Abstract) Data Structures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datastructures/fold_compound.html">The Fold Compound</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datastructures/dp_matrices.html">The Dynamic Programming Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datastructures/hash_tables.html">Hash Tables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datastructures/heaps.html">Heaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datastructures/arrays.html">Arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datastructures/strings.html">Strings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datastructures/buffers.html">Buffers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../utils.html">Utilities</a></li>
+      <li class="breadcrumb-item active">(Abstract) Data Structures</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="abstract-data-structures">
+<h1>(Abstract) Data Structures<a class="headerlink" href="#abstract-data-structures" title="Link to this heading"></a></h1>
+<p>All datastructures and typedefs shared among the ViennaRNA Package
+can be found here.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Specialized Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datastructures/fold_compound.html">The Fold Compound</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures/dp_matrices.html">The Dynamic Programming Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures/hash_tables.html">Hash Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures/heaps.html">Heaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures/arrays.html">Arrays</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures/strings.html">Strings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures/buffers.html">Buffers</a></li>
+</ul>
+</div>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__data__structures"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_basepair_t">
+<span class="target" id="group__data__structures_1gac8c5669d3fb813cacf506489689305ce"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_basepair_s" title="vrna_basepair_s"><span class="n"><span class="pre">vrna_basepair_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_basepair_t</span></span></span><a class="headerlink" href="#c.vrna_basepair_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Typename for the base pair repesenting data structure <a class="reference internal" href="#structvrna__basepair__s"><span class="std std-ref">vrna_basepair_s</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_plist_t">
+<span class="target" id="group__data__structures_1ga5bd6f0d16685b1249b7c3b73049dd5dc"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="struct/plist.html#c.vrna_elem_prob_s" title="vrna_elem_prob_s"><span class="n"><span class="pre">vrna_elem_prob_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_plist_t</span></span></span><a class="headerlink" href="#c.vrna_plist_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Typename for the base pair list repesenting data structure <a class="reference internal" href="struct/plist.html#structvrna__elem__prob__s"><span class="std std-ref">vrna_elem_prob_s</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_bp_stack_t">
+<span class="target" id="group__data__structures_1gaa651bda42e7692f08cb603cd6834b0ee"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_bp_stack_s" title="vrna_bp_stack_s"><span class="n"><span class="pre">vrna_bp_stack_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_bp_stack_t</span></span></span><a class="headerlink" href="#c.vrna_bp_stack_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Typename for the base pair stack repesenting data structure <a class="reference internal" href="#structvrna__bp__stack__s"><span class="std std-ref">vrna_bp_stack_s</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_cpair_t">
+<span class="target" id="group__data__structures_1gae4fc91141cc69c6d8eaf1332cb991ecc"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_cpair_s" title="vrna_cpair_s"><span class="n"><span class="pre">vrna_cpair_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cpair_t</span></span></span><a class="headerlink" href="#c.vrna_cpair_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Typename for data structure <a class="reference internal" href="#structvrna__cpair__s"><span class="std std-ref">vrna_cpair_s</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_sect_t">
+<span class="target" id="group__data__structures_1gacc9cdae790dac75a7024e7069c0d4400"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_sect_s" title="vrna_sect_s"><span class="n"><span class="pre">vrna_sect_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sect_t</span></span></span><a class="headerlink" href="#c.vrna_sect_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Typename for stack of partial structures <a class="reference internal" href="#structvrna__sect__s"><span class="std std-ref">vrna_sect_s</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_data_lin_t">
+<span class="target" id="group__data__structures_1gaab843d6cdafd5433e3f6fa3b834d12f9"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_data_linear_s" title="vrna_data_linear_s"><span class="n"><span class="pre">vrna_data_linear_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_data_lin_t</span></span></span><a class="headerlink" href="#c.vrna_data_lin_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_color_t">
+<span class="target" id="group__data__structures_1gaed93ddf2ef6b26141a89f9a65b9426b9"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_color_s" title="vrna_color_s"><span class="n"><span class="pre">vrna_color_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_color_t</span></span></span><a class="headerlink" href="#c.vrna_color_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.FLT_OR_DBL">
+<span class="target" id="group__data__structures_1ga31125aeace516926bf7f251f759b6126"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FLT_OR_DBL</span></span></span><a class="headerlink" href="#c.FLT_OR_DBL" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Typename for floating point number in partition function computations. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.PAIR">
+<span class="target" id="group__data__structures_1ga4381025ffbd692e54189b2c679c79c99"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_basepair_s" title="vrna_basepair_s"><span class="n"><span class="pre">vrna_basepair_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PAIR</span></span></span><a class="headerlink" href="#c.PAIR" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Old typename of <a class="reference internal" href="#structvrna__basepair__s"><span class="std std-ref">vrna_basepair_s</span></a>. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000215"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__data__structures_1gac8c5669d3fb813cacf506489689305ce"><span class="std std-ref">vrna_basepair_t</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.plist">
+<span class="target" id="group__data__structures_1ga9608eed021ebfbdd7a901cfdc446c8e9"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="struct/plist.html#c.vrna_elem_prob_s" title="vrna_elem_prob_s"><span class="n"><span class="pre">vrna_elem_prob_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">plist</span></span></span><a class="headerlink" href="#c.plist" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Old typename of <a class="reference internal" href="struct/plist.html#structvrna__elem__prob__s"><span class="std std-ref">vrna_elem_prob_s</span></a>. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000216"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="struct/plist.html#group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca"><span class="std std-ref">vrna_ep_t</span></a> or <a class="reference internal" href="struct/plist.html#structvrna__elem__prob__s"><span class="std std-ref">vrna_elem_prob_s</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.cpair">
+<span class="target" id="group__data__structures_1ga8412f116a2eb07b59ade9e14ca7c5ef1"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_cpair_s" title="vrna_cpair_s"><span class="n"><span class="pre">vrna_cpair_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cpair</span></span></span><a class="headerlink" href="#c.cpair" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Old typename of <a class="reference internal" href="#structvrna__cpair__s"><span class="std std-ref">vrna_cpair_s</span></a>. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000217"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__data__structures_1gae4fc91141cc69c6d8eaf1332cb991ecc"><span class="std std-ref">vrna_cpair_t</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.sect">
+<span class="target" id="group__data__structures_1gaaacedee1f05d3d45aa6764eca51a8876"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_sect_s" title="vrna_sect_s"><span class="n"><span class="pre">vrna_sect_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sect</span></span></span><a class="headerlink" href="#c.sect" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Old typename of <a class="reference internal" href="#structvrna__sect__s"><span class="std std-ref">vrna_sect_s</span></a>. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000218"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__data__structures_1gacc9cdae790dac75a7024e7069c0d4400"><span class="std std-ref">vrna_sect_t</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.bondT">
+<span class="target" id="group__data__structures_1gaaeed53a7508c6ce549a98223e94b25df"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_bp_stack_s" title="vrna_bp_stack_s"><span class="n"><span class="pre">vrna_bp_stack_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bondT</span></span></span><a class="headerlink" href="#c.bondT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Old typename of <a class="reference internal" href="#structvrna__bp__stack__s"><span class="std std-ref">vrna_bp_stack_s</span></a>. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000219"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__data__structures_1gaa651bda42e7692f08cb603cd6834b0ee"><span class="std std-ref">vrna_bp_stack_t</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.pu_contrib">
+<span class="target" id="group__data__structures_1ga8f28b2ff98fb3f7a139c50fda3d01a77"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.pu_contrib" title="pu_contrib"><span class="n"><span class="pre">pu_contrib</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pu_contrib</span></span></span><a class="headerlink" href="#c.pu_contrib" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>contributions to p_u </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.interact">
+<span class="target" id="group__data__structures_1ga2d25e7fc868ebb4fa8b5bfec1c5eb771"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.interact" title="interact"><span class="n"><span class="pre">interact</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">interact</span></span></span><a class="headerlink" href="#c.interact" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>interaction data structure for RNAup </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.pu_out">
+<span class="target" id="group__data__structures_1gabc7a2003605bb458e161a391be3f2cbd"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.pu_out" title="pu_out"><span class="n"><span class="pre">pu_out</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pu_out</span></span></span><a class="headerlink" href="#c.pu_out" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Collection of all free_energy of beeing unpaired values for output. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.constrain">
+<span class="target" id="group__data__structures_1ga77624181a1c5caa27e9cf9f1da33604f"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.constrain" title="constrain"><span class="n"><span class="pre">constrain</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">constrain</span></span></span><a class="headerlink" href="#c.constrain" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>constraints for cofolding </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.folden">
+<span class="target" id="group__data__structures_1ga520389d6980cd4ce9f2450e93e270944"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">folden</span></span></span><a class="headerlink" href="#c.folden" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Data structure for RNAsnoop (fold energy list) </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.dupVar">
+<span class="target" id="group__data__structures_1gaa527b6c15d607e89f7107bbb24e70c4c"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.dupVar" title="dupVar"><span class="n"><span class="pre">dupVar</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dupVar</span></span></span><a class="headerlink" href="#c.dupVar" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Data structure used in RNApkplex. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_C11_features">
+<span class="target" id="group__data__structures_1ga21744ae2d6a17309f9327d3547cef0cb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_C11_features</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_C11_features" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em><p>Dummy symbol to check whether the library was build using C11/C++11 features. </p>
+<p>By default, several data structures of our new v3.0 API use C11/C++11 features, such as unnamed unions, unnamed structs. However, these features can be deactivated at compile time to allow building the library and executables with compilers that do not support these features.</p>
+<p>Now, the problem arises that once our static library is compiled and a third-party application is supposed to link against it, it needs to know, at compile time, how to correctly address particular data structures. This is usually implicitely taken care of through the API exposed in our header files. Unfortunately, we had some preprocessor directives in our header files that changed the API depending on the capabilities of the compiler the third-party application is build with. This in turn prohibited the use of an RNAlib compiled without C11/C++11 support in a program that compiles/links with enabled C11/C++11 support and vice-versa.</p>
+<p>Therefore, we introduce this dummy symbol which can be used to check, whether the static library was build with C11/C++11 features.</p>
+<p><dl class="simple">
+<dt><strong>Since</strong></dt><dd><p>v2.2.9 </p>
+</dd>
+</dl>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the symbol is present, the library was build with enabled C11/C++11 features support and no action is required. However, if the symbol is missing in RNAlib &gt;= 2.2.9, programs that link to RNAlib must define a pre-processor identifier <em>VRNA_DISABLE_C11_FEATURES</em> before including any ViennaRNA Package header file, for instance by adding a <em>CPPFLAG</em> <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CPPFLAGS</span><span class="o">+=-</span><span class="n">DVRNA_DISABLE_C11_FEATURES</span>
+</pre></div>
+</div>
+</p>
+</div>
+</dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_basepair_s">
+<span class="target" id="structvrna__basepair__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_basepair_s</span></span></span><a class="headerlink" href="#c.vrna_basepair_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>Base pair data structure used in subopt.c. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_basepair_s.i">
+<span class="target" id="structvrna__basepair__s_1a82125b82685ad70eb6a30702a401eaa6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">i</span></span></span><a class="headerlink" href="#c.vrna_basepair_s.i" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_basepair_s.j">
+<span class="target" id="structvrna__basepair__s_1af4cfcd99d33a7bd331af05163261495a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">j</span></span></span><a class="headerlink" href="#c.vrna_basepair_s.j" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_cpair_s">
+<span class="target" id="structvrna__cpair__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cpair_s</span></span></span><a class="headerlink" href="#c.vrna_cpair_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>this datastructure is used as input parameter in functions of PS_dot.c </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_cpair_s.i">
+<span class="target" id="structvrna__cpair__s_1a2c3a7560376e8cf5caf5d978b59ecbc5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">i</span></span></span><a class="headerlink" href="#c.vrna_cpair_s.i" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_cpair_s.j">
+<span class="target" id="structvrna__cpair__s_1a7dcb24ba978ed288002693416c920028"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">j</span></span></span><a class="headerlink" href="#c.vrna_cpair_s.j" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_cpair_s.mfe">
+<span class="target" id="structvrna__cpair__s_1a860b83ecd770e2e400e03c8042ab6dc4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mfe</span></span></span><a class="headerlink" href="#c.vrna_cpair_s.mfe" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_cpair_s.p">
+<span class="target" id="structvrna__cpair__s_1a315d7de8b08fb6b9d9c0cd749fb289fb"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">p</span></span></span><a class="headerlink" href="#c.vrna_cpair_s.p" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_cpair_s.hue">
+<span class="target" id="structvrna__cpair__s_1af896ef199b072dd236fa053add3b5b7d"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hue</span></span></span><a class="headerlink" href="#c.vrna_cpair_s.hue" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_cpair_s.sat">
+<span class="target" id="structvrna__cpair__s_1ab4aa029d10b7583c02f893ee22297f6f"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sat</span></span></span><a class="headerlink" href="#c.vrna_cpair_s.sat" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_cpair_s.type">
+<span class="target" id="structvrna__cpair__s_1accf7f33307b283d140854d52c8422e00"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><a class="headerlink" href="#c.vrna_cpair_s.type" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_color_s">
+<span class="target" id="structvrna__color__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_color_s</span></span></span><a class="headerlink" href="#c.vrna_color_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_color_s.hue">
+<span class="target" id="structvrna__color__s_1aab217f6758ec24b8e0c4d090e2c2b4e1"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hue</span></span></span><a class="headerlink" href="#c.vrna_color_s.hue" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_color_s.sat">
+<span class="target" id="structvrna__color__s_1aead60f76303402112139abf5adfb4399"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sat</span></span></span><a class="headerlink" href="#c.vrna_color_s.sat" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_color_s.bri">
+<span class="target" id="structvrna__color__s_1a6ba545d33579e0b05d68121b5d66dceb"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bri</span></span></span><a class="headerlink" href="#c.vrna_color_s.bri" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_data_linear_s">
+<span class="target" id="structvrna__data__linear__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_data_linear_s</span></span></span><a class="headerlink" href="#c.vrna_data_linear_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_data_linear_s.position">
+<span class="target" id="structvrna__data__linear__s_1a1b363db8810b7e017354053e58a5d456"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">position</span></span></span><a class="headerlink" href="#c.vrna_data_linear_s.position" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_data_linear_s.value">
+<span class="target" id="structvrna__data__linear__s_1a1858552a04a89a45199ae600c2545dd0"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><a class="headerlink" href="#c.vrna_data_linear_s.value" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_data_linear_s.color">
+<span class="target" id="structvrna__data__linear__s_1a7f6d42e6f48694588f26f19ff7741658"></span><a class="reference internal" href="#c.vrna_color_t" title="vrna_color_t"><span class="n"><span class="pre">vrna_color_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">color</span></span></span><a class="headerlink" href="#c.vrna_data_linear_s.color" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_sect_s">
+<span class="target" id="structvrna__sect__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sect_s</span></span></span><a class="headerlink" href="#c.vrna_sect_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>Stack of partial structures for backtracking. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sect_s.i">
+<span class="target" id="structvrna__sect__s_1afe4556fdd4c991ce07e025623774fbde"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">i</span></span></span><a class="headerlink" href="#c.vrna_sect_s.i" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sect_s.j">
+<span class="target" id="structvrna__sect__s_1a3698df1a69b4e9b4d6299f3cfc52479f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">j</span></span></span><a class="headerlink" href="#c.vrna_sect_s.j" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_sect_s.ml">
+<span class="target" id="structvrna__sect__s_1a25b6b41468a46ee9ce5115109d70a1c2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ml</span></span></span><a class="headerlink" href="#c.vrna_sect_s.ml" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_bp_stack_s">
+<span class="target" id="structvrna__bp__stack__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_bp_stack_s</span></span></span><a class="headerlink" href="#c.vrna_bp_stack_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>Base pair stack element. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_bp_stack_s.i">
+<span class="target" id="structvrna__bp__stack__s_1a34d7d05bb7cc48d60823a8cc50a3959f"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">i</span></span></span><a class="headerlink" href="#c.vrna_bp_stack_s.i" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_bp_stack_s.j">
+<span class="target" id="structvrna__bp__stack__s_1a95abd1d1b08d6d242c77bc069782e8c9"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">j</span></span></span><a class="headerlink" href="#c.vrna_bp_stack_s.j" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c">
+<span class="target" id="structpu__contrib"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pu_contrib</span></span></span><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>contributions to p_u </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pu_contrib.H">
+<span class="target" id="structpu__contrib_1ac9034ac9a84ed0647587659d6e9be1e8"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">H</span></span></span><a class="headerlink" href="#c.pu_contrib.H" title="Link to this definition"></a><br /></dt>
+<dd><p>hairpin loops </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pu_contrib.I">
+<span class="target" id="structpu__contrib_1a8ca0da20536780589fb3e3472ca0581f"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">I</span></span></span><a class="headerlink" href="#c.pu_contrib.I" title="Link to this definition"></a><br /></dt>
+<dd><p>interior loops </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pu_contrib.M">
+<span class="target" id="structpu__contrib_1a1222ebf74f426bbcd843dcc325da207b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">M</span></span></span><a class="headerlink" href="#c.pu_contrib.M" title="Link to this definition"></a><br /></dt>
+<dd><p>multi loops </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pu_contrib.E">
+<span class="target" id="structpu__contrib_1accb192ba6b4b91a1cb2f8080934fd428"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E</span></span></span><a class="headerlink" href="#c.pu_contrib.E" title="Link to this definition"></a><br /></dt>
+<dd><p>exterior loop </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pu_contrib.length">
+<span class="target" id="structpu__contrib_1a33d5ada6e861db0c81aa3d5b2989262e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">length</span></span></span><a class="headerlink" href="#c.pu_contrib.length" title="Link to this definition"></a><br /></dt>
+<dd><p>length of the input sequence </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pu_contrib.w">
+<span class="target" id="structpu__contrib_1a403c1c7f20beeeffba7632fac0cfcbff"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">w</span></span></span><a class="headerlink" href="#c.pu_contrib.w" title="Link to this definition"></a><br /></dt>
+<dd><p>longest unpaired region </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c">
+<span class="target" id="structinteract"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">interact</span></span></span><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>interaction data structure for RNAup </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.interact.Pi">
+<span class="target" id="structinteract_1a1fc8b3860c083f164daa9712690a3a56"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Pi</span></span></span><a class="headerlink" href="#c.interact.Pi" title="Link to this definition"></a><br /></dt>
+<dd><p>probabilities of interaction </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.interact.Gi">
+<span class="target" id="structinteract_1a54f8183542fff4c32ab7ace49a16c02c"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Gi</span></span></span><a class="headerlink" href="#c.interact.Gi" title="Link to this definition"></a><br /></dt>
+<dd><p>free energies of interaction </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.interact.Gikjl">
+<span class="target" id="structinteract_1ad58303190f9e085c3ab59890cbf61223"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Gikjl</span></span></span><a class="headerlink" href="#c.interact.Gikjl" title="Link to this definition"></a><br /></dt>
+<dd><p>full free energy for interaction between [k,i] k&lt;i in longer seq and [j,l] j&lt;l in shorter seq </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.interact.Gikjl_wo">
+<span class="target" id="structinteract_1a41793812abae560805414761fec398fe"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Gikjl_wo</span></span></span><a class="headerlink" href="#c.interact.Gikjl_wo" title="Link to this definition"></a><br /></dt>
+<dd><p>Gikjl without contributions for prob_unpaired. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.interact.i">
+<span class="target" id="structinteract_1ab6d031a21388be8763b75ea74c937f17"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">i</span></span></span><a class="headerlink" href="#c.interact.i" title="Link to this definition"></a><br /></dt>
+<dd><p>k&lt;i in longer seq </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.interact.k">
+<span class="target" id="structinteract_1a61e457fbf943d57364be6ddf1b4e7b8a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k</span></span></span><a class="headerlink" href="#c.interact.k" title="Link to this definition"></a><br /></dt>
+<dd><p>k&lt;i in longer seq </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.interact.j">
+<span class="target" id="structinteract_1a7555cb6363d1479341eb72b9c087aa34"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">j</span></span></span><a class="headerlink" href="#c.interact.j" title="Link to this definition"></a><br /></dt>
+<dd><p>j&lt;l in shorter seq </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.interact.l">
+<span class="target" id="structinteract_1a030ab45056342e12cb3955e4defd3904"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">l</span></span></span><a class="headerlink" href="#c.interact.l" title="Link to this definition"></a><br /></dt>
+<dd><p>j&lt;l in shorter seq </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.interact.length">
+<span class="target" id="structinteract_1ac9fcb5dca54ec5faa76e02b6488b9524"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">length</span></span></span><a class="headerlink" href="#c.interact.length" title="Link to this definition"></a><br /></dt>
+<dd><p>length of longer sequence </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c">
+<span class="target" id="structpu__out"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pu_out</span></span></span><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>Collection of all free_energy of beeing unpaired values for output. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pu_out.len">
+<span class="target" id="structpu__out_1a314b8f43c3ee0bf6060afbeced5dbe6c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">len</span></span></span><a class="headerlink" href="#c.pu_out.len" title="Link to this definition"></a><br /></dt>
+<dd><p>sequence length </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pu_out.u_vals">
+<span class="target" id="structpu__out_1a7697bc7a46cd1b8e37e337e708cb6023"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">u_vals</span></span></span><a class="headerlink" href="#c.pu_out.u_vals" title="Link to this definition"></a><br /></dt>
+<dd><p>number of different -u values </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pu_out.contribs">
+<span class="target" id="structpu__out_1a638b0de1837cfd441871d005d3ab2938"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contribs</span></span></span><a class="headerlink" href="#c.pu_out.contribs" title="Link to this definition"></a><br /></dt>
+<dd><p>[-c “SHIME”] </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pu_out.header">
+<span class="target" id="structpu__out_1ac9e9e30b16e7d04c770460b8487fb09d"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">header</span></span></span><a class="headerlink" href="#c.pu_out.header" title="Link to this definition"></a><br /></dt>
+<dd><p>header line </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pu_out.u_values">
+<span class="target" id="structpu__out_1a366edbc4170d5c177908e178ff340828"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">u_values</span></span></span><a class="headerlink" href="#c.pu_out.u_values" title="Link to this definition"></a><br /></dt>
+<dd><p>(the -u values * [-c “SHIME”]) * seq len </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c">
+<span class="target" id="structconstrain"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">constrain</span></span></span><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>constraints for cofolding </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.constrain.indx">
+<span class="target" id="structconstrain_1a7b5c9ee296f446882c12fb49b4b70f8a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">indx</span></span></span><a class="headerlink" href="#c.constrain.indx" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.constrain.ptype">
+<span class="target" id="structconstrain_1aa45a199810da246b6a23f93f49740595"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ptype</span></span></span><a class="headerlink" href="#c.constrain.ptype" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.duplexT">
+<span class="target" id="structduplexT"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">duplexT</span></span></span><a class="headerlink" href="#c.duplexT" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>Data structure for RNAduplex. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.i">
+<span class="target" id="structduplexT_1a71b0cd935f8c2879ced9083548f69fe0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">i</span></span></span><a class="headerlink" href="#c.duplexT.i" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.j">
+<span class="target" id="structduplexT_1a09ff6dcd84fb1dde05d6660f119524cb"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">j</span></span></span><a class="headerlink" href="#c.duplexT.j" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.end">
+<span class="target" id="structduplexT_1afd18437773841e3c12a8ed0ab795c58f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">end</span></span></span><a class="headerlink" href="#c.duplexT.end" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.structure">
+<span class="target" id="structduplexT_1a94aedc565681eb17ddb20e1674d480aa"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">structure</span></span></span><a class="headerlink" href="#c.duplexT.structure" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.energy">
+<span class="target" id="structduplexT_1add23a5303db25aabdb27753c02e99cf3"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy</span></span></span><a class="headerlink" href="#c.duplexT.energy" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.energy_backtrack">
+<span class="target" id="structduplexT_1aef9a632d9694c7ea31483a7609a42967"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy_backtrack</span></span></span><a class="headerlink" href="#c.duplexT.energy_backtrack" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.opening_backtrack_x">
+<span class="target" id="structduplexT_1aaaedab824d41bc1f03e895e2e2ab59cb"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">opening_backtrack_x</span></span></span><a class="headerlink" href="#c.duplexT.opening_backtrack_x" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.opening_backtrack_y">
+<span class="target" id="structduplexT_1ac8138ee4d83ab1b2045bcb68fafce199"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">opening_backtrack_y</span></span></span><a class="headerlink" href="#c.duplexT.opening_backtrack_y" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.offset">
+<span class="target" id="structduplexT_1a8e9f9149cf74ee059a6c6e0fe16158e3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">offset</span></span></span><a class="headerlink" href="#c.duplexT.offset" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.dG1">
+<span class="target" id="structduplexT_1a7fd3536da56bbf0b751d239e0aec66f9"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dG1</span></span></span><a class="headerlink" href="#c.duplexT.dG1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.dG2">
+<span class="target" id="structduplexT_1a56668defcc6307e547bce8308a90d111"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dG2</span></span></span><a class="headerlink" href="#c.duplexT.dG2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.ddG">
+<span class="target" id="structduplexT_1a70aa763754db483a68b2211e41028a19"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ddG</span></span></span><a class="headerlink" href="#c.duplexT.ddG" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.tb">
+<span class="target" id="structduplexT_1a621c43749af9eb035e88709413b6f16a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tb</span></span></span><a class="headerlink" href="#c.duplexT.tb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.te">
+<span class="target" id="structduplexT_1a6b5ef5f69ab54f98a79751cb8067fdd5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">te</span></span></span><a class="headerlink" href="#c.duplexT.te" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.qb">
+<span class="target" id="structduplexT_1ac4102dba131ead051c1a2e057682ad3b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qb</span></span></span><a class="headerlink" href="#c.duplexT.qb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.duplexT.qe">
+<span class="target" id="structduplexT_1a646fc81b15d7cf7a934606acf039c128"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qe</span></span></span><a class="headerlink" href="#c.duplexT.qe" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.node">
+<span class="target" id="structnode"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">node</span></span></span><a class="headerlink" href="#c.node" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>Data structure for RNAsnoop (fold energy list) </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.node.k">
+<span class="target" id="structnode_1a0b368c2c0da47aa26492ace9c8c6e778"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k</span></span></span><a class="headerlink" href="#c.node.k" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.node.energy">
+<span class="target" id="structnode_1a9ac761dfb5511f78b2a921abc4eb6f44"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy</span></span></span><a class="headerlink" href="#c.node.energy" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.node.next">
+<span class="target" id="structnode_1aa3e8aa83f864292b5a01210f4453fcc0"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">next</span></span></span><a class="headerlink" href="#c.node.next" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.snoopT">
+<span class="target" id="structsnoopT"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">snoopT</span></span></span><a class="headerlink" href="#c.snoopT" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>Data structure for RNAsnoop. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.i">
+<span class="target" id="structsnoopT_1ab265b017019caad2f8121b46912f1a35"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">i</span></span></span><a class="headerlink" href="#c.snoopT.i" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.j">
+<span class="target" id="structsnoopT_1a655f3b218fbf2d6d7a882b02e4fe1656"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">j</span></span></span><a class="headerlink" href="#c.snoopT.j" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.u">
+<span class="target" id="structsnoopT_1a03224eb72cd9ba96435b13a0122f5572"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">u</span></span></span><a class="headerlink" href="#c.snoopT.u" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.structure">
+<span class="target" id="structsnoopT_1a91c6ad1b51c5c3fcab4b016e282ecdab"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">structure</span></span></span><a class="headerlink" href="#c.snoopT.structure" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.energy">
+<span class="target" id="structsnoopT_1a327c9f135166d9fafa60e92566e977e4"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy</span></span></span><a class="headerlink" href="#c.snoopT.energy" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.Duplex_El">
+<span class="target" id="structsnoopT_1ab567e3546bec5913121a76ea8900af09"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Duplex_El</span></span></span><a class="headerlink" href="#c.snoopT.Duplex_El" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.Duplex_Er">
+<span class="target" id="structsnoopT_1a04e6ed2a405c4ff915347bc10ee5312f"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Duplex_Er</span></span></span><a class="headerlink" href="#c.snoopT.Duplex_Er" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.Loop_E">
+<span class="target" id="structsnoopT_1ae6be38a6ba9d0c959df2effd47fa0902"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Loop_E</span></span></span><a class="headerlink" href="#c.snoopT.Loop_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.Loop_D">
+<span class="target" id="structsnoopT_1a5cf23d33ce2c78275a18ba0d6ffe0b75"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Loop_D</span></span></span><a class="headerlink" href="#c.snoopT.Loop_D" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.pscd">
+<span class="target" id="structsnoopT_1afa0fcb2b43eee28eee4b54428cba6f1c"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pscd</span></span></span><a class="headerlink" href="#c.snoopT.pscd" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.psct">
+<span class="target" id="structsnoopT_1a5c9b34b8a942d569cb527a8198929edc"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">psct</span></span></span><a class="headerlink" href="#c.snoopT.psct" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.pscg">
+<span class="target" id="structsnoopT_1a9fd035cfb440a7a8a6f003083448a1b3"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pscg</span></span></span><a class="headerlink" href="#c.snoopT.pscg" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.Duplex_Ol">
+<span class="target" id="structsnoopT_1ab4a2b8e90f973c210ce8b3489c6fd229"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Duplex_Ol</span></span></span><a class="headerlink" href="#c.snoopT.Duplex_Ol" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.Duplex_Or">
+<span class="target" id="structsnoopT_1a6b962fdb4f06f118cf6ed141abe2ad8a"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Duplex_Or</span></span></span><a class="headerlink" href="#c.snoopT.Duplex_Or" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.Duplex_Ot">
+<span class="target" id="structsnoopT_1a16bfe1a79922cc4a33e18bbbb51cee61"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Duplex_Ot</span></span></span><a class="headerlink" href="#c.snoopT.Duplex_Ot" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.snoopT.fullStemEnergy">
+<span class="target" id="structsnoopT_1af1fa0deae33e51ccf529d9b5017e146d"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">fullStemEnergy</span></span></span><a class="headerlink" href="#c.snoopT.fullStemEnergy" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c">
+<span class="target" id="structdupVar"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dupVar</span></span></span><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/datastructures/basic.h&gt;</em></div>
+<p>Data structure used in RNApkplex. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.i">
+<span class="target" id="structdupVar_1a50ea99c4653c6f2c7e1c60aa30610fd8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">i</span></span></span><a class="headerlink" href="#c.dupVar.i" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.j">
+<span class="target" id="structdupVar_1a55013be08c4d13e3e0dbac43227d76da"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">j</span></span></span><a class="headerlink" href="#c.dupVar.j" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.end">
+<span class="target" id="structdupVar_1aaa663742abecd8e37d062d8c185bd9c5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">end</span></span></span><a class="headerlink" href="#c.dupVar.end" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.pk_helix">
+<span class="target" id="structdupVar_1a834790e6ae9c6babd3b03126ae161908"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pk_helix</span></span></span><a class="headerlink" href="#c.dupVar.pk_helix" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.structure">
+<span class="target" id="structdupVar_1ac21289fea0518e2db4b50cff0368a4c7"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">structure</span></span></span><a class="headerlink" href="#c.dupVar.structure" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.energy">
+<span class="target" id="structdupVar_1a58aa3018ab0d069ee3b83e00c7f6db8a"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy</span></span></span><a class="headerlink" href="#c.dupVar.energy" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.offset">
+<span class="target" id="structdupVar_1a18c9e7a500f7701d857f5265d0f33145"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">offset</span></span></span><a class="headerlink" href="#c.dupVar.offset" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.dG1">
+<span class="target" id="structdupVar_1aeb799a6f6873dc4a7a438ff67804a123"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dG1</span></span></span><a class="headerlink" href="#c.dupVar.dG1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.dG2">
+<span class="target" id="structdupVar_1a3a9f5b2d5e8cc7fa0b070311f0f360fb"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dG2</span></span></span><a class="headerlink" href="#c.dupVar.dG2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.ddG">
+<span class="target" id="structdupVar_1aaeb77285d40c59400d59a6698d737f32"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ddG</span></span></span><a class="headerlink" href="#c.dupVar.ddG" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.tb">
+<span class="target" id="structdupVar_1a157631c8507bed5cdc4f4760ab7d24a0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tb</span></span></span><a class="headerlink" href="#c.dupVar.tb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.te">
+<span class="target" id="structdupVar_1ae4b56b08a491a0ec03eba3f4b8120b5c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">te</span></span></span><a class="headerlink" href="#c.dupVar.te" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.qb">
+<span class="target" id="structdupVar_1a148569653fe6e9f8bc92f34e1da1bcfb"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qb</span></span></span><a class="headerlink" href="#c.dupVar.qb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.qe">
+<span class="target" id="structdupVar_1a9a3b61653ce27869d66d9a20e7774ce0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qe</span></span></span><a class="headerlink" href="#c.dupVar.qe" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.inactive">
+<span class="target" id="structdupVar_1a3b15616278d5a95fbf1085efa8ee5f26"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">inactive</span></span></span><a class="headerlink" href="#c.dupVar.inactive" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.dupVar.processed">
+<span class="target" id="structdupVar_1a18db66f6558422be96063f8e42ccb944"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">processed</span></span></span><a class="headerlink" href="#c.dupVar.processed" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="combinatorics.html" class="btn btn-neutral float-left" title="Combinatorics Algorithms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="datastructures/fold_compound.html" class="btn btn-neutral float-right" title="The Fold Compound" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

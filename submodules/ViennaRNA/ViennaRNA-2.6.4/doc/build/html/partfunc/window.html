@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Local (sliding window) Partition Function and Equilibrium Probabilities &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Predicting various Thermodynamic Properties" href="thermodynamics.html" />
+    <link rel="prev" title="Global Partition Function and Equilibrium Probabilities" href="global.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="global.html">Global Partition Function and Equilibrium Probabilities</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Local (sliding window) Partition Function and Equilibrium Probabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thermodynamics.html">Predicting various Thermodynamic Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_deprecated.html">Deprecated Interface for Global Partition Function Computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="window_deprecated.html">Deprecated Interface for Local (Sliding Window) Partition Function Computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pf_fold.html#partition-function-api">Partition Function API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pf_fold.html#general-partition-function-api">General Partition Function API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+      <li class="breadcrumb-item active">Local (sliding window) Partition Function and Equilibrium Probabilities</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="local-sliding-window-partition-function-and-equilibrium-probabilities">
+<h1>Local (sliding window) Partition Function and Equilibrium Probabilities<a class="headerlink" href="#local-sliding-window-partition-function-and-equilibrium-probabilities" title="Link to this heading"></a></h1>
+<p>Scanning version using a sliding window approach to compute equilibrium
+probabilities.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__part__func__window"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-basic-local-partition-function-interface">Basic local partition function interface</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_probs_window">
+<span class="target" id="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_probs_window</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">ulength</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span>, <a class="reference internal" href="#c.vrna_probs_window_f" title="vrna_probs_window_f"><span class="n"><span class="pre">vrna_probs_window_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_probs_window" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Compute various equilibrium probabilities under a sliding window approach. </p>
+<p>This function applies a sliding window scan for the sequence provided with the argument <code class="docutils literal notranslate"><span class="pre">fc</span></code> and reports back equilibrium probabilities through the callback function <code class="docutils literal notranslate"><span class="pre">cb</span></code>. The data reported to the callback depends on the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag.</p>
+<p><em>Options:</em></p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="#group__part__func__window_1ga296217b76e76e5f7e6927e7210aa9b1f"><span class="std std-ref">VRNA_PROBS_WINDOW_BPP</span></a> -  Trigger base pairing probabilities.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615"><span class="std std-ref">VRNA_PROBS_WINDOW_UP</span></a> -  Trigger unpaired probabilities.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1ga9068f4ec008bf1c042a9357f5c2c5e13"><span class="std std-ref">VRNA_PROBS_WINDOW_UP_SPLIT</span></a> -  Trigger detailed unpaired probabilities split up into different loop type contexts.  </p></li>
+</ul>
+</p>
+<p>Options may be OR-ed together</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__window_1ga666afcc1cda1822d0cd3b7f7f7f73f2d"><span class="std std-ref">vrna_pfl_fold_cb()</span></a>, <a class="reference internal" href="#group__part__func__window_1ga25f154804af6463afddcbebe565fd465"><span class="std std-ref">vrna_pfl_fold_up_cb()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The parameter <code class="docutils literal notranslate"><span class="pre">ulength</span></code> only affects computation and resulting data if unpaired probability computations are requested through the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound with sequence data, model settings and precomputed energy parameters </p></li>
+<li><p><strong>ulength</strong> – The maximal length of an unpaired segment (only for unpaired probability computations) </p></li>
+<li><p><strong>cb</strong> – The callback function which collects the pair probability data for further processing </p></li>
+<li><p><strong>data</strong> – Some arbitrary data structure that is passed to the callback <code class="docutils literal notranslate"><span class="pre">cb</span></code></p></li>
+<li><p><strong>options</strong> – Option flags to control the behavior of this function </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on failure, non-zero on success </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-simplified-global-partition-function-computation-using-sequence(s)-or-multiple-sequence-alignment(s)">Simplified global partition function computation using sequence(s) or multiple sequence alignment(s)</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pfl_fold">
+<span class="target" id="group__part__func__window_1ga1f12fb1ae8b1d0a5d7ab7c2cdddf98c1"></span><a class="reference internal" href="../utils/struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pfl_fold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">window_size</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">max_bp_span</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">cutoff</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pfl_fold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Compute base pair probabilities using a sliding-window approach. </p>
+<p>This is a simplified wrapper to <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a> that given a nucleid acid sequence, a window size, a maximum base pair span, and a cutoff value computes the pair probabilities for any base pair in any window. The pair probabilities are returned as a list and the user has to take care to free() the memory occupied by the list.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a>, <a class="reference internal" href="#group__part__func__window_1ga666afcc1cda1822d0cd3b7f7f7f73f2d"><span class="std std-ref">vrna_pfl_fold_cb()</span></a>, <a class="reference internal" href="#group__part__func__window_1gaef3a34027fcf975dda31602d7b4ac4f2"><span class="std std-ref">vrna_pfl_fold_up()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function uses default model settings! For custom model settings, we refer to the function <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a><p>.</p>
+<p>In case of any computation errors, this function returns</p>
+<code class="docutils literal notranslate"><span class="pre">NULL</span></code></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – The nucleic acid input sequence </p></li>
+<li><p><strong>window_size</strong> – The size of the sliding window </p></li>
+<li><p><strong>max_bp_span</strong> – The maximum distance along the backbone between two nucleotides that form a base pairs </p></li>
+<li><p><strong>cutoff</strong> – A cutoff value that omits all pairs with lower probability </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of base pair probabilities, terminated by an entry with <a class="reference internal" href="../utils/struct/plist.html#structvrna__elem__prob__s_1a0f8bb11ded4e605f816d7ad92eb568f6"><span class="std std-ref">vrna_ep_t.i</span></a> and <a class="reference internal" href="../utils/struct/plist.html#structvrna__elem__prob__s_1acada5be62ed6843334a918ca543f0c0d"><span class="std std-ref">vrna_ep_t.j</span></a> set to 0 </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pfl_fold_cb">
+<span class="target" id="group__part__func__window_1ga666afcc1cda1822d0cd3b7f7f7f73f2d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pfl_fold_cb</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">window_size</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">max_bp_span</span></span>, <a class="reference internal" href="#c.vrna_probs_window_f" title="vrna_probs_window_f"><span class="n"><span class="pre">vrna_probs_window_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pfl_fold_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Compute base pair probabilities using a sliding-window approach (callback version) </p>
+<p>This is a simplified wrapper to <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a> that given a nucleid acid sequence, a window size, a maximum base pair span, and a cutoff value computes the pair probabilities for any base pair in any window. It is similar to <a class="reference internal" href="#group__part__func__window_1ga1f12fb1ae8b1d0a5d7ab7c2cdddf98c1"><span class="std std-ref">vrna_pfl_fold()</span></a> but uses a callback mechanism to return the pair probabilities.</p>
+<p>Read the details for <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a> for details on the callback implementation!</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a>, <a class="reference internal" href="#group__part__func__window_1ga1f12fb1ae8b1d0a5d7ab7c2cdddf98c1"><span class="std std-ref">vrna_pfl_fold()</span></a>, <a class="reference internal" href="#group__part__func__window_1ga25f154804af6463afddcbebe565fd465"><span class="std std-ref">vrna_pfl_fold_up_cb()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function uses default model settings! For custom model settings, we refer to the function <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – The nucleic acid input sequence </p></li>
+<li><p><strong>window_size</strong> – The size of the sliding window </p></li>
+<li><p><strong>max_bp_span</strong> – The maximum distance along the backbone between two nucleotides that form a base pairs </p></li>
+<li><p><strong>cb</strong> – The callback function which collects the pair probability data for further processing </p></li>
+<li><p><strong>data</strong> – Some arbitrary data structure that is passed to the callback <code class="docutils literal notranslate"><span class="pre">cb</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on failure, non-zero on success </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pfl_fold_up">
+<span class="target" id="group__part__func__window_1gaef3a34027fcf975dda31602d7b4ac4f2"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pfl_fold_up</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">ulength</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">window_size</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">max_bp_span</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pfl_fold_up" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Compute probability of contiguous unpaired segments. </p>
+<p>This is a simplified wrapper to <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a> that given a nucleic acid sequence, a maximum length of unpaired segments (<code class="docutils literal notranslate"><span class="pre">ulength</span></code>), a window size, and a maximum base pair span computes the equilibrium probability of any segment not exceeding <code class="docutils literal notranslate"><span class="pre">ulength</span></code>. The probabilities to be unpaired are returned as a 1-based, 2-dimensional matrix with dimensions <span class="math notranslate nohighlight">\( N \times M \)</span>, where <span class="math notranslate nohighlight">\(N\)</span> is the length of the sequence and <span class="math notranslate nohighlight">\(M\)</span> is the maximum segment length. As an example, the probability of a segment of size 5 starting at position 100 is stored in the matrix entry <span class="math notranslate nohighlight">\(X[100][5]\)</span>.</p>
+<p>It is the users responsibility to free the memory occupied by this matrix.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function uses default model settings! For custom model settings, we refer to the function <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – The nucleic acid input sequence </p></li>
+<li><p><strong>ulength</strong> – The maximal length of an unpaired segment </p></li>
+<li><p><strong>window_size</strong> – The size of the sliding window </p></li>
+<li><p><strong>max_bp_span</strong> – The maximum distance along the backbone between two nucleotides that form a base pairs </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The probabilities to be unpaired for any segment not exceeding <code class="docutils literal notranslate"><span class="pre">ulength</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pfl_fold_up_cb">
+<span class="target" id="group__part__func__window_1ga25f154804af6463afddcbebe565fd465"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pfl_fold_up_cb</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">ulength</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">window_size</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">max_bp_span</span></span>, <a class="reference internal" href="#c.vrna_probs_window_f" title="vrna_probs_window_f"><span class="n"><span class="pre">vrna_probs_window_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pfl_fold_up_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Compute probability of contiguous unpaired segments. </p>
+<p>This is a simplified wrapper to <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a> that given a nucleic acid sequence, a maximum length of unpaired segments (<code class="docutils literal notranslate"><span class="pre">ulength</span></code>), a window size, and a maximum base pair span computes the equilibrium probability of any segment not exceeding <code class="docutils literal notranslate"><span class="pre">ulength</span></code>. It is similar to <a class="reference internal" href="#group__part__func__window_1gaef3a34027fcf975dda31602d7b4ac4f2"><span class="std std-ref">vrna_pfl_fold_up()</span></a> but uses a callback mechanism to return the unpaired probabilities.</p>
+<p>Read the details for <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a> for details on the callback implementation!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function uses default model settings! For custom model settings, we refer to the function <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – The nucleic acid input sequence </p></li>
+<li><p><strong>ulength</strong> – The maximal length of an unpaired segment </p></li>
+<li><p><strong>window_size</strong> – The size of the sliding window </p></li>
+<li><p><strong>max_bp_span</strong> – The maximum distance along the backbone between two nucleotides that form a base pairs </p></li>
+<li><p><strong>cb</strong> – The callback function which collects the pair probability data for further processing </p></li>
+<li><p><strong>data</strong> – Some arbitrary data structure that is passed to the callback <code class="docutils literal notranslate"><span class="pre">cb</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on failure, non-zero on success </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_EXT_LOOP">
+<span class="target" id="group__part__func__window_1gaf0bb577130090f6c856d1358804250bf"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_EXT_LOOP</span></span></span><a class="headerlink" href="#c.VRNA_EXT_LOOP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Exterior loop. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_HP_LOOP">
+<span class="target" id="group__part__func__window_1ga30170811c320f3a7b23ffff3b3343b91"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_HP_LOOP</span></span></span><a class="headerlink" href="#c.VRNA_HP_LOOP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Hairpin loop. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INT_LOOP">
+<span class="target" id="group__part__func__window_1ga956a237e7d956b684b7d593cb3eca665"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INT_LOOP</span></span></span><a class="headerlink" href="#c.VRNA_INT_LOOP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Internal loop. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MB_LOOP">
+<span class="target" id="group__part__func__window_1gad905b71f02b3799eb84b490435aec837"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MB_LOOP</span></span></span><a class="headerlink" href="#c.VRNA_MB_LOOP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Multibranch loop. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_ANY_LOOP">
+<span class="target" id="group__part__func__window_1ga1fef1ad234755db78ab6b695edce5080"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_ANY_LOOP</span></span></span><a class="headerlink" href="#c.VRNA_ANY_LOOP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Any loop. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PROBS_WINDOW_BPP">
+<span class="target" id="group__part__func__window_1ga296217b76e76e5f7e6927e7210aa9b1f"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PROBS_WINDOW_BPP</span></span></span><a class="headerlink" href="#c.VRNA_PROBS_WINDOW_BPP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Trigger base pairing probabilities. </p>
+<p>Passing this flag to <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a> activates callback execution for base pairing probabilities. In turn, the corresponding callback receives this flag through the <code class="docutils literal notranslate"><span class="pre">type</span></code> argument whenever base pairing probabilities are provided.</p>
+<p>Detailed information for the algorithm to compute unpaired probabilities can be taken from  <span> <span id="id1">Bernhart <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id38" title="Stephan H Bernhart, Ivo L Hofacker, and Peter F Stadler. Local RNA base pairing probabilities in large sequences. Bioinformatics, 22(5):614–615, 2005. doi:10.1093/bioinformatics/btk014.">2005</a>]</span> </span>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PROBS_WINDOW_UP">
+<span class="target" id="group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PROBS_WINDOW_UP</span></span></span><a class="headerlink" href="#c.VRNA_PROBS_WINDOW_UP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Trigger unpaired probabilities. </p>
+<p>Passing this flag to <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a> activates callback execution for unpaired probabilities. In turn, the corresponding callback receives this flag through the <code class="docutils literal notranslate"><span class="pre">type</span></code> argument whenever unpaired probabilities are provided.</p>
+<p>Detailed information for the algorithm to compute unpaired probabilities can be taken from  <span> <span id="id2">Bernhart <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id37" title="Stephan H Bernhart, Ullrike Mückstein, and Ivo L Hofacker. RNA accessibility in cubic time. Algorithms for Molecular Biology, 6(1):3, 2011. doi:10.1186/1748-7188-6-3.">2011</a>]</span> </span>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PROBS_WINDOW_STACKP">
+<span class="target" id="group__part__func__window_1ga0a13fc668b02f21b225e2334e4caac08"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PROBS_WINDOW_STACKP</span></span></span><a class="headerlink" href="#c.VRNA_PROBS_WINDOW_STACKP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Trigger base pair stack probabilities. </p>
+<p>Passing this flag to <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a> activates callback execution for stacking probabilities. In turn, the corresponding callback receives this flag through the <code class="docutils literal notranslate"><span class="pre">type</span></code> argument whenever stack probabilities are provided.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<em><span class="pre">Bug:</span></em></dt>
+<dd><p>Currently, this flag is a placeholder doing nothing as the corresponding implementation for stack probability computation is missing.</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PROBS_WINDOW_UP_SPLIT">
+<span class="target" id="group__part__func__window_1ga9068f4ec008bf1c042a9357f5c2c5e13"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PROBS_WINDOW_UP_SPLIT</span></span></span><a class="headerlink" href="#c.VRNA_PROBS_WINDOW_UP_SPLIT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Trigger detailed unpaired probabilities split up into different loop type contexts. </p>
+<p>Passing this flag to <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a> activates callback execution for unpaired probabilities. In contrast to <a class="reference internal" href="#group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615"><span class="std std-ref">VRNA_PROBS_WINDOW_UP</span></a> this flag requests unpaired probabilities to be split up into different loop type contexts. In turn, the corresponding callback receives the <a class="reference internal" href="#group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615"><span class="std std-ref">VRNA_PROBS_WINDOW_UP</span></a> flag OR-ed together with the corresponding loop type, i.e.:</p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="#group__part__func__window_1gaf0bb577130090f6c856d1358804250bf"><span class="std std-ref">VRNA_EXT_LOOP</span></a> -  Exterior loop.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1ga30170811c320f3a7b23ffff3b3343b91"><span class="std std-ref">VRNA_HP_LOOP</span></a> -  Hairpin loop.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1ga956a237e7d956b684b7d593cb3eca665"><span class="std std-ref">VRNA_INT_LOOP</span></a> -  Internal loop.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1gad905b71f02b3799eb84b490435aec837"><span class="std std-ref">VRNA_MB_LOOP</span></a> -  Multibranch loop.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1ga1fef1ad234755db78ab6b695edce5080"><span class="std std-ref">VRNA_ANY_LOOP</span></a> -  Any loop.  </p></li>
+</ul>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a>, <a class="reference internal" href="#group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615"><span class="std std-ref">VRNA_PROBS_WINDOW_UP</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PROBS_WINDOW_PF">
+<span class="target" id="group__part__func__window_1ga4b79137d9b28b1f9cac7983792ce34a0"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PROBS_WINDOW_PF</span></span></span><a class="headerlink" href="#c.VRNA_PROBS_WINDOW_PF" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Trigger partition function. </p>
+<p>Passing this flag to <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a> activates callback execution for partition function. In turn, the corresponding callback receives this flag through it’s <code class="docutils literal notranslate"><span class="pre">type</span></code> argument whenever partition function data is provided.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Instead of actually providing the partition function <span class="math notranslate nohighlight">\(Z\)</span>, the callback is always provided with the corresponding enemble free energy <span class="math notranslate nohighlight">\(\Delta G = - RT \ln Z\)</span>.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_probs_window_f">
+<span class="target" id="group__part__func__window_1ga847115aeace6030fa01185cca6e34f9e"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_probs_window_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pr</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">pr_size</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">max</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_probs_window_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em><p>Sliding window probability computation callback. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../callbacks.html#callbacks_1_callbacks000006"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>This function will be called for each probability data set in the sliding window probability computation implementation of <a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a>. The argument <em>type</em> specifies the type of probability that is passed to this function. </p>
+</dd></dl>
+
+</p>
+<p><em>Types:</em></p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="#group__part__func__window_1ga296217b76e76e5f7e6927e7210aa9b1f"><span class="std std-ref">VRNA_PROBS_WINDOW_BPP</span></a> -  Trigger base pairing probabilities.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615"><span class="std std-ref">VRNA_PROBS_WINDOW_UP</span></a> -  Trigger unpaired probabilities.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1ga4b79137d9b28b1f9cac7983792ce34a0"><span class="std std-ref">VRNA_PROBS_WINDOW_PF</span></a> -  Trigger partition function.  </p></li>
+</ul>
+</p>
+<p>The above types usually come exclusively. However, for unpaired probabilities, the <a class="reference internal" href="#group__part__func__window_1ga18325811c7dfc7b7d9d4ac37f4353615"><span class="std std-ref">VRNA_PROBS_WINDOW_UP</span></a> flag is OR-ed together with one of the loop type contexts</p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="#group__part__func__window_1gaf0bb577130090f6c856d1358804250bf"><span class="std std-ref">VRNA_EXT_LOOP</span></a> -  Exterior loop.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1ga30170811c320f3a7b23ffff3b3343b91"><span class="std std-ref">VRNA_HP_LOOP</span></a> -  Hairpin loop.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1ga956a237e7d956b684b7d593cb3eca665"><span class="std std-ref">VRNA_INT_LOOP</span></a> -  Internal loop.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1gad905b71f02b3799eb84b490435aec837"><span class="std std-ref">VRNA_MB_LOOP</span></a> -  Multibranch loop.  </p></li>
+<li><p><a class="reference internal" href="#group__part__func__window_1ga1fef1ad234755db78ab6b695edce5080"><span class="std std-ref">VRNA_ANY_LOOP</span></a> -  Any loop.  </p></li>
+</ul>
+</p>
+<p>to indicate the particular type of data available through the <code class="docutils literal notranslate"><span class="pre">pr</span></code> pointer.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4"><span class="std std-ref">vrna_probs_window()</span></a>, <a class="reference internal" href="#group__part__func__window_1ga25f154804af6463afddcbebe565fd465"><span class="std std-ref">vrna_pfl_fold_up_cb()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param pr<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An array of probabilities </p>
+</dd>
+<dt class="field-even">Param pr_size<span class="colon">:</span></dt>
+<dd class="field-even"><p>The length of the probability array </p>
+</dd>
+<dt class="field-odd">Param i<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The i-position (5’) of the probabilities </p>
+</dd>
+<dt class="field-even">Param max<span class="colon">:</span></dt>
+<dd class="field-even"><p>The (theoretical) maximum length of the probability array </p>
+</dd>
+<dt class="field-odd">Param type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The type of data that is provided </p>
+</dd>
+<dt class="field-even">Param data<span class="colon">:</span></dt>
+<dd class="field-even"><p>Auxiliary data </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="target" id="group__part__func__window_1gabe710a1182e6db69cc75329dfc9bed67"></span><span class="sig-name descname"><span class="pre">void()</span> <span class="pre">vrna_probs_window_callback</span> <span class="pre">(FLT_OR_DBL</span> <span class="pre">*pr,</span> <span class="pre">int</span> <span class="pre">pr_size,</span> <span class="pre">int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">max,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">type,</span> <span class="pre">void</span> <span class="pre">*data)</span></span></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_window.h&gt;</em></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="global.html" class="btn btn-neutral float-left" title="Global Partition Function and Equilibrium Probabilities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="thermodynamics.html" class="btn btn-neutral float-right" title="Predicting various Thermodynamic Properties" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energy Parameters &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Salt Corrections" href="params/salt.html" />
+    <link rel="prev" title="Evaluation of Structures" href="eval_structures.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="eval_loops.html">Energy Evaluation for Individual Loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eval_move.html">Energy Evaluation for Atomic Moves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eval_structures.html">Evaluation of Structures</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Energy Parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="params/salt.html">Salt Corrections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="params/io.html">Loading / Saving Energy Parameter Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="params/convert.html">Converting Energy Parameter Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#available-parameter-sets">Available Parameter Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#energy-parameter-api">Energy Parameter API</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="eval_deprecated.html">Deprecated Interface for Free Energy Evaluation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eval.html#loop-decomposition">Loop Decomposition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eval.html#fine-tuning-of-the-evaluation-model">Fine-tuning of the Evaluation Model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../eval.html">Free Energy Evaluation</a></li>
+      <li class="breadcrumb-item active">Energy Parameters</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="energy-parameters">
+<h1>Energy Parameters<a class="headerlink" href="#energy-parameters" title="Link to this heading"></a></h1>
+<p>For secondary structure free energy evaluation we usually utilize the set of
+thermodynamic <strong>Nearest Neighbor</strong> energy parameters also used in other software,
+such as <em>UNAfold</em> and <em>RNAstructure</em>.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Specialized Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="params/salt.html">Salt Corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="params/io.html">Loading / Saving Energy Parameter Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="params/convert.html">Converting Energy Parameter Files</a></li>
+</ul>
+</div>
+<section id="available-parameter-sets">
+<h2>Available Parameter Sets<a class="headerlink" href="#available-parameter-sets" title="Link to this heading"></a></h2>
+<p>While the <em>RNAlib</em> already contains a compiled-in set of the latest
+<em>Turner 2004 Free Energy Parameters</em>, we defined a file format that allows to
+change these parameters at runtime. The ViennaRNA Package already comes with
+a set of parameter files containing</p>
+<ul class="simple">
+<li><p>Turner 1999 RNA parameters</p></li>
+<li><p>Mathews 1999 DNA parameters</p></li>
+<li><p>Andronescu 2007 RNA parameters</p></li>
+<li><p>Mathews 2004 DNA parameters</p></li>
+</ul>
+</section>
+<section id="energy-parameter-api">
+<h2>Energy Parameter API<a class="headerlink" href="#energy-parameter-api" title="Link to this heading"></a></h2>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__energy__parameters"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_GQUAD_MAX_STACK_SIZE">
+<span class="target" id="group__energy__parameters_1gab7b5159125a90babbd3b81319305f35f"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_GQUAD_MAX_STACK_SIZE</span></span></span><a class="headerlink" href="#c.VRNA_GQUAD_MAX_STACK_SIZE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_GQUAD_MIN_STACK_SIZE">
+<span class="target" id="group__energy__parameters_1gae24794ad38d2bf86d4c1e2f24cf35230"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_GQUAD_MIN_STACK_SIZE</span></span></span><a class="headerlink" href="#c.VRNA_GQUAD_MIN_STACK_SIZE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_GQUAD_MAX_LINKER_LENGTH">
+<span class="target" id="group__energy__parameters_1gaabc251a60f6dbe927dd3a3881a161fb7"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_GQUAD_MAX_LINKER_LENGTH</span></span></span><a class="headerlink" href="#c.VRNA_GQUAD_MAX_LINKER_LENGTH" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_GQUAD_MIN_LINKER_LENGTH">
+<span class="target" id="group__energy__parameters_1gab0e3cb58bc3a7e3fb08cc05f8e58ddab"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_GQUAD_MIN_LINKER_LENGTH</span></span></span><a class="headerlink" href="#c.VRNA_GQUAD_MIN_LINKER_LENGTH" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_GQUAD_MIN_BOX_SIZE">
+<span class="target" id="group__energy__parameters_1gad7bdd880afca461f97763d79ee57a347"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_GQUAD_MIN_BOX_SIZE</span></span></span><a class="headerlink" href="#c.VRNA_GQUAD_MIN_BOX_SIZE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_GQUAD_MAX_BOX_SIZE">
+<span class="target" id="group__energy__parameters_1ga56cafabad2f8a7db83f2d5d3b0e8d313"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_GQUAD_MAX_BOX_SIZE</span></span></span><a class="headerlink" href="#c.VRNA_GQUAD_MAX_BOX_SIZE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_param_t">
+<span class="target" id="group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_param_s" title="vrna_param_s"><span class="n"><span class="pre">vrna_param_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_param_t</span></span></span><a class="headerlink" href="#c.vrna_param_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Typename for the free energy parameter data structure <a class="reference internal" href="#group__energy__parameters_1ga51839957423a01c8613f5a978b37a514"><span class="std std-ref">vrna_params</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_exp_param_t">
+<span class="target" id="group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_exp_param_s" title="vrna_exp_param_s"><span class="n"><span class="pre">vrna_exp_param_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_param_t</span></span></span><a class="headerlink" href="#c.vrna_exp_param_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Typename for the Boltzmann factor data structure <a class="reference internal" href="#group__energy__parameters_1ga049c8196ed6b9af9f13c633f0fe7acc0"><span class="std std-ref">vrna_exp_params</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.paramT">
+<span class="target" id="group__energy__parameters_1ga857dde86357d306cc902f0d8b2797659"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_param_s" title="vrna_param_s"><span class="n"><span class="pre">vrna_param_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">paramT</span></span></span><a class="headerlink" href="#c.paramT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Old typename of <a class="reference internal" href="#structvrna__param__s"><span class="std std-ref">vrna_param_s</span></a>. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000144"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35"><span class="std std-ref">vrna_param_t</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.pf_paramT">
+<span class="target" id="group__energy__parameters_1ga8bffe1828e2cbec101769f5cc0b1535b"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_exp_param_s" title="vrna_exp_param_s"><span class="n"><span class="pre">vrna_exp_param_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pf_paramT</span></span></span><a class="headerlink" href="#c.pf_paramT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Old typename of <a class="reference internal" href="#structvrna__exp__param__s"><span class="std std-ref">vrna_exp_param_s</span></a>. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000145"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8"><span class="std std-ref">vrna_exp_param_t</span></a> instead! </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params">
+<span class="target" id="group__energy__parameters_1ga51839957423a01c8613f5a978b37a514"></span><a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Get a data structure containing prescaled free energy parameters. </p>
+<p>If a NULL pointer is passed for the model details parameter, the default model parameters are stored within the requested <a class="reference internal" href="#group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35"><span class="std std-ref">vrna_param_t</span></a> structure.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a>, <a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga8ac6ff84936282436f822644bf841f66"><span class="std std-ref">vrna_md_set_default()</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga049c8196ed6b9af9f13c633f0fe7acc0"><span class="std std-ref">vrna_exp_params()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>md</strong> – A pointer to the model details to store inside the structure (Maybe NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pointer to the memory location where the requested parameters are stored </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_copy">
+<span class="target" id="group__energy__parameters_1ga2cb17f57d4de820b034a9d46f115ea49"></span><a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_copy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">par</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_copy" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Get a copy of the provided free energy parameters. </p>
+<p>If NULL is passed as parameter, a default set of energy parameters is created and returned.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters_1ga51839957423a01c8613f5a978b37a514"><span class="std std-ref">vrna_params()</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35"><span class="std std-ref">vrna_param_t</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>par</strong> – The free energy parameters that are to be copied (Maybe NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A copy or a default set of the (provided) parameters </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_params">
+<span class="target" id="group__energy__parameters_1ga049c8196ed6b9af9f13c633f0fe7acc0"></span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_params</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_params" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Get a data structure containing prescaled free energy parameters already transformed to Boltzmann factors. </p>
+<p>This function returns a data structure that contains all necessary precomputed energy contributions for each type of loop.</p>
+<p>In contrast to <a class="reference internal" href="#group__energy__parameters_1ga51839957423a01c8613f5a978b37a514"><span class="std std-ref">vrna_params()</span></a>, the free energies within this data structure are stored as their Boltzmann factors, i.e.</p>
+<p><span class="math notranslate nohighlight">\( exp(-E / kT) \)</span></p>
+<p>where <span class="math notranslate nohighlight">\( E \)</span> is the free energy.</p>
+<p>If a NULL pointer is passed for the model details parameter, the default model parameters are stored within the requested <a class="reference internal" href="#group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8"><span class="std std-ref">vrna_exp_param_t</span></a> structure.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a>, <a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga8ac6ff84936282436f822644bf841f66"><span class="std std-ref">vrna_md_set_default()</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga51839957423a01c8613f5a978b37a514"><span class="std std-ref">vrna_params()</span></a>, vrna_rescale_pf_params()</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>md</strong> – A pointer to the model details to store inside the structure (Maybe NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pointer to the memory location where the requested parameters are stored </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_params_comparative">
+<span class="target" id="group__energy__parameters_1ga71255857b629f2c5b86adc75c78df13e"></span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_params_comparative</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">n_seq</span></span>, <a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_params_comparative" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Get a data structure containing prescaled free energy parameters already transformed to Boltzmann factors (alifold version) </p>
+<p>If a NULL pointer is passed for the model details parameter, the default model parameters are stored within the requested <a class="reference internal" href="#group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8"><span class="std std-ref">vrna_exp_param_t</span></a> structure.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a>, <a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga8ac6ff84936282436f822644bf841f66"><span class="std std-ref">vrna_md_set_default()</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga049c8196ed6b9af9f13c633f0fe7acc0"><span class="std std-ref">vrna_exp_params()</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga51839957423a01c8613f5a978b37a514"><span class="std std-ref">vrna_params()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_seq</strong> – The number of sequences in the alignment </p></li>
+<li><p><strong>md</strong> – A pointer to the model details to store inside the structure (Maybe NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pointer to the memory location where the requested parameters are stored </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_params_copy">
+<span class="target" id="group__energy__parameters_1ga47828f98665c57d9b8bc954b5769e484"></span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_params_copy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">par</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_params_copy" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Get a copy of the provided free energy parameters (provided as Boltzmann factors) </p>
+<p>If NULL is passed as parameter, a default set of energy parameters is created and returned.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters_1ga049c8196ed6b9af9f13c633f0fe7acc0"><span class="std std-ref">vrna_exp_params()</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8"><span class="std std-ref">vrna_exp_param_t</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>par</strong> – The free energy parameters that are to be copied (Maybe NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A copy or a default set of the (provided) parameters </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_subst">
+<span class="target" id="group__energy__parameters_1ga9202b803da6f5364f91db89ab3d8b048"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_subst</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">par</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_subst" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Update/Reset energy parameters data structure within a <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. </p>
+<p>Passing NULL as second argument leads to a reset of the energy parameters within fc to their default values. Otherwise, the energy parameters provided will be copied over into fc.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000130"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p><p>This function is attached to <a class="reference internal" href="../utils/datastructures/fold_compound.html#structvrna__fc__s"><span class="std std-ref">vrna_fc_s</span></a> objects as overloaded <code class="docutils literal notranslate"><span class="pre">params_subst()</span></code> method.</p>
+<p>When no parameter is passed, the resulting action is the same as passing <code class="docutils literal notranslate"><span class="pre">NULL</span></code> as second parameter to <a class="reference internal" href="#group__energy__parameters_1ga9202b803da6f5364f91db89ab3d8b048"><span class="std std-ref">vrna_params_subst()</span></a>, i.e. resetting the parameters to the global defaults. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.params_subst" title="RNA.fold_compound.params_subst"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.params_subst()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters_1ga033fea3322aeac71a260241e8ba6e773"><span class="std std-ref">vrna_params_reset()</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35"><span class="std std-ref">vrna_param_t</span></a>, <a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga51839957423a01c8613f5a978b37a514"><span class="std std-ref">vrna_params()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> that is about to receive updated energy parameters </p></li>
+<li><p><strong>par</strong> – The energy parameters used to substitute those within fc (Maybe NULL)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_params_subst">
+<span class="target" id="group__energy__parameters_1ga4abbca93defd54fa0dc797ceca36d2f0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_params_subst</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_params_subst" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Update the energy parameters for subsequent partition function computations. </p>
+<p>This function can be used to properly assign new energy parameters for partition function computations to a <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. For this purpose, the data of the provided pointer <code class="docutils literal notranslate"><span class="pre">params</span></code> will be copied into <code class="docutils literal notranslate"><span class="pre">fc</span></code> and a recomputation of the partition function scaling factor is issued, if the <code class="docutils literal notranslate"><span class="pre">pf_scale</span></code> attribute of <code class="docutils literal notranslate"><span class="pre">params</span></code> is less than <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p>
+<p>Passing NULL as second argument leads to a reset of the energy parameters within fc to their default values</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000131"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p><p>This function is attached to <a class="reference internal" href="../utils/datastructures/fold_compound.html#structvrna__fc__s"><span class="std std-ref">vrna_fc_s</span></a> objects as overloaded <code class="docutils literal notranslate"><span class="pre">exp_params_subst()</span></code> method.</p>
+<p>When no parameter is passed, the resulting action is the same as passing <code class="docutils literal notranslate"><span class="pre">NULL</span></code> as second parameter to <a class="reference internal" href="#group__energy__parameters_1ga4abbca93defd54fa0dc797ceca36d2f0"><span class="std std-ref">vrna_exp_params_subst()</span></a>, i.e. resetting the parameters to the global defaults. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.exp_params_subst" title="RNA.fold_compound.exp_params_subst"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.exp_params_subst()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters_1ga8d7b65661accc3030bd3d7c2b014512b"><span class="std std-ref">vrna_exp_params_reset()</span></a>, <a class="reference internal" href="#group__energy__parameters_1gac377cdd18c3a6da4e04683742fda3b7a"><span class="std std-ref">vrna_exp_params_rescale()</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8"><span class="std std-ref">vrna_exp_param_t</span></a>, <a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga049c8196ed6b9af9f13c633f0fe7acc0"><span class="std std-ref">vrna_exp_params()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>params</strong> – A pointer to the new energy parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_params_rescale">
+<span class="target" id="group__energy__parameters_1gac377cdd18c3a6da4e04683742fda3b7a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_params_rescale</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">mfe</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_params_rescale" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Rescale Boltzmann factors for partition function computations. </p>
+<p>This function may be used to (automatically) rescale the Boltzmann factors used in partition function computations. Since partition functions over subsequences can easily become extremely large, the RNAlib internally rescales them to avoid numerical over- and/or underflow. Therefore, a proper scaling factor <span class="math notranslate nohighlight">\(s\)</span> needs to be chosen that in turn is then used to normalize the corresponding partition functions <span class="math notranslate nohighlight">\(\hat{q}[i,j] = q[i,j] / s^{(j-i+1)}\)</span>.</p>
+<p>This function provides two ways to automatically adjust the scaling factor.<ol class="loweralpha simple">
+<li><p>Automatic guess</p></li>
+<li><p>Automatic adjustment according to MFE</p></li>
+</ol>
+</p>
+<p>Passing <code class="docutils literal notranslate"><span class="pre">NULL</span></code> as second parameter activates the <em>automatic guess mode</em>. Here, the scaling factor is recomputed according to a mean free energy of <code class="docutils literal notranslate"><span class="pre">184.3*length</span></code><p>cal for random sequences.</p>
+<p>On the other hand, if the MFE for a sequence is known, it can be used to recompute a more robust scaling factor, since it represents the lowest free energy of the entire ensemble of structures, i.e. the highest Boltzmann factor. To activate this second mode of</p>
+<em>automatic adjustment according to MFE</em>, a pointer to the MFE value needs to be passed as second argument. This value is then taken to compute the scaling factor as <span class="math notranslate nohighlight">\( s = exp((sfact * MFE) / kT / length )\)</span>, where sfact is an additional scaling weight located in the vrna_md_t data structure of <code class="docutils literal notranslate"><span class="pre">exp_params</span></code> in <code class="docutils literal notranslate"><span class="pre">fc</span></code>.</p>
+<p>The computed scaling factor <span class="math notranslate nohighlight">\(s\)</span> will be stored as <code class="docutils literal notranslate"><span class="pre">pf_scale</span></code> attribute of the <code class="docutils literal notranslate"><span class="pre">exp_params</span></code> data structure in <code class="docutils literal notranslate"><span class="pre">fc</span></code>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000132"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p><p>This function is attached to <a class="reference internal" href="../utils/datastructures/fold_compound.html#structvrna__fc__s"><span class="std std-ref">vrna_fc_s</span></a> objects as overloaded <code class="docutils literal notranslate"><span class="pre">exp_params_rescale()</span></code> method.</p>
+<p>When no parameter is passed to this method, the resulting action is the same as passing <code class="docutils literal notranslate"><span class="pre">NULL</span></code> as second parameter to <a class="reference internal" href="#group__energy__parameters_1gac377cdd18c3a6da4e04683742fda3b7a"><span class="std std-ref">vrna_exp_params_rescale()</span></a>, i.e. default scaling of the partition function. Passing an energy in kcal/mol, e.g. as retrieved by a previous call to the <code class="docutils literal notranslate"><span class="pre">mfe()</span></code> method, instructs all subsequent calls to scale the partition function accordingly. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.exp_params_rescale" title="RNA.fold_compound.exp_params_rescale"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.exp_params_rescale()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters_1ga4abbca93defd54fa0dc797ceca36d2f0"><span class="std std-ref">vrna_exp_params_subst()</span></a>, <a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8"><span class="std std-ref">vrna_exp_param_t</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This recomputation only takes place if the <code class="docutils literal notranslate"><span class="pre">pf_scale</span></code> attribute of the <code class="docutils literal notranslate"><span class="pre">exp_params</span></code> data structure contained in <code class="docutils literal notranslate"><span class="pre">fc</span></code> has a value below <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>mfe</strong> – A pointer to the MFE (in kcal/mol) or NULL</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_reset">
+<span class="target" id="group__energy__parameters_1ga033fea3322aeac71a260241e8ba6e773"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_reset</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_reset" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Reset free energy parameters within a <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> according to provided, or default model details. </p>
+<p>This function allows one to rescale free energy parameters for subsequent structure prediction or evaluation according to a set of model details, e.g. temperature values. To do so, the caller provides either a pointer to a set of model details to be used for rescaling, or NULL if global default setting should be used.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000133"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p><p>This function is attached to <a class="reference internal" href="../utils/datastructures/fold_compound.html#structvrna__fc__s"><span class="std std-ref">vrna_fc_s</span></a> objects as overloaded <code class="docutils literal notranslate"><span class="pre">params_reset()</span></code> method.</p>
+<p>When no parameter is passed to this method, the resulting action is the same as passing <code class="docutils literal notranslate"><span class="pre">NULL</span></code> as second parameter to <a class="reference internal" href="#group__energy__parameters_1ga033fea3322aeac71a260241e8ba6e773"><span class="std std-ref">vrna_params_reset()</span></a>, i.e. global default model settings are used. Passing an object of type <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s"><span class="std std-ref">vrna_md_s</span></a> resets the fold compound according to the specifications stored within the <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s"><span class="std std-ref">vrna_md_s</span></a> object. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.params_reset" title="RNA.fold_compound.params_reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.params_reset()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters_1ga8d7b65661accc3030bd3d7c2b014512b"><span class="std std-ref">vrna_exp_params_reset()</span></a>, vrna_params_subs()</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>md</strong> – A pointer to the new model details (or NULL for reset to defaults)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_params_reset">
+<span class="target" id="group__energy__parameters_1ga8d7b65661accc3030bd3d7c2b014512b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_params_reset</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_params_reset" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Reset Boltzmann factors for partition function computations within a <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> according to provided, or default model details. </p>
+<p>This function allows one to rescale Boltzmann factors for subsequent partition function computations according to a set of model details, e.g. temperature values. To do so, the caller provides either a pointer to a set of model details to be used for rescaling, or NULL if global default setting should be used.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000134"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p><p>This function is attached to <a class="reference internal" href="../utils/datastructures/fold_compound.html#structvrna__fc__s"><span class="std std-ref">vrna_fc_s</span></a> objects as overloaded <code class="docutils literal notranslate"><span class="pre">exp_params_reset()</span></code> method.</p>
+<p>When no parameter is passed to this method, the resulting action is the same as passing <code class="docutils literal notranslate"><span class="pre">NULL</span></code> as second parameter to <a class="reference internal" href="#group__energy__parameters_1ga8d7b65661accc3030bd3d7c2b014512b"><span class="std std-ref">vrna_exp_params_reset()</span></a>, i.e. global default model settings are used. Passing an object of type <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s"><span class="std std-ref">vrna_md_s</span></a> resets the fold compound according to the specifications stored within the <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s"><span class="std std-ref">vrna_md_s</span></a> object. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.exp_params_reset" title="RNA.fold_compound.exp_params_reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.exp_params_reset()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters_1ga033fea3322aeac71a260241e8ba6e773"><span class="std std-ref">vrna_params_reset()</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga4abbca93defd54fa0dc797ceca36d2f0"><span class="std std-ref">vrna_exp_params_subst()</span></a>, <a class="reference internal" href="#group__energy__parameters_1gac377cdd18c3a6da4e04683742fda3b7a"><span class="std std-ref">vrna_exp_params_rescale()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>md</strong> – A pointer to the new model details (or NULL for reset to defaults)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_params_prepare">
+<span class="target" id="group__energy__parameters_1ga06befb1f7beed0b4014cc07628636bc3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_params_prepare</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_params_prepare" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_parameter_copy">
+<span class="target" id="group__energy__parameters_1ga92879f2a9bc4cfc4e700d7f9222853bc"></span><a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_parameter_copy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">par</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_parameter_copy" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_scaled_pf_parameters">
+<span class="target" id="group__energy__parameters_1ga1007b70b7176f7cc78ed224460b89bbe"></span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_scaled_pf_parameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_scaled_pf_parameters" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>get a data structure of type <a class="reference internal" href="#group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8"><span class="std std-ref">vrna_exp_param_t</span></a> which contains the Boltzmann weights of several energy parameters scaled according to the current temperature</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000146"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__energy__parameters_1ga049c8196ed6b9af9f13c633f0fe7acc0"><span class="std std-ref">vrna_exp_params()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The data structure containing Boltzmann weights for use in partition function calculations </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_boltzmann_factors">
+<span class="target" id="group__energy__parameters_1gaf05b50c0e8d29511941203554daf2919"></span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_boltzmann_factors</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">temperature</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">betaScale</span></span>, <a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">md</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">pf_scale</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_boltzmann_factors" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Get precomputed Boltzmann factors of the loop type dependent energy contributions with independent thermodynamic temperature. </p>
+<p><p>This function returns a data structure that contains all necessary precalculated Boltzmann factors for each loop type contribution.</p>
+<p>In contrast to</p>
+<a class="reference internal" href="#group__energy__parameters_1ga1007b70b7176f7cc78ed224460b89bbe"><span class="std std-ref">get_scaled_pf_parameters()</span></a>, this function enables setting of independent temperatures for both, the individual energy contributions as well as the thermodynamic temperature used in <span class="math notranslate nohighlight">\( exp(-\Delta G / kT) \)</span></p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000147"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__energy__parameters_1ga049c8196ed6b9af9f13c633f0fe7acc0"><span class="std std-ref">vrna_exp_params()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters_1ga1007b70b7176f7cc78ed224460b89bbe"><span class="std std-ref">get_scaled_pf_parameters()</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga356800d32f664d455af4676850638f99"><span class="std std-ref">get_boltzmann_factor_copy()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temperature</strong> – The temperature in degrees Celcius used for (re-)scaling the energy contributions </p></li>
+<li><p><strong>betaScale</strong> – A scaling value that is used as a multiplication factor for the absolute temperature of the system </p></li>
+<li><p><strong>md</strong> – The model details to be used </p></li>
+<li><p><strong>pf_scale</strong> – The scaling factor for the Boltzmann factors </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A set of precomputed Boltzmann factors </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_boltzmann_factor_copy">
+<span class="target" id="group__energy__parameters_1ga356800d32f664d455af4676850638f99"></span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_boltzmann_factor_copy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">parameters</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_boltzmann_factor_copy" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Get a copy of already precomputed Boltzmann factors. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000148"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__energy__parameters_1ga47828f98665c57d9b8bc954b5769e484"><span class="std std-ref">vrna_exp_params_copy()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__energy__parameters_1gaf05b50c0e8d29511941203554daf2919"><span class="std std-ref">get_boltzmann_factors()</span></a>, <a class="reference internal" href="#group__energy__parameters_1ga1007b70b7176f7cc78ed224460b89bbe"><span class="std std-ref">get_scaled_pf_parameters()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> – The input data structure that shall be copied </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A copy of the provided Boltzmann factor data set </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_scaled_alipf_parameters">
+<span class="target" id="group__energy__parameters_1ga1c9a23ef63e80859776eac8a0beda437"></span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_scaled_alipf_parameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">n_seq</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_scaled_alipf_parameters" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Get precomputed Boltzmann factors of the loop type dependent energy contributions (alifold variant) </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000149"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__energy__parameters_1ga71255857b629f2c5b86adc75c78df13e"><span class="std std-ref">vrna_exp_params_comparative()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_boltzmann_factors_ali">
+<span class="target" id="group__energy__parameters_1ga010ff3879cb0a053ce2547948315a10c"></span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_boltzmann_factors_ali</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">n_seq</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">temperature</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">betaScale</span></span>, <a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">md</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">pf_scale</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_boltzmann_factors_ali" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Get precomputed Boltzmann factors of the loop type dependent energy contributions (alifold variant) with independent thermodynamic temperature. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000150"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__energy__parameters_1ga71255857b629f2c5b86adc75c78df13e"><span class="std std-ref">vrna_exp_params_comparative()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.scale_parameters">
+<span class="target" id="group__energy__parameters_1ga5fe3524fd6d2a297099238f117254c13"></span><a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">scale_parameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.scale_parameters" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Get precomputed energy contributions for all the known loop types. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000151"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__energy__parameters_1ga51839957423a01c8613f5a978b37a514"><span class="std std-ref">vrna_params()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>OpenMP: This function relies on several global model settings variables and thus is not to be considered threadsafe. See <a class="reference internal" href="#group__energy__parameters_1gacdbcef8d5022d9e2eaac347374f5b3a9"><span class="std std-ref">get_scaled_parameters()</span></a> for a completely threadsafe implementation.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A set of precomputed energy contributions </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_scaled_parameters">
+<span class="target" id="group__energy__parameters_1gacdbcef8d5022d9e2eaac347374f5b3a9"></span><a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_scaled_parameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">temperature</span></span>, <a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">md</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_scaled_parameters" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em><p>Get precomputed energy contributions for all the known loop types. </p>
+<p>Call this function to retrieve precomputed energy contributions, i.e. scaled according to the temperature passed. Furthermore, this function assumes a data structure that contains the model details as well, such that subsequent folding recursions are able to retrieve the correct model settings</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000152"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__energy__parameters_1ga51839957423a01c8613f5a978b37a514"><span class="std std-ref">vrna_params()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a>, <a class="reference internal" href="../grammar/model_details.html#group__model__details_1gabad896c3650d420f3f3ddefc69e2bceb"><span class="std std-ref">set_model_details()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temperature</strong> – The temperature in degrees Celcius </p></li>
+<li><p><strong>md</strong> – The model details </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>precomputed energy contributions and model settings </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.copy_parameters">
+<span class="target" id="group__energy__parameters_1ga8e44a24c8277d2dcca5694c30fb3a8b7"></span><a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">copy_parameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.copy_parameters" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.set_parameters">
+<span class="target" id="group__energy__parameters_1gab29c16026009b5e2b1f4e70d18b75cb1"></span><a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">set_parameters</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dest</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.set_parameters" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.scale_pf_parameters">
+<span class="target" id="group__energy__parameters_1ga1309d1982122772d185b86f85ccb5fa5"></span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">scale_pf_parameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.scale_pf_parameters" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.copy_pf_param">
+<span class="target" id="group__energy__parameters_1gaf2095e2c08146b61ec17a34366b3128d"></span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">copy_pf_param</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.copy_pf_param" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.set_pf_param">
+<span class="target" id="group__energy__parameters_1ga9ee3f54406bb566ee8f11db4f803937a"></span><a class="reference internal" href="#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">set_pf_param</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dest</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.set_pf_param" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/params/basic.h&gt;</em></dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_param_s">
+<span class="target" id="structvrna__param__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_param_s</span></span></span><a class="headerlink" href="#c.vrna_param_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/params/basic.h&gt;</em></div>
+<p>The datastructure that contains temperature scaled energy parameters. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.id">
+<span class="target" id="structvrna__param__s_1ab2e674fea69570fb83bcf63f19e433ee"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><a class="headerlink" href="#c.vrna_param_s.id" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.stack">
+<span class="target" id="structvrna__param__s_1af7cdedcea1bb1c171856ab06dc9f6ed2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stack</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.stack" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.hairpin">
+<span class="target" id="structvrna__param__s_1ac3160bdbb97b2ef9e949c9ba66bf057c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hairpin</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">31</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.hairpin" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.bulge">
+<span class="target" id="structvrna__param__s_1aa7121473b8a705f84048c09b12c1d1c2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bulge</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAXLOOP</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.bulge" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.internal_loop">
+<span class="target" id="structvrna__param__s_1a2a4fb2c65023ec371c9b96573da6d2fc"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">internal_loop</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAXLOOP</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.internal_loop" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.mismatchExt">
+<span class="target" id="structvrna__param__s_1a6122f31447a8cccdd1203c9695ba1e3b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mismatchExt</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.mismatchExt" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.mismatchI">
+<span class="target" id="structvrna__param__s_1af1a456ce5983b107c47e5dd25727205e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mismatchI</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.mismatchI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.mismatch1nI">
+<span class="target" id="structvrna__param__s_1a6058cd6334a2e5929bd36315e9d0fe3a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mismatch1nI</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.mismatch1nI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.mismatch23I">
+<span class="target" id="structvrna__param__s_1a2d8a2ed8936cd60fbed953a2bc64f9b3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mismatch23I</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.mismatch23I" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.mismatchH">
+<span class="target" id="structvrna__param__s_1ad07794648fa1cac6f02c57c095fb53e6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mismatchH</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.mismatchH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.mismatchM">
+<span class="target" id="structvrna__param__s_1afcc32f63f2c829bfb0016db82f7810fc"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mismatchM</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.mismatchM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.dangle5">
+<span class="target" id="structvrna__param__s_1ad2534b54836d48b4f549b319766f658f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dangle5</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.dangle5" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.dangle3">
+<span class="target" id="structvrna__param__s_1a75c644da73d4d01c86b5f6a1e3af3ae9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dangle3</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.dangle3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.int11">
+<span class="target" id="structvrna__param__s_1a585e235827774a0073be22bf00e48c30"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">int11</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.int11" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.int21">
+<span class="target" id="structvrna__param__s_1a983245e30d7a41a3102e5e5ea4bec7e2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">int21</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.int21" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.int22">
+<span class="target" id="structvrna__param__s_1ad56fdeadc2a2e51b9f23b2c26d067ec4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">int22</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.int22" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.ninio">
+<span class="target" id="structvrna__param__s_1ac03c4835310b225a64ea9eb77a174940"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ninio</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.ninio" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.lxc">
+<span class="target" id="structvrna__param__s_1a24ea058414d3fb918c7fbf189a4a1e51"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lxc</span></span></span><a class="headerlink" href="#c.vrna_param_s.lxc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.MLbase">
+<span class="target" id="structvrna__param__s_1a6fd54883ec8b69345e970ad372f83679"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MLbase</span></span></span><a class="headerlink" href="#c.vrna_param_s.MLbase" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.MLintern">
+<span class="target" id="structvrna__param__s_1a28c7b54d5e8edf9a1121a2d1f9c98e7f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MLintern</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.MLintern" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.MLclosing">
+<span class="target" id="structvrna__param__s_1a585d850089d454a367daef9ce2fc8395"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MLclosing</span></span></span><a class="headerlink" href="#c.vrna_param_s.MLclosing" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.TerminalAU">
+<span class="target" id="structvrna__param__s_1a0ad35507a03ba7f751e82cb375e991dd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TerminalAU</span></span></span><a class="headerlink" href="#c.vrna_param_s.TerminalAU" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.DuplexInit">
+<span class="target" id="structvrna__param__s_1a86f6ae1e5649264f7ad82969a49bb09e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DuplexInit</span></span></span><a class="headerlink" href="#c.vrna_param_s.DuplexInit" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.Tetraloop_E">
+<span class="target" id="structvrna__param__s_1a3a853cc7dbad832e377d03c2be09f3a0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Tetraloop_E</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">200</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.Tetraloop_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.Tetraloops">
+<span class="target" id="structvrna__param__s_1a2fda2f47699f66eb79becc63481dc7a5"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Tetraloops</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">1401</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.Tetraloops" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.Triloop_E">
+<span class="target" id="structvrna__param__s_1a779303656223c8f9f12a7bdb877ae4ae"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Triloop_E</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">40</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.Triloop_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.Triloops">
+<span class="target" id="structvrna__param__s_1a5824325d79edfe569c6023f52a08d7be"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Triloops</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">241</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.Triloops" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.Hexaloop_E">
+<span class="target" id="structvrna__param__s_1a9fa7c16fb78efb6e2730b6553282ebf9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Hexaloop_E</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">40</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.Hexaloop_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.Hexaloops">
+<span class="target" id="structvrna__param__s_1a1b32fef887ebf8097da6f5913743794c"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Hexaloops</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">1801</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.Hexaloops" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.TripleC">
+<span class="target" id="structvrna__param__s_1ac9ca6eda834acca6eee5d00ee3ee69c9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TripleC</span></span></span><a class="headerlink" href="#c.vrna_param_s.TripleC" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.MultipleCA">
+<span class="target" id="structvrna__param__s_1a481323a736818349ec7c66ebf01825c6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MultipleCA</span></span></span><a class="headerlink" href="#c.vrna_param_s.MultipleCA" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.MultipleCB">
+<span class="target" id="structvrna__param__s_1a465b7758e3d105f10a6fa7958024abb4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MultipleCB</span></span></span><a class="headerlink" href="#c.vrna_param_s.MultipleCB" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.gquad">
+<span class="target" id="structvrna__param__s_1ae614af2c628faa36c8007bd054be21d9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gquad</span></span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#c.VRNA_GQUAD_MAX_STACK_SIZE" title="VRNA_GQUAD_MAX_STACK_SIZE"><span class="n"><span class="pre">VRNA_GQUAD_MAX_STACK_SIZE</span></span></a><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="w"> </span><span class="o"><span class="pre">*</span></span><span class="w"> </span><a class="reference internal" href="#c.VRNA_GQUAD_MAX_LINKER_LENGTH" title="VRNA_GQUAD_MAX_LINKER_LENGTH"><span class="n"><span class="pre">VRNA_GQUAD_MAX_LINKER_LENGTH</span></span></a><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.gquad" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.gquadLayerMismatch">
+<span class="target" id="structvrna__param__s_1aef17839376efe17c7393908f0e5061b9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gquadLayerMismatch</span></span></span><a class="headerlink" href="#c.vrna_param_s.gquadLayerMismatch" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.gquadLayerMismatchMax">
+<span class="target" id="structvrna__param__s_1aed136bbeace5dc2d368bf44c51d2fde0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gquadLayerMismatchMax</span></span></span><a class="headerlink" href="#c.vrna_param_s.gquadLayerMismatchMax" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.temperature">
+<span class="target" id="structvrna__param__s_1aeed2cd83713012bcb52e431041e037c8"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">temperature</span></span></span><a class="headerlink" href="#c.vrna_param_s.temperature" title="Link to this definition"></a><br /></dt>
+<dd><p>Temperature used for loop contribution scaling. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.model_details">
+<span class="target" id="structvrna__param__s_1a7b84353eb9075c595bad4ceb871bcae7"></span><a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">model_details</span></span></span><a class="headerlink" href="#c.vrna_param_s.model_details" title="Link to this definition"></a><br /></dt>
+<dd><p>Model details to be used in the recursions. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.param_file">
+<span class="target" id="structvrna__param__s_1ace10aa4aacffcbf6de92349f2ee0d66a"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">param_file</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">256</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.param_file" title="Link to this definition"></a><br /></dt>
+<dd><p>The filename the parameters were derived from, or empty string if they represent the default. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.SaltStack">
+<span class="target" id="structvrna__param__s_1ab873efff9ad8573f4f72513a4ec1e70c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltStack</span></span></span><a class="headerlink" href="#c.vrna_param_s.SaltStack" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.SaltLoop">
+<span class="target" id="structvrna__param__s_1a9d1a99afd49352d2f55e1cd3adb5fb25"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltLoop</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAXLOOP</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.SaltLoop" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.SaltLoopDbl">
+<span class="target" id="structvrna__param__s_1abf223f5c7dca67cbc07e7b3e3fd63486"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltLoopDbl</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAXLOOP</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_param_s.SaltLoopDbl" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.SaltMLbase">
+<span class="target" id="structvrna__param__s_1af02e93a80dcb2ca70b9161a91343c2b3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltMLbase</span></span></span><a class="headerlink" href="#c.vrna_param_s.SaltMLbase" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.SaltMLintern">
+<span class="target" id="structvrna__param__s_1a1496a2c8ac0640ec9ce71e9ff4ab22a6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltMLintern</span></span></span><a class="headerlink" href="#c.vrna_param_s.SaltMLintern" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.SaltMLclosing">
+<span class="target" id="structvrna__param__s_1ac1907f61868d1f1e1a1813c49be07fce"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltMLclosing</span></span></span><a class="headerlink" href="#c.vrna_param_s.SaltMLclosing" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_param_s.SaltDPXInit">
+<span class="target" id="structvrna__param__s_1ae05a104d0cca0426e4e6e604d3d968c5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltDPXInit</span></span></span><a class="headerlink" href="#c.vrna_param_s.SaltDPXInit" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s">
+<span class="target" id="structvrna__exp__param__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_param_s</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/params/basic.h&gt;</em></div>
+<p>The data structure that contains temperature scaled Boltzmann weights of the energy parameters. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.id">
+<span class="target" id="structvrna__exp__param__s_1a378d5bcf2bae1f3ec84c912c7d3908d2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.id" title="Link to this definition"></a><br /></dt>
+<dd><p>An identifier for the data structure. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000153"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This attribute will be removed in version 3 </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expstack">
+<span class="target" id="structvrna__exp__param__s_1a0b288e466e25d1c4f45d138236b5a544"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expstack</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expstack" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.exphairpin">
+<span class="target" id="structvrna__exp__param__s_1a7d770c6dbf7bd37b91f56600d387b0cd"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">exphairpin</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">31</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.exphairpin" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expbulge">
+<span class="target" id="structvrna__exp__param__s_1a7f2f16246bbfc5b009e4c34113dcacd7"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expbulge</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAXLOOP</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expbulge" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expinternal">
+<span class="target" id="structvrna__exp__param__s_1aa98c3f4a62b997c9a460876c75d2d1ea"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expinternal</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAXLOOP</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expinternal" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expmismatchExt">
+<span class="target" id="structvrna__exp__param__s_1a2fe9cc842350991d96b341804522a0d1"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expmismatchExt</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expmismatchExt" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expmismatchI">
+<span class="target" id="structvrna__exp__param__s_1aac2d7b3c327c7125be000e8328fca606"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expmismatchI</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expmismatchI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expmismatch23I">
+<span class="target" id="structvrna__exp__param__s_1afed2655b9a16a362fc22d270bfe3a5ab"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expmismatch23I</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expmismatch23I" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expmismatch1nI">
+<span class="target" id="structvrna__exp__param__s_1ae64727c998a64d8a6f958ef364eda821"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expmismatch1nI</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expmismatch1nI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expmismatchH">
+<span class="target" id="structvrna__exp__param__s_1a3638d270ea7979d80a75a7199a19717e"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expmismatchH</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expmismatchH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expmismatchM">
+<span class="target" id="structvrna__exp__param__s_1ac6ed6415250369dd10fe392c7460a5c9"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expmismatchM</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expmismatchM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expdangle5">
+<span class="target" id="structvrna__exp__param__s_1ad013274ab70d044e382000eec41fea09"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expdangle5</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expdangle5" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expdangle3">
+<span class="target" id="structvrna__exp__param__s_1a4dd91ccea8929e4779be114b9b76b28f"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expdangle3</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expdangle3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expint11">
+<span class="target" id="structvrna__exp__param__s_1ae58abb197b8bfb624513cb28858a8dab"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expint11</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expint11" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expint21">
+<span class="target" id="structvrna__exp__param__s_1acb992a6f846f0d1720b111606d819164"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expint21</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expint21" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expint22">
+<span class="target" id="structvrna__exp__param__s_1aa8e5d06b019fb91bf7f1b866e5349fb6"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expint22</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expint22" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expninio">
+<span class="target" id="structvrna__exp__param__s_1aa02a086c6fce358c984a9685d0c4ece7"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expninio</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAXLOOP</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expninio" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.lxc">
+<span class="target" id="structvrna__exp__param__s_1acbceb6027e4aa73cf216712617d8ab02"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lxc</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.lxc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expMLbase">
+<span class="target" id="structvrna__exp__param__s_1aef32ae2492725def74065fcc0f0a5f04"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expMLbase</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.expMLbase" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expMLintern">
+<span class="target" id="structvrna__exp__param__s_1acb1b64f42c607ada107e05262eb3d3c7"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expMLintern</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NBPAIRS</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expMLintern" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expMLclosing">
+<span class="target" id="structvrna__exp__param__s_1afdfbc240dc615d45fa5e9f0e8d4f8026"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expMLclosing</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.expMLclosing" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expTermAU">
+<span class="target" id="structvrna__exp__param__s_1a9040df20dfcfeabaef375edb88a15326"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expTermAU</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.expTermAU" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expDuplexInit">
+<span class="target" id="structvrna__exp__param__s_1ad6206b8edd6bdb01887c905423e2abb9"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expDuplexInit</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.expDuplexInit" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.exptetra">
+<span class="target" id="structvrna__exp__param__s_1ad2751af5816c82fcceacf9d496b1e9c9"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">exptetra</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">40</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.exptetra" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.exptri">
+<span class="target" id="structvrna__exp__param__s_1a076792cfccdc10ace2dbe2b7a8d3c5df"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">exptri</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">40</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.exptri" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.exphex">
+<span class="target" id="structvrna__exp__param__s_1a193c26eb7ea79e91b4dcb89b87e7926e"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">exphex</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">40</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.exphex" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.Tetraloops">
+<span class="target" id="structvrna__exp__param__s_1aff2006d0ead3d1de216a9a7f0680fdc2"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Tetraloops</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">1401</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.Tetraloops" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expTriloop">
+<span class="target" id="structvrna__exp__param__s_1a91650cc682967f5914097c9a99e4f693"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expTriloop</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">40</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expTriloop" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.Triloops">
+<span class="target" id="structvrna__exp__param__s_1a309a8d464478a36963c36d91110920b6"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Triloops</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">241</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.Triloops" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.Hexaloops">
+<span class="target" id="structvrna__exp__param__s_1a771e437bb84e669d7a561f342ebbed33"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Hexaloops</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">1801</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.Hexaloops" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expTripleC">
+<span class="target" id="structvrna__exp__param__s_1ab31a5df72a249faea0ce4a8e95c18244"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expTripleC</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.expTripleC" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expMultipleCA">
+<span class="target" id="structvrna__exp__param__s_1abf12e9cdf6688361080e70c29bc15133"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expMultipleCA</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.expMultipleCA" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expMultipleCB">
+<span class="target" id="structvrna__exp__param__s_1a0b5a9b6ce171cd239250b4287f57aa23"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expMultipleCB</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.expMultipleCB" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expgquad">
+<span class="target" id="structvrna__exp__param__s_1a8a230c75cd0fae888aedd45f488b4ff7"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expgquad</span></span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#c.VRNA_GQUAD_MAX_STACK_SIZE" title="VRNA_GQUAD_MAX_STACK_SIZE"><span class="n"><span class="pre">VRNA_GQUAD_MAX_STACK_SIZE</span></span></a><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="w"> </span><span class="o"><span class="pre">*</span></span><span class="w"> </span><a class="reference internal" href="#c.VRNA_GQUAD_MAX_LINKER_LENGTH" title="VRNA_GQUAD_MAX_LINKER_LENGTH"><span class="n"><span class="pre">VRNA_GQUAD_MAX_LINKER_LENGTH</span></span></a><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expgquad" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expgquadLayerMismatch">
+<span class="target" id="structvrna__exp__param__s_1a501c56443b72d43b73a221e8d07c1b6e"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expgquadLayerMismatch</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.expgquadLayerMismatch" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.gquadLayerMismatchMax">
+<span class="target" id="structvrna__exp__param__s_1ad31018717df97df7f2570fe7e3033e87"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gquadLayerMismatchMax</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.gquadLayerMismatchMax" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.kT">
+<span class="target" id="structvrna__exp__param__s_1aee22f89eac71caf2bac24cc795de17aa"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kT</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.kT" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.pf_scale">
+<span class="target" id="structvrna__exp__param__s_1a53c12f0d74f94ce371e0471a8ab5a377"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pf_scale</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.pf_scale" title="Link to this definition"></a><br /></dt>
+<dd><p>Scaling factor to avoid over-/underflows. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.temperature">
+<span class="target" id="structvrna__exp__param__s_1a674656d65ea957ddbeff8bd146b7fc16"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">temperature</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.temperature" title="Link to this definition"></a><br /></dt>
+<dd><p>Temperature used for loop contribution scaling. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.alpha">
+<span class="target" id="structvrna__exp__param__s_1a77145830b7bb01b36c3217b363310ef0"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">alpha</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.alpha" title="Link to this definition"></a><br /></dt>
+<dd><p>Scaling factor for the thermodynamic temperature. </p>
+<p>This allows for temperature scaling in Boltzmann factors independently from the energy contributions. The resulting Boltzmann factors are then computed by <span class="math notranslate nohighlight">\( e^{-E/(\alpha \cdot K \cdot T)} \)</span></p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.model_details">
+<span class="target" id="structvrna__exp__param__s_1ac18055127bccc27c1223f1d2f3b01b53"></span><a class="reference internal" href="../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">model_details</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.model_details" title="Link to this definition"></a><br /></dt>
+<dd><p>Model details to be used in the recursions. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.param_file">
+<span class="target" id="structvrna__exp__param__s_1a8e1b02a4753a9b64c3c9ae8529b9d75c"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">param_file</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">256</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.param_file" title="Link to this definition"></a><br /></dt>
+<dd><p>The filename the parameters were derived from, or empty string if they represent the default. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expSaltStack">
+<span class="target" id="structvrna__exp__param__s_1a6db09b051f0c72921eb97709f29f3e2b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expSaltStack</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.expSaltStack" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.expSaltLoop">
+<span class="target" id="structvrna__exp__param__s_1ac106a7461fa5cc3581da97f33ecf2063"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expSaltLoop</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAXLOOP</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.expSaltLoop" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.SaltLoopDbl">
+<span class="target" id="structvrna__exp__param__s_1abd0b7da458b01079743431a5f6bf9284"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltLoopDbl</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAXLOOP</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.vrna_exp_param_s.SaltLoopDbl" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.SaltMLbase">
+<span class="target" id="structvrna__exp__param__s_1ad4ff3de6df40b73b97a8183a73064e21"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltMLbase</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.SaltMLbase" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.SaltMLintern">
+<span class="target" id="structvrna__exp__param__s_1a8e9d8c410a0f32253802c405b47341e0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltMLintern</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.SaltMLintern" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.SaltMLclosing">
+<span class="target" id="structvrna__exp__param__s_1a18989f53b5f128577dc4bd65920d1a49"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltMLclosing</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.SaltMLclosing" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_exp_param_s.SaltDPXInit">
+<span class="target" id="structvrna__exp__param__s_1a6e58d14c8ad5e506ea9fd1a5d71db549"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SaltDPXInit</span></span></span><a class="headerlink" href="#c.vrna_exp_param_s.SaltDPXInit" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="eval_structures.html" class="btn btn-neutral float-left" title="Evaluation of Structures" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="params/salt.html" class="btn btn-neutral float-right" title="Salt Corrections" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

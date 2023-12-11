@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="callbacks" kind="page">
+    <compoundname>callbacks</compoundname>
+    <title>Notes on Callback Functions</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Global <ref refid="group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a" kindref="member">vrna_auxdata_free_f</ref>  )(void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000002"/> <parblock><para>This callback is supposed to free memory occupied by an auxiliary data structure. It will be called when the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> is erased from memory through a call to <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref> and will be passed the address of memory previously bound to the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> via <ref refid="group__fold__compound_1gad6c0747712712bda6d94702e0de895a7" kindref="member">vrna_fold_compound_add_auxdata()</ref>.  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__subopt__stochbt_1ga4e064a63f93476c9f1dba0e207009a0e" kindref="member">vrna_bs_result_f</ref>  )(const char *structure, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000001"/> <parblock><para>This function will be called for each secondary structure that has been successfully backtraced from the partition function DP matrices.  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__hard__constraints_1ga23a523332de2867a1568a0229345ab80" kindref="member">vrna_hc_eval_f</ref>  )(int i, int j, int k, int l, unsigned char d, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000014"/> <parblock><para>This callback enables one to over-rule default hard constraints in secondary structure decompositions.  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__thermodynamics_1gafa73325bee7e6b7c9d1732d70e67d65a" kindref="member">vrna_heat_capacity_f</ref>  )(float temp, float heat_capacity, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000004"/> <parblock><para>This function will be called for each evaluated temperature in the heat capacity prediction.  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__mfe__window_1gad5ea6c5a692b4f19eab4acf3b1a7cba8" kindref="member">vrna_mfe_window_f</ref>  )(int start, int end, const char *structure, float en, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000005"/> <parblock><para>This function will be called for each hit in a sliding window MFE prediction.  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__part__func__window_1ga847115aeace6030fa01185cca6e34f9e" kindref="member">vrna_probs_window_f</ref>  )(FLT_OR_DBL *pr, int pr_size, int i, int max, unsigned int type, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000006"/> <parblock><para>This function will be called for each probability data set in the sliding window probability computation implementation of <ref refid="group__part__func__window_1ga86ebf4399ab22f7d3126c81b5c75b9f4" kindref="member">vrna_probs_window()</ref>. The argument <emphasis>type</emphasis> specifies the type of probability that is passed to this function.  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761" kindref="member">vrna_recursion_status_f</ref>  )(unsigned char status, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000003"/> <parblock><para>This function will be called to notify a third-party implementation about the status of a currently ongoing recursion. The purpose of this callback mechanism is to provide users with a simple way to ensure pre- and post conditions for auxiliary mechanisms attached to our implementations.  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__soft__constraints_1gaaa010a245ab273cd5c265929ff0b8bbd" kindref="member">vrna_sc_bt_f</ref>  )(int i, int j, int k, int l, unsigned char d, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000017"/> <parblock><para>This callback enables one to add auxiliary base pairs in the backtracking steps of hairpin- and interior loops.  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__soft__constraints_1ga562554815b6717091125bf9782532740" kindref="member">vrna_sc_exp_f</ref>  )(int i, int j, int k, int l, unsigned char d, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000016"/> <parblock><para>This callback enables one to add (pseudo-)energy contributions to individual decompositions of the secondary structure (Partition function variant, i.e. contributions must be returned as Boltzmann factors).  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__soft__constraints_1gae2f7ded586b09b12ddaa627eee355a32" kindref="member">vrna_sc_f</ref>  )(int i, int j, int k, int l, unsigned char d, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000015"/> <parblock><para>This callback enables one to add (pseudo-)energy contributions to individual decompositions of the secondary structure.  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__subopt__wuchty_1ga760ee7f326a411565f9e9f0cf44b2ff8" kindref="member">vrna_subopt_result_f</ref>  )(const char *stucture, float energy, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000007"/> <parblock><para>This function will be called for each suboptimal secondary structure that is successfully backtraced.  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__domains__up_1ga5ea006f39d44db3ae9481a748889a0a1" kindref="member">vrna_ud_add_probs_f</ref>  )(vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, FLT_OR_DBL exp_energy, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000012"/> <parblock><para>A callback function to store equilibrium probabilities for the unstructured domain feature  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__domains__up_1ga2e9002a489309f2cf59379d8ca6d00f0" kindref="member">vrna_ud_exp_f</ref>  )(vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000009"/> <parblock><para>This function will be called to determine the additional energy contribution of a specific unstructured domain, e.g. the binding free energy of some ligand (Partition function variant, i.e. the Boltzmann factors instead of actual free energies).  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__domains__up_1ga59dc10fdd4705c87aacaed15a8b1015d" kindref="member">vrna_ud_exp_production_f</ref>  )(vrna_fold_compound_t *fc, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000011"/> <parblock><para>The production rule for the unstructured domain grammar extension (Partition function variant)  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__domains__up_1gaec7ac7d3800d3ddd42eced89b43038ea" kindref="member">vrna_ud_f</ref>  )(vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000008"/> <parblock><para>This function will be called to determine the additional energy contribution of a specific unstructured domain, e.g. the binding free energy of some ligand.  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__domains__up_1ga584c32828e8803a32de7c52bdad5c6bd" kindref="member">vrna_ud_get_probs_f</ref>  )(vrna_fold_compound_t *fc, int i, int j, unsigned int loop_type, int motif, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000013"/> <parblock><para>A callback function to retrieve equilibrium probabilities for the unstructured domain feature  </para>
+</parblock></para>
+</listitem>
+<varlistentry><term>Global <ref refid="group__domains__up_1ga6da4dff321fdfaf9742efcd558fa327f" kindref="member">vrna_ud_production_f</ref>  )(vrna_fold_compound_t *fc, void *data)</term></varlistentry>
+<listitem><para><anchor id="callbacks_1_callbacks000010"/> <parblock><para>The production rule for the unstructured domain grammar extension </para>
+</parblock></para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="callbacks"/>
+  </compounddef>
+</doxygen>

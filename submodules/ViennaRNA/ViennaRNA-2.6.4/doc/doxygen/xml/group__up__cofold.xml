@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__up__cofold" kind="group">
+    <compoundname>up_cofold</compoundname>
+    <title>Partition Function for two Hybridized Sequences as a Stepwise Process</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__up__cofold_1ga2a7fb78dfbfb00eccf8d79f38e3384c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structpu__contrib" kindref="compound">pu_contrib</ref> *</type>
+        <definition>pu_contrib * pf_unstru</definition>
+        <argsstring>(char *sequence, int max_w)</argsstring>
+        <name>pf_unstru</name>
+        <param>
+          <type>char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_w</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the partition function over all unpaired regions of a maximal length. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>You have to call function <ref refid="group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2" kindref="member">pf_fold()</ref> providing the same sequence before calling <ref refid="group__up__cofold_1ga2a7fb78dfbfb00eccf8d79f38e3384c3" kindref="member">pf_unstru()</ref>. If you want to calculate unpaired regions for a constrained structure, set variable &apos;structure&apos; in function &apos;<ref refid="group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2" kindref="member">pf_fold()</ref>&apos; to the constrain string. It returns a <ref refid="structpu__contrib" kindref="compound">pu_contrib</ref> struct containing four arrays of dimension [i = 1 to length(sequence)][j = 0 to u-1] containing all possible contributions to the probabilities of unpaired regions of maximum length u. Each array in <ref refid="structpu__contrib" kindref="compound">pu_contrib</ref> contains one of the contributions to the total probability of being unpaired: The probability of being unpaired within an exterior loop is in array <ref refid="structpu__contrib" kindref="compound">pu_contrib</ref>-&gt;E, the probability of being unpaired within a hairpin loop is in array <ref refid="structpu__contrib" kindref="compound">pu_contrib</ref>-&gt;H, the probability of being unpaired within an interior loop is in array <ref refid="structpu__contrib" kindref="compound">pu_contrib</ref>-&gt;I and probability of being unpaired within a multi-loop is in array <ref refid="structpu__contrib" kindref="compound">pu_contrib</ref>-&gt;M. The total probability of being unpaired is the sum of the four arrays of <ref refid="structpu__contrib" kindref="compound">pu_contrib</ref>.</para>
+<para>This function frees everything allocated automatically. To free the output structure call free_pu_contrib().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_w</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para></para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_up.h" line="49" column="12" declfile="ViennaRNA/part_func_up.h" declline="49" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="group__up__cofold_1ga5adcc9222fe42d943e407e79a3f4558d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structinteract" kindref="compound">interact</ref> *</type>
+        <definition>interact * pf_interact</definition>
+        <argsstring>(const char *s1, const char *s2, pu_contrib *p_c, pu_contrib *p_c2, int max_w, char *cstruc, int incr3, int incr5)</argsstring>
+        <name>pf_interact</name>
+        <param>
+          <type>const char *</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s2</declname>
+        </param>
+        <param>
+          <type><ref refid="structpu__contrib" kindref="compound">pu_contrib</ref> *</type>
+          <declname>p_c</declname>
+        </param>
+        <param>
+          <type><ref refid="structpu__contrib" kindref="compound">pu_contrib</ref> *</type>
+          <declname>p_c2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_w</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>cstruc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>incr3</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>incr5</declname>
+        </param>
+        <briefdescription>
+<para>Calculates the probability of a local interaction between two sequences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The function considers the probability that the region of interaction is unpaired within &apos;s1&apos; and &apos;s2&apos;. The longer sequence has to be given as &apos;s1&apos;. The shorter sequence has to be given as &apos;s2&apos;. Function <ref refid="group__up__cofold_1ga2a7fb78dfbfb00eccf8d79f38e3384c3" kindref="member">pf_unstru()</ref> has to be called for &apos;s1&apos; and &apos;s2&apos;, where the probabilities of being unpaired have to be given in &apos;p_c&apos; and &apos;p_c2&apos;, respectively. If you do not want to include the probabilities of being unpaired for &apos;s2&apos; set &apos;p_c2&apos; to NULL. If variable &apos;cstruc&apos; is not NULL, constrained folding is done: The available constrains for intermolecular interaction are: &apos;.&apos; (no constrain), &apos;x&apos; (the base has no intermolecular interaction) and &apos;|&apos; (the corresponding base has to be paired intermolecularily).<linebreak/>
+The parameter &apos;w&apos; determines the maximal length of the interaction. The parameters &apos;incr5&apos; and &apos;incr3&apos; allows inclusion of unpaired residues left (&apos;incr5&apos;) and right (&apos;incr3&apos;) of the region of interaction in &apos;s1&apos;. If the &apos;incr&apos; options are used, function <ref refid="group__up__cofold_1ga2a7fb78dfbfb00eccf8d79f38e3384c3" kindref="member">pf_unstru()</ref> has to be called with w=w+incr5+incr3 for the longer sequence &apos;s1&apos;.</para>
+<para>It returns a structure of type <ref refid="structinteract" kindref="compound">interact</ref> which contains the probability of the best local interaction including residue i in Pi and the minimum free energy in Gi, where i is the position in sequence &apos;s1&apos;. The member Gikjl of structure <ref refid="structinteract" kindref="compound">interact</ref> is the best interaction between region [k,i] k&lt;i in longer sequence &apos;s1&apos; and region [j,l] j&lt;l in &apos;s2&apos;. Gikjl_wo is Gikjl without the probability of beeing unpaired.<linebreak/>
+Use <ref refid="group__up__cofold_1gadde308fd5f696dc271b1532aa96fd12f" kindref="member">free_interact()</ref> to free the returned structure, all other stuff is freed inside <ref refid="group__up__cofold_1ga5adcc9222fe42d943e407e79a3f4558d" kindref="member">pf_interact()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>p_c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>p_c2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_w</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cstruc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>incr3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>incr5</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para></para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_up.h" line="94" column="10" declfile="ViennaRNA/part_func_up.h" declline="94" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__up__cofold_1gadde308fd5f696dc271b1532aa96fd12f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void free_interact</definition>
+        <argsstring>(interact *pin)</argsstring>
+        <name>free_interact</name>
+        <param>
+          <type><ref refid="structinteract" kindref="compound">interact</ref> *</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+<para>Frees the output of function <ref refid="group__up__cofold_1ga5adcc9222fe42d943e407e79a3f4558d" kindref="member">pf_interact()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_up.h" line="106" column="6" declfile="ViennaRNA/part_func_up.h" declline="106" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__up__cofold_1ga73efd2918cbbb2cdf44422653f996852" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Up_plot</definition>
+        <argsstring>(pu_contrib *p_c, pu_contrib *p_c_sh, interact *pint, char *ofile, int **unpaired_values, char *select_contrib, char *head, unsigned int mode)</argsstring>
+        <name>Up_plot</name>
+        <param>
+          <type><ref refid="structpu__contrib" kindref="compound">pu_contrib</ref> *</type>
+          <declname>p_c</declname>
+        </param>
+        <param>
+          <type><ref refid="structpu__contrib" kindref="compound">pu_contrib</ref> *</type>
+          <declname>p_c_sh</declname>
+        </param>
+        <param>
+          <type><ref refid="structinteract" kindref="compound">interact</ref> *</type>
+          <declname>pint</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>ofile</declname>
+        </param>
+        <param>
+          <type>int **</type>
+          <declname>unpaired_values</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>select_contrib</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>head</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_up.h" line="111" column="5" declfile="ViennaRNA/part_func_up.h" declline="111" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="group__up__cofold_1gac827201da2538b2eb37e1797031b036e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structpu__contrib" kindref="compound">pu_contrib</ref> *</type>
+        <definition>pu_contrib * get_pu_contrib_struct</definition>
+        <argsstring>(unsigned int n, unsigned int w)</argsstring>
+        <name>get_pu_contrib_struct</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>w</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_up.h" line="123" column="13" declfile="ViennaRNA/part_func_up.h" declline="123" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__up__cofold_1gac20bd61824981d45ce0dc9934aa56df8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void free_pu_contrib_struct</definition>
+        <argsstring>(pu_contrib *pu)</argsstring>
+        <name>free_pu_contrib_struct</name>
+        <param>
+          <type><ref refid="structpu__contrib" kindref="compound">pu_contrib</ref> *</type>
+          <declname>pu</declname>
+        </param>
+        <briefdescription>
+<para>Frees the output of function <ref refid="group__up__cofold_1ga2a7fb78dfbfb00eccf8d79f38e3384c3" kindref="member">pf_unstru()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_up.h" line="129" column="13" declfile="ViennaRNA/part_func_up.h" declline="129" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__up__cofold_1gae1b3579727cf7a27eea93594d0e6d831" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void free_pu_contrib</definition>
+        <argsstring>(pu_contrib *pu)</argsstring>
+        <name>free_pu_contrib</name>
+        <param>
+          <type><ref refid="structpu__contrib" kindref="compound">pu_contrib</ref> *</type>
+          <declname>pu</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_up.h" line="132" column="1" declfile="ViennaRNA/part_func_up.h" declline="132" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

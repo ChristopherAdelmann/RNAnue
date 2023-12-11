@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Structure Samples from the Ensemble &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Compute the Structure with Maximum Expected Accuracy (MEA)" href="mea.html" />
+    <link rel="prev" title="Suboptimal Structures within an Energy Band around the MFE" href="wuchty.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="zuker.html">Suboptimal Structures sensu Zuker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wuchty.html">Suboptimal Structures within an Energy Band around the MFE</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Random Structure Samples from the Ensemble</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#deprecated-api">Deprecated API</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mea.html">Compute the Structure with Maximum Expected Accuracy (MEA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="centroid.html">Compute the Centroid Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+      <li class="breadcrumb-item active">Random Structure Samples from the Ensemble</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="random-structure-samples-from-the-ensemble">
+<h1>Random Structure Samples from the Ensemble<a class="headerlink" href="#random-structure-samples-from-the-ensemble" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__subopt__stochbt"></span></dt>
+<dd><p>Functions to draw random structure samples from the ensemble according to their equilibrium probability. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PBACKTRACK_DEFAULT">
+<span class="target" id="group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PBACKTRACK_DEFAULT</span></span></span><a class="headerlink" href="#c.VRNA_PBACKTRACK_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Boltzmann sampling flag indicating default backtracing mode. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga30c3ddff868c44eecfdb07d99a2422ba"><span class="std std-ref">vrna_pbacktrack5_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga1c4cd7156224ef96147b22c5f7c4ddc3"><span class="std std-ref">vrna_pbacktrack5_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga596ed9bcd86f629a7c7c59c58b297db5"><span class="std std-ref">vrna_pbacktrack_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gad6d1de3371ebe6fd1db3c318e50e6488"><span class="std std-ref">vrna_pbacktrack_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae175129ece546fe7c092f27072e039d1"><span class="std std-ref">vrna_pbacktrack_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gabaaec8b80274f8e7b86d2b2226469d9f"><span class="std std-ref">vrna_pbacktrack_resume_cb()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_PBACKTRACK_NON_REDUNDANT">
+<span class="target" id="group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_PBACKTRACK_NON_REDUNDANT</span></span></span><a class="headerlink" href="#c.VRNA_PBACKTRACK_NON_REDUNDANT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Boltzmann sampling flag indicating non-redundant backtracing mode. </p>
+<p>This flag will turn the Boltzmann sampling into non-redundant backtracing mode along the lines of  <span> <span id="id13">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span></p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga30c3ddff868c44eecfdb07d99a2422ba"><span class="std std-ref">vrna_pbacktrack5_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga1c4cd7156224ef96147b22c5f7c4ddc3"><span class="std std-ref">vrna_pbacktrack5_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga596ed9bcd86f629a7c7c59c58b297db5"><span class="std std-ref">vrna_pbacktrack_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gad6d1de3371ebe6fd1db3c318e50e6488"><span class="std std-ref">vrna_pbacktrack_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae175129ece546fe7c092f27072e039d1"><span class="std std-ref">vrna_pbacktrack_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gabaaec8b80274f8e7b86d2b2226469d9f"><span class="std std-ref">vrna_pbacktrack_resume_cb()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_bs_result_f">
+<span class="target" id="group__subopt__stochbt_1ga4e064a63f93476c9f1dba0e207009a0e"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_bs_result_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_bs_result_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Callback for Boltzmann sampling. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../callbacks.html#callbacks_1_callbacks000001"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>This function will be called for each secondary structure that has been successfully backtraced from the partition function DP matrices. </p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gad6d1de3371ebe6fd1db3c318e50e6488"><span class="std std-ref">vrna_pbacktrack_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga1c4cd7156224ef96147b22c5f7c4ddc3"><span class="std std-ref">vrna_pbacktrack5_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gabaaec8b80274f8e7b86d2b2226469d9f"><span class="std std-ref">vrna_pbacktrack_resume_cb()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param structure<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The secondary structure in dot-bracket notation </p>
+</dd>
+<dt class="field-even">Param data<span class="colon">:</span></dt>
+<dd class="field-even"><p>Some arbitrary, auxiliary data address as provided to the calling function </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="target" id="group__subopt__stochbt_1ga6f882af313cbc01352d886add66a1c64"></span><span class="sig-name descname"><span class="pre">void()</span> <span class="pre">vrna_boltzmann_sampling_callback</span> <span class="pre">(const</span> <span class="pre">char</span> <span class="pre">*structure,</span> <span class="pre">void</span> <span class="pre">*data)</span></span></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_mem_t">
+<span class="target" id="group__subopt__stochbt_1gaa59c30efbed96bf9aaf8005584c72e63"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_pbacktrack_memory_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_mem_t</span></span></span><a class="headerlink" href="#c.vrna_pbacktrack_mem_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Boltzmann sampling memory data structure. </p>
+<p>This structure is required for properly resuming a previous sampling round in specialized Boltzmann sampling, such as non-redundant backtracking.</p>
+<p>Initialize with <code class="docutils literal notranslate"><span class="pre">NULL</span></code> and pass its address to the corresponding functions <a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a>, etc.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae175129ece546fe7c092f27072e039d1"><span class="std std-ref">vrna_pbacktrack_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga1c4cd7156224ef96147b22c5f7c4ddc3"><span class="std std-ref">vrna_pbacktrack5_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gabaaec8b80274f8e7b86d2b2226469d9f"><span class="std std-ref">vrna_pbacktrack_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae64fbdef59e7f503d7e920aac279212b"><span class="std std-ref">vrna_pbacktrack_mem_free()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not forget to release memory occupied by this data structure before losing its context! Use <a class="reference internal" href="#group__subopt__stochbt_1gae64fbdef59e7f503d7e920aac279212b"><span class="std std-ref">vrna_pbacktrack_mem_free()</span></a>.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack5">
+<span class="target" id="group__subopt__stochbt_1ga72ebbe45bcbce147a12f27f62b38db78"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack5</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack5" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Sample a secondary structure of a subsequence from the Boltzmann ensemble according its probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a secondary structure. The parameter <code class="docutils literal notranslate"><span class="pre">length</span></code> specifies the length of the substructure starting from the 5’ end.</p>
+<p>The structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+p(s) = \frac{exp(-E(s) / kT)}{Z}
+\]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000009"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><a class="reference internal" href="#group__subopt__stochbt__deprecated_1ga31aa6bffb2b5c66486f50091a7061320"><span class="std std-ref"><span class="pre">pbacktrack5()</span></span></a></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack5" title="RNA.fold_compound.pbacktrack5"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack5()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga30c3ddff868c44eecfdb07d99a2422ba"><span class="std std-ref">vrna_pbacktrack5_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga594844ac73c4e66e00d6791b31540634"><span class="std std-ref">vrna_pbacktrack()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>length</strong> – The length of the subsequence to consider (starting with 5’ end) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sampled secondary structure in dot-bracket notation (or NULL on error)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack5_num">
+<span class="target" id="group__subopt__stochbt_1ga30c3ddff868c44eecfdb07d99a2422ba"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack5_num</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack5_num" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples for a subsequence from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures. The parameter <code class="docutils literal notranslate"><span class="pre">length</span></code> specifies the length of the substructure starting from the 5’ end.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+p(s) = \frac{exp(-E(s) / kT)}{Z}
+\]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id1">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000012"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><a class="reference internal" href="#group__subopt__stochbt__deprecated_1ga31aa6bffb2b5c66486f50091a7061320"><span class="std std-ref"><span class="pre">pbacktrack5()</span></span></a></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack5" title="RNA.fold_compound.pbacktrack5"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack5()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga72ebbe45bcbce147a12f27f62b38db78"><span class="std std-ref">vrna_pbacktrack5()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga596ed9bcd86f629a7c7c59c58b297db5"><span class="std std-ref">vrna_pbacktrack_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>length</strong> – The length of the subsequence to consider (starting with 5’ end) </p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A set of secondary structure samples in dot-bracket notation terminated by NULL (or NULL on error)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack5_cb">
+<span class="target" id="group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack5_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <a class="reference internal" href="#c.vrna_bs_result_f" title="vrna_bs_result_f"><span class="n"><span class="pre">vrna_bs_result_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack5_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples for a subsequence from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures. The parameter <code class="docutils literal notranslate"><span class="pre">length</span></code> specifies the length of the substructure starting from the 5’ end.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+p(s) = \frac{exp(-E(s) / kT)}{Z}
+\]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id2">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p>In contrast to <a class="reference internal" href="#group__subopt__stochbt_1ga72ebbe45bcbce147a12f27f62b38db78"><span class="std std-ref">vrna_pbacktrack5()</span></a> and <a class="reference internal" href="#group__subopt__stochbt_1ga30c3ddff868c44eecfdb07d99a2422ba"><span class="std std-ref">vrna_pbacktrack5_num()</span></a> this function yields the structure samples through a callback mechanism.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000015"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><a class="reference internal" href="#group__subopt__stochbt__deprecated_1ga31aa6bffb2b5c66486f50091a7061320"><span class="std std-ref"><span class="pre">pbacktrack5()</span></span></a></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack5" title="RNA.fold_compound.pbacktrack5"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack5()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga72ebbe45bcbce147a12f27f62b38db78"><span class="std std-ref">vrna_pbacktrack5()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga30c3ddff868c44eecfdb07d99a2422ba"><span class="std std-ref">vrna_pbacktrack5_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gad6d1de3371ebe6fd1db3c318e50e6488"><span class="std std-ref">vrna_pbacktrack_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>length</strong> – The length of the subsequence to consider (starting with 5’ end) </p></li>
+<li><p><strong>cb</strong> – The callback that receives the sampled structure </p></li>
+<li><p><strong>data</strong> – A data structure passed through to the callback <code class="docutils literal notranslate"><span class="pre">cb</span></code></p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of structures actually backtraced</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack5_resume">
+<span class="target" id="group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack5_resume</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <a class="reference internal" href="#c.vrna_pbacktrack_mem_t" title="vrna_pbacktrack_mem_t"><span class="n"><span class="pre">vrna_pbacktrack_mem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">nr_mem</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack5_resume" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples for a subsequence from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures. The parameter <code class="docutils literal notranslate"><span class="pre">length</span></code> specifies the length of the substructure starting from the 5’ end.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+ p(s) = \frac{exp(-E(s) / kT)}{Z}
+ \]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id3">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p>In contrast to <a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a> this function allows for resuming a previous sampling round in specialized Boltzmann sampling, such as non-redundant backtracking. For that purpose, the user passes the address of a Boltzmann sampling data structure (<a class="reference internal" href="#group__subopt__stochbt_1gaa59c30efbed96bf9aaf8005584c72e63"><span class="std std-ref">vrna_pbacktrack_mem_t</span></a>) which will be re-used in each round of sampling, i.e. each successive call to <a class="reference internal" href="#group__subopt__stochbt_1ga1c4cd7156224ef96147b22c5f7c4ddc3"><span class="std std-ref">vrna_pbacktrack5_resume_cb()</span></a> or <a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a>.</p>
+<p>A successive sample call to this function may look like: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_pbacktrack_mem_t</span><span class="w"> </span><span class="n">nonredundant_memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="c1">// sample the first 100 structures</span>
+<span class="n">vrna_pbacktrack5_resume</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                        </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">fc</span><span class="o">-&gt;</span><span class="n">length</span><span class="p">,</span>
+<span class="w">                        </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// sample another 500 structures</span>
+<span class="n">vrna_pbacktrack5_resume</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                        </span><span class="mi">500</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">fc</span><span class="o">-&gt;</span><span class="n">length</span><span class="p">,</span>
+<span class="w">                        </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// release memory occupied by the non-redundant memory data structure</span>
+<span class="n">vrna_pbacktrack_mem_free</span><span class="p">(</span><span class="n">nonredundant_memory</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000018"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><a class="reference internal" href="#group__subopt__stochbt__deprecated_1ga31aa6bffb2b5c66486f50091a7061320"><span class="std std-ref"><span class="pre">pbacktrack5()</span></span></a></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. In addition to the list of structures, this function also returns the <code class="docutils literal notranslate"><span class="pre">nr_mem</span></code> data structure as first return value. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack5" title="RNA.fold_compound.pbacktrack5"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack5()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga1c4cd7156224ef96147b22c5f7c4ddc3"><span class="std std-ref">vrna_pbacktrack5_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae175129ece546fe7c092f27072e039d1"><span class="std std-ref">vrna_pbacktrack_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gaa59c30efbed96bf9aaf8005584c72e63"><span class="std std-ref">vrna_pbacktrack_mem_t</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae64fbdef59e7f503d7e920aac279212b"><span class="std std-ref">vrna_pbacktrack_mem_free</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>length</strong> – The length of the subsequence to consider (starting with 5’ end) </p></li>
+<li><p><strong>nr_mem</strong> – The address of the Boltzmann sampling memory data structure </p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A set of secondary structure samples in dot-bracket notation terminated by NULL (or NULL on error)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack5_resume_cb">
+<span class="target" id="group__subopt__stochbt_1ga1c4cd7156224ef96147b22c5f7c4ddc3"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack5_resume_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <a class="reference internal" href="#c.vrna_bs_result_f" title="vrna_bs_result_f"><span class="n"><span class="pre">vrna_bs_result_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <a class="reference internal" href="#c.vrna_pbacktrack_mem_t" title="vrna_pbacktrack_mem_t"><span class="n"><span class="pre">vrna_pbacktrack_mem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">nr_mem</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack5_resume_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples for a subsequence from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures. The parameter <code class="docutils literal notranslate"><span class="pre">length</span></code> specifies the length of the substructure starting from the 5’ end.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+ p(s) = \frac{exp(-E(s) / kT)}{Z}
+ \]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id4">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p>In contrast to <a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a> this function yields the structure samples through a callback mechanism.</p>
+<p>A successive sample call to this function may look like: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_pbacktrack_mem_t</span><span class="w"> </span><span class="n">nonredundant_memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="c1">// sample the first 100 structures</span>
+<span class="n">vrna_pbacktrack5_resume_cb</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                           </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">fc</span><span class="o">-&gt;</span><span class="n">length</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">callback_function</span><span class="p">,</span>
+<span class="w">                           </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">callback_data</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// sample another 500 structures</span>
+<span class="n">vrna_pbacktrack5_resume_cb</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                           </span><span class="mi">500</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">fc</span><span class="o">-&gt;</span><span class="n">length</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">callback_function</span><span class="p">,</span>
+<span class="w">                           </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">callback_data</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// release memory occupied by the non-redundant memory data structure</span>
+<span class="n">vrna_pbacktrack_mem_free</span><span class="p">(</span><span class="n">nonredundant_memory</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000021"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><a class="reference internal" href="#group__subopt__stochbt__deprecated_1ga31aa6bffb2b5c66486f50091a7061320"><span class="std std-ref"><span class="pre">pbacktrack5()</span></span></a></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. In addition to the number of structures backtraced, this function also returns the <code class="docutils literal notranslate"><span class="pre">nr_mem</span></code> data structure as first return value. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack5" title="RNA.fold_compound.pbacktrack5"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack5()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gabaaec8b80274f8e7b86d2b2226469d9f"><span class="std std-ref">vrna_pbacktrack_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gaa59c30efbed96bf9aaf8005584c72e63"><span class="std std-ref">vrna_pbacktrack_mem_t</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae64fbdef59e7f503d7e920aac279212b"><span class="std std-ref">vrna_pbacktrack_mem_free</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>length</strong> – The length of the subsequence to consider (starting with 5’ end) </p></li>
+<li><p><strong>cb</strong> – The callback that receives the sampled structure </p></li>
+<li><p><strong>data</strong> – A data structure passed through to the callback <code class="docutils literal notranslate"><span class="pre">cb</span></code></p></li>
+<li><p><strong>nr_mem</strong> – The address of the Boltzmann sampling memory data structure </p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of structures actually backtraced</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack">
+<span class="target" id="group__subopt__stochbt_1ga594844ac73c4e66e00d6791b31540634"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Sample a secondary structure from the Boltzmann ensemble according its probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a secondary structure.</p>
+<p>The structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+p(s) = \frac{exp(-E(s) / kT)}{Z}
+\]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000010"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><a class="reference internal" href="#group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18"><span class="std std-ref"><span class="pre">pbacktrack()</span></span></a></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack" title="RNA.fold_compound.pbacktrack"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga72ebbe45bcbce147a12f27f62b38db78"><span class="std std-ref">vrna_pbacktrack5()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga596ed9bcd86f629a7c7c59c58b297db5"><span class="std std-ref">vrna_pbacktrack_num</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gad6d1de3371ebe6fd1db3c318e50e6488"><span class="std std-ref">vrna_pbacktrack_cb()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sampled secondary structure in dot-bracket notation (or NULL on error)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_num">
+<span class="target" id="group__subopt__stochbt_1ga596ed9bcd86f629a7c7c59c58b297db5"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_num</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack_num" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+p(s) = \frac{exp(-E(s) / kT)}{Z}
+\]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id5">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000013"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><a class="reference internal" href="#group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18"><span class="std std-ref"><span class="pre">pbacktrack()</span></span></a></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack" title="RNA.fold_compound.pbacktrack"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>.</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga594844ac73c4e66e00d6791b31540634"><span class="std std-ref">vrna_pbacktrack()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gad6d1de3371ebe6fd1db3c318e50e6488"><span class="std std-ref">vrna_pbacktrack_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga30c3ddff868c44eecfdb07d99a2422ba"><span class="std std-ref">vrna_pbacktrack5_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A set of secondary structure samples in dot-bracket notation terminated by NULL (or NULL on error)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_cb">
+<span class="target" id="group__subopt__stochbt_1gad6d1de3371ebe6fd1db3c318e50e6488"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <a class="reference internal" href="#c.vrna_bs_result_f" title="vrna_bs_result_f"><span class="n"><span class="pre">vrna_bs_result_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+p(s) = \frac{exp(-E(s) / kT)}{Z}
+\]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id6">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p>In contrast to <a class="reference internal" href="#group__subopt__stochbt_1ga594844ac73c4e66e00d6791b31540634"><span class="std std-ref">vrna_pbacktrack()</span></a> and <a class="reference internal" href="#group__subopt__stochbt_1ga596ed9bcd86f629a7c7c59c58b297db5"><span class="std std-ref">vrna_pbacktrack_num()</span></a> this function yields the structure samples through a callback mechanism.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000016"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><a class="reference internal" href="#group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18"><span class="std std-ref"><span class="pre">pbacktrack()</span></span></a></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack" title="RNA.fold_compound.pbacktrack"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga594844ac73c4e66e00d6791b31540634"><span class="std std-ref">vrna_pbacktrack()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga596ed9bcd86f629a7c7c59c58b297db5"><span class="std std-ref">vrna_pbacktrack_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>cb</strong> – The callback that receives the sampled structure </p></li>
+<li><p><strong>data</strong> – A data structure passed through to the callback <code class="docutils literal notranslate"><span class="pre">cb</span></code></p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of structures actually backtraced</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_resume">
+<span class="target" id="group__subopt__stochbt_1gae175129ece546fe7c092f27072e039d1"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_resume</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <a class="reference internal" href="#c.vrna_pbacktrack_mem_t" title="vrna_pbacktrack_mem_t"><span class="n"><span class="pre">vrna_pbacktrack_mem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">nr_mem</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack_resume" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+ p(s) = \frac{exp(-E(s) / kT)}{Z}
+ \]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id7">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p>In contrast to <a class="reference internal" href="#group__subopt__stochbt_1gad6d1de3371ebe6fd1db3c318e50e6488"><span class="std std-ref">vrna_pbacktrack_cb()</span></a> this function allows for resuming a previous sampling round in specialized Boltzmann sampling, such as non-redundant backtracking. For that purpose, the user passes the address of a Boltzmann sampling data structure (<a class="reference internal" href="#group__subopt__stochbt_1gaa59c30efbed96bf9aaf8005584c72e63"><span class="std std-ref">vrna_pbacktrack_mem_t</span></a>) which will be re-used in each round of sampling, i.e. each successive call to <a class="reference internal" href="#group__subopt__stochbt_1gabaaec8b80274f8e7b86d2b2226469d9f"><span class="std std-ref">vrna_pbacktrack_resume_cb()</span></a> or <a class="reference internal" href="#group__subopt__stochbt_1gae175129ece546fe7c092f27072e039d1"><span class="std std-ref">vrna_pbacktrack_resume()</span></a>.</p>
+<p>A successive sample call to this function may look like: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_pbacktrack_mem_t</span><span class="w"> </span><span class="n">nonredundant_memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="c1">// sample the first 100 structures</span>
+<span class="n">vrna_pbacktrack_resume</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                       </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">                       </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// sample another 500 structures</span>
+<span class="n">vrna_pbacktrack_resume</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                       </span><span class="mi">500</span><span class="p">,</span>
+<span class="w">                       </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// release memory occupied by the non-redundant memory data structure</span>
+<span class="n">vrna_pbacktrack_mem_free</span><span class="p">(</span><span class="n">nonredundant_memory</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000019"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><a class="reference internal" href="#group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18"><span class="std std-ref"><span class="pre">pbacktrack()</span></span></a></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. In addition to the list of structures, this function also returns the <code class="docutils literal notranslate"><span class="pre">nr_mem</span></code> data structure as first return value. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack" title="RNA.fold_compound.pbacktrack"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1gabaaec8b80274f8e7b86d2b2226469d9f"><span class="std std-ref">vrna_pbacktrack_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gad6d1de3371ebe6fd1db3c318e50e6488"><span class="std std-ref">vrna_pbacktrack_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gaa59c30efbed96bf9aaf8005584c72e63"><span class="std std-ref">vrna_pbacktrack_mem_t</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae64fbdef59e7f503d7e920aac279212b"><span class="std std-ref">vrna_pbacktrack_mem_free</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>nr_mem</strong> – The address of the Boltzmann sampling memory data structure </p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A set of secondary structure samples in dot-bracket notation terminated by NULL (or NULL on error)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_resume_cb">
+<span class="target" id="group__subopt__stochbt_1gabaaec8b80274f8e7b86d2b2226469d9f"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_resume_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <a class="reference internal" href="#c.vrna_bs_result_f" title="vrna_bs_result_f"><span class="n"><span class="pre">vrna_bs_result_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <a class="reference internal" href="#c.vrna_pbacktrack_mem_t" title="vrna_pbacktrack_mem_t"><span class="n"><span class="pre">vrna_pbacktrack_mem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">nr_mem</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack_resume_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+ p(s) = \frac{exp(-E(s) / kT)}{Z}
+ \]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id8">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p>In contrast to <a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a> this function yields the structure samples through a callback mechanism.</p>
+<p>A successive sample call to this function may look like: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_pbacktrack_mem_t</span><span class="w"> </span><span class="n">nonredundant_memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="c1">// sample the first 100 structures</span>
+<span class="n">vrna_pbacktrack5_resume_cb</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                           </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">callback_function</span><span class="p">,</span>
+<span class="w">                           </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">callback_data</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// sample another 500 structures</span>
+<span class="n">vrna_pbacktrack5_resume_cb</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                           </span><span class="mi">500</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">callback_function</span><span class="p">,</span>
+<span class="w">                           </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">callback_data</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// release memory occupied by the non-redundant memory data structure</span>
+<span class="n">vrna_pbacktrack_mem_free</span><span class="p">(</span><span class="n">nonredundant_memory</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000022"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><a class="reference internal" href="#group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18"><span class="std std-ref"><span class="pre">pbacktrack()</span></span></a></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. In addition to the number of structures backtraced, this function also returns the <code class="docutils literal notranslate"><span class="pre">nr_mem</span></code> data structure as first return value. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack" title="RNA.fold_compound.pbacktrack"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1gae175129ece546fe7c092f27072e039d1"><span class="std std-ref">vrna_pbacktrack_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gad6d1de3371ebe6fd1db3c318e50e6488"><span class="std std-ref">vrna_pbacktrack_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga1c4cd7156224ef96147b22c5f7c4ddc3"><span class="std std-ref">vrna_pbacktrack5_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gaa59c30efbed96bf9aaf8005584c72e63"><span class="std std-ref">vrna_pbacktrack_mem_t</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae64fbdef59e7f503d7e920aac279212b"><span class="std std-ref">vrna_pbacktrack_mem_free</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>cb</strong> – The callback that receives the sampled structure </p></li>
+<li><p><strong>data</strong> – A data structure passed through to the callback <code class="docutils literal notranslate"><span class="pre">cb</span></code></p></li>
+<li><p><strong>nr_mem</strong> – The address of the Boltzmann sampling memory data structure </p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of structures actually backtraced</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_sub">
+<span class="target" id="group__subopt__stochbt_1ga4ae8e7ce0b1e6e45569d183af038c392"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_sub</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">end</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack_sub" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Sample a secondary structure of a subsequence from the Boltzmann ensemble according its probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a secondary structure. The parameters <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> specify the interval <span class="math notranslate nohighlight">\( [start:end] \)</span> of the subsequence with <span class="math notranslate nohighlight">\( 1 \leq start &lt; end \leq n\)</span> for sequence length <span class="math notranslate nohighlight">\( n \)</span>, the structure <span class="math notranslate nohighlight">\( s_{start,end} \)</span> should be drawn from.</p>
+<p>The resulting substructure <span class="math notranslate nohighlight">\( s_{start,end} \)</span> with free energy <span class="math notranslate nohighlight">\( E(s_{start, end}) \)</span> is picked from the Boltzmann distributed sub ensemble of all structures within the interval <span class="math notranslate nohighlight">\( [start:end] \)</span> according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+p(s_{start,end}) = \frac{exp(-E(s_{start,end}) / kT)}{Z_{start,end}}
+\]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z_{start,end} = \sum_{s_{start,end}} exp(-E(s_{start,end}) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000011"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">pbacktrack_sub()</span></code> to objects of type <em>fold_compound</em>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack_sub" title="RNA.fold_compound.pbacktrack_sub"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack_sub()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga21000927ce498a1b17dff92bda4d996f"><span class="std std-ref">vrna_pbacktrack_sub_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga6a077de16b2d95dfd9c8f06ddef092b5"><span class="std std-ref">vrna_pbacktrack_sub_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga594844ac73c4e66e00d6791b31540634"><span class="std std-ref">vrna_pbacktrack()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>start</strong> – The start of the subsequence to consider, i.e. 5’-end position(1-based) </p></li>
+<li><p><strong>end</strong> – The end of the subsequence to consider, i.e. 3’-end position (1-based) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sampled secondary structure in dot-bracket notation (or NULL on error)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_sub_num">
+<span class="target" id="group__subopt__stochbt_1ga21000927ce498a1b17dff92bda4d996f"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_sub_num</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">end</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack_sub_num" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples for a subsequence from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures. The parameter <code class="docutils literal notranslate"><span class="pre">length</span></code> specifies the length of the substructure starting from the 5’ end.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+p(s) = \frac{exp(-E(s) / kT)}{Z}
+\]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id9">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000014"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">pbacktrack_sub()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack_sub" title="RNA.fold_compound.pbacktrack_sub"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack_sub()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>.</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga4ae8e7ce0b1e6e45569d183af038c392"><span class="std std-ref">vrna_pbacktrack_sub()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga6a077de16b2d95dfd9c8f06ddef092b5"><span class="std std-ref">vrna_pbacktrack_sub_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga596ed9bcd86f629a7c7c59c58b297db5"><span class="std std-ref">vrna_pbacktrack_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>start</strong> – The start of the subsequence to consider, i.e. 5’-end position(1-based) </p></li>
+<li><p><strong>end</strong> – The end of the subsequence to consider, i.e. 3’-end position (1-based) </p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A set of secondary structure samples in dot-bracket notation terminated by NULL (or NULL on error)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_sub_cb">
+<span class="target" id="group__subopt__stochbt_1ga6a077de16b2d95dfd9c8f06ddef092b5"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_sub_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">end</span></span>, <a class="reference internal" href="#c.vrna_bs_result_f" title="vrna_bs_result_f"><span class="n"><span class="pre">vrna_bs_result_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack_sub_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples for a subsequence from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures. The parameter <code class="docutils literal notranslate"><span class="pre">length</span></code> specifies the length of the substructure starting from the 5’ end.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+p(s) = \frac{exp(-E(s) / kT)}{Z}
+\]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id10">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p>In contrast to <a class="reference internal" href="#group__subopt__stochbt_1ga72ebbe45bcbce147a12f27f62b38db78"><span class="std std-ref">vrna_pbacktrack5()</span></a> and <a class="reference internal" href="#group__subopt__stochbt_1ga30c3ddff868c44eecfdb07d99a2422ba"><span class="std std-ref">vrna_pbacktrack5_num()</span></a> this function yields the structure samples through a callback mechanism.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000017"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><a class="reference internal" href="#group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18"><span class="std std-ref"><span class="pre">pbacktrack()</span></span></a></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack" title="RNA.fold_compound.pbacktrack"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga72ebbe45bcbce147a12f27f62b38db78"><span class="std std-ref">vrna_pbacktrack5()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga30c3ddff868c44eecfdb07d99a2422ba"><span class="std std-ref">vrna_pbacktrack5_num()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gad6d1de3371ebe6fd1db3c318e50e6488"><span class="std std-ref">vrna_pbacktrack_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>start</strong> – The start of the subsequence to consider, i.e. 5’-end position(1-based) </p></li>
+<li><p><strong>end</strong> – The end of the subsequence to consider, i.e. 3’-end position (1-based) </p></li>
+<li><p><strong>cb</strong> – The callback that receives the sampled structure </p></li>
+<li><p><strong>data</strong> – A data structure passed through to the callback <code class="docutils literal notranslate"><span class="pre">cb</span></code></p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of structures actually backtraced</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_sub_resume">
+<span class="target" id="group__subopt__stochbt_1ga2b99a532c4e06b346bfab4111700976e"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_sub_resume</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">end</span></span>, <a class="reference internal" href="#c.vrna_pbacktrack_mem_t" title="vrna_pbacktrack_mem_t"><span class="n"><span class="pre">vrna_pbacktrack_mem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">nr_mem</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack_sub_resume" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples for a subsequence from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures. The parameter <code class="docutils literal notranslate"><span class="pre">length</span></code> specifies the length of the substructure starting from the 5’ end.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+ p(s) = \frac{exp(-E(s) / kT)}{Z}
+ \]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id11">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p>In contrast to <a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a> this function allows for resuming a previous sampling round in specialized Boltzmann sampling, such as non-redundant backtracking. For that purpose, the user passes the address of a Boltzmann sampling data structure (<a class="reference internal" href="#group__subopt__stochbt_1gaa59c30efbed96bf9aaf8005584c72e63"><span class="std std-ref">vrna_pbacktrack_mem_t</span></a>) which will be re-used in each round of sampling, i.e. each successive call to <a class="reference internal" href="#group__subopt__stochbt_1ga1c4cd7156224ef96147b22c5f7c4ddc3"><span class="std std-ref">vrna_pbacktrack5_resume_cb()</span></a> or <a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a>.</p>
+<p>A successive sample call to this function may look like: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_pbacktrack_mem_t</span><span class="w"> </span><span class="n">nonredundant_memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="c1">// sample the first 100 structures</span>
+<span class="n">vrna_pbacktrack5_resume</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                        </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">fc</span><span class="o">-&gt;</span><span class="n">length</span><span class="p">,</span>
+<span class="w">                        </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// sample another 500 structures</span>
+<span class="n">vrna_pbacktrack5_resume</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                        </span><span class="mi">500</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">fc</span><span class="o">-&gt;</span><span class="n">length</span><span class="p">,</span>
+<span class="w">                        </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// release memory occupied by the non-redundant memory data structure</span>
+<span class="n">vrna_pbacktrack_mem_free</span><span class="p">(</span><span class="n">nonredundant_memory</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000020"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">pbacktrack_sub()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. In addition to the list of structures, this function also returns the <code class="docutils literal notranslate"><span class="pre">nr_mem</span></code> data structure as first return value. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack_sub" title="RNA.fold_compound.pbacktrack_sub"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack_sub()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga1c4cd7156224ef96147b22c5f7c4ddc3"><span class="std std-ref">vrna_pbacktrack5_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae175129ece546fe7c092f27072e039d1"><span class="std std-ref">vrna_pbacktrack_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gaa59c30efbed96bf9aaf8005584c72e63"><span class="std std-ref">vrna_pbacktrack_mem_t</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae64fbdef59e7f503d7e920aac279212b"><span class="std std-ref">vrna_pbacktrack_mem_free</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>start</strong> – The start of the subsequence to consider, i.e. 5’-end position(1-based) </p></li>
+<li><p><strong>end</strong> – The end of the subsequence to consider, i.e. 3’-end position (1-based) </p></li>
+<li><p><strong>nr_mem</strong> – The address of the Boltzmann sampling memory data structure </p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A set of secondary structure samples in dot-bracket notation terminated by NULL (or NULL on error)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_sub_resume_cb">
+<span class="target" id="group__subopt__stochbt_1gaab6ee5d51be1723a2dda22f758da882c"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_sub_resume_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_samples</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">end</span></span>, <a class="reference internal" href="#c.vrna_bs_result_f" title="vrna_bs_result_f"><span class="n"><span class="pre">vrna_bs_result_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <a class="reference internal" href="#c.vrna_pbacktrack_mem_t" title="vrna_pbacktrack_mem_t"><span class="n"><span class="pre">vrna_pbacktrack_mem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">nr_mem</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack_sub_resume_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Obtain a set of secondary structure samples for a subsequence from the Boltzmann ensemble according their probability. </p>
+<p>Perform a probabilistic (stochastic) backtracing in the partition function DP arrays to obtain a set of <code class="docutils literal notranslate"><span class="pre">num_samples</span></code> secondary structures. The parameter <code class="docutils literal notranslate"><span class="pre">length</span></code> specifies the length of the substructure starting from the 5’ end.</p>
+<p>Any structure <span class="math notranslate nohighlight">\( s \)</span> with free energy <span class="math notranslate nohighlight">\( E(s) \)</span> is picked from the Boltzmann distributed ensemble according to its probability</p>
+<p><div class="math notranslate nohighlight">
+\[
+ p(s) = \frac{exp(-E(s) / kT)}{Z}
+ \]</div>
+</p>
+<p>with partition function <span class="math notranslate nohighlight">\( Z = \sum_s exp(-E(s) / kT) \)</span>, Boltzmann constant <span class="math notranslate nohighlight">\( k \)</span> and thermodynamic temperature <span class="math notranslate nohighlight">\( T \)</span>.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">options</span></code> flag one can switch between regular (<a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>) backtracing mode, and non-redundant sampling (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>) along the lines of  <span> <span id="id12">Michálik <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id40" title="Juraj Michálik, Hélène Touzet, and Yann Ponty. Efficient approximations of RNA kinetics landscape using non-redundant sampling. Bioinformatics, 33(14):i283–i292, 2017. doi:10.1093/bioinformatics/btx269.">2017</a>]</span> </span>.</p>
+<p>In contrast to <a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a> this function yields the structure samples through a callback mechanism.</p>
+<p>A successive sample call to this function may look like: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_pbacktrack_mem_t</span><span class="w"> </span><span class="n">nonredundant_memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="c1">// sample the first 100 structures</span>
+<span class="n">vrna_pbacktrack5_resume_cb</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                           </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">fc</span><span class="o">-&gt;</span><span class="n">length</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">callback_function</span><span class="p">,</span>
+<span class="w">                           </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">callback_data</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// sample another 500 structures</span>
+<span class="n">vrna_pbacktrack5_resume_cb</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span>
+<span class="w">                           </span><span class="mi">500</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">fc</span><span class="o">-&gt;</span><span class="n">length</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">callback_function</span><span class="p">,</span>
+<span class="w">                           </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">callback_data</span><span class="p">,</span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">nonredundant_memory</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">options</span><span class="p">);</span>
+
+<span class="c1">// release memory occupied by the non-redundant memory data structure</span>
+<span class="n">vrna_pbacktrack_mem_free</span><span class="p">(</span><span class="n">nonredundant_memory</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000023"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">pbacktrack_sub()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with optional last argument <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>. In addition to the number of structures backtraced, this function also returns the <code class="docutils literal notranslate"><span class="pre">nr_mem</span></code> data structure as first return value. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.pbacktrack_sub" title="RNA.fold_compound.pbacktrack_sub"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.pbacktrack_sub()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span> and the  <span> <a class="reference internal" href="../examples/python.html#boltzmann-sampling"><span class="std std-ref">Boltzmann Sampling</span></a> Python examples </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga0849bf555110d546ac81bc2aefdfe507"><span class="std std-ref">vrna_pbacktrack5_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gabaaec8b80274f8e7b86d2b2226469d9f"><span class="std std-ref">vrna_pbacktrack_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gaa59c30efbed96bf9aaf8005584c72e63"><span class="std std-ref">vrna_pbacktrack_mem_t</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga760aa2fb2d5e3d7521a11454a21e9b9f"><span class="std std-ref">VRNA_PBACKTRACK_DEFAULT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae64fbdef59e7f503d7e920aac279212b"><span class="std std-ref">vrna_pbacktrack_mem_free</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In non-redundant sampling mode (<a class="reference internal" href="#group__subopt__stochbt_1ga9d580ce645aa0c38b69afdf56c332200"><span class="std std-ref">VRNA_PBACKTRACK_NON_REDUNDANT</span></a>), this function may not yield the full number of requested samples. This may happen if a) the number of requested structures is larger than the total number of structuresin the ensemble, b) numeric instabilities prevent the backtracking function to enumerate structures with high free energies, or c) any other error occurs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold compound data structure </p></li>
+<li><p><strong>num_samples</strong> – The size of the sample set, i.e. number of structures </p></li>
+<li><p><strong>start</strong> – The start of the subsequence to consider, i.e. 5’-end position(1-based) </p></li>
+<li><p><strong>end</strong> – The end of the subsequence to consider, i.e. 3’-end position (1-based) </p></li>
+<li><p><strong>cb</strong> – The callback that receives the sampled structure </p></li>
+<li><p><strong>data</strong> – A data structure passed through to the callback <code class="docutils literal notranslate"><span class="pre">cb</span></code></p></li>
+<li><p><strong>nr_mem</strong> – The address of the Boltzmann sampling memory data structure </p></li>
+<li><p><strong>options</strong> – A bitwise OR-flag indicating the backtracing mode. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique multiloop decomposition has to be active upon creation of <code class="docutils literal notranslate"><span class="pre">fc</span></code> with <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> or similar. This can be done easily by passing <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a> a model details parameter with <a class="reference internal" href="../grammar/model_details.html#structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2"><span class="std std-ref">vrna_md_t.uniq_ML</span></a> = 1.<a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> has to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of structures actually backtraced</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_pbacktrack_mem_free">
+<span class="target" id="group__subopt__stochbt_1gae64fbdef59e7f503d7e920aac279212b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pbacktrack_mem_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_pbacktrack_mem_t" title="vrna_pbacktrack_mem_t"><span class="n"><span class="pre">vrna_pbacktrack_mem_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">s</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pbacktrack_mem_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/boltzmann_sampling.h&gt;</em><p>Release memory occupied by a Boltzmann sampling memory data structure. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt_1gaa59c30efbed96bf9aaf8005584c72e63"><span class="std std-ref">vrna_pbacktrack_mem_t</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga7917f94e9dfef04a7a2ca666ff4987fb"><span class="std std-ref">vrna_pbacktrack5_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1ga1c4cd7156224ef96147b22c5f7c4ddc3"><span class="std std-ref">vrna_pbacktrack5_resume_cb()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gae175129ece546fe7c092f27072e039d1"><span class="std std-ref">vrna_pbacktrack_resume()</span></a>, <a class="reference internal" href="#group__subopt__stochbt_1gabaaec8b80274f8e7b86d2b2226469d9f"><span class="std std-ref">vrna_pbacktrack_resume_cb()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s</strong> – The non-redundancy memory data structure </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<section id="deprecated-api">
+<h2>Deprecated API<a class="headerlink" href="#deprecated-api" title="Link to this heading"></a></h2>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__subopt__stochbt__deprecated"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.pbacktrack">
+<span class="target" id="group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pbacktrack</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.pbacktrack" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Sample a secondary structure from the Boltzmann ensemble according its probability. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – The RNA sequence </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#group__subopt__stochbt__deprecated_1gacd79b1a570e6ad9be24cb11fe8cae30a"><span class="std std-ref">st_back</span></a> has to be set to 1 before calling <a class="reference internal" href="../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a> or <a class="reference internal" href="../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a><a class="reference internal" href="../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a> or <a class="reference internal" href="../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a> have to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sampled secondary structure in dot-bracket notation </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.pbacktrack5">
+<span class="target" id="group__subopt__stochbt__deprecated_1ga31aa6bffb2b5c66486f50091a7061320"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pbacktrack5</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.pbacktrack5" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Sample a sub-structure from the Boltzmann ensemble according its probability. </p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.pbacktrack_circ">
+<span class="target" id="group__subopt__stochbt__deprecated_1ga4b6d04c882ae87b6cee9a516e06c4155"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pbacktrack_circ</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.pbacktrack_circ" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Sample a secondary structure of a circular RNA from the Boltzmann ensemble according its probability. </p>
+<p>This function does the same as <a class="reference internal" href="#group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18"><span class="std std-ref">pbacktrack()</span></a> but assumes the RNA molecule to be circular</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000101"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__subopt__stochbt_1ga594844ac73c4e66e00d6791b31540634"><span class="std std-ref">vrna_pbacktrack()</span></a> instead.</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Pre<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#group__subopt__stochbt__deprecated_1gacd79b1a570e6ad9be24cb11fe8cae30a"><span class="std std-ref">st_back</span></a> has to be set to 1 before calling <a class="reference internal" href="../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a> or <a class="reference internal" href="../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a><a class="reference internal" href="../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a> or <a class="reference internal" href="../partfunc/global_deprecated.html#group__part__func__global__deprecated_1ga819ce5fca8984004ac81c4a3b04cb735"><span class="std std-ref">pf_circ_fold()</span></a> have to be called first to fill the partition function matrices</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>sequence</strong> – The RNA sequence </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sampled secondary structure in dot-bracket notation </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-variables">Variables</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.st_back">
+<span class="target" id="group__subopt__stochbt__deprecated_1gacd79b1a570e6ad9be24cb11fe8cae30a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">st_back</span></span></span><a class="headerlink" href="#c.st_back" title="Link to this definition"></a><br /></dt>
+<dd><p>Flag indicating that auxilary arrays are needed throughout the computations. This is essential for stochastic backtracking. </p>
+<p>Set this variable to 1 prior to a call of <a class="reference internal" href="../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a> to ensure that all matrices needed for stochastic backtracking are filled in the forward recursions</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000098"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>set the <em>uniq_ML</em> flag in <a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c"><span class="std std-ref">vrna_md_t</span></a> before passing it to <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>.</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18"><span class="std std-ref">pbacktrack()</span></a>, <a class="reference internal" href="#group__subopt__stochbt__deprecated_1ga4b6d04c882ae87b6cee9a516e06c4155"><span class="std std-ref">pbacktrack_circ</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="wuchty.html" class="btn btn-neutral float-left" title="Suboptimal Structures within an Energy Band around the MFE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mea.html" class="btn btn-neutral float-right" title="Compute the Structure with Maximum Expected Accuracy (MEA)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

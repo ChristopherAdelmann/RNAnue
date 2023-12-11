@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Combinatorics Algorithms &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="(Abstract) Data Structures" href="data_structures.html" />
+    <link rel="prev" title="Search Algorithms" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="io.html">Files and I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="search.html">Search Algorithms</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../utils.html">Utilities</a></li>
+      <li class="breadcrumb-item active">Combinatorics Algorithms</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="combinatorics-algorithms">
+<h1>Combinatorics Algorithms<a class="headerlink" href="#combinatorics-algorithms" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__combinatorics__utils"></span></dt>
+<dd><p>Implementations to solve various combinatorial aspects for strings of objects. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_enumerate_necklaces">
+<span class="target" id="group__combinatorics__utils_1gae081ac655a76bd5c4b3d86c60b096b75"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_enumerate_necklaces</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_counts</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_enumerate_necklaces" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/combinatorics.h&gt;</em><p>Enumerate all necklaces with fixed content. </p>
+<p>This function implements <em>A fast algorithm to generate necklaces with fixed content</em> as published by  <span> <span id="id1">Sawada [<a class="reference internal" href="../bibliography.html#id36" title="Joe Sawada. A fast algorithm to generate necklaces with fixed content. Theoretical Computer Science, 301(1):477–489, 2003. doi:10.1016/S0304-3975(03)00049-5.">2003</a>]</span> </span>.</p>
+<p>The function receives a list of counts (the elements on the necklace) for each type of object within a necklace. The list starts at index 0 and ends with an entry that has a count of 0. The algorithm then enumerates all non-cyclic permutations of the content, returned as a list of necklaces. This list, again, is zero-terminated, i.e. the last entry of the list is a <code class="docutils literal notranslate"><span class="pre">NULL</span></code> pointer.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000024"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as global function <code class="docutils literal notranslate"><span class="pre">enumerate_necklaces()</span></code> which accepts lists input, an produces list of lists output. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.enumerate_necklaces" title="RNA.enumerate_necklaces"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.enumerate_necklaces()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type_counts</strong> – A 0-terminated list of entity counts </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of all non-cyclic permutations of the entities</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_rotational_symmetry_num">
+<span class="target" id="group__combinatorics__utils_1gac51464b5281833a58c25f9447252c495"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_rotational_symmetry_num</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">string_length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_rotational_symmetry_num" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/combinatorics.h&gt;</em><p>Determine the order of rotational symmetry for a string of objects represented by natural numbers. </p>
+<p>The algorithm applies a fast search of the provided string within itself, assuming the end of the string wraps around to connect with it’s start. For example, a string of the form <code class="docutils literal notranslate"><span class="pre">011011</span></code> has rotational symmetry of order <code class="docutils literal notranslate"><span class="pre">2</span></code></p>
+<p>This is a simplified version of <a class="reference internal" href="#group__combinatorics__utils_1ga95b5a6ac35da982e2a766f8d2f98a2e1"><span class="std std-ref">vrna_rotational_symmetry_pos_num()</span></a> that may be useful if one is only interested in the degree of rotational symmetry but not the actual set of rotational symmetric strings.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000025"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as global function <code class="docutils literal notranslate"><span class="pre">rotational_symmetry()</span></code>. See <a class="reference internal" href="#group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb"><span class="std std-ref">vrna_rotational_symmetry_pos()</span></a> for details. Note, that in the target language the length of the list <code class="docutils literal notranslate"><span class="pre">string</span></code> is always known a-priori, so the parameter <code class="docutils literal notranslate"><span class="pre">string_length</span></code> must be omitted. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.rotational_symmetry" title="RNA.rotational_symmetry"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.rotational_symmetry()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__combinatorics__utils_1ga95b5a6ac35da982e2a766f8d2f98a2e1"><span class="std std-ref">vrna_rotational_symmetry_pos_num()</span></a>, vrna_rotationa_symmetry()</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – The string of elements encoded as natural numbers </p></li>
+<li><p><strong>string_length</strong> – The length of the string </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The order of rotational symmetry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_rotational_symmetry_pos_num">
+<span class="target" id="group__combinatorics__utils_1ga95b5a6ac35da982e2a766f8d2f98a2e1"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_rotational_symmetry_pos_num</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">string_length</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">positions</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_rotational_symmetry_pos_num" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/combinatorics.h&gt;</em><p>Determine the order of rotational symmetry for a string of objects represented by natural numbers. </p>
+<p>The algorithm applies a fast search of the provided string within itself, assuming the end of the string wraps around to connect with it’s start. For example, a string of the form <code class="docutils literal notranslate"><span class="pre">011011</span></code> has rotational symmetry of order <code class="docutils literal notranslate"><span class="pre">2</span></code></p>
+<p>If the argument <code class="docutils literal notranslate"><span class="pre">positions</span></code> is not <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, the function stores an array of string start positions for rotational shifts that map the string back onto itself. This array has length of order of rotational symmetry, i.e. the number returned by this function. The first element <code class="docutils literal notranslate"><span class="pre">positions</span></code>[0] always contains a shift value of <code class="docutils literal notranslate"><span class="pre">0</span></code> representing the trivial rotation.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000026"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as global function <code class="docutils literal notranslate"><span class="pre">rotational_symmetry()</span></code>. See <a class="reference internal" href="#group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb"><span class="std std-ref">vrna_rotational_symmetry_pos()</span></a> for details. Note, that in the target language the length of the list <code class="docutils literal notranslate"><span class="pre">string</span></code> is always known a-priori, so the parameter <code class="docutils literal notranslate"><span class="pre">string_length</span></code> must be omitted. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.rotational_symmetry" title="RNA.rotational_symmetry"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.rotational_symmetry()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__combinatorics__utils_1gac51464b5281833a58c25f9447252c495"><span class="std std-ref">vrna_rotational_symmetry_num()</span></a>, <a class="reference internal" href="#group__combinatorics__utils_1gae1dec02c4b63f303ce06a9293d316762"><span class="std std-ref">vrna_rotational_symmetry()</span></a>, <a class="reference internal" href="#group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb"><span class="std std-ref">vrna_rotational_symmetry_pos()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not forget to release the memory occupied by <code class="docutils literal notranslate"><span class="pre">positions</span></code> after a successful execution of this function.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – The string of elements encoded as natural numbers </p></li>
+<li><p><strong>string_length</strong> – The length of the string </p></li>
+<li><p><strong>positions</strong> – A pointer to an (undefined) list of alternative string start positions that lead to an identity mapping (may be NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The order of rotational symmetry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_rotational_symmetry">
+<span class="target" id="group__combinatorics__utils_1gae1dec02c4b63f303ce06a9293d316762"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_rotational_symmetry</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_rotational_symmetry" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/combinatorics.h&gt;</em><p>Determine the order of rotational symmetry for a NULL-terminated string of ASCII characters. </p>
+<p>The algorithm applies a fast search of the provided string within itself, assuming the end of the string wraps around to connect with it’s start. For example, a string of the form <code class="docutils literal notranslate"><span class="pre">AABAAB</span></code> has rotational symmetry of order <code class="docutils literal notranslate"><span class="pre">2</span></code></p>
+<p>This is a simplified version of <a class="reference internal" href="#group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb"><span class="std std-ref">vrna_rotational_symmetry_pos()</span></a> that may be useful if one is only interested in the degree of rotational symmetry but not the actual set of rotational symmetric strings.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000027"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as global function <code class="docutils literal notranslate"><span class="pre">rotational_symmetry()</span></code>. See <a class="reference internal" href="#group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb"><span class="std std-ref">vrna_rotational_symmetry_pos()</span></a> for details. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.rotational_symmetry" title="RNA.rotational_symmetry"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.rotational_symmetry()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb"><span class="std std-ref">vrna_rotational_symmetry_pos()</span></a>, vrna_rotationa_symmetry_num()</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – A NULL-terminated string of characters </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The order of rotational symmetry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_rotational_symmetry_pos">
+<span class="target" id="group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_rotational_symmetry_pos</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">positions</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_rotational_symmetry_pos" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/combinatorics.h&gt;</em><p>Determine the order of rotational symmetry for a NULL-terminated string of ASCII characters. </p>
+<p>The algorithm applies a fast search of the provided string within itself, assuming the end of the string wraps around to connect with it’s start. For example, a string of the form <code class="docutils literal notranslate"><span class="pre">AABAAB</span></code> has rotational symmetry of order <code class="docutils literal notranslate"><span class="pre">2</span></code></p>
+<p>If the argument <code class="docutils literal notranslate"><span class="pre">positions</span></code> is not <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, the function stores an array of string start positions for rotational shifts that map the string back onto itself. This array has length of order of rotational symmetry, i.e. the number returned by this function. The first element <code class="docutils literal notranslate"><span class="pre">positions</span></code>[0] always contains a shift value of <code class="docutils literal notranslate"><span class="pre">0</span></code> representing the trivial rotation.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000028"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded global function <code class="docutils literal notranslate"><span class="pre">rotational_symmetry()</span></code>. It merges the functionalities of <a class="reference internal" href="#group__combinatorics__utils_1gae1dec02c4b63f303ce06a9293d316762"><span class="std std-ref">vrna_rotational_symmetry()</span></a>, <a class="reference internal" href="#group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb"><span class="std std-ref">vrna_rotational_symmetry_pos()</span></a>, <a class="reference internal" href="#group__combinatorics__utils_1gac51464b5281833a58c25f9447252c495"><span class="std std-ref">vrna_rotational_symmetry_num()</span></a>, and <a class="reference internal" href="#group__combinatorics__utils_1ga95b5a6ac35da982e2a766f8d2f98a2e1"><span class="std std-ref">vrna_rotational_symmetry_pos_num()</span></a>. In contrast to our C-implementation, this function doesn’t return the order of rotational symmetry as a single value, but returns a list of cyclic permutation shifts that result in a rotationally symmetric string. The length of the list then determines the order of rotational symmetry. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.rotational_symmetry" title="RNA.rotational_symmetry"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.rotational_symmetry()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__combinatorics__utils_1gae1dec02c4b63f303ce06a9293d316762"><span class="std std-ref">vrna_rotational_symmetry()</span></a>, <a class="reference internal" href="#group__combinatorics__utils_1gac51464b5281833a58c25f9447252c495"><span class="std std-ref">vrna_rotational_symmetry_num()</span></a>, vrna_rotational_symmetry_num_pos()</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not forget to release the memory occupied by <code class="docutils literal notranslate"><span class="pre">positions</span></code> after a successful execution of this function.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – A NULL-terminated string of characters </p></li>
+<li><p><strong>positions</strong> – A pointer to an (undefined) list of alternative string start positions that lead to an identity mapping (may be NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The order of rotational symmetry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_rotational_symmetry_db">
+<span class="target" id="group__combinatorics__utils_1gad42ffd53025bed9d636d811748db7c5a"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_rotational_symmetry_db</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_rotational_symmetry_db" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/combinatorics.h&gt;</em><p>Determine the order of rotational symmetry for a dot-bracket structure. </p>
+<p>Given a (permutation of multiple) RNA strand(s) and a particular secondary structure in dot-bracket notation, compute the degree of rotational symmetry. In case there is only a single linear RNA strand, the structure always has degree 1, as there are no rotational symmetries due to the direction of the nucleic acid sequence and the fixed positions of 5’ and 3’ ends. However, for circular RNAs, rotational symmetries might arise if the sequence consists of a concatenation of <span class="math notranslate nohighlight">\(k\)</span> identical subsequences.</p>
+<p>This is a simplified version of <a class="reference internal" href="#group__combinatorics__utils_1ga2a4227ebe28dbc7ad55444a3a1bf7119"><span class="std std-ref">vrna_rotational_symmetry_db_pos()</span></a> that may be useful if one is only interested in the degree of rotational symmetry but not the actual set of rotational symmetric strings.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000029"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">rotational_symmetry_db()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> (i.e. <a class="reference internal" href="datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>). See <a class="reference internal" href="#group__combinatorics__utils_1ga2a4227ebe28dbc7ad55444a3a1bf7119"><span class="std std-ref">vrna_rotational_symmetry_db_pos()</span></a> for details. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.rotational_symmetry_db" title="RNA.fold_compound.rotational_symmetry_db"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.rotational_symmetry_db()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__combinatorics__utils_1ga2a4227ebe28dbc7ad55444a3a1bf7119"><span class="std std-ref">vrna_rotational_symmetry_db_pos()</span></a>, <a class="reference internal" href="#group__combinatorics__utils_1gae1dec02c4b63f303ce06a9293d316762"><span class="std std-ref">vrna_rotational_symmetry()</span></a>, <a class="reference internal" href="#group__combinatorics__utils_1gac51464b5281833a58c25f9447252c495"><span class="std std-ref">vrna_rotational_symmetry_num()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – A fold_compound data structure containing the nucleic acid sequence(s), their order, and model settings </p></li>
+<li><p><strong>structure</strong> – The dot-bracket structure the degree of rotational symmetry is checked for </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The degree of rotational symmetry of the <code class="docutils literal notranslate"><span class="pre">structure</span></code> (0 in case of any errors)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_rotational_symmetry_db_pos">
+<span class="target" id="group__combinatorics__utils_1ga2a4227ebe28dbc7ad55444a3a1bf7119"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_rotational_symmetry_db_pos</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">positions</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_rotational_symmetry_db_pos" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/combinatorics.h&gt;</em><p>Determine the order of rotational symmetry for a dot-bracket structure. </p>
+<p>Given a (permutation of multiple) RNA strand(s) and a particular secondary structure in dot-bracket notation, compute the degree of rotational symmetry. In case there is only a single linear RNA strand, the structure always has degree 1, as there are no rotational symmetries due to the direction of the nucleic acid sequence and the fixed positions of 5’ and 3’ ends. However, for circular RNAs, rotational symmetries might arise if the sequence consists of a concatenation of <span class="math notranslate nohighlight">\(k\)</span> identical subsequences.</p>
+<p>If the argument <code class="docutils literal notranslate"><span class="pre">positions</span></code> is not <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, the function stores an array of string start positions for rotational shifts that map the string back onto itself. This array has length of order of rotational symmetry, i.e. the number returned by this function. The first element <code class="docutils literal notranslate"><span class="pre">positions</span></code>[0] always contains a shift value of <code class="docutils literal notranslate"><span class="pre">0</span></code> representing the trivial rotation.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000030"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">rotational_symmetry_db()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> (i.e. <a class="reference internal" href="datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>). Thus, the first argument must be omitted. In contrast to our C-implementation, this function doesn’t simply return the order of rotational symmetry of the secondary structure, but returns the list <code class="docutils literal notranslate"><span class="pre">position</span></code> of cyclic permutation shifts that result in a rotationally symmetric structure. The length of the list then determines the order of rotational symmetry. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.rotational_symmetry_db" title="RNA.fold_compound.rotational_symmetry_db"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.rotational_symmetry_db()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__combinatorics__utils_1gad42ffd53025bed9d636d811748db7c5a"><span class="std std-ref">vrna_rotational_symmetry_db()</span></a>, <a class="reference internal" href="#group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb"><span class="std std-ref">vrna_rotational_symmetry_pos()</span></a>, <a class="reference internal" href="#group__combinatorics__utils_1ga95b5a6ac35da982e2a766f8d2f98a2e1"><span class="std std-ref">vrna_rotational_symmetry_pos_num()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not forget to release the memory occupied by <code class="docutils literal notranslate"><span class="pre">positions</span></code> after a successful execution of this function.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – A fold_compound data structure containing the nucleic acid sequence(s), their order, and model settings </p></li>
+<li><p><strong>structure</strong> – The dot-bracket structure the degree of rotational symmetry is checked for </p></li>
+<li><p><strong>positions</strong> – A pointer to an (undefined) list of alternative string start positions that lead to an identity mapping (may be NULL) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The degree of rotational symmetry of the <code class="docutils literal notranslate"><span class="pre">structure</span></code> (0 in case of any errors)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_n_multichoose_k">
+<span class="target" id="group__combinatorics__utils_1ga1eabc2f2017426376016554f09bb64a5"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_n_multichoose_k</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">n</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">k</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_n_multichoose_k" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/combinatorics.h&gt;</em><p>Obtain a list of k-combinations with repetition (n multichoose k) </p>
+<p>This function compiles a list of k-combinations, or k-multicombination, i.e. a list of multisubsets of size k from a set of integer values from 0 to n - 1. For that purpose, we enumerate n + k - 1 choose k and decrease each index position i by i to obtain n multichoose k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – Maximum number to choose from (interval of integers from 0 to <code class="docutils literal notranslate"><span class="pre">n</span></code> - 1) </p></li>
+<li><p><strong>k</strong> – Number of elements to choose, i.e. size of each multisubset </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of lists of elements of combinations (last entry is terminated by <strong>NULL</strong></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_boustrophedon">
+<span class="target" id="group__combinatorics__utils_1ga6dbe173d4dbbe4faea0baaa6d03b3102"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_boustrophedon</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">end</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_boustrophedon" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/combinatorics.h&gt;</em><p>Generate a sequence of Boustrophedon distributed numbers. </p>
+<p>This function generates a sequence of positive natural numbers within the interval <span class="math notranslate nohighlight">\( [start, end] \)</span> in a Boustrophedon fashion. That is, the numbers <span class="math notranslate nohighlight">\( start, \ldots, end \)</span> in the resulting list are alternating between left and right ends of the interval while progressing to the inside, i.e. the list consists of a sequence of natural numbers of the form:</p>
+<p><div class="math notranslate nohighlight">
+\[ start, end, start + 1, end - 1, start + 2, end - 2, \ldots \]</div>
+</p>
+<p>The resulting list is 1-based and contains the length of the sequence of numbers at it’s 0-th position.</p>
+<p>Upon failure, the function returns <strong>NULL</strong></p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000032"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded global function <code class="docutils literal notranslate"><span class="pre">boustrophedon()</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.boustrophedon" title="RNA.boustrophedon"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.boustrophedon()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__combinatorics__utils_1ga9093b53bb7eaaa9b5a8972ac87082d32"><span class="std std-ref">vrna_boustrophedon_pos()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> – The first number of the list (left side of the interval) </p></li>
+<li><p><strong>end</strong> – The last number of the list (right side of the interval) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of alternating numbers from the interval <span class="math notranslate nohighlight">\( [start, end] \)</span> (or <strong>NULL</strong> on error)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_boustrophedon_pos">
+<span class="target" id="group__combinatorics__utils_1ga9093b53bb7eaaa9b5a8972ac87082d32"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_boustrophedon_pos</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">end</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">pos</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_boustrophedon_pos" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/combinatorics.h&gt;</em><p>Obtain the i-th element in a Boustrophedon distributed interval of natural numbers. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000031"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as overloaded global function <code class="docutils literal notranslate"><span class="pre">boustrophedon()</span></code>. Omitting the <code class="docutils literal notranslate"><span class="pre">pos</span></code> argument yields the entire sequence from <code class="docutils literal notranslate"><span class="pre">start</span></code> to <code class="docutils literal notranslate"><span class="pre">end</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.boustrophedon" title="RNA.boustrophedon"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.boustrophedon()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__combinatorics__utils_1ga6dbe173d4dbbe4faea0baaa6d03b3102"><span class="std std-ref">vrna_boustrophedon()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> – The first number of the list (left side of the interval) </p></li>
+<li><p><strong>end</strong> – The last number of the list (right side of the interval) </p></li>
+<li><p><strong>pos</strong> – The index of the number within the Boustrophedon distributed sequence (1-based) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">pos-th</span></code> element in the Boustrophedon distributed sequence of natural numbers of the interval</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="search.html" class="btn btn-neutral float-left" title="Search Algorithms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="data_structures.html" class="btn btn-neutral float-right" title="(Abstract) Data Structures" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

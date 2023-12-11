@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energy Evaluation for Individual Loops &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Energy Evaluation for Atomic Moves" href="eval_move.html" />
+    <link rel="prev" title="Free Energy Evaluation" href="../eval.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Energy Evaluation for Individual Loops</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exterior-loops">Exterior Loops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hairpin-loops">Hairpin Loops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#internal-loops">Internal Loops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multibranch-loops">Multibranch Loops</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="eval_move.html">Energy Evaluation for Atomic Moves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eval_structures.html">Evaluation of Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_parameters.html">Energy Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eval_deprecated.html">Deprecated Interface for Free Energy Evaluation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eval.html#loop-decomposition">Loop Decomposition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eval.html#fine-tuning-of-the-evaluation-model">Fine-tuning of the Evaluation Model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../eval.html">Free Energy Evaluation</a></li>
+      <li class="breadcrumb-item active">Energy Evaluation for Individual Loops</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="energy-evaluation-for-individual-loops">
+<h1>Energy Evaluation for Individual Loops<a class="headerlink" href="#energy-evaluation-for-individual-loops" title="Link to this heading"></a></h1>
+<p>To assess the free energy contribution of a particular loop <span class="math notranslate nohighlight">\(L\)</span> within a
+secondary structure, two variants are provided</p>
+<ul class="simple">
+<li><p>The <em>bare</em> free energy <span class="math notranslate nohighlight">\(E_L\)</span> (usually in units of deka-calories, i.e.
+multiples of <span class="math notranslate nohighlight">\(10 \text{cal} \cdot \text{mol}^{-1}\)</span>, and</p></li>
+<li><p>The <em>Boltzmann weight</em> <span class="math notranslate nohighlight">\(q = exp(-\beta E_L)\)</span> of the free energy <span class="math notranslate nohighlight">\(E_L\)</span>
+(with <span class="math notranslate nohighlight">\(\beta = \frac{1}{RT}\)</span>, gas constant <span class="math notranslate nohighlight">\(R\)</span> and temperature <span class="math notranslate nohighlight">\(T\)</span>)</p></li>
+</ul>
+<p>The latter is usually required for partition function computations.</p>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#general" id="id1">General</a></p></li>
+<li><p><a class="reference internal" href="#exterior-loops" id="id2">Exterior Loops</a></p></li>
+<li><p><a class="reference internal" href="#hairpin-loops" id="id3">Hairpin Loops</a></p></li>
+<li><p><a class="reference internal" href="#internal-loops" id="id4">Internal Loops</a></p></li>
+<li><p><a class="reference internal" href="#multibranch-loops" id="id5">Multibranch Loops</a></p></li>
+</ul>
+</nav>
+<section id="general">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">General</a><a class="headerlink" href="#general" title="Link to this heading"></a></h2>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__eval__loops"></span></dt>
+<dd><p>Functions to evaluate the free energy of particular types of loops. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_eval_loop_pt">
+<span class="target" id="group__eval__loops_1ga5f9fe7c27d0b628a3efc2d725f52853e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_eval_loop_pt</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_eval_loop_pt" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/eval.h&gt;</em><p>Calculate energy of a loop. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000071"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">eval_loop_pt()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.eval_loop_pt" title="RNA.fold_compound.eval_loop_pt"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.eval_loop_pt()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – A vrna_fold_compound_t containing the energy parameters and model details </p></li>
+<li><p><strong>i</strong> – position of covering base pair </p></li>
+<li><p><strong>pt</strong> – the pair table of the secondary structure </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>free energy of the loop in 10cal/mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_eval_loop_pt_v">
+<span class="target" id="group__eval__loops_1ga905758a7e1320638345f1ef793769f57"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_eval_loop_pt_v</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">verbosity_level</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_eval_loop_pt_v" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/eval.h&gt;</em><p>Calculate energy of a loop. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – A vrna_fold_compound_t containing the energy parameters and model details </p></li>
+<li><p><strong>i</strong> – position of covering base pair </p></li>
+<li><p><strong>pt</strong> – the pair table of the secondary structure </p></li>
+<li><p><strong>verbosity_level</strong> – The level of verbosity of this function </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>free energy of the loop in 10cal/mol </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="exterior-loops">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Exterior Loops</a><a class="headerlink" href="#exterior-loops" title="Link to this heading"></a></h2>
+<p>Functions to evaluate the free energy contributions for exterior (external) loops.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__eval__loops__ext"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-boltzmann-weight-(partition-function)-interface">Boltzmann weight (partition function) interface</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_aux_el_t">
+<span class="target" id="group__eval__loops__ext_1gaf9d5160c11ffad3ec258124a77fee13c"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_mx_pf_aux_el_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_pf_aux_el_t</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_aux_el_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/external.h&gt;</em><p>Auxiliary helper arrays for fast exterior loop computations. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>vrna_exp_E_ext_fast_init(), vrna_exp_E_ext_fast_rotate(), vrna_exp_E_ext_fast_free(), vrna_exp_E_ext_fast() </p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ext_stem">
+<span class="target" id="group__eval__loops__ext_1ga357484958d3cd677f88f16c75c8a5730"></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ext_stem</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">n5d</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">n3d</span></span>, <a class="reference internal" href="energy_parameters.html#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ext_stem" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/external.h&gt;</em><p>Evaluate a stem branching off the exterior loop (Boltzmann factor version) </p>
+<p>Given a base pair <span class="math notranslate nohighlight">\((i,j)\)</span> encoded by <em>type</em>, compute the energy contribution including dangling-end/terminal-mismatch contributions. Instead of returning the energy contribution per-se, this function returns the corresponding Boltzmann factor. If either of the adjacent nucleotides <span class="math notranslate nohighlight">\((i - 1)\)</span> and <span class="math notranslate nohighlight">\((j+1)\)</span> must not contribute stacking energy, the corresponding encoding must be <span class="math notranslate nohighlight">\(-1\)</span>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__eval__loops__ext_1gaa0c313c90da11aa741dcd62746d85337"><span class="std std-ref">vrna_E_ext_stem()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – The base pair encoding </p></li>
+<li><p><strong>n5d</strong> – The encoded nucleotide directly adjacent at the 5’ side of the base pair (may be -1) </p></li>
+<li><p><strong>n3d</strong> – The encoded nucleotide directly adjacent at the 3’ side of the base pair (may be -1) </p></li>
+<li><p><strong>p</strong> – The pre-computed energy parameters (Boltzmann factor version) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Boltzmann weighted energy contribution of the introduced exterior-loop stem </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ext_fast_init">
+<span class="target" id="group__eval__loops__ext_1ga88bf7b86f25fff9d828008df48779539"></span><a class="reference internal" href="#c.vrna_mx_pf_aux_el_t" title="vrna_mx_pf_aux_el_t"><span class="n"><span class="pre">vrna_mx_pf_aux_el_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ext_fast_init</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ext_fast_init" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/external.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ext_fast_rotate">
+<span class="target" id="group__eval__loops__ext_1ga560d6123a175af3c8fb668885da8b78c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ext_fast_rotate</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_mx_pf_aux_el_t" title="vrna_mx_pf_aux_el_t"><span class="n"><span class="pre">vrna_mx_pf_aux_el_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">aux_mx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ext_fast_rotate" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/external.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ext_fast_free">
+<span class="target" id="group__eval__loops__ext_1ga90c23338dfb678853d34e4ca91cda370"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ext_fast_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_mx_pf_aux_el_t" title="vrna_mx_pf_aux_el_t"><span class="n"><span class="pre">vrna_mx_pf_aux_el_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">aux_mx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ext_fast_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/external.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ext_fast">
+<span class="target" id="group__eval__loops__ext_1ga1522bbee3c068632367decfcdbeeeb74"></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ext_fast</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <a class="reference internal" href="#c.vrna_mx_pf_aux_el_t" title="vrna_mx_pf_aux_el_t"><span class="n"><span class="pre">vrna_mx_pf_aux_el_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">aux_mx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ext_fast" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/external.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ext_fast_update">
+<span class="target" id="group__eval__loops__ext_1gaf371b09437ca36067620b9bab14baa86"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ext_fast_update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <a class="reference internal" href="#c.vrna_mx_pf_aux_el_t" title="vrna_mx_pf_aux_el_t"><span class="n"><span class="pre">vrna_mx_pf_aux_el_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">aux_mx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ext_fast_update" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/external.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-basic-free-energy-interface">Basic free energy interface</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_E_ext_stem">
+<span class="target" id="group__eval__loops__ext_1gaa0c313c90da11aa741dcd62746d85337"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_E_ext_stem</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">n5d</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">n3d</span></span>, <a class="reference internal" href="energy_parameters.html#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_E_ext_stem" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/external.h&gt;</em><p>Evaluate a stem branching off the exterior loop. </p>
+<p>Given a base pair <span class="math notranslate nohighlight">\((i,j)\)</span> encoded by <em>type</em>, compute the energy contribution including dangling-end/terminal-mismatch contributions. Instead of returning the energy contribution per-se, this function returns the corresponding Boltzmann factor. If either of the adjacent nucleotides <span class="math notranslate nohighlight">\((i - 1)\)</span> and <span class="math notranslate nohighlight">\((j+1)\)</span> must not contribute stacking energy, the corresponding encoding must be <span class="math notranslate nohighlight">\(-1\)</span>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>vrna_E_exp_stem()</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – The base pair encoding </p></li>
+<li><p><strong>n5d</strong> – The encoded nucleotide directly adjacent at the 5’ side of the base pair (may be -1) </p></li>
+<li><p><strong>n3d</strong> – The encoded nucleotide directly adjacent at the 3’ side of the base pair (may be -1) </p></li>
+<li><p><strong>p</strong> – The pre-computed energy parameters </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The energy contribution of the introduced exterior-loop stem </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_eval_ext_stem">
+<span class="target" id="group__eval__loops__ext_1gaf5040810fb306e7a24a94556b4d1e868"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_eval_ext_stem</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_eval_ext_stem" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/external.h&gt;</em><p>Evaluate the free energy of a base pair in the exterior loop. </p>
+<p>Evalue the free energy of a base pair connecting two nucleotides in the exterior loop and take hard constraints into account.</p>
+<p>Typically, this is simply dangling end contributions of the adjacent nucleotides, potentially a terminal A-U mismatch penalty, and maybe some generic soft constraint contribution for that decomposition.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For dangles == 1 || 3 this function also evaluates the three additional pairs (i + 1, j), (i, j - 1), and (i + 1, j - 1) and returns the minimum for all four possibilities in total.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – Fold compound to work on (defines the model and parameters) </p></li>
+<li><p><strong>i</strong> – 5’ position of the base pair </p></li>
+<li><p><strong>j</strong> – 3’ position of the base pair </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Free energy contribution that arises when this pair is formed in the exterior loop </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_E_ext_loop_5">
+<span class="target" id="group__eval__loops__ext_1gad26689b27fcaab5a1dcbd0d37d27ad5f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_E_ext_loop_5</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_E_ext_loop_5" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/external.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_E_ext_loop_3">
+<span class="target" id="group__eval__loops__ext_1ga6e57363a8ff3597cc69181c33fbb8196"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_E_ext_loop_3</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_E_ext_loop_3" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/external.h&gt;</em></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="hairpin-loops">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Hairpin Loops</a><a class="headerlink" href="#hairpin-loops" title="Link to this heading"></a></h2>
+<p>Functions to evaluate the free energy contributions for hairpin loops.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__eval__loops__hp"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-basic-free-energy-interface">Basic free energy interface</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_E_hp_loop">
+<span class="target" id="group__eval__loops__hp_1ga57179ea326cc5ed8dfe4d3962b233128"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_E_hp_loop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_E_hp_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/hairpin.h&gt;</em><p>Evaluate the free energy of a hairpin loop and consider hard constraints if they apply. </p>
+<p>This function evaluates the free energy of a hairpin loop</p>
+<p>In case the base pair is not allowed due to a constraint conflict, this function returns INF.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic! The provided <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> may be of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a> or <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> that stores all relevant model settings </p></li>
+<li><p><strong>i</strong> – The 5’ nucleotide of the base pair (3’ to evaluate the pair as exterior hairpin loop) </p></li>
+<li><p><strong>j</strong> – The 3’ nucleotide of the base pair (5’ to evaluate the pair as exterior hairpin loop) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The free energy of the hairpin loop in 10cal/mol </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_E_ext_hp_loop">
+<span class="target" id="group__eval__loops__hp_1ga7d358fa17aaf1cfc312a053accd10778"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_E_ext_hp_loop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_E_ext_hp_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/hairpin.h&gt;</em><p>Evaluate the free energy of an exterior hairpin loop and consider possible hard constraints. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic! The provided <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> may be of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a> or <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_eval_ext_hp_loop">
+<span class="target" id="group__eval__loops__hp_1gafd39e7355dcf36bf1517bafc1b49c2d2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_eval_ext_hp_loop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_eval_ext_hp_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/hairpin.h&gt;</em><p>Evaluate free energy of an exterior hairpin loop. </p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_eval_hp_loop">
+<span class="target" id="group__eval__loops__hp_1gad0bb844f8dc704c71737ae1d7e32b975"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_eval_hp_loop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_eval_hp_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/hairpin.h&gt;</em><p>Evaluate free energy of a hairpin loop. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000074"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">eval_hp_loop()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.eval_hp_loop" title="RNA.fold_compound.eval_hp_loop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.eval_hp_loop()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic! The provided <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> may be of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a> or <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> for the particular energy evaluation </p></li>
+<li><p><strong>i</strong> – 5’-position of the base pair </p></li>
+<li><p><strong>j</strong> – 3’-position of the base pair </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Free energy of the hairpin loop closed by <span class="math notranslate nohighlight">\( (i,j) \)</span> in deka-kal/mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.E_Hairpin">
+<span class="target" id="group__eval__loops__hp_1gaac01109b95889c27943e781f4a3ab0b6"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">E_Hairpin</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">size</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">si1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">sj1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <a class="reference internal" href="energy_parameters.html#c.vrna_param_t" title="vrna_param_t"><span class="n"><span class="pre">vrna_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">P</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.E_Hairpin" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/hairpin.h&gt;</em><p>Compute the Energy of a hairpin-loop. </p>
+<p>To evaluate the free energy of a hairpin-loop, several parameters have to be known. A general hairpin-loop has this structure: where X-Y marks the closing pair [e.g. a <strong>(G,C)</strong> pair]. The length of this loop is 6 as there are six unpaired nucleotides (a1-a6) enclosed by (X,Y). The 5’ mismatching nucleotide is a1 while the 3’ mismatch is a6. The nucleotide sequence of this loop is “a1.a2.a3.a4.a5.a6” </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="energy_parameters.html#group__energy__parameters_1ga5fe3524fd6d2a297099238f117254c13"><span class="std std-ref">scale_parameters()</span></a>, <a class="reference internal" href="energy_parameters.html#group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35"><span class="std std-ref">vrna_param_t</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The parameter sequence should contain the sequence of the loop in capital letters of the nucleic acid alphabet if the loop size is below 7. This is useful for unusually stable tri-, tetra- and hexa-loops which are treated differently (based on experimental data) if they are tabulated.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><p>Not (really) thread safe! A threadsafe implementation will replace this function in a future release!</p>
+<p>Energy evaluation may change due to updates in global variable “tetra_loop”</p>
+</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – The size of the loop (number of unpaired nucleotides) </p></li>
+<li><p><strong>type</strong> – The pair type of the base pair closing the hairpin </p></li>
+<li><p><strong>si1</strong> – The 5’-mismatching nucleotide </p></li>
+<li><p><strong>sj1</strong> – The 3’-mismatching nucleotide </p></li>
+<li><p><strong>string</strong> – The sequence of the loop (May be <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, otherwise mst be at least <span class="math notranslate nohighlight">\(size + 2\)</span> long) </p></li>
+<li><p><strong>P</strong> – The datastructure containing scaled energy parameters </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Free energy of the Hairpin-loop in dcal/mol </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-boltzmann-weight-(partition-function)-interface">Boltzmann weight (partition function) interface</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.exp_E_Hairpin">
+<span class="target" id="group__eval__loops__hp_1ga00a1defade1e714fa4c68b86ef95b980"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">exp_E_Hairpin</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">u</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="n"><span class="pre">si1</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="n"><span class="pre">sj1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <a class="reference internal" href="energy_parameters.html#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">P</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.exp_E_Hairpin" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/hairpin.h&gt;</em><p>Compute Boltzmann weight <span class="math notranslate nohighlight">\(e^{-\Delta G/kT} \)</span> of a hairpin loop. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="energy_parameters.html#group__energy__parameters_1ga1007b70b7176f7cc78ed224460b89bbe"><span class="std std-ref">get_scaled_pf_parameters()</span></a>, <a class="reference internal" href="energy_parameters.html#group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8"><span class="std std-ref">vrna_exp_param_t</span></a>, E_Hairpin()</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>multiply by scale[u+2]</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><p>Not (really) thread safe! A threadsafe implementation will replace this function in a future release!</p>
+<p>Energy evaluation may change due to updates in global variable “tetra_loop”</p>
+</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> – The size of the loop (number of unpaired nucleotides) </p></li>
+<li><p><strong>type</strong> – The pair type of the base pair closing the hairpin </p></li>
+<li><p><strong>si1</strong> – The 5’-mismatching nucleotide </p></li>
+<li><p><strong>sj1</strong> – The 3’-mismatching nucleotide </p></li>
+<li><p><strong>string</strong> – The sequence of the loop (May be <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, otherwise mst be at least <span class="math notranslate nohighlight">\(size + 2\)</span> long) </p></li>
+<li><p><strong>P</strong> – The datastructure containing scaled Boltzmann weights of the energy parameters </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Boltzmann weight of the Hairpin-loop </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_hp_loop">
+<span class="target" id="group__eval__loops__hp_1gad62fe037be0a3fc6914676e5cb85be5e"></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_hp_loop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_hp_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/hairpin.h&gt;</em><p>High-Level function for hairpin loop energy evaluation (partition function variant) </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__eval__loops__hp_1ga57179ea326cc5ed8dfe4d3962b233128"><span class="std std-ref">vrna_E_hp_loop()</span></a> for it’s free energy counterpart</p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic! The provided <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> may be of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a> or <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a></p>
+</div>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="internal-loops">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Internal Loops</a><a class="headerlink" href="#internal-loops" title="Link to this heading"></a></h2>
+<p>Functions to evaluate the free energy contributions for internal (interior) loops.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__eval__loops__int"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-basic-free-energy-interface">Basic free energy interface</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_E_int_loop">
+<span class="target" id="group__eval__loops__int_1gab927db1b264b253a9acd5e63ab5404a1"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_E_int_loop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_E_int_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/internal.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_eval_int_loop">
+<span class="target" id="group__eval__loops__int_1gaab3547bfcdc39d89babbc7ed2a1a4b65"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_eval_int_loop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">k</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">l</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_eval_int_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/internal.h&gt;</em><p>Evaluate the free energy contribution of an interior loop with delimiting base pairs <span class="math notranslate nohighlight">\((i,j)\)</span> and <span class="math notranslate nohighlight">\((k,l)\)</span>. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000075"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">eval_int_loop()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span> <a class="reference internal" href="../api_python.html#RNA.fold_compound.eval_int_loop" title="RNA.fold_compound.eval_int_loop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.eval_int_loop()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic, i.e. it accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a> as well as <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_E_ext_int_loop">
+<span class="target" id="group__eval__loops__int_1gadad05dffc71e28377acdcedde9a3d9fc"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_E_ext_int_loop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ip</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">iq</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_E_ext_int_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/internal.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_E_stack">
+<span class="target" id="group__eval__loops__int_1ga75bade120c653de9959a1e0eab879ab9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_E_stack</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_E_stack" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/internal.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-boltzmann-weight-(partition-function)-interface">Boltzmann weight (partition function) interface</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_int_loop">
+<span class="target" id="group__eval__loops__int_1gaa64bb3e28f557985a4d448f8fd86a115"></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_int_loop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_int_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/internal.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_interior_loop">
+<span class="target" id="group__eval__loops__int_1ga51130eaa2debd3bb8e52de7a3de048ad"></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_interior_loop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">k</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">l</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_interior_loop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/internal.h&gt;</em></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="multibranch-loops">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Multibranch Loops</a><a class="headerlink" href="#multibranch-loops" title="Link to this heading"></a></h2>
+<p>Functions to evaluate the free energy contributions for mutlibranch loops.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__eval__loops__mb"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-boltzmann-weight-(partition-function)-interface">Boltzmann weight (partition function) interface</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_aux_ml_t">
+<span class="target" id="group__eval__loops__mb_1ga39a8cc1385dcb542a60a9393cde6a1e3"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_mx_pf_aux_ml_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_pf_aux_ml_t</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_aux_ml_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em><p>Auxiliary helper arrays for fast exterior loop computations. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>vrna_exp_E_ml_fast_init(), vrna_exp_E_ml_fast_rotate(), vrna_exp_E_ml_fast_free(), vrna_exp_E_ml_fast() </p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_mb_loop_fast">
+<span class="target" id="group__eval__loops__mb_1gac4a6acc1fded0e89460692ef9f62a6c2"></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_mb_loop_fast</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <a class="reference internal" href="#c.vrna_mx_pf_aux_ml_t" title="vrna_mx_pf_aux_ml_t"><span class="n"><span class="pre">vrna_mx_pf_aux_ml_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">aux_mx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_mb_loop_fast" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ml_fast_init">
+<span class="target" id="group__eval__loops__mb_1gab4ec400cb861b8102ca9974406d9de9b"></span><a class="reference internal" href="#c.vrna_mx_pf_aux_ml_t" title="vrna_mx_pf_aux_ml_t"><span class="n"><span class="pre">vrna_mx_pf_aux_ml_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ml_fast_init</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ml_fast_init" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ml_fast_rotate">
+<span class="target" id="group__eval__loops__mb_1gabc73c029027ba09bfe70e2318052f0ae"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ml_fast_rotate</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_mx_pf_aux_ml_t" title="vrna_mx_pf_aux_ml_t"><span class="n"><span class="pre">vrna_mx_pf_aux_ml_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">aux_mx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ml_fast_rotate" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ml_fast_free">
+<span class="target" id="group__eval__loops__mb_1ga3bbc24b3950867b039104ce8b4f39346"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ml_fast_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_mx_pf_aux_ml_t" title="vrna_mx_pf_aux_ml_t"><span class="n"><span class="pre">vrna_mx_pf_aux_ml_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">aux_mx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ml_fast_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ml_fast_qqm">
+<span class="target" id="group__eval__loops__mb_1ga738d28f9b0a546e01a98c7a309709be8"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ml_fast_qqm</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_mx_pf_aux_ml_t" title="vrna_mx_pf_aux_ml_t"><span class="n"><span class="pre">vrna_mx_pf_aux_ml_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">aux_mx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ml_fast_qqm" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ml_fast_qqm1">
+<span class="target" id="group__eval__loops__mb_1ga460bda434012ac0507c8daec778a4c12"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ml_fast_qqm1</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_mx_pf_aux_ml_t" title="vrna_mx_pf_aux_ml_t"><span class="n"><span class="pre">vrna_mx_pf_aux_ml_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">aux_mx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ml_fast_qqm1" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_exp_E_ml_fast">
+<span class="target" id="group__eval__loops__mb_1gaf688fa4e6331403debb9802f3fda8bf4"></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_exp_E_ml_fast</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <a class="reference internal" href="#c.vrna_mx_pf_aux_ml_t" title="vrna_mx_pf_aux_ml_t"><span class="n"><span class="pre">vrna_mx_pf_aux_ml_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">aux_mx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_exp_E_ml_fast" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-basic-free-energy-interface">Basic free energy interface</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_E_mb_loop_stack">
+<span class="target" id="group__eval__loops__mb_1ga91af6d5fcb0aef243a4071cf9e718020"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_E_mb_loop_stack</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_E_mb_loop_stack" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em><p>Evaluate energy of a multi branch helices stacking onto closing pair (i,j) </p>
+<p>Computes total free energy for coaxial stacking of (i.j) with (i+1.k) or (k+1.j-1) </p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_E_mb_loop_fast">
+<span class="target" id="group__eval__loops__mb_1ga2fb0e2d1e0d6280f4e8e7f12b345c334"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_E_mb_loop_fast</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dmli1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dmli2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_E_mb_loop_fast" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.E_ml_rightmost_stem">
+<span class="target" id="group__eval__loops__mb_1gabbf601fe425b60dbc6599865bb8a1ee3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">E_ml_rightmost_stem</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.E_ml_rightmost_stem" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_E_ml_stems_fast">
+<span class="target" id="group__eval__loops__mb_1ga9e000f5f16177b8696bde5ed4db96d18"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_E_ml_stems_fast</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fmi</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dmli</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_E_ml_stems_fast" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/loops/multibranch.h&gt;</em></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../eval.html" class="btn btn-neutral float-left" title="Free Energy Evaluation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="eval_move.html" class="btn btn-neutral float-right" title="Energy Evaluation for Atomic Moves" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

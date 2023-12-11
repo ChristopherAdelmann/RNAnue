@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__struct__utils__plist" kind="group">
+    <compoundname>struct_utils_plist</compoundname>
+    <title>Pair List Representation of Secondary Structures</title>
+    <innerclass refid="structvrna__elem__prob__s" prot="public">vrna_elem_prob_s</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" prot="public" static="no">
+        <type>struct <ref refid="structvrna__elem__prob__s" kindref="compound">vrna_elem_prob_s</ref></type>
+        <definition>typedef struct vrna_elem_prob_s vrna_ep_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_ep_t</name>
+        <briefdescription>
+<para>Convenience typedef for data structure <ref refid="structvrna__elem__prob__s" kindref="compound">vrna_elem_prob_s</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="39" column="31" bodyfile="ViennaRNA/utils/structures.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__struct__utils__plist_1ga6de9e912540e36b1e231a66f6d8319df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+        <definition>vrna_ep_t * vrna_plist</definition>
+        <argsstring>(const char *struc, float pr)</argsstring>
+        <name>vrna_plist</name>
+        <param>
+          <type>const char *</type>
+          <declname>struc</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>pr</declname>
+        </param>
+        <briefdescription>
+<para>Create a <ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> from a dot-bracket string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The dot-bracket string is parsed and for each base pair an entry in the plist is created. The probability of each pair in the list is set by a function parameter.</para>
+<para>The end of the plist is marked by sequence positions i as well as j equal to 0. This condition should be used to stop looping over its entries</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>struc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The probability for each base pair used in the plist </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The plist array </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="487" column="11" declfile="ViennaRNA/utils/structures.h" declline="487" declcolumn="11"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__struct__utils__plist_1ga7c7484a8a1e6704b1aefaf589f3b27c1" prot="public" static="no">
+        <name>VRNA_PLIST_TYPE_BASEPAIR</name>
+        <initializer>0</initializer>
+        <briefdescription>
+<para>A Base Pair element. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="411" column="9" bodyfile="ViennaRNA/utils/structures.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__struct__utils__plist_1gac91ab79e9feede5347103949ecf04f8a" prot="public" static="no">
+        <name>VRNA_PLIST_TYPE_GQUAD</name>
+        <initializer>1</initializer>
+        <briefdescription>
+<para>A G-Quadruplex element. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="417" column="9" bodyfile="ViennaRNA/utils/structures.h" bodystart="417" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__struct__utils__plist_1ga4d142e0187b8410b61ec2b168ed4513e" prot="public" static="no">
+        <name>VRNA_PLIST_TYPE_H_MOTIF</name>
+        <initializer>2</initializer>
+        <briefdescription>
+<para>A Hairpin loop motif element. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="423" column="9" bodyfile="ViennaRNA/utils/structures.h" bodystart="423" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__struct__utils__plist_1gadf5905518079b5495bce3394cd7afb9a" prot="public" static="no">
+        <name>VRNA_PLIST_TYPE_I_MOTIF</name>
+        <initializer>3</initializer>
+        <briefdescription>
+<para>An Internal loop motif element. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="429" column="9" bodyfile="ViennaRNA/utils/structures.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__struct__utils__plist_1ga01d749cdb675dcdbac1dc5103378c699" prot="public" static="no">
+        <name>VRNA_PLIST_TYPE_UD_MOTIF</name>
+        <initializer>4</initializer>
+        <briefdescription>
+<para>An Unstructured Domain motif element. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="435" column="9" bodyfile="ViennaRNA/utils/structures.h" bodystart="435" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__struct__utils__plist_1ga36df728a95452170ca8684fc224299ea" prot="public" static="no">
+        <name>VRNA_PLIST_TYPE_STACK</name>
+        <initializer>5</initializer>
+        <briefdescription>
+<para>A Base Pair stack element. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="441" column="9" bodyfile="ViennaRNA/utils/structures.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__struct__utils__plist_1ga7961043acc4f183a7bc7cf2505a8c8b9" prot="public" static="no">
+        <name>VRNA_PLIST_TYPE_UNPAIRED</name>
+        <initializer>6</initializer>
+        <briefdescription>
+<para>An unpaired base. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="447" column="9" bodyfile="ViennaRNA/utils/structures.h" bodystart="447" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__struct__utils__plist_1ga1bdc6494057e1b947a0832aa011af8c3" prot="public" static="no">
+        <name>VRNA_PLIST_TYPE_TRIPLE</name>
+        <initializer>7</initializer>
+        <briefdescription>
+<para>One pair of a base triplet. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="453" column="9" bodyfile="ViennaRNA/utils/structures.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

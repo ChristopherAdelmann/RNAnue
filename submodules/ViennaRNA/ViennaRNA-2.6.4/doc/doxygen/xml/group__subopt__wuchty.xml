@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__subopt__wuchty" kind="group">
+    <compoundname>subopt_wuchty</compoundname>
+    <title>Suboptimal Structures within an Energy Band around the MFE</title>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__subopt__wuchty_1ga760ee7f326a411565f9e9f0cf44b2ff8" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* vrna_subopt_result_f) (const char *stucture, float energy, void *data)</definition>
+        <argsstring>)(const char *stucture, float energy, void *data)</argsstring>
+        <name>vrna_subopt_result_f</name>
+        <briefdescription>
+<para>Callback for <ref refid="group__subopt__wuchty_1ga92c2e415167f9e2b0341989a74d24e41" kindref="member">vrna_subopt_cb()</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="callbacks_1_callbacks000007"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>This function will be called for each suboptimal secondary structure that is successfully backtraced. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__subopt__wuchty_1ga92c2e415167f9e2b0341989a74d24e41" kindref="member">vrna_subopt_cb()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The suboptimal secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The free energy of the secondary structure in kcal/mol </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Some arbitrary, auxiliary data address as passed to <ref refid="group__subopt__wuchty_1ga92c2e415167f9e2b0341989a74d24e41" kindref="member">vrna_subopt_cb()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/subopt.h" line="43" column="9" bodyfile="ViennaRNA/subopt.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__subopt__wuchty_1ga5e57d914bcb5feeecdf520e25313fcfe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double print_energy</definition>
+        <argsstring></argsstring>
+        <name>print_energy</name>
+        <briefdescription>
+<para>printing threshold for use with logML </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/subopt.h" line="179" column="15" declfile="ViennaRNA/subopt.h" declline="179" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__subopt__wuchty_1ga873cf8ed69e0437f8efa8b1fec854a0e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int subopt_sorted</definition>
+        <argsstring></argsstring>
+        <name>subopt_sorted</name>
+        <briefdescription>
+<para>Sort output by energy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/subopt.h" line="187" column="12" declfile="ViennaRNA/subopt.h" declline="187" declcolumn="12"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__subopt__wuchty_1gad0cce16455fda0737873d8e1c5846480" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="subopt_8h_1a01ae9a0f27d245d89f705afd843fc457" kindref="member">vrna_subopt_solution_t</ref> *</type>
+        <definition>vrna_subopt_solution_t * vrna_subopt</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int delta, int sorted, FILE *fp)</argsstring>
+        <name>vrna_subopt</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sorted</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+        </param>
+        <briefdescription>
+<para>Returns list of subopt structures or writes to fp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function produces <bold>all</bold> suboptimal secondary structures within &apos;delta&apos; * 0.01 kcal/mol of the optimum, see  <verbatim>embed:rst:inline :cite:t:`wuchty:1999` </verbatim>. The results are either directly written to a &apos;fp&apos; (if &apos;fp&apos; is not NULL), or (fp==NULL) returned in a <ref refid="subopt_8h_1a01ae9a0f27d245d89f705afd843fc457" kindref="member">vrna_subopt_solution_t</ref> * list terminated by an entry were the &apos;structure&apos; member is NULL.</para>
+<para><simplesect kind="note"><para>This function requires all multibranch loop DP matrices for unique multibranch loop backtracing. Therefore, the supplied <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> <computeroutput>fc</computeroutput> (argument 1) must be initialized with <ref refid="structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2" kindref="member">vrna_md_t.uniq_ML</ref> = 1, for instance like this: <programlisting><codeline><highlight class="normal">vrna_md_t<sp/>md;</highlight></codeline>
+<codeline><highlight class="normal">vrna_md_set_default(&amp;md);</highlight></codeline>
+<codeline><highlight class="normal">md.uniq_ML<sp/>=<sp/>1;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">vrna_fold_compound_t<sp/>*fc=vrna_fold_compound(&quot;GGGGGGAAAAAACCCCCC&quot;,<sp/>&amp;md,<sp/>VRNA_OPTION_DEFAULT);</highlight></codeline>
+</programlisting></para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__subopt__wuchty_1ga92c2e415167f9e2b0341989a74d24e41" kindref="member">vrna_subopt_cb()</ref>, <ref refid="group__subopt__zuker_1gab8f5a02accffb385d921d96871aa13f4" kindref="member">vrna_subopt_zuker()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sorted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sort results by energy in ascending order </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para></para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000177"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <bold><ref refid="group__subopt__wuchty_1ga9913b3a58b8d315be3f4f7f4dbe3c481" kindref="member">subopt()</ref></bold> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.subopt()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/subopt.h" line="125" column="1" declfile="ViennaRNA/subopt.h" declline="125" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__subopt__wuchty_1ga92c2e415167f9e2b0341989a74d24e41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_subopt_cb</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int delta, vrna_subopt_result_f cb, void *data)</argsstring>
+        <name>vrna_subopt_cb</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type><ref refid="group__subopt__wuchty_1ga760ee7f326a411565f9e9f0cf44b2ff8" kindref="member">vrna_subopt_result_f</ref></type>
+          <declname>cb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Generate suboptimal structures within an energy band arround the MFE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the most generic implementation of the suboptimal structure generator according to  <verbatim>embed:rst:inline :cite:t:`wuchty:1999` </verbatim>. Identical to <ref refid="group__subopt__wuchty_1gad0cce16455fda0737873d8e1c5846480" kindref="member">vrna_subopt()</ref>, it computes all secondary structures within an energy band <computeroutput>delta</computeroutput> arround the MFE. However, this function does not print the resulting structures and their corresponding free energies to a file pointer, or returns them as a list. Instead, it calls a user-provided callback function which it passes the structure in dot-bracket format, the corresponding free energy in kcal/mol, and a user-provided data structure each time a structure was backtracked successfully. This function indicates the final output, i.e. the end of the backtracking procedure by passing NULL instead of an actual dot-bracket string to the callback.</para>
+<para><simplesect kind="note"><para>This function requires all multibranch loop DP matrices for unique multibranch loop backtracing. Therefore, the supplied <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> <computeroutput>fc</computeroutput> (argument 1) must be initialized with <ref refid="structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2" kindref="member">vrna_md_t.uniq_ML</ref> = 1, for instance like this: <programlisting><codeline><highlight class="normal">vrna_md_t<sp/>md;</highlight></codeline>
+<codeline><highlight class="normal">vrna_md_set_default(&amp;md);</highlight></codeline>
+<codeline><highlight class="normal">md.uniq_ML<sp/>=<sp/>1;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">vrna_fold_compound_t<sp/>*fc=vrna_fold_compound(&quot;GGGGGGAAAAAACCCCCC&quot;,<sp/>&amp;md,<sp/>VRNA_OPTION_DEFAULT);</highlight></codeline>
+</programlisting></para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__subopt__wuchty_1ga760ee7f326a411565f9e9f0cf44b2ff8" kindref="member">vrna_subopt_result_f</ref>, <ref refid="group__subopt__wuchty_1gad0cce16455fda0737873d8e1c5846480" kindref="member">vrna_subopt()</ref>, <ref refid="group__subopt__zuker_1gab8f5a02accffb385d921d96871aa13f4" kindref="member">vrna_subopt_zuker()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>fold compount with the sequence data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Energy band arround the MFE in 10cal/mol, i.e. deka-calories </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a callback function that handles the backtracked structure and its free energy in kcal/mol </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to some data structure that is passed along to the callback</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000178"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <bold>subopt_cb()</bold> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.subopt_cb()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/subopt.h" line="167" column="1" declfile="ViennaRNA/subopt.h" declline="167" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__subopt__wuchty_1ga9913b3a58b8d315be3f4f7f4dbe3c481" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="subopt_8h_1aa0f46ff02e1017469cf902d02ecd7f9a" kindref="member">SOLUTION</ref> *</type>
+        <definition>SOLUTION * subopt</definition>
+        <argsstring>(char *seq, char *structure, int delta, FILE *fp)</argsstring>
+        <name>subopt</name>
+        <param>
+          <type>char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+        </param>
+        <briefdescription>
+<para>Returns list of subopt structures or writes to fp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function produces <bold>all</bold> suboptimal secondary structures within &apos;delta&apos; * 0.01 kcal/mol of the optimum. The results are either directly written to a &apos;fp&apos; (if &apos;fp&apos; is not NULL), or (fp==NULL) returned in a <ref refid="subopt_8h_1aa0f46ff02e1017469cf902d02ecd7f9a" kindref="member">SOLUTION</ref> * list terminated by an entry were the &apos;structure&apos; pointer is NULL.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para></para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/subopt.h" line="230" column="12" declfile="ViennaRNA/subopt.h" declline="230" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="group__subopt__wuchty_1gaf3597f13ed0e7dba00185f3336312f7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="subopt_8h_1aa0f46ff02e1017469cf902d02ecd7f9a" kindref="member">SOLUTION</ref> *</type>
+        <definition>SOLUTION * subopt_par</definition>
+        <argsstring>(char *seq, char *structure, vrna_param_t *parameters, int delta, int is_constrained, int is_circular, FILE *fp)</argsstring>
+        <name>subopt_par</name>
+        <param>
+          <type>char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type><ref refid="group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35" kindref="member">vrna_param_t</ref> *</type>
+          <declname>parameters</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>is_constrained</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>is_circular</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+        </param>
+        <briefdescription>
+<para>Returns list of subopt structures or writes to fp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/subopt.h" line="241" column="23" declfile="ViennaRNA/subopt.h" declline="241" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="group__subopt__wuchty_1ga72ed97775f3e2ce2159fdcb994da383e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="subopt_8h_1aa0f46ff02e1017469cf902d02ecd7f9a" kindref="member">SOLUTION</ref> *</type>
+        <definition>SOLUTION * subopt_circ</definition>
+        <argsstring>(char *seq, char *sequence, int delta, FILE *fp)</argsstring>
+        <name>subopt_circ</name>
+        <param>
+          <type>char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+        </param>
+        <briefdescription>
+<para>Returns list of circular subopt structures or writes to fp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is similar to <ref refid="group__subopt__wuchty_1ga9913b3a58b8d315be3f4f7f4dbe3c481" kindref="member">subopt()</ref> but calculates secondary structures assuming the RNA sequence to be circular instead of linear</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para></para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/subopt.h" line="258" column="12" declfile="ViennaRNA/subopt.h" declline="258" declcolumn="12"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

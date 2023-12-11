@@ -1,0 +1,305 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__pf__cofold" kind="group">
+    <compoundname>pf_cofold</compoundname>
+    <title>Partition Function for Two Hybridized Sequences</title>
+    <innerfile refid="concentrations_8h">concentrations.h</innerfile>
+    <innerfile refid="part__func__up_8h">part_func_up.h</innerfile>
+      <sectiondef kind="user-defined">
+      <memberdef kind="typedef" id="group__pf__cofold_1gac48c2723444ecfdceafcfd525ca98322" prot="public" static="no">
+        <type>struct <ref refid="structvrna__dimer__conc__s" kindref="compound">vrna_dimer_conc_s</ref></type>
+        <definition>typedef struct vrna_dimer_conc_s vrna_dimer_conc_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_dimer_conc_t</name>
+        <briefdescription>
+<para>Typename for the data structure that stores the dimer concentrations, <ref refid="structvrna__dimer__conc__s" kindref="compound">vrna_dimer_conc_s</ref>, as required by vrna_pf_dimer_concentration() </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/concentrations.h" line="28" column="32" bodyfile="ViennaRNA/concentrations.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__pf__cofold_1ga46244c7adf5040580291c45b465f4efa" prot="public" static="no">
+        <type>struct <ref refid="structvrna__dimer__conc__s" kindref="compound">vrna_dimer_conc_s</ref></type>
+        <definition>typedef struct vrna_dimer_conc_s ConcEnt</definition>
+        <argsstring></argsstring>
+        <name>ConcEnt</name>
+        <briefdescription>
+<para>Backward compatibility typedef for <ref refid="structvrna__dimer__conc__s" kindref="compound">vrna_dimer_conc_s</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/concentrations.h" line="36" column="32" bodyfile="ViennaRNA/concentrations.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__pf__cofold_1ga72e714dd5e6612b5d4d6b939c3860c4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__pf__cofold_1gac48c2723444ecfdceafcfd525ca98322" kindref="member">vrna_dimer_conc_t</ref> *</type>
+        <definition>vrna_dimer_conc_t * vrna_pf_dimer_concentrations</definition>
+        <argsstring>(double FcAB, double FcAA, double FcBB, double FEA, double FEB, const double *startconc, const vrna_exp_param_t *exp_params)</argsstring>
+        <name>vrna_pf_dimer_concentrations</name>
+        <param>
+          <type>double</type>
+          <declname>FcAB</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>FcAA</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>FcBB</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>FEA</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>FEB</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>startconc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8" kindref="member">vrna_exp_param_t</ref> *</type>
+          <declname>exp_params</declname>
+        </param>
+        <briefdescription>
+<para>Given two start monomer concentrations a and b, compute the concentrations in thermodynamic equilibrium of all dimers and the monomers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function takes an array &apos;startconc&apos; of input concentrations with alternating entries for the initial concentrations of molecules A and B (terminated by two zeroes), then computes the resulting equilibrium concentrations from the free energies for the dimers. Dimer free energies should be the dimer-only free energies, i.e. the FcAB entries from the <ref refid="group__pf__cofold_1ga444df1587c9a2ca15b8eb25188f629c3" kindref="member">vrna_dimer_pf_t</ref> struct.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>FcAB</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Free energy of AB dimer (FcAB entry) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>FcAA</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Free energy of AA dimer (FcAB entry) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>FcBB</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Free energy of BB dimer (FcAB entry) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>FEA</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Free energy of monomer A </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>FEB</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Free energy of monomer B </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startconc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of start concentrations [a0],[b0],[a1],[b1],...,[an][bn],[0],[0] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>exp_params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The precomputed Boltzmann factors </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>vrna_dimer_conc_t array containing the equilibrium energies and start concentrations </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/concentrations.h" line="75" column="19" declfile="ViennaRNA/concentrations.h" declline="75" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="group__pf__cofold_1ga888bc698ac08d3a057c9c0a43b548d78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double *</type>
+        <definition>double * vrna_equilibrium_constants</definition>
+        <argsstring>(const double *dG_complexes, const double *dG_strands, const unsigned int **A, double kT, size_t strands, size_t complexes)</argsstring>
+        <name>vrna_equilibrium_constants</name>
+        <param>
+          <type>const double *</type>
+          <declname>dG_complexes</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>dG_strands</declname>
+        </param>
+        <param>
+          <type>const unsigned int **</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>kT</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>strands</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>complexes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/concentrations.h" line="84" column="1" declfile="ViennaRNA/concentrations.h" declline="84" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Simplified global partition function computation using sequence(s) or multiple sequence alignment(s)</header>
+      <memberdef kind="function" id="group__part__func__global_1gaf2b846f7ac382686f35ff7b9202fdd5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__pf__cofold_1ga444df1587c9a2ca15b8eb25188f629c3" kindref="member">vrna_dimer_pf_t</ref></type>
+        <definition>vrna_dimer_pf_t vrna_pf_co_fold</definition>
+        <argsstring>(const char *seq, char *structure, vrna_ep_t **pl)</argsstring>
+        <name>vrna_pf_co_fold</name>
+        <param>
+          <type>const char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> **</type>
+          <declname>pl</declname>
+        </param>
+        <briefdescription>
+<para>Calculate partition function and base pair probabilities of nucleic acid/nucleic acid dimers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__part__func__global_1gae796019c176a158f0e9d7741a85c1743" kindref="member">vrna_pf_dimer()</ref> computes the partition function and, if required, base pair probabilities for an RNA-RNA interaction using default options. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__part__func__global_1gae796019c176a158f0e9d7741a85c1743" kindref="member">vrna_pf_dimer()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__part__func__global_1gae796019c176a158f0e9d7741a85c1743" kindref="member">vrna_pf_dimer()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Two concatenated RNA sequences with a delimiting &apos;&amp;&apos; in between </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where position-wise pairing propensity will be stored. (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a list of <ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> to store pairing probabilities (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>vrna_dimer_pf_t structure containing a set of energies needed for concentration computations. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="300" column="1" declfile="ViennaRNA/part_func.h" declline="300" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__pf__cofold_1ga444df1587c9a2ca15b8eb25188f629c3" prot="public" static="no">
+        <type>struct <ref refid="structvrna__dimer__pf__s" kindref="compound">vrna_dimer_pf_s</ref></type>
+        <definition>typedef struct vrna_dimer_pf_s vrna_dimer_pf_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_dimer_pf_t</name>
+        <briefdescription>
+<para>Typename for the data structure that stores the dimer partition functions, <ref refid="structvrna__dimer__pf__s" kindref="compound">vrna_dimer_pf_s</ref>, as returned by <ref refid="group__part__func__global_1gae796019c176a158f0e9d7741a85c1743" kindref="member">vrna_pf_dimer()</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="8" column="30" bodyfile="ViennaRNA/part_func.h" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__pf__cofold_1ga5445d8d96a40e9e79b1fa5a7f1a6b7ea" prot="public" static="no">
+        <type>struct <ref refid="structvrna__dimer__pf__s" kindref="compound">vrna_dimer_pf_s</ref></type>
+        <definition>typedef struct vrna_dimer_pf_s cofoldF</definition>
+        <argsstring></argsstring>
+        <name>cofoldF</name>
+        <briefdescription>
+<para>Backward compatibility typedef for <ref refid="structvrna__dimer__pf__s" kindref="compound">vrna_dimer_pf_s</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="18" column="30" bodyfile="ViennaRNA/part_func.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__pf__cofold_1gaff27888c4088cc1f60fd59cbd589474c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int mirnatog</definition>
+        <argsstring></argsstring>
+        <name>mirnatog</name>
+        <briefdescription>
+<para>Toggles no intrabp in 2nd mol. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_co.h" line="37" column="15" declfile="ViennaRNA/part_func_co.h" declline="37" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__pf__cofold_1gac2d1851a710a8561390861155ca988fe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double F_monomer[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>F_monomer</name>
+        <briefdescription>
+<para>Free energies of the two monomers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func_co.h" line="42" column="15" declfile="ViennaRNA/part_func_co.h" declline="42" declcolumn="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

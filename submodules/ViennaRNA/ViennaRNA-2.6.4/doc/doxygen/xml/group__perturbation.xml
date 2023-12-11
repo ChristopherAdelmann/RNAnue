@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__perturbation" kind="group">
+    <compoundname>perturbation</compoundname>
+    <title>Generate Soft Constraints from Data</title>
+    <innerfile refid="perturbation__fold_8h">perturbation_fold.h</innerfile>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__perturbation_1gaa715397c7afd2d2955c315512a3d571a" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* progress_callback) (int iteration, double score, double *epsilon)</definition>
+        <argsstring>)(int iteration, double score, double *epsilon)</argsstring>
+        <name>progress_callback</name>
+        <briefdescription>
+<para>Callback for following the progress of the minimization process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iteration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of the current iteration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The score of the objective function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The perturbation vector yielding the reported score </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/perturbation_fold.h" line="92" column="9" bodyfile="ViennaRNA/perturbation_fold.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__perturbation_1ga64d7137ab57964928e7cd1be96d2e1ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_sc_minimize_pertubation</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const double *q_prob_unpaired, int objective_function, double sigma_squared, double tau_squared, int algorithm, int sample_size, double *epsilon, double initialStepSize, double minStepSize, double minImprovement, double minimizerTolerance, progress_callback callback)</argsstring>
+        <name>vrna_sc_minimize_pertubation</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>q_prob_unpaired</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>objective_function</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sigma_squared</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tau_squared</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>algorithm</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sample_size</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>epsilon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>initialStepSize</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minStepSize</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minImprovement</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minimizerTolerance</declname>
+        </param>
+        <param>
+          <type><ref refid="group__perturbation_1gaa715397c7afd2d2955c315512a3d571a" kindref="member">progress_callback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Find a vector of perturbation energies that minimizes the discripancies between predicted and observed pairing probabilities and the amount of neccessary adjustments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use an iterative minimization algorithm to find a vector of perturbation energies whose incorporation as soft constraints shifts the predicted pairing probabilities closer to the experimentally observed probabilities. The algorithm aims to minimize an objective function that penalizes discripancies between predicted and observed pairing probabilities and energy model adjustments, i.e. an appropriate vector of perturbation energies satisfies</para>
+<para><formula id="76">\[
+F(\vec\epsilon) = \sum_{\mu}{ \frac{\epsilon_{\mu}^2}{\tau^2} } + \sum_{i =
+1}^n{ \frac{(p_i(\vec\epsilon) - q_i)^2}{\sigma^2} } \to \min.
+\]</formula></para>
+<para>An initialized fold compound and an array containing the observed probability for each nucleotide to be unbound are required as input data. The parameters objective_function, sigma_squared and tau_squared are responsible for adjusting the aim of the objective function. Dependend on which type of objective function is selected, either squared or absolute aberrations are contributing to the objective function. The ratio of the parameters sigma_squared and tau_squared can be used to adjust the algorithm to find a solution either close to the thermodynamic prediction (sigma_squared &gt;&gt; tau_squared) or close to the experimental data (tau_squared &gt;&gt; sigma_squared). The minimization can be performed by makeing use of a custom gradient descent implementation or using one of the minimizing algorithms provided by the GNU Scientific Library. All algorithms require the evaluation of the gradient of the objective function, which includes the evaluation of conditional pairing probabilites. Since an exact evaluation is expensive, the probabilities can also be estimated from sampling by setting an appropriate sample size. The found vector of perturbation energies will be stored in the array epsilon. The progress of the minimization process can be tracked by implementing and passing a callback function.</para>
+<para><simplesect kind="see"><para>For further details we refer to  <verbatim>embed:rst:inline :cite:t:`washietl:2012` </verbatim>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a fold compound </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>q_prob_unpaired</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an array containing the probability to be unpaired for each nucleotide </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>objective_function</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of objective function to be used (VRNA_OBJECTIVE_FUNCTION_QUADRATIC / VRNA_OBJECTIVE_FUNCTION_LINEAR) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sigma_squared</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A factor used for weighting the objective function. More weight on this factor will lead to a solution close to the null vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tau_squared</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A factor used for weighting the objective function. More weight on this factor will lead to a solution close to the data provided in q_prob_unpaired. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimization algorithm (VRNA_MINIMIZER_*) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sample_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of sampled sequences used for estimating the pairing probabilities. A value &lt;= 0 will lead to an exact evaluation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to an array used for storing the calculated vector of perturbation energies </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a callback function used for reporting the current minimization progress </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/perturbation_fold.h" line="137" column="6" declfile="ViennaRNA/perturbation_fold.h" declline="137" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__perturbation_1ga81e10993d1ae728e4e02022b33155a12" prot="public" static="no">
+        <name>VRNA_OBJECTIVE_FUNCTION_QUADRATIC</name>
+        <initializer>0</initializer>
+        <briefdescription>
+<para>Use the sum of squared aberrations as objective function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><formula id="74">$ F(\vec\epsilon) = \sum_{i = 1}^n{ \frac{\epsilon_i^2}{\tau^2} } + \sum_{i = 1}^n{ \frac{(p_i(\vec\epsilon) - q_i)^2}{\sigma^2} } \to min $</formula> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/perturbation_fold.h" line="20" column="9" bodyfile="ViennaRNA/perturbation_fold.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__perturbation_1gac070dfb9cafaeb14d5652bd9adf0f6b1" prot="public" static="no">
+        <name>VRNA_OBJECTIVE_FUNCTION_ABSOLUTE</name>
+        <initializer>1</initializer>
+        <briefdescription>
+<para>Use the sum of absolute aberrations as objective function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><formula id="75">$ F(\vec\epsilon) = \sum_{i = 1}^n{ \frac{|\epsilon_i|}{\tau^2} } + \sum_{i = 1}^n{ \frac{|p_i(\vec\epsilon) - q_i|}{\sigma^2} } \to min $</formula> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/perturbation_fold.h" line="29" column="9" bodyfile="ViennaRNA/perturbation_fold.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__perturbation_1gae5126200d80dbb282f46083fffc606bf" prot="public" static="no">
+        <name>VRNA_MINIMIZER_DEFAULT</name>
+        <initializer>0</initializer>
+        <briefdescription>
+<para>Use a custom implementation of the gradient descent algorithm to minimize the objective function. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/perturbation_fold.h" line="36" column="9" bodyfile="ViennaRNA/perturbation_fold.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__perturbation_1gab1d89db58e8c497795a5005f5dbc8c4a" prot="public" static="no">
+        <name>VRNA_MINIMIZER_CONJUGATE_FR</name>
+        <initializer>1</initializer>
+        <briefdescription>
+<para>Use the GNU Scientific Library implementation of the Fletcher-Reeves conjugate gradient algorithm to minimize the objective function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Please note that this algorithm can only be used when the GNU Scientific Library is available on your system </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/perturbation_fold.h" line="45" column="9" bodyfile="ViennaRNA/perturbation_fold.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__perturbation_1ga5aaeafe1b0aa77a5cda18943ff94b02f" prot="public" static="no">
+        <name>VRNA_MINIMIZER_CONJUGATE_PR</name>
+        <initializer>2</initializer>
+        <briefdescription>
+<para>Use the GNU Scientific Library implementation of the Polak-Ribiere conjugate gradient algorithm to minimize the objective function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Please note that this algorithm can only be used when the GNU Scientific Library is available on your system </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/perturbation_fold.h" line="54" column="9" bodyfile="ViennaRNA/perturbation_fold.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__perturbation_1ga9be8a702cddf58235571ace11cc41b22" prot="public" static="no">
+        <name>VRNA_MINIMIZER_VECTOR_BFGS</name>
+        <initializer>3</initializer>
+        <briefdescription>
+<para>Use the GNU Scientific Library implementation of the vector Broyden-Fletcher-Goldfarb-Shanno algorithm to minimize the objective function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Please note that this algorithm can only be used when the GNU Scientific Library is available on your system </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/perturbation_fold.h" line="63" column="9" bodyfile="ViennaRNA/perturbation_fold.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__perturbation_1ga7b0a65c6c92fa1d8012383ba9d3dcb4f" prot="public" static="no">
+        <name>VRNA_MINIMIZER_VECTOR_BFGS2</name>
+        <initializer>4</initializer>
+        <briefdescription>
+<para>Use the GNU Scientific Library implementation of the vector Broyden-Fletcher-Goldfarb-Shanno algorithm to minimize the objective function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Please note that this algorithm can only be used when the GNU Scientific Library is available on your system </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/perturbation_fold.h" line="72" column="9" bodyfile="ViennaRNA/perturbation_fold.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__perturbation_1ga9ecd2144c2ebed7533233da3986521b0" prot="public" static="no">
+        <name>VRNA_MINIMIZER_STEEPEST_DESCENT</name>
+        <initializer>5</initializer>
+        <briefdescription>
+<para>Use the GNU Scientific Library implementation of the steepest descent algorithm to minimize the objective function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Please note that this algorithm can only be used when the GNU Scientific Library is available on your system </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/perturbation_fold.h" line="81" column="9" bodyfile="ViennaRNA/perturbation_fold.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

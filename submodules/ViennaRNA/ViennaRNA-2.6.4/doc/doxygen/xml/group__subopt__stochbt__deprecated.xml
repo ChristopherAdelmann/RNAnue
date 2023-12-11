@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__subopt__stochbt__deprecated" kind="group">
+    <compoundname>subopt_stochbt_deprecated</compoundname>
+    <title>Deprecated Interface for Stochastic Backtracking</title>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__subopt__stochbt__deprecated_1gacd79b1a570e6ad9be24cb11fe8cae30a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int st_back</definition>
+        <argsstring></argsstring>
+        <name>st_back</name>
+        <briefdescription>
+<para>Flag indicating that auxilary arrays are needed throughout the computations. This is essential for stochastic backtracking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set this variable to 1 prior to a call of <ref refid="group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2" kindref="member">pf_fold()</ref> to ensure that all matrices needed for stochastic backtracking are filled in the forward recursions</para>
+<para><xrefsect id="deprecated_1_deprecated000098"><xreftitle>Deprecated</xreftitle><xrefdescription><para>set the <emphasis>uniq_ML</emphasis> flag in <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> before passing it to <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>.</para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18" kindref="member">pbacktrack()</ref>, <ref refid="group__subopt__stochbt__deprecated_1ga4b6d04c882ae87b6cee9a516e06c4155" kindref="member">pbacktrack_circ</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="350" column="12" declfile="ViennaRNA/part_func.h" declline="350" declcolumn="12"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * pbacktrack</definition>
+        <argsstring>(char *sequence)</argsstring>
+        <name>pbacktrack</name>
+        <param>
+          <type>char *</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Sample a secondary structure from the Boltzmann ensemble according its probability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="pre"><para><ref refid="group__subopt__stochbt__deprecated_1gacd79b1a570e6ad9be24cb11fe8cae30a" kindref="member">st_back</ref> has to be set to 1 before calling <ref refid="group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2" kindref="member">pf_fold()</ref> or <ref refid="group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf" kindref="member">pf_fold_par()</ref><linebreak/>
+ <ref refid="group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf" kindref="member">pf_fold_par()</ref> or <ref refid="group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2" kindref="member">pf_fold()</ref> have to be called first to fill the partition function matrices</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A sampled secondary structure in dot-bracket notation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="499" column="7" declfile="ViennaRNA/part_func.h" declline="499" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__subopt__stochbt__deprecated_1ga31aa6bffb2b5c66486f50091a7061320" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * pbacktrack5</definition>
+        <argsstring>(char *sequence, int length)</argsstring>
+        <name>pbacktrack5</name>
+        <param>
+          <type>char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Sample a sub-structure from the Boltzmann ensemble according its probability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="507" column="7" declfile="ViennaRNA/part_func.h" declline="507" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__subopt__stochbt__deprecated_1ga4b6d04c882ae87b6cee9a516e06c4155" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * pbacktrack_circ</definition>
+        <argsstring>(char *sequence)</argsstring>
+        <name>pbacktrack_circ</name>
+        <param>
+          <type>char *</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Sample a secondary structure of a circular RNA from the Boltzmann ensemble according its probability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function does the same as <ref refid="group__subopt__stochbt__deprecated_1gaae9de453e396420d6269534d571d6d18" kindref="member">pbacktrack()</ref> but assumes the RNA molecule to be circular</para>
+<para><simplesect kind="pre"><para><ref refid="group__subopt__stochbt__deprecated_1gacd79b1a570e6ad9be24cb11fe8cae30a" kindref="member">st_back</ref> has to be set to 1 before calling <ref refid="group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2" kindref="member">pf_fold()</ref> or <ref refid="group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf" kindref="member">pf_fold_par()</ref><linebreak/>
+ <ref refid="group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf" kindref="member">pf_fold_par()</ref> or <ref refid="group__part__func__global__deprecated_1ga819ce5fca8984004ac81c4a3b04cb735" kindref="member">pf_circ_fold()</ref> have to be called first to fill the partition function matrices</para>
+</simplesect>
+<xrefsect id="deprecated_1_deprecated000101"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="group__subopt__stochbt_1ga594844ac73c4e66e00d6791b31540634" kindref="member">vrna_pbacktrack()</ref> instead.</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A sampled secondary structure in dot-bracket notation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/part_func.h" line="524" column="7" declfile="ViennaRNA/part_func.h" declline="524" declcolumn="7"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

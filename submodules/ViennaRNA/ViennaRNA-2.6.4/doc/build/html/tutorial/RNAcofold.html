@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Program RNAcofold &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Program RNAduplex" href="RNAduplex.html" />
+    <link rel="prev" title="The Program RNAalifold" href="RNAalifold.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../getting_started.html">Getting Started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#global-rna-secondary-structure-prediction">Global RNA Secondary Structure Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#consensus-structure-prediction">Consensus Structure Prediction</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../getting_started.html#rna-rna-interaction">RNA-RNA interaction</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The Program <code class="docutils literal notranslate"><span class="pre">RNAcofold</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#two-sequences-one-structure">Two Sequences one Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#concentration-dependency">Concentration Dependency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#concentration-dependency-plot">Concentration Dependency Plot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="RNAduplex.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAduplex</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#plotting-structures">Plotting Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-design">RNA Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-folding-kinetics">RNA folding kinetics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#other-utilities">Other Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../getting_started.html">Getting Started</a></li>
+      <li class="breadcrumb-item active">The Program <code class="docutils literal notranslate"><span class="pre">RNAcofold</span></code></li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-program-rnacofold">
+<h1>The Program <code class="docutils literal notranslate"><span class="pre">RNAcofold</span></code><a class="headerlink" href="#the-program-rnacofold" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">RNAcofold</span></code> works much like <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> but uses two RNA sequences as input
+which are then allowed to form a dimer structure. In the input the two RNA
+sequences should be concatenated using the <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> character as separator. As
+in <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> the <code class="docutils literal notranslate"><span class="pre">-p</span></code> option can be used to compute partition function
+and base pairing probabilities.</p>
+<p>Since dimer formation is concentration dependent, <code class="docutils literal notranslate"><span class="pre">RNAcofold</span></code> can be used
+to compute equilibrium concentrations for all five monomer and
+(homo/hetero)-dimer species, given input concentrations for the monomers
+(see the <code class="docutils literal notranslate"><span class="pre">man</span></code> page for details).</p>
+</section>
+<section id="two-sequences-one-structure">
+<h2>Two Sequences one Structure<a class="headerlink" href="#two-sequences-one-structure" title="Link to this heading"></a></h2>
+<ul>
+<li><p>Prepare a sequence file (<code class="docutils literal notranslate"><span class="pre">t.seq</span></code>) for input that looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">t</span>
+<span class="n">GCGCUUCGCCGCGCGCC</span><span class="o">&amp;</span><span class="n">GCGCUUCGCCGCGCGCA</span>
+</pre></div>
+</div>
+</li>
+<li><p>Compute the <code class="docutils literal notranslate"><span class="pre">MFE</span></code> and the ensemble properties</p></li>
+<li><p>Look at the generated PostScript files <code class="docutils literal notranslate"><span class="pre">t_ss.ps</span></code> and <code class="docutils literal notranslate"><span class="pre">t_dp.ps</span></code></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAcofold -p &lt; t.seq
+&gt;t
+GCGCUUCGCCGCGCGCC&amp;GCGCUUCGCCGCGCGCA
+((((..((..((((...&amp;))))..))..))))... (-17.70)
+((((..{(,.((((,,.&amp;))))..}),.)))),,. [-18.26]
+ frequency of mfe structure in ensemble 0.401754 , delta G binding= -3.95
+</pre></div>
+</div>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Secondary Structure and Dot Plot</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><img alt="../_images/t_ss.png" src="../_images/t_ss.png" />
+</td>
+<td><img alt="../_images/t_dp.png" src="../_images/t_dp.png" />
+</td>
+</tr>
+</tbody>
+</table>
+<p>In the dot plot a cross marks the chain break between the two concatenated sequences.</p>
+</section>
+<section id="concentration-dependency">
+<h2>Concentration Dependency<a class="headerlink" href="#concentration-dependency" title="Link to this heading"></a></h2>
+<p>Cofolding is an intermolecular process, therefore whether duplex formation will
+actually occur is concentration dependent. Trivially, if one of the molecules is
+not present, no dimers are going to be formed. The partition functions of the
+molecules give us the equilibrium constants:</p>
+<div class="math notranslate nohighlight">
+\[K_{AB} = \frac{[AB]}{[A][B]} = \frac{Z_{AB}}{Z_AZ_B}\]</div>
+<p>with these and mass conservation, the equilibrium concentration of homodimers,
+heterodimers and monomers can be computed in dependence of the start concentrations
+of the two molecules.</p>
+<p>This is most easily done by creating a file with the initial concentrations of
+molecules <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> in two columns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">a_1</span><span class="p">]([</span><span class="n">mol</span><span class="o">/</span><span class="n">l</span><span class="p">])</span>  <span class="p">[</span><span class="n">b_1</span><span class="p">]([</span><span class="n">mol</span><span class="o">/</span><span class="n">l</span><span class="p">])</span>
+<span class="p">[</span><span class="n">a_2</span><span class="p">]([</span><span class="n">mol</span><span class="o">/</span><span class="n">l</span><span class="p">])</span>  <span class="p">[</span><span class="n">b_2</span><span class="p">]([</span><span class="n">mol</span><span class="o">/</span><span class="n">l</span><span class="p">])</span>
+
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+
+<span class="p">[</span><span class="n">a_n</span><span class="p">]([</span><span class="n">mol</span><span class="o">/</span><span class="n">l</span><span class="p">])</span>  <span class="o">&amp;</span> <span class="p">[</span><span class="n">b_n</span><span class="p">]([</span><span class="n">mol</span><span class="o">/</span><span class="n">l</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul>
+<li><p>Prepare a concentration file for input with this little <code class="docutils literal notranslate"><span class="pre">perl</span></code> script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ perl -e &#39;$c=1e-07; do {print &quot;$c\t$c\n&quot;; $c*=1.71;} while $c&lt;0.2&#39; &gt; concfile
+</pre></div>
+</div>
+<p>This script creates a file displaying values from 1e-07 to just below 0.2,
+with 1.71-fold steps in between. For convenience, concentration of molecule A
+is the same as concentration of molecule B in each row. This will facilitate
+visualization of the results.</p>
+</li>
+<li><p>Compute the <code class="docutils literal notranslate"><span class="pre">MFE</span></code>, the ensemble properties and the concentration dependency
+of hybridization:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAcofold -f concfile &lt; t.seq &gt; cofold.out
+</pre></div>
+</div>
+</li>
+<li><p>Look at the generated output with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ less cofold.out
+</pre></div>
+</div>
+<p>which should be similar to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="n">Free</span> <span class="n">Energies</span><span class="p">:</span>
+<span class="n">AB</span>              <span class="n">AA</span>              <span class="n">BB</span>              <span class="n">A</span>               <span class="n">B</span>
+<span class="o">-</span><span class="mf">18.261023</span>      <span class="o">-</span><span class="mf">17.562553</span>      <span class="o">-</span><span class="mf">18.274376</span>      <span class="o">-</span><span class="mf">7.017902</span>       <span class="o">-</span><span class="mf">7.290237</span>
+<span class="n">Initial</span> <span class="n">concentrations</span>          <span class="n">relative</span> <span class="n">Equilibrium</span> <span class="n">concentrations</span>
+<span class="n">A</span>                <span class="n">B</span>               <span class="n">AB</span>              <span class="n">AA</span>              <span class="n">BB</span>              <span class="n">A</span>               <span class="n">B</span>
+<span class="mf">1e-07</span>           <span class="mf">1e-07</span>           <span class="mf">0.00003</span>         <span class="mf">0.00002</span>         <span class="mf">0.00002</span>         <span class="mf">0.49994</span>         <span class="mf">0.49993</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>The five different free energies were printed out first, followed by a list
+of all the equilibrium concentrations, where the first two columns denote the
+initial (absolute) concentrations of molecules <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>,
+respectively. The next five columns denote the equilibrium concentrations
+of dimers and monomers, relative to the total particle number.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The concentrations don’t add up to one, except in the case where no dimers
+are built – if you want to know the fraction of particles in a dimer, you
+have to take the relative dimer concentrations times 2.</p>
+</div>
+<p>Since relative concentrations of species depend on two independent values -
+initial concentration of A as well as initial concentration of B - it is not
+trivial to visualize the results. For this reason we used the same concentration
+for A and for B. Another possibility would be to keep the initial concentration of
+one molecule constant.
+As an example we show the following plot of <code class="docutils literal notranslate"><span class="pre">t.seq</span></code>.</p>
+<p>Now we use some commandline tools to render our plot. We use <code class="docutils literal notranslate"><span class="pre">tail</span> <span class="pre">-n</span> <span class="pre">+11</span></code> to
+show all lines starting with line 11 (1-10 are cut) and pipe it into an <code class="docutils literal notranslate"><span class="pre">awk</span></code>
+command, which prints every column but the first from our input.
+This is then piped to <code class="docutils literal notranslate"><span class="pre">xmgrace</span></code>.
+With <code class="docutils literal notranslate"><span class="pre">-log</span> <span class="pre">x</span> <span class="pre">-nxy</span> <span class="pre">-</span></code> we tell it to plot the x axis in logarithmic scale and to
+read data file in X Y1 Y2 … format.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tail -n +11 cofold.out | awk &#39;{print $2, $3, $4, $5, $6, $7}&#39; | xmgrace -log x -nxy -
+</pre></div>
+</div>
+</section>
+<section id="concentration-dependency-plot">
+<h2>Concentration Dependency Plot<a class="headerlink" href="#concentration-dependency-plot" title="Link to this heading"></a></h2>
+<a class="reference internal image-reference" href="../_images/tconcdep.png"><img alt="../_images/tconcdep.png" class="align-center" src="../_images/tconcdep.png" style="width: 66%;" /></a>
+<p>Since the two sequences are almost identical, the monomer and homo-dimer
+concentrations behave very similarly. In this example, at a concentration of
+about 1 mmol 50% of the molecule is still in monomer form.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="RNAalifold.html" class="btn btn-neutral float-left" title="The Program RNAalifold" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="RNAduplex.html" class="btn btn-neutral float-right" title="The Program RNAduplex" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

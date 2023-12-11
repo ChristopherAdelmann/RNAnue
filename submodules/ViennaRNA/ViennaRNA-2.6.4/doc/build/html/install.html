@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5248d183"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration" href="configuration.html" />
+    <link rel="prev" title="A Library for predicting and comparing RNA secondary structures" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-from-source">Installing from Source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start">Quick-start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-from-git-repository">Installing from git repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-the-reference-manual">Building the reference manual</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation-without-root-privileges">Installation without root privileges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#macos-x-users">MacOS X users</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#using-conda">Using conda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#binary-packages">Binary packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-interface-only">Python interface only</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#building-the-python-package">Building the Python package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#unofficial-julia-interface">Unofficial Julia Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installation</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<p>The ViennaRNA Package comes with a variety of executable programs
+and scripts as well as a C-library that provides access to our
+implemented algorithms. Moreover, the C-library is wrapped to
+scripting languages such as <code class="docutils literal notranslate"><span class="pre">Perl</span> <span class="pre">5</span></code> and <code class="docutils literal notranslate"><span class="pre">Python</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For best portability the ViennaRNA package uses the GNU
+<code class="docutils literal notranslate"><span class="pre">autoconf</span></code> and <code class="docutils literal notranslate"><span class="pre">automake</span></code> tools to prepare the compilation
+from source code. Read the <a class="reference internal" href="configuration.html"><span class="doc">Configuration</span></a> section
+<em>before</em> you install our software if you intend to deviate
+from the default setup.</p>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<section id="installing-from-source">
+<h2>Installing from Source<a class="headerlink" href="#installing-from-source" title="Link to this heading"></a></h2>
+<p>The instructions below are for installing the ViennaRNA package
+from source. However, pre-compiled binaries for various Linux
+distributions, as well as for Windows users are available at the
+<a class="reference external" href="https://www.tbi.univie.ac.at/RNA/#download">download section</a>
+of the official ViennaRNA homepage.</p>
+<div class="admonition-see-also admonition">
+<p class="admonition-title">See also…</p>
+<p><a class="reference internal" href="#binary-packages"><span class="std std-ref">Binary packages</span></a>, <a class="reference internal" href="#using-conda"><span class="std std-ref">Using conda</span></a>, and <a class="reference internal" href="#python-interface-only"><span class="std std-ref">Python interface only</span></a></p>
+</div>
+<section id="quick-start">
+<h3>Quick-start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h3>
+<p>Usually you’ll just download the <a class="reference external" href="https://www.tbi.univie.ac.at/RNA/#source_code_packages">latest source tarball</a>,
+unpack, configure and make. To do this type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tar</span> <span class="o">-</span><span class="n">zxvf</span> <span class="n">ViennaRNA</span><span class="o">-</span><span class="mf">2.6.4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">cd</span> <span class="n">ViennaRNA</span><span class="o">-</span><span class="mf">2.6.4</span>
+<span class="o">./</span><span class="n">configure</span>
+<span class="n">make</span>
+<span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
+</pre></div>
+</div>
+</section>
+<section id="installing-from-git-repository">
+<h3>Installing from git repository<a class="headerlink" href="#installing-from-git-repository" title="Link to this heading"></a></h3>
+<p>You can also get the latest source code from <a class="reference external" href="https://github.com/ViennaRNA/ViennaRNA">our git repository</a>
+hosted at <a class="reference external" href="https://github.com">https://github.com</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ViennaRNA/ViennaRNA.git
+</pre></div>
+</div>
+<p>However, to proceed with the configuration and installation you need to perform
+some additional steps <strong>before</strong> actually running the <code class="docutils literal notranslate"><span class="pre">./configure</span></code> script:</p>
+<ol class="arabic simple">
+<li><p>Unpack the <code class="docutils literal notranslate"><span class="pre">libsvm</span></code> archive to allow for SVM Z-score regression with the
+program <code class="docutils literal notranslate"><span class="pre">RNALfold</span></code>:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar<span class="w"> </span>-xzf<span class="w"> </span>src/libsvm-3.31.tar.gz<span class="w"> </span>-C<span class="w"> </span>src
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Unpack the <code class="docutils literal notranslate"><span class="pre">dlib</span></code> archive to allow for concentration dependency computations with the
+program <code class="docutils literal notranslate"><span class="pre">RNAmultifold</span></code>:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar<span class="w"> </span>-xjf<span class="w"> </span>src/dlib-19.24.tar.bz2<span class="w"> </span>-C<span class="w"> </span>src
+</pre></div>
+</div>
+<ol class="arabic" start="3">
+<li><p>Install the additional maintainer tools <code class="docutils literal notranslate"><span class="pre">gengetopt</span></code>, <code class="docutils literal notranslate"><span class="pre">help2man</span></code>, <code class="docutils literal notranslate"><span class="pre">flex</span></code>, <code class="docutils literal notranslate"><span class="pre">xxd</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">swig</span></code> if necessary. For instance, in RedHat based distributions, the following
+packages need to be installed:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gengetopt</span></code> (to generate command line parameter parsers)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">help2man</span></code> (to generate the man pages)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">yacc</span></code>, <code class="docutils literal notranslate"><span class="pre">flex</span></code> and <code class="docutils literal notranslate"><span class="pre">flex-devel</span></code> (to generate sources for <code class="docutils literal notranslate"><span class="pre">RNAforester</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vim-common</span></code> (for the <code class="docutils literal notranslate"><span class="pre">xxd</span></code> program)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">swig</span></code> (to generate the scripting language interfaces)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">liblapacke</span></code> (for <code class="docutils literal notranslate"><span class="pre">RNAxplorer</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">liblapack</span></code>  (for <code class="docutils literal notranslate"><span class="pre">RNAxplorer</span></code>)</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">fortran</span></code> compiler, e.g. <code class="docutils literal notranslate"><span class="pre">gcc-gfortran</span></code> (for <code class="docutils literal notranslate"><span class="pre">RNAxplorer</span></code>)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Finally, run the <code class="docutils literal notranslate"><span class="pre">autoconf</span></code>/<code class="docutils literal notranslate"><span class="pre">automake</span></code> toolchain:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>autoreconf<span class="w"> </span>-i
+</pre></div>
+</div>
+<p>After that, you can compile and install the ViennaRNA Package as if obtained
+from the distribution tarball.</p>
+</section>
+<section id="building-the-reference-manual">
+<h3>Building the reference manual<a class="headerlink" href="#building-the-reference-manual" title="Link to this heading"></a></h3>
+<p>Our implementations are documented with extra comments that are automatically
+parsed by <a class="reference external" href="https://www.doxygen.nl/">doxygen</a>. The extracted API documentation
+is then processed further by <a class="reference external" href="https://breathe.readthedocs.io/">breathe</a> and finally
+integrated into a comprehensive reference manual written in
+<a class="reference external" href="https://docutils.sourceforge.io/rst.html">ReStructuredText</a>. This manual is then
+usually compiled into HTML and PDF format by <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a>.</p>
+<p>We provide pre-compiled versions of the reference manual in our distribution
+tarballs and HTML versions at <a class="reference external" href="https://www.tbi.univie.ac.at/RNA/ViennaRNA/refman">https://www.tbi.univie.ac.at/RNA/ViennaRNA/refman</a> and
+<a class="reference external" href="https://viennarna.readthedocs.io">https://viennarna.readthedocs.io</a>. However, under certain circumstances users might
+want to compile the reference manual themselves, e.g. when <span class="xref std std-ref">installing from git repository</span>.</p>
+<p>To succeed with the compilation the following tools are required:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">doxygen</span></code> (to extract the API documentation)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sphinx-build</span></code> (to compile the manual)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pdflatex</span></code> (to compile a PDF version of the manual)</p></li>
+</ul>
+</div></blockquote>
+<p>In addition, we use the following sphinx extensions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sphinx-multiproject</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">myst-parser</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sphinx-copybutton</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sphinxcontrib-bibtex</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sphinx-rtd-theme</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>If all the above programs and <code class="docutils literal notranslate"><span class="pre">python</span></code> packages are available, compilation
+of the reference manual should succeed without any further problems.</p>
+</section>
+<section id="installation-without-root-privileges">
+<h3>Installation without root privileges<a class="headerlink" href="#installation-without-root-privileges" title="Link to this heading"></a></h3>
+<p>If you do not have root privileges on your computer, you might want to install the ViennaRNA
+Package to a location where you actually have write access to. To do so, you can set the
+installation prefix of the <code class="docutils literal notranslate"><span class="pre">./configure</span></code> script like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">configure</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">username</span><span class="o">/.</span><span class="n">local</span>
+<span class="n">make</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>This will install the entire ViennaRNA Package into your home’s <code class="docutils literal notranslate"><span class="pre">~/.local/</span></code> directory that
+is commonly used for user-installed software. Just make sure that your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment
+variable contains the <code class="docutils literal notranslate"><span class="pre">$HOME/.local/bin</span></code> directory such that our executables are looked-up
+for at the proper location.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> can be any other directory if you want to keep your installed
+software separate from each other. The <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> command will then create the corresponding
+<code class="docutils literal notranslate"><span class="pre">bin/</span></code>, <code class="docutils literal notranslate"><span class="pre">lib/</span></code>, <code class="docutils literal notranslate"><span class="pre">share/</span></code> directories within the directory you specified.</p>
+</div>
+</section>
+<section id="macos-x-users">
+<h3>MacOS X users<a class="headerlink" href="#macos-x-users" title="Link to this heading"></a></h3>
+<p>Although users will find <code class="docutils literal notranslate"><span class="pre">/usr/bin/gcc</span></code> and <code class="docutils literal notranslate"><span class="pre">/usr/bin/g++</span></code> executables in their directory
+tree, these programs are not at all what they pretend to be. Instead of including the GNU
+programs, Apple decided to install <code class="docutils literal notranslate"><span class="pre">clang</span></code>/<code class="docutils literal notranslate"><span class="pre">llvm</span></code> in disguise. Unfortunately, the default
+version of <code class="docutils literal notranslate"><span class="pre">clang</span></code>/<code class="docutils literal notranslate"><span class="pre">llvm</span></code> does not support <code class="docutils literal notranslate"><span class="pre">OpenMP</span></code> (yet), but only complains at a late
+stage of the build process when this support is required. Therefore, it seems necessary to
+deactivate OpenMP support, e.g.:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--disable-openmp
+</pre></div>
+</div>
+<div class="admonition-see-also admonition">
+<p class="admonition-title">See also…</p>
+<p><a class="reference internal" href="configuration.html#openmp"><span class="std std-ref">OpenMP</span></a>, <a class="reference internal" href="configuration.html#universal-binaries"><span class="std std-ref">Universal binaries</span></a>, and <a class="reference internal" href="faq.html#missing-extern-h"><span class="std std-ref">Missing EXTERN.h</span></a></p>
+</div>
+</section>
+</section>
+<section id="using-conda">
+<h2>Using conda<a class="headerlink" href="#using-conda" title="Link to this heading"></a></h2>
+<p>The ViennaRNA Package is also available for the <code class="docutils literal notranslate"><span class="pre">conda</span></code> or <code class="docutils literal notranslate"><span class="pre">mamba</span></code> package
+manager. The only requirement is to set up the <a class="reference external" href="https://bioconda.github.io/">bioconda</a>
+channels</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>channels<span class="w"> </span>defaults
+conda<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>channels<span class="w"> </span>bioconda
+conda<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>channels<span class="w"> </span>conda-forge
+conda<span class="w"> </span>config<span class="w"> </span>--set<span class="w"> </span>channel_priority<span class="w"> </span>strict
+</pre></div>
+</div>
+<p>and then you can easily install the
+<a class="reference external" href="http://bioconda.github.io/recipes/viennarna/README.html">viennarna bioconda package</a>
+through</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>viennarna
+</pre></div>
+</div>
+</section>
+<section id="binary-packages">
+<h2>Binary packages<a class="headerlink" href="#binary-packages" title="Link to this heading"></a></h2>
+<p>For convenience, we provide pre-compiled binary packages and
+installers for several Linux-based platforms, Microsoft Windows, and
+Mac OS X. They can be obtained from
+<a class="reference external" href="https://www.tbi.univie.ac.at/RNA/#binary_packages">our official website</a>.</p>
+</section>
+<section id="python-interface-only">
+<h2>Python interface only<a class="headerlink" href="#python-interface-only" title="Link to this heading"></a></h2>
+<p>The Python 3 interface for the ViennaRNA Package library is
+<a class="reference external" href="https://pypi.org/project/ViennaRNA/">available at PyPI</a> and can
+be installed independently using Python’s <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">viennarna</span>
+</pre></div>
+</div>
+<section id="building-the-python-package">
+<h3>Building the Python package<a class="headerlink" href="#building-the-python-package" title="Link to this heading"></a></h3>
+<p>Our source tree allows for building/installing the Python 3 interface
+separately. For that, we provide the necessary packaging files
+<code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>, <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and <code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code>.
+They are created by our <code class="docutils literal notranslate"><span class="pre">autoconf</span></code> toolchain after a successful
+run of <code class="docutils literal notranslate"><span class="pre">./configure</span></code>. Particular default compile-time features may be
+(de-)activated by setting the corresponding boolean flags in
+<code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>. Running</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>build
+</pre></div>
+</div>
+<p>will then create a source distribution (<code class="docutils literal notranslate"><span class="pre">sdist</span></code>) and a binary
+package (<code class="docutils literal notranslate"><span class="pre">wheel</span></code>) in the <code class="docutils literal notranslate"><span class="pre">dist/</span></code> directory. These files can be
+easily installed via Python’s <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are about to create the Python interface from a fresh
+clone of our git repository, you require additional steps after
+running <code class="docutils literal notranslate"><span class="pre">./configure</span></code> as described above. In particular, some
+autogenerated static files that are compiled into RNAlib must
+be generated. To do so, run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>src/ViennaRNA/static
+make
+<span class="nb">cd</span><span class="w"> </span>../../..
+</pre></div>
+</div>
+<p>Additionally, if building the reference manual is not explicitly
+turned off, the Python interface requires docstrings to be generated.
+They are taken from the doxygen xml output which can be created by</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>doc
+make<span class="w"> </span>refman-html
+<span class="nb">cd</span><span class="w"> </span>..
+</pre></div>
+</div>
+<p>Finally, the swig wrapper must be build using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>interfaces/Python
+make<span class="w"> </span>RNA/RNA.py
+<span class="nb">cd</span><span class="w"> </span>../..
+</pre></div>
+</div>
+<p>After these steps, the Python <code class="docutils literal notranslate"><span class="pre">sdist</span></code> and <code class="docutils literal notranslate"><span class="pre">wheel</span></code> packages can
+be build as usual.</p>
+</div>
+</section>
+</section>
+<section id="unofficial-julia-interface">
+<h2>Unofficial Julia Interface<a class="headerlink" href="#unofficial-julia-interface" title="Link to this heading"></a></h2>
+<p>An unofficial interface of the ViennaRNA Package for the
+<a class="reference external" href="https://julialang.org/">Julia Programming Language</a> exists at
+<a class="reference external" href="https://juliahub.com/ui/Packages/ViennaRNA/lOl0n/">JuliaHub</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="A Library for predicting and comparing RNA secondary structures" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="configuration.html" class="btn btn-neutral float-right" title="Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

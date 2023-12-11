@@ -1,0 +1,394 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__pseudoknots" kind="group">
+    <compoundname>pseudoknots</compoundname>
+    <title>Pseudoknots</title>
+    <innerfile refid="pk__plex_8h">pk_plex.h</innerfile>
+    <innerclass refid="structvrna__pk__plex__result__s" prot="public">vrna_pk_plex_result_s</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__pseudoknots_1gaa3c616a490113feba261bed7a92981eb" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* vrna_pk_plex_score_f) (const short *pt, int start_5, int end_5, int start_3, int end_3, void *data)</definition>
+        <argsstring>)(const short *pt, int start_5, int end_5, int start_3, int end_3, void *data)</argsstring>
+        <name>vrna_pk_plex_score_f</name>
+        <briefdescription>
+<para>Pseudoknot loop scoring function prototype. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is used to evaluate a formed pseudoknot (PK) interaction in <ref refid="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" kindref="member">vrna_pk_plex()</ref>. It is supposed to take a PK-free secondary structure as input and coordinates of an additional interaction site. From this data, the energy (penalty) to score the PK loop is derived and returned in decakal/mol. Upon passing zero in any of the interaction site coordinates (<computeroutput>start_5</computeroutput>, <computeroutput>end_5</computeroutput>, <computeroutput>start_3</computeroutput>, <computeroutput>end_3</computeroutput>) or a <emphasis>NULL</emphasis> pointer in <computeroutput>pt</computeroutput>, the function must return a PK loop score. This minimum PK loop score is used in the first phase of the heuristic implemented in <ref refid="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" kindref="member">vrna_pk_plex()</ref> to assess whether a particular interaction is further taken into account in a later, more thorough evaluation step.</para>
+<para>The simplest scoring function would simply return a constant score for any PK loop, no matter what type of loop is formed and how large the loop is. This is the default if <ref refid="group__pseudoknots_1gaa6a5f5e20804ba729134eb8ad0c8da54" kindref="member">vrna_pk_plex_opt_defaults()</ref> or <ref refid="group__pseudoknots_1ga8f224a6aa666fd7444b225f676471992" kindref="member">vrna_pk_plex_opt()</ref> is used to generate options for <ref refid="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" kindref="member">vrna_pk_plex()</ref>.</para>
+<para><simplesect kind="see"><para><ref refid="group__pseudoknots_1ga7209e5212f611aa1c06b1609da696d35" kindref="member">vrna_pk_plex_opt_fun()</ref>, <ref refid="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" kindref="member">vrna_pk_plex()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure (without pseudoknot) in pair table notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start_5</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start coordinate of the 5&apos; site of the pseudoknot interaction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_5</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The end coordinate of the 5&apos; site of the pseudoknot interaction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start_3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start coordinate of the 3&apos; site of the pseudoknot interaction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The end coordinate of the 3&apos; site of the pseudoknot interaction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An arbitrary data structure passed from the calling function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The energy (penalty) of the resulting pseudoknot </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/pk_plex.h" line="58" column="9" bodyfile="ViennaRNA/pk_plex.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__pseudoknots_1ga7c413e55ee5117ef87193461241319c3" prot="public" static="no">
+        <type>int()</type>
+        <definition>typedef int() vrna_callback_pk_plex_score(const short *pt, int start_5, int end_5, int start_3, int end_3, void *data)</definition>
+        <argsstring>(const short *pt, int start_5, int end_5, int start_3, int end_3, void *data)</argsstring>
+        <name>vrna_callback_pk_plex_score</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/pk_plex.h" line="71" column="10" bodyfile="ViennaRNA/pk_plex.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__pseudoknots_1gab5afc6c459727dbdc37257711f062090" prot="public" static="no">
+        <type>struct vrna_pk_plex_option_s *</type>
+        <definition>typedef struct vrna_pk_plex_option_s* vrna_pk_plex_opt_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_pk_plex_opt_t</name>
+        <briefdescription>
+<para>RNA PKplex options object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__pseudoknots_1gaa6a5f5e20804ba729134eb8ad0c8da54" kindref="member">vrna_pk_plex_opt_defaults()</ref>, <ref refid="group__pseudoknots_1ga8f224a6aa666fd7444b225f676471992" kindref="member">vrna_pk_plex_opt()</ref>, <ref refid="group__pseudoknots_1ga7209e5212f611aa1c06b1609da696d35" kindref="member">vrna_pk_plex_opt_fun()</ref>, <ref refid="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" kindref="member">vrna_pk_plex()</ref>, <ref refid="group__pseudoknots_1gaa3c616a490113feba261bed7a92981eb" kindref="member">vrna_pk_plex_score_f</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/pk_plex.h" line="80" column="36" bodyfile="ViennaRNA/pk_plex.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__pseudoknots_1ga4b505034ccee4de966519afe8b3c120f" prot="public" static="no">
+        <type>struct <ref refid="structvrna__pk__plex__result__s" kindref="compound">vrna_pk_plex_result_s</ref></type>
+        <definition>typedef struct vrna_pk_plex_result_s vrna_pk_plex_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_pk_plex_t</name>
+        <briefdescription>
+<para>Convenience typedef for results of the RNA PKplex prediction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>#vrna_pk_plex_results_s, <ref refid="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" kindref="member">vrna_pk_plex()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/pk_plex.h" line="87" column="36" bodyfile="ViennaRNA/pk_plex.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__pseudoknots_1ga4b505034ccee4de966519afe8b3c120f" kindref="member">vrna_pk_plex_t</ref> *</type>
+        <definition>vrna_pk_plex_t * vrna_pk_plex</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const int **accessibility, vrna_pk_plex_opt_t options)</argsstring>
+        <name>vrna_pk_plex</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const int **</type>
+          <declname>accessibility</declname>
+        </param>
+        <param>
+          <type><ref refid="group__pseudoknots_1gab5afc6c459727dbdc37257711f062090" kindref="member">vrna_pk_plex_opt_t</ref></type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Predict Pseudoknot interactions in terms of a two-step folding process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Computes simple pseudoknot interactions according to the PKplex algorithm. This simple heuristic first compiles a list of potential interaction sites that may form a pseudoknot. The resulting candidate interactions are then fixed and an PK-free MFE structure for the remainder of the sequence is computed.</para>
+<para>The <computeroutput>accessibility</computeroutput> argument is a list of opening energies for potential interaction sites. It is used in the first step of the algorithm to identify potential interactions. Upon passing <emphasis>NULL</emphasis>, the opening energies are determined automatically based on the current model settings.</para>
+<para>Depending on the <computeroutput>options</computeroutput>, the function can return the MFE (incl. PK loops) or suboptimal structures within an energy band around the MFE. The PK loop is internally scored by a scoring function that in the simplest cases assigns a constant value for each PK loop. More complicated scoring functions can be passed as well, see <ref refid="group__pseudoknots_1gaa3c616a490113feba261bed7a92981eb" kindref="member">vrna_pk_plex_score_f</ref> and <ref refid="group__pseudoknots_1ga7209e5212f611aa1c06b1609da696d35" kindref="member">vrna_pk_plex_opt_fun()</ref>.</para>
+<para>The function returns <emphasis>NULL</emphasis> on any error. Otherwise, a list of structures and interaction coordinates with corresponding energy contributions is returned. If no PK-interaction that satisfies the options is found, the list only consists of the PK-free MFE structure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>fold compound with the input sequence and model settings </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>accessibility</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of opening energies for the implemented heuristic (maybe <emphasis>NULL</emphasis>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An <ref refid="group__pseudoknots_1gab5afc6c459727dbdc37257711f062090" kindref="member">vrna_pk_plex_opt_t</ref> options data structure that determines the algorithm parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of potentially pseudoknotted structures (Last element in the list indicated by <emphasis>NULL</emphasis> value in <ref refid="structvrna__pk__plex__result__s_1a31fe3dea3cb3799621cd111ab3e31629" kindref="member">vrna_pk_plex_result_s.structure</ref>) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/pk_plex.h" line="139" column="1" declfile="ViennaRNA/pk_plex.h" declline="139" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__pseudoknots_1ga8f8b5abf6d4c14b946eeafa706282769" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int **</type>
+        <definition>int ** vrna_pk_plex_accessibility</definition>
+        <argsstring>(const char *sequence, unsigned int unpaired, double cutoff)</argsstring>
+        <name>vrna_pk_plex_accessibility</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>unpaired</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>cutoff</declname>
+        </param>
+        <briefdescription>
+<para>Obtain a list of opening energies suitable for PKplex computations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" kindref="member">vrna_pk_plex()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>unpaired</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum number of unpaired nucleotides, i.e. length of interaction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cutoff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A cutoff value for unpaired probabilities </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Opening energies as required for <ref refid="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" kindref="member">vrna_pk_plex()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/pk_plex.h" line="155" column="1" declfile="ViennaRNA/pk_plex.h" declline="155" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__pseudoknots_1gaa6a5f5e20804ba729134eb8ad0c8da54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__pseudoknots_1gab5afc6c459727dbdc37257711f062090" kindref="member">vrna_pk_plex_opt_t</ref></type>
+        <definition>vrna_pk_plex_opt_t vrna_pk_plex_opt_defaults</definition>
+        <argsstring>(void)</argsstring>
+        <name>vrna_pk_plex_opt_defaults</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Default options for PKplex algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" kindref="member">vrna_pk_plex()</ref>, <ref refid="group__pseudoknots_1ga8f224a6aa666fd7444b225f676471992" kindref="member">vrna_pk_plex_opt()</ref>, <ref refid="group__pseudoknots_1ga7209e5212f611aa1c06b1609da696d35" kindref="member">vrna_pk_plex_opt_fun()</ref></para>
+</simplesect>
+<simplesect kind="return"><para>An options data structure suitabe for PKplex computations </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/pk_plex.h" line="168" column="1" declfile="ViennaRNA/pk_plex.h" declline="168" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__pseudoknots_1ga8f224a6aa666fd7444b225f676471992" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__pseudoknots_1gab5afc6c459727dbdc37257711f062090" kindref="member">vrna_pk_plex_opt_t</ref></type>
+        <definition>vrna_pk_plex_opt_t vrna_pk_plex_opt</definition>
+        <argsstring>(unsigned int delta, unsigned int max_interaction_length, int pk_penalty)</argsstring>
+        <name>vrna_pk_plex_opt</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>max_interaction_length</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>pk_penalty</declname>
+        </param>
+        <briefdescription>
+<para>Simple options for PKplex algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" kindref="member">vrna_pk_plex()</ref>, <ref refid="group__pseudoknots_1gaa6a5f5e20804ba729134eb8ad0c8da54" kindref="member">vrna_pk_plex_opt_defaults()</ref>, <ref refid="group__pseudoknots_1ga7209e5212f611aa1c06b1609da696d35" kindref="member">vrna_pk_plex_opt_fun()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of energy band around MFE for suboptimal results in dekacal/mol </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_interaction_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum length of interaction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pk_penalty</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Energy constant to score the PK forming loop </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An options data structure suitabe for PKplex computations </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/pk_plex.h" line="182" column="1" declfile="ViennaRNA/pk_plex.h" declline="182" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__pseudoknots_1ga7209e5212f611aa1c06b1609da696d35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__pseudoknots_1gab5afc6c459727dbdc37257711f062090" kindref="member">vrna_pk_plex_opt_t</ref></type>
+        <definition>vrna_pk_plex_opt_t vrna_pk_plex_opt_fun</definition>
+        <argsstring>(unsigned int delta, unsigned int max_interaction_length, vrna_pk_plex_score_f scoring_function, void *scoring_data)</argsstring>
+        <name>vrna_pk_plex_opt_fun</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>max_interaction_length</declname>
+        </param>
+        <param>
+          <type><ref refid="group__pseudoknots_1gaa3c616a490113feba261bed7a92981eb" kindref="member">vrna_pk_plex_score_f</ref></type>
+          <declname>scoring_function</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>scoring_data</declname>
+        </param>
+        <briefdescription>
+<para>Simple options for PKplex algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__pseudoknots_1ga1d12c3e1affefec6339a15348b1bbdca" kindref="member">vrna_pk_plex()</ref>, <ref refid="group__pseudoknots_1gaa6a5f5e20804ba729134eb8ad0c8da54" kindref="member">vrna_pk_plex_opt_defaults()</ref>, <ref refid="group__pseudoknots_1ga8f224a6aa666fd7444b225f676471992" kindref="member">vrna_pk_plex_opt()</ref>, <ref refid="group__pseudoknots_1gaa3c616a490113feba261bed7a92981eb" kindref="member">vrna_pk_plex_score_f</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of energy band around MFE for suboptimal results in dekacal/mol </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_interaction_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum length of interaction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scoring_function</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Energy evaluating function to score the PK forming loop </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scoring_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An arbitrary data structure passed to the scoring function (maybe <emphasis>NUL</emphasis>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An options data structure suitabe for PKplex computations </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/pk_plex.h" line="199" column="1" declfile="ViennaRNA/pk_plex.h" declline="199" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

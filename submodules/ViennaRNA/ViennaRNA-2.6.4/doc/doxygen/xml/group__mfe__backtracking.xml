@@ -1,0 +1,510 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__mfe__backtracking" kind="group">
+    <compoundname>mfe_backtracking</compoundname>
+    <title>Backtracking MFE structures</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__mfe__backtracking_1ga72b6afa2efd41b294cef3a778dc77ead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_backtrack_from_intervals</definition>
+        <argsstring>(vrna_fold_compound_t *fc, vrna_bp_stack_t *bp_stack, sect bt_stack[], int s)</argsstring>
+        <name>vrna_backtrack_from_intervals</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1gaa651bda42e7692f08cb603cd6834b0ee" kindref="member">vrna_bp_stack_t</ref> *</type>
+          <declname>bp_stack</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1gaaacedee1f05d3d45aa6764eca51a8876" kindref="member">sect</ref></type>
+          <declname>bt_stack</declname>
+          <array>[]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe.h" line="261" column="1" declfile="ViennaRNA/mfe.h" declline="261" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__backtracking_1gaaee7355f060fe9eed8e687522567715e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_backtrack5</definition>
+        <argsstring>(vrna_fold_compound_t *fc, unsigned int length, char *structure)</argsstring>
+        <name>vrna_backtrack5</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Backtrack an MFE (sub)structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows one to backtrack the MFE structure for a (sub)sequence</para>
+<para><simplesect kind="note"><para>On error, the function returns INF / 100. and stores the empty string in <computeroutput>structure</computeroutput>.</para>
+</simplesect>
+<simplesect kind="pre"><para>Requires pre-filled MFE dynamic programming matrices, i.e. one has to call <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref> prior to calling this function</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, <ref refid="group__subopt__stochbt_1ga72ebbe45bcbce147a12f27f62b38db78" kindref="member">vrna_pbacktrack5()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>fold compound </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the subsequence, starting from the 5&apos; end </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where the secondary structure in dot-bracket notation will be written to. (Must have size of at least $p length + 1)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The minimum free energy (MFE) for the specified <computeroutput>length</computeroutput> in kcal/mol and a corresponding secondary structure in dot-bracket notation (stored in <computeroutput>structure</computeroutput>)</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000112"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as overloaded method <computeroutput>backtrack()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The parameter <computeroutput>length</computeroutput> defaults to the total length of the RNA sequence and may be omitted. The parameter <computeroutput>structure</computeroutput> is returned along with the MFE und must not be provided. See e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.backtrack()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe.h" line="289" column="1" declfile="ViennaRNA/mfe.h" declline="289" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__backtracking_1ga17ac221d685bb1e74e2acdbfb02ec86d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_backtrack_window</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *Lfold_filename, long file_pos, char **structure, double mfe)</argsstring>
+        <name>vrna_backtrack_window</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>Lfold_filename</declname>
+        </param>
+        <param>
+          <type>long</type>
+          <declname>file_pos</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mfe</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe.h" line="295" column="1" declfile="ViennaRNA/mfe.h" declline="295" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__backtracking_1gad9b9a49c9ad971ac404f530dfe647f84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_BT_ext_loop_f5</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int *k, int *i, int *j, vrna_bp_stack_t *bp_stack, int *stack_count)</argsstring>
+        <name>vrna_BT_ext_loop_f5</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1gaa651bda42e7692f08cb603cd6834b0ee" kindref="member">vrna_bp_stack_t</ref> *</type>
+          <declname>bp_stack</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>stack_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/external.h" line="182" column="1" declfile="ViennaRNA/loops/external.h" declline="182" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__backtracking_1gad222fe2247e8173b6a15ca6f42425887" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_BT_ext_loop_f3</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int *k, int maxdist, int *i, int *j, vrna_bp_stack_t *bp_stack, int *stack_count)</argsstring>
+        <name>vrna_BT_ext_loop_f3</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxdist</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1gaa651bda42e7692f08cb603cd6834b0ee" kindref="member">vrna_bp_stack_t</ref> *</type>
+          <declname>bp_stack</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>stack_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/external.h" line="191" column="1" declfile="ViennaRNA/loops/external.h" declline="191" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__backtracking_1gaf5360c7f7f85f5d557592a3336bef945" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_BT_ext_loop_f3_pp</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int *i, int maxdist)</argsstring>
+        <name>vrna_BT_ext_loop_f3_pp</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxdist</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/external.h" line="201" column="1" declfile="ViennaRNA/loops/external.h" declline="201" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__backtracking_1gae20d5805ddedc9b81d24735b11b6a9bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_BT_hp_loop</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int i, int j, int en, vrna_bp_stack_t *bp_stack, int *stack_count)</argsstring>
+        <name>vrna_BT_hp_loop</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>en</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1gaa651bda42e7692f08cb603cd6834b0ee" kindref="member">vrna_bp_stack_t</ref> *</type>
+          <declname>bp_stack</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>stack_count</declname>
+        </param>
+        <briefdescription>
+<para>Backtrack a hairpin loop closed by <formula id="94">$ (i,j) $</formula>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>This function is polymorphic! The provided <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> may be of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" kindref="member">VRNA_FC_TYPE_SINGLE</ref> or <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/hairpin.h" line="354" column="1" declfile="ViennaRNA/loops/hairpin.h" declline="354" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__backtracking_1ga28015cfbd0afc759b94ff58cc241cb13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_BT_stack</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int *i, int *j, int *en, vrna_bp_stack_t *bp_stack, int *stack_count)</argsstring>
+        <name>vrna_BT_stack</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>en</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1gaa651bda42e7692f08cb603cd6834b0ee" kindref="member">vrna_bp_stack_t</ref> *</type>
+          <declname>bp_stack</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>stack_count</declname>
+        </param>
+        <briefdescription>
+<para>Backtrack a stacked pair closed by <formula id="94">$ (i,j) $</formula>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/internal.h" line="131" column="1" declfile="ViennaRNA/loops/internal.h" declline="131" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__backtracking_1ga90b5a5723173996fb40640ce7c95c07e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_BT_int_loop</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int *i, int *j, int en, vrna_bp_stack_t *bp_stack, int *stack_count)</argsstring>
+        <name>vrna_BT_int_loop</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>en</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1gaa651bda42e7692f08cb603cd6834b0ee" kindref="member">vrna_bp_stack_t</ref> *</type>
+          <declname>bp_stack</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>stack_count</declname>
+        </param>
+        <briefdescription>
+<para>Backtrack an interior loop closed by <formula id="94">$ (i,j) $</formula>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/internal.h" line="144" column="1" declfile="ViennaRNA/loops/internal.h" declline="144" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__backtracking_1ga5b62d56c9d47c1e8792b02cd6b95e78b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_BT_mb_loop</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int *i, int *j, int *k, int en, int *component1, int *component2)</argsstring>
+        <name>vrna_BT_mb_loop</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>en</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>component1</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>component2</declname>
+        </param>
+        <briefdescription>
+<para>Backtrack the decomposition of a multi branch loop closed by <formula id="94">$ (i,j) $</formula>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> filled with all relevant data for backtracking </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>5&apos; position of base pair closing the loop (will be set to 5&apos; position of leftmost decomposed block upon successful backtracking) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>3&apos; position of base pair closing the loop (will be set to 3&apos; position of rightmost decomposed block upon successful backtracking) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Split position that delimits leftmost from rightmost block, [i,k] and [k+1, j], respectively. (Will be set upon successful backtracking) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>en</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The energy contribution of the substructure enclosed by <formula id="94">$ (i,j) $</formula> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of leftmost block (1 = ML, 2 = C) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of rightmost block (1 = ML, 2 = C) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>1, if backtracking succeeded, 0 otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/multibranch.h" line="163" column="1" declfile="ViennaRNA/loops/multibranch.h" declline="163" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__backtracking_1gad9eae029840eae51bc714c508cb98397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_BT_mb_loop_split</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int *i, int *j, int *k, int *l, int *component1, int *component2, vrna_bp_stack_t *bp_stack, int *stack_count)</argsstring>
+        <name>vrna_BT_mb_loop_split</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>component1</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>component2</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1gaa651bda42e7692f08cb603cd6834b0ee" kindref="member">vrna_bp_stack_t</ref> *</type>
+          <declname>bp_stack</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>stack_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/multibranch.h" line="173" column="1" declfile="ViennaRNA/loops/multibranch.h" declline="173" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

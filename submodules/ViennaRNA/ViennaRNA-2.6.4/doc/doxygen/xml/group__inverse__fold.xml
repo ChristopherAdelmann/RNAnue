@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__inverse__fold" kind="group">
+    <compoundname>inverse_fold</compoundname>
+    <title>Inverse Folding (Design)</title>
+    <innerfile refid="inverse_8h">inverse.h</innerfile>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__inverse__fold_1ga8f791e7740a5a28b9f6fafb4e60301d9" prot="public" static="no" mutable="no">
+        <type>char *</type>
+        <definition>char* symbolset</definition>
+        <argsstring></argsstring>
+        <name>symbolset</name>
+        <briefdescription>
+<para>This global variable points to the allowed bases, initially &quot;AUGC&quot;. It can be used to design sequences from reduced alphabets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/inverse.h" line="21" column="13" declfile="ViennaRNA/inverse.h" declline="21" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__inverse__fold_1ga7f17d3b169af048d32bb185039a9c09c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float final_cost</definition>
+        <argsstring></argsstring>
+        <name>final_cost</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>when to stop <ref refid="group__inverse__fold_1gaeef52ecbf2a2450ad585a344f9826806" kindref="member">inverse_pf_fold()</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/inverse.h" line="23" column="15" declfile="ViennaRNA/inverse.h" declline="23" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__inverse__fold_1ga7ec4ba51f86e1717a1e174264e4a75ce" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int give_up</definition>
+        <argsstring></argsstring>
+        <name>give_up</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>default 0: try to minimize structure distance even if no exact solution can be found </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/inverse.h" line="25" column="15" declfile="ViennaRNA/inverse.h" declline="25" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__inverse__fold_1gafcfc65fba01b9cca5946726ed9057a63" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int inv_verbose</definition>
+        <argsstring></argsstring>
+        <name>inv_verbose</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>print out substructure on which <ref refid="group__inverse__fold_1ga7af026de55d4babad879f2c92559cbbc" kindref="member">inverse_fold()</ref> fails </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/inverse.h" line="27" column="15" declfile="ViennaRNA/inverse.h" declline="27" declcolumn="15"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__inverse__fold_1ga7af026de55d4babad879f2c92559cbbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float inverse_fold</definition>
+        <argsstring>(char *start, const char *target)</argsstring>
+        <name>inverse_fold</name>
+        <param>
+          <type>char *</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Find sequences with predefined structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function searches for a sequence with minimum free energy structure provided in the parameter &apos;target&apos;, starting with sequence &apos;start&apos;. It returns 0 if the search was successful, otherwise a structure distance in terms of the energy difference between the search result and the actual target &apos;target&apos; is returned. The found sequence is returned in &apos;start&apos;. If <ref refid="group__inverse__fold_1ga7ec4ba51f86e1717a1e174264e4a75ce" kindref="member">give_up</ref> is set to 1, the function will return as soon as it is clear that the search will be unsuccessful, this speeds up the algorithm if you are only interested in exact solutions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The distance to the target in case a search was unsuccessful, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/inverse.h" line="45" column="7" declfile="ViennaRNA/inverse.h" declline="45" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__inverse__fold_1gaeef52ecbf2a2450ad585a344f9826806" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float inverse_pf_fold</definition>
+        <argsstring>(char *start, const char *target)</argsstring>
+        <name>inverse_pf_fold</name>
+        <param>
+          <type>char *</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Find sequence that maximizes probability of a predefined structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function searches for a sequence with maximum probability to fold into the provided structure &apos;target&apos; using the partition function algorithm. It returns <formula id="53">$-kT \cdot \log(p)$</formula> where <formula id="54">$p$</formula> is the frequency of &apos;target&apos; in the ensemble of possible structures. This is usually much slower than <ref refid="group__inverse__fold_1ga7af026de55d4babad879f2c92559cbbc" kindref="member">inverse_fold()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The distance to the target in case a search was unsuccessful, 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/inverse.h" line="61" column="7" declfile="ViennaRNA/inverse.h" declline="61" declcolumn="7"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>RNA sequence design. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

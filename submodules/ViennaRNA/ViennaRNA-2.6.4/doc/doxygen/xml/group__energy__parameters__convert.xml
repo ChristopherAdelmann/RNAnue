@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__energy__parameters__convert" kind="group">
+    <compoundname>energy_parameters_convert</compoundname>
+    <title>Converting Energy Parameter Files</title>
+    <innerfile refid="1_88_84__epars_8h">1.8.4_epars.h</innerfile>
+    <innerfile refid="1_88_84__intloops_8h">1.8.4_intloops.h</innerfile>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__energy__parameters__convert_1gafbe538bc4eb2cf2a33326e1010005f8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void convert_parameter_file</definition>
+        <argsstring>(const char *iname, const char *oname, unsigned int options)</argsstring>
+        <name>convert_parameter_file</name>
+        <param>
+          <type>const char *</type>
+          <declname>iname</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>oname</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert/dump a Vienna 1.8.4 formatted energy parameter file</para>
+<para>The options argument allows one to control the different output modes.<linebreak/>
+Currently available options are:<linebreak/>
+<ref refid="group__energy__parameters__convert_1ga8dc6aee5a806c49b71557152f9616bc4" kindref="member">VRNA_CONVERT_OUTPUT_ALL</ref>, <ref refid="group__energy__parameters__convert_1gaf66fe2cb11dfcfd32d791049c254a8a4" kindref="member">VRNA_CONVERT_OUTPUT_HP</ref>, <ref refid="group__energy__parameters__convert_1gad23522d63f8d4c50d5a5deee9bee3ef2" kindref="member">VRNA_CONVERT_OUTPUT_STACK</ref><linebreak/>
+<ref refid="group__energy__parameters__convert_1gaa892c7b4957459090f3e08da298cc347" kindref="member">VRNA_CONVERT_OUTPUT_MM_HP</ref>, <ref refid="group__energy__parameters__convert_1ga4ff223fb1f9c62cd92d9ab811ad03d55" kindref="member">VRNA_CONVERT_OUTPUT_MM_INT</ref>, <ref refid="group__energy__parameters__convert_1gaf5d3743219f83c6348155cd81e755bbb" kindref="member">VRNA_CONVERT_OUTPUT_MM_INT_1N</ref><linebreak/>
+<ref refid="group__energy__parameters__convert_1ga78382ec622ba99e0ac2262317bdd7316" kindref="member">VRNA_CONVERT_OUTPUT_MM_INT_23</ref>, <ref refid="group__energy__parameters__convert_1gae67af9f1cdf7baf2865481282a5d1034" kindref="member">VRNA_CONVERT_OUTPUT_MM_MULTI</ref>, <ref refid="group__energy__parameters__convert_1gaf14ead7ef1fdbe725ade653750fc51e3" kindref="member">VRNA_CONVERT_OUTPUT_MM_EXT</ref><linebreak/>
+<ref refid="group__energy__parameters__convert_1ga036ffd996d8c8a9acf631760dd1da24b" kindref="member">VRNA_CONVERT_OUTPUT_DANGLE5</ref>, <ref refid="group__energy__parameters__convert_1ga34a8a5479ef885834ef32f3fb43d79bc" kindref="member">VRNA_CONVERT_OUTPUT_DANGLE3</ref>, <ref refid="group__energy__parameters__convert_1ga079aafefd5f8ab57ee5120099a34bd25" kindref="member">VRNA_CONVERT_OUTPUT_INT_11</ref><linebreak/>
+<ref refid="group__energy__parameters__convert_1gacf770881d9034431ebe741642342a1f9" kindref="member">VRNA_CONVERT_OUTPUT_INT_21</ref>, <ref refid="group__energy__parameters__convert_1gaa307671e2631cdacad9cbe4c6583b05f" kindref="member">VRNA_CONVERT_OUTPUT_INT_22</ref>, <ref refid="group__energy__parameters__convert_1ga7092fe0be4de6f02cc0bf08e81af726a" kindref="member">VRNA_CONVERT_OUTPUT_BULGE</ref><linebreak/>
+<ref refid="group__energy__parameters__convert_1gac5c2289fdf8ff1b980976d1613ff943a" kindref="member">VRNA_CONVERT_OUTPUT_INT</ref>, <ref refid="group__energy__parameters__convert_1gaf2c8755d64eff3852aa45df9ac80a4fe" kindref="member">VRNA_CONVERT_OUTPUT_ML</ref>, <ref refid="group__energy__parameters__convert_1ga46d5b1535ae86060b6317565b7c6b40b" kindref="member">VRNA_CONVERT_OUTPUT_MISC</ref><linebreak/>
+<ref refid="group__energy__parameters__convert_1gaa1ff48a79642d69579d1766561ec6db6" kindref="member">VRNA_CONVERT_OUTPUT_SPECIAL_HP</ref>, <ref refid="group__energy__parameters__convert_1ga0d4e8a836bb4864ab5129c085dbf592d" kindref="member">VRNA_CONVERT_OUTPUT_VANILLA</ref>, <ref refid="group__energy__parameters__convert_1ga2eb0462f16939ddacdaf751a88d675ce" kindref="member">VRNA_CONVERT_OUTPUT_NINIO</ref><linebreak/>
+<ref refid="group__energy__parameters__convert_1gac86976e9c2a55b3a6481ea60044f6098" kindref="member">VRNA_CONVERT_OUTPUT_DUMP</ref></para>
+<para>The defined options are fine for bitwise compare- and assignment-operations, e. g.: pass a collection of options as a single value like this: <verbatim>convert_parameter_file(ifile, ofile, option_1 | option_2 | option_n) </verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iname</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input file name (If NULL input is read from stdin) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>oname</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output file name (If NULL output is written to stdout) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options (as described above) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="82" column="6" declfile="ViennaRNA/params/convert.h" declline="82" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__energy__parameters__convert_1ga8dc6aee5a806c49b71557152f9616bc4" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_ALL</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of a complete parameter set </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="16" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gaf66fe2cb11dfcfd32d791049c254a8a4" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_HP</name>
+        <initializer>2U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of hairpin contributions </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="18" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gad23522d63f8d4c50d5a5deee9bee3ef2" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_STACK</name>
+        <initializer>4U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of base pair stack contributions </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="20" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gaa892c7b4957459090f3e08da298cc347" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_MM_HP</name>
+        <initializer>8U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of hairpin mismatch contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="22" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1ga4ff223fb1f9c62cd92d9ab811ad03d55" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_MM_INT</name>
+        <initializer>16U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of interior loop mismatch contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="24" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gaf5d3743219f83c6348155cd81e755bbb" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_MM_INT_1N</name>
+        <initializer>32U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of 1:n interior loop mismatch contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="26" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1ga78382ec622ba99e0ac2262317bdd7316" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_MM_INT_23</name>
+        <initializer>64U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of 2:3 interior loop mismatch contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="28" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gae67af9f1cdf7baf2865481282a5d1034" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_MM_MULTI</name>
+        <initializer>128U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of multi loop mismatch contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="30" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gaf14ead7ef1fdbe725ade653750fc51e3" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_MM_EXT</name>
+        <initializer>256U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of exterior loop mismatch contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="32" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1ga036ffd996d8c8a9acf631760dd1da24b" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_DANGLE5</name>
+        <initializer>512U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of 5&apos; dangle conctribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="34" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1ga34a8a5479ef885834ef32f3fb43d79bc" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_DANGLE3</name>
+        <initializer>1024U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of 3&apos; dangle contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="36" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1ga079aafefd5f8ab57ee5120099a34bd25" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_INT_11</name>
+        <initializer>2048U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of 1:1 interior loop contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="38" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gacf770881d9034431ebe741642342a1f9" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_INT_21</name>
+        <initializer>4096U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of 2:1 interior loop contribution </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="40" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gaa307671e2631cdacad9cbe4c6583b05f" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_INT_22</name>
+        <initializer>8192U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of 2:2 interior loop contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="42" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1ga7092fe0be4de6f02cc0bf08e81af726a" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_BULGE</name>
+        <initializer>16384U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of bulge loop contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="44" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gac5c2289fdf8ff1b980976d1613ff943a" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_INT</name>
+        <initializer>32768U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of interior loop contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="46" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gaf2c8755d64eff3852aa45df9ac80a4fe" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_ML</name>
+        <initializer>65536U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of multi loop contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="48" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1ga46d5b1535ae86060b6317565b7c6b40b" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_MISC</name>
+        <initializer>131072U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of misc contributions (such as terminalAU) <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="50" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gaa1ff48a79642d69579d1766561ec6db6" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_SPECIAL_HP</name>
+        <initializer>262144U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of special hairpin contributions (tri-, tetra-, hexa-loops) <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="52" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1ga0d4e8a836bb4864ab5129c085dbf592d" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_VANILLA</name>
+        <initializer>524288U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of given parameters only<linebreak/>
+<simplesect kind="note"><para>This option overrides all other output options, except <ref refid="group__energy__parameters__convert_1gac86976e9c2a55b3a6481ea60044f6098" kindref="member">VRNA_CONVERT_OUTPUT_DUMP</ref> ! </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="54" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1ga2eb0462f16939ddacdaf751a88d675ce" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_NINIO</name>
+        <initializer>1048576U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate printing of interior loop asymmetry contribution <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="56" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__energy__parameters__convert_1gac86976e9c2a55b3a6481ea60044f6098" prot="public" static="no">
+        <name>VRNA_CONVERT_OUTPUT_DUMP</name>
+        <initializer>2097152U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate dumping the energy contributions from the library instead of an input file <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/params/convert.h" line="58" column="9" bodyfile="ViennaRNA/params/convert.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

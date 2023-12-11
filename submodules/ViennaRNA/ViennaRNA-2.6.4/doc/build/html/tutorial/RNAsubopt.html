@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Program RNAsubopt &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Program RNAalifold" href="RNAalifold.html" />
+    <link rel="prev" title="The Program RNApvmin" href="RNApvmin.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../getting_started.html">Getting Started</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../getting_started.html#global-rna-secondary-structure-prediction">Global RNA Secondary Structure Prediction</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="RNAfold.html">The Program <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RNApvmin.html">The Program <code class="docutils literal notranslate"><span class="pre">RNApvmin</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The Program <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#suboptimal-folding">Suboptimal folding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sampling-the-boltzmann-ensemble">Sampling the Boltzmann Ensemble</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#consensus-structure-prediction">Consensus Structure Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-rna-interaction">RNA-RNA interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#plotting-structures">Plotting Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-design">RNA Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#rna-folding-kinetics">RNA folding kinetics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#other-utilities">Other Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../getting_started.html">Getting Started</a></li>
+      <li class="breadcrumb-item active">The Program <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code></li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-program-rnasubopt">
+<h1>The Program <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code><a class="headerlink" href="#the-program-rnasubopt" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code> calculates all suboptimal secondary structures within a
+given energy range above the <code class="docutils literal notranslate"><span class="pre">MFE</span></code> structure <span id="id1">[<a class="reference internal" href="../bibliography.html#id33" title="S. Wuchty, W. Fontana, I. L. Hofacker, and P. Schuster. Complete suboptimal folding of RNA and the stability of secondary structures. Biopolymers, 49(2):145–165, February 1999. doi:10.1002/(SICI)1097-0282(199902)49:2&lt;145::AID-BIP4&gt;3.0.CO;2-G.">Wuchty <em>et al.</em>, 1999</a>]</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Be careful, the number of structures returned grows exponentially with both
+sequence length and energy range.</p>
+</div>
+</section>
+<section id="suboptimal-folding">
+<h2>Suboptimal folding<a class="headerlink" href="#suboptimal-folding" title="Link to this heading"></a></h2>
+<ul>
+<li><p>Generate all suboptimal structures within a certain energy range
+from the <code class="docutils literal notranslate"><span class="pre">MFE</span></code> specified by the <code class="docutils literal notranslate"><span class="pre">-e</span></code> option:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAsubopt -e 1 -s &lt; test.seq
+CUACGGCGCGGCGCCCUUGGCGA   -500    100
+...........((((...)))).  -5.00
+....((((...))))........  -4.80
+(((.((((...))))..)))...  -4.20
+...((.((.((...)).)).)).  -4.10
+</pre></div>
+</div>
+</li>
+</ul>
+<p>The text output shows an energy sorted list (option <code class="docutils literal notranslate"><span class="pre">-s</span></code>) of all secondary
+structures within 1~kcal/mol of the <code class="docutils literal notranslate"><span class="pre">MFE</span></code> structure. Our sequence actually
+has a ground state structure (-5.70) and three structures within 1~kcal/mol
+range.</p>
+<p><code class="docutils literal notranslate"><span class="pre">MFE</span></code> folding alone gives no indication that there are actually a number
+of plausible structures. Remember that <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code> cannot automatically
+plot structures, therefore you can use the tool <code class="docutils literal notranslate"><span class="pre">RNAplot</span></code>. Note that you
+<strong>can’t</strong> simply pipe the  output of <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code> to <code class="docutils literal notranslate"><span class="pre">RNAplot</span></code> using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAsubopt &lt; test.seq | RNAplot
+</pre></div>
+</div>
+<p>You need to manually create a file for each structure you want to plot.
+Here, for example we created a new file named <code class="docutils literal notranslate"><span class="pre">suboptstructure.txt</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">suboptstructure</span><span class="o">-</span><span class="mf">4.20</span>
+<span class="n">CUACGGCGCGGCGCCCUUGGCGA</span>
+<span class="p">(((</span><span class="o">.</span><span class="p">((((</span><span class="o">...</span><span class="p">))))</span><span class="o">..</span><span class="p">)))</span><span class="o">...</span>
+</pre></div>
+</div>
+<p>The fasta header is optional, but useful (without it the outputfile will
+be named <code class="docutils literal notranslate"><span class="pre">rna.ps</span></code>).</p>
+<p>The next two lines contain the sequence and the suboptimal structure you
+want to plot; in this case we plotted the structure with the folding
+energy of -4.20.</p>
+<p>Then plot it with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAplot &lt; suboptstructure.txt
+</pre></div>
+</div>
+<p>Note that the number of suboptimal structures grows exponentially with
+sequence length and therefore this approach is only tractable for
+sequences with less than 100 nt. To keep the number of suboptimal
+structures manageable the option <code class="docutils literal notranslate"><span class="pre">--noLP</span></code> can be used, forcing
+<code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code> to produce only structures without isolated base
+pairs. While <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code> produces <em>all</em> structures within an
+energy range, <code class="docutils literal notranslate"><span class="pre">mfold</span></code> produces only a few, hopefully representative,
+structures. Try folding the sequence on the mfold
+server at <a class="reference external" href="http://mfold.rna.albany.edu/?q=mfold">http://mfold.rna.albany.edu/?q=mfold</a>.</p>
+<p>Sometimes you want to get information about unusual properties of the
+Boltzmann ensemble (the sum of all RNA structures possible) for which no
+specialized program exists. For example you want to know all fractions
+of a bacterial mRNA in the Boltzmann ensemble where the Shine-Dalgarno (SD)
+sequence is unpaired. If the SD sequence is concealed by secondary
+structure the translation efficiency is reduced.</p>
+<p>In such cases you can resort to drawing a representative sample of
+structures from the Boltzmann ensemble by using the option
+<code class="docutils literal notranslate"><span class="pre">-p</span></code>. Now you can simply count how many structures in the sample
+possess the feature you are looking for. This number divided by the
+size of your sample gives you the desired fraction.</p>
+<p>The following example calculates the fraction of structures in the
+ensemble that have bases 6 to 8 unpaired.</p>
+</section>
+<section id="sampling-the-boltzmann-ensemble">
+<h2>Sampling the Boltzmann Ensemble<a class="headerlink" href="#sampling-the-boltzmann-ensemble" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code> also implements a statisctical sampling algorithm to
+draw secondary structures from the ensemble according to their equilibrium
+probability <span id="id2">[<a class="reference internal" href="../bibliography.html#id56" title="Ye Ding and Charles E. Lawrence. A statistical sampling algorithm for RNA secondary structure prediction. Nucleic Acids Research, 31(24):7280-7301, 12 2003. doi:10.1093/nar/gkg938.">Ding and Lawrence, 2003</a>]</span>:</p>
+<ul>
+<li><p>Draw a sample of size 10,000 from the Boltzmann ensemble</p></li>
+<li><p>Calculate the desired property, e.g. by using a <code class="docutils literal notranslate"><span class="pre">perl</span></code> script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAsubopt -p 10000 &lt; test.seq &gt; tt
+$ perl -nle &#39;$h++ if substr($_,5,3) eq &quot;...&quot;;
+  END {print $h/$.}&#39; tt
+  0.391960803919608
+</pre></div>
+</div>
+</li>
+</ul>
+<p>A far better way to calculate this property is to use <code class="docutils literal notranslate"><span class="pre">RNAfold</span> <span class="pre">-p</span></code>
+to get the ensemble free energy, which is related to the partition
+function via <span class="math notranslate nohighlight">\(F = -RT\ln(Q)\)</span>, for the unconstrained (<span class="math notranslate nohighlight">\(F_u\)</span>)
+and the constrained case (<span class="math notranslate nohighlight">\(F_c\)</span>), where the three bases are not
+allowed to form base pairs (use option <code class="docutils literal notranslate"><span class="pre">-C</span></code>), and evaluate
+<span class="math notranslate nohighlight">\(p_c = \exp((F_u - F_c)/RT)\)</span> to get the desired probability.</p>
+<p>So let’s do the calculation using <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold -p
+Input string (upper or lower case); @ to quit
+....,....1....,....2....,....3....,....4....,....5....,....6....,....7....,....8
+CUACGGCGCGGCGCCCUUGGCGA
+length = 23
+CUACGGCGCGGCGCCCUUGGCGA
+...........((((...)))).
+ minimum free energy =  -5.00 kcal/mol
+....{,{{...||||...)}}}.
+ free energy of ensemble =  -5.72 kcal/mol
+....................... {  0.00 d=4.66}
+ frequency of mfe structure in ensemble 0.311796; ensemble diversity 6.36
+</pre></div>
+</div>
+<p>Now we have calculated the free ensemble energy of the ensemble over all structures
+<span class="math notranslate nohighlight">\(F_u\)</span>, in the next step we have to calculate it for the structures using a
+constraint (<span class="math notranslate nohighlight">\(F_c\)</span>).</p>
+<p>Following notation has to be used for defining the constraint:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">|</span></code> : paired with another base</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.</span></code> : no constraint at all</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> : base must not pair</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;</span></code> : base i is paired with a base j&lt;i</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&gt;</span></code> : base i is paired with a base j&gt;i</p></li>
+<li><p>matching brackets <code class="docutils literal notranslate"><span class="pre">(</span> <span class="pre">)</span></code>: base i pairs base j</p></li>
+</ul>
+<p>So our constraint should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.....</span><span class="n">xxx</span><span class="o">...............</span>
+</pre></div>
+</div>
+<p>Next call the application with following command and provide the sequence
+and constraint we just created:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ RNAfold -p -C
+</pre></div>
+</div>
+<p>The output should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">length</span> <span class="o">=</span> <span class="mi">23</span>
+<span class="n">CUACGGCGCGGCGCCCUUGGCGA</span>
+<span class="o">...........</span><span class="p">((((</span><span class="o">...</span><span class="p">))))</span><span class="o">.</span>
+ <span class="n">minimum</span> <span class="n">free</span> <span class="n">energy</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">5.00</span> <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+<span class="o">...........</span><span class="p">((((</span><span class="o">...</span><span class="p">))))</span><span class="o">.</span>
+ <span class="n">free</span> <span class="n">energy</span> <span class="n">of</span> <span class="n">ensemble</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">5.14</span> <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+<span class="o">...........</span><span class="p">((((</span><span class="o">...</span><span class="p">))))</span><span class="o">.</span> <span class="p">{</span> <span class="o">-</span><span class="mf">5.00</span> <span class="n">d</span><span class="o">=</span><span class="mf">0.42</span><span class="p">}</span>
+ <span class="n">frequency</span> <span class="n">of</span> <span class="n">mfe</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">ensemble</span> <span class="mf">0.792925</span><span class="p">;</span> <span class="n">ensemble</span> <span class="n">diversity</span> <span class="mf">0.79</span>
+</pre></div>
+</div>
+<p>Afterwards evaluate the desired probability according to the formula given before
+e.g. with a simple <code class="docutils literal notranslate"><span class="pre">perl</span></code> script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ perl -e &#39;print exp(-(5.72-5.14)/(0.00198*310.15)).&quot;\n&quot;&#39;
+</pre></div>
+</div>
+<p>You can see that there is a slight difference between the <code class="docutils literal notranslate"><span class="pre">RNAsubopt</span></code> run with 10,000
+samples and the <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> run including all structures.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="RNApvmin.html" class="btn btn-neutral float-left" title="The Program RNApvmin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="RNAalifold.html" class="btn btn-neutral float-right" title="The Program RNAalifold" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

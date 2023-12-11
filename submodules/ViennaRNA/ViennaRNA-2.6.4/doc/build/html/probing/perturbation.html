@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate Soft Constraints from Data &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Ligands Binding to RNA Structures" href="../ligand_binding.html" />
+    <link rel="prev" title="SHAPE Reactivity Data" href="SHAPE.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="SHAPE.html">SHAPE Reactivity Data</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Generate Soft Constraints from Data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../probing_data.html">Experimental Structure Probing Data</a></li>
+      <li class="breadcrumb-item active">Generate Soft Constraints from Data</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="generate-soft-constraints-from-data">
+<h1>Generate Soft Constraints from Data<a class="headerlink" href="#generate-soft-constraints-from-data" title="Link to this heading"></a></h1>
+<p>Find a vector of perturbation energies that minimizes the discripancies between
+predicted and observed pairing probabilities and the amount of neccessary adjustments.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__perturbation"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OBJECTIVE_FUNCTION_QUADRATIC">
+<span class="target" id="group__perturbation_1ga81e10993d1ae728e4e02022b33155a12"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OBJECTIVE_FUNCTION_QUADRATIC</span></span></span><a class="headerlink" href="#c.VRNA_OBJECTIVE_FUNCTION_QUADRATIC" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/perturbation_fold.h&gt;</em><p>Use the sum of squared aberrations as objective function. </p>
+<p><span class="math notranslate nohighlight">\( F(\vec\epsilon) = \sum_{i = 1}^n{ \frac{\epsilon_i^2}{\tau^2} } + \sum_{i = 1}^n{ \frac{(p_i(\vec\epsilon) - q_i)^2}{\sigma^2} } \to min \)</span></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OBJECTIVE_FUNCTION_ABSOLUTE">
+<span class="target" id="group__perturbation_1gac070dfb9cafaeb14d5652bd9adf0f6b1"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OBJECTIVE_FUNCTION_ABSOLUTE</span></span></span><a class="headerlink" href="#c.VRNA_OBJECTIVE_FUNCTION_ABSOLUTE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/perturbation_fold.h&gt;</em><p>Use the sum of absolute aberrations as objective function. </p>
+<p><span class="math notranslate nohighlight">\( F(\vec\epsilon) = \sum_{i = 1}^n{ \frac{|\epsilon_i|}{\tau^2} } + \sum_{i = 1}^n{ \frac{|p_i(\vec\epsilon) - q_i|}{\sigma^2} } \to min \)</span></p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MINIMIZER_DEFAULT">
+<span class="target" id="group__perturbation_1gae5126200d80dbb282f46083fffc606bf"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MINIMIZER_DEFAULT</span></span></span><a class="headerlink" href="#c.VRNA_MINIMIZER_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/perturbation_fold.h&gt;</em><p>Use a custom implementation of the gradient descent algorithm to minimize the objective function. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MINIMIZER_CONJUGATE_FR">
+<span class="target" id="group__perturbation_1gab1d89db58e8c497795a5005f5dbc8c4a"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MINIMIZER_CONJUGATE_FR</span></span></span><a class="headerlink" href="#c.VRNA_MINIMIZER_CONJUGATE_FR" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/perturbation_fold.h&gt;</em><p>Use the GNU Scientific Library implementation of the Fletcher-Reeves conjugate gradient algorithm to minimize the objective function. </p>
+<p>Please note that this algorithm can only be used when the GNU Scientific Library is available on your system </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MINIMIZER_CONJUGATE_PR">
+<span class="target" id="group__perturbation_1ga5aaeafe1b0aa77a5cda18943ff94b02f"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MINIMIZER_CONJUGATE_PR</span></span></span><a class="headerlink" href="#c.VRNA_MINIMIZER_CONJUGATE_PR" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/perturbation_fold.h&gt;</em><p>Use the GNU Scientific Library implementation of the Polak-Ribiere conjugate gradient algorithm to minimize the objective function. </p>
+<p>Please note that this algorithm can only be used when the GNU Scientific Library is available on your system </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MINIMIZER_VECTOR_BFGS">
+<span class="target" id="group__perturbation_1ga9be8a702cddf58235571ace11cc41b22"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MINIMIZER_VECTOR_BFGS</span></span></span><a class="headerlink" href="#c.VRNA_MINIMIZER_VECTOR_BFGS" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/perturbation_fold.h&gt;</em><p>Use the GNU Scientific Library implementation of the vector Broyden-Fletcher-Goldfarb-Shanno algorithm to minimize the objective function. </p>
+<p>Please note that this algorithm can only be used when the GNU Scientific Library is available on your system </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MINIMIZER_VECTOR_BFGS2">
+<span class="target" id="group__perturbation_1ga7b0a65c6c92fa1d8012383ba9d3dcb4f"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MINIMIZER_VECTOR_BFGS2</span></span></span><a class="headerlink" href="#c.VRNA_MINIMIZER_VECTOR_BFGS2" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/perturbation_fold.h&gt;</em><p>Use the GNU Scientific Library implementation of the vector Broyden-Fletcher-Goldfarb-Shanno algorithm to minimize the objective function. </p>
+<p>Please note that this algorithm can only be used when the GNU Scientific Library is available on your system </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MINIMIZER_STEEPEST_DESCENT">
+<span class="target" id="group__perturbation_1ga9ecd2144c2ebed7533233da3986521b0"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MINIMIZER_STEEPEST_DESCENT</span></span></span><a class="headerlink" href="#c.VRNA_MINIMIZER_STEEPEST_DESCENT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/perturbation_fold.h&gt;</em><p>Use the GNU Scientific Library implementation of the steepest descent algorithm to minimize the objective function. </p>
+<p>Please note that this algorithm can only be used when the GNU Scientific Library is available on your system </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.progress_callback">
+<span class="target" id="group__perturbation_1gaa715397c7afd2d2955c315512a3d571a"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">progress_callback</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">iteration</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.progress_callback" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/perturbation_fold.h&gt;</em><p>Callback for following the progress of the minimization process. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Param iteration<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of the current iteration </p>
+</dd>
+<dt class="field-even">Param score<span class="colon">:</span></dt>
+<dd class="field-even"><p>The score of the objective function </p>
+</dd>
+<dt class="field-odd">Param epsilon<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The perturbation vector yielding the reported score </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_minimize_pertubation">
+<span class="target" id="group__perturbation_1ga64d7137ab57964928e7cd1be96d2e1ea"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_minimize_pertubation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">q_prob_unpaired</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">objective_function</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">sigma_squared</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">tau_squared</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">algorithm</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">sample_size</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">epsilon</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">initialStepSize</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">minStepSize</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">minImprovement</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">minimizerTolerance</span></span>, <a class="reference internal" href="#c.progress_callback" title="progress_callback"><span class="n"><span class="pre">progress_callback</span></span></a><span class="w"> </span><span class="n"><span class="pre">callback</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_minimize_pertubation" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/perturbation_fold.h&gt;</em><p>Find a vector of perturbation energies that minimizes the discripancies between predicted and observed pairing probabilities and the amount of neccessary adjustments. </p>
+<p>Use an iterative minimization algorithm to find a vector of perturbation energies whose incorporation as soft constraints shifts the predicted pairing probabilities closer to the experimentally observed probabilities. The algorithm aims to minimize an objective function that penalizes discripancies between predicted and observed pairing probabilities and energy model adjustments, i.e. an appropriate vector of perturbation energies satisfies</p>
+<p><div class="math notranslate nohighlight">
+\[
+F(\vec\epsilon) = \sum_{\mu}{ \frac{\epsilon_{\mu}^2}{\tau^2} } + \sum_{i =
+1}^n{ \frac{(p_i(\vec\epsilon) - q_i)^2}{\sigma^2} } \to \min.
+\]</div>
+</p>
+<p>An initialized fold compound and an array containing the observed probability for each nucleotide to be unbound are required as input data. The parameters objective_function, sigma_squared and tau_squared are responsible for adjusting the aim of the objective function. Dependend on which type of objective function is selected, either squared or absolute aberrations are contributing to the objective function. The ratio of the parameters sigma_squared and tau_squared can be used to adjust the algorithm to find a solution either close to the thermodynamic prediction (sigma_squared &gt;&gt; tau_squared) or close to the experimental data (tau_squared &gt;&gt; sigma_squared). The minimization can be performed by makeing use of a custom gradient descent implementation or using one of the minimizing algorithms provided by the GNU Scientific Library. All algorithms require the evaluation of the gradient of the objective function, which includes the evaluation of conditional pairing probabilites. Since an exact evaluation is expensive, the probabilities can also be estimated from sampling by setting an appropriate sample size. The found vector of perturbation energies will be stored in the array epsilon. The progress of the minimization process can be tracked by implementing and passing a callback function.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>For further details we refer to  <span> <span id="id1">Washietl <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id7" title="Stefan Washietl, Ivo L. Hofacker, Peter F. Stadler, and Manolis Kellis. RNA folding with soft constraints: reconciliation of probing data and thermodynamics secondary structure prediction. Nucleic Acids Research, 40(10):4261-4272, 2012. doi:10.1093/nar/gks009.">2012</a>]</span> </span>.</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – Pointer to a fold compound </p></li>
+<li><p><strong>q_prob_unpaired</strong> – Pointer to an array containing the probability to be unpaired for each nucleotide </p></li>
+<li><p><strong>objective_function</strong> – The type of objective function to be used (VRNA_OBJECTIVE_FUNCTION_QUADRATIC / VRNA_OBJECTIVE_FUNCTION_LINEAR) </p></li>
+<li><p><strong>sigma_squared</strong> – A factor used for weighting the objective function. More weight on this factor will lead to a solution close to the null vector. </p></li>
+<li><p><strong>tau_squared</strong> – A factor used for weighting the objective function. More weight on this factor will lead to a solution close to the data provided in q_prob_unpaired. </p></li>
+<li><p><strong>algorithm</strong> – The minimization algorithm (VRNA_MINIMIZER_*) </p></li>
+<li><p><strong>sample_size</strong> – The number of sampled sequences used for estimating the pairing probabilities. A value &lt;= 0 will lead to an exact evaluation. </p></li>
+<li><p><strong>epsilon</strong> – A pointer to an array used for storing the calculated vector of perturbation energies </p></li>
+<li><p><strong>callback</strong> – A pointer to a callback function used for reporting the current minimization progress </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="SHAPE.html" class="btn btn-neutral float-left" title="SHAPE Reactivity Data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../ligand_binding.html" class="btn btn-neutral float-right" title="Ligands Binding to RNA Structures" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

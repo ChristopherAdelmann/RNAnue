@@ -1,0 +1,537 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__heap__utils" kind="group">
+    <compoundname>heap_utils</compoundname>
+    <title>Heaps</title>
+    <innerfile refid="heap_8h">heap.h</innerfile>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3" prot="public" static="no">
+        <type>struct vrna_heap_s *</type>
+        <definition>typedef struct vrna_heap_s* vrna_heap_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_heap_t</name>
+        <briefdescription>
+<para>An abstract heap data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="38" column="26" bodyfile="ViennaRNA/datastructures/heap.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__heap__utils_1ga7e091ad5eab4e27f7dc47a2c122afea9" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* vrna_heap_cmp_f) (const void *a, const void *b, void *data)</definition>
+        <argsstring>)(const void *a, const void *b, void *data)</argsstring>
+        <name>vrna_heap_cmp_f</name>
+        <briefdescription>
+<para>Heap compare function prototype. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this prototype to design the compare function for the heap implementation. The arbitrary data pointer <computeroutput>data</computeroutput> may be used to get access to further information required to actually compare the two values <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput>.</para>
+<para><simplesect kind="note"><para>The heap implementation acts as a <emphasis>min-heap</emphasis>, therefore, the minimum element will be present at the heap&apos;s root. In case a <emphasis>max-heap</emphasis> is required, simply reverse the logic of this compare function.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The first object to compare </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The second object to compare </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An arbitrary data pointer passed through from the heap implementation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A value less than zero if <computeroutput>a</computeroutput> &lt; <computeroutput>b</computeroutput>, a value greater than zero if <computeroutput>a</computeroutput> &gt; <computeroutput>b</computeroutput>, and 0 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="57" column="9" bodyfile="ViennaRNA/datastructures/heap.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__heap__utils_1gac70f1b16e617c57128b1ac9361529795" prot="public" static="no">
+        <type>int()</type>
+        <definition>typedef int() vrna_callback_heap_cmp(const void *a, const void *b, void *data)</definition>
+        <argsstring>(const void *a, const void *b, void *data)</argsstring>
+        <name>vrna_callback_heap_cmp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="64" column="10" bodyfile="ViennaRNA/datastructures/heap.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19" prot="public" static="no">
+        <type>size_t(*</type>
+        <definition>typedef size_t(* vrna_heap_get_pos_f) (const void *a, void *data)</definition>
+        <argsstring>)(const void *a, void *data)</argsstring>
+        <name>vrna_heap_get_pos_f</name>
+        <briefdescription>
+<para>Retrieve the position of a particular heap entry within the heap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The object to look-up within the heap </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An arbitrary data pointer passed through from the heap implementation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The position of the element <computeroutput>a</computeroutput> within the heap, or 0 if it is not in the heap </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="74" column="9" bodyfile="ViennaRNA/datastructures/heap.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__heap__utils_1ga15f9e17d8168f2d7edc43a282ff44f5e" prot="public" static="no">
+        <type>size_t()</type>
+        <definition>typedef size_t() vrna_callback_heap_get_pos(const void *a, void *data)</definition>
+        <argsstring>(const void *a, void *data)</argsstring>
+        <name>vrna_callback_heap_get_pos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="79" column="10" bodyfile="ViennaRNA/datastructures/heap.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* vrna_heap_set_pos_f) (const void *a, size_t pos, void *data)</definition>
+        <argsstring>)(const void *a, size_t pos, void *data)</argsstring>
+        <name>vrna_heap_set_pos_f</name>
+        <briefdescription>
+<para>Store the position of a particular heap entry within the heap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The object whose position shall be stored </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current position of <computeroutput>a</computeroutput> within the heap, or 0 if a was deleted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An arbitrary data pointer passed through from the heap implementation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="89" column="9" bodyfile="ViennaRNA/datastructures/heap.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__heap__utils_1ga00acf19f3af4792fb2f3b1d01b32fc61" prot="public" static="no">
+        <type>void()</type>
+        <definition>typedef void() vrna_callback_heap_set_pos(const void *a, size_t pos, void *data)</definition>
+        <argsstring>(const void *a, size_t pos, void *data)</argsstring>
+        <name>vrna_callback_heap_set_pos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="96" column="10" bodyfile="ViennaRNA/datastructures/heap.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3" kindref="member">vrna_heap_t</ref></type>
+        <definition>vrna_heap_t vrna_heap_init</definition>
+        <argsstring>(size_t n, vrna_heap_cmp_f cmp, vrna_heap_get_pos_f get_entry_pos, vrna_heap_set_pos_f set_entry_pos, void *data)</argsstring>
+        <name>vrna_heap_init</name>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type><ref refid="group__heap__utils_1ga7e091ad5eab4e27f7dc47a2c122afea9" kindref="member">vrna_heap_cmp_f</ref></type>
+          <declname>cmp</declname>
+        </param>
+        <param>
+          <type><ref refid="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19" kindref="member">vrna_heap_get_pos_f</ref></type>
+          <declname>get_entry_pos</declname>
+        </param>
+        <param>
+          <type><ref refid="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345" kindref="member">vrna_heap_set_pos_f</ref></type>
+          <declname>set_entry_pos</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Initialize a heap data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function initializes a heap data structure. The implementation is based on a <emphasis>min-heap</emphasis>, i.e. the minimal element is located at the root of the heap. However, by reversing the logic of the compare function, one can easily transform this into a <emphasis>max-heap</emphasis> implementation.</para>
+<para>Beside the regular operations on a heap data structure, we implement removal and update of arbitrary elements within the heap. For that purpose, however, one requires a reverse-index lookup system that, (i) for a given element stores the current position in the heap, and (ii) allows for fast lookup of an elements current position within the heap. The corresponding getter- and setter- functions may be provided through the arguments <computeroutput>get_entry_pos</computeroutput> and <computeroutput>set_entry_pos</computeroutput>, respectively.</para>
+<para>Sometimes, it is difficult to simply compare two data structures without any context. Therefore, the compare function is provided with a user-defined data pointer that can hold any context required.</para>
+<para><simplesect kind="warning"><para>If any of the arguments <computeroutput>get_entry_pos</computeroutput> or <computeroutput>set_entry_pos</computeroutput> is NULL, the operations <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref> and <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref> won&apos;t work.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref>, <ref refid="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3" kindref="member">vrna_heap_t</ref>, <ref refid="group__heap__utils_1ga7e091ad5eab4e27f7dc47a2c122afea9" kindref="member">vrna_heap_cmp_f</ref>, <ref refid="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19" kindref="member">vrna_heap_get_pos_f</ref>, <ref refid="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345" kindref="member">vrna_heap_set_pos_f</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The initial size of the heap, i.e. the number of elements to store </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cmp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a compare function that will be used to fullfill the partial order requirement </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>get_entry_pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a function that retrieves the position of an element within the heap (or NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>set_entry_pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of a function that stores the position of an element within the heap (or NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An arbitrary data pointer passed through to the compare function <computeroutput>cmp</computeroutput>, and the set/get functions <computeroutput>get_entry_pos</computeroutput> / <computeroutput>set_entry_pos</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An initialized heap data structure, or NULL on error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="133" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="133" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_heap_free</definition>
+        <argsstring>(vrna_heap_t h)</argsstring>
+        <name>vrna_heap_free</name>
+        <param>
+          <type><ref refid="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3" kindref="member">vrna_heap_t</ref></type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+<para>Free memory occupied by a heap data structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The heap that should be free&apos;d </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="148" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="148" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__heap__utils_1ga5d84774d7d7f000ab05724d54984c2ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t vrna_heap_size</definition>
+        <argsstring>(struct vrna_heap_s *h)</argsstring>
+        <name>vrna_heap_size</name>
+        <param>
+          <type>struct vrna_heap_s *</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+<para>Get the size of a heap data structure, i.e. the number of stored elements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The heap data structure </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number of elements currently stored in the heap, or 0 upon any error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="158" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="158" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_heap_insert</definition>
+        <argsstring>(vrna_heap_t h, void *v)</argsstring>
+        <name>vrna_heap_insert</name>
+        <param>
+          <type><ref refid="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3" kindref="member">vrna_heap_t</ref></type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Insert an element into the heap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref>, <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The heap data structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the object that is about to be inserted into the heap </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="171" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="171" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * vrna_heap_pop</definition>
+        <argsstring>(vrna_heap_t h)</argsstring>
+        <name>vrna_heap_pop</name>
+        <param>
+          <type><ref refid="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3" kindref="member">vrna_heap_t</ref></type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+<para>Pop (remove and return) the object at the root of the heap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function removes the root from the heap and returns it to the caller.</para>
+<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref> <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The heap data structure </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The object at the root of the heap, i.e. the minimal element (or NULL if (a) the heap is empty or (b) any error occurred) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="187" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="187" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const void *</type>
+        <definition>const void * vrna_heap_top</definition>
+        <argsstring>(vrna_heap_t h)</argsstring>
+        <name>vrna_heap_top</name>
+        <param>
+          <type><ref refid="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3" kindref="member">vrna_heap_t</ref></type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+<para>Get the object at the root of the heap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref> <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The heap data structure </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The object at the root of the heap, i.e. the minimal element (or NULL if (a) the heap is empty or (b) any error occurred) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="200" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="200" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * vrna_heap_remove</definition>
+        <argsstring>(vrna_heap_t h, const void *v)</argsstring>
+        <name>vrna_heap_remove</name>
+        <param>
+          <type><ref refid="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3" kindref="member">vrna_heap_t</ref></type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Remove an arbitrary element within the heap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19" kindref="member">vrna_heap_get_pos_f</ref>, <ref refid="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345" kindref="member">vrna_heap_set_pos_f</ref>, <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref></para>
+</simplesect>
+<simplesect kind="warning"><para>This function won&apos;t work if the heap was not properly initialized with callback functions for fast reverse-index mapping!</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The heap data structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The object to remove from the heap </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The object that was removed from the heap (or NULL if (a) it wasn&apos;t found or (b) any error occurred) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="217" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="217" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * vrna_heap_update</definition>
+        <argsstring>(vrna_heap_t h, void *v)</argsstring>
+        <name>vrna_heap_update</name>
+        <param>
+          <type><ref refid="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3" kindref="member">vrna_heap_t</ref></type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Update an arbitrary element within the heap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>If the object that is to be updated is not currently stored in the heap, it will be inserted. In this case, the function returns NULL.</para>
+</simplesect>
+<simplesect kind="warning"><para>This function won&apos;t work if the heap was not properly initialized with callback functions for fast reverse-index mapping!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19" kindref="member">vrna_heap_get_pos_f</ref>, <ref refid="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345" kindref="member">vrna_heap_set_pos_f</ref> <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The heap data structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The object to update </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The &apos;previous&apos; object within the heap that now got replaced by <computeroutput>v</computeroutput> (or NULL if (a) it wasn&apos;t found or (b) any error occurred) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/heap.h" line="238" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="238" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

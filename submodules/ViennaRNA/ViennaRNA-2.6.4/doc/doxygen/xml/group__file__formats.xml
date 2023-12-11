@@ -1,0 +1,797 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__file__formats" kind="group">
+    <compoundname>file_formats</compoundname>
+    <title>Nucleic Acid Sequences and Structures</title>
+    <innerfile refid="io_2file__formats_8h">file_formats.h</innerfile>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__file__formats_1gaaface7db12fadc3d271641c4515ab6e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_file_helixlist</definition>
+        <argsstring>(const char *seq, const char *db, float energy, FILE *file)</argsstring>
+        <name>vrna_file_helixlist</name>
+        <param>
+          <type>const char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>energy</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Print a secondary structure as helix list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The structure in dot-bracket format </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Free energy of the structure in kcal/mol </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file handle used to print to (print defaults to &apos;stdout&apos; if(file == NULL) ) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="40" column="1" declfile="ViennaRNA/io/file_formats.h" declline="40" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1gab69682373ccca1e0e28cc967eec07745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_file_connect</definition>
+        <argsstring>(const char *seq, const char *db, float energy, const char *identifier, FILE *file)</argsstring>
+        <name>vrna_file_connect</name>
+        <param>
+          <type>const char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>energy</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>identifier</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Print a secondary structure as connect table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Connect table file format looks like this: <verbatim>* 300  ENERGY = 7.0  example
+* 1 G       0    2   22    1
+* 2 G       1    3   21    2
+* </verbatim> where the headerline is followed by 6 columns with:<orderedlist>
+<listitem><para>Base number: index n</para>
+</listitem><listitem><para>Base (A, C, G, T, U, X)</para>
+</listitem><listitem><para>Index n-1 (0 if first nucleotide)</para>
+</listitem><listitem><para>Index n+1 (0 if last nucleotide)</para>
+</listitem><listitem><para>Number of the base to which n is paired. No pairing is indicated by 0 (zero).</para>
+</listitem><listitem><para>Natural numbering.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The structure in dot-bracket format </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The free energy of the structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>identifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An optional identifier for the sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file handle used to print to (print defaults to &apos;stdout&apos; if(file == NULL) ) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="70" column="1" declfile="ViennaRNA/io/file_formats.h" declline="70" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1ga9b462e6f202594af5d3fa56e280d633f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_file_bpseq</definition>
+        <argsstring>(const char *seq, const char *db, FILE *file)</argsstring>
+        <name>vrna_file_bpseq</name>
+        <param>
+          <type>const char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Print a secondary structure in bpseq format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The structure in dot-bracket format </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file handle used to print to (print defaults to &apos;stdout&apos; if(file == NULL) ) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="85" column="1" declfile="ViennaRNA/io/file_formats.h" declline="85" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1ga31f4a6c2ea1495a6e4f9eb45a9f6193d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_file_json</definition>
+        <argsstring>(const char *seq, const char *db, double energy, const char *identifier, FILE *file)</argsstring>
+        <name>vrna_file_json</name>
+        <param>
+          <type>const char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>energy</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>identifier</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Print a secondary structure in jsonformat. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The structure in dot-bracket format </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The free energy </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>identifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An identifier for the sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file handle used to print to (print defaults to &apos;stdout&apos; if(file == NULL) ) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="100" column="1" declfile="ViennaRNA/io/file_formats.h" declline="100" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int vrna_file_fasta_read_record</definition>
+        <argsstring>(char **header, char **sequence, char ***rest, FILE *file, unsigned int options)</argsstring>
+        <name>vrna_file_fasta_read_record</name>
+        <param>
+          <type>char **</type>
+          <declname>header</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>char ***</type>
+          <declname>rest</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Get a (fasta) data set from a file or stdin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function may be used to obtain complete datasets from a filehandle or stdin. A dataset is always defined to contain at least a sequence. If data starts with a fasta header, i.e. a line like <verbatim>&gt;some header info </verbatim> then <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref> will assume that the sequence that follows the header may span over several lines. To disable this behavior and to assign a single line to the argument &apos;sequence&apos; one can pass <ref refid="group__utils_1ga0de536599b881c787b0943a2671da476" kindref="member">VRNA_INPUT_NO_SPAN</ref> in the &apos;options&apos; argument. If no fasta header is read in the beginning of a data block, a sequence must not span over multiple lines!</para>
+<para>Unless the options <ref refid="group__utils_1ga0f6311f11bed1842e3a527ab27b294c6" kindref="member">VRNA_INPUT_NOSKIP_COMMENTS</ref> or <ref refid="group__utils_1gab4db885222b3b69608310d7c7e63e286" kindref="member">VRNA_INPUT_NOSKIP_BLANK_LINES</ref> are passed, a sequence may be interrupted by lines starting with a comment character or empty lines.<linebreak/>
+ A sequence is regarded as completely read if it was either assumed to not span over multiple lines, a secondary structure or structure constraint follows the sequence on the next line, or a new header marks the beginning of a new sequence...</para>
+<para>All lines following the sequence (this includes comments) that do not initiate a new dataset according to the above definition are available through the line-array &apos;rest&apos;. Here one can usually find the structure constraint or other information belonging to the current dataset. Filling of &apos;rest&apos; may be prevented by passing <ref refid="group__utils_1ga7a2e8c50a0c7ce82e60da1016e1367fd" kindref="member">VRNA_INPUT_NO_REST</ref> to the options argument.</para>
+<para>The main purpose of this function is to be able to easily parse blocks of data in the header of a loop where all calculations for the appropriate data is done inside the loop. The loop may be then left on certain return values, e.g.:</para>
+<para><programlisting filename=".c"><codeline><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*id,<sp/>*seq,<sp/>**rest;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/>i;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>seq<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline><highlight class="normal">rest<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(!(<ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record</ref>(&amp;</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>&amp;seq,<sp/>&amp;rest,<sp/>NULL,<sp/>0)<sp/>&amp;<sp/>(<ref refid="group__utils_1gad403c9ea58f1836689404c2931419c8c" kindref="member">VRNA_INPUT_ERROR</ref><sp/>|<sp/><ref refid="group__utils_1ga72f3c6ca5c83d2b9baed2922d19c403d" kindref="member">VRNA_INPUT_QUIT</ref>))){</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;%s\n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;%s\n&quot;</highlight><highlight class="normal">,<sp/>seq);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(rest)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(i=0;rest[i];i++){</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;%s\n&quot;</highlight><highlight class="normal">,<sp/>rest[i]);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>free(rest[i]);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>free(rest);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>free(seq);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>free(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>In the example above, the while loop will be terminated when <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref> returns either an error, EOF, or a user initiated quit request.</para>
+<para>As long as data is read from stdin (we are passing NULL as the file pointer), the id is printed if it is available for the current block of data. The sequence will be printed in any case and if some more lines belong to the current block of data each line will be printed as well.</para>
+<para><simplesect kind="note"><para>This function will exit any program with an error message if no sequence could be read!<linebreak/>
+ This function is NOT threadsafe! It uses a global variable to store information about the next data block. Do not forget to free the memory occupied by header, sequence and rest!</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer which will be set such that it points to the header of the record </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer which will be set such that it points to the sequence of the record </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer which will be set such that it points to an array of lines which also belong to the record </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file handle to read from (if NULL, this function reads from stdin) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Some options which may be passed to alter the behavior of the function, use 0 for no options </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A flag with information about what the function actually did read </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="192" column="1" declfile="ViennaRNA/io/file_formats.h" declline="192" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1gac788da233f9160b06c2e751afad8936c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_extract_record_rest_structure</definition>
+        <argsstring>(const char **lines, unsigned int length, unsigned int option)</argsstring>
+        <name>vrna_extract_record_rest_structure</name>
+        <param>
+          <type>const char **</type>
+          <declname>lines</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>option</declname>
+        </param>
+        <briefdescription>
+<para>Extract a dot-bracket structure string from (multiline)character array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function extracts a dot-bracket structure string from the &apos;rest&apos; array as returned by <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref> and returns it. All occurences of comments within the &apos;lines&apos; array will be skipped as long as they do not break the structure string. If no structure could be read, this function returns NULL.</para>
+<para><simplesect kind="pre"><para>The argument &apos;lines&apos; has to be a 2-dimensional character array as obtained by <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref></para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lines</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The (multiline) character array to be parsed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The assumed length of the dot-bracket string (passing a value &lt; 1 results in no length limit) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>option</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Some options which may be passed to alter the behavior of the function, use 0 for no options </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The dot-bracket string read from lines or NULL </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="217" column="1" declfile="ViennaRNA/io/file_formats.h" declline="217" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1ga646ebf45450a69a7f2533f9ecd283a32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_file_SHAPE_read</definition>
+        <argsstring>(const char *file_name, int length, double default_value, char *sequence, double *values)</argsstring>
+        <name>vrna_file_SHAPE_read</name>
+        <param>
+          <type>const char *</type>
+          <declname>file_name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>default_value</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Read data from a given SHAPE reactivity input file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function parses the informations from a given file and stores the result in the preallocated string sequence and the double array values.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the constraints file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of the sequence (file entries exceeding this limit will cause an error) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>default_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value for missing indices </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an array used for storing the sequence obtained from the SHAPE reactivity file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an array used for storing the values obtained from the SHAPE reactivity file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="235" column="1" declfile="ViennaRNA/io/file_formats.h" declline="235" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1ga209f6dc03315f7f46482c2fce6b07425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_file_connect_read_record</definition>
+        <argsstring>(FILE *fp, char **id, char **sequence, char **structure, char **remainder, unsigned int options)</argsstring>
+        <name>vrna_file_connect_read_record</name>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>remainder</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="245" column="1" declfile="ViennaRNA/io/file_formats.h" declline="245" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1ga276c0201ca8e767fc292c69f587049bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_file_RNAstrand_db_read_record</definition>
+        <argsstring>(FILE *fp, char **name_p, char **sequence_p, char **structure_p, char **source_p, char **fname_p, char **id_p, unsigned int options)</argsstring>
+        <name>vrna_file_RNAstrand_db_read_record</name>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>name_p</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>sequence_p</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>structure_p</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>source_p</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>fname_p</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>id_p</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="253" column="1" declfile="ViennaRNA/io/file_formats.h" declline="253" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1ga55a9ae6dfeecc1b3f0c2acf6fa796c15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_extract_record_rest_constraint</definition>
+        <argsstring>(char **cstruc, const char **lines, unsigned int option)</argsstring>
+        <name>vrna_extract_record_rest_constraint</name>
+        <param>
+          <type>char **</type>
+          <declname>cstruc</declname>
+        </param>
+        <param>
+          <type>const char **</type>
+          <declname>lines</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>option</declname>
+        </param>
+        <briefdescription>
+<para>Extract a hard constraint encoded as pseudo dot-bracket string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000166"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="group__file__formats_1gac788da233f9160b06c2e751afad8936c" kindref="member">vrna_extract_record_rest_structure()</ref> instead!</para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="pre"><para>The argument &apos;lines&apos; has to be a 2-dimensional character array as obtained by <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref></para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref>, <ref refid="group__hard__constraints_1ga13053547a2de5532b64b64d35e097ae1" kindref="member">VRNA_CONSTRAINT_DB_PIPE</ref>, <ref refid="group__hard__constraints_1ga369bea82eae75fbe626f409fa425747e" kindref="member">VRNA_CONSTRAINT_DB_DOT</ref>, <ref refid="group__hard__constraints_1ga7283bbe0f8954f7b030ecc3f2d1932b2" kindref="member">VRNA_CONSTRAINT_DB_X</ref> <ref refid="hard_8h_1ad54c1315a47d55653dcaa5de6e544b77" kindref="member">VRNA_CONSTRAINT_DB_ANG_BRACK</ref>, <ref refid="group__hard__constraints_1gac17b034852c914bc5879954c65d7e74b" kindref="member">VRNA_CONSTRAINT_DB_RND_BRACK</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cstruc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a character array that is used as pseudo dot-bracket output </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lines</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A 2-dimensional character array with the extension lines from the FASTA input </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>option</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The option flags that define the behavior and recognition pattern of this function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="285" column="7" declfile="ViennaRNA/io/file_formats.h" declline="285" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1ga9aff92bd6fa80dfb4b947a8c313c5b84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * extract_record_rest_structure</definition>
+        <argsstring>(const char **lines, unsigned int length, unsigned int option)</argsstring>
+        <name>extract_record_rest_structure</name>
+        <param>
+          <type>const char **</type>
+          <declname>lines</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>option</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="294" column="7" declfile="ViennaRNA/io/file_formats.h" declline="294" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1gafd194a69af9d92b5b0412a7627ac1595" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int read_record</definition>
+        <argsstring>(char **header, char **sequence, char ***rest, unsigned int options)</argsstring>
+        <name>read_record</name>
+        <param>
+          <type>char **</type>
+          <declname>header</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>char ***</type>
+          <declname>rest</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Get a data record from stdin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000168"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This function is deprecated! Use <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref> as a replacment.</para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="306" column="15" declfile="ViennaRNA/io/file_formats.h" declline="306" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__formats_1ga61b9a7a4716c98a315ee9da411515f9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int get_multi_input_line</definition>
+        <argsstring>(char **string, unsigned int options)</argsstring>
+        <name>get_multi_input_line</name>
+        <param>
+          <type>char **</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="311" column="15" declfile="ViennaRNA/io/file_formats.h" declline="311" declcolumn="15"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__file__formats_1gabec89c09874528c6cb73140a4c3d86d7" prot="public" static="no">
+        <name>VRNA_OPTION_MULTILINE</name>
+        <initializer>32U</initializer>
+        <briefdescription>
+<para>Tell a function that an input is assumed to span several lines. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If used as input-option a function might also be returning this state telling that it has read data from multiple lines.</para>
+<para><simplesect kind="see"><para><ref refid="group__file__formats_1gac788da233f9160b06c2e751afad8936c" kindref="member">vrna_extract_record_rest_structure()</ref>, <ref refid="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639" kindref="member">vrna_file_fasta_read_record()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="115" column="9" bodyfile="ViennaRNA/io/file_formats.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats_1ga7d725ef525b29891abef3f1ed42599a4" prot="public" static="no">
+        <name>VRNA_CONSTRAINT_MULTILINE</name>
+        <initializer>32U</initializer>
+        <briefdescription>
+<para>parse multiline constraint </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000165"><xreftitle>Deprecated</xreftitle><xrefdescription><para>see <ref refid="group__file__formats_1gac788da233f9160b06c2e751afad8936c" kindref="member">vrna_extract_record_rest_structure()</ref> </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="120" column="9" bodyfile="ViennaRNA/io/file_formats.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__file__formats_1ga7f27c535ce0c8622ee426424a96ba7d5" prot="public" static="no">
+        <name>VRNA_INPUT_VERBOSE</name>
+        <initializer>16384U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/file_formats.h" line="241" column="9" bodyfile="ViennaRNA/io/file_formats.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

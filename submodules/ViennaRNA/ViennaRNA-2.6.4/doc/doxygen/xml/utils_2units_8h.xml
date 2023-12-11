@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="utils_2units_8h" kind="file" language="C++">
+    <compoundname>units.h</compoundname>
+    <includedby refid="units_8h" local="no">ViennaRNA/units.h</includedby>
+    <invincdepgraph>
+      <node id="2">
+        <label>ViennaRNA/units.h</label>
+        <link refid="units_8h"/>
+      </node>
+      <node id="1">
+        <label>ViennaRNA/utils/units.h</label>
+        <link refid="utils_2units_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="enum">
+      <member refid="group__units_1ga1d2fd1e73caf995e4dc69072b33e6ba5" kind="enum"><name>vrna_unit_energy_e</name></member>
+      <member refid="group__units_1gadeca8d9e91ef85f1b652cc8aef63d7e4" kind="enum"><name>vrna_unit_temperature_e</name></member>
+      </sectiondef>
+      <sectiondef kind="func">
+      <member refid="group__units_1gada3216e97b410928ba19a4487e5fe6f2" kind="function"><name>vrna_convert_energy</name></member>
+      <member refid="group__units_1gaf1bb1db32eba33b9f306214f5955d0c2" kind="function"><name>vrna_convert_temperature</name></member>
+      <member refid="group__units_1ga085428efe4f99044bce8273c8b5db1ba" kind="function"><name>vrna_convert_kcal_to_dcal</name></member>
+      <member refid="group__units_1gadef1b636dd61e48e9ad5ebd0d84fb17e" kind="function"><name>vrna_convert_dcal_to_kcal</name></member>
+      </sectiondef>
+    <briefdescription>
+<para>Physical Units and Functions to convert them into each other. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>, </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>VIENNA_RNA_PACKAGE_UNITS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>VIENNA_RNA_PACKAGE_UNITS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="group__units_1ga1d2fd1e73caf995e4dc69072b33e6ba5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="21" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a0120f465758c5d3f0c416bb6b68ac008" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a0120f465758c5d3f0c416bb6b68ac008" kindref="member">VRNA_UNIT_J</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="22" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5af992c2a5505ac9e419ea906752810141" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5af992c2a5505ac9e419ea906752810141" kindref="member">VRNA_UNIT_KJ</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="23" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a9aa5cffe20a1407ad113a9cd10a28287" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a9aa5cffe20a1407ad113a9cd10a28287" kindref="member">VRNA_UNIT_CAL_IT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a16f8d3c98e6baf1662c33f082e50e3aa" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a16f8d3c98e6baf1662c33f082e50e3aa" kindref="member">VRNA_UNIT_DACAL_IT</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5aafecefeb1301d0d40ce7d4c60f5aaeeb" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5aafecefeb1301d0d40ce7d4c60f5aaeeb" kindref="member">VRNA_UNIT_KCAL_IT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5af9b9e10348e63083965843e9c4bd285b" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5af9b9e10348e63083965843e9c4bd285b" kindref="member">VRNA_UNIT_CAL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a579ddb9fef9ec4b1a198b556715b549c" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a579ddb9fef9ec4b1a198b556715b549c" kindref="member">VRNA_UNIT_DACAL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a5a231fa4f1f62a1d6e5f9af020014b79" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a5a231fa4f1f62a1d6e5f9af020014b79" kindref="member">VRNA_UNIT_KCAL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a40325b8627e91b92dc5481961e2193d5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a40325b8627e91b92dc5481961e2193d5" kindref="member">VRNA_UNIT_G_TNT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a32711a912cf18203c635a49ccf104a7a" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a32711a912cf18203c635a49ccf104a7a" kindref="member">VRNA_UNIT_KG_TNT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a5186dbc0bc2a6fcce080753389e2759c" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a5186dbc0bc2a6fcce080753389e2759c" kindref="member">VRNA_UNIT_T_TNT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5ad1e56199abf591432c1d75ecd3bd9702" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5ad1e56199abf591432c1d75ecd3bd9702" kindref="member">VRNA_UNIT_EV</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a94309db45738a94c6a78ed1434346a7d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a94309db45738a94c6a78ed1434346a7d" kindref="member">VRNA_UNIT_WH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a57b033a1f079079cac03c0866ab69ec9" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1gga1d2fd1e73caf995e4dc69072b33e6ba5a57b033a1f079079cac03c0866ab69ec9" kindref="member">VRNA_UNIT_KWH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}<sp/><ref refid="group__units_1ga1d2fd1e73caf995e4dc69072b33e6ba5" kindref="member">vrna_unit_energy_e</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="group__units_1gadeca8d9e91ef85f1b652cc8aef63d7e4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a9b970a8dd20a98af000ac43e393a1d2d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a9b970a8dd20a98af000ac43e393a1d2d" kindref="member">VRNA_UNIT_K</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a64b03f220d7256def88b3ed4a78440b2" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a64b03f220d7256def88b3ed4a78440b2" kindref="member">VRNA_UNIT_DEG_C</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a56a659dc1a1e6c01a62c67ed8799fea9" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a56a659dc1a1e6c01a62c67ed8799fea9" kindref="member">VRNA_UNIT_DEG_F</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a71335b199e50c9ac773d4090018984bc" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a71335b199e50c9ac773d4090018984bc" kindref="member">VRNA_UNIT_DEG_R</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4ac3c83c399df537d213671bf6537bd400" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4ac3c83c399df537d213671bf6537bd400" kindref="member">VRNA_UNIT_DEG_N</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a8b047fe5980c99270a587e668c2a2d8b" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a8b047fe5980c99270a587e668c2a2d8b" kindref="member">VRNA_UNIT_DEG_DE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a94dce0a5f2e13a3a3fd554d6b0cd6395" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a94dce0a5f2e13a3a3fd554d6b0cd6395" kindref="member">VRNA_UNIT_DEG_RE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a405589efa7e654a6cfe148a992adc1d0" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="group__units_1ggadeca8d9e91ef85f1b652cc8aef63d7e4a405589efa7e654a6cfe148a992adc1d0" kindref="member">VRNA_UNIT_DEG_RO</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}<sp/><ref refid="group__units_1gadeca8d9e91ef85f1b652cc8aef63d7e4" kindref="member">vrna_unit_temperature_e</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="group__units_1gada3216e97b410928ba19a4487e5fe6f2" refkind="member"><highlight class="normal"><ref refid="group__units_1gada3216e97b410928ba19a4487e5fe6f2" kindref="member">vrna_convert_energy</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>energy,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__units_1ga1d2fd1e73caf995e4dc69072b33e6ba5" kindref="member">vrna_unit_energy_e</ref><sp/><sp/>from,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__units_1ga1d2fd1e73caf995e4dc69072b33e6ba5" kindref="member">vrna_unit_energy_e</ref><sp/><sp/>to);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="group__units_1gaf1bb1db32eba33b9f306214f5955d0c2" refkind="member"><highlight class="normal"><ref refid="group__units_1gaf1bb1db32eba33b9f306214f5955d0c2" kindref="member">vrna_convert_temperature</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temp,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__units_1gadeca8d9e91ef85f1b652cc8aef63d7e4" kindref="member">vrna_unit_temperature_e</ref><sp/><sp/>from,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__units_1gadeca8d9e91ef85f1b652cc8aef63d7e4" kindref="member">vrna_unit_temperature_e</ref><sp/><sp/>to);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="group__units_1ga085428efe4f99044bce8273c8b5db1ba" refkind="member"><highlight class="normal"><ref refid="group__units_1ga085428efe4f99044bce8273c8b5db1ba" kindref="member">vrna_convert_kcal_to_dcal</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>energy);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="group__units_1gadef1b636dd61e48e9ad5ebd0d84fb17e" refkind="member"><highlight class="normal"><ref refid="group__units_1gadef1b636dd61e48e9ad5ebd0d84fb17e" kindref="member">vrna_convert_dcal_to_kcal</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>energy);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="ViennaRNA/utils/units.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,673 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__aln__utils" kind="group">
+    <compoundname>aln_utils</compoundname>
+    <title>Multiple Sequence Alignment Utilities</title>
+    <innerfile refid="utils_2alignments_8h">alignments.h</innerfile>
+    <innerclass refid="structvrna__pinfo__s" prot="public">vrna_pinfo_s</innerclass>
+    <innergroup refid="group__aln__utils__deprecated">Deprecated Interface for Multiple Sequence Alignment Utilities</innergroup>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__aln__utils_1ga6660dfca23debee7306e0cd53341263f" prot="public" static="no">
+        <type>struct <ref refid="structvrna__pinfo__s" kindref="compound">vrna_pinfo_s</ref></type>
+        <definition>typedef struct vrna_pinfo_s vrna_pinfo_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_pinfo_t</name>
+        <briefdescription>
+<para>Typename for the base pair info repesenting data structure <ref refid="structvrna__pinfo__s" kindref="compound">vrna_pinfo_s</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="28" column="27" bodyfile="ViennaRNA/utils/alignments.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__aln__utils_1gade5a1f2d16e7fd9a57b37d8514f08e8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_aln_mpi</definition>
+        <argsstring>(const char **alignment)</argsstring>
+        <name>vrna_aln_mpi</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <briefdescription>
+<para>Get the mean pairwise identity in steps from ?to?(ident) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Aligned sequences </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The mean pairwise identity</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000005"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as function <computeroutput>aln_mpi()</computeroutput>. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.aln_mpi()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="110" column="1" declfile="ViennaRNA/utils/alignments.h" declline="110" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1gaac78a02d9939e68d570ff296547ff519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__aln__utils_1ga6660dfca23debee7306e0cd53341263f" kindref="member">vrna_pinfo_t</ref> *</type>
+        <definition>vrna_pinfo_t * vrna_aln_pinfo</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure, double threshold)</argsstring>
+        <name>vrna_aln_pinfo</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve an array of <ref refid="group__aln__utils_1ga6660dfca23debee7306e0cd53341263f" kindref="member">vrna_pinfo_t</ref> structures from precomputed pair probabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This array of structures contains information about positionwise pair probabilies, base pair entropy and more</para>
+<para><simplesect kind="see"><para><ref refid="group__aln__utils_1ga6660dfca23debee7306e0cd53341263f" kindref="member">vrna_pinfo_t</ref>, and <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref> with precomputed partition function matrices </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An optional structure in dot-bracket notation (Maybe NULL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Do not include results with pair probabilities below threshold </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="group__aln__utils_1ga6660dfca23debee7306e0cd53341263f" kindref="member">vrna_pinfo_t</ref> array </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="127" column="1" declfile="ViennaRNA/utils/alignments.h" declline="127" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1ga697bf6f44356918cceeff4ed8ee885e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int *</type>
+        <definition>int * vrna_aln_pscore</definition>
+        <argsstring>(const char **alignment, vrna_md_t *md)</argsstring>
+        <name>vrna_aln_pscore</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type><ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> *</type>
+          <declname>md</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="wrappers_1_wrappers000006"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>aln_pscore()</computeroutput> where the last parameter may be omitted, indicating <computeroutput>md</computeroutput> = <computeroutput>NULL</computeroutput>. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.aln_pscore()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="133" column="1" declfile="ViennaRNA/utils/alignments.h" declline="133" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1gadd5e56bd49b93fa7859a9f802a11540f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_pscore</definition>
+        <argsstring>(vrna_fold_compound_t *fc, unsigned int i, unsigned int j)</argsstring>
+        <name>vrna_pscore</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="138" column="1" declfile="ViennaRNA/utils/alignments.h" declline="138" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1ga9071db7f59818374bc097b6be5fd3376" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_pscore_freq</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const unsigned int *frequencies, unsigned int pairs)</argsstring>
+        <name>vrna_pscore_freq</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const unsigned int *</type>
+          <declname>frequencies</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>pairs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="144" column="1" declfile="ViennaRNA/utils/alignments.h" declline="144" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1gaab40cf1f120da37ffe2e80ae9d91815f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char **</type>
+        <definition>char ** vrna_aln_slice</definition>
+        <argsstring>(const char **alignment, unsigned int i, unsigned int j)</argsstring>
+        <name>vrna_aln_slice</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Slice out a subalignment from a larger alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>The user is responsible to free the memory occupied by the returned subalignment</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__aln__utils_1gac00dc80b8a324f151f92f11ab6850ecf" kindref="member">vrna_aln_free()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input alignment </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The first column of the subalignment (1-based) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The last column of the subalignment (1-based) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The subalignment between column <formula id="31">$i$</formula> and <formula id="79">$j$</formula> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="162" column="1" declfile="ViennaRNA/utils/alignments.h" declline="162" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1gac00dc80b8a324f151f92f11ab6850ecf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_aln_free</definition>
+        <argsstring>(char **alignment)</argsstring>
+        <name>vrna_aln_free</name>
+        <param>
+          <type>char **</type>
+          <declname>alignment</declname>
+        </param>
+        <briefdescription>
+<para>Free memory occupied by a set of aligned sequences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input alignment </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="173" column="1" declfile="ViennaRNA/utils/alignments.h" declline="173" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1gae78fb593225fc9c82e5a28c7c76e0e40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char **</type>
+        <definition>char ** vrna_aln_uppercase</definition>
+        <argsstring>(const char **alignment)</argsstring>
+        <name>vrna_aln_uppercase</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <briefdescription>
+<para>Create a copy of an alignment with only uppercase letters in the sequences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__aln__utils_1ga31d79a1b1eb8bc5673303efc18461091" kindref="member">vrna_aln_copy</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input sequence alignment (last entry must be <emphasis>NULL</emphasis> terminated) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A copy of the input alignment where lowercase sequence letters are replaced by uppercase letters </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="185" column="1" declfile="ViennaRNA/utils/alignments.h" declline="185" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1gab64cc5d5d6672a1213f6442bd766a726" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char **</type>
+        <definition>char ** vrna_aln_toRNA</definition>
+        <argsstring>(const char **alignment)</argsstring>
+        <name>vrna_aln_toRNA</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <briefdescription>
+<para>Create a copy of an alignment where DNA alphabet is replaced by RNA alphabet. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__aln__utils_1ga31d79a1b1eb8bc5673303efc18461091" kindref="member">vrna_aln_copy</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input sequence alignment (last entry must be <emphasis>NULL</emphasis> terminated) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A copy of the input alignment where DNA alphabet is replaced by RNA alphabet (T -&gt; U) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="197" column="1" declfile="ViennaRNA/utils/alignments.h" declline="197" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1ga31d79a1b1eb8bc5673303efc18461091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char **</type>
+        <definition>char ** vrna_aln_copy</definition>
+        <argsstring>(const char **alignment, unsigned int options)</argsstring>
+        <name>vrna_aln_copy</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Make a copy of a multiple sequence alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows one to create a copy of a multiple sequence alignment. The <computeroutput>options</computeroutput> parameter additionally allows for sequence manipulation, such as converting DNA to RNA alphabet, and conversion to uppercase letters.</para>
+<para><simplesect kind="see"><para><ref refid="group__aln__utils_1ga31d79a1b1eb8bc5673303efc18461091" kindref="member">vrna_aln_copy()</ref>, <ref refid="group__aln__utils_1ga1a2aa60bcc51dc8e48c07bf146bd28c1" kindref="member">VRNA_ALN_RNA</ref>, <ref refid="group__aln__utils_1ga0de72fc917d72acafe862750a3a5e0bc" kindref="member">VRNA_ALN_UPPERCASE</ref>, <ref refid="group__aln__utils_1ga7437bcbc3142b266f1f3b086eb669092" kindref="member">VRNA_ALN_DEFAULT</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input sequence alignment (last entry must be <emphasis>NULL</emphasis> terminated) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option flags indicating whether the aligned sequences should be converted </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A (manipulated) copy of the input alignment </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="214" column="1" declfile="ViennaRNA/utils/alignments.h" declline="214" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1gab6f16a2ea93f3bfd4d089cc8d448bb16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float *</type>
+        <definition>float * vrna_aln_conservation_struct</definition>
+        <argsstring>(const char **alignment, const char *structure, const vrna_md_t *md)</argsstring>
+        <name>vrna_aln_conservation_struct</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> *</type>
+          <declname>md</declname>
+        </param>
+        <briefdescription>
+<para>Compute base pair conservation of a consensus structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function computes the base pair conservation (fraction of canonical base pairs) of a consensus structure given a multiple sequence alignment. The base pair types that are considered canonical may be specified using the <ref refid="structvrna__md__s_1ab4da594c638707e212f64aadb54a7454" kindref="member">vrna_md_t.pair</ref> array. Passing <emphasis>NULL</emphasis> as parameter <computeroutput>md</computeroutput> results in default pairing rules, i.e. canonical Watson-Crick and GU Wobble pairs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input sequence alignment (last entry must be <emphasis>NULL</emphasis> terminated) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The consensus structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>md</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model details that specify compatible base pairs (Maybe <emphasis>NULL</emphasis>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A 1-based vector of base pair conservations</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000001"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>aln_conservation_struct()</computeroutput> where the last parameter <computeroutput>md</computeroutput> may be omitted, indicating <computeroutput>md</computeroutput> = <computeroutput>NULL</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:func:`RNA.aln_conservation_struct()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="233" column="1" declfile="ViennaRNA/utils/alignments.h" declline="233" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1gaa12b481a7e7b965ef2eb1bcc4399e759" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float *</type>
+        <definition>float * vrna_aln_conservation_col</definition>
+        <argsstring>(const char **alignment, const vrna_md_t *md_p, unsigned int options)</argsstring>
+        <name>vrna_aln_conservation_col</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> *</type>
+          <declname>md_p</declname>
+          <defname>md</defname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Compute nucleotide conservation in an alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function computes the conservation of nucleotides in alignment columns. The simples measure is Shannon Entropy and can be selected by passing the <ref refid="group__aln__utils_1ga1e659227c9fc077d29989f576f129000" kindref="member">VRNA_MEASURE_SHANNON_ENTROPY</ref> flag in the <computeroutput>options</computeroutput> parameter.</para>
+<para><simplesect kind="note"><para>Currently, only <ref refid="group__aln__utils_1ga1e659227c9fc077d29989f576f129000" kindref="member">VRNA_MEASURE_SHANNON_ENTROPY</ref> is supported as conservation measure.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__aln__utils_1ga1e659227c9fc077d29989f576f129000" kindref="member">VRNA_MEASURE_SHANNON_ENTROPY</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input sequence alignment (last entry must be <emphasis>NULL</emphasis> terminated) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>md</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model details that specify known nucleotides (Maybe <emphasis>NULL</emphasis>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A flag indicating which measure of conservation should be applied </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A 1-based vector of column conservations</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000002"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>aln_conservation_col()</computeroutput> where the last two parameters may be omitted, indicating <computeroutput>md</computeroutput> = <computeroutput>NULL</computeroutput>, and <computeroutput>options</computeroutput> = <ref refid="group__aln__utils_1ga1e659227c9fc077d29989f576f129000" kindref="member">VRNA_MEASURE_SHANNON_ENTROPY</ref>, respectively. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.aln_conservation_col()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="256" column="1" declfile="ViennaRNA/utils/alignments.h" declline="256" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1gac6a33fa856d66dcb6f5d40ce0b61d7c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_aln_consensus_sequence</definition>
+        <argsstring>(const char **alignment, const vrna_md_t *md_p)</argsstring>
+        <name>vrna_aln_consensus_sequence</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> *</type>
+          <declname>md_p</declname>
+        </param>
+        <briefdescription>
+<para>Compute the consensus sequence for a given multiple sequence alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input sequence alignment (last entry must be <emphasis>NULL</emphasis> terminated) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>md_p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model details that specify known nucleotides (Maybe <emphasis>NULL</emphasis>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The consensus sequence of the alignment, i.e. the most frequent nucleotide for each alignment column</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000003"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>aln_consensus_sequence()</computeroutput> where the last parameter may be omitted, indicating <computeroutput>md</computeroutput> = <computeroutput>NULL</computeroutput>. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.aln_consensus_sequence()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="269" column="1" declfile="ViennaRNA/utils/alignments.h" declline="269" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__aln__utils_1gacd02c66d9e6f8dd5318f4fca0dc76cba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_aln_consensus_mis</definition>
+        <argsstring>(const char **alignment, const vrna_md_t *md_p)</argsstring>
+        <name>vrna_aln_consensus_mis</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> *</type>
+          <declname>md_p</declname>
+        </param>
+        <briefdescription>
+<para>Compute the Most Informative Sequence (MIS) for a given multiple sequence alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The most informative sequence (MIS)  <verbatim>embed:rst:inline :cite:p:`freyhult:2005` </verbatim> displays for each alignment column the nucleotides with frequency greater than the background frequency, projected into IUPAC notation. Columns where gaps are over-represented are in lower case.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input sequence alignment (last entry must be <emphasis>NULL</emphasis> terminated) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>md_p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model details that specify known nucleotides (Maybe <emphasis>NULL</emphasis>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The most informative sequence for the alignment</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000004"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>aln_consensus_mis()</computeroutput> where the last parameter may be omitted, indicating <computeroutput>md</computeroutput> = <computeroutput>NULL</computeroutput>. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.aln_consensus_mis()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="284" column="1" declfile="ViennaRNA/utils/alignments.h" declline="284" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__aln__utils_1ga7437bcbc3142b266f1f3b086eb669092" prot="public" static="no">
+        <name>VRNA_ALN_DEFAULT</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+<para>Use default alignment settings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="34" column="9" bodyfile="ViennaRNA/utils/alignments.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__aln__utils_1ga1a2aa60bcc51dc8e48c07bf146bd28c1" prot="public" static="no">
+        <name>VRNA_ALN_RNA</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+<para>Convert to RNA alphabet. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="40" column="9" bodyfile="ViennaRNA/utils/alignments.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__aln__utils_1ga36affc310a5adedf1bdbf9669dd4bf85" prot="public" static="no">
+        <name>VRNA_ALN_DNA</name>
+        <initializer>2U</initializer>
+        <briefdescription>
+<para>Convert to DNA alphabet. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="46" column="9" bodyfile="ViennaRNA/utils/alignments.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__aln__utils_1ga0de72fc917d72acafe862750a3a5e0bc" prot="public" static="no">
+        <name>VRNA_ALN_UPPERCASE</name>
+        <initializer>4U</initializer>
+        <briefdescription>
+<para>Convert to uppercase nucleotide letters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="52" column="9" bodyfile="ViennaRNA/utils/alignments.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__aln__utils_1ga27eb303be3c8368c9e8be76a4d6ca35e" prot="public" static="no">
+        <name>VRNA_ALN_LOWERCASE</name>
+        <initializer>8U</initializer>
+        <briefdescription>
+<para>Convert to lowercase nucleotide letters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="58" column="9" bodyfile="ViennaRNA/utils/alignments.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__aln__utils_1ga1e659227c9fc077d29989f576f129000" prot="public" static="no">
+        <name>VRNA_MEASURE_SHANNON_ENTROPY</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+<para>Flag indicating Shannon Entropy measure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shannon Entropy is defined as <formula id="137">$ H = - \sum_c p_c \cdot \log_2 p_c $</formula> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/alignments.h" line="65" column="9" bodyfile="ViennaRNA/utils/alignments.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

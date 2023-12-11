@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__paths" kind="group">
+    <compoundname>paths</compoundname>
+    <title>(Re-)folding Paths, Saddle Points, Energy Barriers, and Local Minima</title>
+    <innerfile refid="landscape_2findpath_8h">findpath.h</innerfile>
+    <innerfile refid="paths_8h">paths.h</innerfile>
+    <innerfile refid="landscape_2walk_8h">walk.h</innerfile>
+    <innerclass refid="structvrna__path__s" prot="public">vrna_path_s</innerclass>
+    <innergroup refid="group__paths__direct">Direct Refolding Paths between two Secondary Structures</innergroup>
+    <innergroup refid="group__paths__walk">Folding Paths that start at a single Secondary Structure</innergroup>
+    <innergroup refid="group__paths__deprecated">Deprecated Interface for (Re-)folding Paths, Saddle Points, and Energy Barriers</innergroup>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__paths_1ga818d4f3d1cf8723d6905990b08d909fe" prot="public" static="no">
+        <type>struct <ref refid="structvrna__path__s" kindref="compound">vrna_path_s</ref></type>
+        <definition>typedef struct vrna_path_s vrna_path_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_path_t</name>
+        <briefdescription>
+<para>Typename for the refolding path data structure <ref refid="structvrna__path__s" kindref="compound">vrna_path_s</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="30" column="26" bodyfile="ViennaRNA/landscape/paths.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__paths_1gaa99d8ec48f64de53eda0d51b1ed0d3d1" prot="public" static="no">
+        <type>struct vrna_path_options_s *</type>
+        <definition>typedef struct vrna_path_options_s* vrna_path_options_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_path_options_t</name>
+        <briefdescription>
+<para>Options data structure for (re-)folding path implementations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="37" column="34" bodyfile="ViennaRNA/landscape/paths.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__paths_1ga3763dc16760d09277a1b1c3f3061d0c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_path_free</definition>
+        <argsstring>(vrna_path_t *path)</argsstring>
+        <name>vrna_path_free</name>
+        <param>
+          <type><ref refid="group__paths_1ga818d4f3d1cf8723d6905990b08d909fe" kindref="member">vrna_path_t</ref> *</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Release (free) memory occupied by a (re-)folding path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8" kindref="member">vrna_path_direct()</ref>, <ref refid="group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0" kindref="member">vrna_path_direct_ub()</ref>, <ref refid="group__paths__direct_1ga2fed8ff126f5becd82cedd81a25c9bf0" kindref="member">vrna_path_findpath()</ref>, <ref refid="group__paths__direct_1gad00765c2f269fddfa319310af22d4f67" kindref="member">vrna_path_findpath_ub()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The refolding path to be free&apos;d </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="123" column="1" declfile="ViennaRNA/landscape/paths.h" declline="123" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__paths_1gaa64a86b13cb165346a0d0c788781512a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_path_options_free</definition>
+        <argsstring>(vrna_path_options_t options)</argsstring>
+        <name>vrna_path_options_free</name>
+        <param>
+          <type><ref refid="group__paths_1gaa99d8ec48f64de53eda0d51b1ed0d3d1" kindref="member">vrna_path_options_t</ref></type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Release (free) memory occupied by an options data structure for (re-)folding path implementations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__paths__direct_1ga3790a24ca64d68acfa6e67b525151a5f" kindref="member">vrna_path_options_findpath()</ref>, <ref refid="group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8" kindref="member">vrna_path_direct()</ref>, <ref refid="group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0" kindref="member">vrna_path_direct_ub()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options data structure to be free&apos;d </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="134" column="1" declfile="ViennaRNA/landscape/paths.h" declline="134" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__paths_1ga3e964156b52440b65fae5e2a48750d8e" prot="public" static="no">
+        <name>VRNA_PATH_TYPE_DOT_BRACKET</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+<para>Flag to indicate producing a (re-)folding path as list of dot-bracket structures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__paths_1ga818d4f3d1cf8723d6905990b08d909fe" kindref="member">vrna_path_t</ref>, <ref refid="group__paths__direct_1ga3790a24ca64d68acfa6e67b525151a5f" kindref="member">vrna_path_options_findpath()</ref>, <ref refid="group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8" kindref="member">vrna_path_direct()</ref>, <ref refid="group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0" kindref="member">vrna_path_direct_ub()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="60" column="11" bodyfile="ViennaRNA/landscape/paths.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__paths_1gaa73703da105dc6c98957fb8247c93f1f" prot="public" static="no">
+        <name>VRNA_PATH_TYPE_MOVES</name>
+        <initializer>2U</initializer>
+        <briefdescription>
+<para>Flag to indicate producing a (re-)folding path as list of transition moves. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__paths_1ga818d4f3d1cf8723d6905990b08d909fe" kindref="member">vrna_path_t</ref>, <ref refid="group__paths__direct_1ga3790a24ca64d68acfa6e67b525151a5f" kindref="member">vrna_path_options_findpath()</ref>, <ref refid="group__paths__direct_1gacba096caf9a6fe134f33a5afcf2248d8" kindref="member">vrna_path_direct()</ref>, <ref refid="group__paths__direct_1ga51d9edaeb42d1d178ea8ba46ccd4c8c0" kindref="member">vrna_path_direct_ub()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="67" column="11" bodyfile="ViennaRNA/landscape/paths.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

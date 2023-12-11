@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="lists_8h" kind="file" language="C++">
+    <compoundname>lists.h</compoundname>
+    <innerclass refid="structLST__BUCKET" prot="public">LST_BUCKET</innerclass>
+    <innerclass refid="structLIST" prot="public">LIST</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="lists_8h_1afa0ed3caf340356f998c2b423c70aaf5" prot="public" static="no">
+        <name>LST_USERSPACE</name>
+        <param><defname>h</defname></param>
+        <initializer>((void*)((<ref refid="structLST__BUCKET" kindref="compound">LST_BUCKET</ref>*)(h) + 1))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="33" column="9" bodyfile="ViennaRNA/datastructures/lists.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="lists_8h_1a2b8669ee24fcc11aa38d905d785885f0" prot="public" static="no">
+        <name>LST_HEADER</name>
+        <param><defname>n</defname></param>
+        <initializer>((<ref refid="structLST__BUCKET" kindref="compound">LST_BUCKET</ref>*)(n) - 1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="39" column="9" bodyfile="ViennaRNA/datastructures/lists.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="lists_8h_1a473ecda671eefc9d9290a309b862da16" prot="public" static="no">
+        <name>LST_HEAD</name>
+        <param><defname>l</defname></param>
+        <initializer>LST_USERSPACE((l)-&gt;head)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="46" column="9" bodyfile="ViennaRNA/datastructures/lists.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="lists_8h_1acc2784b91b05aec10df145d2db4a7f1b" prot="public" static="no">
+        <name>LST_EMPTY</name>
+        <param><defname>l</defname></param>
+        <initializer>((l)-&gt;count == 0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="51" column="9" bodyfile="ViennaRNA/datastructures/lists.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="lists_8h_1a412c937bcb8d5a8f0aabf7dc7d960d33" prot="public" static="no">
+        <type>struct <ref refid="structLST__BUCKET" kindref="compound">LST_BUCKET</ref></type>
+        <definition>typedef struct LST_BUCKET LST_BUCKET</definition>
+        <argsstring></argsstring>
+        <name>LST_BUCKET</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="19" column="11"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="lists_8h_1a74760c96716cbe5068b695e8ea7417fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * lst_newnode</definition>
+        <argsstring>(int size)</argsstring>
+        <name>lst_newnode</name>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="55" column="7" declfile="ViennaRNA/datastructures/lists.h" declline="55" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="lists_8h_1a4de356cd9d557fd127203b24de47527e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void lst_freenode</definition>
+        <argsstring>(void *node)</argsstring>
+        <name>lst_freenode</name>
+        <param>
+          <type>void *</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="56" column="6" declfile="ViennaRNA/datastructures/lists.h" declline="56" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="lists_8h_1a5fb9f4613d0dbe8b0a4188521e87f4fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structLIST" kindref="compound">LIST</ref> *</type>
+        <definition>LIST * lst_init</definition>
+        <argsstring>(void)</argsstring>
+        <name>lst_init</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="57" column="8" declfile="ViennaRNA/datastructures/lists.h" declline="57" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="lists_8h_1ad6eb17559c9aa69728cb80611fb41f5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void lst_kill</definition>
+        <argsstring>(LIST *l, void(*freeNode)())</argsstring>
+        <name>lst_kill</name>
+        <param>
+          <type><ref refid="structLIST" kindref="compound">LIST</ref> *</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>void(*)()</type>
+          <declname>freeNode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="58" column="6" declfile="ViennaRNA/datastructures/lists.h" declline="58" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="lists_8h_1a93a0cbcdcb3734b9c6a60ca13dc49640" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void lst_insertafter</definition>
+        <argsstring>(LIST *l, void *node, void *after)</argsstring>
+        <name>lst_insertafter</name>
+        <param>
+          <type><ref refid="structLIST" kindref="compound">LIST</ref> *</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>after</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="59" column="6" declfile="ViennaRNA/datastructures/lists.h" declline="59" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="lists_8h_1ac71f82732524c8aac13fcd0820de1709" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * lst_deletenext</definition>
+        <argsstring>(LIST *l, void *node)</argsstring>
+        <name>lst_deletenext</name>
+        <param>
+          <type><ref refid="structLIST" kindref="compound">LIST</ref> *</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="60" column="6" declfile="ViennaRNA/datastructures/lists.h" declline="60" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="lists_8h_1ab02cfe75ca0aa06e604a1a25b7412d1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * lst_first</definition>
+        <argsstring>(LIST *l)</argsstring>
+        <name>lst_first</name>
+        <param>
+          <type><ref refid="structLIST" kindref="compound">LIST</ref> *</type>
+          <declname>l</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="61" column="7" declfile="ViennaRNA/datastructures/lists.h" declline="61" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="lists_8h_1a93677b0192a39378999d699c8885701d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * lst_next</definition>
+        <argsstring>(void *prev)</argsstring>
+        <name>lst_next</name>
+        <param>
+          <type>void *</type>
+          <declname>prev</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="62" column="7" declfile="ViennaRNA/datastructures/lists.h" declline="62" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="lists_8h_1adc9ea2075dc9f93a979f1a1b830ba181" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void lst_mergesort</definition>
+        <argsstring>(LIST *l, int(*cmp_func)())</argsstring>
+        <name>lst_mergesort</name>
+        <param>
+          <type><ref refid="structLIST" kindref="compound">LIST</ref> *</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>int(*)()</type>
+          <declname>cmp_func</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/lists.h" line="63" column="6" declfile="ViennaRNA/datastructures/lists.h" declline="63" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/><sp/>$Log:<sp/>lists.h,v<sp/>$</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/><sp/>Revision<sp/>1.2<sp/><sp/>2000/10/10<sp/>08:50:01<sp/><sp/>ivo</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/><sp/>some<sp/>annotation<sp/>for<sp/>lclint</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"></highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/><sp/>Revision<sp/>1.1<sp/><sp/>1997/08/04<sp/>21:05:32<sp/><sp/>walter</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/><sp/>Initial<sp/>revision</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"></highlight></codeline>
+<codeline lineno="9"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__LIST_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__LIST_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">/*----------------------<sp/>Macros<sp/>and<sp/>type<sp/>definitions<sp/>----------------------*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="structLST__BUCKET" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structLST__BUCKET" kindref="compound">LST_BUCKET</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structLST__BUCKET" kindref="compound">LST_BUCKET</ref><sp/>*next;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="structLST__BUCKET" kindref="compound">LST_BUCKET</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="structLIST" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Number<sp/>of<sp/>elements<sp/>currently<sp/>in<sp/>list<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><ref refid="structLST__BUCKET" kindref="compound">LST_BUCKET</ref><sp/>*head;<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Pointer<sp/>to<sp/>head<sp/>element<sp/>of<sp/>list<sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><ref refid="structLST__BUCKET" kindref="compound">LST_BUCKET</ref><sp/>*z;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Pointer<sp/>to<sp/>last<sp/>node<sp/>of<sp/>list<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><ref refid="structLST__BUCKET" kindref="compound">LST_BUCKET</ref><sp/>hz[2];<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Space<sp/>for<sp/>head<sp/>and<sp/>z<sp/>nodes<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="structLIST" kindref="compound">LIST</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Return<sp/>a<sp/>pointer<sp/>to<sp/>the<sp/>user<sp/>space<sp/>given<sp/>the<sp/>address<sp/>of<sp/>the<sp/>header<sp/>of</highlight></codeline>
+<codeline lineno="30"><highlight class="comment"><sp/>*<sp/>a<sp/>node.</highlight></codeline>
+<codeline lineno="31"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>LST_USERSPACE(h)<sp/><sp/>((void*)((LST_BUCKET*)(h)<sp/>+<sp/>1))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Return<sp/>a<sp/>pointer<sp/>to<sp/>the<sp/>header<sp/>of<sp/>a<sp/>node,<sp/>given<sp/>the<sp/>address<sp/>of<sp/>the</highlight></codeline>
+<codeline lineno="36"><highlight class="comment"><sp/>*<sp/>user<sp/>space.</highlight></codeline>
+<codeline lineno="37"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>LST_HEADER(n)<sp/><sp/><sp/>((LST_BUCKET*)(n)<sp/>-<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Return<sp/>a<sp/>pointer<sp/>to<sp/>the<sp/>user<sp/>space<sp/>of<sp/>the<sp/>list&apos;s<sp/>head<sp/>node.<sp/>This<sp/>user</highlight></codeline>
+<codeline lineno="42"><highlight class="comment"><sp/>*<sp/>space<sp/>does<sp/>not<sp/>actually<sp/>exist,<sp/>but<sp/>it<sp/>is<sp/>useful<sp/>to<sp/>be<sp/>able<sp/>to<sp/>address</highlight></codeline>
+<codeline lineno="43"><highlight class="comment"><sp/>*<sp/>it<sp/>to<sp/>enable<sp/>insertion<sp/>at<sp/>the<sp/>start<sp/>of<sp/>the<sp/>list.</highlight></codeline>
+<codeline lineno="44"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>LST_HEAD(l)<sp/><sp/><sp/>LST_USERSPACE((l)-&gt;head)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Determine<sp/>if<sp/>a<sp/>list<sp/>is<sp/>empty</highlight></codeline>
+<codeline lineno="49"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>LST_EMPTY(l)<sp/><sp/><sp/><sp/>((l)-&gt;count<sp/>==<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">/*--------------------------<sp/>Function<sp/>Prototypes<sp/>--------------------------*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">/*@only@*/</highlight><highlight class="comment">/*@out@*/</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*lst_newnode<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>lst_freenode<sp/>(</highlight><highlight class="comment">/*@only@*/</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="structnode" kindref="compound">node</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">/*@only@*/</highlight><highlight class="comment">/*@out@*/</highlight><highlight class="normal"><sp/><sp/><ref refid="structLIST" kindref="compound">LIST</ref><sp/>*lst_init<sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>lst_kill<sp/>(<ref refid="structLIST" kindref="compound">LIST</ref><sp/>*<sp/>l,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>(*freeNode)<sp/>());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>lst_insertafter<sp/>(<ref refid="structLIST" kindref="compound">LIST</ref><sp/>*<sp/>l,<sp/></highlight><highlight class="comment">/*@keep@*/</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="structnode" kindref="compound">node</ref>,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*after);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*lst_deletenext<sp/>(</highlight><highlight class="comment">/*@only@*/</highlight><highlight class="normal"><sp/><ref refid="structLIST" kindref="compound">LIST</ref><sp/>*<sp/>l,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="structnode" kindref="compound">node</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">/*@dependent@*/</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*lst_first<sp/>(<ref refid="structLIST" kindref="compound">LIST</ref><sp/>*<sp/>l);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">/*@dependent@*/</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*lst_next<sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*prev);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>lst_mergesort<sp/>(<ref refid="structLIST" kindref="compound">LIST</ref><sp/>*<sp/>l,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>(*cmp_func)<sp/>());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="ViennaRNA/datastructures/lists.h"/>
+  </compounddef>
+</doxygen>

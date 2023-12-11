@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The RNA Folding Grammar &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5248d183"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Fine-tuning of the Implemented Models" href="grammar/model_details.html" />
+    <link rel="prev" title="Deprecated Interface for Free Energy Evaluation" href="eval/eval_deprecated.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The RNA Folding Grammar</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="grammar/model_details.html">Fine-tuning of the Implemented Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grammar/domains_up.html">Unstructured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grammar/domains_struc.html">Structured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grammar/constraints.html">Secondary Structure Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#secondary-structure-folding-recurrences">Secondary Structure Folding Recurrences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-structural-domains">Additional Structural Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#structured-domains">Structured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unstructured-domains">Unstructured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#domain-extension-api">Domain Extension API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constraints-on-the-folding-grammar">Constraints on the Folding Grammar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hard-constraints-api">Hard Constraints API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#soft-constraints-api">Soft Constraints API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">Concepts and Algorithms</a></li>
+      <li class="breadcrumb-item active">The RNA Folding Grammar</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-rna-folding-grammar">
+<h1>The RNA Folding Grammar<a class="headerlink" href="#the-rna-folding-grammar" title="Link to this heading"></a></h1>
+<p>The RNA folding grammar as implemented in RNAlib</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Specialized Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grammar/model_details.html">Fine-tuning of the Implemented Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grammar/domains_up.html">Unstructured Domains</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grammar/domains_struc.html">Structured Domains</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grammar/constraints.html">Secondary Structure Constraints</a></li>
+</ul>
+</div>
+<section id="secondary-structure-folding-recurrences">
+<h2>Secondary Structure Folding Recurrences<a class="headerlink" href="#secondary-structure-folding-recurrences" title="Link to this heading"></a></h2>
+<p>To predict secondary structures composed of the four distinguished loop types
+introduced before, all algorithms implemented in <em>RNAlib</em> follow a specific
+recursive decomposition scheme, also known as the <em>RNA folding grammar</em>, or
+<em>Secondary Structure Folding Recurrences</em>.</p>
+<img alt="_images/recursions.png" src="_images/recursions.png" />
+<p>However, compared to other RNA secondary structure prediction libraries, our
+implementation allows for a fine-grained control of the above recursions by
+constraining both, the individual derivations of the grammar as well as the
+evaluation of particular loop contributions. Furthermore, we provide a mechanism
+to extend the above grammar with additional derivation rules, so-called
+<em>Domains</em>.</p>
+</section>
+<section id="additional-structural-domains">
+<h2>Additional Structural Domains<a class="headerlink" href="#additional-structural-domains" title="Link to this heading"></a></h2>
+<p>Some applications of RNA secondary structure prediction require an extension
+of the <em>regular RNA folding grammar</em>. For instance one would like to include
+proteins and other ligands binding to unpaired loop regions while competing
+with conventional base pairing. Another application could be that one may
+want to include the formation of self-enclosed structural modules, such as
+<em>G-quadruplexes</em>. For such applications, we provide a pair of additional domains
+that extend the regular RNA folding grammar, <a class="reference internal" href="grammar/domains_struc.html"><span class="doc">Structured Domains</span></a> and
+<a class="reference internal" href="grammar/domains_up.html"><span class="doc">Unstructured Domains</span></a>.</p>
+<img alt="_images/GCrecursion.png" src="_images/GCrecursion.png" />
+<p>While unstructured domains are usually determined by a more or less precise
+sequence motif, e.g. the binding site for a protein, structured domains are
+considered self-enclosed modules with a more or less complex pairing pattern.
+Our extension with these two domains introduces two production rules to fill
+additional dynamic processing matrices <code class="docutils literal notranslate"><span class="pre">S</span></code> and <code class="docutils literal notranslate"><span class="pre">U</span></code> where we store the
+pre-computed contributions of structured domains (<code class="docutils literal notranslate"><span class="pre">S</span></code>), and unstructured
+domains (<code class="docutils literal notranslate"><span class="pre">U</span></code>).</p>
+</section>
+<section id="structured-domains">
+<h2>Structured Domains<a class="headerlink" href="#structured-domains" title="Link to this heading"></a></h2>
+<p>Usually, structured domains represent self-enclosed structural modules that
+exhibit a more or less complex base pairing pattern. This can be more or less
+well-defined 3D motifs, such as <em>G-Quadruplexes</em>, or loops with additional
+non-canonical base pair interactions, such as <em>kink-turns</em>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently, our implementation only provides the specialized case of <em>G-Quadruplexes</em>.</p>
+</div>
+</section>
+<section id="unstructured-domains">
+<h2>Unstructured Domains<a class="headerlink" href="#unstructured-domains" title="Link to this heading"></a></h2>
+<p>Unstructured domains appear in the production rules of the RNA folding grammar
+wherever new unpaired nucleotides are attached to a growing substructure
+(see also <span id="id1">Lorenz <em>et al.</em> [<a class="reference internal" href="bibliography.html#id34" title="Ronny Lorenz, Ivo L. Hofacker, and Peter F. Stadler. RNA folding with hard and soft constraints. Algorithms for Molecular Biology, 11(1):1–13, 2016. doi:10.1186/s13015-016-0070-z.">2016</a>]</span>):</p>
+<img alt="_images/Crecursion.png" src="_images/Crecursion.png" />
+<p>The white boxes represent the stretch of RNA bound to the ligand and represented by a more or less specific
+sequence motif. The motif itself is considered unable to form base pairs. The additional production rule <code class="docutils literal notranslate"><span class="pre">U</span></code>
+is used to precompute the contribution of unpaired stretches possibly bound by one or more ligands. The
+auxiliary DP matrix for this production rule is filled right before processing the other (regular) production
+rules of the RNA folding grammar.</p>
+</section>
+<section id="domain-extension-api">
+<h2>Domain Extension API<a class="headerlink" href="#domain-extension-api" title="Link to this heading"></a></h2>
+<p>For the sake of flexibility, each of the domains is associated with a specific
+data structure serving as an abstract interface to the extension. The interface
+uses callback functions to</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>pre-compute arbitrary data, e.g. filling up additional dynamic programming matrices, and</p></li>
+<li><p>evaluate the contribution of a paired or unpaired structural feature of the RNA.</p></li>
+</ul>
+</div></blockquote>
+<p>Implementations of these callbacks are separate for regular free energy evaluation,
+e.g. MFE prediction, and partition function applications. A data structure holding
+arbitrary data required for the callback functions can be associated to the domain
+as well. While <em>RNAlib</em> comes with a default implementation for structured and
+unstructured domains, the system is entirely user-customizable.</p>
+<div class="admonition-see-also admonition">
+<p class="admonition-title">See also…</p>
+<p><a class="reference internal" href="grammar/domains_up.html"><span class="doc">Unstructured Domains</span></a>, <a class="reference internal" href="grammar/domains_struc.html"><span class="doc">Structured Domains</span></a>, <a class="reference internal" href="modules/gquads.html"><span class="doc">G-Quadruplexes</span></a>,
+<a class="reference internal" href="ligands/unstructured_domains.html"><span class="doc">Ligands Binding to Unstructured Domains</span></a></p>
+</div>
+</section>
+<section id="constraints-on-the-folding-grammar">
+<h2>Constraints on the Folding Grammar<a class="headerlink" href="#constraints-on-the-folding-grammar" title="Link to this heading"></a></h2>
+<p>Secondary Structure constraints can be subdivided into two groups:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Hard Constraints</p></li>
+<li><p>Soft Constraints</p></li>
+</ul>
+</div></blockquote>
+<p>While Hard-Constraints directly influence the production rules used in the folding
+recursions by allowing, disallowing, or enforcing certain decomposition steps,
+Soft-constraints on the other hand are used to change position specific contributions
+in the recursions by adding bonuses/penalties in form of pseudo free energies
+to certain loop configurations.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Secondary structure constraints are always applied at decomposition level, i.e.
+in each step of the recursive structure decomposition, for instance during MFE
+prediction.</p>
+</div>
+</section>
+<section id="hard-constraints-api">
+<h2>Hard Constraints API<a class="headerlink" href="#hard-constraints-api" title="Link to this heading"></a></h2>
+<p>Hard constraints as implemented in our library can be specified for individual loop
+types, i.e. the atomic derivations of the RNA folding grammar rules. Hence, the pairing
+behavior of both, single nucleotides and pairs of bases, can be constrained in every
+loop context separately. Additionally, an abstract implementation using a callback
+mechanism allows for full control of more complex hard constraints.</p>
+<div class="admonition-see-also admonition">
+<p class="admonition-title">See also…</p>
+<p><a class="reference internal" href="grammar/constraints/hard.html"><span class="doc">Hard Constraints</span></a></p>
+</div>
+</section>
+<section id="soft-constraints-api">
+<h2>Soft Constraints API<a class="headerlink" href="#soft-constraints-api" title="Link to this heading"></a></h2>
+<p>For the sake of memory efficiency, we do not implement a loop context aware version of
+soft constraints. The <em>static</em> soft constraints as implemented only distinguish unpaired
+from paired nucleotides. This is usually sufficient for most use-case scenarios.
+However, similar to hard constraints, an abstract soft constraints implementation using
+a callback mechanism exists, that allows for any soft constraint that is compatible with
+the RNA folding grammar. Thus, loop contexts and even individual derivation rules can
+be addressed separately for maximum flexibility in soft-constraints application.</p>
+<div class="admonition-see-also admonition">
+<p class="admonition-title">See also…</p>
+<p><a class="reference internal" href="grammar/constraints/soft.html"><span class="doc">Soft Constraints</span></a>, <a class="reference internal" href="ligands/constraints.html"><span class="doc">Incorporating Ligands Binding to Specific Sequence/Structure Motifs</span></a>, <a class="reference internal" href="probing/SHAPE.html"><span class="doc">SHAPE Reactivity Data</span></a></p>
+</div>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__grammar"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_grammar_rule_f">
+<span class="target" id="group__grammar_1ga22469f0c645b3cd8fcbd83ea19e4faf1"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_grammar_rule_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_grammar_rule_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_grammar_rule_f_aux">
+<span class="target" id="group__grammar_1ga37248eb6335ffa44a2c3be2d0c8922fe"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_grammar_rule_f_aux</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_grammar_rule_f_aux" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_grammar_rule_f_exp">
+<span class="target" id="group__grammar_1gab9d7806b2f5c71732c5b469779dc3e66"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><a class="reference internal" href="utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_grammar_rule_f_exp</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_grammar_rule_f_exp" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_grammar_rule_f_aux_exp">
+<span class="target" id="group__grammar_1ga62f21227c310e2d8b0f98039dcca18ab"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_grammar_rule_f_aux_exp</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_grammar_rule_f_aux_exp" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_grammar_cond_f">
+<span class="target" id="group__grammar_1gaffb8282d248b0ada9f3572edebd54c45"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_grammar_cond_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">stage</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_grammar_cond_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_grammar_data_free_f">
+<span class="target" id="group__grammar_1gafa8d5f651cb24aa56977cab1611dfd23"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_grammar_data_free_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_grammar_data_free_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em><p>Free auxiliary data. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Param data<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The auxiliary data to be free’d </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_t">
+<span class="target" id="group__grammar_1ga8825fbe6d7de2ff61c232cc7550a82cc"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_gr_aux_s" title="vrna_gr_aux_s"><span class="n"><span class="pre">vrna_gr_aux_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_aux_t</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_aux_f">
+<span class="target" id="group__grammar_1ga7b36eda8cef17f7b504ec9ed3d9630a6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_aux_f</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_grammar_rule_f" title="vrna_grammar_rule_f"><span class="n"><span class="pre">vrna_grammar_rule_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_aux_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_aux_exp_f">
+<span class="target" id="group__grammar_1gae3914daf3016e4e6253d49404bcb9a4d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_aux_exp_f</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_grammar_rule_f_exp" title="vrna_grammar_rule_f_exp"><span class="n"><span class="pre">vrna_grammar_rule_f_exp</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_aux_exp_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_aux_c">
+<span class="target" id="group__grammar_1gab131dceb536c039c34b64fa7d73c2635"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_aux_c</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_grammar_rule_f" title="vrna_grammar_rule_f"><span class="n"><span class="pre">vrna_grammar_rule_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_aux_c" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_aux_exp_c">
+<span class="target" id="group__grammar_1ga96a61499522b0272bb89e940ede0ac38"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_aux_exp_c</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_grammar_rule_f_exp" title="vrna_grammar_rule_f_exp"><span class="n"><span class="pre">vrna_grammar_rule_f_exp</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_aux_exp_c" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_aux_m">
+<span class="target" id="group__grammar_1ga0cbdb6a1439b63cbcd0eac458282b7fd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_aux_m</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_grammar_rule_f" title="vrna_grammar_rule_f"><span class="n"><span class="pre">vrna_grammar_rule_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_aux_m" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_aux_exp_m">
+<span class="target" id="group__grammar_1ga5764133d9eb48f979f3535bbbf5b5957"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_aux_exp_m</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_grammar_rule_f_exp" title="vrna_grammar_rule_f_exp"><span class="n"><span class="pre">vrna_grammar_rule_f_exp</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_aux_exp_m" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_aux_m1">
+<span class="target" id="group__grammar_1ga6d669c16d9a2506189152502b15b9900"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_aux_m1</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_grammar_rule_f" title="vrna_grammar_rule_f"><span class="n"><span class="pre">vrna_grammar_rule_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_aux_m1" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_aux_exp_m1">
+<span class="target" id="group__grammar_1gab3530502c6f0e273e179c46849f8fa8d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_aux_exp_m1</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_grammar_rule_f_exp" title="vrna_grammar_rule_f_exp"><span class="n"><span class="pre">vrna_grammar_rule_f_exp</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_aux_exp_m1" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_aux">
+<span class="target" id="group__grammar_1ga624bca09cd3e54ae2ee843b7b62cc57c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_aux</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_grammar_rule_f_aux" title="vrna_grammar_rule_f_aux"><span class="n"><span class="pre">vrna_grammar_rule_f_aux</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_aux" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_aux_exp">
+<span class="target" id="group__grammar_1ga92e7bd3934feb5c7a469422296c38c26"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_aux_exp</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_grammar_rule_f_aux_exp" title="vrna_grammar_rule_f_aux_exp"><span class="n"><span class="pre">vrna_grammar_rule_f_aux_exp</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_aux_exp" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_data">
+<span class="target" id="group__grammar_1gae4c0a6965f449f57daafc41cdfd2c168"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_data</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <a class="reference internal" href="#c.vrna_grammar_data_free_f" title="vrna_grammar_data_free_f"><span class="n"><span class="pre">vrna_grammar_data_free_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">free_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_data" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_set_cond">
+<span class="target" id="group__grammar_1gac1097ce387e5ec1448a83567e3711d53"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_set_cond</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_grammar_cond_f" title="vrna_grammar_cond_f"><span class="n"><span class="pre">vrna_grammar_cond_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_set_cond" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_gr_reset">
+<span class="target" id="group__grammar_1ga8b4469ac709dca233690e2b4b56ba9bd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_reset</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_gr_reset" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/grammar.h&gt;</em></dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s">
+<span class="target" id="structvrna__gr__aux__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_gr_aux_s</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.cb_proc">
+<span class="target" id="structvrna__gr__aux__s_1ad0507240897528184f8adb685616d724"></span><a class="reference internal" href="#c.vrna_grammar_cond_f" title="vrna_grammar_cond_f"><span class="n"><span class="pre">vrna_grammar_cond_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_proc</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.cb_proc" title="Link to this definition"></a><br /></dt>
+<dd><p>A callback for pre- and post-processing of auxiliary grammar rules. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.cb_aux_f">
+<span class="target" id="structvrna__gr__aux__s_1a5185e68492b69f48edbb3e34be790623"></span><a class="reference internal" href="#c.vrna_grammar_rule_f" title="vrna_grammar_rule_f"><span class="n"><span class="pre">vrna_grammar_rule_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_aux_f</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.cb_aux_f" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.cb_aux_c">
+<span class="target" id="structvrna__gr__aux__s_1aa3528f71d486db5b2f1f8c813c7dec92"></span><a class="reference internal" href="#c.vrna_grammar_rule_f" title="vrna_grammar_rule_f"><span class="n"><span class="pre">vrna_grammar_rule_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_aux_c</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.cb_aux_c" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.cb_aux_m">
+<span class="target" id="structvrna__gr__aux__s_1a73a544d31f518ca8503111c19dc06cc1"></span><a class="reference internal" href="#c.vrna_grammar_rule_f" title="vrna_grammar_rule_f"><span class="n"><span class="pre">vrna_grammar_rule_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_aux_m</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.cb_aux_m" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.cb_aux_m1">
+<span class="target" id="structvrna__gr__aux__s_1a5b30bdd9d4874e7e490abc13b34b5a6d"></span><a class="reference internal" href="#c.vrna_grammar_rule_f" title="vrna_grammar_rule_f"><span class="n"><span class="pre">vrna_grammar_rule_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_aux_m1</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.cb_aux_m1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.cb_aux">
+<span class="target" id="structvrna__gr__aux__s_1a6b585175d3485b6ac73dcdd338c2c31e"></span><a class="reference internal" href="#c.vrna_grammar_rule_f_aux" title="vrna_grammar_rule_f_aux"><span class="n"><span class="pre">vrna_grammar_rule_f_aux</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_aux</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.cb_aux" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.cb_aux_exp_f">
+<span class="target" id="structvrna__gr__aux__s_1a4bd6f5885ad31603604623d7a6cf2846"></span><a class="reference internal" href="#c.vrna_grammar_rule_f_exp" title="vrna_grammar_rule_f_exp"><span class="n"><span class="pre">vrna_grammar_rule_f_exp</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_aux_exp_f</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.cb_aux_exp_f" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.cb_aux_exp_c">
+<span class="target" id="structvrna__gr__aux__s_1a8417c637397fc2acbfbaab146a1eb101"></span><a class="reference internal" href="#c.vrna_grammar_rule_f_exp" title="vrna_grammar_rule_f_exp"><span class="n"><span class="pre">vrna_grammar_rule_f_exp</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_aux_exp_c</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.cb_aux_exp_c" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.cb_aux_exp_m">
+<span class="target" id="structvrna__gr__aux__s_1a6f586d3f29d79ef78061b1de328d9f33"></span><a class="reference internal" href="#c.vrna_grammar_rule_f_exp" title="vrna_grammar_rule_f_exp"><span class="n"><span class="pre">vrna_grammar_rule_f_exp</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_aux_exp_m</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.cb_aux_exp_m" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.cb_aux_exp_m1">
+<span class="target" id="structvrna__gr__aux__s_1adb9f3f41b760e8fde5f0470fa1c742e4"></span><a class="reference internal" href="#c.vrna_grammar_rule_f_exp" title="vrna_grammar_rule_f_exp"><span class="n"><span class="pre">vrna_grammar_rule_f_exp</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_aux_exp_m1</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.cb_aux_exp_m1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.cb_aux_exp">
+<span class="target" id="structvrna__gr__aux__s_1aec0449f84edfcc873776a6c029d5ab32"></span><a class="reference internal" href="#c.vrna_grammar_rule_f_aux_exp" title="vrna_grammar_rule_f_aux_exp"><span class="n"><span class="pre">vrna_grammar_rule_f_aux_exp</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_aux_exp</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.cb_aux_exp" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.data">
+<span class="target" id="structvrna__gr__aux__s_1a9de349b4ed9eb67049c096190787cc1f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.data" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_gr_aux_s.free_data">
+<span class="target" id="structvrna__gr__aux__s_1ac1b40d10a0b08900e1cea9222fc465d5"></span><a class="reference internal" href="#c.vrna_grammar_data_free_f" title="vrna_grammar_data_free_f"><span class="n"><span class="pre">vrna_grammar_data_free_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">free_data</span></span></span><a class="headerlink" href="#c.vrna_gr_aux_s.free_data" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="eval/eval_deprecated.html" class="btn btn-neutral float-left" title="Deprecated Interface for Free Energy Evaluation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="grammar/model_details.html" class="btn btn-neutral float-right" title="Fine-tuning of the Implemented Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

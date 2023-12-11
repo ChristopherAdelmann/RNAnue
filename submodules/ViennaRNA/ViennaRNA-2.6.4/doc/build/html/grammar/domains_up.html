@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unstructured Domains &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Structured Domains" href="domains_struc.html" />
+    <link rel="prev" title="Fine-tuning of the Implemented Models" href="model_details.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="model_details.html">Fine-tuning of the Implemented Models</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Unstructured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domains_struc.html">Structured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constraints.html">Secondary Structure Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#secondary-structure-folding-recurrences">Secondary Structure Folding Recurrences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#additional-structural-domains">Additional Structural Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#structured-domains">Structured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#unstructured-domains">Unstructured Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#domain-extension-api">Domain Extension API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#constraints-on-the-folding-grammar">Constraints on the Folding Grammar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#hard-constraints-api">Hard Constraints API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../grammar.html#soft-constraints-api">Soft Constraints API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../grammar.html">The RNA Folding Grammar</a></li>
+      <li class="breadcrumb-item active">Unstructured Domains</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="unstructured-domains">
+<h1>Unstructured Domains<a class="headerlink" href="#unstructured-domains" title="Link to this heading"></a></h1>
+<p>Add and modify unstructured domains to the RNA folding grammar.</p>
+<p>This module provides the tools to add and modify unstructured domains to the production rules of the RNA folding grammar.
+Usually this functionality is utilized for incorporating ligand binding to unpaired stretches of an RNA.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Although the additional production rule(s) for unstructured domains as descibed in <a class="reference internal" href="../grammar.html#unstructured-domains"><span class="std std-ref">Unstructured Domains</span></a>
+are always treated as <em>segments possibly bound to one or more ligands</em>, the current implementation requires
+that at least one ligand is bound. The default implementation already takes care of the required changes,
+however, upon using callback functions other than the default ones, one has to take care of this fact.
+Please also note, that this behavior might change in one of the next releases, such that the decomposition
+schemes as shown above comply with the actual implementation.</p>
+</div>
+<p>A default implementation allows one to readily use this feature by simply adding sequence motifs and corresponding
+binding free energies with the function <a class="reference internal" href="#c.vrna_ud_add_motif" title="vrna_ud_add_motif"><code class="xref c c-func docutils literal notranslate"><span class="pre">vrna_ud_add_motif()</span></code></a> (see also <a class="reference internal" href="../ligands/unstructured_domains.html"><span class="doc">Ligands Binding to Unstructured Domains</span></a>).</p>
+<p>The grammar extension is realized using a callback function that</p>
+<ul class="simple">
+<li><p>evaluates the binding free energy of a ligand to its target sequence segment (white boxes in the figures above), or</p></li>
+<li><p>returns the free energy of an unpaired stretch possibly bound by a ligand, stored in the additional <code class="docutils literal notranslate"><span class="pre">U</span></code> DP matrix.</p></li>
+</ul>
+<p>The callback is passed the segment positions, the loop context, and which of the two above mentioned
+evaluations are required. A second callback implements the pre-processing step that
+prepares the <code class="docutils literal notranslate"><span class="pre">U</span></code> DP matrix by evaluating all possible cases of the additional production rule.
+Both callbacks have a default implementation in <em>RNAlib</em>, but may be over-written by a
+user-implementation, making it fully user-customizable.</p>
+<p>For equilibrium probability computations, two additional callbacks exist. One to store/add and one to retrieve the
+probability of unstructured domains at particular positions. Our implementation already takes care of computing
+the probabilities, but users of the unstructured domain feature are required to provide a mechanism to efficiently
+store/add the corresponding values into some external data structure.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__domains__up"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_UNSTRUCTURED_DOMAIN_EXT_LOOP">
+<span class="target" id="group__domains__up_1gaac911374e86236a51bfd42e1f098eaba"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_UNSTRUCTURED_DOMAIN_EXT_LOOP</span></span></span><a class="headerlink" href="#c.VRNA_UNSTRUCTURED_DOMAIN_EXT_LOOP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Flag to indicate ligand bound to unpiared stretch in the exterior loop. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_UNSTRUCTURED_DOMAIN_HP_LOOP">
+<span class="target" id="group__domains__up_1ga23b610ea9564346c45cc1e2bbb62adf7"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_UNSTRUCTURED_DOMAIN_HP_LOOP</span></span></span><a class="headerlink" href="#c.VRNA_UNSTRUCTURED_DOMAIN_HP_LOOP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Flag to indicate ligand bound to unpaired stretch in a hairpin loop. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_UNSTRUCTURED_DOMAIN_INT_LOOP">
+<span class="target" id="group__domains__up_1gac4a0feccd9654c149203200248c2716b"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_UNSTRUCTURED_DOMAIN_INT_LOOP</span></span></span><a class="headerlink" href="#c.VRNA_UNSTRUCTURED_DOMAIN_INT_LOOP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Flag to indicate ligand bound to unpiared stretch in an interior loop. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_UNSTRUCTURED_DOMAIN_MB_LOOP">
+<span class="target" id="group__domains__up_1ga67b80796655e5227a4ed662bfbe398b0"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_UNSTRUCTURED_DOMAIN_MB_LOOP</span></span></span><a class="headerlink" href="#c.VRNA_UNSTRUCTURED_DOMAIN_MB_LOOP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Flag to indicate ligand bound to unpiared stretch in a multibranch loop. </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_UNSTRUCTURED_DOMAIN_MOTIF">
+<span class="target" id="group__domains__up_1gaab12b58d59be76446a9f76fad2fe624c"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_UNSTRUCTURED_DOMAIN_MOTIF</span></span></span><a class="headerlink" href="#c.VRNA_UNSTRUCTURED_DOMAIN_MOTIF" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Flag to indicate ligand binding without additional unbound nucleotides (motif-only) </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_UNSTRUCTURED_DOMAIN_ALL_LOOPS">
+<span class="target" id="group__domains__up_1ga3c6be4cce70f1af9e885788856101699"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_UNSTRUCTURED_DOMAIN_ALL_LOOPS</span></span></span><a class="headerlink" href="#c.VRNA_UNSTRUCTURED_DOMAIN_ALL_LOOPS" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Flag to indicate ligand bound to unpiared stretch in any loop (convenience macro) </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_ud_t">
+<span class="target" id="group__domains__up_1ga0009117b14d29143e8b18ab891f48c2d"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_unstructured_domain_s" title="vrna_unstructured_domain_s"><span class="n"><span class="pre">vrna_unstructured_domain_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_t</span></span></span><a class="headerlink" href="#c.vrna_ud_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Typename for the ligand binding extension data structure <a class="reference internal" href="#structvrna__unstructured__domain__s"><span class="std std-ref">vrna_unstructured_domain_s</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_ud_f">
+<span class="target" id="group__domains__up_1gaec7ac7d3800d3ddd42eced89b43038ea"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">loop_type</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_ud_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Callback to retrieve binding free energy of a ligand bound to an unpaired sequence segment. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../callbacks.html#callbacks_1_callbacks000008"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>This function will be called to determine the additional energy contribution of a specific unstructured domain, e.g. the binding free energy of some ligand. </p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param fc<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a></p>
+</dd>
+<dt class="field-even">Param i<span class="colon">:</span></dt>
+<dd class="field-even"><p>The start of the unstructured domain (5’ end) </p>
+</dd>
+<dt class="field-odd">Param j<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The end of the unstructured domain (3’ end) </p>
+</dd>
+<dt class="field-even">Param loop_type<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loop context of the unstructured domain </p>
+</dd>
+<dt class="field-odd">Param data<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Auxiliary data </p>
+</dd>
+<dt class="field-even">Return<span class="colon">:</span></dt>
+<dd class="field-even"><p>The auxiliary energy contribution in deka-cal/mol </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_ud_exp_f">
+<span class="target" id="group__domains__up_1ga2e9002a489309f2cf59379d8ca6d00f0"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_exp_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">loop_type</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_ud_exp_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Callback to retrieve Boltzmann factor of the binding free energy of a ligand bound to an unpaired sequence segment. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../callbacks.html#callbacks_1_callbacks000009"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>This function will be called to determine the additional energy contribution of a specific unstructured domain, e.g. the binding free energy of some ligand (Partition function variant, i.e. the Boltzmann factors instead of actual free energies). </p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param fc<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a></p>
+</dd>
+<dt class="field-even">Param i<span class="colon">:</span></dt>
+<dd class="field-even"><p>The start of the unstructured domain (5’ end) </p>
+</dd>
+<dt class="field-odd">Param j<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The end of the unstructured domain (3’ end) </p>
+</dd>
+<dt class="field-even">Param loop_type<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loop context of the unstructured domain </p>
+</dd>
+<dt class="field-odd">Param data<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Auxiliary data </p>
+</dd>
+<dt class="field-even">Return<span class="colon">:</span></dt>
+<dd class="field-even"><p>The auxiliary energy contribution as Boltzmann factor </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_ud_production_f">
+<span class="target" id="group__domains__up_1ga6da4dff321fdfaf9742efcd558fa327f"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_production_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_ud_production_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Callback for pre-processing the production rule of the ligand binding to unpaired stretches feature. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../callbacks.html#callbacks_1_callbacks000010"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>The production rule for the unstructured domain grammar extension </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_ud_exp_production_f">
+<span class="target" id="group__domains__up_1ga59dc10fdd4705c87aacaed15a8b1015d"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_exp_production_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_ud_exp_production_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Callback for pre-processing the production rule of the ligand binding to unpaired stretches feature (partition function variant) </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../callbacks.html#callbacks_1_callbacks000011"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>The production rule for the unstructured domain grammar extension (Partition function variant) </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_ud_add_probs_f">
+<span class="target" id="group__domains__up_1ga5ea006f39d44db3ae9481a748889a0a1"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_add_probs_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">loop_type</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="n"><span class="pre">exp_energy</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_ud_add_probs_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Callback to store/add equilibrium probability for a ligand bound to an unpaired sequence segment. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../callbacks.html#callbacks_1_callbacks000012"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>A callback function to store equilibrium probabilities for the unstructured domain feature </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_ud_get_probs_f">
+<span class="target" id="group__domains__up_1ga584c32828e8803a32de7c52bdad5c6bd"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_get_probs_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">loop_type</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">motif</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_ud_get_probs_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Callback to retrieve equilibrium probability for a ligand bound to an unpaired sequence segment. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../callbacks.html#callbacks_1_callbacks000013"><span class="std std-ref"><span class="pre">Notes</span> <span class="pre">on</span> <span class="pre">Callback</span> <span class="pre">Functions:</span></span></a></dt>
+<dd><p>A callback function to retrieve equilibrium probabilities for the unstructured domain feature </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ud_motifs_centroid">
+<span class="target" id="group__domains__up_1ga89440fa4f7b951ad9dcd6da567f37ea2"></span><span class="n"><span class="pre">vrna_ud_motif_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_motifs_centroid</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ud_motifs_centroid" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Detect unstructured domains in centroid structure. </p>
+<p>Given a centroid structure and a set of unstructured domains compute the list of unstructured domain motifs present in the centroid. Since we do not explicitly annotate unstructured domain motifs in dot-bracket strings, this function can be used to check for the presence and location of unstructured domain motifs under the assumption that the dot-bracket string is the centroid structure of the equiibrium ensemble.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../subopt/centroid.html#group__centroid__fold_1gac39e7be7392b2c72bd3a6a14612be5e2"><span class="std std-ref">vrna_centroid()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound data structure with pre-computed equilibrium probabilities and model settings </p></li>
+<li><p><strong>structure</strong> – The centroid structure in dot-bracket notation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of unstructured domain motifs (possibly NULL). The last element terminates the list with <code class="docutils literal notranslate"><span class="pre">start=0</span></code>, <code class="docutils literal notranslate"><span class="pre">number=-1</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ud_motifs_MEA">
+<span class="target" id="group__domains__up_1ga3694cf090ccb64f8398e0f4c786aad50"></span><span class="n"><span class="pre">vrna_ud_motif_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_motifs_MEA</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <a class="reference internal" href="../utils/struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">probability_list</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ud_motifs_MEA" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Detect unstructured domains in MEA structure. </p>
+<p>Given an MEA structure and a set of unstructured domains compute the list of unstructured domain motifs present in the MEA structure. Since we do not explicitly annotate unstructured domain motifs in dot-bracket strings, this function can be used to check for the presence and location of unstructured domain motifs under the assumption that the dot-bracket string is the MEA structure of the equiibrium ensemble.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../subopt/mea.html#group__mea__fold_1ga396ec6144c6a74fcbab4cea6b42d76c3"><span class="std std-ref">MEA()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound data structure with pre-computed equilibrium probabilities and model settings </p></li>
+<li><p><strong>structure</strong> – The MEA structure in dot-bracket notation </p></li>
+<li><p><strong>probability_list</strong> – The list of probabilities to extract the MEA structure from </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of unstructured domain motifs (possibly NULL). The last element terminates the list with <code class="docutils literal notranslate"><span class="pre">start=0</span></code>, <code class="docutils literal notranslate"><span class="pre">number=-1</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ud_motifs_MFE">
+<span class="target" id="group__domains__up_1ga46d6cfffebf89032019004a026c8f63c"></span><span class="n"><span class="pre">vrna_ud_motif_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_motifs_MFE</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ud_motifs_MFE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Detect unstructured domains in MFE structure. </p>
+<p>Given an MFE structure and a set of unstructured domains compute the list of unstructured domain motifs present in the MFE structure. Since we do not explicitly annotate unstructured domain motifs in dot-bracket strings, this function can be used to check for the presence and location of unstructured domain motifs under the assumption that the dot-bracket string is the MFE structure of the equiibrium ensemble.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../mfe/global.html#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound data structure with model settings </p></li>
+<li><p><strong>structure</strong> – The MFE structure in dot-bracket notation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of unstructured domain motifs (possibly NULL). The last element terminates the list with <code class="docutils literal notranslate"><span class="pre">start=0</span></code>, <code class="docutils literal notranslate"><span class="pre">number=-1</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ud_add_motif">
+<span class="target" id="group__domains__up_1gaf82f92ab38dd65169cce575fc5f52184"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_add_motif</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">motif</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">motif_en</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">motif_name</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">loop_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ud_add_motif" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Add an unstructured domain motif, e.g. for ligand binding. </p>
+<p>This function adds a ligand binding motif and the associated binding free energy to the <a class="reference internal" href="#group__domains__up_1ga0009117b14d29143e8b18ab891f48c2d"><span class="std std-ref">vrna_ud_t</span></a> attribute of a <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. The motif data will then be used in subsequent secondary structure predictions. Multiple calls to this function with different motifs append all additional data to a list of ligands, which all will be evaluated. Ligand motif data can be removed from the <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> again using the <a class="reference internal" href="#group__domains__up_1ga35f92cdc7a7b75a19c46df14b992d517"><span class="std std-ref">vrna_ud_remove()</span></a> function. The loop type parameter allows one to limit the ligand binding to particular loop type, such as the exterior loop, hairpin loops, interior loops, or multibranch loops.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__domains__up_1gaac911374e86236a51bfd42e1f098eaba"><span class="std std-ref">VRNA_UNSTRUCTURED_DOMAIN_EXT_LOOP</span></a>, <a class="reference internal" href="#group__domains__up_1ga23b610ea9564346c45cc1e2bbb62adf7"><span class="std std-ref">VRNA_UNSTRUCTURED_DOMAIN_HP_LOOP</span></a>, <a class="reference internal" href="#group__domains__up_1gac4a0feccd9654c149203200248c2716b"><span class="std std-ref">VRNA_UNSTRUCTURED_DOMAIN_INT_LOOP</span></a>, <a class="reference internal" href="#group__domains__up_1ga67b80796655e5227a4ed662bfbe398b0"><span class="std std-ref">VRNA_UNSTRUCTURED_DOMAIN_MB_LOOP</span></a>, <a class="reference internal" href="#group__domains__up_1ga3c6be4cce70f1af9e885788856101699"><span class="std std-ref">VRNA_UNSTRUCTURED_DOMAIN_ALL_LOOPS</span></a>, <a class="reference internal" href="#group__domains__up_1ga35f92cdc7a7b75a19c46df14b992d517"><span class="std std-ref">vrna_ud_remove()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> data structure the ligand motif should be bound to </p></li>
+<li><p><strong>motif</strong> – The sequence motif the ligand binds to </p></li>
+<li><p><strong>motif_en</strong> – The binding free energy of the ligand in kcal/mol </p></li>
+<li><p><strong>motif_name</strong> – The name/id of the motif (may be <code class="docutils literal notranslate"><span class="pre">NULL</span></code>) </p></li>
+<li><p><strong>loop_type</strong> – The loop type the ligand binds to </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ud_remove">
+<span class="target" id="group__domains__up_1ga35f92cdc7a7b75a19c46df14b992d517"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_remove</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ud_remove" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Remove ligand binding to unpaired stretches. </p>
+<p>This function removes all ligand motifs that were bound to a <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> using the <a class="reference internal" href="#group__domains__up_1gaf82f92ab38dd65169cce575fc5f52184"><span class="std std-ref">vrna_ud_add_motif()</span></a> function.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000102"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">ud_remove()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.ud_remove" title="RNA.fold_compound.ud_remove"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.ud_remove()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> data structure the ligand motif data should be removed from</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ud_set_data">
+<span class="target" id="group__domains__up_1gafb5dba76a97912e7b09174550015aa98"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_set_data</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_auxdata_free_f" title="vrna_auxdata_free_f"><span class="n"><span class="pre">vrna_auxdata_free_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">free_cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ud_set_data" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Attach an auxiliary data structure. </p>
+<p>This function binds an arbitrary, auxiliary data structure for user-implemented ligand binding. The optional callback <code class="docutils literal notranslate"><span class="pre">free_cb</span></code> will be passed the bound data structure whenever the <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> is removed from memory to avoid memory leaks.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000103"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">ud_set_data()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.ud_set_data" title="RNA.fold_compound.ud_set_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.ud_set_data()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__domains__up_1gaeaa09aa8b60bc87d3ad92d446cb1b8c0"><span class="std std-ref">vrna_ud_set_prod_rule_cb()</span></a>, <a class="reference internal" href="#group__domains__up_1ga6518ec8abbeb4126f7f990f21d93a95f"><span class="std std-ref">vrna_ud_set_exp_prod_rule_cb()</span></a>, <a class="reference internal" href="#group__domains__up_1ga35f92cdc7a7b75a19c46df14b992d517"><span class="std std-ref">vrna_ud_remove()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> data structure the auxiliary data structure should be bound to </p></li>
+<li><p><strong>data</strong> – A pointer to the auxiliary data structure </p></li>
+<li><p><strong>free_cb</strong> – A pointer to a callback function that free’s memory occupied by <code class="docutils literal notranslate"><span class="pre">data</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ud_set_prod_rule_cb">
+<span class="target" id="group__domains__up_1gaeaa09aa8b60bc87d3ad92d446cb1b8c0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_set_prod_rule_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_ud_production_f" title="vrna_ud_production_f"><span class="n"><span class="pre">vrna_ud_production_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">pre_cb</span></span>, <a class="reference internal" href="#c.vrna_ud_f" title="vrna_ud_f"><span class="n"><span class="pre">vrna_ud_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">e_cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ud_set_prod_rule_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Attach production rule callbacks for free energies computations. </p>
+<p>Use this function to bind a user-implemented grammar extension for unstructured domains.</p>
+<p>The callback <code class="docutils literal notranslate"><span class="pre">e_cb</span></code> needs to evaluate the free energy contribution <span class="math notranslate nohighlight">\(f(i,j)\)</span> of the unpaired segment <span class="math notranslate nohighlight">\([i,j]\)</span>. It will be executed in each of the regular secondary structure production rules. Whenever the callback is passed the <a class="reference internal" href="#group__domains__up_1gaab12b58d59be76446a9f76fad2fe624c"><span class="std std-ref">VRNA_UNSTRUCTURED_DOMAIN_MOTIF</span></a> flag via its <code class="docutils literal notranslate"><span class="pre">loop_type</span></code> parameter the contribution of any ligand that consecutively binds from position <span class="math notranslate nohighlight">\(i\)</span> to <span class="math notranslate nohighlight">\(j\)</span> (the white box) is requested. Otherwise, the callback usually performs a lookup in the precomputed <code class="docutils literal notranslate"><span class="pre">B</span></code> matrices. Which <code class="docutils literal notranslate"><span class="pre">B</span></code> matrix is addressed will be indicated by the flags <a class="reference internal" href="#group__domains__up_1gaac911374e86236a51bfd42e1f098eaba"><span class="std std-ref">VRNA_UNSTRUCTURED_DOMAIN_EXT_LOOP</span></a>, <a class="reference internal" href="#group__domains__up_1ga23b610ea9564346c45cc1e2bbb62adf7"><span class="std std-ref">VRNA_UNSTRUCTURED_DOMAIN_HP_LOOP</span></a> <a class="reference internal" href="#group__domains__up_1gac4a0feccd9654c149203200248c2716b"><span class="std std-ref">VRNA_UNSTRUCTURED_DOMAIN_INT_LOOP</span></a>, and <a class="reference internal" href="#group__domains__up_1ga67b80796655e5227a4ed662bfbe398b0"><span class="std std-ref">VRNA_UNSTRUCTURED_DOMAIN_MB_LOOP</span></a>. As their names already imply, they specify exterior loops (<code class="docutils literal notranslate"><span class="pre">F</span></code> production rule), hairpin loops and interior loops (<code class="docutils literal notranslate"><span class="pre">C</span></code> production rule), and multibranch loops (<code class="docutils literal notranslate"><span class="pre">M</span></code> and <code class="docutils literal notranslate"><span class="pre">M1</span></code> production rule).</p>
+<p><img alt="../_images/ligands_up_callback.svg" src="../_images/ligands_up_callback.svg" /></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">pre_cb</span></code> callback will be executed as a pre-processing step right before the regular secondary structure rules. Usually one would use this callback to fill the dynamic programming matrices <code class="docutils literal notranslate"><span class="pre">U</span></code> and preparations of the auxiliary data structure <a class="reference internal" href="#structvrna__unstructured__domain__s_1a8802b1b0512999a9f35202031811ce17"><span class="std std-ref">vrna_unstructured_domain_s.data</span></a></p>
+<p><img alt="../_images/B_prod_rule.svg" src="../_images/B_prod_rule.svg" /></p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000104"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">ud_set_prod_rule_cb()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.ud_set_prod_rule_cb" title="RNA.fold_compound.ud_set_prod_rule_cb"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.ud_set_prod_rule_cb()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> data structure the callback will be bound to </p></li>
+<li><p><strong>pre_cb</strong> – A pointer to a callback function for the <code class="docutils literal notranslate"><span class="pre">B</span></code> production rule </p></li>
+<li><p><strong>e_cb</strong> – A pointer to a callback function for free energy evaluation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_ud_set_exp_prod_rule_cb">
+<span class="target" id="group__domains__up_1ga6518ec8abbeb4126f7f990f21d93a95f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_ud_set_exp_prod_rule_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_ud_exp_production_f" title="vrna_ud_exp_production_f"><span class="n"><span class="pre">vrna_ud_exp_production_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">pre_cb</span></span>, <a class="reference internal" href="#c.vrna_ud_exp_f" title="vrna_ud_exp_f"><span class="n"><span class="pre">vrna_ud_exp_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">exp_e_cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_ud_set_exp_prod_rule_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em><p>Attach production rule for partition function. </p>
+<p>This function is the partition function companion of <a class="reference internal" href="#group__domains__up_1gaeaa09aa8b60bc87d3ad92d446cb1b8c0"><span class="std std-ref">vrna_ud_set_prod_rule_cb()</span></a>.</p>
+<p>Use it to bind callbacks to (i) fill the <code class="docutils literal notranslate"><span class="pre">U</span></code> production rule dynamic programming matrices and/or prepare the <a class="reference internal" href="#structvrna__unstructured__domain__s_1a8802b1b0512999a9f35202031811ce17"><span class="std std-ref">vrna_unstructured_domain_s.data</span></a>, and (ii) provide a callback to retrieve partition functions for subsegments <span class="math notranslate nohighlight">\( [i,j] \)</span>.</p>
+<p><img alt="../_images/B_prod_rule.svg" src="../_images/B_prod_rule.svg" /></p>
+<p><img alt="../_images/ligands_up_callback.svg" src="../_images/ligands_up_callback.svg" /></p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000105"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">ud_set_exp_prod_rule_cb()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.ud_set_exp_prod_rule_cb" title="RNA.fold_compound.ud_set_exp_prod_rule_cb"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.ud_set_exp_prod_rule_cb()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__domains__up_1gaeaa09aa8b60bc87d3ad92d446cb1b8c0"><span class="std std-ref">vrna_ud_set_prod_rule_cb()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> data structure the callback will be bound to </p></li>
+<li><p><strong>pre_cb</strong> – A pointer to a callback function for the <code class="docutils literal notranslate"><span class="pre">B</span></code> production rule </p></li>
+<li><p><strong>exp_e_cb</strong> – A pointer to a callback function that retrieves the partition function for a segment <span class="math notranslate nohighlight">\([i,j]\)</span> that may be bound by one or more ligands.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s">
+<span class="target" id="structvrna__unstructured__domain__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_unstructured_domain_s</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/unstructured_domains.h&gt;</em></div>
+<p>Data structure to store all functionality for ligand binding. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.uniq_motif_count">
+<span class="target" id="structvrna__unstructured__domain__s_1ae17005ef8043aca2fc3864804cd5def6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uniq_motif_count</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.uniq_motif_count" title="Link to this definition"></a><br /></dt>
+<dd><p>The unique number of motifs of different lengths. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.uniq_motif_size">
+<span class="target" id="structvrna__unstructured__domain__s_1a2b484b0e19a47145db7055ada8b14159"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">uniq_motif_size</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.uniq_motif_size" title="Link to this definition"></a><br /></dt>
+<dd><p>An array storing a unique list of motif lengths. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.motif_count">
+<span class="target" id="structvrna__unstructured__domain__s_1a5ad34148ea1d2e501f3e02029449546e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motif_count</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.motif_count" title="Link to this definition"></a><br /></dt>
+<dd><p>Total number of distinguished motifs. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.motif">
+<span class="target" id="structvrna__unstructured__domain__s_1af285436bbdea4436ad2cedec65d48c75"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">motif</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.motif" title="Link to this definition"></a><br /></dt>
+<dd><p>Motif sequences. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.motif_name">
+<span class="target" id="structvrna__unstructured__domain__s_1ad061d55ef0b51d304c8dce88ebdbbf78"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">motif_name</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.motif_name" title="Link to this definition"></a><br /></dt>
+<dd><p>Motif identifier/name. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.motif_size">
+<span class="target" id="structvrna__unstructured__domain__s_1a6a9f89ab7d147eb0ffd6cf8d77d178c0"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">motif_size</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.motif_size" title="Link to this definition"></a><br /></dt>
+<dd><p>Motif lengths. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.motif_en">
+<span class="target" id="structvrna__unstructured__domain__s_1aae4f0a45419784fb7c244bce2781403d"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">motif_en</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.motif_en" title="Link to this definition"></a><br /></dt>
+<dd><p>Ligand binding free energy contribution. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.motif_type">
+<span class="target" id="structvrna__unstructured__domain__s_1a3f0c026cced369ff176a66b2820f2057"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">motif_type</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.motif_type" title="Link to this definition"></a><br /></dt>
+<dd><p>Type of motif, i.e. loop type the ligand binds to. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.prod_cb">
+<span class="target" id="structvrna__unstructured__domain__s_1a23b048105dead59426bfb94b24bcea40"></span><a class="reference internal" href="#c.vrna_ud_production_f" title="vrna_ud_production_f"><span class="n"><span class="pre">vrna_ud_production_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">prod_cb</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.prod_cb" title="Link to this definition"></a><br /></dt>
+<dd><p>Callback to ligand binding production rule, i.e. create/fill DP free energy matrices. </p>
+<p>This callback will be executed right before the actual secondary structure decompositions, and, therefore, any implementation must not interleave with the regular DP matrices. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.exp_prod_cb">
+<span class="target" id="structvrna__unstructured__domain__s_1a0978a882ffc4afa5005ae9a4cf8a5416"></span><a class="reference internal" href="#c.vrna_ud_exp_production_f" title="vrna_ud_exp_production_f"><span class="n"><span class="pre">vrna_ud_exp_production_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">exp_prod_cb</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.exp_prod_cb" title="Link to this definition"></a><br /></dt>
+<dd><p>Callback to ligand binding production rule, i.e. create/fill DP partition function matrices. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.energy_cb">
+<span class="target" id="structvrna__unstructured__domain__s_1a3b837fe5151c790dd6d80fe392d01d2b"></span><a class="reference internal" href="#c.vrna_ud_f" title="vrna_ud_f"><span class="n"><span class="pre">vrna_ud_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy_cb</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.energy_cb" title="Link to this definition"></a><br /></dt>
+<dd><p>Callback to evaluate free energy of ligand binding to a particular unpaired stretch. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.exp_energy_cb">
+<span class="target" id="structvrna__unstructured__domain__s_1ade77475aef6e1b07353a391aa93bb176"></span><a class="reference internal" href="#c.vrna_ud_exp_f" title="vrna_ud_exp_f"><span class="n"><span class="pre">vrna_ud_exp_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">exp_energy_cb</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.exp_energy_cb" title="Link to this definition"></a><br /></dt>
+<dd><p>Callback to evaluate Boltzmann factor of ligand binding to a particular unpaired stretch. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.data">
+<span class="target" id="structvrna__unstructured__domain__s_1a8802b1b0512999a9f35202031811ce17"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.data" title="Link to this definition"></a><br /></dt>
+<dd><p>Auxiliary data structure passed to energy evaluation callbacks. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.free_data">
+<span class="target" id="structvrna__unstructured__domain__s_1a2c0420f8d87d1f9bdb69a0852e659f48"></span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_auxdata_free_f" title="vrna_auxdata_free_f"><span class="n"><span class="pre">vrna_auxdata_free_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">free_data</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.free_data" title="Link to this definition"></a><br /></dt>
+<dd><p>Callback to free auxiliary data structure. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.probs_add">
+<span class="target" id="structvrna__unstructured__domain__s_1ae96239f2bc0cfa200e2cb29f3289c0d2"></span><a class="reference internal" href="#c.vrna_ud_add_probs_f" title="vrna_ud_add_probs_f"><span class="n"><span class="pre">vrna_ud_add_probs_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">probs_add</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.probs_add" title="Link to this definition"></a><br /></dt>
+<dd><p>Callback to store/add outside partition function. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_unstructured_domain_s.probs_get">
+<span class="target" id="structvrna__unstructured__domain__s_1a358a155ec67451abe8a59a540cb47727"></span><a class="reference internal" href="#c.vrna_ud_get_probs_f" title="vrna_ud_get_probs_f"><span class="n"><span class="pre">vrna_ud_get_probs_f</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">probs_get</span></span></span><a class="headerlink" href="#c.vrna_unstructured_domain_s.probs_get" title="Link to this definition"></a><br /></dt>
+<dd><p>Callback to retrieve outside partition function. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="model_details.html" class="btn btn-neutral float-left" title="Fine-tuning of the Implemented Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="domains_struc.html" class="btn btn-neutral float-right" title="Structured Domains" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

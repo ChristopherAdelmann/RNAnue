@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deprecated Interface for Global Partition Function Computation &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Deprecated Interface for Local (Sliding Window) Partition Function Computation" href="window_deprecated.html" />
+    <link rel="prev" title="Predicting various Thermodynamic Properties" href="thermodynamics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="global.html">Global Partition Function and Equilibrium Probabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="window.html">Local (sliding window) Partition Function and Equilibrium Probabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thermodynamics.html">Predicting various Thermodynamic Properties</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Deprecated Interface for Global Partition Function Computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="window_deprecated.html">Deprecated Interface for Local (Sliding Window) Partition Function Computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pf_fold.html#partition-function-api">Partition Function API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pf_fold.html#general-partition-function-api">General Partition Function API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+      <li class="breadcrumb-item active">Deprecated Interface for Global Partition Function Computation</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deprecated-interface-for-global-partition-function-computation">
+<h1>Deprecated Interface for Global Partition Function Computation<a class="headerlink" href="#deprecated-interface-for-global-partition-function-computation" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__part__func__global__deprecated"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-unnamed-group">Unnamed Group</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.alipf_fold_par">
+<span class="target" id="group__part__func__global__deprecated_1gab46954fb0ed3b6d5631e7f9b802978cd"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">alipf_fold_par</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequences</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <a class="reference internal" href="../utils/struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pl</span></span>, <a class="reference internal" href="../eval/energy_parameters.html#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">parameters</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">calculate_bppm</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">is_constrained</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">is_circular</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.alipf_fold_par" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/alifold.h&gt;</em><p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000018"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> instead</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequences</strong> – </p></li>
+<li><p><strong>structure</strong> – </p></li>
+<li><p><strong>pl</strong> – </p></li>
+<li><p><strong>parameters</strong> – </p></li>
+<li><p><strong>calculate_bppm</strong> – </p></li>
+<li><p><strong>is_constrained</strong> – </p></li>
+<li><p><strong>is_circular</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.alipf_fold">
+<span class="target" id="group__part__func__global__deprecated_1ga1a5f6cfb9d761fa862ce4edc7c369cd2"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">alipf_fold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequences</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <a class="reference internal" href="../utils/struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pl</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.alipf_fold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/alifold.h&gt;</em><p>The partition function version of <a class="reference internal" href="../mfe/global_deprecated.html#group__mfe__global__deprecated_1ga4cf00f0659e5f0480335d69e797f05b1"><span class="std std-ref">alifold()</span></a> works in analogy to <a class="reference internal" href="#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a>. Pair probabilities and information about sequence covariations are returned via the ‘pi’ variable as a list of <a class="reference internal" href="../utils/msa.html#group__aln__utils_1ga6660dfca23debee7306e0cd53341263f"><span class="std std-ref">vrna_pinfo_t</span></a> structs. The list is terminated by the first entry with pi.i = 0. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000019"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> instead</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequences</strong> – </p></li>
+<li><p><strong>structure</strong> – </p></li>
+<li><p><strong>pl</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.alipf_circ_fold">
+<span class="target" id="group__part__func__global__deprecated_1ga604a42ad64178279551ad3e4def3d603"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">alipf_circ_fold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequences</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <a class="reference internal" href="../utils/struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pl</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.alipf_circ_fold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/alifold.h&gt;</em><p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000020"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> instead</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequences</strong> – </p></li>
+<li><p><strong>structure</strong> – </p></li>
+<li><p><strong>pl</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.export_ali_bppm">
+<span class="target" id="group__part__func__global__deprecated_1gaba5a18064258036b3753665e89da2072"></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">export_ali_bppm</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.export_ali_bppm" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/alifold.h&gt;</em><p>Get a pointer to the base pair probability array. </p>
+<p>Accessing the base pair probabilities for a pair (i,j) is achieved by <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FLT_OR_DBL</span> <span class="o">*</span><span class="n">pr</span> <span class="o">=</span> <span class="n">export_bppm</span><span class="p">();</span> <span class="n">pr_ij</span> <span class="o">=</span> <span class="n">pr</span><span class="p">[</span><span class="n">iindx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">j</span><span class="p">];</span>
+</pre></div>
+</div>
+</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000021"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Usage of this function is discouraged! The new <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> allows direct access to the folding matrices, including the pair probabilities! The pair probability array returned here reflects the one of the latest call to <a class="reference internal" href="global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a>, or any of the old API calls for consensus structure partition function folding.</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, and <a class="reference internal" href="global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A pointer to the base pair probability array </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.free_alipf_arrays">
+<span class="target" id="group__part__func__global__deprecated_1ga0c0498f35686e26b38ee460d3db1a661"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">free_alipf_arrays</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.free_alipf_arrays" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/alifold.h&gt;</em><p>Free the memory occupied by folding matrices allocated by alipf_fold, alipf_circ_fold, etc. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000022"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Usage of this function is discouraged! This function only free’s memory allocated by old API function calls. Memory allocated by any of the new API calls (starting with vrna_) will be not affected!</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>, vrna_vrna_fold_compound_free() </p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.alipbacktrack">
+<span class="target" id="group__part__func__global__deprecated_1ga955a7e2f25d6a1a00a3c92c6229fc44d"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">alipbacktrack</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">prob</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.alipbacktrack" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/alifold.h&gt;</em><p>Sample a consensus secondary structure from the Boltzmann ensemble according its probability. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000023"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="../subopt/stochbt.html#group__subopt__stochbt_1ga594844ac73c4e66e00d6791b31540634"><span class="std std-ref">vrna_pbacktrack()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prob</strong> – to be described (berni) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sampled consensus secondary structure in dot-bracket notation </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_alipf_arrays">
+<span class="target" id="group__part__func__global__deprecated_1ga5349960075b1847720a2e9df021e2675"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_alipf_arrays</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S_p</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S5_p</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S3_p</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">a2s_p</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">Ss_p</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qb_p</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qm_p</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">q1k_p</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qln_p</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pscore</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_alipf_arrays" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/alifold.h&gt;</em><p>Get pointers to (almost) all relavant arrays used in alifold’s partition function computation. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000024"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>It is discouraged to use this function! The new <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> allows direct access to all necessary consensus structure prediction related variables!</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, <a class="reference internal" href="global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a>, pf_alifold(), <a class="reference internal" href="#group__part__func__global__deprecated_1ga604a42ad64178279551ad3e4def3d603"><span class="std std-ref">alipf_circ_fold()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To obtain meaningful pointers, call alipf_fold first!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>S_p</strong> – A pointer to the ‘S’ array (integer representation of nucleotides) </p></li>
+<li><p><strong>S5_p</strong> – A pointer to the ‘S5’ array </p></li>
+<li><p><strong>S3_p</strong> – A pointer to the ‘S3’ array </p></li>
+<li><p><strong>a2s_p</strong> – A pointer to the alignment-column to sequence position mapping array </p></li>
+<li><p><strong>Ss_p</strong> – A pointer to the ‘Ss’ array </p></li>
+<li><p><strong>qb_p</strong> – A pointer to the Q<sup>B</sup> matrix </p></li>
+<li><p><strong>qm_p</strong> – A pointer to the Q<sup>M</sup> matrix </p></li>
+<li><p><strong>q1k_p</strong> – A pointer to the 5’ slice of the Q matrix ( <span class="math notranslate nohighlight">\(q1k(k) = Q(1, k)\)</span>) </p></li>
+<li><p><strong>qln_p</strong> – A pointer to the 3’ slice of the Q matrix ( <span class="math notranslate nohighlight">\(qln(l) = Q(l, n)\)</span>) </p></li>
+<li><p><strong>pscore</strong> – A pointer to the start of a pscore list </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non Zero if everything went fine, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.pf_fold_par">
+<span class="target" id="group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pf_fold_par</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <a class="reference internal" href="../eval/energy_parameters.html#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">parameters</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">calculate_bppm</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">is_constrained</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">is_circular</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.pf_fold_par" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Compute the partition function <span class="math notranslate nohighlight">\(Q\)</span> for a given RNA sequence. </p>
+<p>If <em>structure</em> is not a NULL pointer on input, it contains on return a string consisting of the letters “ . , | { } ( ) “ denoting bases that are essentially unpaired, weakly paired, strongly paired without preference, weakly upstream (downstream) paired, or strongly up- (down-)stream paired bases, respectively. If fold_constrained is not 0, the <em>structure</em> string is interpreted on input as a list of constraints for the folding. The character “x” marks bases that must be unpaired, matching brackets “ ( ) “ denote base pairs, all other characters are ignored. Any pairs conflicting with the constraint will be forbidden. This is usually sufficient to ensure the constraints are honored. If the parameter calculate_bppm is set to 0 base pairing probabilities will not be computed (saving CPU time), otherwise after calculations took place pr will contain the probability that bases <em>i</em> and <em>j</em> pair.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000099"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> instead</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a>, <a class="reference internal" href="../utils/struct/deprecated.html#group__struct__utils__deprecated_1ga129d81c4a1ead793c5b2311333e03dfa"><span class="std std-ref">bppm_to_structure()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1gad2bba2bdfef5a24f69fe10bbb9fc6de9"><span class="std std-ref">export_bppm()</span></a>, <a class="reference internal" href="../eval/energy_parameters.html#group__energy__parameters_1ga049c8196ed6b9af9f13c633f0fe7acc0"><span class="std std-ref">vrna_exp_params()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1gae73db3f49a94f0f72e067ecd12681dbd"><span class="std std-ref">free_pf_arrays()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The global array pr is deprecated and the user who wants the calculated base pair probabilities for further computations is advised to use the function <a class="reference internal" href="#group__part__func__global__deprecated_1gad2bba2bdfef5a24f69fe10bbb9fc6de9"><span class="std std-ref">export_bppm()</span></a></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – <strong>[in]</strong> The RNA sequence input </p></li>
+<li><p><strong>structure</strong> – <strong>[inout]</strong> A pointer to a char array where a base pair probability information can be stored in a pseudo-dot-bracket notation (may be NULL, too) </p></li>
+<li><p><strong>parameters</strong> – <strong>[in]</strong> Data structure containing the precalculated Boltzmann factors </p></li>
+<li><p><strong>calculate_bppm</strong> – <strong>[in]</strong> Switch to Base pair probability calculations on/off (0==off) </p></li>
+<li><p><strong>is_constrained</strong> – <strong>[in]</strong> Switch to indicate that a structure contraint is passed via the structure argument (0==off) </p></li>
+<li><p><strong>is_circular</strong> – <strong>[in]</strong> Switch to (de-)activate postprocessing steps in case RNA sequence is circular (0==off) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Post<span class="colon">:</span></dt>
+<dd class="field-even"><p>After successful run the hidden folding matrices are filled with the appropriate Boltzmann factors. Depending on whether the global variable <a class="reference internal" href="../grammar/model_details.html#group__model__details_1gad512b5dd4dbec60faccfe137bb474489"><span class="std std-ref">do_backtrack</span></a> was set the base pair probabilities are already computed and may be accessed for further usage via the <a class="reference internal" href="#group__part__func__global__deprecated_1gad2bba2bdfef5a24f69fe10bbb9fc6de9"><span class="std std-ref">export_bppm()</span></a> function. A call of <a class="reference internal" href="#group__part__func__global__deprecated_1gae73db3f49a94f0f72e067ecd12681dbd"><span class="std std-ref">free_pf_arrays()</span></a> will free all memory allocated by this function. Successive calls will first free previously allocated memory before starting the computation.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The ensemble free energy <span class="math notranslate nohighlight">\(G = -RT \cdot \log(Q) \)</span> in kcal/mol </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.pf_fold">
+<span class="target" id="group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pf_fold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.pf_fold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Compute the partition function <span class="math notranslate nohighlight">\(Q\)</span> of an RNA sequence. </p>
+<p>If <em>structure</em> is not a NULL pointer on input, it contains on return a string consisting of the letters “ . , | { } ( ) “ denoting bases that are essentially unpaired, weakly paired, strongly paired without preference, weakly upstream (downstream) paired, or strongly up- (down-)stream paired bases, respectively. If fold_constrained is not 0, the <em>structure</em> string is interpreted on input as a list of constraints for the folding. The character “x” marks bases that must be unpaired, matching brackets “ ( ) “ denote base pairs, all other characters are ignored. Any pairs conflicting with the constraint will be forbidden. This is usually sufficient to ensure the constraints are honored. If <a class="reference internal" href="../grammar/model_details.html#group__model__details_1gad512b5dd4dbec60faccfe137bb474489"><span class="std std-ref">do_backtrack</span></a> has been set to 0 base pairing probabilities will not be computed (saving CPU time), otherwise pr will contain the probability that bases <em>i</em> and <em>j</em> pair.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1ga819ce5fca8984004ac81c4a3b04cb735"><span class="std std-ref">pf_circ_fold()</span></a>, <a class="reference internal" href="../utils/struct/deprecated.html#group__struct__utils__deprecated_1ga129d81c4a1ead793c5b2311333e03dfa"><span class="std std-ref">bppm_to_structure()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1gad2bba2bdfef5a24f69fe10bbb9fc6de9"><span class="std std-ref">export_bppm()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The global array pr is deprecated and the user who wants the calculated base pair probabilities for further computations is advised to use the function <a class="reference internal" href="#group__part__func__global__deprecated_1gad2bba2bdfef5a24f69fe10bbb9fc6de9"><span class="std std-ref">export_bppm()</span></a>.<strong>OpenMP:</strong> This function is not entirely threadsafe. While the recursions are working on their own copies of data the model details for the recursions are determined from the global settings just before entering the recursions. Consider using <a class="reference internal" href="#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a> for a really threadsafe implementation.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – The RNA sequence input </p></li>
+<li><p><strong>structure</strong> – A pointer to a char array where a base pair probability information can be stored in a pseudo-dot-bracket notation (may be NULL, too) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>This function takes its model details from the global variables provided in <em>RNAlib</em></p>
+</dd>
+<dt class="field-odd">Post<span class="colon">:</span></dt>
+<dd class="field-odd"><p>After successful run the hidden folding matrices are filled with the appropriate Boltzmann factors. Depending on whether the global variable <a class="reference internal" href="../grammar/model_details.html#group__model__details_1gad512b5dd4dbec60faccfe137bb474489"><span class="std std-ref">do_backtrack</span></a> was set the base pair probabilities are already computed and may be accessed for further usage via the <a class="reference internal" href="#group__part__func__global__deprecated_1gad2bba2bdfef5a24f69fe10bbb9fc6de9"><span class="std std-ref">export_bppm()</span></a> function. A call of <a class="reference internal" href="#group__part__func__global__deprecated_1gae73db3f49a94f0f72e067ecd12681dbd"><span class="std std-ref">free_pf_arrays()</span></a> will free all memory allocated by this function. Successive calls will first free previously allocated memory before starting the computation.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ensemble free energy <span class="math notranslate nohighlight">\(G = -RT \cdot \log(Q) \)</span> in kcal/mol </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.pf_circ_fold">
+<span class="target" id="group__part__func__global__deprecated_1ga819ce5fca8984004ac81c4a3b04cb735"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pf_circ_fold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.pf_circ_fold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Compute the partition function of a circular RNA sequence. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000100"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a> instead!</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="global.html#group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00"><span class="std std-ref">vrna_pf()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The global array pr is deprecated and the user who wants the calculated base pair probabilities for further computations is advised to use the function <a class="reference internal" href="#group__part__func__global__deprecated_1gad2bba2bdfef5a24f69fe10bbb9fc6de9"><span class="std std-ref">export_bppm()</span></a>.<strong>OpenMP:</strong> This function is not entirely threadsafe. While the recursions are working on their own copies of data the model details for the recursions are determined from the global settings just before entering the recursions. Consider using <a class="reference internal" href="#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a> for a really threadsafe implementation.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Pre<span class="colon">:</span></dt>
+<dd class="field-odd"><p>This function takes its model details from the global variables provided in <em>RNAlib</em></p>
+</dd>
+<dt class="field-even">Post<span class="colon">:</span></dt>
+<dd class="field-even"><p>After successful run the hidden folding matrices are filled with the appropriate Boltzmann factors. Depending on whether the global variable <a class="reference internal" href="../grammar/model_details.html#group__model__details_1gad512b5dd4dbec60faccfe137bb474489"><span class="std std-ref">do_backtrack</span></a> was set the base pair probabilities are already computed and may be accessed for further usage via the <a class="reference internal" href="#group__part__func__global__deprecated_1gad2bba2bdfef5a24f69fe10bbb9fc6de9"><span class="std std-ref">export_bppm()</span></a> function. A call of <a class="reference internal" href="#group__part__func__global__deprecated_1gae73db3f49a94f0f72e067ecd12681dbd"><span class="std std-ref">free_pf_arrays()</span></a> will free all memory allocated by this function. Successive calls will first free previously allocated memory before starting the computation.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – <strong>[in]</strong> The RNA sequence input </p></li>
+<li><p><strong>structure</strong> – <strong>[inout]</strong> A pointer to a char array where a base pair probability information can be stored in a pseudo-dot-bracket notation (may be NULL, too) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ensemble free energy <span class="math notranslate nohighlight">\(G = -RT \cdot \log(Q) \)</span> in kcal/mol </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.free_pf_arrays">
+<span class="target" id="group__part__func__global__deprecated_1gae73db3f49a94f0f72e067ecd12681dbd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">free_pf_arrays</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.free_pf_arrays" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Free arrays for the partition function recursions. </p>
+<p>Call this function if you want to free all allocated memory associated with the partition function forward recursion. <dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000102"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>See vrna_fold_compound_t and its related functions for how to free memory occupied by the dynamic programming matrices</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1ga819ce5fca8984004ac81c4a3b04cb735"><span class="std std-ref">pf_circ_fold()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Successive calls of <a class="reference internal" href="#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1ga819ce5fca8984004ac81c4a3b04cb735"><span class="std std-ref">pf_circ_fold()</span></a> already check if they should free any memory from a previous run.<strong>OpenMP notice:</strong>
+ This function should be called before leaving a thread in order to avoid leaking memory</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Post<span class="colon">:</span></dt>
+<dd class="field-odd"><p>All memory allocated by <a class="reference internal" href="#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a> or <a class="reference internal" href="#group__part__func__global__deprecated_1ga819ce5fca8984004ac81c4a3b04cb735"><span class="std std-ref">pf_circ_fold()</span></a> will be free’d</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.update_pf_params">
+<span class="target" id="group__part__func__global__deprecated_1ga384e927890f9c034ff09fa66da102d28"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_pf_params</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.update_pf_params" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Recalculate energy parameters. </p>
+<p>Call this function to recalculate the pair matrix and energy parameters after a change in folding parameters like <a class="reference internal" href="../grammar/model_details.html#group__model__details_1gab4b11c8d9c758430960896bc3fe82ead"><span class="std std-ref">temperature</span></a></p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000103"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="../eval/energy_parameters.html#group__energy__parameters_1ga4abbca93defd54fa0dc797ceca36d2f0"><span class="std std-ref">vrna_exp_params_subst()</span></a> instead</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.update_pf_params_par">
+<span class="target" id="group__part__func__global__deprecated_1gaafe2d1b21f5418b123b088aa395e827d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_pf_params_par</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <a class="reference internal" href="../eval/energy_parameters.html#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">parameters</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.update_pf_params_par" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Recalculate energy parameters. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000104"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="../eval/energy_parameters.html#group__energy__parameters_1ga4abbca93defd54fa0dc797ceca36d2f0"><span class="std std-ref">vrna_exp_params_subst()</span></a> instead</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.export_bppm">
+<span class="target" id="group__part__func__global__deprecated_1gad2bba2bdfef5a24f69fe10bbb9fc6de9"></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">export_bppm</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.export_bppm" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Get a pointer to the base pair probability array. </p>
+<p>Accessing the base pair probabilities for a pair (i,j) is achieved by <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FLT_OR_DBL</span> <span class="o">*</span><span class="n">pr</span>  <span class="o">=</span> <span class="n">export_bppm</span><span class="p">();</span>
+<span class="n">pr_ij</span>           <span class="o">=</span> <span class="n">pr</span><span class="p">[</span><span class="n">iindx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">j</span><span class="p">];</span>
+</pre></div>
+</div>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1ga819ce5fca8984004ac81c4a3b04cb735"><span class="std std-ref">pf_circ_fold()</span></a>, <a class="reference internal" href="../utils.html#group__utils_1ga27d6f59da187317ab4c0d7e9f15ee57a"><span class="std std-ref">vrna_idx_row_wise()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Pre<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Call <a class="reference internal" href="#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a> or <a class="reference internal" href="#group__part__func__global__deprecated_1ga819ce5fca8984004ac81c4a3b04cb735"><span class="std std-ref">pf_circ_fold()</span></a> first to fill the base pair probability array</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pointer to the base pair probability array </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_pf_arrays">
+<span class="target" id="group__part__func__global__deprecated_1ga42faebdfce6f070c5f89adfc8427525c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_pf_arrays</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S_p</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">S1_p</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ptype_p</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qb_p</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qm_p</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">q1k_p</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qln_p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_pf_arrays" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Get the pointers to (almost) all relavant computation arrays used in partition function computation. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1ga819ce5fca8984004ac81c4a3b04cb735"><span class="std std-ref">pf_circ_fold()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>S_p</strong> – <strong>[out]</strong> A pointer to the ‘S’ array (integer representation of nucleotides) </p></li>
+<li><p><strong>S1_p</strong> – <strong>[out]</strong> A pointer to the ‘S1’ array (2nd integer representation of nucleotides) </p></li>
+<li><p><strong>ptype_p</strong> – <strong>[out]</strong> A pointer to the pair type matrix </p></li>
+<li><p><strong>qb_p</strong> – <strong>[out]</strong> A pointer to the Q<sup>B</sup> matrix </p></li>
+<li><p><strong>qm_p</strong> – <strong>[out]</strong> A pointer to the Q<sup>M</sup> matrix </p></li>
+<li><p><strong>q1k_p</strong> – <strong>[out]</strong> A pointer to the 5’ slice of the Q matrix ( <span class="math notranslate nohighlight">\(q1k(k) = Q(1, k)\)</span>) </p></li>
+<li><p><strong>qln_p</strong> – <strong>[out]</strong> A pointer to the 3’ slice of the Q matrix ( <span class="math notranslate nohighlight">\(qln(l) = Q(l, n)\)</span>) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>In order to assign meaningful pointers, you have to call <a class="reference internal" href="#group__part__func__global__deprecated_1gac4f95bee734b2563a3d6e9932117ebdf"><span class="std std-ref">pf_fold_par()</span></a> or <a class="reference internal" href="#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a> first!</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Non Zero if everything went fine, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_subseq_F">
+<span class="target" id="group__part__func__global__deprecated_1ga189e2a1ec6cc32c53ea72f7543b0441e"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_subseq_F</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">j</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_subseq_F" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Get the free energy of a subsequence from the q[] array. </p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.mean_bp_distance">
+<span class="target" id="group__part__func__global__deprecated_1ga79cbc375af65f11609feb6b055269e7d"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mean_bp_distance</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.mean_bp_distance" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Get the mean base pair distance of the last partition function computation. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000105"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="thermodynamics.html#group__thermodynamics_1gafd9ef9f1a5f0ab31540e4c3d78addc82"><span class="std std-ref">vrna_mean_bp_distance()</span></a> or <a class="reference internal" href="thermodynamics.html#group__thermodynamics_1gad3f0c240512e6d43e2e4d4c2076021f5"><span class="std std-ref">vrna_mean_bp_distance_pr()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="thermodynamics.html#group__thermodynamics_1gafd9ef9f1a5f0ab31540e4c3d78addc82"><span class="std std-ref">vrna_mean_bp_distance()</span></a>, <a class="reference internal" href="thermodynamics.html#group__thermodynamics_1gad3f0c240512e6d43e2e4d4c2076021f5"><span class="std std-ref">vrna_mean_bp_distance_pr()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>mean base pair distance in thermodynamic ensemble </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.mean_bp_distance_pr">
+<span class="target" id="group__part__func__global__deprecated_1gad5ba36cef8d01cf4244cc09b9bf1ce1d"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mean_bp_distance_pr</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.mean_bp_distance_pr" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Get the mean base pair distance in the thermodynamic ensemble. </p>
+<p>This is a threadsafe implementation of mean_bp_dist() !</p>
+<p><span class="math notranslate nohighlight">\(&lt;d&gt; = \sum_{a,b} p_a p_b d(S_a,S_b)\)</span>
+this can be computed from the pair probs <span class="math notranslate nohighlight">\(p_ij\)</span> as<span class="math notranslate nohighlight">\(&lt;d&gt; = \sum_{ij} p_{ij}(1-p_{ij})\)</span></p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000106"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="thermodynamics.html#group__thermodynamics_1gafd9ef9f1a5f0ab31540e4c3d78addc82"><span class="std std-ref">vrna_mean_bp_distance()</span></a> or <a class="reference internal" href="thermodynamics.html#group__thermodynamics_1gad3f0c240512e6d43e2e4d4c2076021f5"><span class="std std-ref">vrna_mean_bp_distance_pr()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> – The length of the sequence </p></li>
+<li><p><strong>pr</strong> – The matrix containing the base pair probabilities </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The mean pair distance of the structure ensemble </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.stackProb">
+<span class="target" id="group__part__func__global__deprecated_1ga963dfa795074d53ff23c5b1ab01406f0"></span><a class="reference internal" href="../utils/struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">stackProb</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">cutoff</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.stackProb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Get the probability of stacks. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000107"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="thermodynamics.html#group__thermodynamics_1ga39bbe73ccb7685b6521cfa5c1c64ae78"><span class="std std-ref">vrna_stack_prob()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.init_pf_fold">
+<span class="target" id="group__part__func__global__deprecated_1ga15176e23eceeff8c7d14eabcfec8a2af"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init_pf_fold</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.init_pf_fold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Allocate space for <a class="reference internal" href="#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a></p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000108"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This function is obsolete and will be removed soon!</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.co_pf_fold">
+<span class="target" id="group__part__func__global__deprecated_1gae5c1e7331718669bdae7a86de2be6184"></span><a class="reference internal" href="../rip/pf.html#c.vrna_dimer_pf_t" title="vrna_dimer_pf_t"><span class="n"><span class="pre">vrna_dimer_pf_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">co_pf_fold</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.co_pf_fold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_co.h&gt;</em><p>Calculate partition function and base pair probabilities. </p>
+<p>This is the cofold partition function folding. The second molecule starts at the <a class="reference internal" href="../eval/eval_deprecated.html#group__eval__deprecated_1gab9b2c3a37a5516614c06d0ab54b97cda"><span class="std std-ref">cut_point</span></a> nucleotide.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000114"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd></dd></dl>
+
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>OpenMP: Since this function relies on the global parameters <a class="reference internal" href="../grammar/model_details.html#group__model__details_1gad512b5dd4dbec60faccfe137bb474489"><span class="std std-ref">do_backtrack</span></a>, <a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga72b511ed1201f7e23ec437e468790d74"><span class="std std-ref">dangles</span></a>, <a class="reference internal" href="../grammar/model_details.html#group__model__details_1gab4b11c8d9c758430960896bc3fe82ead"><span class="std std-ref">temperature</span></a> and <a class="reference internal" href="../grammar/model_details.html#group__model__details_1gad3b22044065acc6dee0af68931b52cfd"><span class="std std-ref">pf_scale</span></a> it is not threadsafe according to concurrent changes in these variables! Use <a class="reference internal" href="#group__part__func__global__deprecated_1gaabfc6cb6d02b8f08ac4c92f4f5b125d9"><span class="std std-ref">co_pf_fold_par()</span></a> instead to circumvent this issue.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – Concatenated RNA sequences </p></li>
+<li><p><strong>structure</strong> – Will hold the structure or constraints </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>vrna_dimer_pf_t structure containing a set of energies needed for concentration computations. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.co_pf_fold_par">
+<span class="target" id="group__part__func__global__deprecated_1gaabfc6cb6d02b8f08ac4c92f4f5b125d9"></span><a class="reference internal" href="../rip/pf.html#c.vrna_dimer_pf_t" title="vrna_dimer_pf_t"><span class="n"><span class="pre">vrna_dimer_pf_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">co_pf_fold_par</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <a class="reference internal" href="../eval/energy_parameters.html#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">parameters</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">calculate_bppm</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">is_constrained</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.co_pf_fold_par" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_co.h&gt;</em><p>Calculate partition function and base pair probabilities. </p>
+<p>This is the cofold partition function folding. The second molecule starts at the <a class="reference internal" href="../eval/eval_deprecated.html#group__eval__deprecated_1gab9b2c3a37a5516614c06d0ab54b97cda"><span class="std std-ref">cut_point</span></a> nucleotide.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000115"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="global.html#group__part__func__global_1gae796019c176a158f0e9d7741a85c1743"><span class="std std-ref">vrna_pf_dimer()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../eval/energy_parameters.html#group__energy__parameters_1gaf05b50c0e8d29511941203554daf2919"><span class="std std-ref">get_boltzmann_factors()</span></a>, <a class="reference internal" href="#group__part__func__global__deprecated_1gae5c1e7331718669bdae7a86de2be6184"><span class="std std-ref">co_pf_fold()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – Concatenated RNA sequences </p></li>
+<li><p><strong>structure</strong> – Pointer to the structure constraint </p></li>
+<li><p><strong>parameters</strong> – Data structure containing the precalculated Boltzmann factors </p></li>
+<li><p><strong>calculate_bppm</strong> – Switch to turn Base pair probability calculations on/off (0==off) </p></li>
+<li><p><strong>is_constrained</strong> – Switch to indicate that a structure contraint is passed via the structure argument (0==off) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>vrna_dimer_pf_t structure containing a set of energies needed for concentration computations. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.compute_probabilities">
+<span class="target" id="group__part__func__global__deprecated_1ga94c19120130e66a667a10a3c8598550c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_probabilities</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FAB</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FEA</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FEB</span></span>, <a class="reference internal" href="../utils/struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">prAB</span></span>, <a class="reference internal" href="../utils/struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">prA</span></span>, <a class="reference internal" href="../utils/struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">prB</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">Alength</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.compute_probabilities" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_co.h&gt;</em><p>Compute Boltzmann probabilities of dimerization without homodimers. </p>
+<p>Given the pair probabilities and free energies (in the null model) for a dimer AB and the two constituent monomers A and B, compute the conditional pair probabilities given that a dimer AB actually forms. Null model pair probabilities are given as a list as produced by <a class="reference internal" href="#group__part__func__global__deprecated_1ga1cc05aaa9b0e7df2d3887e98321c2030"><span class="std std-ref">assign_plist_from_pr()</span></a>, the dimer probabilities ‘prAB’ are modified in place.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000117"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd></dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>FAB</strong> – free energy of dimer AB </p></li>
+<li><p><strong>FEA</strong> – free energy of monomer A </p></li>
+<li><p><strong>FEB</strong> – free energy of monomer B </p></li>
+<li><p><strong>prAB</strong> – pair probabilities for dimer </p></li>
+<li><p><strong>prA</strong> – pair probabilities monomer </p></li>
+<li><p><strong>prB</strong> – pair probabilities monomer </p></li>
+<li><p><strong>Alength</strong> – Length of molecule A </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.init_co_pf_fold">
+<span class="target" id="group__part__func__global__deprecated_1gaa12dda9dd6179cdd22bcce87c0682c07"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init_co_pf_fold</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.init_co_pf_fold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_co.h&gt;</em><p>DO NOT USE THIS FUNCTION ANYMORE <dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000118"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd></dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.export_co_bppm">
+<span class="target" id="group__part__func__global__deprecated_1gaa06ab81cec7fe070bfe4e3c7e8a19afb"></span><a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">export_co_bppm</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.export_co_bppm" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_co.h&gt;</em><p>Get a pointer to the base pair probability array. </p>
+<p>Accessing the base pair probabilities for a pair (i,j) is achieved by <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FLT_OR_DBL</span> <span class="o">*</span><span class="n">pr</span> <span class="o">=</span> <span class="n">export_bppm</span><span class="p">();</span> <span class="n">pr_ij</span> <span class="o">=</span> <span class="n">pr</span><span class="p">[</span><span class="n">iindx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">j</span><span class="p">];</span>
+</pre></div>
+</div>
+</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000119"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This function is deprecated and will be removed soon! The base pair probability array is available through the <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> data structure, and its associated <a class="reference internal" href="../utils/datastructures/dp_matrices.html#group__dp__matrices_1ga68729ab3fed26bdd1806fa814f172fc1"><span class="std std-ref">vrna_mx_pf_t</span></a> member.</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../utils.html#group__utils_1ga27d6f59da187317ab4c0d7e9f15ee57a"><span class="std std-ref">vrna_idx_row_wise()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A pointer to the base pair probability array </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.free_co_pf_arrays">
+<span class="target" id="group__part__func__global__deprecated_1gade3ce34ae8214811374b1d28a40dc247"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">free_co_pf_arrays</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.free_co_pf_arrays" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_co.h&gt;</em><p>Free the memory occupied by <a class="reference internal" href="#group__part__func__global__deprecated_1gae5c1e7331718669bdae7a86de2be6184"><span class="std std-ref">co_pf_fold()</span></a></p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000120"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This function will be removed for the new API soon! See <a class="reference internal" href="global.html#group__part__func__global_1gae796019c176a158f0e9d7741a85c1743"><span class="std std-ref">vrna_pf_dimer()</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a> for an alternative</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.update_co_pf_params">
+<span class="target" id="group__part__func__global__deprecated_1ga6e0f36c1f9b7d9dd4bfbad914c1119e5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_co_pf_params</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.update_co_pf_params" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_co.h&gt;</em><p>Recalculate energy parameters. </p>
+<p>This function recalculates all energy parameters given the current model settings.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000121"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="../eval/energy_parameters.html#group__energy__parameters_1ga4abbca93defd54fa0dc797ceca36d2f0"><span class="std std-ref">vrna_exp_params_subst()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> – Length of the current RNA sequence </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.update_co_pf_params_par">
+<span class="target" id="group__part__func__global__deprecated_1ga75465d7e8793db68a434d83df9a2e794"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_co_pf_params_par</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <a class="reference internal" href="../eval/energy_parameters.html#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">parameters</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.update_co_pf_params_par" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/part_func_co.h&gt;</em><p>Recalculate energy parameters. </p>
+<p>This function recalculates all energy parameters given the current model settings. It’s second argument can either be NULL or a data structure containing the precomputed Boltzmann factors. In the first scenario, the necessary data structure will be created automatically according to the current global model settings, i.e. this mode might not be threadsafe. However, if the provided data structure is not NULL, threadsafety for the model parameters <a class="reference internal" href="../grammar/model_details.html#group__model__details_1ga72b511ed1201f7e23ec437e468790d74"><span class="std std-ref">dangles</span></a>, <a class="reference internal" href="../grammar/model_details.html#group__model__details_1gad3b22044065acc6dee0af68931b52cfd"><span class="std std-ref">pf_scale</span></a> and <a class="reference internal" href="../grammar/model_details.html#group__model__details_1gab4b11c8d9c758430960896bc3fe82ead"><span class="std std-ref">temperature</span></a> is regained, since their values are taken from this data structure during subsequent calculations.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000122"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="../eval/energy_parameters.html#group__energy__parameters_1ga4abbca93defd54fa0dc797ceca36d2f0"><span class="std std-ref">vrna_exp_params_subst()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> – Length of the current RNA sequence </p></li>
+<li><p><strong>parameters</strong> – data structure containing the precomputed Boltzmann factors </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.assign_plist_from_db">
+<span class="target" id="group__part__func__global__deprecated_1gab61df77cf7949cd516181fce0c3d7d78"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">assign_plist_from_db</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pl</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">struc</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">pr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.assign_plist_from_db" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Create a <a class="reference internal" href="../utils/struct/plist.html#group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca"><span class="std std-ref">vrna_ep_t</span></a> from a dot-bracket string. </p>
+<p>The dot-bracket string is parsed and for each base pair an entry in the plist is created. The probability of each pair in the list is set by a function parameter.</p>
+<p>The end of the plist is marked by sequence positions i as well as j equal to 0. This condition should be used to stop looping over its entries</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000200"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="../utils/struct/plist.html#group__struct__utils__plist_1ga6de9e912540e36b1e231a66f6d8319df"><span class="std std-ref">vrna_plist()</span></a> instead</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pl</strong> – A pointer to the <a class="reference internal" href="../utils/struct/plist.html#group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca"><span class="std std-ref">vrna_ep_t</span></a> that is to be created </p></li>
+<li><p><strong>struc</strong> – The secondary structure in dot-bracket notation </p></li>
+<li><p><strong>pr</strong> – The probability for each base pair </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.assign_plist_from_pr">
+<span class="target" id="group__part__func__global__deprecated_1ga1cc05aaa9b0e7df2d3887e98321c2030"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">assign_plist_from_pr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pl</span></span>, <a class="reference internal" href="../utils/data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">probs</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">cutoff</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.assign_plist_from_pr" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Create a vrna_ep_t from a probability matrix. </p>
+<p>The probability matrix given is parsed and all pair probabilities above the given threshold are used to create an entry in the plist</p>
+<p>The end of the plist is marked by sequence positions i as well as j equal to 0. This condition should be used to stop looping over its entries</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000210"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="global.html#group__part__func__global_1ga2d1b1c2e37abe57911ce647123c8ae06"><span class="std std-ref">vrna_plist_from_probs()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is threadsafe </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pl</strong> – <strong>[out]</strong> A pointer to the vrna_ep_t that is to be created </p></li>
+<li><p><strong>probs</strong> – <strong>[in]</strong> The probability matrix used for creating the plist </p></li>
+<li><p><strong>length</strong> – <strong>[in]</strong> The length of the RNA sequence </p></li>
+<li><p><strong>cutoff</strong> – <strong>[in]</strong> The cutoff value </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="thermodynamics.html" class="btn btn-neutral float-left" title="Predicting various Thermodynamic Properties" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="window_deprecated.html" class="btn btn-neutral float-right" title="Deprecated Interface for Local (Sliding Window) Partition Function Computation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

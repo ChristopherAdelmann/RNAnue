@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="structvrna__path__s" kind="struct" language="C++" prot="public">
+    <compoundname>vrna_path_s</compoundname>
+    <includes refid="paths_8h" local="no">ViennaRNA/landscape/paths.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structvrna__path__s_1a5fc9e0a7dc0e0f8ad67f24c18f2dc852" prot="public" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int vrna_path_s::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>vrna_path_s::type</qualifiedname>
+        <briefdescription>
+<para>The type of the path element. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A value of <ref refid="group__paths_1ga3e964156b52440b65fae5e2a48750d8e" kindref="member">VRNA_PATH_TYPE_DOT_BRACKET</ref> indicates that <ref refid="structvrna__path__s_1a141b70a59cb81d10bc65bbb7a0f6db77" kindref="member">vrna_path_s::s</ref> consists of the secondary structure in dot-bracket notation, and <ref refid="structvrna__path__s_1ac25160bf31d28097358278f367e41227" kindref="member">vrna_path_s::en</ref> the corresponding free energy.<linebreak/>
+ On the other hand, if the value is <ref refid="group__paths_1gaa73703da105dc6c98957fb8247c93f1f" kindref="member">VRNA_PATH_TYPE_MOVES</ref>, <ref refid="structvrna__path__s_1a141b70a59cb81d10bc65bbb7a0f6db77" kindref="member">vrna_path_s::s</ref> is <emphasis>NULL</emphasis> and <ref refid="structvrna__path__s_1a13da6bb5167362199947765b06a84005" kindref="member">vrna_path_s::move</ref> is set to the transition move that transforms a previous structure into it&apos;s neighbor along the path. In this case, the attribute <ref refid="structvrna__path__s_1ac25160bf31d28097358278f367e41227" kindref="member">vrna_path_s::en</ref> states the change in free energy with respect to the structure before application of <ref refid="structvrna__path__s_1a13da6bb5167362199947765b06a84005" kindref="member">vrna_path_s::move</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="99" column="16" bodyfile="ViennaRNA/landscape/paths.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__path__s_1ac25160bf31d28097358278f367e41227" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double vrna_path_s::en</definition>
+        <argsstring></argsstring>
+        <name>en</name>
+        <qualifiedname>vrna_path_s::en</qualifiedname>
+        <briefdescription>
+<para>Free energy of current structure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="109" column="15" bodyfile="ViennaRNA/landscape/paths.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__path__s_1a141b70a59cb81d10bc65bbb7a0f6db77" prot="public" static="no" mutable="no">
+        <type>char *</type>
+        <definition>char* vrna_path_s::s</definition>
+        <argsstring></argsstring>
+        <name>s</name>
+        <qualifiedname>vrna_path_s::s</qualifiedname>
+        <briefdescription>
+<para>Secondary structure in dot-bracket notation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="110" column="15" bodyfile="ViennaRNA/landscape/paths.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvrna__path__s_1a13da6bb5167362199947765b06a84005" prot="public" static="no" mutable="no">
+        <type><ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref></type>
+        <definition>vrna_move_t vrna_path_s::move</definition>
+        <argsstring></argsstring>
+        <name>move</name>
+        <qualifiedname>vrna_path_s::move</qualifiedname>
+        <briefdescription>
+<para>Move that transforms the previous structure into it&apos;s next neighbor along the path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/paths.h" line="111" column="15" bodyfile="ViennaRNA/landscape/paths.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>An element of a refolding path list. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usually, one has to deal with an array of <ref refid="structvrna__path__s" kindref="compound">vrna_path_s</ref>, e.g. returned from one of the refolding-path algorithms.</para>
+<para>Since in most cases the length of the list is not known in advance, such lists have an <emphasis>end-of-list</emphasis> marker, which is either:<itemizedlist>
+<listitem><para>a value of <emphasis>NULL</emphasis> for <ref refid="structvrna__path__s_1a141b70a59cb81d10bc65bbb7a0f6db77" kindref="member">vrna_path_s::s</ref> if <ref refid="structvrna__path__s_1a5fc9e0a7dc0e0f8ad67f24c18f2dc852" kindref="member">vrna_path_s::type</ref> = <ref refid="group__paths_1ga3e964156b52440b65fae5e2a48750d8e" kindref="member">VRNA_PATH_TYPE_DOT_BRACKET</ref>, or</para>
+</listitem><listitem><para>a <ref refid="structvrna__path__s_1a13da6bb5167362199947765b06a84005" kindref="member">vrna_path_s::move</ref> with zero in both fields <ref refid="structvrna__move__s_1a8af908c74786675a456d0f20cc8fcb9b" kindref="member">vrna_move_t::pos_5</ref> and <ref refid="structvrna__move__s_1a3849db905a45c4e399991df38705a36b" kindref="member">vrna_move_t::pos_3</ref> if <ref refid="structvrna__path__s_1a5fc9e0a7dc0e0f8ad67f24c18f2dc852" kindref="member">vrna_path_s::type</ref> = <ref refid="group__paths_1gaa73703da105dc6c98957fb8247c93f1f" kindref="member">VRNA_PATH_TYPE_MOVES</ref>.</para>
+</listitem></itemizedlist>
+</para>
+<para>In the following we show an example for how to cover both cases of iteration: <programlisting filename=".c"><codeline><highlight class="normal"><ref refid="structvrna__path__s" kindref="compound">vrna_path_t</ref><sp/>*ptr<sp/>=<sp/>path;<sp/></highlight><highlight class="comment">//<sp/>path<sp/>was<sp/>returned<sp/>from<sp/>one<sp/>of<sp/>the<sp/>refolding<sp/>path<sp/>functions,<sp/>e.g.<sp/>vrna_path_direct()</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ptr)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ptr-&gt;<ref refid="structvrna__path__s_1a5fc9e0a7dc0e0f8ad67f24c18f2dc852" kindref="member">type</ref><sp/>==<sp/><ref refid="group__paths_1ga3e964156b52440b65fae5e2a48750d8e" kindref="member">VRNA_PATH_TYPE_DOT_BRACKET</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(;<sp/>ptr-&gt;<ref refid="structvrna__path__s_1a141b70a59cb81d10bc65bbb7a0f6db77" kindref="member">s</ref>;<sp/>ptr++)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;%s<sp/>[%6.2f]\n&quot;</highlight><highlight class="normal">,<sp/>ptr-&gt;<ref refid="structvrna__path__s_1a141b70a59cb81d10bc65bbb7a0f6db77" kindref="member">s</ref>,<sp/>ptr-&gt;<ref refid="structvrna__path__s_1ac25160bf31d28097358278f367e41227" kindref="member">en</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ptr-&gt;<ref refid="structvrna__path__s_1a5fc9e0a7dc0e0f8ad67f24c18f2dc852" kindref="member">type</ref><sp/>==<sp/><ref refid="group__paths_1gaa73703da105dc6c98957fb8247c93f1f" kindref="member">VRNA_PATH_TYPE_MOVES</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(;<sp/>ptr-&gt;<ref refid="structvrna__path__s_1a13da6bb5167362199947765b06a84005" kindref="member">move</ref>.<ref refid="structvrna__move__s_1a8af908c74786675a456d0f20cc8fcb9b" kindref="member">pos_5</ref><sp/>!=<sp/>0;<sp/>ptr++)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;move<sp/>%d:%d,<sp/>dG<sp/>=<sp/>%6.2f\n&quot;</highlight><highlight class="normal">,<sp/>ptr-&gt;<ref refid="structvrna__path__s_1a13da6bb5167362199947765b06a84005" kindref="member">move</ref>.<ref refid="structvrna__move__s_1a8af908c74786675a456d0f20cc8fcb9b" kindref="member">pos_5</ref>,<sp/>ptr-&gt;<ref refid="structvrna__path__s_1a13da6bb5167362199947765b06a84005" kindref="member">move</ref>.<ref refid="structvrna__move__s_1a3849db905a45c4e399991df38705a36b" kindref="member">pos_3</ref>,<sp/>ptr-&gt;<ref refid="structvrna__path__s_1ac25160bf31d28097358278f367e41227" kindref="member">en</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="group__paths_1ga3763dc16760d09277a1b1c3f3061d0c7" kindref="member">vrna_path_free()</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>vrna_move_s</label>
+        <link refid="structvrna__move__s"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>next</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>vrna_path_s</label>
+        <link refid="structvrna__path__s"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>move</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="ViennaRNA/landscape/paths.h" line="98" column="1" bodyfile="ViennaRNA/landscape/paths.h" bodystart="98" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structvrna__path__s_1ac25160bf31d28097358278f367e41227" prot="public" virt="non-virtual"><scope>vrna_path_s</scope><name>en</name></member>
+      <member refid="structvrna__path__s_1a13da6bb5167362199947765b06a84005" prot="public" virt="non-virtual"><scope>vrna_path_s</scope><name>move</name></member>
+      <member refid="structvrna__path__s_1a141b70a59cb81d10bc65bbb7a0f6db77" prot="public" virt="non-virtual"><scope>vrna_path_s</scope><name>s</name></member>
+      <member refid="structvrna__path__s_1a5fc9e0a7dc0e0f8ad67f24c18f2dc852" prot="public" virt="non-virtual"><scope>vrna_path_s</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

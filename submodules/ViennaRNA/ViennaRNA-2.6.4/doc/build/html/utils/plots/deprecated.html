@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deprecated Interface for Plotting Utilities &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Search Algorithms" href="../search.html" />
+    <link rel="prev" title="Alignment Plots" href="alignments.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../io.html">Files and I/O</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../plots.html">Plotting</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="layouts.html">Layouts and Coordinates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="annotation.html">Annotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="probabilities.html">Pair Probability Plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alignments.html">Alignment Plots</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Deprecated Interface for Plotting Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../plots.html">Plotting</a></li>
+      <li class="breadcrumb-item active">Deprecated Interface for Plotting Utilities</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deprecated-interface-for-plotting-utilities">
+<h1>Deprecated Interface for Plotting Utilities<a class="headerlink" href="#deprecated-interface-for-plotting-utilities" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__plotting__utils__deprecated"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PS_color_aln">
+<span class="target" id="group__plotting__utils__deprecated_1ga821802c3685e37e15182341f6217470d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PS_color_aln</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seqs</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PS_color_aln" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/alignments.h&gt;</em><p>Produce PostScript sequence alignment color-annotated by consensus structure. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000173"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="alignments.html#group__alignment__plots_1ga3bb7409f5b73c2273f9f76cf8b754034"><span class="std std-ref">vrna_file_PS_aln()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.aliPS_color_aln">
+<span class="target" id="group__plotting__utils__deprecated_1gaab48d4dac655d688abe921389ac2847c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">aliPS_color_aln</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seqs</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.aliPS_color_aln" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/alignments.h&gt;</em><p>PS_color_aln for duplexes. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000174"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="alignments.html#group__alignment__plots_1ga3bb7409f5b73c2273f9f76cf8b754034"><span class="std std-ref">vrna_file_PS_aln()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.simple_xy_coordinates">
+<span class="target" id="group__plotting__utils__deprecated_1gaf4b9173e7d3fd361c3c85e6def194123"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">simple_xy_coordinates</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pair_table</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">X</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">Y</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.simple_xy_coordinates" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Calculate nucleotide coordinates for secondary structure plot the <em>Simple way</em></p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000175"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Consider switching to <a class="reference internal" href="layouts.html#group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd"><span class="std std-ref">vrna_plot_coords_simple_pt()</span></a> instead!</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../struct/deprecated.html#group__struct__utils__deprecated_1gab037d0de2e4c3d6a3f1d51b5b22315dc"><span class="std std-ref">make_pair_table()</span></a>, <a class="reference internal" href="#group__plotting__utils__deprecated_1ga5964c4581431b098b80027d6e14dcdd4"><span class="std std-ref">rna_plot_type</span></a>, <a class="reference internal" href="#group__plotting__utils__deprecated_1gac4ea13d35308f09940178d2b05a248c2"><span class="std std-ref">simple_circplot_coordinates()</span></a>, naview_xy_coordinates(), <a class="reference internal" href="../plots.html#group__plotting__utils_1ga139a31dd0ba9fc6612431f67de901c31"><span class="std std-ref">vrna_file_PS_rnaplot_a()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gabdc8f6548ba4a3bc3cd868ccbcfdb86a"><span class="std std-ref">vrna_file_PS_rnaplot</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gae7853539b5df98f294b4af434e979304"><span class="std std-ref">svg_rna_plot()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pair_table</strong> – The pair table of the secondary structure </p></li>
+<li><p><strong>X</strong> – a pointer to an array with enough allocated space to hold the x coordinates </p></li>
+<li><p><strong>Y</strong> – a pointer to an array with enough allocated space to hold the y coordinates </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>length of sequence on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.simple_circplot_coordinates">
+<span class="target" id="group__plotting__utils__deprecated_1gac4ea13d35308f09940178d2b05a248c2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">simple_circplot_coordinates</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pair_table</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">y</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.simple_circplot_coordinates" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em><p>Calculate nucleotide coordinates for <em>Circular Plot</em></p>
+<p>This function calculates the coordinates of nucleotides mapped in equal distancies onto a unit circle.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000176"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Consider switching to <a class="reference internal" href="layouts.html#group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460"><span class="std std-ref">vrna_plot_coords_circular_pt()</span></a> instead!</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../struct/deprecated.html#group__struct__utils__deprecated_1gab037d0de2e4c3d6a3f1d51b5b22315dc"><span class="std std-ref">make_pair_table()</span></a>, <a class="reference internal" href="#group__plotting__utils__deprecated_1ga5964c4581431b098b80027d6e14dcdd4"><span class="std std-ref">rna_plot_type</span></a>, <a class="reference internal" href="#group__plotting__utils__deprecated_1gaf4b9173e7d3fd361c3c85e6def194123"><span class="std std-ref">simple_xy_coordinates()</span></a>, naview_xy_coordinates(), <a class="reference internal" href="../plots.html#group__plotting__utils_1ga139a31dd0ba9fc6612431f67de901c31"><span class="std std-ref">vrna_file_PS_rnaplot_a()</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gabdc8f6548ba4a3bc3cd868ccbcfdb86a"><span class="std std-ref">vrna_file_PS_rnaplot</span></a>, <a class="reference internal" href="../plots.html#group__plotting__utils_1gae7853539b5df98f294b4af434e979304"><span class="std std-ref">svg_rna_plot()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In order to draw nice arcs using quadratic bezier curves that connect base pairs one may calculate a second tangential point <span class="math notranslate nohighlight">\(P^t\)</span> in addition to the actual R<sup>2</sup> coordinates. the simplest way to do so may be to compute a radius scaling factor <span class="math notranslate nohighlight">\(rs\)</span> in the interval <span class="math notranslate nohighlight">\([0,1]\)</span> that weights the proportion of base pair span to the actual length of the sequence. This scaling factor can then be used to calculate the coordinates for <span class="math notranslate nohighlight">\(P^t\)</span>, i.e. <span class="math notranslate nohighlight">\( P^{t}_x[i] = X[i] * rs\)</span> and <span class="math notranslate nohighlight">\(P^{t}_y[i] = Y[i] * rs\)</span>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pair_table</strong> – The pair table of the secondary structure </p></li>
+<li><p><strong>x</strong> – a pointer to an array with enough allocated space to hold the x coordinates </p></li>
+<li><p><strong>y</strong> – a pointer to an array with enough allocated space to hold the y coordinates </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>length of sequence on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PS_color_dot_plot">
+<span class="target" id="group__plotting__utils__deprecated_1gaa88c6a2455d08cecdb9d58ec2a366c46"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PS_color_dot_plot</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <a class="reference internal" href="../data_structures.html#c.vrna_cpair_t" title="vrna_cpair_t"><span class="n"><span class="pre">vrna_cpair_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pi</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PS_color_dot_plot" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PS_color_dot_plot_turn">
+<span class="target" id="group__plotting__utils__deprecated_1ga3afb175db9396ea4f7f7dd25950509fa"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PS_color_dot_plot_turn</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <a class="reference internal" href="../data_structures.html#c.vrna_cpair_t" title="vrna_cpair_t"><span class="n"><span class="pre">vrna_cpair_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pi</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">winSize</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PS_color_dot_plot_turn" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PS_dot_plot_turn">
+<span class="target" id="group__plotting__utils__deprecated_1gaabe8e6cb31a52763c8549861b1022a96"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PS_dot_plot_turn</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <a class="reference internal" href="../struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pl</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">winSize</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PS_dot_plot_turn" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PS_dot_plot_list">
+<span class="target" id="group__plotting__utils__deprecated_1ga4d3a807be24a9a60a90a82dbc3225f02"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PS_dot_plot_list</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <a class="reference internal" href="../struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pl</span></span>, <a class="reference internal" href="../struct/plist.html#c.vrna_ep_t" title="vrna_ep_t"><span class="n"><span class="pre">vrna_ep_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">mf</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">comment</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PS_dot_plot_list" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em><p>Produce a postscript dot-plot from two pair lists. </p>
+<p>This function reads two plist structures (e.g. base pair probabilities and a secondary structure) as produced by <a class="reference internal" href="../../partfunc/global_deprecated.html#group__part__func__global__deprecated_1ga1cc05aaa9b0e7df2d3887e98321c2030"><span class="std std-ref">assign_plist_from_pr()</span></a> and <a class="reference internal" href="../../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gab61df77cf7949cd516181fce0c3d7d78"><span class="std std-ref">assign_plist_from_db()</span></a><p>and produces a postscript “dot plot” that is written to ‘filename’.</p>
+<p>Using base pair probabilities in the first and mfe structure in the second plist, the resulting “dot plot” represents each base pairing probability by a square of corresponding area in a upper triangle matrix. The lower part of the matrix contains the minimum free energy structure.</p>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../../partfunc/global_deprecated.html#group__part__func__global__deprecated_1ga1cc05aaa9b0e7df2d3887e98321c2030"><span class="std std-ref">assign_plist_from_pr()</span></a>, <a class="reference internal" href="../../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gab61df77cf7949cd516181fce0c3d7d78"><span class="std std-ref">assign_plist_from_db()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq</strong> – The RNA sequence </p></li>
+<li><p><strong>filename</strong> – A filename for the postscript output </p></li>
+<li><p><strong>pl</strong> – The base pair probability pairlist </p></li>
+<li><p><strong>mf</strong> – The mfe secondary structure pairlist </p></li>
+<li><p><strong>comment</strong> – A comment </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 if postscript was successfully written, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PS_dot_plot">
+<span class="target" id="group__plotting__utils__deprecated_1ga689a97a7e3b8a2df14728b8204d9d57b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PS_dot_plot</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PS_dot_plot" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/plotting/probabilities.h&gt;</em><p>Produce postscript dot-plot. </p>
+<p>Wrapper to PS_dot_plot_list</p>
+<p>Reads base pair probabilities produced by <a class="reference internal" href="../../partfunc/global_deprecated.html#group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2"><span class="std std-ref">pf_fold()</span></a> from the global array pr and the pair list base_pair produced by <a class="reference internal" href="../../mfe/global_deprecated.html#group__mfe__global__deprecated_1gaadafcb0f140795ae62e5ca027e335a9b"><span class="std std-ref">fold()</span></a> and produces a postscript “dot plot” that is written to ‘filename’. The “dot plot” represents each base pairing probability by a square of corresponding area in a upper triangle matrix. The lower part of the matrix contains the minimum free energy <dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000177"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This function is deprecated and will be removed soon! Use <a class="reference internal" href="#group__plotting__utils__deprecated_1ga4d3a807be24a9a60a90a82dbc3225f02"><span class="std std-ref">PS_dot_plot_list()</span></a> instead! </p>
+</dd></dl>
+
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>DO NOT USE THIS FUNCTION ANYMORE SINCE IT IS NOT THREADSAFE</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-variables">Variables</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.rna_plot_type">
+<span class="target" id="group__plotting__utils__deprecated_1ga5964c4581431b098b80027d6e14dcdd4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rna_plot_type</span></span></span><a class="headerlink" href="#c.rna_plot_type" title="Link to this definition"></a><br /></dt>
+<dd><p>Switch for changing the secondary structure layout algorithm. </p>
+<p>Current possibility are 0 for a simple radial drawing or 1 for the modified radial drawing taken from the <em>naview</em> program of  <span> <span id="id1">Bruccoleri and Heinrich [<a class="reference internal" href="../../bibliography.html#id15" title="R.E. Bruccoleri and G. Heinrich. An improved algorithm for nucleic acid secondary structure display. Computer applications in the biosciences: CABIOS, 4(1):167–173, 1988. doi:10.1093/bioinformatics/4.1.167.">1988</a>]</span> </span>.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="layouts.html#group__plot__layout__utils_1gae6d17b9f0a53cf5205a9181e0f8422e9"><span class="std std-ref">VRNA_PLOT_TYPE_SIMPLE</span></a>, <a class="reference internal" href="layouts.html#group__plot__layout__utils_1ga94d4c863ecac2f220f76658afb92f964"><span class="std std-ref">VRNA_PLOT_TYPE_NAVIEW</span></a>, <a class="reference internal" href="layouts.html#group__plot__layout__utils_1ga8c9eac631348da92136c8363ecdd9fb9"><span class="std std-ref">VRNA_PLOT_TYPE_CIRCULAR</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To provide thread safety please do not rely on this global variable in future implementations but pass a plot type flag directly to the function that decides which layout algorithm it may use!</p>
+</div>
+</dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.COORDINATE">
+<span class="target" id="structCOORDINATE"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">COORDINATE</span></span></span><a class="headerlink" href="#c.COORDINATE" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/plotting/layouts.h&gt;</em></div>
+<p>this is a workarround for the SWIG Perl Wrapper RNA plot function that returns an array of type <a class="reference internal" href="#structCOORDINATE"><span class="std std-ref">COORDINATE</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.COORDINATE.X">
+<span class="target" id="structCOORDINATE_1a1650ff457f1fcf1b29dfccf1cbe4c3e9"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">X</span></span></span><a class="headerlink" href="#c.COORDINATE.X" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.COORDINATE.Y">
+<span class="target" id="structCOORDINATE_1a827df1c548f95486abf6c6a94d6ce6b2"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Y</span></span></span><a class="headerlink" href="#c.COORDINATE.Y" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="alignments.html" class="btn btn-neutral float-left" title="Alignment Plots" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../search.html" class="btn btn-neutral float-right" title="Search Algorithms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

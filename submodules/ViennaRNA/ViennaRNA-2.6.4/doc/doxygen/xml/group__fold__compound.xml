@@ -1,0 +1,725 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__fold__compound" kind="group">
+    <compoundname>fold_compound</compoundname>
+    <title>The Fold Compound</title>
+    <innerfile refid="fold__compound_8h">fold_compound.h</innerfile>
+    <innerclass refid="structvrna__fc__s" prot="public">vrna_fc_s</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group__fold__compound_1ga01a4ff86fa71deaaa5d1abbd95a1447d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>vrna_fc_type_e</name>
+        <enumvalue id="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" prot="public">
+          <name>VRNA_FC_TYPE_SINGLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Type is suitable for single, and hybridizing sequences </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" prot="public">
+          <name>VRNA_FC_TYPE_COMPARATIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Type is suitable for sequence alignments (consensus structure prediction) </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>An enumerator that is used to specify the type of a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="142" column="1" bodyfile="ViennaRNA/fold_compound.h" bodystart="142" bodyend="145"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" prot="public" static="no">
+        <type>struct <ref refid="structvrna__fc__s" kindref="compound">vrna_fc_s</ref></type>
+        <definition>typedef struct vrna_fc_s vrna_fold_compound_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_fold_compound_t</name>
+        <briefdescription>
+<para>Typename for the fold_compound data structure <ref refid="structvrna__fc__s" kindref="compound">vrna_fc_s</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="30" column="24" bodyfile="ViennaRNA/fold_compound.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* vrna_auxdata_free_f) (void *data)</definition>
+        <argsstring>)(void *data)</argsstring>
+        <name>vrna_auxdata_free_f</name>
+        <briefdescription>
+<para>Callback to free memory allocated for auxiliary user-provided data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This type of user-implemented function usually deletes auxiliary data structures. The user must take care to free all the memory occupied by the data structure passed.</para>
+<para><xrefsect id="callbacks_1_callbacks000002"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>This callback is supposed to free memory occupied by an auxiliary data structure. It will be called when the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> is erased from memory through a call to <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref> and will be passed the address of memory previously bound to the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> via <ref refid="group__fold__compound_1gad6c0747712712bda6d94702e0de895a7" kindref="member">vrna_fold_compound_add_auxdata()</ref>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gad6c0747712712bda6d94702e0de895a7" kindref="member">vrna_fold_compound_add_auxdata()</ref>, <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__fold__compound_1ga579952cc017127b81e89a186c0d6b9c2" kindref="member">vrna_fold_compound_add_callback()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data that needs to be free&apos;d </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="50" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__fold__compound_1gab78664b2ef71ae6d147d6e74bf2862d3" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* vrna_auxdata_prepare_f) (vrna_fold_compound_t *fc, void *data, unsigned int event, void *event_data)</definition>
+        <argsstring>)(vrna_fold_compound_t *fc, void *data, unsigned int event, void *event_data)</argsstring>
+        <name>vrna_auxdata_prepare_f</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="53" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__fold__compound_1ga7806651f51b195013839a218b3bbd5a3" prot="public" static="no">
+        <type>void()</type>
+        <definition>typedef void() vrna_callback_free_auxdata(void *data)</definition>
+        <argsstring>(void *data)</argsstring>
+        <name>vrna_callback_free_auxdata</name>
+        <briefdescription>
+<para>Callback to free memory allocated for auxiliary user-provided data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000078"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a" kindref="member">vrna_auxdata_free_f(void *data)</ref> instead! </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="65" column="10" bodyfile="ViennaRNA/fold_compound.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* vrna_recursion_status_f) (unsigned char status, void *data)</definition>
+        <argsstring>)(unsigned char status, void *data)</argsstring>
+        <name>vrna_recursion_status_f</name>
+        <briefdescription>
+<para>Callback to perform specific user-defined actions before, or after recursive computations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="callbacks_1_callbacks000003"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>This function will be called to notify a third-party implementation about the status of a currently ongoing recursion. The purpose of this callback mechanism is to provide users with a simple way to ensure pre- and post conditions for auxiliary mechanisms attached to our implementations. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gad6c0747712712bda6d94702e0de895a7" kindref="member">vrna_fold_compound_add_auxdata()</ref>, <ref refid="group__fold__compound_1ga579952cc017127b81e89a186c0d6b9c2" kindref="member">vrna_fold_compound_add_callback()</ref>, <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref>, <ref refid="group__fold__compound_1ga1a5053dc8acbb0111e852988726f07d6" kindref="member">VRNA_STATUS_MFE_PRE</ref>, <ref refid="group__fold__compound_1ga47c900ca76e56e59e2e83a06e0bde641" kindref="member">VRNA_STATUS_MFE_POST</ref>, <ref refid="group__fold__compound_1ga91795d35ebdb6f32be50459f24b3d114" kindref="member">VRNA_STATUS_PF_PRE</ref>, <ref refid="group__fold__compound_1ga1c6fa243533fd026e50f7d595eaaa565" kindref="member">VRNA_STATUS_PF_POST</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The status indicator </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data structure that was assigned with <ref refid="group__fold__compound_1gad6c0747712712bda6d94702e0de895a7" kindref="member">vrna_fold_compound_add_auxdata()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="85" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__fold__compound_1gac86036fa8cad1108832335063243cdc8" prot="public" static="no">
+        <type>void()</type>
+        <definition>typedef void() vrna_callback_recursion_status(unsigned char status, void *data)</definition>
+        <argsstring>(unsigned char status, void *data)</argsstring>
+        <name>vrna_callback_recursion_status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="90" column="10" bodyfile="ViennaRNA/fold_compound.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+        <definition>vrna_fold_compound_t * vrna_fold_compound</definition>
+        <argsstring>(const char *sequence, const vrna_md_t *md_p, unsigned int options)</argsstring>
+        <name>vrna_fold_compound</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> *</type>
+          <declname>md_p</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> data structure for single sequences and hybridizing sequences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function provides an easy interface to obtain a prefilled <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> by passing a single sequence, or two contatenated sequences as input. For the latter, sequences need to be seperated by an &apos;&amp;&apos; character like this: <verbatim>char *sequence = &quot;GGGG&amp;CCCC&quot;; </verbatim></para>
+<para>The optional parameter <computeroutput>md_p</computeroutput> can be used to specify the model details for successive computations based on the content of the generated <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. Passing NULL will instruct the function to use default model details. The third parameter <computeroutput>options</computeroutput> may be used to specify dynamic programming (DP) matrix requirements.</para>
+<para><heading level="4">Options</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref> -  Option flag to specify default settings/requirements.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref> -  Option flag to specify requirement of Minimum Free Energy (MFE) DP matrices and corresponding set of energy parameters.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref> -  Option flag to specify requirement of Partition Function (PF) DP matrices and corresponding set of Boltzmann factors.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref> -  Option flag to specify requirement of DP matrices for local folding approaches.  </para>
+</listitem></itemizedlist>
+</para>
+<para>The above options may be OR-ed together.</para>
+<para>If you just need the folding compound serving as a container for your data, you can simply pass <ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref> to the <computeroutput>option</computeroutput> parameter. This creates a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> without DP matrices, thus saving memory. Subsequent calls of any structure prediction function will then take care of allocating the memory required for the DP matrices. If you only intend to evaluate structures instead of actually predicting them, you may use the <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref> macro. This will seriously speedup the creation of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>.</para>
+<para><simplesect kind="note"><para>The sequence string must be uppercase, and should contain only RNA (resp. DNA) alphabet depending on what energy parameter set is used</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A single sequence, or two concatenated sequences seperated by an &apos;&amp;&apos; character </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>md_p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An optional set of model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options for DP matrices memory allocation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A prefilled vrna_fold_compound_t ready to be used for computations (may be <computeroutput>NULL</computeroutput> on error) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="470" column="1" declfile="ViennaRNA/fold_compound.h" declline="470" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+        <definition>vrna_fold_compound_t * vrna_fold_compound_comparative</definition>
+        <argsstring>(const char **sequences, vrna_md_t *md_p, unsigned int options)</argsstring>
+        <name>vrna_fold_compound_comparative</name>
+        <param>
+          <type>const char **</type>
+          <declname>sequences</declname>
+        </param>
+        <param>
+          <type><ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> *</type>
+          <declname>md_p</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> data structure for sequence alignments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function provides an easy interface to obtain a prefilled <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> by passing an alignment of sequences.</para>
+<para>The optional parameter <computeroutput>md_p</computeroutput> can be used to specify the model details for successive computations based on the content of the generated <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. Passing NULL will instruct the function to use default model details. The third parameter <computeroutput>options</computeroutput> may be used to specify dynamic programming (DP) matrix requirements.</para>
+<para><heading level="4">Options</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref> -  Option flag to specify default settings/requirements.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref> -  Option flag to specify requirement of Minimum Free Energy (MFE) DP matrices and corresponding set of energy parameters.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref> -  Option flag to specify requirement of Partition Function (PF) DP matrices and corresponding set of Boltzmann factors.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref> -  Option flag to specify requirement of DP matrices for local folding approaches.  </para>
+</listitem></itemizedlist>
+</para>
+<para>The above options may be OR-ed together.</para>
+<para>If you just need the folding compound serving as a container for your data, you can simply pass <ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref> to the <computeroutput>option</computeroutput> parameter. This creates a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> without DP matrices, thus saving memory. Subsequent calls of any structure prediction function will then take care of allocating the memory required for the DP matrices. If you only intend to evaluate structures instead of actually predicting them, you may use the <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref> macro. This will seriously speedup the creation of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>.</para>
+<para><simplesect kind="note"><para>The sequence strings must be uppercase, and should contain only RNA (resp. DNA) alphabet including gap characters depending on what energy parameter set is used.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref>, <ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref>, <ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref>, <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref>, read_clustal()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A sequence alignment including &apos;gap&apos; characters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>md_p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An optional set of model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The options for DP matrices memory allocation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A prefilled vrna_fold_compound_t ready to be used for computations (may be <computeroutput>NULL</computeroutput> on error) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="513" column="1" declfile="ViennaRNA/fold_compound.h" declline="513" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__fold__compound_1ga249143e997e79cec842a2bad2b8bd02e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+        <definition>vrna_fold_compound_t * vrna_fold_compound_comparative2</definition>
+        <argsstring>(const char **sequences, const char **names, const unsigned char *orientation, const unsigned long long *start, const unsigned long long *genome_size, vrna_md_t *md_p, unsigned int options)</argsstring>
+        <name>vrna_fold_compound_comparative2</name>
+        <param>
+          <type>const char **</type>
+          <declname>sequences</declname>
+        </param>
+        <param>
+          <type>const char **</type>
+          <declname>names</declname>
+        </param>
+        <param>
+          <type>const unsigned char *</type>
+          <declname>orientation</declname>
+        </param>
+        <param>
+          <type>const unsigned long long *</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>const unsigned long long *</type>
+          <declname>genome_size</declname>
+        </param>
+        <param>
+          <type><ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> *</type>
+          <declname>md_p</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="519" column="1" declfile="ViennaRNA/fold_compound.h" declline="519" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__fold__compound_1ga5186f53af9c11edab6e0269c2c6f6231" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+        <definition>vrna_fold_compound_t * vrna_fold_compound_TwoD</definition>
+        <argsstring>(const char *sequence, const char *s1, const char *s2, vrna_md_t *md_p, unsigned int options)</argsstring>
+        <name>vrna_fold_compound_TwoD</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>s2</declname>
+        </param>
+        <param>
+          <type><ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> *</type>
+          <declname>md_p</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="529" column="1" declfile="ViennaRNA/fold_compound.h" declline="529" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__fold__compound_1ga051b4bb675cc11b8ced15a6780fd26b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_fold_compound_prepare</definition>
+        <argsstring>(vrna_fold_compound_t *fc, unsigned int options)</argsstring>
+        <name>vrna_fold_compound_prepare</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="537" column="1" declfile="ViennaRNA/fold_compound.h" declline="537" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_fold_compound_free</definition>
+        <argsstring>(vrna_fold_compound_t *fc)</argsstring>
+        <name>vrna_fold_compound_free</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+<para>Free memory occupied by a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__dp__matrices_1gaf429b1838e68cb677db6aef7e8f0ffc8" kindref="member">vrna_mx_mfe_free()</ref>, <ref refid="group__dp__matrices_1gab9d4eaceb36345b71d349b12787c5e0a" kindref="member">vrna_mx_pf_free()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> that is to be erased from memory </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="549" column="1" declfile="ViennaRNA/fold_compound.h" declline="549" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__fold__compound_1gad6c0747712712bda6d94702e0de895a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_fold_compound_add_auxdata</definition>
+        <argsstring>(vrna_fold_compound_t *fc, void *data, vrna_auxdata_free_f f)</argsstring>
+        <name>vrna_fold_compound_add_auxdata</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a" kindref="member">vrna_auxdata_free_f</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>Add auxiliary data to the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows one to bind arbitrary data to a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> which may later on be used by one of the callback functions, e.g. <ref refid="group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761" kindref="member">vrna_recursion_status_f()</ref>. To allow for proper cleanup of the memory occupied by this auxiliary data, the user may also provide a pointer to a cleanup function that free&apos;s the corresponding memory. This function will be called automatically when the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> is free&apos;d with <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>.</para>
+<para><simplesect kind="note"><para>Before attaching the arbitrary data pointer, this function will call the <ref refid="group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a" kindref="member">vrna_auxdata_free_f()</ref> on any pre-existing data that is already attached.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a" kindref="member">vrna_auxdata_free_f()</ref> </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold_compound the arbitrary data pointer should be associated with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to an arbitrary data structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to function that free&apos;s memory occupied by the arbitrary data (May be NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="570" column="1" declfile="ViennaRNA/fold_compound.h" declline="570" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__fold__compound_1ga579952cc017127b81e89a186c0d6b9c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_fold_compound_add_callback</definition>
+        <argsstring>(vrna_fold_compound_t *fc, vrna_recursion_status_f f)</argsstring>
+        <name>vrna_fold_compound_add_callback</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type><ref refid="group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761" kindref="member">vrna_recursion_status_f</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>Add a recursion status callback to the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Binding a recursion status callback function to a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> allows one to perform arbitrary operations just before, or after an actual recursive computations, e.g. MFE prediction, is performed by the RNAlib. The callback function will be provided with a pointer to its <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>, and a status message. Hence, it has complete access to all variables that incluence the recursive computations.</para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761" kindref="member">vrna_recursion_status_f()</ref>, <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>, <ref refid="group__fold__compound_1ga1a5053dc8acbb0111e852988726f07d6" kindref="member">VRNA_STATUS_MFE_PRE</ref>, <ref refid="group__fold__compound_1ga47c900ca76e56e59e2e83a06e0bde641" kindref="member">VRNA_STATUS_MFE_POST</ref>, <ref refid="group__fold__compound_1ga91795d35ebdb6f32be50459f24b3d114" kindref="member">VRNA_STATUS_PF_PRE</ref>, <ref refid="group__fold__compound_1ga1c6fa243533fd026e50f7d595eaaa565" kindref="member">VRNA_STATUS_PF_POST</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold_compound the callback function should be attached to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to the recursion status callback function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="591" column="1" declfile="ViennaRNA/fold_compound.h" declline="591" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__fold__compound_1ga1a5053dc8acbb0111e852988726f07d6" prot="public" static="no">
+        <name>VRNA_STATUS_MFE_PRE</name>
+        <initializer>(unsigned char)1</initializer>
+        <briefdescription>
+<para>Status message indicating that MFE computations are about to begin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="structvrna__fc__s_1aef282a5d126e0038f3855e59a99ef360" kindref="member">vrna_fold_compound_t.stat_cb</ref>, <ref refid="group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761" kindref="member">vrna_recursion_status_f()</ref>, <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, <ref refid="group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc" kindref="member">vrna_fold()</ref>, <ref refid="group__mfe__global_1gaf973483d8acbc8cc9aacfc8a9b7f0074" kindref="member">vrna_circfold()</ref>, <ref refid="group__mfe__global_1ga6c9d3bef3e92c6d423ffac9f981418c1" kindref="member">vrna_alifold()</ref>, <ref refid="group__mfe__global_1ga17a1be7490468c29c335ba9bffacba53" kindref="member">vrna_circalifold()</ref>, <ref refid="group__mfe__global_1ga9ef3a297201dbf838a8daff2b45c0c82" kindref="member">vrna_cofold()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="99" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1ga47c900ca76e56e59e2e83a06e0bde641" prot="public" static="no">
+        <name>VRNA_STATUS_MFE_POST</name>
+        <initializer>(unsigned char)2</initializer>
+        <briefdescription>
+<para>Status message indicating that MFE computations are finished. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="structvrna__fc__s_1aef282a5d126e0038f3855e59a99ef360" kindref="member">vrna_fold_compound_t.stat_cb</ref>, <ref refid="group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761" kindref="member">vrna_recursion_status_f()</ref>, <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, <ref refid="group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc" kindref="member">vrna_fold()</ref>, <ref refid="group__mfe__global_1gaf973483d8acbc8cc9aacfc8a9b7f0074" kindref="member">vrna_circfold()</ref>, <ref refid="group__mfe__global_1ga6c9d3bef3e92c6d423ffac9f981418c1" kindref="member">vrna_alifold()</ref>, <ref refid="group__mfe__global_1ga17a1be7490468c29c335ba9bffacba53" kindref="member">vrna_circalifold()</ref>, <ref refid="group__mfe__global_1ga9ef3a297201dbf838a8daff2b45c0c82" kindref="member">vrna_cofold()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="107" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1ga91795d35ebdb6f32be50459f24b3d114" prot="public" static="no">
+        <name>VRNA_STATUS_PF_PRE</name>
+        <initializer>(unsigned char)3</initializer>
+        <briefdescription>
+<para>Status message indicating that Partition function computations are about to begin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="structvrna__fc__s_1aef282a5d126e0038f3855e59a99ef360" kindref="member">vrna_fold_compound_t.stat_cb</ref>, <ref refid="group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761" kindref="member">vrna_recursion_status_f()</ref>, <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="114" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1ga1c6fa243533fd026e50f7d595eaaa565" prot="public" static="no">
+        <name>VRNA_STATUS_PF_POST</name>
+        <initializer>(unsigned char)4</initializer>
+        <briefdescription>
+<para>Status message indicating that Partition function computations are finished. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="structvrna__fc__s_1aef282a5d126e0038f3855e59a99ef360" kindref="member">vrna_fold_compound_t.stat_cb</ref>, <ref refid="group__fold__compound_1gaecc502a808c9b3b08193f3f0c7f57761" kindref="member">vrna_recursion_status_f()</ref>, <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="121" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" prot="public" static="no">
+        <name>VRNA_OPTION_DEFAULT</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+<para>Option flag to specify default settings/requirements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="387" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" prot="public" static="no">
+        <name>VRNA_OPTION_MFE</name>
+        <initializer>(1 &lt;&lt; 0)</initializer>
+        <briefdescription>
+<para>Option flag to specify requirement of Minimum Free Energy (MFE) DP matrices and corresponding set of energy parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="395" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" prot="public" static="no">
+        <name>VRNA_OPTION_PF</name>
+        <initializer>(1 &lt;&lt; 1)</initializer>
+        <briefdescription>
+<para>Option flag to specify requirement of Partition Function (PF) DP matrices and corresponding set of Boltzmann factors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="403" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1ga8f681fa12b8d4b348bf58415fd1fc82f" prot="public" static="no">
+        <name>VRNA_OPTION_HYBRID</name>
+        <initializer>(1 &lt;&lt; 2)</initializer>
+        <briefdescription>
+<para>Option flag to specify requirement of dimer DP matrices. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="408" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" prot="public" static="no">
+        <name>VRNA_OPTION_EVAL_ONLY</name>
+        <initializer>(1 &lt;&lt; 3)</initializer>
+        <briefdescription>
+<para>Option flag to specify that neither MFE, nor PF DP matrices are required. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this flag in conjuntion with <ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref>, and <ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref> to save memory for a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> obtained from <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, or <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref> in cases where only energy evaluation but no structure prediction is required.</para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="419" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" prot="public" static="no">
+        <name>VRNA_OPTION_WINDOW</name>
+        <initializer>(1 &lt;&lt; 4)</initializer>
+        <briefdescription>
+<para>Option flag to specify requirement of DP matrices for local folding approaches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="424" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1ga10fd4c73c91557495f1a41d6cc72e595" prot="public" static="no">
+        <name>VRNA_OPTION_F5</name>
+        <initializer>(1 &lt;&lt; 5)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="427" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1gabca873cc37c26910db8b37bf864db252" prot="public" static="no">
+        <name>VRNA_OPTION_F3</name>
+        <initializer>(1 &lt;&lt; 6)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="428" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1gaf4c7bf371bdb153d8c2955a7b4cffe8b" prot="public" static="no">
+        <name>VRNA_OPTION_WINDOW_F5</name>
+        <initializer>(<ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref> | VRNA_OPTION_F5)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="429" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__fold__compound_1ga371ddcb556d7578433661dd7591a787c" prot="public" static="no">
+        <name>VRNA_OPTION_WINDOW_F3</name>
+        <initializer>(<ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref> | VRNA_OPTION_F3)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/fold_compound.h" line="430" column="9" bodyfile="ViennaRNA/fold_compound.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

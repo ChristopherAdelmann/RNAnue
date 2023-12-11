@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__search__utils" kind="group">
+    <compoundname>search_utils</compoundname>
+    <title>Search Algorithms</title>
+    <innerfile refid="BoyerMoore_8h">BoyerMoore.h</innerfile>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__search__utils_1gab7982880343a052452e102d40fd3eff6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const unsigned int *</type>
+        <definition>const unsigned int * vrna_search_BMH_num</definition>
+        <argsstring>(const unsigned int *needle, size_t needle_size, const unsigned int *haystack, size_t haystack_size, size_t start, size_t *badchars, unsigned char cyclic)</argsstring>
+        <name>vrna_search_BMH_num</name>
+        <param>
+          <type>const unsigned int *</type>
+          <declname>needle</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>needle_size</declname>
+        </param>
+        <param>
+          <type>const unsigned int *</type>
+          <declname>haystack</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>haystack_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>badchars</declname>
+        </param>
+        <param>
+          <type>unsigned char</type>
+          <declname>cyclic</declname>
+        </param>
+        <briefdescription>
+<para>Search for a string of elements in a larger string of elements using the Boyer-Moore-Horspool algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To speed-up subsequent searches with this function, the Bad Character Table should be precomputed and passed as argument <computeroutput>badchars</computeroutput>.</para>
+<para><simplesect kind="see"><para><ref refid="group__search__utils_1ga66f96a54d0fd58fe86b5566528a1cc8f" kindref="member">vrna_search_BM_BCT_num()</ref>, <ref refid="group__search__utils_1ga77ca780913c5f07d9a5c40bd325dc752" kindref="member">vrna_search_BMH()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>needle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pattern of object representations to search for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>needle_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size (length) of the pattern provided in <computeroutput>needle</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>haystack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string of objects the search will be performed on </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>haystack_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size (length) of the <computeroutput>haystack</computeroutput> string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position within <computeroutput>haystack</computeroutput> where to start the search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>badchars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pre-computed Bad Character Table obtained from <ref refid="group__search__utils_1ga66f96a54d0fd58fe86b5566528a1cc8f" kindref="member">vrna_search_BM_BCT_num()</ref> (If NULL, a Bad Character Table will be generated automatically) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cyclic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Allow for cyclic matches if non-zero, stop search at end of haystack otherwise </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the first occurence of <computeroutput>needle</computeroutput> within <computeroutput>haystack</computeroutput> after position <computeroutput>start</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/search/BoyerMoore.h" line="35" column="1" declfile="ViennaRNA/search/BoyerMoore.h" declline="35" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__search__utils_1ga77ca780913c5f07d9a5c40bd325dc752" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * vrna_search_BMH</definition>
+        <argsstring>(const char *needle, size_t needle_size, const char *haystack, size_t haystack_size, size_t start, size_t *badchars, unsigned char cyclic)</argsstring>
+        <name>vrna_search_BMH</name>
+        <param>
+          <type>const char *</type>
+          <declname>needle</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>needle_size</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>haystack</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>haystack_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>badchars</declname>
+        </param>
+        <param>
+          <type>unsigned char</type>
+          <declname>cyclic</declname>
+        </param>
+        <briefdescription>
+<para>Search for an ASCII pattern within a larger ASCII string using the Boyer-Moore-Horspool algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To speed-up subsequent searches with this function, the Bad Character Table should be precomputed and passed as argument <computeroutput>badchars</computeroutput>. Furthermore, both, the lengths of <computeroutput>needle</computeroutput> and the length of <computeroutput>haystack</computeroutput> should be pre-computed and must be passed along with each call.</para>
+<para><simplesect kind="see"><para><ref refid="group__search__utils_1gae4d08bb27d9daaba2be2e59d1c7cf2ab" kindref="member">vrna_search_BM_BCT()</ref>, <ref refid="group__search__utils_1gab7982880343a052452e102d40fd3eff6" kindref="member">vrna_search_BMH_num()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>needle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The NULL-terminated ASCII pattern to search for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>needle_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size (length) of the pattern provided in <computeroutput>needle</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>haystack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The NULL-terminated ASCII string of the search will be performed on </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>haystack_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size (length) of the <computeroutput>haystack</computeroutput> string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position within <computeroutput>haystack</computeroutput> where to start the search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>badchars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pre-computed Bad Character Table obtained from <ref refid="group__search__utils_1gae4d08bb27d9daaba2be2e59d1c7cf2ab" kindref="member">vrna_search_BM_BCT()</ref> (If NULL, a Bad Character Table will be generated automatically) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cyclic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Allow for cyclic matches if non-zero, stop search at end of haystack otherwise </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the first occurence of <computeroutput>needle</computeroutput> within <computeroutput>haystack</computeroutput> after position <computeroutput>start</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/search/BoyerMoore.h" line="66" column="1" declfile="ViennaRNA/search/BoyerMoore.h" declline="66" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__search__utils_1ga66f96a54d0fd58fe86b5566528a1cc8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t *</type>
+        <definition>size_t * vrna_search_BM_BCT_num</definition>
+        <argsstring>(const unsigned int *pattern, size_t pattern_size, unsigned int num_max)</argsstring>
+        <name>vrna_search_BM_BCT_num</name>
+        <param>
+          <type>const unsigned int *</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pattern_size</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>num_max</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a Boyer-Moore Bad Character Table for a pattern of elements represented by natural numbers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>We store the maximum number representation of an element <computeroutput>num_max</computeroutput> at position <computeroutput>0</computeroutput>. So the actual bad character table <computeroutput>T</computeroutput> starts at <computeroutput>T</computeroutput>[1] for an element represented by number <computeroutput>0</computeroutput>.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__search__utils_1gab7982880343a052452e102d40fd3eff6" kindref="member">vrna_search_BMH_num()</ref>, <ref refid="group__search__utils_1gae4d08bb27d9daaba2be2e59d1c7cf2ab" kindref="member">vrna_search_BM_BCT()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pattern of element representations used in the subsequent search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pattern_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size (length) of the pattern provided in <computeroutput>pattern</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num_max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum number representation of an element, i.e. the size of the alphabet </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A Bad Character Table for use in our Boyer-Moore search algorithm implementation(s) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/search/BoyerMoore.h" line="91" column="1" declfile="ViennaRNA/search/BoyerMoore.h" declline="91" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__search__utils_1gae4d08bb27d9daaba2be2e59d1c7cf2ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t *</type>
+        <definition>size_t * vrna_search_BM_BCT</definition>
+        <argsstring>(const char *pattern)</argsstring>
+        <name>vrna_search_BM_BCT</name>
+        <param>
+          <type>const char *</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a Boyer-Moore Bad Character Table for a NULL-terminated pattern of ASCII characters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>We store the maximum number representation of an element, i.e. <computeroutput>127</computeroutput> at position <computeroutput>0</computeroutput>. So the actual bad character table <computeroutput>T</computeroutput> starts at <computeroutput>T</computeroutput>[1] for an element represented by ASCII code <computeroutput>0</computeroutput>.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__search__utils_1ga77ca780913c5f07d9a5c40bd325dc752" kindref="member">vrna_search_BMH()</ref>, <ref refid="group__search__utils_1ga66f96a54d0fd58fe86b5566528a1cc8f" kindref="member">vrna_search_BM_BCT_num()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The NULL-terminated pattern of ASCII characters used in the subsequent search </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A Bad Character Table for use in our Boyer-Moore search algorithm implementation(s) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/search/BoyerMoore.h" line="109" column="1" declfile="ViennaRNA/search/BoyerMoore.h" declline="109" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

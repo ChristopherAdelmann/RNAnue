@@ -40,11 +40,13 @@
 #include "ScoringMatrix.hpp"
 #include "Traceback.hpp"
 #include "Logger.hpp"
+#include "Helper.hpp"
 
 extern "C"
 {
-#include <ViennaRNA/fold.h>
+#include <ViennaRNA/cofold.h>
 #include <ViennaRNA/utils/basic.h>
+#include <ViennaRNA/utils/strings.h>
 }
 
 namespace po = boost::program_options;
@@ -187,12 +189,12 @@ private:
     int nsurvivedcount;
 
     double findCrosslinkingSites(
-        std::span<seqan3::dna5> &seq1,
-        std::span<seqan3::dna5> &seq2,
+        std::span<seqan3::dna5> const &seq1,
+        std::span<seqan3::dna5> const &seq2,
         std::vector<seqan3::dot_bracket3> &dotbracket);
     std::optional<InteractionWindow> getContinuosNucleotideWindows(
-        std::span<seqan3::dna5> &seq1,
-        std::span<seqan3::dna5> &seq2,
+        std::span<seqan3::dna5> const &seq1,
+        std::span<seqan3::dna5> const &seq2,
         NucleotidePositionsWindow positionsPair);
 
 public:

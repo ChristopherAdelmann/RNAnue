@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C Examples &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Python Examples" href="python.html" />
+    <link rel="prev" title="Linking against RNAlib" href="../linking.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../linking.html">Linking against RNAlib</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">C Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mfe-prediction-simple-interface">MFE Prediction (simple interface)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mfe-prediction-vrna-3-0-interface">MFE Prediction (VRNA 3.0 interface)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mfe-and-centroid-structure-prediction">MFE and Centroid structure Prediction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#suboptimal-structure-prediction">Suboptimal Structure Prediction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#base-pair-probabilities">Base Pair Probabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mfe-consensus-structure-prediction">MFE Consensus Structure Prediction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mfe-prediction-deviating-from-default-settings">MFE Prediction (deviating from default settings)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#soft-constraints">Soft Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-more-elaborate-old-example">A more elaborate (old) example</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python.html">Python Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perl5.html">Perl 5 Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../using_rnalib.html">Using RNAlib</a></li>
+      <li class="breadcrumb-item active">C Examples</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="c-examples">
+<h1>C Examples<a class="headerlink" href="#c-examples" title="Link to this heading"></a></h1>
+<section id="mfe-prediction-simple-interface">
+<h2>MFE Prediction (simple interface)<a class="headerlink" href="#mfe-prediction-simple-interface" title="Link to this heading"></a></h2>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/fold.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/basic.h&gt;</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="cm">/* The RNA sequence */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">  </span><span class="o">*</span><span class="n">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;GAGUAGUGGAACCAGGCUAUGUUUGUGACUCGCAGACUAACA&quot;</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/* allocate memory for MFE structure (length + 1) */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">  </span><span class="o">*</span><span class="n">structure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">vrna_alloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+
+<span class="w">  </span><span class="cm">/* predict Minmum Free Energy and corresponding secondary structure */</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">mfe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_fold</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="n">structure</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* print sequence, structure and MFE */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">%s [ %6.2f ]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="n">structure</span><span class="p">,</span><span class="w"> </span><span class="n">mfe</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* cleanup memory */</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">structure</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="mfe-prediction-vrna-3-0-interface">
+<h2>MFE Prediction (VRNA 3.0 interface)<a class="headerlink" href="#mfe-prediction-vrna-3-0-interface" title="Link to this heading"></a></h2>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/fold_compound.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/basic.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/strings.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/mfe.h&gt;</span>
+
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="cm">/* initialize random number generator */</span>
+<span class="w">  </span><span class="n">vrna_init_rand</span><span class="p">();</span>
+
+<span class="w">  </span><span class="cm">/* Generate a random sequence of 50 nucleotides */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">                  </span><span class="o">*</span><span class="n">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_random_string</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ACGU&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* Create a fold compound for the sequence */</span>
+<span class="w">  </span><span class="n">vrna_fold_compound_t</span><span class="w">  </span><span class="o">*</span><span class="n">fc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_fold_compound</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">VRNA_OPTION_DEFAULT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* allocate memory for MFE structure (length + 1) */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">                  </span><span class="o">*</span><span class="n">structure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">vrna_alloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+
+<span class="w">  </span><span class="cm">/* predict Minmum Free Energy and corresponding secondary structure */</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">                 </span><span class="n">mfe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_mfe</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span><span class="w"> </span><span class="n">structure</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* print sequence, structure and MFE */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">%s [ %6.2f ]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="n">structure</span><span class="p">,</span><span class="w"> </span><span class="n">mfe</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* cleanup memory */</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">seq</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">structure</span><span class="p">);</span>
+<span class="w">  </span><span class="n">vrna_fold_compound_free</span><span class="p">(</span><span class="n">fc</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="mfe-and-centroid-structure-prediction">
+<h2>MFE and Centroid structure Prediction<a class="headerlink" href="#mfe-and-centroid-structure-prediction" title="Link to this heading"></a></h2>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span>
+
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&lt;ViennaRNA/data_structures.h&gt;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&lt;ViennaRNA/params/basic.h&gt;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&lt;ViennaRNA/utils/basic.h&gt;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&lt;ViennaRNA/eval.h&gt;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&lt;ViennaRNA/fold.h&gt;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&lt;ViennaRNA/part_func.h&gt;</span>
+
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w">  </span><span class="n">argc</span><span class="p">,</span>
+<span class="w">     </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">                  </span><span class="o">*</span><span class="n">seq</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="s">&quot;AGACGACAAGGUUGAAUCGCACCCACAGUCUAUGAGUCGGUGACAACAUUACGAAAGGCUGUAAAAUCAAUUAUUCACCACAGGGGGCCCCCGUGUCUAG&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">                  </span><span class="o">*</span><span class="n">mfe_structure</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_alloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">                  </span><span class="o">*</span><span class="n">prob_string</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_alloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+
+<span class="w">  </span><span class="cm">/* get a vrna_fold_compound with default settings */</span>
+<span class="w">  </span><span class="n">vrna_fold_compound_t</span><span class="w">  </span><span class="o">*</span><span class="n">vc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_fold_compound</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">VRNA_OPTION_DEFAULT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* call MFE function */</span>
+<span class="w">  </span><span class="kt">double</span><span class="w">                </span><span class="n">mfe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">vrna_mfe</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span><span class="w"> </span><span class="n">mfe_structure</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">%s (%6.2f)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="n">mfe_structure</span><span class="p">,</span><span class="w"> </span><span class="n">mfe</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* rescale parameters for Boltzmann factors */</span>
+<span class="w">  </span><span class="n">vrna_exp_params_rescale</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mfe</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* call PF function */</span>
+<span class="w">  </span><span class="n">FLT_OR_DBL</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_pf</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span><span class="w"> </span><span class="n">prob_string</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* print probability string and free energy of ensemble */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s (%6.2f)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">prob_string</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* compute centroid structure */</span>
+<span class="w">  </span><span class="kt">double</span><span class="w">  </span><span class="n">dist</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">    </span><span class="o">*</span><span class="n">cent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_centroid</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dist</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* print centroid structure, its free energy and mean distance to the ensemble */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s (%6.2f d=%6.2f)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">cent</span><span class="p">,</span><span class="w"> </span><span class="n">vrna_eval_structure</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span><span class="w"> </span><span class="n">cent</span><span class="p">),</span><span class="w"> </span><span class="n">dist</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* free centroid structure */</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">cent</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* free pseudo dot-bracket probability string */</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">prob_string</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* free mfe structure */</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">mfe_structure</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* free memory occupied by vrna_fold_compound */</span>
+<span class="w">  </span><span class="n">vrna_fold_compound_free</span><span class="p">(</span><span class="n">vc</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="suboptimal-structure-prediction">
+<h2>Suboptimal Structure Prediction<a class="headerlink" href="#suboptimal-structure-prediction" title="Link to this heading"></a></h2>
+<p><em>using the callback mechanism</em></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/fold_compound.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/basic.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/strings.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/subopt.h&gt;</span>
+
+
+<span class="kt">void</span>
+<span class="nf">subopt_callback</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w">  </span><span class="o">*</span><span class="n">structure</span><span class="p">,</span>
+<span class="w">                </span><span class="kt">float</span><span class="w">       </span><span class="n">energy</span><span class="p">,</span>
+<span class="w">                </span><span class="kt">void</span><span class="w">        </span><span class="o">*</span><span class="n">data</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="cm">/* simply print the result and increase the counter variable by 1 */</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">structure</span><span class="p">)</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d.</span><span class="se">\t</span><span class="s">%s</span><span class="se">\t</span><span class="s">%6.2f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">((</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">data</span><span class="p">))</span><span class="o">++</span><span class="p">,</span><span class="w"> </span><span class="n">structure</span><span class="p">,</span><span class="w"> </span><span class="n">energy</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="cm">/* initialize random number generator */</span>
+<span class="w">  </span><span class="n">vrna_init_rand</span><span class="p">();</span>
+
+<span class="w">  </span><span class="cm">/* Generate a random sequence of 50 nucleotides */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">                  </span><span class="o">*</span><span class="n">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_random_string</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ACGU&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* Create a fold compound for the sequence */</span>
+<span class="w">  </span><span class="n">vrna_fold_compound_t</span><span class="w">  </span><span class="o">*</span><span class="n">fc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_fold_compound</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">VRNA_OPTION_DEFAULT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w">                   </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/*</span>
+<span class="cm">   *  call subopt to enumerate all secondary structures in an energy band of</span>
+<span class="cm">   *  5 kcal/mol of the MFE and pass it the address of the callback and counter</span>
+<span class="cm">   *  variable</span>
+<span class="cm">   */</span>
+<span class="w">  </span><span class="n">vrna_subopt_cb</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">subopt_callback</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">counter</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* cleanup memory */</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">seq</span><span class="p">);</span>
+<span class="w">  </span><span class="n">vrna_fold_compound_free</span><span class="p">(</span><span class="n">fc</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="base-pair-probabilities">
+<h2>Base Pair Probabilities<a class="headerlink" href="#base-pair-probabilities" title="Link to this heading"></a></h2>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/fold.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/part_func.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/basic.h&gt;</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="cm">/* The RNA sequence */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">      </span><span class="o">*</span><span class="n">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;GAGUAGUGGAACCAGGCUAUGUUUGUGACUCGCAGACUAACA&quot;</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/* allocate memory for pairing propensity string (length + 1) */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">      </span><span class="o">*</span><span class="n">propensity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">vrna_alloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+
+<span class="w">  </span><span class="cm">/* pointers for storing and navigating through base pair probabilities */</span>
+<span class="w">  </span><span class="n">vrna_ep_t</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">pair_probabilities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">float</span><span class="w">     </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_pf_fold</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="n">propensity</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pair_probabilities</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* print sequence, pairing propensity string and ensemble free energy */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">%s [ %6.2f ]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="n">propensity</span><span class="p">,</span><span class="w"> </span><span class="n">en</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* print all base pairs with probability above 50% */</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pair_probabilities</span><span class="p">;</span><span class="w"> </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">i</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">p</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;p(%d, %d) = %g</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">p</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* cleanup memory */</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">pair_probabilities</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">propensity</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="mfe-consensus-structure-prediction">
+<h2>MFE Consensus Structure Prediction<a class="headerlink" href="#mfe-consensus-structure-prediction" title="Link to this heading"></a></h2>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/alifold.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/basic.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/alignments.h&gt;</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="cm">/* The RNA sequence alignment */</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w">  </span><span class="o">*</span><span class="n">sequences</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;CUGCCUCACAACGUUUGUGCCUCAGUUACCCGUAGAUGUAGUGAGGGU&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;CUGCCUCACAACAUUUGUGCCUCAGUUACUCAUAGAUGUAGUGAGGGU&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;---CUCGACACCACU---GCCUCGGUUACCCAUCGGUGCAGUGCGGGU&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nb">NULL</span><span class="w"> </span><span class="cm">/* indicates end of alignment */</span>
+<span class="w">  </span><span class="p">};</span>
+
+<span class="w">  </span><span class="cm">/* compute the consensus sequence */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">        </span><span class="o">*</span><span class="n">cons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">consensus</span><span class="p">(</span><span class="n">sequences</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* allocate memory for MFE consensus structure (length + 1) */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">        </span><span class="o">*</span><span class="n">structure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">vrna_alloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">sequences</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+
+<span class="w">  </span><span class="cm">/* predict Minmum Free Energy and corresponding secondary structure */</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">       </span><span class="n">mfe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_alifold</span><span class="p">(</span><span class="n">sequences</span><span class="p">,</span><span class="w"> </span><span class="n">structure</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* print consensus sequence, structure and MFE */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">%s [ %6.2f ]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">cons</span><span class="p">,</span><span class="w"> </span><span class="n">structure</span><span class="p">,</span><span class="w"> </span><span class="n">mfe</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* cleanup memory */</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">cons</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">structure</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="mfe-prediction-deviating-from-default-settings">
+<h2>MFE Prediction (deviating from default settings)<a class="headerlink" href="#mfe-prediction-deviating-from-default-settings" title="Link to this heading"></a></h2>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/model.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/fold_compound.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/basic.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/strings.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/mfe.h&gt;</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="cm">/* initialize random number generator */</span>
+<span class="w">  </span><span class="n">vrna_init_rand</span><span class="p">();</span>
+
+<span class="w">  </span><span class="cm">/* Generate a random sequence of 50 nucleotides */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">      </span><span class="o">*</span><span class="n">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_random_string</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ACGU&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* allocate memory for MFE structure (length + 1) */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">      </span><span class="o">*</span><span class="n">structure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">vrna_alloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+
+<span class="w">  </span><span class="cm">/* create a new model details structure to store the Model Settings */</span>
+<span class="w">  </span><span class="n">vrna_md_t</span><span class="w"> </span><span class="n">md</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/* ALWAYS set default model settings first! */</span>
+<span class="w">  </span><span class="n">vrna_md_set_default</span><span class="p">(</span><span class="o">&amp;</span><span class="n">md</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* change temperature and activate G-Quadruplex prediction */</span>
+<span class="w">  </span><span class="n">md</span><span class="p">.</span><span class="n">temperature</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mf">25.0</span><span class="p">;</span><span class="w"> </span><span class="cm">/* 25 Deg Celcius */</span>
+<span class="w">  </span><span class="n">md</span><span class="p">.</span><span class="n">gquad</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">    </span><span class="cm">/* Turn-on G-Quadruples support */</span>
+
+<span class="w">  </span><span class="cm">/* create a fold compound */</span>
+<span class="w">  </span><span class="n">vrna_fold_compound_t</span><span class="w">  </span><span class="o">*</span><span class="n">fc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_fold_compound</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">md</span><span class="p">,</span><span class="w"> </span><span class="n">VRNA_OPTION_DEFAULT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* predict Minmum Free Energy and corresponding secondary structure */</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">                 </span><span class="n">mfe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_mfe</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span><span class="w"> </span><span class="n">structure</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* print sequence, structure and MFE */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">%s [ %6.2f ]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="n">structure</span><span class="p">,</span><span class="w"> </span><span class="n">mfe</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* cleanup memory */</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">structure</span><span class="p">);</span>
+<span class="w">  </span><span class="n">vrna_fold_compound_free</span><span class="p">(</span><span class="n">fc</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="soft-constraints">
+<h2>Soft Constraints<a class="headerlink" href="#soft-constraints" title="Link to this heading"></a></h2>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/fold_compound.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/basic.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/utils/strings.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/constraints/soft.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/mfe.h&gt;</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="cm">/* initialize random number generator */</span>
+<span class="w">  </span><span class="n">vrna_init_rand</span><span class="p">();</span>
+
+<span class="w">  </span><span class="cm">/* Generate a random sequence of 50 nucleotides */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">                  </span><span class="o">*</span><span class="n">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_random_string</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ACGU&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* Create a fold compound for the sequence */</span>
+<span class="w">  </span><span class="n">vrna_fold_compound_t</span><span class="w">  </span><span class="o">*</span><span class="n">fc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_fold_compound</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">VRNA_OPTION_DEFAULT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* Add soft constraint of -1.7 kcal/mol to nucleotide 5 whenever it appears in an unpaired context */</span>
+<span class="w">  </span><span class="n">vrna_sc_add_up</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.7</span><span class="p">,</span><span class="w"> </span><span class="n">VRNA_OPTION_DEFAULT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* allocate memory for MFE structure (length + 1) */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">  </span><span class="o">*</span><span class="n">structure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">vrna_alloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">51</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* predict Minmum Free Energy and corresponding secondary structure */</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">mfe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrna_mfe</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span><span class="w"> </span><span class="n">structure</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* print seqeunce, structure and MFE */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">%s [ %6.2f ]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="n">structure</span><span class="p">,</span><span class="w"> </span><span class="n">mfe</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* cleanup memory */</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">seq</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">structure</span><span class="p">);</span>
+<span class="w">  </span><span class="n">vrna_fold_compound_free</span><span class="p">(</span><span class="n">fc</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="a-more-elaborate-old-example">
+<h2>A more elaborate (old) example<a class="headerlink" href="#a-more-elaborate-old-example" title="Link to this heading"></a></h2>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w">  </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&lt;math.h&gt;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&lt;string.h&gt;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&quot;utils.h&quot;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&quot;fold_vars.h&quot;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&quot;fold.h&quot;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&quot;part_func.h&quot;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&quot;inverse.h&quot;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&quot;RNAstruct.h&quot;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&quot;treedist.h&quot;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&quot;stringdist.h&quot;</span>
+<span class="cp">#include</span><span class="w">  </span><span class="cpf">&quot;profiledist.h&quot;</span>
+
+<span class="kt">void</span>
+<span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">char</span><span class="w">        </span><span class="o">*</span><span class="n">seq1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;CGCAGGGAUACCCGCG&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">seq2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;GCGCCCAUAGGGACGC&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="o">*</span><span class="n">struct1</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">struct2</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">xstruc</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">       </span><span class="n">e1</span><span class="p">,</span><span class="w"> </span><span class="n">e2</span><span class="p">,</span><span class="w"> </span><span class="n">tree_dist</span><span class="p">,</span><span class="w"> </span><span class="n">string_dist</span><span class="p">,</span><span class="w"> </span><span class="n">profile_dist</span><span class="p">,</span><span class="w"> </span><span class="n">kT</span><span class="p">;</span>
+<span class="w">  </span><span class="n">Tree</span><span class="w">        </span><span class="o">*</span><span class="n">T1</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">T2</span><span class="p">;</span>
+<span class="w">  </span><span class="n">swString</span><span class="w">    </span><span class="o">*</span><span class="n">S1</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">S2</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">       </span><span class="o">*</span><span class="n">pf1</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">pf2</span><span class="p">;</span>
+<span class="w">  </span><span class="n">FLT_OR_DBL</span><span class="w">  </span><span class="o">*</span><span class="n">bppm</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/* fold at 30C instead of the default 37C */</span>
+<span class="w">  </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">30.</span><span class="p">;</span><span class="w">       </span><span class="cm">/* must be set *before* initializing  */</span>
+
+<span class="w">  </span><span class="cm">/* allocate memory for structure and fold */</span>
+<span class="w">  </span><span class="n">struct1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">space</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">seq1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="w">  </span><span class="n">e1</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">fold</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span><span class="w"> </span><span class="n">struct1</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">struct2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">space</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">seq2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="w">  </span><span class="n">e2</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">fold</span><span class="p">(</span><span class="n">seq2</span><span class="p">,</span><span class="w"> </span><span class="n">struct2</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">free_arrays</span><span class="p">();</span><span class="w">      </span><span class="cm">/* free arrays used in fold() */</span>
+
+<span class="w">  </span><span class="cm">/* produce tree and string representations for comparison */</span>
+<span class="w">  </span><span class="n">xstruc</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">expand_Full</span><span class="p">(</span><span class="n">struct1</span><span class="p">);</span>
+<span class="w">  </span><span class="n">T1</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">make_tree</span><span class="p">(</span><span class="n">xstruc</span><span class="p">);</span>
+<span class="w">  </span><span class="n">S1</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">Make_swString</span><span class="p">(</span><span class="n">xstruc</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">xstruc</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">xstruc</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">expand_Full</span><span class="p">(</span><span class="n">struct2</span><span class="p">);</span>
+<span class="w">  </span><span class="n">T2</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">make_tree</span><span class="p">(</span><span class="n">xstruc</span><span class="p">);</span>
+<span class="w">  </span><span class="n">S2</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">Make_swString</span><span class="p">(</span><span class="n">xstruc</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">xstruc</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* calculate tree edit distance and aligned structures with gaps */</span>
+<span class="w">  </span><span class="n">edit_backtrack</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="n">tree_dist</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">tree_edit_distance</span><span class="p">(</span><span class="n">T1</span><span class="p">,</span><span class="w"> </span><span class="n">T2</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free_tree</span><span class="p">(</span><span class="n">T1</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free_tree</span><span class="p">(</span><span class="n">T2</span><span class="p">);</span>
+<span class="w">  </span><span class="n">unexpand_aligned_F</span><span class="p">(</span><span class="n">aligned_line</span><span class="p">);</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">%s  %3.2f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">aligned_line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">aligned_line</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">tree_dist</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* same thing using string edit (alignment) distance */</span>
+<span class="w">  </span><span class="n">string_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string_edit_distance</span><span class="p">(</span><span class="n">S1</span><span class="p">,</span><span class="w"> </span><span class="n">S2</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">S1</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">S2</span><span class="p">);</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s  mfe=%5.2f</span><span class="se">\n</span><span class="s">%s  mfe=%5.2f  dist=%3.2f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="n">aligned_line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">e1</span><span class="p">,</span><span class="w"> </span><span class="n">aligned_line</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">e2</span><span class="p">,</span><span class="w"> </span><span class="n">string_dist</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* for longer sequences one should also set a scaling factor for</span>
+<span class="cm">   * partition function folding, e.g: */</span>
+<span class="w">  </span><span class="n">kT</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">273.15</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.98717</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000.</span><span class="p">;</span><span class="w"> </span><span class="cm">/* kT in kcal/mol */</span>
+<span class="w">  </span><span class="n">pf_scale</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">e1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">kT</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">seq1</span><span class="p">));</span>
+
+<span class="w">  </span><span class="cm">/* calculate partition function and base pair probabilities */</span>
+<span class="w">  </span><span class="n">e1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pf_fold</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span><span class="w"> </span><span class="n">struct1</span><span class="p">);</span>
+<span class="w">  </span><span class="cm">/* get the base pair probability matrix for the previous run of pf_fold() */</span>
+<span class="w">  </span><span class="n">bppm</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">export_bppm</span><span class="p">();</span>
+<span class="w">  </span><span class="n">pf1</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">Make_bp_profile_bppm</span><span class="p">(</span><span class="n">bppm</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">seq1</span><span class="p">));</span>
+
+<span class="w">  </span><span class="n">e2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pf_fold</span><span class="p">(</span><span class="n">seq2</span><span class="p">,</span><span class="w"> </span><span class="n">struct2</span><span class="p">);</span>
+<span class="w">  </span><span class="cm">/* get the base pair probability matrix for the previous run of pf_fold() */</span>
+<span class="w">  </span><span class="n">bppm</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">export_bppm</span><span class="p">();</span>
+<span class="w">  </span><span class="n">pf2</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">Make_bp_profile_bppm</span><span class="p">(</span><span class="n">bppm</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">seq2</span><span class="p">));</span>
+
+<span class="w">  </span><span class="n">free_pf_arrays</span><span class="p">();</span><span class="w">   </span><span class="cm">/* free space allocated for pf_fold() */</span>
+
+<span class="w">  </span><span class="n">profile_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">profile_edit_distance</span><span class="p">(</span><span class="n">pf1</span><span class="p">,</span><span class="w"> </span><span class="n">pf2</span><span class="p">);</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s  free energy=%5.2f</span><span class="se">\n</span><span class="s">%s  free energy=%5.2f  dist=%3.2f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="n">aligned_line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">e1</span><span class="p">,</span><span class="w"> </span><span class="n">aligned_line</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">e2</span><span class="p">,</span><span class="w"> </span><span class="n">profile_dist</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">free_profile</span><span class="p">(</span><span class="n">pf1</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free_profile</span><span class="p">(</span><span class="n">pf2</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../linking.html" class="btn btn-neutral float-left" title="Linking against RNAlib" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="python.html" class="btn btn-neutral float-right" title="Python Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

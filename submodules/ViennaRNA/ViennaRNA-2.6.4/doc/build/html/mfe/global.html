@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global MFE Prediction &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Deprecated Interface for Global MFE Prediction" href="global_deprecated.html" />
+    <link rel="prev" title="Minimum Free Energy (MFE) Algorithms" href="../mfe.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Global MFE Prediction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api-symbols">API Symbols</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="global_deprecated.html">Deprecated Interface for Global MFE Prediction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="window.html">Local (sliding window) MFE Prediction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="window_deprecated.html">Deprecated Interface for Local (sliding window) MFE Prediction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="backtracking.html">Backtracking MFE structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mfe.html#zuker-s-algorithm">Zuker’s Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mfe.html#mfe-for-circular-rnas">MFE for circular RNAs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mfe.html#mfe-algorithm-api">MFE Algorithm API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+      <li class="breadcrumb-item active">Global MFE Prediction</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="global-mfe-prediction">
+<h1>Global MFE Prediction<a class="headerlink" href="#global-mfe-prediction" title="Link to this heading"></a></h1>
+<p>Variations of the global Minimum Free Energy (MFE) prediction algorithm.</p>
+<p>We provide implementations of the global MFE prediction algorithm for</p>
+<ul class="simple">
+<li><p>Single sequences,</p></li>
+<li><p>Multiple sequence alignments (MSA), and</p></li>
+<li><p>RNA-RNA hybrids</p></li>
+</ul>
+<section id="api-symbols">
+<h2>API Symbols<a class="headerlink" href="#api-symbols" title="Link to this heading"></a></h2>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__mfe__global"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-basic-global-mfe-prediction-interface">Basic global MFE prediction interface</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mfe">
+<span class="target" id="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mfe</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mfe" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe.h&gt;</em><p>Compute minimum free energy and an appropriate secondary structure of an RNA sequence, or RNA sequence alignment. </p>
+<p>Depending on the type of the provided <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>, this function predicts the MFE for a single sequence (or connected component of multiple sequences), or an averaged MFE for a sequence alignment. If backtracking is activated, it also constructs the corresponding secondary structure, or consensus structure. Therefore, the second parameter, <em>structure</em>, has to point to an allocated block of memory with a size of at least <span class="math notranslate nohighlight">\(\mathrm{strlen}(\mathrm{sequence})+1\)</span> to store the backtracked MFE structure. (For consensus structures, this is the length of the alignment + 1. If <code class="docutils literal notranslate"><span class="pre">NULL</span></code> is passed, no backtracking will be performed.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000110"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">mfe()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The parameter <code class="docutils literal notranslate"><span class="pre">structure</span></code> is returned along with the MFE und must not be provided. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.mfe" title="RNA.fold_compound.mfe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.mfe()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="#group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc"><span class="std std-ref">vrna_fold()</span></a>, <a class="reference internal" href="#group__mfe__global_1gaf973483d8acbc8cc9aacfc8a9b7f0074"><span class="std std-ref">vrna_circfold()</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, <a class="reference internal" href="#group__mfe__global_1ga6c9d3bef3e92c6d423ffac9f981418c1"><span class="std std-ref">vrna_alifold()</span></a>, <a class="reference internal" href="#group__mfe__global_1ga17a1be7490468c29c335ba9bffacba53"><span class="std std-ref">vrna_circalifold()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is polymorphic. It accepts <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> of type <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6"><span class="std std-ref">VRNA_FC_TYPE_SINGLE</span></a>, and <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023"><span class="std std-ref">VRNA_FC_TYPE_COMPARATIVE</span></a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – fold compound </p></li>
+<li><p><strong>structure</strong> – A pointer to the character array where the secondary structure in dot-bracket notation will be written to (Maybe NULL)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the minimum free energy (MFE) in kcal/mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mfe_dimer">
+<span class="target" id="group__mfe__global_1gaeefffa2179cebb6b8b30cb6ac52de2cd"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mfe_dimer</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mfe_dimer" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe.h&gt;</em><p>Compute the minimum free energy of two interacting RNA molecules. </p>
+<p>The code is analog to the <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a> function.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000090"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This function is obsolete since <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a> can handle complexes multiple sequences since v2.5.0. Use <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a> for connected component MFE instead and compute MFEs of unconnected states separately.</p>
+</dd></dl>
+
+</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000111"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as method <code class="docutils literal notranslate"><span class="pre">mfe_dimer()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The parameter <code class="docutils literal notranslate"><span class="pre">structure</span></code> is returned along with the MFE und must not be provided. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.mfe_dimer" title="RNA.fold_compound.mfe_dimer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.mfe_dimer()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – fold compound </p></li>
+<li><p><strong>structure</strong> – Will hold the barcket dot structure of the dimer molecule </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>minimum free energy of the structure</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-simplified-global-mfe-prediction-using-sequence(s)-or-multiple-sequence-alignment(s)">Simplified global MFE prediction using sequence(s) or multiple sequence alignment(s)</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_fold">
+<span class="target" id="group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_fold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_fold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe.h&gt;</em><p>Compute Minimum Free Energy (MFE), and a corresponding secondary structure for an RNA sequence. </p>
+<p>This simplified interface to <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a> computes the MFE and, if required, a secondary structure for an RNA sequence using default options. Memory required for dynamic programming (DP) matrices will be allocated and free’d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing, e.g. suboptimal backtracking, etc.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000113"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><a class="reference internal" href="global_deprecated.html#group__mfe__global__deprecated_1gaadafcb0f140795ae62e5ca027e335a9b"><span class="std std-ref"><span class="pre">fold()</span></span></a></code> in the global namespace. The parameter <code class="docutils literal notranslate"><span class="pre">structure</span></code> is returned along with the MFE und must not be provided. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold" title="RNA.fold"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.fold()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__mfe__global_1gaf973483d8acbc8cc9aacfc8a9b7f0074"><span class="std std-ref">vrna_circfold()</span></a>, <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, and the data structure <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> instead.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – RNA sequence </p></li>
+<li><p><strong>structure</strong> – A pointer to the character array where the secondary structure in dot-bracket notation will be written to </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the minimum free energy (MFE) in kcal/mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_circfold">
+<span class="target" id="group__mfe__global_1gaf973483d8acbc8cc9aacfc8a9b7f0074"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_circfold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_circfold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe.h&gt;</em><p>Compute Minimum Free Energy (MFE), and a corresponding secondary structure for a circular RNA sequence. </p>
+<p>This simplified interface to <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a> computes the MFE and, if required, a secondary structure for a circular RNA sequence using default options. Memory required for dynamic programming (DP) matrices will be allocated and free’d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing, e.g. suboptimal backtracking, etc.</p>
+<p>Folding of circular RNA sequences is handled as a post-processing step of the forward recursions. See  <span> <span id="id1">Hofacker and Stadler [<a class="reference internal" href="../bibliography.html#id21" title="I.L. Hofacker and P.F. Stadler. Memory efficient folding algorithms for circular RNA secondary structures. Bioinformatics, 22(10):1172–1176, 2006. doi:10.1093/bioinformatics/btl023.">2006</a>]</span> </span> for further details.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000114"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><a class="reference internal" href="global_deprecated.html#group__mfe__global__deprecated_1ga4ac63ab3e8d9a80ced28b8052d94e423"><span class="std std-ref"><span class="pre">circfold()</span></span></a></code> in the global namespace. The parameter <code class="docutils literal notranslate"><span class="pre">structure</span></code> is returned along with the MFE und must not be provided. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.circfold" title="RNA.circfold"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.circfold()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc"><span class="std std-ref">vrna_fold()</span></a>, <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, and the data structure <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> instead.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – RNA sequence </p></li>
+<li><p><strong>structure</strong> – A pointer to the character array where the secondary structure in dot-bracket notation will be written to </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the minimum free energy (MFE) in kcal/mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_alifold">
+<span class="target" id="group__mfe__global_1ga6c9d3bef3e92c6d423ffac9f981418c1"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_alifold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequences</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_alifold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe.h&gt;</em><p>Compute Minimum Free Energy (MFE), and a corresponding consensus secondary structure for an RNA sequence alignment using a comparative method. </p>
+<p>This simplified interface to <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a> computes the MFE and, if required, a consensus secondary structure for an RNA sequence alignment using default options. Memory required for dynamic programming (DP) matrices will be allocated and free’d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing, e.g. suboptimal backtracking, etc.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000115"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><a class="reference internal" href="global_deprecated.html#group__mfe__global__deprecated_1ga4cf00f0659e5f0480335d69e797f05b1"><span class="std std-ref"><span class="pre">alifold()</span></span></a></code> in the global namespace. The parameter <code class="docutils literal notranslate"><span class="pre">structure</span></code> is returned along with the MFE und must not be provided. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.alifold" title="RNA.alifold"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.alifold()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__mfe__global_1ga17a1be7490468c29c335ba9bffacba53"><span class="std std-ref">vrna_circalifold()</span></a>, <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, and the data structure <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> instead.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequences</strong> – RNA sequence alignment </p></li>
+<li><p><strong>structure</strong> – A pointer to the character array where the secondary structure in dot-bracket notation will be written to </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the minimum free energy (MFE) in kcal/mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_circalifold">
+<span class="target" id="group__mfe__global_1ga17a1be7490468c29c335ba9bffacba53"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_circalifold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequences</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_circalifold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe.h&gt;</em><p>Compute Minimum Free Energy (MFE), and a corresponding consensus secondary structure for a sequence alignment of circular RNAs using a comparative method. </p>
+<p>This simplified interface to <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a> computes the MFE and, if required, a consensus secondary structure for an RNA sequence alignment using default options. Memory required for dynamic programming (DP) matrices will be allocated and free’d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing, e.g. suboptimal backtracking, etc.</p>
+<p>Folding of circular RNA sequences is handled as a post-processing step of the forward recursions. See  <span> <span id="id2">Hofacker and Stadler [<a class="reference internal" href="../bibliography.html#id21" title="I.L. Hofacker and P.F. Stadler. Memory efficient folding algorithms for circular RNA secondary structures. Bioinformatics, 22(10):1172–1176, 2006. doi:10.1093/bioinformatics/btl023.">2006</a>]</span> </span> for further details.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000116"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><a class="reference internal" href="global_deprecated.html#group__mfe__global__deprecated_1gadbd3b0b1c144cbfb4efe704b2b260f96"><span class="std std-ref"><span class="pre">circalifold()</span></span></a></code> in the global namespace. The parameter <code class="docutils literal notranslate"><span class="pre">structure</span></code> is returned along with the MFE und must not be provided. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.circalifold" title="RNA.circalifold"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.circalifold()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__mfe__global_1ga6c9d3bef3e92c6d423ffac9f981418c1"><span class="std std-ref">vrna_alifold()</span></a>, <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, and the data structure <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> instead.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequences</strong> – Sequence alignment of circular RNAs </p></li>
+<li><p><strong>structure</strong> – A pointer to the character array where the secondary structure in dot-bracket notation will be written to </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the minimum free energy (MFE) in kcal/mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_cofold">
+<span class="target" id="group__mfe__global_1ga9ef3a297201dbf838a8daff2b45c0c82"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_cofold</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_cofold" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/mfe.h&gt;</em><p>Compute Minimum Free Energy (MFE), and a corresponding secondary structure for two dimerized RNA sequences. </p>
+<p>This simplified interface to <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a> computes the MFE and, if required, a secondary structure for two RNA sequences upon dimerization using default options. Memory required for dynamic programming (DP) matrices will be allocated and free’d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing, e.g. suboptimal backtracking, etc.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../deprecated.html#deprecated_1_deprecated000091"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This function is obsolete since <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>/vrna_fold() can handle complexes multiple sequences since v2.5.0. Use <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>/vrna_fold() for connected component MFE instead and compute MFEs of unconnected states separately.</p>
+</dd></dl>
+
+</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000117"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as function <code class="docutils literal notranslate"><a class="reference internal" href="global_deprecated.html#group__mfe__global__deprecated_1gabc8517f22cfe70595ee81fc837910d52"><span class="std std-ref"><span class="pre">cofold()</span></span></a></code> in the global namespace. The parameter <code class="docutils literal notranslate"><span class="pre">structure</span></code> is returned along with the MFE und must not be provided. See e.g.  <span><a class="reference internal" href="../api_python.html#RNA.cofold" title="RNA.cofold"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.cofold()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc"><span class="std std-ref">vrna_fold()</span></a>, <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>, <a class="reference internal" href="../utils/strings.html#group__string__utils_1ga458d5a8cbec709665426372e3aee93b8"><span class="std std-ref">vrna_cut_point_insert()</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <a class="reference internal" href="#group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb"><span class="std std-ref">vrna_mfe()</span></a>, and the data structure <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> instead.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> – two RNA sequences separated by the ‘&amp;’ character </p></li>
+<li><p><strong>structure</strong> – A pointer to the character array where the secondary structure in dot-bracket notation will be written to </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the minimum free energy (MFE) in kcal/mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../mfe.html" class="btn btn-neutral float-left" title="Minimum Free Energy (MFE) Algorithms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="global_deprecated.html" class="btn btn-neutral float-right" title="Deprecated Interface for Global MFE Prediction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

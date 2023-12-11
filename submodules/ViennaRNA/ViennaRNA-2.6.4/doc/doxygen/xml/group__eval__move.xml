@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__eval__move" kind="group">
+    <compoundname>eval_move</compoundname>
+    <title>Energy Evaluation for Atomic Moves</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__eval__move_1ga2e542ea644f28d33b05ec81b7cd60ae5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_eval_move</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure, int m1, int m2)</argsstring>
+        <name>vrna_eval_move</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>m1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>m2</declname>
+        </param>
+        <briefdescription>
+<para>Calculate energy of a move (closing or opening of a base pair) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If the parameters m1 and m2 are negative, it is deletion (opening) of a base pair, otherwise it is insertion (opening).</para>
+<para><simplesect kind="see"><para><ref refid="group__eval__move_1ga03995d1cd83b3881af7c89dd4ddbdefc" kindref="member">vrna_eval_move_pt()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>first coordinate of base pair </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>second coordinate of base pair </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>energy change of the move in kcal/mol (INF / 100. upon any error)</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000072"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>eval_move()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.eval_move()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="909" column="1" declfile="ViennaRNA/eval.h" declline="909" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval__move_1ga03995d1cd83b3881af7c89dd4ddbdefc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_move_pt</definition>
+        <argsstring>(vrna_fold_compound_t *fc, short *pt, int m1, int m2)</argsstring>
+        <name>vrna_eval_move_pt</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>m1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>m2</declname>
+        </param>
+        <briefdescription>
+<para>Calculate energy of a move (closing or opening of a base pair) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If the parameters m1 and m2 are negative, it is deletion (opening) of a base pair, otherwise it is insertion (opening).</para>
+<para><simplesect kind="see"><para><ref refid="group__eval__move_1ga2e542ea644f28d33b05ec81b7cd60ae5" kindref="member">vrna_eval_move()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the pair table of the secondary structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>first coordinate of base pair </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>second coordinate of base pair </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>energy change of the move in 10cal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000073"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>eval_move_pt()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.eval_move_pt()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="931" column="1" declfile="ViennaRNA/eval.h" declline="931" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval__move_1ga8bd14b548874366b8a2a9c65eff08888" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_move_pt_simple</definition>
+        <argsstring>(const char *string, short *pt, int m1, int m2)</argsstring>
+        <name>vrna_eval_move_pt_simple</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>m1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>m2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="938" column="1" declfile="ViennaRNA/eval.h" declline="938" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval__move_1ga7b651856d7b37cede016a2c6ebd8d9b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_move_shift_pt</definition>
+        <argsstring>(vrna_fold_compound_t *fc, vrna_move_t *m, short *structure)</argsstring>
+        <name>vrna_eval_move_shift_pt</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type><ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>short *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/eval.h" line="945" column="1" declfile="ViennaRNA/eval.h" declline="945" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

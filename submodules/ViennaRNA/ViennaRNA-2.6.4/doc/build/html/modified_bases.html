@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post-transcriptional Base Modifications &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5248d183"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utilities" href="utils.html" />
+    <link rel="prev" title="G-Quadruplexes" href="modules/gquads.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">Concepts and Algorithms</a></li>
+      <li class="breadcrumb-item active">Post-transcriptional Base Modifications</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="post-transcriptional-base-modifications">
+<h1>Post-transcriptional Base Modifications<a class="headerlink" href="#post-transcriptional-base-modifications" title="Link to this heading"></a></h1>
+<p>Energy parameter corrections for modified bases.</p>
+<p>Many RNAs are known to be (heavily) modified post-trasnciptionaly. The best
+known examples are tRNAs and rRNAs. To-date, more than 150 different modifications
+are listed in the MODOMICS database (<a class="reference external" href="http://genesilico.pl/modomics/">http://genesilico.pl/modomics/</a>) <span id="id1">[<a class="reference internal" href="bibliography.html#id50" title="Pietro Boccaletto, Filip Stefaniak, Angana Ray, Andrea Cappannini, Sunandan Mukherjee, Elżbieta Purta, Małgorzata Kurkowska, Niloofar Shirvanizadeh, Eliana Destefanis, Paula Groza, and others. MODOMICS: a database of RNA modification pathways. 2021 update. Nucleic Acids Research, 50(D1):D231–D235, 2022. doi:10.1093/nar/gkab1083.">Boccaletto <em>et al.</em>, 2022</a>]</span>.</p>
+<p>Many of the modified bases change the pairing behavior compared to their
+unmodified version, affecting not only the pairing partner preference, but
+also the resulting stability of the loops the base pairs may form.</p>
+<p>Here, we provide a simple soft constraints callback implementation to
+correct for some well known modified bases where energy parameters are
+available for. This mechanism also supports arbitrary new modified base
+energy parameters supplied in JSON format
+(see <a class="reference internal" href="io/parameters.html#modified-bases"><span class="std std-ref">Modified Bases</span></a> for details).</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__modified__bases"></span></dt>
+<dd><p>Support of modified bases in secondary structure prediction. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_SC_MOD_CHECK_FALLBACK">
+<span class="target" id="group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_SC_MOD_CHECK_FALLBACK</span></span></span><a class="headerlink" href="#c.VRNA_SC_MOD_CHECK_FALLBACK" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Check for sequence positions whether they resemble the fallback base. </p>
+<p>This flag can be used to enable a sanity check within the vrna_sc_mod*() functions to see whether a supposedly modified position actually resembles the fallback base as specified in the modification parameters</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaae866f0f52a26ba3cc839b560c6f756b"><span class="std std-ref">vrna_sc_mod_json()</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf19a7af41b081f19cb28e9e132330eeb"><span class="std std-ref">vrna_sc_mod_jsonfile()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga427d924951dd1a95b5828995208f96a9"><span class="std std-ref">vrna_sc_mod()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga09398dbc2ad61f0fbbe6724c8c90ed98"><span class="std std-ref">vrna_sc_mod_m6A()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga95dd8b18dfc80c6f5826464292d40f52"><span class="std std-ref">vrna_sc_mod_pseudouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab4aba61d48c1b1577612794d3e8cd2b2"><span class="std std-ref">vrna_sc_mod_inosine()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga0430986f89b8292c9bc3764474e83411"><span class="std std-ref">vrna_sc_mod_7DA()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab1bb84d9c5a95740a35ee65694b1fbe2"><span class="std std-ref">vrna_sc_mod_purine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gae90b06aaa16f9a6f519e4b75d4d0c13d"><span class="std std-ref">vrna_sc_mod_dihydrouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"><span class="std std-ref">VRNA_SC_MOD_CHECK_UNMOD</span></a>, <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_SC_MOD_CHECK_UNMOD">
+<span class="target" id="group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_SC_MOD_CHECK_UNMOD</span></span></span><a class="headerlink" href="#c.VRNA_SC_MOD_CHECK_UNMOD" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Check for sequence positions whether they resemble the unmodified base. </p>
+<p>This flag can be used to enable a sanity check within the vrna_sc_mod*() functions to see whether a supposedly modified position actually resembles the unmodified base as specified in the modification parameters</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaae866f0f52a26ba3cc839b560c6f756b"><span class="std std-ref">vrna_sc_mod_json()</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf19a7af41b081f19cb28e9e132330eeb"><span class="std std-ref">vrna_sc_mod_jsonfile()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga427d924951dd1a95b5828995208f96a9"><span class="std std-ref">vrna_sc_mod()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga09398dbc2ad61f0fbbe6724c8c90ed98"><span class="std std-ref">vrna_sc_mod_m6A()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga95dd8b18dfc80c6f5826464292d40f52"><span class="std std-ref">vrna_sc_mod_pseudouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab4aba61d48c1b1577612794d3e8cd2b2"><span class="std std-ref">vrna_sc_mod_inosine()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga0430986f89b8292c9bc3764474e83411"><span class="std std-ref">vrna_sc_mod_7DA()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab1bb84d9c5a95740a35ee65694b1fbe2"><span class="std std-ref">vrna_sc_mod_purine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gae90b06aaa16f9a6f519e4b75d4d0c13d"><span class="std std-ref">vrna_sc_mod_dihydrouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"><span class="std std-ref">VRNA_SC_MOD_CHECK_FALLBACK</span></a>, <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_SC_MOD_SILENT">
+<span class="target" id="group__modified__bases_1ga873ecdf39af24a547ad154aa39d7d0fe"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_SC_MOD_SILENT</span></span></span><a class="headerlink" href="#c.VRNA_SC_MOD_SILENT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Do not produce any warnings within the vrna_sc_mod*() functions. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaae866f0f52a26ba3cc839b560c6f756b"><span class="std std-ref">vrna_sc_mod_json()</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf19a7af41b081f19cb28e9e132330eeb"><span class="std std-ref">vrna_sc_mod_jsonfile()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga427d924951dd1a95b5828995208f96a9"><span class="std std-ref">vrna_sc_mod()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga09398dbc2ad61f0fbbe6724c8c90ed98"><span class="std std-ref">vrna_sc_mod_m6A()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga95dd8b18dfc80c6f5826464292d40f52"><span class="std std-ref">vrna_sc_mod_pseudouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab4aba61d48c1b1577612794d3e8cd2b2"><span class="std std-ref">vrna_sc_mod_inosine()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga0430986f89b8292c9bc3764474e83411"><span class="std std-ref">vrna_sc_mod_7DA()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab1bb84d9c5a95740a35ee65694b1fbe2"><span class="std std-ref">vrna_sc_mod_purine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gae90b06aaa16f9a6f519e4b75d4d0c13d"><span class="std std-ref">vrna_sc_mod_dihydrouridine()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_SC_MOD_DEFAULT">
+<span class="target" id="group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_SC_MOD_DEFAULT</span></span></span><a class="headerlink" href="#c.VRNA_SC_MOD_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Default settings for the vrna_sc_mod*() functions. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaae866f0f52a26ba3cc839b560c6f756b"><span class="std std-ref">vrna_sc_mod_json()</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf19a7af41b081f19cb28e9e132330eeb"><span class="std std-ref">vrna_sc_mod_jsonfile()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga427d924951dd1a95b5828995208f96a9"><span class="std std-ref">vrna_sc_mod()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga09398dbc2ad61f0fbbe6724c8c90ed98"><span class="std std-ref">vrna_sc_mod_m6A()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga95dd8b18dfc80c6f5826464292d40f52"><span class="std std-ref">vrna_sc_mod_pseudouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab4aba61d48c1b1577612794d3e8cd2b2"><span class="std std-ref">vrna_sc_mod_inosine()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga0430986f89b8292c9bc3764474e83411"><span class="std std-ref">vrna_sc_mod_7DA()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab1bb84d9c5a95740a35ee65694b1fbe2"><span class="std std-ref">vrna_sc_mod_purine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gae90b06aaa16f9a6f519e4b75d4d0c13d"><span class="std std-ref">vrna_sc_mod_dihydrouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"><span class="std std-ref">VRNA_SC_MOD_CHECK_FALLBACK</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"><span class="std std-ref">VRNA_SC_MOD_CHECK_UNMOD</span></a>, <a class="reference internal" href="#group__modified__bases_1ga873ecdf39af24a547ad154aa39d7d0fe"><span class="std std-ref">VRNA_SC_MOD_SILENT</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_param_t">
+<span class="target" id="group__modified__bases_1ga05e46c6a7c7040b2c4236b218dadb0e5"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_sc_mod_param_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_param_t</span></span></span><a class="headerlink" href="#c.vrna_sc_mod_param_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Modified base parameter data structure. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gae14753463c572d712363590b0b7e9a9a"><span class="std std-ref">vrna_sc_mod_read_from_jsonfile()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga73651701673a35080ff60ee156596da1"><span class="std std-ref">vrna_sc_mod_read_from_json()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga427d924951dd1a95b5828995208f96a9"><span class="std std-ref">vrna_sc_mod()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_read_from_jsonfile">
+<span class="target" id="group__modified__bases_1gae14753463c572d712363590b0b7e9a9a"></span><a class="reference internal" href="#c.vrna_sc_mod_param_t" title="vrna_sc_mod_param_t"><span class="n"><span class="pre">vrna_sc_mod_param_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_read_from_jsonfile</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <a class="reference internal" href="grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod_read_from_jsonfile" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Parse and extract energy parameters for a modified base from a JSON file. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000064"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as an overloaded function <code class="docutils literal notranslate"><span class="pre">sc_mod_read_from_jsonfile()</span></code> where the <code class="docutils literal notranslate"><span class="pre">md</span></code> parameter may be omitted and defaults to <code class="docutils literal notranslate"><span class="pre">NULL</span></code>. See, e.g.  <span> <a class="reference internal" href="api_python.html#RNA.sc_mod_read_from_jsonfile" title="RNA.sc_mod_read_from_jsonfile"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.sc_mod_read_from_jsonfile()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1ga73651701673a35080ff60ee156596da1"><span class="std std-ref">vrna_sc_mod_read_from_json()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga0e76e3dee44ab51c6758a5e2275f8bad"><span class="std std-ref">vrna_sc_mod_parameters_free()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga427d924951dd1a95b5828995208f96a9"><span class="std std-ref">vrna_sc_mod()</span></a>, modified-bases-params</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – The JSON file containing the specifications of the modified base </p></li>
+<li><p><strong>md</strong> – A model-details data structure (for look-up of canonical base pairs) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Parameters of the modified base</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_read_from_json">
+<span class="target" id="group__modified__bases_1ga73651701673a35080ff60ee156596da1"></span><a class="reference internal" href="#c.vrna_sc_mod_param_t" title="vrna_sc_mod_param_t"><span class="n"><span class="pre">vrna_sc_mod_param_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_read_from_json</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">json</span></span>, <a class="reference internal" href="grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod_read_from_json" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Parse and extract energy parameters for a modified base from a JSON string. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000065"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is available as an overloaded function <code class="docutils literal notranslate"><span class="pre">sc_mod_read_from_json()</span></code> where the <code class="docutils literal notranslate"><span class="pre">md</span></code> parameter may be omitted and defaults to <code class="docutils literal notranslate"><span class="pre">NULL</span></code>. See, e.g.  <span> <a class="reference internal" href="api_python.html#RNA.sc_mod_read_from_json" title="RNA.sc_mod_read_from_json"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.sc_mod_read_from_json()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gae14753463c572d712363590b0b7e9a9a"><span class="std std-ref">vrna_sc_mod_read_from_jsonfile()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga0e76e3dee44ab51c6758a5e2275f8bad"><span class="std std-ref">vrna_sc_mod_parameters_free()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga427d924951dd1a95b5828995208f96a9"><span class="std std-ref">vrna_sc_mod()</span></a>, modified-bases-params</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – The JSON file containing the specifications of the modified base </p></li>
+<li><p><strong>md</strong> – A model-details data structure (for look-up of canonical base pairs) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Parameters of the modified base</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_parameters_free">
+<span class="target" id="group__modified__bases_1ga0e76e3dee44ab51c6758a5e2275f8bad"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_parameters_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_sc_mod_param_t" title="vrna_sc_mod_param_t"><span class="n"><span class="pre">vrna_sc_mod_param_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod_parameters_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Release memory occupied by a modified base parameter data structure. </p>
+<p>Properly free a <a class="reference internal" href="#group__modified__bases_1ga05e46c6a7c7040b2c4236b218dadb0e5"><span class="std std-ref">vrna_sc_mod_param_t</span></a> data structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> – The data structure to free </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_json">
+<span class="target" id="group__modified__bases_1gaae866f0f52a26ba3cc839b560c6f756b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_json</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">json</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">modification_sites</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod_json" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Prepare soft constraint callbacks for modified base as specified in JSON string. </p>
+<p>This function prepares all requirements to acknowledge modified bases as specified in the provided <code class="docutils literal notranslate"><span class="pre">json</span></code> string. All subsequent predictions will treat each modification site special and adjust energy contributions if necessary.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000055"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">sc_mod_json()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with default <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="api_python.html#RNA.fold_compound.sc_mod_json" title="RNA.fold_compound.sc_mod_json"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_mod_json()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaf19a7af41b081f19cb28e9e132330eeb"><span class="std std-ref">vrna_sc_mod_jsonfile()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga427d924951dd1a95b5828995208f96a9"><span class="std std-ref">vrna_sc_mod()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga09398dbc2ad61f0fbbe6724c8c90ed98"><span class="std std-ref">vrna_sc_mod_m6A()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga95dd8b18dfc80c6f5826464292d40f52"><span class="std std-ref">vrna_sc_mod_pseudouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab4aba61d48c1b1577612794d3e8cd2b2"><span class="std std-ref">vrna_sc_mod_inosine()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga0430986f89b8292c9bc3764474e83411"><span class="std std-ref">vrna_sc_mod_7DA()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab1bb84d9c5a95740a35ee65694b1fbe2"><span class="std std-ref">vrna_sc_mod_purine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gae90b06aaa16f9a6f519e4b75d4d0c13d"><span class="std std-ref">vrna_sc_mod_dihydrouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"><span class="std std-ref">VRNA_SC_MOD_CHECK_FALLBACK</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"><span class="std std-ref">VRNA_SC_MOD_CHECK_UNMOD</span></a>, <a class="reference internal" href="#group__modified__bases_1ga873ecdf39af24a547ad154aa39d7d0fe"><span class="std std-ref">VRNA_SC_MOD_SILENT</span></a>, <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a>, modified-bases-params</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound the corrections should be bound to </p></li>
+<li><p><strong>json</strong> – The JSON formatted string with the modified base parameters </p></li>
+<li><p><strong>modification_sites</strong> – A list of modification site, i.e. positions that contain the modified base (1-based, last element in the list indicated by 0) </p></li>
+<li><p><strong>options</strong> – A bitvector of options how to handle the input, e.g. <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of sequence positions modified base parameters will be used for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_jsonfile">
+<span class="target" id="group__modified__bases_1gaf19a7af41b081f19cb28e9e132330eeb"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_jsonfile</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">json_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">modification_sites</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod_jsonfile" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Prepare soft constraint callbacks for modified base as specified in JSON string. </p>
+<p>Similar to <a class="reference internal" href="#group__modified__bases_1gaae866f0f52a26ba3cc839b560c6f756b"><span class="std std-ref">vrna_sc_mod_json()</span></a>, this function prepares all requirements to acknowledge modified bases as specified in the provided <code class="docutils literal notranslate"><span class="pre">json</span></code> file. All subsequent predictions will treat each modification site special and adjust energy contributions if necessary.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000056"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">sc_mod_jsonfile()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with default <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="api_python.html#RNA.fold_compound.sc_mod_jsonfile" title="RNA.fold_compound.sc_mod_jsonfile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_mod_jsonfile()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaae866f0f52a26ba3cc839b560c6f756b"><span class="std std-ref">vrna_sc_mod_json()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga427d924951dd1a95b5828995208f96a9"><span class="std std-ref">vrna_sc_mod()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga09398dbc2ad61f0fbbe6724c8c90ed98"><span class="std std-ref">vrna_sc_mod_m6A()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga95dd8b18dfc80c6f5826464292d40f52"><span class="std std-ref">vrna_sc_mod_pseudouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab4aba61d48c1b1577612794d3e8cd2b2"><span class="std std-ref">vrna_sc_mod_inosine()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga0430986f89b8292c9bc3764474e83411"><span class="std std-ref">vrna_sc_mod_7DA()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab1bb84d9c5a95740a35ee65694b1fbe2"><span class="std std-ref">vrna_sc_mod_purine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gae90b06aaa16f9a6f519e4b75d4d0c13d"><span class="std std-ref">vrna_sc_mod_dihydrouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"><span class="std std-ref">VRNA_SC_MOD_CHECK_FALLBACK</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"><span class="std std-ref">VRNA_SC_MOD_CHECK_UNMOD</span></a>, <a class="reference internal" href="#group__modified__bases_1ga873ecdf39af24a547ad154aa39d7d0fe"><span class="std std-ref">VRNA_SC_MOD_SILENT</span></a>, <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a>, modified-bases-params</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound the corrections should be bound to </p></li>
+<li><p><strong>json</strong> – The JSON formatted string with the modified base parameters </p></li>
+<li><p><strong>modification_sites</strong> – A list of modification site, i.e. positions that contain the modified base (1-based, last element in the list indicated by 0) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of sequence positions modified base parameters will be used for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod">
+<span class="target" id="group__modified__bases_1ga427d924951dd1a95b5828995208f96a9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_sc_mod_param_t" title="vrna_sc_mod_param_t"><span class="n"><span class="pre">vrna_sc_mod_param_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">params</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">modification_sites</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Prepare soft constraint callbacks for modified base as specified in JSON string. </p>
+<p>This function takes a <a class="reference internal" href="#group__modified__bases_1ga05e46c6a7c7040b2c4236b218dadb0e5"><span class="std std-ref">vrna_sc_mod_param_t</span></a> data structure as obtained from <a class="reference internal" href="#group__modified__bases_1ga73651701673a35080ff60ee156596da1"><span class="std std-ref">vrna_sc_mod_read_from_json()</span></a> or <a class="reference internal" href="#group__modified__bases_1gae14753463c572d712363590b0b7e9a9a"><span class="std std-ref">vrna_sc_mod_read_from_jsonfile()</span></a> and prepares all requirements to acknowledge modified bases as specified in the provided <code class="docutils literal notranslate"><span class="pre">params</span></code> data structure. All subsequent predictions will treat each modification site special and adjust energy contributions if necessary.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000057"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">sc_mod()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with default <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="api_python.html#RNA.fold_compound.sc_mod" title="RNA.fold_compound.sc_mod"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_mod()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1ga73651701673a35080ff60ee156596da1"><span class="std std-ref">vrna_sc_mod_read_from_json()</span></a>, <a class="reference internal" href="#group__modified__bases_1gae14753463c572d712363590b0b7e9a9a"><span class="std std-ref">vrna_sc_mod_read_from_jsonfile()</span></a>, <a class="reference internal" href="#group__modified__bases_1gaae866f0f52a26ba3cc839b560c6f756b"><span class="std std-ref">vrna_sc_mod_json()</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf19a7af41b081f19cb28e9e132330eeb"><span class="std std-ref">vrna_sc_mod_jsonfile()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga09398dbc2ad61f0fbbe6724c8c90ed98"><span class="std std-ref">vrna_sc_mod_m6A()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga95dd8b18dfc80c6f5826464292d40f52"><span class="std std-ref">vrna_sc_mod_pseudouridine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab4aba61d48c1b1577612794d3e8cd2b2"><span class="std std-ref">vrna_sc_mod_inosine()</span></a>, <a class="reference internal" href="#group__modified__bases_1ga0430986f89b8292c9bc3764474e83411"><span class="std std-ref">vrna_sc_mod_7DA()</span></a>, <a class="reference internal" href="#group__modified__bases_1gab1bb84d9c5a95740a35ee65694b1fbe2"><span class="std std-ref">vrna_sc_mod_purine()</span></a>, <a class="reference internal" href="#group__modified__bases_1gae90b06aaa16f9a6f519e4b75d4d0c13d"><span class="std std-ref">vrna_sc_mod_dihydrouridine()</span></a> <a class="reference internal" href="#group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"><span class="std std-ref">VRNA_SC_MOD_CHECK_FALLBACK</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"><span class="std std-ref">VRNA_SC_MOD_CHECK_UNMOD</span></a>, <a class="reference internal" href="#group__modified__bases_1ga873ecdf39af24a547ad154aa39d7d0fe"><span class="std std-ref">VRNA_SC_MOD_SILENT</span></a>, <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound the corrections should be bound to </p></li>
+<li><p><strong>json</strong> – The JSON formatted string with the modified base parameters </p></li>
+<li><p><strong>modification_sites</strong> – A list of modification site, i.e. positions that contain the modified base (1-based, last element in the list indicated by 0) </p></li>
+<li><p><strong>options</strong> – A bitvector of options how to handle the input, e.g. <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of sequence positions modified base parameters will be used for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_m6A">
+<span class="target" id="group__modified__bases_1ga09398dbc2ad61f0fbbe6724c8c90ed98"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_m6A</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">modification_sites</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod_m6A" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Add soft constraint callbacks for N6-methyl-adenosine (m6A) </p>
+<p>This is a convenience wrapper to add support for m6A using the soft constraint callback mechanism. Modification sites are provided as a list of sequence positions (1-based). Energy parameter corrections are derived from  <span> <span id="id2">Kierzek <em>et al.</em> [<a class="reference internal" href="bibliography.html#id44" title="Elzbieta Kierzek, Xiaoju Zhang, Richard M Watson, Scott D Kennedy, Marta Szabat, Ryszard Kierzek, and David H Mathews. Secondary structure prediction for RNA sequences including N6-methyladenosine. Nature communications, 13(1):1–10, 2022. doi:10.1038/s41467-022-28817-4.">2022</a>]</span> </span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000058"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">sc_mod_m6A()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with default <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="api_python.html#RNA.fold_compound.sc_mod_m6A" title="RNA.fold_compound.sc_mod_m6A"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_mod_m6A()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"><span class="std std-ref">VRNA_SC_MOD_CHECK_FALLBACK</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"><span class="std std-ref">VRNA_SC_MOD_CHECK_UNMOD</span></a>, <a class="reference internal" href="#group__modified__bases_1ga873ecdf39af24a547ad154aa39d7d0fe"><span class="std std-ref">VRNA_SC_MOD_SILENT</span></a>, <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound the corrections should be bound to </p></li>
+<li><p><strong>modification_sites</strong> – A list of modification site, i.e. positions that contain the modified base (1-based, last element in the list indicated by 0) </p></li>
+<li><p><strong>options</strong> – A bitvector of options how to handle the input, e.g. <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of sequence positions modified base parameters will be used for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_pseudouridine">
+<span class="target" id="group__modified__bases_1ga95dd8b18dfc80c6f5826464292d40f52"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_pseudouridine</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">modification_sites</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod_pseudouridine" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Add soft constraint callbacks for Pseudouridine. </p>
+<p>This is a convenience wrapper to add support for pseudouridine using the soft constraint callback mechanism. Modification sites are provided as a list of sequence positions (1-based). Energy parameter corrections are derived from  <span> <span id="id3">Hudson <em>et al.</em> [<a class="reference internal" href="bibliography.html#id43" title="Graham A Hudson, Richard J Bloomingdale, and Brent M Znosko. Thermodynamic contribution and nearest-neighbor parameters of pseudouridine-adenosine base pairs in oligoribonucleotides. RNA, 19(11):1474–1482, 2013. doi:10.1261/rna.039610.113.">2013</a>]</span> </span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000059"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">sc_mod_pseudouridine()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with default <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="api_python.html#RNA.fold_compound.sc_mod_pseudouridine" title="RNA.fold_compound.sc_mod_pseudouridine"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_mod_pseudouridine()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"><span class="std std-ref">VRNA_SC_MOD_CHECK_FALLBACK</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"><span class="std std-ref">VRNA_SC_MOD_CHECK_UNMOD</span></a>, <a class="reference internal" href="#group__modified__bases_1ga873ecdf39af24a547ad154aa39d7d0fe"><span class="std std-ref">VRNA_SC_MOD_SILENT</span></a>, <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound the corrections should be bound to </p></li>
+<li><p><strong>modification_sites</strong> – A list of modification site, i.e. positions that contain the modified base (1-based, last element in the list indicated by 0) </p></li>
+<li><p><strong>options</strong> – A bitvector of options how to handle the input, e.g. <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of sequence positions modified base parameters will be used for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_inosine">
+<span class="target" id="group__modified__bases_1gab4aba61d48c1b1577612794d3e8cd2b2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_inosine</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">modification_sites</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod_inosine" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Add soft constraint callbacks for Inosine. </p>
+<p>This is a convenience wrapper to add support for inosine using the soft constraint callback mechanism. Modification sites are provided as a list of sequence positions (1-based). Energy parameter corrections are derived from  <span> <span id="id4">Wright <em>et al.</em> [<a class="reference internal" href="bibliography.html#id45" title="Daniel J Wright, Jamie L Rice, Dawn M Yanker, and Brent M Znosko. Nearest Neighbor Parameters for Inosine· Uridine Pairs in RNA Duplexes. Biochemistry, 46(15):4625–4634, 2007. doi:10.1021/bi0616910.">2007</a>]</span> </span> and  <span> <span id="id5">Wright <em>et al.</em> [<a class="reference internal" href="bibliography.html#id46" title="Daniel J Wright, Christopher R Force, and Brent M Znosko. Stability of RNA duplexes containing inosine· cytosine pairs. Nucleic Acids Research, 46(22):12099–12108, 2018. doi:10.1093/nar/gky907.">2018</a>]</span> </span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000060"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">sc_mod_inosine()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with default <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="api_python.html#RNA.fold_compound.sc_mod_inosine" title="RNA.fold_compound.sc_mod_inosine"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_mod_inosine()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"><span class="std std-ref">VRNA_SC_MOD_CHECK_FALLBACK</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"><span class="std std-ref">VRNA_SC_MOD_CHECK_UNMOD</span></a>, <a class="reference internal" href="#group__modified__bases_1ga873ecdf39af24a547ad154aa39d7d0fe"><span class="std std-ref">VRNA_SC_MOD_SILENT</span></a>, <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound the corrections should be bound to </p></li>
+<li><p><strong>modification_sites</strong> – A list of modification site, i.e. positions that contain the modified base (1-based, last element in the list indicated by 0) </p></li>
+<li><p><strong>options</strong> – A bitvector of options how to handle the input, e.g. <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of sequence positions modified base parameters will be used for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_7DA">
+<span class="target" id="group__modified__bases_1ga0430986f89b8292c9bc3764474e83411"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_7DA</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">modification_sites</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod_7DA" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Add soft constraint callbacks for 7-deaza-adenosine (7DA) </p>
+<p>This is a convenience wrapper to add support for 7-deaza-adenosine using the soft constraint callback mechanism. Modification sites are provided as a list of sequence positions (1-based). Energy parameter corrections are derived from  <span> <span id="id6">Richardson and Znosko [<a class="reference internal" href="bibliography.html#id47" title="Katherine E Richardson and Brent M Znosko. Nearest-neighbor parameters for 7-deaza-adenosine· uridine base pairs in RNA duplexes. RNA, 22(6):934–942, 2016. doi:10.1261/rna.055277.115.">2016</a>]</span> </span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000061"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">sc_mod_7DA()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with default <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="api_python.html#RNA.fold_compound.sc_mod_7DA" title="RNA.fold_compound.sc_mod_7DA"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_mod_7DA()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"><span class="std std-ref">VRNA_SC_MOD_CHECK_FALLBACK</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"><span class="std std-ref">VRNA_SC_MOD_CHECK_UNMOD</span></a>, <a class="reference internal" href="#group__modified__bases_1ga873ecdf39af24a547ad154aa39d7d0fe"><span class="std std-ref">VRNA_SC_MOD_SILENT</span></a>, <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound the corrections should be bound to </p></li>
+<li><p><strong>modification_sites</strong> – A list of modification site, i.e. positions that contain the modified base (1-based, last element in the list indicated by 0) </p></li>
+<li><p><strong>options</strong> – A bitvector of options how to handle the input, e.g. <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of sequence positions modified base parameters will be used for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_purine">
+<span class="target" id="group__modified__bases_1gab1bb84d9c5a95740a35ee65694b1fbe2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_purine</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">modification_sites</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod_purine" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Add soft constraint callbacks for Purine (a.k.a. nebularine) </p>
+<p>This is a convenience wrapper to add support for Purine using the soft constraint callback mechanism. Modification sites are provided as a list of sequence positions (1-based). Energy parameter corrections are derived from  <span> <span id="id7">Jolley and Znosko [<a class="reference internal" href="bibliography.html#id48" title="Elizabeth A Jolley and Brent M Znosko. The loss of a hydrogen bond: Thermodynamic contributions of a non-standard nucleotide. Nucleic acids research, 45(3):1479–1487, 2017. doi:10.1093/nar/gkw830.">2017</a>]</span> </span>.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000062"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">sc_mod_purine()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with default <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="api_python.html#RNA.fold_compound.sc_mod_purine" title="RNA.fold_compound.sc_mod_purine"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_mod_purine()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"><span class="std std-ref">VRNA_SC_MOD_CHECK_FALLBACK</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"><span class="std std-ref">VRNA_SC_MOD_CHECK_UNMOD</span></a>, <a class="reference internal" href="#group__modified__bases_1ga873ecdf39af24a547ad154aa39d7d0fe"><span class="std std-ref">VRNA_SC_MOD_SILENT</span></a>, <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound the corrections should be bound to </p></li>
+<li><p><strong>modification_sites</strong> – A list of modification site, i.e. positions that contain the modified base (1-based, last element in the list indicated by 0) </p></li>
+<li><p><strong>options</strong> – A bitvector of options how to handle the input, e.g. <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of sequence positions modified base parameters will be used for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_sc_mod_dihydrouridine">
+<span class="target" id="group__modified__bases_1gae90b06aaa16f9a6f519e4b75d4d0c13d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_sc_mod_dihydrouridine</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">modification_sites</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_sc_mod_dihydrouridine" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/constraints/soft_special.h&gt;</em><p>Add soft constraint callbacks for dihydrouridine. </p>
+<p>This is a convenience wrapper to add support for dihydrouridine using the soft constraint callback mechanism. Modification sites are provided as a list of sequence positions (1-based). Energy parameter corrections are derived from Rosetta/RECESS predictions.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="wrappers.html#wrappers_1_wrappers000063"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as overloaded method <code class="docutils literal notranslate"><span class="pre">sc_mod_dihydrouridine()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code> with default <code class="docutils literal notranslate"><span class="pre">options</span></code> = <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a>. See, e.g.  <span> <a class="reference internal" href="api_python.html#RNA.fold_compound.sc_mod_dihydrouridine" title="RNA.fold_compound.sc_mod_dihydrouridine"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.sc_mod_dihydrouridine()</span></code></a> in the <a class="reference internal" href="api_python.html"><span class="doc">Python API</span></a> </span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__modified__bases_1gaf973a647d9109b874b563bbe399a662d"><span class="std std-ref">VRNA_SC_MOD_CHECK_FALLBACK</span></a>, <a class="reference internal" href="#group__modified__bases_1gaf80006636cdabb5f6ea577479a4cc3f2"><span class="std std-ref">VRNA_SC_MOD_CHECK_UNMOD</span></a>, <a class="reference internal" href="#group__modified__bases_1ga873ecdf39af24a547ad154aa39d7d0fe"><span class="std std-ref">VRNA_SC_MOD_SILENT</span></a>, <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The fold_compound the corrections should be bound to </p></li>
+<li><p><strong>modification_sites</strong> – A list of modification site, i.e. positions that contain the modified base (1-based, last element in the list indicated by 0) </p></li>
+<li><p><strong>options</strong> – A bitvector of options how to handle the input, e.g. <a class="reference internal" href="#group__modified__bases_1ga85bd7f50defa04f851e89a7554459d1e"><span class="std std-ref">VRNA_SC_MOD_DEFAULT</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of sequence positions modified base parameters will be used for</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules/gquads.html" class="btn btn-neutral float-left" title="G-Quadruplexes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utils.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__eval__loops__hp" kind="group">
+    <compoundname>eval_loops_hp</compoundname>
+    <title>Hairpin Loops</title>
+    <innerfile refid="hairpin_8h">hairpin.h</innerfile>
+      <sectiondef kind="user-defined">
+      <header>Basic free energy interface</header>
+      <memberdef kind="function" id="group__eval__loops__hp_1ga57179ea326cc5ed8dfe4d3962b233128" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_E_hp_loop</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int i, int j)</argsstring>
+        <name>vrna_E_hp_loop</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of a hairpin loop and consider hard constraints if they apply. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function evaluates the free energy of a hairpin loop</para>
+<para>In case the base pair is not allowed due to a constraint conflict, this function returns INF.</para>
+<para><simplesect kind="note"><para>This function is polymorphic! The provided <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> may be of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" kindref="member">VRNA_FC_TYPE_SINGLE</ref> or <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> that stores all relevant model settings </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 5&apos; nucleotide of the base pair (3&apos; to evaluate the pair as exterior hairpin loop) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 3&apos; nucleotide of the base pair (5&apos; to evaluate the pair as exterior hairpin loop) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The free energy of the hairpin loop in 10cal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/hairpin.h" line="71" column="1" declfile="ViennaRNA/loops/hairpin.h" declline="71" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval__loops__hp_1ga7d358fa17aaf1cfc312a053accd10778" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_E_ext_hp_loop</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int i, int j)</argsstring>
+        <name>vrna_E_ext_hp_loop</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the free energy of an exterior hairpin loop and consider possible hard constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>This function is polymorphic! The provided <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> may be of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" kindref="member">VRNA_FC_TYPE_SINGLE</ref> or <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/hairpin.h" line="85" column="1" declfile="ViennaRNA/loops/hairpin.h" declline="85" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval__loops__hp_1gafd39e7355dcf36bf1517bafc1b49c2d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_ext_hp_loop</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int i, int j)</argsstring>
+        <name>vrna_eval_ext_hp_loop</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate free energy of an exterior hairpin loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/hairpin.h" line="94" column="1" declfile="ViennaRNA/loops/hairpin.h" declline="94" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval__loops__hp_1gad0bb844f8dc704c71737ae1d7e32b975" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_eval_hp_loop</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int i, int j)</argsstring>
+        <name>vrna_eval_hp_loop</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate free energy of a hairpin loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>This function is polymorphic! The provided <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> may be of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" kindref="member">VRNA_FC_TYPE_SINGLE</ref> or <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> for the particular energy evaluation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>5&apos;-position of the base pair </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>3&apos;-position of the base pair </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Free energy of the hairpin loop closed by <formula id="94">$ (i,j) $</formula> in deka-kal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000074"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>eval_hp_loop()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.eval_hp_loop()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/hairpin.h" line="111" column="1" declfile="ViennaRNA/loops/hairpin.h" declline="111" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval__loops__hp_1gaac01109b95889c27943e781f4a3ab0b6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int E_Hairpin</definition>
+        <argsstring>(int size, int type, int si1, int sj1, const char *string, vrna_param_t *P)</argsstring>
+        <name>E_Hairpin</name>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>si1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sj1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type><ref refid="group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35" kindref="member">vrna_param_t</ref> *</type>
+          <declname>P</declname>
+        </param>
+        <briefdescription>
+<para>Compute the Energy of a hairpin-loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To evaluate the free energy of a hairpin-loop, several parameters have to be known. A general hairpin-loop has this structure:<linebreak/>
+ <preformatted>
+      a3 a4
+    a2     a5
+    a1     a6
+      X - Y
+      |   |
+      5&apos;  3&apos;
+</preformatted> where X-Y marks the closing pair [e.g. a <bold>(G,C)</bold> pair]. The length of this loop is 6 as there are six unpaired nucleotides (a1-a6) enclosed by (X,Y). The 5&apos; mismatching nucleotide is a1 while the 3&apos; mismatch is a6. The nucleotide sequence of this loop is "a1.a2.a3.a4.a5.a6" <linebreak/>
+</para>
+<para><simplesect kind="note"><para>The parameter sequence should contain the sequence of the loop in capital letters of the nucleic acid alphabet if the loop size is below 7. This is useful for unusually stable tri-, tetra- and hexa-loops which are treated differently (based on experimental data) if they are tabulated.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__energy__parameters_1ga5fe3524fd6d2a297099238f117254c13" kindref="member">scale_parameters()</ref>, <ref refid="group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35" kindref="member">vrna_param_t</ref></para>
+</simplesect>
+<simplesect kind="warning"><para>Not (really) thread safe! A threadsafe implementation will replace this function in a future release!<linebreak/>
+ Energy evaluation may change due to updates in global variable &quot;tetra_loop&quot;</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size of the loop (number of unpaired nucleotides) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair type of the base pair closing the hairpin </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>si1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 5&apos;-mismatching nucleotide </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sj1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 3&apos;-mismatching nucleotide </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sequence of the loop (May be <computeroutput>NULL</computeroutput>, otherwise mst be at least <formula id="95">$size + 2$</formula> long) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>P</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The datastructure containing scaled energy parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The Free energy of the Hairpin-loop in dcal/mol </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/hairpin.h" line="151" column="1" bodyfile="ViennaRNA/loops/hairpin.h" bodystart="151" bodyend="213"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Boltzmann weight (partition function) interface</header>
+      <memberdef kind="function" id="group__eval__loops__hp_1ga00a1defade1e714fa4c68b86ef95b980" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref></type>
+        <definition>static FLT_OR_DBL exp_E_Hairpin</definition>
+        <argsstring>(int u, int type, short si1, short sj1, const char *string, vrna_exp_param_t *P)</argsstring>
+        <name>exp_E_Hairpin</name>
+        <param>
+          <type>int</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>short</type>
+          <declname>si1</declname>
+        </param>
+        <param>
+          <type>short</type>
+          <declname>sj1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type><ref refid="group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8" kindref="member">vrna_exp_param_t</ref> *</type>
+          <declname>P</declname>
+        </param>
+        <briefdescription>
+<para>Compute Boltzmann weight <formula id="90">$e^{-\Delta G/kT} $</formula> of a hairpin loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>multiply by scale[u+2]</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__energy__parameters_1ga1007b70b7176f7cc78ed224460b89bbe" kindref="member">get_scaled_pf_parameters()</ref>, <ref refid="group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8" kindref="member">vrna_exp_param_t</ref>, E_Hairpin()</para>
+</simplesect>
+<simplesect kind="warning"><para>Not (really) thread safe! A threadsafe implementation will replace this function in a future release!<linebreak/>
+ Energy evaluation may change due to updates in global variable &quot;tetra_loop&quot;</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>u</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The size of the loop (number of unpaired nucleotides) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair type of the base pair closing the hairpin </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>si1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 5&apos;-mismatching nucleotide </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sj1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 3&apos;-mismatching nucleotide </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sequence of the loop (May be <computeroutput>NULL</computeroutput>, otherwise mst be at least <formula id="95">$size + 2$</formula> long) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>P</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The datastructure containing scaled Boltzmann weights of the energy parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The Boltzmann weight of the Hairpin-loop </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/hairpin.h" line="245" column="1" bodyfile="ViennaRNA/loops/hairpin.h" bodystart="245" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="group__eval__loops__hp_1gad62fe037be0a3fc6914676e5cb85be5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref></type>
+        <definition>FLT_OR_DBL vrna_exp_E_hp_loop</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int i, int j)</argsstring>
+        <name>vrna_exp_E_hp_loop</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>High-Level function for hairpin loop energy evaluation (partition function variant) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__eval__loops__hp_1ga57179ea326cc5ed8dfe4d3962b233128" kindref="member">vrna_E_hp_loop()</ref> for it&apos;s free energy counterpart</para>
+</simplesect>
+<simplesect kind="note"><para>This function is polymorphic! The provided <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> may be of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" kindref="member">VRNA_FC_TYPE_SINGLE</ref> or <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/loops/hairpin.h" line="327" column="1" declfile="ViennaRNA/loops/hairpin.h" declline="327" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

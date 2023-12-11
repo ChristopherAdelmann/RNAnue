@@ -1,0 +1,506 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__combinatorics__utils" kind="group">
+    <compoundname>combinatorics_utils</compoundname>
+    <title>Combinatorics Algorithms</title>
+    <innerfile refid="combinatorics_8h">combinatorics.h</innerfile>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__combinatorics__utils_1gae081ac655a76bd5c4b3d86c60b096b75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int **</type>
+        <definition>unsigned int ** vrna_enumerate_necklaces</definition>
+        <argsstring>(const unsigned int *type_counts)</argsstring>
+        <name>vrna_enumerate_necklaces</name>
+        <param>
+          <type>const unsigned int *</type>
+          <declname>type_counts</declname>
+        </param>
+        <briefdescription>
+<para>Enumerate all necklaces with fixed content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function implements <emphasis>A fast algorithm to generate necklaces with fixed content</emphasis> as published by  <verbatim>embed:rst:inline :cite:t:`sawada:2003` </verbatim>.</para>
+<para>The function receives a list of counts (the elements on the necklace) for each type of object within a necklace. The list starts at index 0 and ends with an entry that has a count of 0. The algorithm then enumerates all non-cyclic permutations of the content, returned as a list of necklaces. This list, again, is zero-terminated, i.e. the last entry of the list is a <computeroutput>NULL</computeroutput> pointer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type_counts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A 0-terminated list of entity counts </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of all non-cyclic permutations of the entities</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000024"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as global function <computeroutput>enumerate_necklaces()</computeroutput> which accepts lists input, an produces list of lists output. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.enumerate_necklaces()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/combinatorics.h" line="34" column="1" declfile="ViennaRNA/combinatorics.h" declline="34" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__combinatorics__utils_1gac51464b5281833a58c25f9447252c495" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int vrna_rotational_symmetry_num</definition>
+        <argsstring>(const unsigned int *string, size_t string_length)</argsstring>
+        <name>vrna_rotational_symmetry_num</name>
+        <param>
+          <type>const unsigned int *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>string_length</declname>
+        </param>
+        <briefdescription>
+<para>Determine the order of rotational symmetry for a string of objects represented by natural numbers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The algorithm applies a fast search of the provided string within itself, assuming the end of the string wraps around to connect with it&apos;s start. For example, a string of the form <computeroutput>011011</computeroutput> has rotational symmetry of order <computeroutput>2</computeroutput> </para>
+<para>This is a simplified version of <ref refid="group__combinatorics__utils_1ga95b5a6ac35da982e2a766f8d2f98a2e1" kindref="member">vrna_rotational_symmetry_pos_num()</ref> that may be useful if one is only interested in the degree of rotational symmetry but not the actual set of rotational symmetric strings.</para>
+<para><simplesect kind="see"><para><ref refid="group__combinatorics__utils_1ga95b5a6ac35da982e2a766f8d2f98a2e1" kindref="member">vrna_rotational_symmetry_pos_num()</ref>, vrna_rotationa_symmetry()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string of elements encoded as natural numbers </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>string_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The order of rotational symmetry</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000025"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as global function <computeroutput>rotational_symmetry()</computeroutput>. See <ref refid="group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb" kindref="member">vrna_rotational_symmetry_pos()</ref> for details. Note, that in the target language the length of the list <computeroutput>string</computeroutput> is always known a-priori, so the parameter <computeroutput>string_length</computeroutput> must be omitted. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.rotational_symmetry()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/combinatorics.h" line="57" column="1" declfile="ViennaRNA/combinatorics.h" declline="57" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__combinatorics__utils_1ga95b5a6ac35da982e2a766f8d2f98a2e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int vrna_rotational_symmetry_pos_num</definition>
+        <argsstring>(const unsigned int *string, size_t string_length, unsigned int **positions)</argsstring>
+        <name>vrna_rotational_symmetry_pos_num</name>
+        <param>
+          <type>const unsigned int *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>string_length</declname>
+        </param>
+        <param>
+          <type>unsigned int **</type>
+          <declname>positions</declname>
+        </param>
+        <briefdescription>
+<para>Determine the order of rotational symmetry for a string of objects represented by natural numbers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The algorithm applies a fast search of the provided string within itself, assuming the end of the string wraps around to connect with it&apos;s start. For example, a string of the form <computeroutput>011011</computeroutput> has rotational symmetry of order <computeroutput>2</computeroutput> </para>
+<para>If the argument <computeroutput>positions</computeroutput> is not <computeroutput>NULL</computeroutput>, the function stores an array of string start positions for rotational shifts that map the string back onto itself. This array has length of order of rotational symmetry, i.e. the number returned by this function. The first element <computeroutput>positions</computeroutput>[0] always contains a shift value of <computeroutput>0</computeroutput> representing the trivial rotation.</para>
+<para><simplesect kind="note"><para>Do not forget to release the memory occupied by <computeroutput>positions</computeroutput> after a successful execution of this function.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__combinatorics__utils_1gac51464b5281833a58c25f9447252c495" kindref="member">vrna_rotational_symmetry_num()</ref>, <ref refid="group__combinatorics__utils_1gae1dec02c4b63f303ce06a9293d316762" kindref="member">vrna_rotational_symmetry()</ref>, <ref refid="group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb" kindref="member">vrna_rotational_symmetry_pos()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string of elements encoded as natural numbers </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>string_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>positions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to an (undefined) list of alternative string start positions that lead to an identity mapping (may be NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The order of rotational symmetry</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000026"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as global function <computeroutput>rotational_symmetry()</computeroutput>. See <ref refid="group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb" kindref="member">vrna_rotational_symmetry_pos()</ref> for details. Note, that in the target language the length of the list <computeroutput>string</computeroutput> is always known a-priori, so the parameter <computeroutput>string_length</computeroutput> must be omitted. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.rotational_symmetry()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/combinatorics.h" line="88" column="1" declfile="ViennaRNA/combinatorics.h" declline="88" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__combinatorics__utils_1gae1dec02c4b63f303ce06a9293d316762" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int vrna_rotational_symmetry</definition>
+        <argsstring>(const char *string)</argsstring>
+        <name>vrna_rotational_symmetry</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <briefdescription>
+<para>Determine the order of rotational symmetry for a NULL-terminated string of ASCII characters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The algorithm applies a fast search of the provided string within itself, assuming the end of the string wraps around to connect with it&apos;s start. For example, a string of the form <computeroutput>AABAAB</computeroutput> has rotational symmetry of order <computeroutput>2</computeroutput> </para>
+<para>This is a simplified version of <ref refid="group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb" kindref="member">vrna_rotational_symmetry_pos()</ref> that may be useful if one is only interested in the degree of rotational symmetry but not the actual set of rotational symmetric strings.</para>
+<para><simplesect kind="see"><para><ref refid="group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb" kindref="member">vrna_rotational_symmetry_pos()</ref>, vrna_rotationa_symmetry_num()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A NULL-terminated string of characters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The order of rotational symmetry</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000027"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as global function <computeroutput>rotational_symmetry()</computeroutput>. See <ref refid="group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb" kindref="member">vrna_rotational_symmetry_pos()</ref> for details. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.rotational_symmetry()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/combinatorics.h" line="111" column="1" declfile="ViennaRNA/combinatorics.h" declline="111" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int vrna_rotational_symmetry_pos</definition>
+        <argsstring>(const char *string, unsigned int **positions)</argsstring>
+        <name>vrna_rotational_symmetry_pos</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>unsigned int **</type>
+          <declname>positions</declname>
+        </param>
+        <briefdescription>
+<para>Determine the order of rotational symmetry for a NULL-terminated string of ASCII characters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The algorithm applies a fast search of the provided string within itself, assuming the end of the string wraps around to connect with it&apos;s start. For example, a string of the form <computeroutput>AABAAB</computeroutput> has rotational symmetry of order <computeroutput>2</computeroutput> </para>
+<para>If the argument <computeroutput>positions</computeroutput> is not <computeroutput>NULL</computeroutput>, the function stores an array of string start positions for rotational shifts that map the string back onto itself. This array has length of order of rotational symmetry, i.e. the number returned by this function. The first element <computeroutput>positions</computeroutput>[0] always contains a shift value of <computeroutput>0</computeroutput> representing the trivial rotation.</para>
+<para><simplesect kind="note"><para>Do not forget to release the memory occupied by <computeroutput>positions</computeroutput> after a successful execution of this function.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__combinatorics__utils_1gae1dec02c4b63f303ce06a9293d316762" kindref="member">vrna_rotational_symmetry()</ref>, <ref refid="group__combinatorics__utils_1gac51464b5281833a58c25f9447252c495" kindref="member">vrna_rotational_symmetry_num()</ref>, vrna_rotational_symmetry_num_pos()</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A NULL-terminated string of characters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>positions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to an (undefined) list of alternative string start positions that lead to an identity mapping (may be NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The order of rotational symmetry</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000028"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded global function <computeroutput>rotational_symmetry()</computeroutput>. It merges the functionalities of <ref refid="group__combinatorics__utils_1gae1dec02c4b63f303ce06a9293d316762" kindref="member">vrna_rotational_symmetry()</ref>, <ref refid="group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb" kindref="member">vrna_rotational_symmetry_pos()</ref>, <ref refid="group__combinatorics__utils_1gac51464b5281833a58c25f9447252c495" kindref="member">vrna_rotational_symmetry_num()</ref>, and <ref refid="group__combinatorics__utils_1ga95b5a6ac35da982e2a766f8d2f98a2e1" kindref="member">vrna_rotational_symmetry_pos_num()</ref>. In contrast to our C-implementation, this function doesn&apos;t return the order of rotational symmetry as a single value, but returns a list of cyclic permutation shifts that result in a rotationally symmetric string. The length of the list then determines the order of rotational symmetry. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.rotational_symmetry()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/combinatorics.h" line="139" column="1" declfile="ViennaRNA/combinatorics.h" declline="139" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__combinatorics__utils_1gad42ffd53025bed9d636d811748db7c5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int vrna_rotational_symmetry_db</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure)</argsstring>
+        <name>vrna_rotational_symmetry_db</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Determine the order of rotational symmetry for a dot-bracket structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Given a (permutation of multiple) RNA strand(s) and a particular secondary structure in dot-bracket notation, compute the degree of rotational symmetry. In case there is only a single linear RNA strand, the structure always has degree 1, as there are no rotational symmetries due to the direction of the nucleic acid sequence and the fixed positions of 5&apos; and 3&apos; ends. However, for circular RNAs, rotational symmetries might arise if the sequence consists of a concatenation of <formula id="18">$k$</formula> identical subsequences.</para>
+<para>This is a simplified version of <ref refid="group__combinatorics__utils_1ga2a4227ebe28dbc7ad55444a3a1bf7119" kindref="member">vrna_rotational_symmetry_db_pos()</ref> that may be useful if one is only interested in the degree of rotational symmetry but not the actual set of rotational symmetric strings.</para>
+<para><simplesect kind="see"><para><ref refid="group__combinatorics__utils_1ga2a4227ebe28dbc7ad55444a3a1bf7119" kindref="member">vrna_rotational_symmetry_db_pos()</ref>, <ref refid="group__combinatorics__utils_1gae1dec02c4b63f303ce06a9293d316762" kindref="member">vrna_rotational_symmetry()</ref>, <ref refid="group__combinatorics__utils_1gac51464b5281833a58c25f9447252c495" kindref="member">vrna_rotational_symmetry_num()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A fold_compound data structure containing the nucleic acid sequence(s), their order, and model settings </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The dot-bracket structure the degree of rotational symmetry is checked for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The degree of rotational symmetry of the <computeroutput>structure</computeroutput> (0 in case of any errors)</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000029"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>rotational_symmetry_db()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput> (i.e. <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>). See <ref refid="group__combinatorics__utils_1ga2a4227ebe28dbc7ad55444a3a1bf7119" kindref="member">vrna_rotational_symmetry_db_pos()</ref> for details. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.rotational_symmetry_db()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/combinatorics.h" line="166" column="1" declfile="ViennaRNA/combinatorics.h" declline="166" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__combinatorics__utils_1ga2a4227ebe28dbc7ad55444a3a1bf7119" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int vrna_rotational_symmetry_db_pos</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *structure, unsigned int **positions)</argsstring>
+        <name>vrna_rotational_symmetry_db_pos</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>unsigned int **</type>
+          <declname>positions</declname>
+        </param>
+        <briefdescription>
+<para>Determine the order of rotational symmetry for a dot-bracket structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Given a (permutation of multiple) RNA strand(s) and a particular secondary structure in dot-bracket notation, compute the degree of rotational symmetry. In case there is only a single linear RNA strand, the structure always has degree 1, as there are no rotational symmetries due to the direction of the nucleic acid sequence and the fixed positions of 5&apos; and 3&apos; ends. However, for circular RNAs, rotational symmetries might arise if the sequence consists of a concatenation of <formula id="18">$k$</formula> identical subsequences.</para>
+<para>If the argument <computeroutput>positions</computeroutput> is not <computeroutput>NULL</computeroutput>, the function stores an array of string start positions for rotational shifts that map the string back onto itself. This array has length of order of rotational symmetry, i.e. the number returned by this function. The first element <computeroutput>positions</computeroutput>[0] always contains a shift value of <computeroutput>0</computeroutput> representing the trivial rotation.</para>
+<para><simplesect kind="note"><para>Do not forget to release the memory occupied by <computeroutput>positions</computeroutput> after a successful execution of this function.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__combinatorics__utils_1gad42ffd53025bed9d636d811748db7c5a" kindref="member">vrna_rotational_symmetry_db()</ref>, <ref refid="group__combinatorics__utils_1ga294d48935fcac87ab335d771fe289ecb" kindref="member">vrna_rotational_symmetry_pos()</ref>, <ref refid="group__combinatorics__utils_1ga95b5a6ac35da982e2a766f8d2f98a2e1" kindref="member">vrna_rotational_symmetry_pos_num()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A fold_compound data structure containing the nucleic acid sequence(s), their order, and model settings </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The dot-bracket structure the degree of rotational symmetry is checked for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>positions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to an (undefined) list of alternative string start positions that lead to an identity mapping (may be NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The degree of rotational symmetry of the <computeroutput>structure</computeroutput> (0 in case of any errors)</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000030"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>rotational_symmetry_db()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput> (i.e. <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>). Thus, the first argument must be omitted. In contrast to our C-implementation, this function doesn&apos;t simply return the order of rotational symmetry of the secondary structure, but returns the list <computeroutput>position</computeroutput> of cyclic permutation shifts that result in a rotationally symmetric structure. The length of the list then determines the order of rotational symmetry. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.rotational_symmetry_db()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/combinatorics.h" line="201" column="1" declfile="ViennaRNA/combinatorics.h" declline="201" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__combinatorics__utils_1ga1eabc2f2017426376016554f09bb64a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int **</type>
+        <definition>unsigned int ** vrna_n_multichoose_k</definition>
+        <argsstring>(size_t n, size_t k)</argsstring>
+        <name>vrna_n_multichoose_k</name>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Obtain a list of k-combinations with repetition (n multichoose k) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function compiles a list of k-combinations, or k-multicombination, i.e. a list of multisubsets of size k from a set of integer values from 0 to n - 1. For that purpose, we enumerate n + k - 1 choose k and decrease each index position i by i to obtain n multichoose k.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number to choose from (interval of integers from 0 to <computeroutput>n</computeroutput> - 1) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of elements to choose, i.e. size of each multisubset </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of lists of elements of combinations (last entry is terminated by <bold>NULL</bold> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/combinatorics.h" line="219" column="1" declfile="ViennaRNA/combinatorics.h" declline="219" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__combinatorics__utils_1ga6dbe173d4dbbe4faea0baaa6d03b3102" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int *</type>
+        <definition>unsigned int vrna_boustrophedon</definition>
+        <argsstring>(size_t start, size_t end)</argsstring>
+        <name>vrna_boustrophedon</name>
+        <param>
+          <type>size_t</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Generate a sequence of Boustrophedon distributed numbers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function generates a sequence of positive natural numbers within the interval <formula id="19">$ [start, end] $</formula> in a Boustrophedon fashion. That is, the numbers <formula id="20">$ start, \ldots, end $</formula> in the resulting list are alternating between left and right ends of the interval while progressing to the inside, i.e. the list consists of a sequence of natural numbers of the form:</para>
+<para><formula id="21">\[ start, end, start + 1, end - 1, start + 2, end - 2, \ldots \]</formula></para>
+<para>The resulting list is 1-based and contains the length of the sequence of numbers at it&apos;s 0-th position.</para>
+<para>Upon failure, the function returns <bold>NULL</bold> </para>
+<para><simplesect kind="see"><para><ref refid="group__combinatorics__utils_1ga9093b53bb7eaaa9b5a8972ac87082d32" kindref="member">vrna_boustrophedon_pos()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The first number of the list (left side of the interval) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The last number of the list (right side of the interval) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of alternating numbers from the interval <formula id="19">$ [start, end] $</formula> (or <bold>NULL</bold> on error)</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000032"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded global function <computeroutput>boustrophedon()</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.boustrophedon()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/combinatorics.h" line="246" column="1" declfile="ViennaRNA/combinatorics.h" declline="246" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__combinatorics__utils_1ga9093b53bb7eaaa9b5a8972ac87082d32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int vrna_boustrophedon_pos</definition>
+        <argsstring>(size_t start, size_t end, size_t pos)</argsstring>
+        <name>vrna_boustrophedon_pos</name>
+        <param>
+          <type>size_t</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+<para>Obtain the i-th element in a Boustrophedon distributed interval of natural numbers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__combinatorics__utils_1ga6dbe173d4dbbe4faea0baaa6d03b3102" kindref="member">vrna_boustrophedon()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The first number of the list (left side of the interval) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The last number of the list (right side of the interval) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index of the number within the Boustrophedon distributed sequence (1-based) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <computeroutput>pos-th</computeroutput> element in the Boustrophedon distributed sequence of natural numbers of the interval</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000031"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded global function <computeroutput>boustrophedon()</computeroutput>. Omitting the <computeroutput>pos</computeroutput> argument yields the entire sequence from <computeroutput>start</computeroutput> to <computeroutput>end</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.boustrophedon()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/combinatorics.h" line="262" column="1" declfile="ViennaRNA/combinatorics.h" declline="262" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Implementations to solve various combinatorial aspects for strings of objects. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

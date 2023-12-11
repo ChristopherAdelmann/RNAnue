@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__paths__walk" kind="group">
+    <compoundname>paths_walk</compoundname>
+    <title>Folding Paths that start at a single Secondary Structure</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
+        <definition>vrna_move_t * vrna_path</definition>
+        <argsstring>(vrna_fold_compound_t *fc, short *pt, unsigned int steps, unsigned int options)</argsstring>
+        <name>vrna_path</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>steps</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Compute a path, store the final structure, and return a list of transition moves from the start to the final structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function computes, given a start structure in pair table format, a transition path, updates the pair table to the final structure of the path. Finally, if not requested otherwise by using the <ref refid="group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d" kindref="member">VRNA_PATH_NO_TRANSITION_OUTPUT</ref> flag in the <computeroutput>options</computeroutput> field, this function returns a list of individual transitions that lead from the start to the final structure if requested.</para>
+<para>The currently available transition paths are<itemizedlist>
+<listitem><para>Steepest Descent / Gradient walk (flag: <ref refid="group__paths__walk_1ga705cea2b3243a38a2d6e3b1e141ed061" kindref="member">VRNA_PATH_STEEPEST_DESCENT</ref>)</para>
+</listitem><listitem><para>Random walk (flag: <ref refid="group__paths__walk_1ga0b84bd36bfd783130297797c51dd85ae" kindref="member">VRNA_PATH_RANDOM</ref>)</para>
+</listitem></itemizedlist>
+</para>
+<para>The type of transitions must be set through the <computeroutput>options</computeroutput> parameter</para>
+<para><simplesect kind="note"><para>Since the result is written to the input structure you may want to use <ref refid="group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d" kindref="member">vrna_ptable_copy()</ref> before calling this function to keep the initial structure</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__paths__walk_1ga1625c4e8859b5e9aadf78f3cab81f418" kindref="member">vrna_path_gradient()</ref>, <ref refid="group__paths__walk_1ga1f7fa62038eb40a3591f09c8fbb8b68b" kindref="member">vrna_path_random()</ref>, <ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>, <ref refid="group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d" kindref="member">vrna_ptable_copy()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref> <ref refid="group__paths__walk_1ga705cea2b3243a38a2d6e3b1e141ed061" kindref="member">VRNA_PATH_STEEPEST_DESCENT</ref>, <ref refid="group__paths__walk_1ga0b84bd36bfd783130297797c51dd85ae" kindref="member">VRNA_PATH_RANDOM</ref>, <ref refid="group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1" kindref="member">VRNA_MOVESET_DEFAULT</ref>, <ref refid="group__neighbors_1ga68ea27c81de4b74e48b775c04052590b" kindref="member">VRNA_MOVESET_SHIFT</ref>, <ref refid="group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d" kindref="member">VRNA_PATH_NO_TRANSITION_OUTPUT</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair table containing the start structure. Used to update to the final structure after execution of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options to modify the behavior of this function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of transition moves (default), or NULL (if options &amp; <ref refid="group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d" kindref="member">VRNA_PATH_NO_TRANSITION_OUTPUT</ref>)</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000182"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>path()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The optional parameter <computeroutput>options</computeroutput> defaults to <ref refid="group__paths__walk_1gaf1bb1f8fec8d24e3b821f621b19f77b4" kindref="member">VRNA_PATH_DEFAULT</ref> if it is omitted. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.path()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/walk.h" line="77" column="1" declfile="ViennaRNA/landscape/walk.h" declline="77" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__paths__walk_1ga1625c4e8859b5e9aadf78f3cab81f418" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
+        <definition>vrna_move_t * vrna_path_gradient</definition>
+        <argsstring>(vrna_fold_compound_t *fc, short *pt, unsigned int options)</argsstring>
+        <name>vrna_path_gradient</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Compute a steepest descent / gradient path, store the final structure, and return a list of transition moves from the start to the final structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function computes, given a start structure in pair table format, a steepest descent path, updates the pair table to the final structure of the path. Finally, if not requested otherwise by using the <ref refid="group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d" kindref="member">VRNA_PATH_NO_TRANSITION_OUTPUT</ref> flag in the <computeroutput>options</computeroutput> field, this function returns a list of individual transitions that lead from the start to the final structure if requested.</para>
+<para><simplesect kind="note"><para>Since the result is written to the input structure you may want to use <ref refid="group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d" kindref="member">vrna_ptable_copy()</ref> before calling this function to keep the initial structure</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__paths__walk_1ga1f7fa62038eb40a3591f09c8fbb8b68b" kindref="member">vrna_path_random()</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref>, <ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>, <ref refid="group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d" kindref="member">vrna_ptable_copy()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref> <ref refid="group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1" kindref="member">VRNA_MOVESET_DEFAULT</ref>, <ref refid="group__neighbors_1ga68ea27c81de4b74e48b775c04052590b" kindref="member">VRNA_MOVESET_SHIFT</ref>, <ref refid="group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d" kindref="member">VRNA_PATH_NO_TRANSITION_OUTPUT</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair table containing the start structure. Used to update to the final structure after execution of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options to modify the behavior of this function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of transition moves (default), or NULL (if options &amp; <ref refid="group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d" kindref="member">VRNA_PATH_NO_TRANSITION_OUTPUT</ref>)</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000183"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>path_gradient()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The optional parameter <computeroutput>options</computeroutput> defaults to <ref refid="group__paths__walk_1gaf1bb1f8fec8d24e3b821f621b19f77b4" kindref="member">VRNA_PATH_DEFAULT</ref> if it is omitted. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.path_gradient()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/walk.h" line="105" column="1" declfile="ViennaRNA/landscape/walk.h" declline="105" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__paths__walk_1ga1f7fa62038eb40a3591f09c8fbb8b68b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
+        <definition>vrna_move_t * vrna_path_random</definition>
+        <argsstring>(vrna_fold_compound_t *fc, short *pt, unsigned int steps, unsigned int options)</argsstring>
+        <name>vrna_path_random</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>short *</type>
+          <declname>pt</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>steps</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Generate a random walk / path of a given length, store the final structure, and return a list of transition moves from the start to the final structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function generates, given a start structure in pair table format, a random walk / path, updates the pair table to the final structure of the path. Finally, if not requested otherwise by using the <ref refid="group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d" kindref="member">VRNA_PATH_NO_TRANSITION_OUTPUT</ref> flag in the <computeroutput>options</computeroutput> field, this function returns a list of individual transitions that lead from the start to the final structure if requested.</para>
+<para><simplesect kind="note"><para>Since the result is written to the input structure you may want to use <ref refid="group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d" kindref="member">vrna_ptable_copy()</ref> before calling this function to keep the initial structure</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__paths__walk_1ga1625c4e8859b5e9aadf78f3cab81f418" kindref="member">vrna_path_gradient()</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref>, <ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>, <ref refid="group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d" kindref="member">vrna_ptable_copy()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref> <ref refid="group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1" kindref="member">VRNA_MOVESET_DEFAULT</ref>, <ref refid="group__neighbors_1ga68ea27c81de4b74e48b775c04052590b" kindref="member">VRNA_MOVESET_SHIFT</ref>, <ref refid="group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d" kindref="member">VRNA_PATH_NO_TRANSITION_OUTPUT</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vrna_fold_compound_t containing the energy parameters and model details </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair table containing the start structure. Used to update to the final structure after execution of this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the path, i.e. the total number of transitions / moves </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options to modify the behavior of this function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of transition moves (default), or NULL (if options &amp; <ref refid="group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d" kindref="member">VRNA_PATH_NO_TRANSITION_OUTPUT</ref>)</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000184"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>path_gradient()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The optional parameter <computeroutput>options</computeroutput> defaults to <ref refid="group__paths__walk_1gaf1bb1f8fec8d24e3b821f621b19f77b4" kindref="member">VRNA_PATH_DEFAULT</ref> if it is omitted. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.path_random()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/walk.h" line="133" column="1" declfile="ViennaRNA/landscape/walk.h" declline="133" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__paths__walk_1ga705cea2b3243a38a2d6e3b1e141ed061" prot="public" static="no">
+        <name>VRNA_PATH_STEEPEST_DESCENT</name>
+        <initializer>128</initializer>
+        <briefdescription>
+<para>Option flag to request a steepest descent / gradient path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/walk.h" line="24" column="10" bodyfile="ViennaRNA/landscape/walk.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__paths__walk_1ga0b84bd36bfd783130297797c51dd85ae" prot="public" static="no">
+        <name>VRNA_PATH_RANDOM</name>
+        <initializer>256</initializer>
+        <briefdescription>
+<para>Option flag to request a random walk path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/walk.h" line="31" column="10" bodyfile="ViennaRNA/landscape/walk.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__paths__walk_1ga1ee63e54ecf136491e12ff03ede2622d" prot="public" static="no">
+        <name>VRNA_PATH_NO_TRANSITION_OUTPUT</name>
+        <initializer>512</initializer>
+        <briefdescription>
+<para>Option flag to omit returning the transition path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref>, <ref refid="group__paths__walk_1ga1625c4e8859b5e9aadf78f3cab81f418" kindref="member">vrna_path_gradient()</ref>, <ref refid="group__paths__walk_1ga1f7fa62038eb40a3591f09c8fbb8b68b" kindref="member">vrna_path_random()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/walk.h" line="38" column="10" bodyfile="ViennaRNA/landscape/walk.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__paths__walk_1gaf1bb1f8fec8d24e3b821f621b19f77b4" prot="public" static="no">
+        <name>VRNA_PATH_DEFAULT</name>
+        <initializer>(<ref refid="group__paths__walk_1ga705cea2b3243a38a2d6e3b1e141ed061" kindref="member">VRNA_PATH_STEEPEST_DESCENT</ref> | <ref refid="group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1" kindref="member">VRNA_MOVESET_DEFAULT</ref>)</initializer>
+        <briefdescription>
+<para>Option flag to request defaults (steepest descent / default move set) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref>, <ref refid="group__paths__walk_1ga705cea2b3243a38a2d6e3b1e141ed061" kindref="member">VRNA_PATH_STEEPEST_DESCENT</ref>, <ref refid="group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1" kindref="member">VRNA_MOVESET_DEFAULT</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/landscape/walk.h" line="46" column="9" bodyfile="ViennaRNA/landscape/walk.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

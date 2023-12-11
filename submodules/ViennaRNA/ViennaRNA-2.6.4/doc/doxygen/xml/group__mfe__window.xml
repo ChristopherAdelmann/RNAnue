@@ -1,0 +1,541 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__mfe__window" kind="group">
+    <compoundname>mfe_window</compoundname>
+    <title>Local (sliding window) MFE Prediction</title>
+    <innerfile refid="mfe__window_8h">mfe_window.h</innerfile>
+    <innergroup refid="group__mfe__window__deprecated">Deprecated Interface for Local (Sliding Window) MFE Prediction</innergroup>
+      <sectiondef kind="user-defined">
+      <header>Basic local (sliding window) MFE prediction interface</header>
+      <memberdef kind="function" id="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_mfe_window</definition>
+        <argsstring>(vrna_fold_compound_t *fc, FILE *file)</argsstring>
+        <name>vrna_mfe_window</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Local MFE prediction using a sliding window approach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Computes minimum free energy structures using a sliding window approach, where base pairs may not span outside the window. In contrast to <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, where a maximum base pair span may be set using the <ref refid="structvrna__md__s_1a659e5fcc6e8c9f1a68e7de6548eef3b0" kindref="member">vrna_md_t.max_bp_span</ref> attribute and one globally optimal structure is predicted, this function uses a sliding window to retrieve all locally optimal structures within each window. The size of the sliding window is set in the <ref refid="structvrna__md__s_1abea42f9229f8d8d6bcbedef316315bfc" kindref="member">vrna_md_t.window_size</ref> attribute, prior to the retrieval of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> using <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref> with option <ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref></para>
+<para>The predicted structures are written on-the-fly, either to stdout, if a NULL pointer is passed as file parameter, or to the corresponding filehandle.</para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa" kindref="member">vrna_mfe_window_zscore()</ref>, <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, <ref refid="group__mfe__window_1ga4918cce52bf69c1913cda503b2ac75d8" kindref="member">vrna_Lfold()</ref>, <ref refid="group__mfe__window_1ga27fddda5fc63eb49c861e38845fc34b4" kindref="member">vrna_Lfoldz()</ref>, <ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref>, <ref refid="structvrna__md__s_1a659e5fcc6e8c9f1a68e7de6548eef3b0" kindref="member">vrna_md_t.max_bp_span</ref>, <ref refid="structvrna__md__s_1abea42f9229f8d8d6bcbedef316315bfc" kindref="member">vrna_md_t.window_size</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> with preallocated memory for the DP matrices </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output file handle where predictions are written to (maybe NULL)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000118"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as overloaded method <computeroutput>mfe_window()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The parameter <computeroutput>FILE</computeroutput> has default value of <computeroutput>NULL</computeroutput> and can be omitted. See e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.mfe_window()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="122" column="1" declfile="ViennaRNA/mfe_window.h" declline="122" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__window_1ga3ade396421340b0f2f989c7936fda3d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_mfe_window_cb</definition>
+        <argsstring>(vrna_fold_compound_t *fc, vrna_mfe_window_f cb, void *data)</argsstring>
+        <name>vrna_mfe_window_cb</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type><ref refid="group__mfe__window_1gad5ea6c5a692b4f19eab4acf3b1a7cba8" kindref="member">vrna_mfe_window_f</ref></type>
+          <declname>cb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="wrappers_1_wrappers000119"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as overloaded method <computeroutput>mfe_window_cb()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The parameter <computeroutput>data</computeroutput> has default value of <computeroutput>NULL</computeroutput> and can be omitted. See e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.mfe_window_cb()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="127" column="1" declfile="ViennaRNA/mfe_window.h" declline="127" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_mfe_window_zscore</definition>
+        <argsstring>(vrna_fold_compound_t *fc, double min_z, FILE *file)</argsstring>
+        <name>vrna_mfe_window_zscore</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_z</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Local MFE prediction using a sliding window approach (with z-score cut-off) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Computes minimum free energy structures using a sliding window approach, where base pairs may not span outside the window. This function is the z-score version of <ref refid="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2" kindref="member">vrna_mfe_window()</ref>, i.e. only predictions above a certain z-score cut-off value are printed. As for <ref refid="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2" kindref="member">vrna_mfe_window()</ref>, the size of the sliding window is set in the <ref refid="structvrna__md__s_1abea42f9229f8d8d6bcbedef316315bfc" kindref="member">vrna_md_t.window_size</ref> attribute, prior to the retrieval of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> using <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref> with option <ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref>.</para>
+<para>The predicted structures are written on-the-fly, either to stdout, if a NULL pointer is passed as file parameter, or to the corresponding filehandle.</para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa" kindref="member">vrna_mfe_window_zscore()</ref>, <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, <ref refid="group__mfe__window_1ga4918cce52bf69c1913cda503b2ac75d8" kindref="member">vrna_Lfold()</ref>, <ref refid="group__mfe__window_1ga27fddda5fc63eb49c861e38845fc34b4" kindref="member">vrna_Lfoldz()</ref>, <ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref>, <ref refid="structvrna__md__s_1a659e5fcc6e8c9f1a68e7de6548eef3b0" kindref="member">vrna_md_t.max_bp_span</ref>, <ref refid="structvrna__md__s_1abea42f9229f8d8d6bcbedef316315bfc" kindref="member">vrna_md_t.window_size</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> with preallocated memory for the DP matrices </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimal z-score for a predicted structure to appear in the output </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output file handle where predictions are written to (maybe NULL)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000120"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as overloaded method <computeroutput>mfe_window_zscore()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The parameter <computeroutput>FILE</computeroutput> has default value of <computeroutput>NULL</computeroutput> and can be omitted. See e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.mfe_window_zscore()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="159" column="1" declfile="ViennaRNA/mfe_window.h" declline="159" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__window_1ga5df4a67ce381ed329c289370b0c8adcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_mfe_window_zscore_cb</definition>
+        <argsstring>(vrna_fold_compound_t *fc, double min_z, vrna_mfe_window_zscore_f cb, void *data)</argsstring>
+        <name>vrna_mfe_window_zscore_cb</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_z</declname>
+        </param>
+        <param>
+          <type>vrna_mfe_window_zscore_f</type>
+          <declname>cb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="wrappers_1_wrappers000121"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as overloaded method <computeroutput>mfe_window_zscore_cb()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The parameter <computeroutput>data</computeroutput> has default value of <computeroutput>NULL</computeroutput> and can be omitted. See e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.mfe_window_zscore()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="165" column="1" declfile="ViennaRNA/mfe_window.h" declline="165" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Simplified local MFE prediction using sequence(s) or multiple sequence alignment(s)</header>
+      <memberdef kind="function" id="group__mfe__window_1ga4918cce52bf69c1913cda503b2ac75d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_Lfold</definition>
+        <argsstring>(const char *string, int window_size, FILE *file)</argsstring>
+        <name>vrna_Lfold</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>window_size</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Local MFE prediction using a sliding window approach (simplified interface) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2" kindref="member">vrna_mfe_window()</ref> computes the MFE and locally optimal secondary structure using default options. Structures are predicted using a sliding window approach, where base pairs may not span outside the window. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2" kindref="member">vrna_mfe_window()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2" kindref="member">vrna_mfe_window()</ref>, <ref refid="group__mfe__window_1ga27fddda5fc63eb49c861e38845fc34b4" kindref="member">vrna_Lfoldz()</ref>, <ref refid="group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa" kindref="member">vrna_mfe_window_zscore()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nucleic acid sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The window size for locally optimal structures </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output file handle where predictions are written to (if NULL, output is written to stdout)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000122"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput><ref refid="group__mfe__window__deprecated_1gafdd1e11b5c7ad443b9f86b818e67bab4" kindref="member">Lfold()</ref></computeroutput> in the global namespace. The parameter <computeroutput>file</computeroutput> defaults to <computeroutput>NULL</computeroutput> and may be omitted. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.Lfold()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="202" column="1" declfile="ViennaRNA/mfe_window.h" declline="202" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__window_1ga84dcc36fd88063e1692c2e1e68a5f689" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_Lfold_cb</definition>
+        <argsstring>(const char *string, int window_size, vrna_mfe_window_f cb, void *data)</argsstring>
+        <name>vrna_Lfold_cb</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>window_size</declname>
+        </param>
+        <param>
+          <type><ref refid="group__mfe__window_1gad5ea6c5a692b4f19eab4acf3b1a7cba8" kindref="member">vrna_mfe_window_f</ref></type>
+          <declname>cb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="wrappers_1_wrappers000123"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>Lfold_cb()</computeroutput> in the global namespace. The parameter <computeroutput>data</computeroutput> defaults to <computeroutput>NULL</computeroutput> and may be omitted. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.Lfold_cb()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="208" column="1" declfile="ViennaRNA/mfe_window.h" declline="208" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__window_1ga27fddda5fc63eb49c861e38845fc34b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_Lfoldz</definition>
+        <argsstring>(const char *string, int window_size, double min_z, FILE *file)</argsstring>
+        <name>vrna_Lfoldz</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>window_size</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_z</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Local MFE prediction using a sliding window approach with z-score cut-off (simplified interface) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa" kindref="member">vrna_mfe_window_zscore()</ref> computes the MFE and locally optimal secondary structure using default options. Structures are predicted using a sliding window approach, where base pairs may not span outside the window. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing. This function is the z-score version of <ref refid="group__mfe__window_1ga4918cce52bf69c1913cda503b2ac75d8" kindref="member">vrna_Lfold()</ref>, i.e. only predictions above a certain z-score cut-off value are printed.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2" kindref="member">vrna_mfe_window()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa" kindref="member">vrna_mfe_window_zscore()</ref>, <ref refid="group__mfe__window_1ga4918cce52bf69c1913cda503b2ac75d8" kindref="member">vrna_Lfold()</ref>, <ref refid="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2" kindref="member">vrna_mfe_window()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nucleic acid sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The window size for locally optimal structures </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimal z-score for a predicted structure to appear in the output </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output file handle where predictions are written to (if NULL, output is written to stdout) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="240" column="1" declfile="ViennaRNA/mfe_window.h" declline="240" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__window_1gae982184f119219b616f3e5a8b3f558ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_Lfoldz_cb</definition>
+        <argsstring>(const char *string, int window_size, double min_z, vrna_mfe_window_zscore_f cb, void *data)</argsstring>
+        <name>vrna_Lfoldz_cb</name>
+        <param>
+          <type>const char *</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>window_size</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_z</declname>
+        </param>
+        <param>
+          <type>vrna_mfe_window_zscore_f</type>
+          <declname>cb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="wrappers_1_wrappers000125"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>Lfoldz_cb()</computeroutput> in the global namespace. The parameter <computeroutput>data</computeroutput> defaults to <computeroutput>NULL</computeroutput> and may be omitted. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.Lfoldz_cb()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="247" column="1" declfile="ViennaRNA/mfe_window.h" declline="247" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__window_1gaa43d3de352753529a4578cb02cd8bc52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_aliLfold</definition>
+        <argsstring>(const char **alignment, int maxdist, FILE *fp)</argsstring>
+        <name>vrna_aliLfold</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxdist</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="wrappers_1_wrappers000126"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>aliLfold()</computeroutput> in the global namespace. The parameter <computeroutput>fp</computeroutput> defaults to <computeroutput>NULL</computeroutput> and may be omitted. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.aliLfold()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="256" column="7" declfile="ViennaRNA/mfe_window.h" declline="256" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__window_1gae9b2e312c316961d4a067f9b789cc9d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_aliLfold_cb</definition>
+        <argsstring>(const char **alignment, int maxdist, vrna_mfe_window_f cb, void *data)</argsstring>
+        <name>vrna_aliLfold_cb</name>
+        <param>
+          <type>const char **</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxdist</declname>
+        </param>
+        <param>
+          <type><ref refid="group__mfe__window_1gad5ea6c5a692b4f19eab4acf3b1a7cba8" kindref="member">vrna_mfe_window_f</ref></type>
+          <declname>cb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="wrappers_1_wrappers000127"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>aliLfold_cb()</computeroutput> in the global namespace. The parameter <computeroutput>data</computeroutput> defaults to <computeroutput>NULL</computeroutput> and may be omitted. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.aliLfold_cb()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="261" column="7" declfile="ViennaRNA/mfe_window.h" declline="261" declcolumn="7"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__mfe__window_1gad5ea6c5a692b4f19eab4acf3b1a7cba8" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* vrna_mfe_window_f) (int start, int end, const char *structure, float en, void *data)</definition>
+        <argsstring>)(int start, int end, const char *structure, float en, void *data)</argsstring>
+        <name>vrna_mfe_window_f</name>
+        <briefdescription>
+<para>The default callback for sliding window MFE structure predictions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="callbacks_1_callbacks000005"><xreftitle>Notes on Callback Functions</xreftitle><xrefdescription><para><parblock><para>This function will be called for each hit in a sliding window MFE prediction. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2" kindref="member">vrna_mfe_window()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>provides the first position of the hit (1-based, relative to entire sequence/alignment) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>provides the last position of the hit (1-based, relative to the entire sequence/alignment) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>provides the (sub)structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>en</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the free energy of the structure hit in kcal/mol </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is some arbitrary data pointer passed through by the function executing the callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="59" column="9" bodyfile="ViennaRNA/mfe_window.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__mfe__window_1ga4f3e5bc214ef803074ace313cb9571b4" prot="public" static="no">
+        <type>void()</type>
+        <definition>typedef void() vrna_mfe_window_callback(int start, int end, const char *structure, float en, void *data)</definition>
+        <argsstring>(int start, int end, const char *structure, float en, void *data)</argsstring>
+        <name>vrna_mfe_window_callback</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="70" column="10" bodyfile="ViennaRNA/mfe_window.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__mfe__window_1ga5290fbbca58e0a80cf16c27c3fa050bf" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* vrna_mfe_window_zscore_f) (int start, int end, const char *structure, float en, float zscore, void *data)</definition>
+        <argsstring>)(int start, int end, const char *structure, float en, float zscore, void *data)</argsstring>
+        <name>vrna_mfe_window_zscore_f</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="75" column="9" bodyfile="ViennaRNA/mfe_window.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__mfe__window_1gafeb8eb92805a0f0045dc20646ed0255b" prot="public" static="no">
+        <type>void()</type>
+        <definition>typedef void() vrna_mfe_window_zscore_callback(int start, int end, const char *structure, float en, float zscore, void *data)</definition>
+        <argsstring>(int start, int end, const char *structure, float en, float zscore, void *data)</argsstring>
+        <name>vrna_mfe_window_zscore_callback</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe_window.h" line="88" column="10" bodyfile="ViennaRNA/mfe_window.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

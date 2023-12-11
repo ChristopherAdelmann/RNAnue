@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__centroid__fold" kind="group">
+    <compoundname>centroid_fold</compoundname>
+    <title>Compute the Centroid Structure</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__centroid__fold_1gac39e7be7392b2c72bd3a6a14612be5e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_centroid</definition>
+        <argsstring>(vrna_fold_compound_t *fc, double *dist)</argsstring>
+        <name>vrna_centroid</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>dist</declname>
+        </param>
+        <briefdescription>
+<para>Get the centroid structure of the ensemble. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The centroid is the structure with the minimal average distance to all other structures <linebreak/>
+ <formula id="16">$ &lt;d(S)&gt; = \sum_{(i,j) \in S} (1-p_{ij}) + \sum_{(i,j) \notin S} p_{ij} $</formula> <linebreak/>
+Thus, the centroid is simply the structure containing all pairs with <formula id="17">$p_ij&gt;0.5$</formula> The distance of the centroid to the ensemble is written to the memory adressed by <emphasis>dist</emphasis>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fold compound data structure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">dist</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the distance variable where the centroid distance will be written to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The centroid structure of the ensemble in dot-bracket notation (<computeroutput>NULL</computeroutput> on error) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/centroid.h" line="40" column="1" declfile="ViennaRNA/centroid.h" declline="40" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__centroid__fold_1ga8e68f31264f2192b0ad02fb2d54f634a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_centroid_from_plist</definition>
+        <argsstring>(int length, double *dist, vrna_ep_t *pl)</argsstring>
+        <name>vrna_centroid_from_plist</name>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>dist</declname>
+        </param>
+        <param>
+          <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
+          <declname>pl</declname>
+        </param>
+        <briefdescription>
+<para>Get the centroid structure of the ensemble. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is a threadsafe replacement for <ref refid="part__func_8h_1ae48516bae820daee8424fbfe56e2ba30" kindref="member">centroid()</ref> with a <ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> input</para>
+<para>The centroid is the structure with the minimal average distance to all other structures <linebreak/>
+ <formula id="16">$ &lt;d(S)&gt; = \sum_{(i,j) \in S} (1-p_{ij}) + \sum_{(i,j) \notin S} p_{ij} $</formula> <linebreak/>
+Thus, the centroid is simply the structure containing all pairs with <formula id="17">$p_ij&gt;0.5$</formula> The distance of the centroid to the ensemble is written to the memory adressed by <emphasis>dist</emphasis>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">dist</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the distance variable where the centroid distance will be written to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pair list containing base pair probability information about the ensemble </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The centroid structure of the ensemble in dot-bracket notation (<computeroutput>NULL</computeroutput> on error) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/centroid.h" line="61" column="1" declfile="ViennaRNA/centroid.h" declline="61" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__centroid__fold_1gae50c5cd891e5e1a3179735a47887f73a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_centroid_from_probs</definition>
+        <argsstring>(int length, double *dist, FLT_OR_DBL *probs)</argsstring>
+        <name>vrna_centroid_from_probs</name>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>dist</declname>
+        </param>
+        <param>
+          <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref> *</type>
+          <declname>probs</declname>
+        </param>
+        <briefdescription>
+<para>Get the centroid structure of the ensemble. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is a threadsafe replacement for <ref refid="part__func_8h_1ae48516bae820daee8424fbfe56e2ba30" kindref="member">centroid()</ref> with a probability array input</para>
+<para>The centroid is the structure with the minimal average distance to all other structures <linebreak/>
+ <formula id="16">$ &lt;d(S)&gt; = \sum_{(i,j) \in S} (1-p_{ij}) + \sum_{(i,j) \notin S} p_{ij} $</formula> <linebreak/>
+Thus, the centroid is simply the structure containing all pairs with <formula id="17">$p_ij&gt;0.5$</formula> The distance of the centroid to the ensemble is written to the memory adressed by <emphasis>dist</emphasis>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">dist</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the distance variable where the centroid distance will be written to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">probs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An upper triangular matrix containing base pair probabilities (access via iindx <ref refid="group__utils_1ga27d6f59da187317ab4c0d7e9f15ee57a" kindref="member">vrna_idx_row_wise()</ref> ) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The centroid structure of the ensemble in dot-bracket notation (<computeroutput>NULL</computeroutput> on error) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/centroid.h" line="83" column="1" declfile="ViennaRNA/centroid.h" declline="83" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

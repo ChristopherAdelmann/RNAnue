@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deprecated Interface for Secondary Structure Utilities &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Multiple Sequence Alignment Utilities" href="../msa.html" />
+    <link rel="prev" title="Distance measures between Secondary Structures" href="metrics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../structures.html">Secondary Structure Utilities</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dotbracket.html">Dot-Bracket Notation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wuss.html">Washington University Secondary Structure (WUSS) notation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pairtable.html">Pair Table Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plist.html">Pair List Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="abstract_shapes.html">Abstract Shapes Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="helix_list.html">Helix List Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trees.html">Tree Representation of Secondary Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="metrics.html">Distance measures between Secondary Structures</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Deprecated Interface for Secondary Structure Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../io.html">Files and I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../structures.html">Secondary Structure Utilities</a></li>
+      <li class="breadcrumb-item active">Deprecated Interface for Secondary Structure Utilities</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deprecated-interface-for-secondary-structure-utilities">
+<h1>Deprecated Interface for Secondary Structure Utilities<a class="headerlink" href="#deprecated-interface-for-secondary-structure-utilities" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__struct__utils__deprecated"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.STRUC">
+<span class="target" id="group__struct__utils__deprecated_1gaa100f7d3ce0ad4f527a61c5764ebf277"></span><span class="sig-name descname"><span class="n"><span class="pre">STRUC</span></span></span><a class="headerlink" href="#c.STRUC" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/RNAstruct.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.b2HIT">
+<span class="target" id="group__struct__utils__deprecated_1gab3fcb3ff7e9bcd86cd969093bdae0c8d"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">b2HIT</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.b2HIT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/RNAstruct.h&gt;</em><p>Converts the full structure from bracket notation to the HIT notation including root. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000131"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>See <a class="reference internal" href="trees.html#group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"><span class="std std-ref">vrna_db_to_tree_string()</span></a> and <a class="reference internal" href="trees.html#group__struct__utils__tree_1ga3ad5609bc93ef20034c3ab989365c1f0"><span class="std std-ref">VRNA_STRUCTURE_TREE_HIT</span></a> for a replacement</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.b2C">
+<span class="target" id="group__struct__utils__deprecated_1gaab548531941f27c91108b89a8f570f95"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">b2C</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.b2C" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/RNAstruct.h&gt;</em><p>Converts the full structure from bracket notation to the a coarse grained notation using the ‘H’ ‘B’ ‘I’ ‘M’ and ‘R’ identifiers. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000132"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>See <a class="reference internal" href="trees.html#group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"><span class="std std-ref">vrna_db_to_tree_string()</span></a> and <a class="reference internal" href="trees.html#group__struct__utils__tree_1ga549e259a963d77e2d5b7e14083fc016e"><span class="std std-ref">VRNA_STRUCTURE_TREE_SHAPIRO_SHORT</span></a> for a replacement</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.b2Shapiro">
+<span class="target" id="group__struct__utils__deprecated_1ga2baf1c3a2182f21a4384107df979cd67"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">b2Shapiro</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.b2Shapiro" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/RNAstruct.h&gt;</em><p>Converts the full structure from bracket notation to the <em>weighted</em> coarse grained notation using the ‘H’ ‘B’ ‘I’ ‘M’ ‘S’ ‘E’ and ‘R’ identifiers. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000133"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>See <a class="reference internal" href="trees.html#group__struct__utils__tree_1ga6a315cabbaf0868d640dfc9d922f0393"><span class="std std-ref">vrna_db_to_tree_string()</span></a> and <a class="reference internal" href="trees.html#group__struct__utils__tree_1ga91f2e3a3a502d5445fd7fe5983a5fe92"><span class="std std-ref">VRNA_STRUCTURE_TREE_SHAPIRO_WEIGHT</span></a> for a replacement</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.add_root">
+<span class="target" id="group__struct__utils__deprecated_1gaf3b80d1fe7485e69c6eb85965613a145"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">add_root</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.add_root" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/RNAstruct.h&gt;</em><p>Adds a root to an un-rooted tree in any except bracket notation. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.expand_Shapiro">
+<span class="target" id="group__struct__utils__deprecated_1ga04c7268dcc798f92290604a762c3ddf8"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">expand_Shapiro</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">coarse</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.expand_Shapiro" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/RNAstruct.h&gt;</em><p>Inserts missing ‘S’ identifiers in unweighted coarse grained structures as obtained from <a class="reference internal" href="#group__struct__utils__deprecated_1gaab548531941f27c91108b89a8f570f95"><span class="std std-ref">b2C()</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coarse</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.expand_Full">
+<span class="target" id="group__struct__utils__deprecated_1ga6eea10bca410a57aaffcdea7bcf89bda"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">expand_Full</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.expand_Full" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/RNAstruct.h&gt;</em><p>Convert the full structure from bracket notation to the expanded notation including root. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.unexpand_Full">
+<span class="target" id="group__struct__utils__deprecated_1gad67c8ef662c147c5f55da3c233376e59"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">unexpand_Full</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ffull</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.unexpand_Full" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/RNAstruct.h&gt;</em><p>Restores the bracket notation from an expanded full or HIT tree, that is any tree using only identifiers ‘U’ ‘P’ and ‘R’. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ffull</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.unweight">
+<span class="target" id="group__struct__utils__deprecated_1ga4921d8967002f8e6e30a8ac046bbf557"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">unweight</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">wcoarse</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.unweight" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/RNAstruct.h&gt;</em><p>Strip weights from any weighted tree. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wcoarse</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.unexpand_aligned_F">
+<span class="target" id="group__struct__utils__deprecated_1ga1054c4477d53b31d79d4cb132100e87a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unexpand_aligned_F</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">align</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.unexpand_aligned_F" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/RNAstruct.h&gt;</em><p>Converts two aligned structures in expanded notation. </p>
+<p>Takes two aligned structures as produced by tree_edit_distance() function back to bracket notation with ‘_’ as the gap character. The result overwrites the input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>align</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.parse_structure">
+<span class="target" id="group__struct__utils__deprecated_1ga3c79042e6bf6f01706bf30ec9e69e8ac"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parse_structure</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.parse_structure" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/RNAstruct.h&gt;</em><p>Collects a statistic of structure elements of the full structure in bracket notation. </p>
+<p>The function writes to the following global variables: <a class="reference internal" href="#group__struct__utils__deprecated_1ga3f31e0e48125601bfa57b52f8b038e8e"><span class="std std-ref">loop_size</span></a>, <a class="reference internal" href="#group__struct__utils__deprecated_1gaef14e2f8ab3f61e8e659ba6b9003b08a"><span class="std std-ref">loop_degree</span></a>, <a class="reference internal" href="#group__struct__utils__deprecated_1ga8218c0d581a3fba2a1a56a196abe19a5"><span class="std std-ref">helix_size</span></a>, <a class="reference internal" href="#group__struct__utils__deprecated_1ga439fcb9f8d4f9f4d2227fde5fbfecb30"><span class="std std-ref">loops</span></a>, <a class="reference internal" href="#group__struct__utils__deprecated_1ga6341cbb704924824e0236c1dce791032"><span class="std std-ref">pairs</span></a>, <a class="reference internal" href="#group__struct__utils__deprecated_1gadd2f952597e02d66e1116a9d11d252d6"><span class="std std-ref">unpaired</span></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.pack_structure">
+<span class="target" id="group__struct__utils__deprecated_1ga99e8565f0e7eb7c59a100841d50d7ee5"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pack_structure</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">struc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.pack_structure" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Pack secondary secondary structure, 5:1 compression using base 3 encoding. </p>
+<p>Returns a binary string encoding of the secondary structure using a 5:1 compression scheme. The string is NULL terminated and can therefore be used with standard string functions such as strcmp(). Useful for programs that need to keep many structures in memory.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000201"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="dotbracket.html#group__struct__utils__dot__bracket_1ga9db9613100e9f750017d3e13a874bb7d"><span class="std std-ref">vrna_db_pack()</span></a> as a replacement</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>struc</strong> – The secondary structure in dot-bracket notation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The binary encoded structure </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.unpack_structure">
+<span class="target" id="group__struct__utils__deprecated_1ga288130063fdf28acbe3c2ce3e826cf4b"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">unpack_structure</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">packed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.unpack_structure" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Unpack secondary structure previously packed with <a class="reference internal" href="#group__struct__utils__deprecated_1ga99e8565f0e7eb7c59a100841d50d7ee5"><span class="std std-ref">pack_structure()</span></a></p>
+<p>Translate a compressed binary string produced by <a class="reference internal" href="#group__struct__utils__deprecated_1ga99e8565f0e7eb7c59a100841d50d7ee5"><span class="std std-ref">pack_structure()</span></a> back into the familiar dot-bracket notation.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000202"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="dotbracket.html#group__struct__utils__dot__bracket_1ga9c8c7296b5bb75f7d32c20dc004eb723"><span class="std std-ref">vrna_db_unpack()</span></a> as a replacement</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>packed</strong> – The binary encoded packed secondary structure </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The unpacked secondary structure in dot-bracket notation </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.make_pair_table">
+<span class="target" id="group__struct__utils__deprecated_1gab037d0de2e4c3d6a3f1d51b5b22315dc"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">make_pair_table</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.make_pair_table" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Create a pair table of a secondary structure. </p>
+<p>Returns a newly allocated table, such that table[i]=j if (i.j) pair or 0 if i is unpaired, table[0] contains the length of the structure.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000203"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107"><span class="std std-ref">vrna_ptable()</span></a> instead </p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – The secondary structure in dot-bracket notation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pointer to the created pair_table </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.copy_pair_table">
+<span class="target" id="group__struct__utils__deprecated_1ga1ce48c7bbd7d1d1429124abfe3ee68fc"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">copy_pair_table</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.copy_pair_table" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Get an exact copy of a pair table. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000204"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d"><span class="std std-ref">vrna_ptable_copy()</span></a> instead </p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt</strong> – The pair table to be copied </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pointer to the copy of ‘pt’ </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.alimake_pair_table">
+<span class="target" id="group__struct__utils__deprecated_1ga7de27e1761e844061a7bdc704124614a"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">alimake_pair_table</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.alimake_pair_table" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Pair table for snoop align</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000205"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1ga7b2fb019d2e5f17e40d5cfa8e30a4607"><span class="std std-ref">vrna_pt_ali_get()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.make_pair_table_snoop">
+<span class="target" id="group__struct__utils__deprecated_1gab52c17083d021494b64820302be07039"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">make_pair_table_snoop</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.make_pair_table_snoop" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>returns a newly allocated table, such that: table[i]=j if (i.j) pair or 0 if i is unpaired, table[0] contains the length of the structure. The special pseudoknotted H/ACA-mRNA structure is taken into account. <dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000206"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="pairtable.html#group__struct__utils__pair__table_1ga325b0bfa1a4f1a186c917d2fa3777396"><span class="std std-ref">vrna_pt_snoop_get()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.bp_distance">
+<span class="target" id="group__struct__utils__deprecated_1ga6ebbcd29a754f0e4f1a66d1fd84184db"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bp_distance</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.bp_distance" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Compute the “base pair” distance between two secondary structures s1 and s2. </p>
+<p>The sequences should have the same length. dist = number of base pairs in one structure but not in the other same as edit distance with open-pair close-pair as move-set</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000207"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use vrna_bp_distance instead</p>
+</dd></dl>
+
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>str1</strong> – First structure in dot-bracket notation </p></li>
+<li><p><strong>str2</strong> – Second structure in dot-bracket notation </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The base pair distance between str1 and str2 </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.make_referenceBP_array">
+<span class="target" id="group__struct__utils__deprecated_1gafd6aece250daccb89923db327a81e904"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">make_referenceBP_array</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">reference_pt</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">turn</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.make_referenceBP_array" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Make a reference base pair count matrix. </p>
+<p>Get an upper triangular matrix containing the number of basepairs of a reference structure for each interval [i,j] with i&lt;j. Access it via iindx!!!</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000208"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="../structures.html#group__struct__utils_1gad5e50b8d4f6837ad15ab784738682147"><span class="std std-ref">vrna_refBPcnt_matrix()</span></a> instead</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.compute_BPdifferences">
+<span class="target" id="group__struct__utils__deprecated_1gafd74239e8e76c01419116d9d4a50e700"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">compute_BPdifferences</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt1</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt2</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">turn</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.compute_BPdifferences" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Make a reference base pair distance matrix. </p>
+<p>Get an upper triangular matrix containing the base pair distance of two reference structures for each interval [i,j] with i&lt;j. Access it via iindx!!!</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000209"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="../structures.html#group__struct__utils_1ga7f4b0443a4fb67c924532895757d9496"><span class="std std-ref">vrna_refBPdist_matrix()</span></a> instead</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.parenthesis_structure">
+<span class="target" id="group__struct__utils__deprecated_1gadf0ad2d46c9ca7b850437d1b79627a7e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parenthesis_structure</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <a class="reference internal" href="../data_structures.html#c.vrna_bp_stack_t" title="vrna_bp_stack_t"><span class="n"><span class="pre">vrna_bp_stack_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">bp</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.parenthesis_structure" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Create a dot-backet/parenthesis structure from backtracking stack. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000211"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>use vrna_parenthesis_structure() instead </p>
+</dd></dl>
+
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is threadsafe </p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.parenthesis_zuker">
+<span class="target" id="group__struct__utils__deprecated_1gab9c5c8311bd5120900585d4fa50c2df0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parenthesis_zuker</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <a class="reference internal" href="../data_structures.html#c.vrna_bp_stack_t" title="vrna_bp_stack_t"><span class="n"><span class="pre">vrna_bp_stack_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">bp</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.parenthesis_zuker" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Create a dot-backet/parenthesis structure from backtracking stack obtained by zuker suboptimal calculation in cofold.c. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000212"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>use vrna_parenthesis_zuker instead </p>
+</dd></dl>
+
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is threadsafe </p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.bppm_to_structure">
+<span class="target" id="group__struct__utils__deprecated_1ga129d81c4a1ead793c5b2311333e03dfa"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bppm_to_structure</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pr</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.bppm_to_structure" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Create a dot-bracket like structure string from base pair probability matrix. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000213"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="../structures.html#group__struct__utils_1gacb5f1fafaf20eaf6a63052153499f0bb"><span class="std std-ref">vrna_db_from_probs()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.bppm_symbol">
+<span class="target" id="group__struct__utils__deprecated_1ga49962ad6242b8c628de6ca16bb831c1d"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bppm_symbol</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">x</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.bppm_symbol" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/utils/structures.h&gt;</em><p>Get a pseudo dot bracket notation for a given probability information. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000214"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="../structures.html#group__struct__utils_1ga025bff1b27fa46534c8fae6980f64bb5"><span class="std std-ref">vrna_bpp_symbol()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-variables">Variables</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.loop_size">
+<span class="target" id="group__struct__utils__deprecated_1ga3f31e0e48125601bfa57b52f8b038e8e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">loop_size</span></span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#c.STRUC" title="STRUC"><span class="n"><span class="pre">STRUC</span></span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.loop_size" title="Link to this definition"></a><br /></dt>
+<dd><p>contains a list of all loop sizes. loop_size[0] contains the number of external bases. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.helix_size">
+<span class="target" id="group__struct__utils__deprecated_1ga8218c0d581a3fba2a1a56a196abe19a5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">helix_size</span></span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#c.STRUC" title="STRUC"><span class="n"><span class="pre">STRUC</span></span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.helix_size" title="Link to this definition"></a><br /></dt>
+<dd><p>contains a list of all stack sizes. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.loop_degree">
+<span class="target" id="group__struct__utils__deprecated_1gaef14e2f8ab3f61e8e659ba6b9003b08a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">loop_degree</span></span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#c.STRUC" title="STRUC"><span class="n"><span class="pre">STRUC</span></span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.loop_degree" title="Link to this definition"></a><br /></dt>
+<dd><p>contains the corresponding list of loop degrees. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.loops">
+<span class="target" id="group__struct__utils__deprecated_1ga439fcb9f8d4f9f4d2227fde5fbfecb30"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">loops</span></span></span><a class="headerlink" href="#c.loops" title="Link to this definition"></a><br /></dt>
+<dd><p>contains the number of loops ( and therefore of stacks ). </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.unpaired">
+<span class="target" id="group__struct__utils__deprecated_1gadd2f952597e02d66e1116a9d11d252d6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unpaired</span></span></span><a class="headerlink" href="#c.unpaired" title="Link to this definition"></a><br /></dt>
+<dd><p>contains the number of unpaired bases. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.pairs">
+<span class="target" id="group__struct__utils__deprecated_1ga6341cbb704924824e0236c1dce791032"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pairs</span></span></span><a class="headerlink" href="#c.pairs" title="Link to this definition"></a><br /></dt>
+<dd><p>contains the number of base pairs in the last parsed structure. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="metrics.html" class="btn btn-neutral float-left" title="Distance measures between Secondary Structures" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../msa.html" class="btn btn-neutral float-right" title="Multiple Sequence Alignment Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

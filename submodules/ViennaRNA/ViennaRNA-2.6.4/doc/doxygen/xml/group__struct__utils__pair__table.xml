@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__struct__utils__pair__table" kind="group">
+    <compoundname>struct_utils_pair_table</compoundname>
+    <title>Pair Table Representation of Secondary Structures</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>short *</type>
+        <definition>short * vrna_ptable</definition>
+        <argsstring>(const char *structure)</argsstring>
+        <name>vrna_ptable</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Create a pair table from a dot-bracket notation of a secondary structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a newly allocated table, such that table[i]=j if (i.j) pair or 0 if i is unpaired, table[0] contains the length of the structure.</para>
+<para><simplesect kind="see"><para><ref refid="group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148" kindref="member">vrna_ptable_from_string()</ref>, <ref refid="group__struct__utils__dot__bracket_1ga3f43bc74c6d785236cece6451996fcc3" kindref="member">vrna_db_from_ptable()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the created pair_table</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000170"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This functions is wrapped as overloaded function <computeroutput>ptable()</computeroutput> that takes an optional argument <computeroutput>options</computeroutput> to specify which type of matching brackets should be considered during conversion. The default set is round brackets, i.e. <ref refid="group__struct__utils__dot__bracket_1gac92d5fa7c6625bce2670ece510a24fbd" kindref="member">VRNA_BRACKETS_RND</ref>. See, e.g.  <verbatim>embed:rst:inline:py:func:`RNA.ptable()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="301" column="1" declfile="ViennaRNA/utils/structures.h" declline="301" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>short *</type>
+        <definition>short * vrna_ptable_from_string</definition>
+        <argsstring>(const char *structure, unsigned int options)</argsstring>
+        <name>vrna_ptable_from_string</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Create a pair table for a secondary structure string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function takes an input string of a secondary structure annotation in dot-bracket-notation or dot-bracket-ext-notation, and converts it into a pair table representation.</para>
+<para><simplesect kind="note"><para>This function also extracts crossing base pairs, i.e. pseudo-knots if more than a single matching bracket type is allowed through the bitmask <computeroutput>options</computeroutput>.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref>, <ref refid="group__struct__utils__dot__bracket_1ga3f43bc74c6d785236cece6451996fcc3" kindref="member">vrna_db_from_ptable()</ref>, <ref refid="group__struct__utils__dot__bracket_1ga690425199c8b71545e7196e3af1436f8" kindref="member">vrna_db_flatten_to()</ref>, <ref refid="group__struct__utils__pair__table_1ga41fab98dc67b6b8d0e2332e7ae08fd14" kindref="member">vrna_pt_pk_remove()</ref> <ref refid="group__struct__utils__dot__bracket_1gac92d5fa7c6625bce2670ece510a24fbd" kindref="member">VRNA_BRACKETS_RND</ref>, <ref refid="group__struct__utils__dot__bracket_1ga863e03f7f73f10fc9bbcbefbdda4bec8" kindref="member">VRNA_BRACKETS_ANG</ref>, <ref refid="group__struct__utils__dot__bracket_1gaf41be40e79cb756c4e0bb8edb4d803d2" kindref="member">VRNA_BRACKETS_CLY</ref>, <ref refid="group__struct__utils__dot__bracket_1ga60525d61d7496eeea490a37f3d6bf757" kindref="member">VRNA_BRACKETS_SQR</ref>, <ref refid="group__struct__utils__dot__bracket_1ga7e3f630af8d69bb0e917145aacf2f96d" kindref="member">VRNA_BRACKETS_ALPHA</ref>, <ref refid="group__struct__utils__dot__bracket_1ga559ebf76b1b289f85309f4206e99aa1a" kindref="member">VRNA_BRACKETS_DEFAULT</ref>, <ref refid="group__struct__utils__dot__bracket_1ga013a9da903462d2f2b037f0c6ffb46e4" kindref="member">VRNA_BRACKETS_ANY</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Secondary structure in dot-bracket-ext-notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A bitmask to specify which brackets are recognized during conversion to pair table </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to a new pair table of the provided secondary structure</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000171"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This functions is wrapped as overloaded function <computeroutput>ptable()</computeroutput> that takes an optional argument <computeroutput>options</computeroutput> to specify which type of matching brackets should be considered during conversion. The default set is round brackets, i.e. <ref refid="group__struct__utils__dot__bracket_1gac92d5fa7c6625bce2670ece510a24fbd" kindref="member">VRNA_BRACKETS_RND</ref>. See, e.g.  <verbatim>embed:rst:inline:py:func:`RNA.ptable()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="324" column="1" declfile="ViennaRNA/utils/structures.h" declline="324" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__struct__utils__pair__table_1ga320d4fd30b541d28578e1fad18451a85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>short *</type>
+        <definition>short * vrna_pt_pk_get</definition>
+        <argsstring>(const char *structure)</argsstring>
+        <name>vrna_pt_pk_get</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Create a pair table of a secondary structure (pseudo-knot version) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a newly allocated table, such that table[i]=j if (i.j) pair or 0 if i is unpaired, table[0] contains the length of the structure.</para>
+<para>In contrast to <ref refid="group__struct__utils__pair__table_1gab124ba58014a97d2fb8c21831e19f107" kindref="member">vrna_ptable()</ref> this function also recognizes the base pairs denoted by &apos;[&apos; and &apos;]&apos; brackets. Thus, this function behaves like <programlisting filename=".c"><codeline><highlight class="normal"><ref refid="group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148" kindref="member">vrna_ptable_from_string</ref>(structure,<sp/><ref refid="group__struct__utils__dot__bracket_1gac92d5fa7c6625bce2670ece510a24fbd" kindref="member">VRNA_BRACKETS_RND</ref><sp/>|<sp/><ref refid="group__struct__utils__dot__bracket_1ga60525d61d7496eeea490a37f3d6bf757" kindref="member">VRNA_BRACKETS_SQR</ref>)</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="group__struct__utils__pair__table_1ga792503f8b2c6783248e5c8b3d56e9148" kindref="member">vrna_ptable_from_string()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The secondary structure in (extended) dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the created pair_table </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="346" column="1" declfile="ViennaRNA/utils/structures.h" declline="346" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__struct__utils__pair__table_1gae59fd97f2f076d4e8897394e34ff935d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>short *</type>
+        <definition>short * vrna_ptable_copy</definition>
+        <argsstring>(const short *pt)</argsstring>
+        <name>vrna_ptable_copy</name>
+        <param>
+          <type>const short *</type>
+          <declname>pt</declname>
+        </param>
+        <briefdescription>
+<para>Get an exact copy of a pair table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair table to be copied </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the copy of &apos;pt&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="356" column="1" declfile="ViennaRNA/utils/structures.h" declline="356" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__struct__utils__pair__table_1ga7b2fb019d2e5f17e40d5cfa8e30a4607" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>short *</type>
+        <definition>short * vrna_pt_ali_get</definition>
+        <argsstring>(const char *structure)</argsstring>
+        <name>vrna_pt_ali_get</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Create a pair table of a secondary structure (snoop align version) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="364" column="1" declfile="ViennaRNA/utils/structures.h" declline="364" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__struct__utils__pair__table_1ga325b0bfa1a4f1a186c917d2fa3777396" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>short *</type>
+        <definition>short * vrna_pt_snoop_get</definition>
+        <argsstring>(const char *structure)</argsstring>
+        <name>vrna_pt_snoop_get</name>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Create a pair table of a secondary structure (snoop version) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>returns a newly allocated table, such that: table[i]=j if (i.j) pair or 0 if i is unpaired, table[0] contains the length of the structure. The special pseudoknotted H/ACA-mRNA structure is taken into account. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="375" column="1" declfile="ViennaRNA/utils/structures.h" declline="375" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__struct__utils__pair__table_1ga41fab98dc67b6b8d0e2332e7ae08fd14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>short *</type>
+        <definition>short * vrna_pt_pk_remove</definition>
+        <argsstring>(const short *ptable, unsigned int options)</argsstring>
+        <name>vrna_pt_pk_remove</name>
+        <param>
+          <type>const short *</type>
+          <declname>ptable</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Remove pseudo-knots from a pair table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function removes pseudo-knots from an input structure by determining the minimum number of base pairs that need to be removed to make the structure pseudo-knot free.</para>
+<para>To accomplish that, we use a dynamic programming algorithm similar to the Nussinov maxmimum matching approach.</para>
+<para><simplesect kind="see"><para><ref refid="group__struct__utils__dot__bracket_1ga97dbebaa3fc49524cf5afa338a6c52ee" kindref="member">vrna_db_pk_remove()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input structure that may include pseudo-knots </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The input structure devoid of pseudo-knots </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/utils/structures.h" line="395" column="1" declfile="ViennaRNA/utils/structures.h" declline="395" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__alignment__plots" kind="group">
+    <compoundname>alignment_plots</compoundname>
+    <title>Alignment Plots</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__alignment__plots_1ga3bb7409f5b73c2273f9f76cf8b754034" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_file_PS_aln</definition>
+        <argsstring>(const char *filename, const char **seqs, const char **names, const char *structure, unsigned int columns)</argsstring>
+        <name>vrna_file_PS_aln</name>
+        <param>
+          <type>const char *</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const char **</type>
+          <declname>seqs</declname>
+        </param>
+        <param>
+          <type>const char **</type>
+          <declname>names</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>columns</declname>
+        </param>
+        <briefdescription>
+<para>Create an annotated PostScript alignment plot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__alignment__plots_1ga2b132dddeb2044e52dc39cf0ad8afaee" kindref="member">vrna_file_PS_aln_slice()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output file name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>seqs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The aligned sequences </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>names</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The names of the sequences </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The consensus structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of columns before the alignment is wrapped as a new block (a value of 0 indicates no wrapping)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000163"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>file_PS_aln()</computeroutput> with three additional parameters <computeroutput>start</computeroutput>, <computeroutput>end</computeroutput>, and <computeroutput>offset</computeroutput> before the <computeroutput>columns</computeroutput> argument. Thus, it resembles the <computeroutput><ref refid="group__alignment__plots_1ga2b132dddeb2044e52dc39cf0ad8afaee" kindref="member">vrna_file_PS_aln_slice()</ref></computeroutput> function. The last four arguments may be omitted, indicating the default of <computeroutput>start</computeroutput> = <emphasis>0</emphasis>, <computeroutput>end</computeroutput> = <emphasis>0</emphasis>, <computeroutput>offset</computeroutput> = <emphasis>0</emphasis>, and <computeroutput>columns</computeroutput> = <emphasis>60</emphasis>. See, e.g.  <verbatim>embed:rst:inline:py:func:`RNA.file_PS_aln()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/alignments.h" line="39" column="1" declfile="ViennaRNA/plotting/alignments.h" declline="39" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__alignment__plots_1ga2b132dddeb2044e52dc39cf0ad8afaee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_file_PS_aln_slice</definition>
+        <argsstring>(const char *filename, const char **seqs, const char **names, const char *structure, unsigned int start, unsigned int end, int offset, unsigned int columns)</argsstring>
+        <name>vrna_file_PS_aln_slice</name>
+        <param>
+          <type>const char *</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const char **</type>
+          <declname>seqs</declname>
+        </param>
+        <param>
+          <type>const char **</type>
+          <declname>names</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>columns</declname>
+        </param>
+        <briefdescription>
+<para>Create an annotated PostScript alignment plot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Similar to <ref refid="group__alignment__plots_1ga3bb7409f5b73c2273f9f76cf8b754034" kindref="member">vrna_file_PS_aln()</ref> but allows the user to print a particular slice of the alignment by specifying a <computeroutput>start</computeroutput> and <computeroutput>end</computeroutput> position. The additional <computeroutput>offset</computeroutput> parameter allows for adjusting the alignment position ruler value.</para>
+<para><simplesect kind="see"><para><ref refid="group__alignment__plots_1ga2b132dddeb2044e52dc39cf0ad8afaee" kindref="member">vrna_file_PS_aln_slice()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output file name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>seqs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The aligned sequences </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>names</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The names of the sequences </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The consensus structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start of the alignment slice (a value of 0 indicates the first position of the alignment, i.e. no slicing at 5&apos; side) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The end of the alignment slice (a value of 0 indicates the last position of the alignment, i.e. no slicing at 3&apos; side) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The alignment coordinate offset for the position ruler. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of columns before the alignment is wrapped as a new block (a value of 0 indicates no wrapping)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="wrappers_1_wrappers000164"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded function <computeroutput>file_PS_aln()</computeroutput> where the last four parameter may be omitted, indicating <computeroutput>start</computeroutput> = <emphasis>0</emphasis>, <computeroutput>end</computeroutput> = <emphasis>0</emphasis>, <computeroutput>offset</computeroutput> = <emphasis>0</emphasis>, and <computeroutput>columns</computeroutput> = <emphasis>60</emphasis>. See, e.g.  <verbatim>embed:rst:inline:py:func:`RNA.file_PS_aln()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/plotting/alignments.h" line="65" column="1" declfile="ViennaRNA/plotting/alignments.h" declline="65" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

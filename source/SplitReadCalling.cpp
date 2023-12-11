@@ -257,7 +257,6 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
                                 initCmpl = complementarity(splits[i].sequence(), splits[j].sequence());
                             }
                             {
-                                helper::Timer timer;
                                 initHyb = hybridize(splits[i].sequence(), splits[j].sequence());
                             }
                             if (!initCmpl.a.empty() && initHyb.has_value())
@@ -468,81 +467,30 @@ TracebackResult SplitReadCalling::complementarity(std::span<seqan3::dna5> &seq1,
 
 std::optional<HybridizationResult> SplitReadCalling::hybridize(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2)
 {
-    // auto seqToChar1 = seq1 | seqan3::views::to_char;
-    // char *charSeq1 = new char[seq1.size() + 1];
-    // std::copy(seqToChar1.begin(), seqToChar1.end(), charSeq1);
-
-    // char *structure = (char *)vrna_alloc(sizeof(char) * (strlen(charSeq1) + 1));
-
-    // float mfe = vrna_fold(charSeq1, structure);
-
-    // Logger::log(LogLevel::INFO, "MFE: " + std::to_string(mfe), "Structure: " + std::string(structure));
-
-    // delete[] charSeq1;
-    // free(structure);
-
-    auto to_string = [](auto &seq)
+    auto toString = [](auto &seq)
     {
         return (seq | seqan3::views::to_char | seqan3::ranges::to<std::string>());
     };
 
-    std::string hybridizeCall = "echo '" + to_string(seq1) + "&" + to_string(seq2) + "' | RNAcofold --noPS";
+    std::string interactionSeq = toString(seq1) + "&" + toString(seq2);
 
-    std::array<char, 256> buffer;
-    std::string result;
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(nullptr, pclose);
+    vrna_fold_compound_t *vc = vrna_fold_compound(interactionSeq.c_str(), NULL, VRNA_OPTION_DEFAULT | VRNA_OPTION_HYBRID);
+    char *structure = (char *)vrna_alloc(sizeof(char) * (strlen(interactionSeq.c_str()) + 1));
+    float mfe = vrna_cofold(interactionSeq.c_str(), structure);
 
-#pragma omp critical
-    {
-        pipe.reset(popen(hybridizeCall.c_str(), "r"));
+    auto secondaryStructure = std::string(vrna_cut_point_insert(structure, seq1.size() + 1)) | seqan3::views::char_to<seqan3::dot_bracket3> | seqan3::ranges::to<std::vector>();
 
-        if (!pipe)
-        {
-            throw std::runtime_error("popen() failed!");
-        }
-
-        while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
-        {
-            result += buffer.data();
-        }
-
-        pipe.reset();
-    }
-
-    std::vector<std::string> tokens;
-    std::istringstream iss(result);
-
-    for (std::string line; std::getline(iss, line); tokens.push_back(std::move(line)))
-        ;
-
-    if (tokens.size() < 2)
-    {
-        Logger::log(LogLevel::WARNING, "Hybridization failed for: " + to_string(seq1) + "&" + to_string(seq2));
-        return std::nullopt;
-    }
-
-    std::vector<seqan3::dot_bracket3> secondaryStructure = tokens[1].substr(0, tokens[1].find(' ')) | seqan3::views::char_to<seqan3::dot_bracket3> | seqan3::ranges::to<std::vector>();
     double normCrosslinkingScore = findCrosslinkingSites(seq1, seq2, secondaryStructure);
 
-    std::string &energyStr = tokens[1];
-    std::size_t lastOpenBracket = energyStr.rfind('(');
-    std::size_t lastCloseBracket = energyStr.rfind(')');
+    free(structure);
+    free(vc);
 
-    if (lastOpenBracket == std::string::npos || lastCloseBracket == std::string::npos || lastOpenBracket >= lastCloseBracket)
-    {
-        Logger::log(LogLevel::WARNING, "Hybridization failed for: " + to_string(seq1) + "&" + to_string(seq2));
-        return std::nullopt;
-    }
-
-    std::string numberStr = energyStr.substr(lastOpenBracket + 1, lastCloseBracket - lastOpenBracket - 1);
-    double energy = std::stod(numberStr);
-
-    return HybridizationResult{energy, normCrosslinkingScore};
+    return HybridizationResult{mfe, normCrosslinkingScore};
 }
 
 std::optional<InteractionWindow> SplitReadCalling::getContinuosNucleotideWindows(
-    std::span<seqan3::dna5> &seq1,
-    std::span<seqan3::dna5> &seq2,
+    std::span<seqan3::dna5> const &seq1,
+    std::span<seqan3::dna5> const &seq2,
     NucleotidePositionsWindow positionsPair)
 {
     std::pair<uint16_t, uint16_t> forwardPair = std::make_pair(positionsPair.first.first, positionsPair.second.first);
@@ -605,7 +553,7 @@ std::optional<InteractionWindow> SplitReadCalling::getContinuosNucleotideWindows
     return std::nullopt;
 }
 
-double SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2, std::vector<seqan3::dot_bracket3> &dotbracket)
+double SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> const &seq1, std::span<seqan3::dna5> const &seq2, std::vector<seqan3::dot_bracket3> &dotbracket)
 {
     std::vector<size_t> openPos;
 

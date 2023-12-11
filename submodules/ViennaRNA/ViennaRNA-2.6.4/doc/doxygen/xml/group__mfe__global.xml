@@ -1,0 +1,367 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__mfe__global" kind="group">
+    <compoundname>mfe_global</compoundname>
+    <title>Global MFE Prediction</title>
+    <innerfile refid="mfe_8h">mfe.h</innerfile>
+    <innergroup refid="group__kl__neighborhood__mfe">Computing MFE representatives of a Distance Based Partitioning</innergroup>
+    <innergroup refid="group__mfe__global__deprecated">Deprecated Interface for Global MFE Prediction</innergroup>
+      <sectiondef kind="user-defined">
+      <header>Basic global MFE prediction interface</header>
+      <memberdef kind="function" id="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_mfe</definition>
+        <argsstring>(vrna_fold_compound_t *fc, char *structure)</argsstring>
+        <name>vrna_mfe</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Compute minimum free energy and an appropriate secondary structure of an RNA sequence, or RNA sequence alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Depending on the type of the provided <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>, this function predicts the MFE for a single sequence (or connected component of multiple sequences), or an averaged MFE for a sequence alignment. If backtracking is activated, it also constructs the corresponding secondary structure, or consensus structure. Therefore, the second parameter, <emphasis>structure</emphasis>, has to point to an allocated block of memory with a size of at least <formula id="51">$\mathrm{strlen}(\mathrm{sequence})+1$</formula> to store the backtracked MFE structure. (For consensus structures, this is the length of the alignment + 1. If <computeroutput>NULL</computeroutput> is passed, no backtracking will be performed.</para>
+<para><simplesect kind="note"><para>This function is polymorphic. It accepts <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" kindref="member">VRNA_FC_TYPE_SINGLE</ref>, and <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref>.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc" kindref="member">vrna_fold()</ref>, <ref refid="group__mfe__global_1gaf973483d8acbc8cc9aacfc8a9b7f0074" kindref="member">vrna_circfold()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__mfe__global_1ga6c9d3bef3e92c6d423ffac9f981418c1" kindref="member">vrna_alifold()</ref>, <ref refid="group__mfe__global_1ga17a1be7490468c29c335ba9bffacba53" kindref="member">vrna_circalifold()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>fold compound </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where the secondary structure in dot-bracket notation will be written to (Maybe NULL)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the minimum free energy (MFE) in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000110"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>mfe()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The parameter <computeroutput>structure</computeroutput> is returned along with the MFE und must not be provided. See e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.mfe()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe.h" line="70" column="1" declfile="ViennaRNA/mfe.h" declline="70" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__global_1gaeefffa2179cebb6b8b30cb6ac52de2cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_mfe_dimer</definition>
+        <argsstring>(vrna_fold_compound_t *fc, char *structure)</argsstring>
+        <name>vrna_mfe_dimer</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Compute the minimum free energy of two interacting RNA molecules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The code is analog to the <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref> function.</para>
+<para><xrefsect id="deprecated_1_deprecated000090"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This function is obsolete since <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref> can handle complexes multiple sequences since v2.5.0. Use <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref> for connected component MFE instead and compute MFEs of unconnected states separately.</para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>fold compound </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Will hold the barcket dot structure of the dimer molecule </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>minimum free energy of the structure</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000111"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>mfe_dimer()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The parameter <computeroutput>structure</computeroutput> is returned along with the MFE und must not be provided. See e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.mfe_dimer()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe.h" line="92" column="19" declfile="ViennaRNA/mfe.h" declline="92" declcolumn="19"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Simplified global MFE prediction using sequence(s) or multiple sequence alignment(s)</header>
+      <memberdef kind="function" id="group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_fold</definition>
+        <argsstring>(const char *sequence, char *structure)</argsstring>
+        <name>vrna_fold</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Compute Minimum Free Energy (MFE), and a corresponding secondary structure for an RNA sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref> computes the MFE and, if required, a secondary structure for an RNA sequence using default options. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing, e.g. suboptimal backtracking, etc.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__mfe__global_1gaf973483d8acbc8cc9aacfc8a9b7f0074" kindref="member">vrna_circfold()</ref>, <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where the secondary structure in dot-bracket notation will be written to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the minimum free energy (MFE) in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000113"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as function <computeroutput><ref refid="group__mfe__global__deprecated_1gaadafcb0f140795ae62e5ca027e335a9b" kindref="member">fold()</ref></computeroutput> in the global namespace. The parameter <computeroutput>structure</computeroutput> is returned along with the MFE und must not be provided. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.fold()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe.h" line="126" column="1" declfile="ViennaRNA/mfe.h" declline="126" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__global_1gaf973483d8acbc8cc9aacfc8a9b7f0074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_circfold</definition>
+        <argsstring>(const char *sequence, char *structure)</argsstring>
+        <name>vrna_circfold</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Compute Minimum Free Energy (MFE), and a corresponding secondary structure for a circular RNA sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref> computes the MFE and, if required, a secondary structure for a circular RNA sequence using default options. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing, e.g. suboptimal backtracking, etc.</para>
+<para>Folding of circular RNA sequences is handled as a post-processing step of the forward recursions. See  <verbatim>embed:rst:inline :cite:t:`hofacker:2006` </verbatim> for further details.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc" kindref="member">vrna_fold()</ref>, <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where the secondary structure in dot-bracket notation will be written to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the minimum free energy (MFE) in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000114"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as function <computeroutput><ref refid="group__mfe__global__deprecated_1ga4ac63ab3e8d9a80ced28b8052d94e423" kindref="member">circfold()</ref></computeroutput> in the global namespace. The parameter <computeroutput>structure</computeroutput> is returned along with the MFE und must not be provided. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.circfold()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe.h" line="153" column="1" declfile="ViennaRNA/mfe.h" declline="153" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__global_1ga6c9d3bef3e92c6d423ffac9f981418c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_alifold</definition>
+        <argsstring>(const char **sequences, char *structure)</argsstring>
+        <name>vrna_alifold</name>
+        <param>
+          <type>const char **</type>
+          <declname>sequences</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Compute Minimum Free Energy (MFE), and a corresponding consensus secondary structure for an RNA sequence alignment using a comparative method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref> computes the MFE and, if required, a consensus secondary structure for an RNA sequence alignment using default options. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing, e.g. suboptimal backtracking, etc.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__mfe__global_1ga17a1be7490468c29c335ba9bffacba53" kindref="member">vrna_circalifold()</ref>, <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RNA sequence alignment </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where the secondary structure in dot-bracket notation will be written to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the minimum free energy (MFE) in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000115"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as function <computeroutput><ref refid="group__mfe__global__deprecated_1ga4cf00f0659e5f0480335d69e797f05b1" kindref="member">alifold()</ref></computeroutput> in the global namespace. The parameter <computeroutput>structure</computeroutput> is returned along with the MFE und must not be provided. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.alifold()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe.h" line="179" column="1" declfile="ViennaRNA/mfe.h" declline="179" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__global_1ga17a1be7490468c29c335ba9bffacba53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_circalifold</definition>
+        <argsstring>(const char **sequences, char *structure)</argsstring>
+        <name>vrna_circalifold</name>
+        <param>
+          <type>const char **</type>
+          <declname>sequences</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Compute Minimum Free Energy (MFE), and a corresponding consensus secondary structure for a sequence alignment of circular RNAs using a comparative method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref> computes the MFE and, if required, a consensus secondary structure for an RNA sequence alignment using default options. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing, e.g. suboptimal backtracking, etc.</para>
+<para>Folding of circular RNA sequences is handled as a post-processing step of the forward recursions. See  <verbatim>embed:rst:inline :cite:t:`hofacker:2006` </verbatim> for further details.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__mfe__global_1ga6c9d3bef3e92c6d423ffac9f981418c1" kindref="member">vrna_alifold()</ref>, <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sequence alignment of circular RNAs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where the secondary structure in dot-bracket notation will be written to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the minimum free energy (MFE) in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000116"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as function <computeroutput><ref refid="group__mfe__global__deprecated_1gadbd3b0b1c144cbfb4efe704b2b260f96" kindref="member">circalifold()</ref></computeroutput> in the global namespace. The parameter <computeroutput>structure</computeroutput> is returned along with the MFE und must not be provided. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.circalifold()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe.h" line="208" column="1" declfile="ViennaRNA/mfe.h" declline="208" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__mfe__global_1ga9ef3a297201dbf838a8daff2b45c0c82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float vrna_cofold</definition>
+        <argsstring>(const char *sequence, char *structure)</argsstring>
+        <name>vrna_cofold</name>
+        <param>
+          <type>const char *</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>structure</declname>
+        </param>
+        <briefdescription>
+<para>Compute Minimum Free Energy (MFE), and a corresponding secondary structure for two dimerized RNA sequences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simplified interface to <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref> computes the MFE and, if required, a secondary structure for two RNA sequences upon dimerization using default options. Memory required for dynamic programming (DP) matrices will be allocated and free&apos;d on-the-fly. Hence, after return of this function, the recursively filled matrices are not available any more for any post-processing, e.g. suboptimal backtracking, etc.</para>
+<para><simplesect kind="note"><para>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, and the data structure <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> instead.</para>
+</simplesect>
+<xrefsect id="deprecated_1_deprecated000091"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This function is obsolete since <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>/vrna_fold() can handle complexes multiple sequences since v2.5.0. Use <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>/vrna_fold() for connected component MFE instead and compute MFEs of unconnected states separately.</para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="group__mfe__global_1ga29a33b2895f4e67b0480271ff289afdc" kindref="member">vrna_fold()</ref>, <ref refid="group__mfe__global_1ga5577af664e5b9056b44fa5df29e9befb" kindref="member">vrna_mfe()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>, <ref refid="group__string__utils_1ga458d5a8cbec709665426372e3aee93b8" kindref="member">vrna_cut_point_insert()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>two RNA sequences separated by the &apos;&amp;&apos; character </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the character array where the secondary structure in dot-bracket notation will be written to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the minimum free energy (MFE) in kcal/mol</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000117"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as function <computeroutput><ref refid="group__mfe__global__deprecated_1gabc8517f22cfe70595ee81fc837910d52" kindref="member">cofold()</ref></computeroutput> in the global namespace. The parameter <computeroutput>structure</computeroutput> is returned along with the MFE und must not be provided. See e.g.  <verbatim>embed:rst:inline:py:func:`RNA.cofold()` in the :doc:`/api_python`</verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/mfe.h" line="239" column="19" declfile="ViennaRNA/mfe.h" declline="239" declcolumn="19"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

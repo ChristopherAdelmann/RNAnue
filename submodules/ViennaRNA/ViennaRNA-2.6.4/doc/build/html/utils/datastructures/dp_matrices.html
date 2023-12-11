@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Dynamic Programming Matrices &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Hash Tables" href="hash_tables.html" />
+    <link rel="prev" title="The Fold Compound" href="fold_compound.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../io.html">Files and I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../data_structures.html">(Abstract) Data Structures</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="fold_compound.html">The Fold Compound</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">The Dynamic Programming Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="hash_tables.html">Hash Tables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="heaps.html">Heaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arrays.html">Arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strings.html">Strings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="buffers.html">Buffers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../data_structures.html">(Abstract) Data Structures</a></li>
+      <li class="breadcrumb-item active">The Dynamic Programming Matrices</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-dynamic-programming-matrices">
+<h1>The Dynamic Programming Matrices<a class="headerlink" href="#the-dynamic-programming-matrices" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__dp__matrices"></span></dt>
+<dd><p>This module provides interfaces that deal with creation and destruction of dynamic programming matrices used within the RNAlib. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_t">
+<span class="target" id="group__dp__matrices_1gae5aef35d016475e758f619b7bcb534f9"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_mx_mfe_s" title="vrna_mx_mfe_s"><span class="n"><span class="pre">vrna_mx_mfe_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_mfe_t</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/dp_matrices.h&gt;</em><p>Typename for the Minimum Free Energy (MFE) DP matrices data structure <a class="reference internal" href="#structvrna__mx__mfe__s"><span class="std std-ref">vrna_mx_mfe_s</span></a>. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_t">
+<span class="target" id="group__dp__matrices_1ga68729ab3fed26bdd1806fa814f172fc1"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_mx_pf_s" title="vrna_mx_pf_s"><span class="n"><span class="pre">vrna_mx_pf_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_pf_t</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/dp_matrices.h&gt;</em><p>Typename for the Partition Function (PF) DP matrices data structure <a class="reference internal" href="#structvrna__mx__pf__s"><span class="std std-ref">vrna_mx_pf_s</span></a>. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-enums">Enums</p>
+<dl class="c enum">
+<dt class="sig sig-object c" id="c.vrna_mx_type_e">
+<span class="target" id="group__dp__matrices_1ga6042ea1d58d01931e959791be6d89343"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_type_e</span></span></span><a class="headerlink" href="#c.vrna_mx_type_e" title="Link to this definition"></a><br /></dt>
+<dd><p>An enumerator that is used to specify the type of a polymorphic Dynamic Programming (DP) matrix data structure. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__dp__matrices_1gae5aef35d016475e758f619b7bcb534f9"><span class="std std-ref">vrna_mx_mfe_t</span></a>, <a class="reference internal" href="#group__dp__matrices_1ga68729ab3fed26bdd1806fa814f172fc1"><span class="std std-ref">vrna_mx_pf_t</span></a></p>
+</div>
+</p>
+<p><em>Values:</em></p>
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.vrna_mx_type_e.VRNA_MX_DEFAULT">
+<span class="target" id="group__dp__matrices_1gga6042ea1d58d01931e959791be6d89343aafa2568956dab79595521e20c49a5f75"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MX_DEFAULT</span></span></span><a class="headerlink" href="#c.vrna_mx_type_e.VRNA_MX_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><p>Default DP matrices. </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.vrna_mx_type_e.VRNA_MX_WINDOW">
+<span class="target" id="group__dp__matrices_1gga6042ea1d58d01931e959791be6d89343a2ea5d5947f6ec02544934b0ff2785e99"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MX_WINDOW</span></span></span><a class="headerlink" href="#c.vrna_mx_type_e.VRNA_MX_WINDOW" title="Link to this definition"></a><br /></dt>
+<dd><p>DP matrices suitable for local structure prediction using window approach. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../../mfe/window.html#group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2"><span class="std std-ref">vrna_mfe_window()</span></a>, <a class="reference internal" href="../../mfe/window.html#group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa"><span class="std std-ref">vrna_mfe_window_zscore()</span></a>, <a class="reference internal" href="../../partfunc/window_deprecated.html#group__part__func__window__deprecated_1gaf6d77f10775c1d58c8199d5ec95d4228"><span class="std std-ref">pfl_fold()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.vrna_mx_type_e.VRNA_MX_2DFOLD">
+<span class="target" id="group__dp__matrices_1gga6042ea1d58d01931e959791be6d89343ae656f8391445ff71bed8a597a0a19417"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MX_2DFOLD</span></span></span><a class="headerlink" href="#c.vrna_mx_type_e.VRNA_MX_2DFOLD" title="Link to this definition"></a><br /></dt>
+<dd><p>DP matrices suitable for distance class partitioned structure prediction. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../../classified/kl_neighborhood.html#group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709"><span class="std std-ref">vrna_mfe_TwoD()</span></a>, <a class="reference internal" href="../../classified/kl_neighborhood.html#group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb"><span class="std std-ref">vrna_pf_TwoD()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mx_add">
+<span class="target" id="group__dp__matrices_1ga87ffa61e95e5dd3ad34d8c6fa95d4514"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_add</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_mx_type_e" title="vrna_mx_type_e"><span class="n"><span class="pre">vrna_mx_type_e</span></span></a><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mx_add" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/dp_matrices.h&gt;</em><p>Add Dynamic Programming (DP) matrices (allocate memory) </p>
+<p>This function adds DP matrices of a specific type to the provided <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>, such that successive DP recursion can be applied. The function caller has to specify which type of DP matrix is requested, see <a class="reference internal" href="#group__dp__matrices_1ga6042ea1d58d01931e959791be6d89343"><span class="std std-ref">vrna_mx_type_e</span></a>, and what kind of recursive algorithm will be applied later on, using the parameters type, and options, respectively. For the latter, Minimum free energy (MFE), and Partition function (PF) computations are distinguished. A third option that may be passed is <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga8f681fa12b8d4b348bf58415fd1fc82f"><span class="std std-ref">VRNA_OPTION_HYBRID</span></a>, indicating that auxiliary DP arrays are required for RNA-RNA interaction prediction.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>vrna_mx_mfe_add(), vrna_mx_pf_add(), <a class="reference internal" href="fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="fold_compound.html#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a>, <a class="reference internal" href="#group__dp__matrices_1gab9d4eaceb36345b71d349b12787c5e0a"><span class="std std-ref">vrna_mx_pf_free()</span></a>, <a class="reference internal" href="#group__dp__matrices_1gaf429b1838e68cb677db6aef7e8f0ffc8"><span class="std std-ref">vrna_mx_mfe_free()</span></a>, <a class="reference internal" href="#group__dp__matrices_1ga6042ea1d58d01931e959791be6d89343"><span class="std std-ref">vrna_mx_type_e</span></a>, <a class="reference internal" href="fold_compound.html#group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee"><span class="std std-ref">VRNA_OPTION_MFE</span></a>, <a class="reference internal" href="fold_compound.html#group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7"><span class="std std-ref">VRNA_OPTION_PF</span></a>, <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga8f681fa12b8d4b348bf58415fd1fc82f"><span class="std std-ref">VRNA_OPTION_HYBRID</span></a>, <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e"><span class="std std-ref">VRNA_OPTION_EVAL_ONLY</span></a></p>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Usually, there is no need to call this function, since the constructors of <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> are handling all the DP matrix memory allocation.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> that holds pointers to the DP matrices </p></li>
+<li><p><strong>type</strong> – The type of DP matrices requested </p></li>
+<li><p><strong>options</strong> – Option flags that specify the kind of DP matrices, such as MFE or PF arrays, and auxiliary requirements </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 if DP matrices were properly allocated and attached, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_add">
+<span class="target" id="group__dp__matrices_1gadc9f35c77623d8a20401f8993940aef3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_mfe_add</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_mx_type_e" title="vrna_mx_type_e"><span class="n"><span class="pre">vrna_mx_type_e</span></span></a><span class="w"> </span><span class="n"><span class="pre">mx_type</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mx_mfe_add" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/dp_matrices.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_add">
+<span class="target" id="group__dp__matrices_1ga4adb243d6ca034254e183877308a9aee"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_pf_add</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <a class="reference internal" href="#c.vrna_mx_type_e" title="vrna_mx_type_e"><span class="n"><span class="pre">vrna_mx_type_e</span></span></a><span class="w"> </span><span class="n"><span class="pre">mx_type</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mx_pf_add" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/dp_matrices.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mx_prepare">
+<span class="target" id="group__dp__matrices_1ga09585cfd149c9a20f0f13ad2ec3825ea"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_prepare</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mx_prepare" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/dp_matrices.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_free">
+<span class="target" id="group__dp__matrices_1gaf429b1838e68cb677db6aef7e8f0ffc8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_mfe_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mx_mfe_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/dp_matrices.h&gt;</em><p>Free memory occupied by the Minimum Free Energy (MFE) Dynamic Programming (DP) matrices. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="fold_compound.html#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a>, <a class="reference internal" href="#group__dp__matrices_1gab9d4eaceb36345b71d349b12787c5e0a"><span class="std std-ref">vrna_mx_pf_free()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> storing the MFE DP matrices that are to be erased from memory </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_free">
+<span class="target" id="group__dp__matrices_1gab9d4eaceb36345b71d349b12787c5e0a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_pf_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_mx_pf_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/dp_matrices.h&gt;</em><p>Free memory occupied by the Partition Function (PF) Dynamic Programming (DP) matrices. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="fold_compound.html#group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5"><span class="std std-ref">vrna_fold_compound()</span></a>, <a class="reference internal" href="fold_compound.html#group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1"><span class="std std-ref">vrna_fold_compound_comparative()</span></a>, <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2"><span class="std std-ref">vrna_fold_compound_free()</span></a>, <a class="reference internal" href="#group__dp__matrices_1gaf429b1838e68cb677db6aef7e8f0ffc8"><span class="std std-ref">vrna_mx_mfe_free()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – The <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> storing the PF DP matrices that are to be erased from memory </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s">
+<span class="target" id="structvrna__mx__mfe__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_mfe_s</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/dp_matrices.h&gt;</em></div>
+<p>Minimum Free Energy (MFE) Dynamic Programming (DP) matrices data structure required within the <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-common-fields-for-mfe-matrices">Common fields for MFE matrices</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.type">
+<span class="target" id="structvrna__mx__mfe__s_1a9292754662fd36235ee949c6849932f5"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_mx_type_e" title="vrna_mx_type_e"><span class="n"><span class="pre">vrna_mx_type_e</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.type" title="Link to this definition"></a><br /></dt>
+<dd><p>Type of the DP matrices </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.length">
+<span class="target" id="structvrna__mx__mfe__s_1a1f92a8406fc1fb721dbf9193c34ad826"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">length</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.length" title="Link to this definition"></a><br /></dt>
+<dd><p>Length of the sequence, therefore an indicator of the size of the DP matrices. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.strands">
+<span class="target" id="structvrna__mx__mfe__s_1a913f00490cd92f47cd726060743baeb8"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">strands</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.strands" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of strands </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-default-dp-matrices">Default DP matrices</p>
+<p><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These data fields are available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_mx_mfe_t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">VRNA_MX_DEFAULT</span> 
+</pre></div>
+</div>
+</p>
+</div>
+</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.c">
+<span class="target" id="structvrna__mx__mfe__s_1a60a511fd42905ee4f046c56a76865bf9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">c</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.c" title="Link to this definition"></a><br /></dt>
+<dd><p>Energy array, given that i-j pair. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.f5">
+<span class="target" id="structvrna__mx__mfe__s_1abebad693be987c2701d64477ab858039"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">f5</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.f5" title="Link to this definition"></a><br /></dt>
+<dd><p>Energy of 5’ end. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.f3">
+<span class="target" id="structvrna__mx__mfe__s_1a4ea4595a93733adef047ece8e6f5da52"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">f3</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.f3" title="Link to this definition"></a><br /></dt>
+<dd><p>Energy of 3’ end. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.fms5">
+<span class="target" id="structvrna__mx__mfe__s_1ae4f5e14d105d8e8dc3509c8e837f6a5c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">fms5</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.fms5" title="Link to this definition"></a><br /></dt>
+<dd><p>Energy for connected interstrand configurations. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.fms3">
+<span class="target" id="structvrna__mx__mfe__s_1ac2a7cc51cf8c069259faf8d923a8f02d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">fms3</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.fms3" title="Link to this definition"></a><br /></dt>
+<dd><p>nergy for connected interstrand configurations </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.fML">
+<span class="target" id="structvrna__mx__mfe__s_1a103995e4ab8e21e7f8bc36a6edcb1331"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">fML</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.fML" title="Link to this definition"></a><br /></dt>
+<dd><p>Multi-loop auxiliary energy array. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.fM1">
+<span class="target" id="structvrna__mx__mfe__s_1ae4e598d601f5ece6b8b4ffffcae2db06"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">fM1</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.fM1" title="Link to this definition"></a><br /></dt>
+<dd><p>Second ML array, only for unique multibrnach loop decomposition. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.fM2">
+<span class="target" id="structvrna__mx__mfe__s_1ad29106e37d485b3f20b7be468e6c179c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">fM2</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.fM2" title="Link to this definition"></a><br /></dt>
+<dd><p>Energy for a multibranch loop region with exactly two stems, extending to 3’ end. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.ggg">
+<span class="target" id="structvrna__mx__mfe__s_1a0b7b86a5c75c96eabb89eb53a13e7164"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ggg</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.ggg" title="Link to this definition"></a><br /></dt>
+<dd><p>Energies of g-quadruplexes. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.Fc">
+<span class="target" id="structvrna__mx__mfe__s_1ac6a22d71c6a0eccedf978372b19b458a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Fc</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.Fc" title="Link to this definition"></a><br /></dt>
+<dd><p>Minimum Free Energy of entire circular RNA. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.FcH">
+<span class="target" id="structvrna__mx__mfe__s_1a1ba03c53ee2a32eaf8b46c0eb259e0c4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FcH</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.FcH" title="Link to this definition"></a><br /></dt>
+<dd><p>Minimum Free Energy of hairpin loop cases in circular RNA. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.FcI">
+<span class="target" id="structvrna__mx__mfe__s_1a96ac173770c9745a30823fa17fe0b7f4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FcI</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.FcI" title="Link to this definition"></a><br /></dt>
+<dd><p>Minimum Free Energy of internal loop cases in circular RNA. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.FcM">
+<span class="target" id="structvrna__mx__mfe__s_1a9a4bf70926f79372388eccc7e73759e9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FcM</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.FcM" title="Link to this definition"></a><br /></dt>
+<dd><p>Minimum Free Energy of multibranch loop cases in circular RNA. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-local-folding-dp-matrices-using-window-approach">Local Folding DP matrices using window approach</p>
+<p><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These data fields are available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_mx_mfe_t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">VRNA_MX_WINDOW</span> 
+</pre></div>
+</div>
+</p>
+</div>
+</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.c_local">
+<span class="target" id="structvrna__mx__mfe__s_1a116c677ece0832e6ab9cc2fd1ebfe452"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">c_local</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.c_local" title="Link to this definition"></a><br /></dt>
+<dd><p>Energy array, given that i-j pair. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.f3_local">
+<span class="target" id="structvrna__mx__mfe__s_1a6eae0a2b696b0c63bbaa78a70b950600"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">f3_local</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.f3_local" title="Link to this definition"></a><br /></dt>
+<dd><p>Energy of 5’ end. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.fML_local">
+<span class="target" id="structvrna__mx__mfe__s_1ad37d705240a8e6b1e9a4e4ea19e74003"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">fML_local</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.fML_local" title="Link to this definition"></a><br /></dt>
+<dd><p>Multi-loop auxiliary energy array. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.ggg_local">
+<span class="target" id="structvrna__mx__mfe__s_1afd3ea65bc8f06559f7f1ea79072fa385"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ggg_local</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.ggg_local" title="Link to this definition"></a><br /></dt>
+<dd><p>Energies of g-quadruplexes. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-distance-class-dp-matrices">Distance Class DP matrices</p>
+<p><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These data fields are available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_mx_mfe_t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">VRNA_MX_2DFOLD</span> 
+</pre></div>
+</div>
+</p>
+</div>
+</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_F5">
+<span class="target" id="structvrna__mx__mfe__s_1ab917aa1e2b069af7fb5d11c5d067cdf0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_F5</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_F5" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_min_F5">
+<span class="target" id="structvrna__mx__mfe__s_1a4035d3c6a9e23e388ddec18a9fdc2315"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_F5</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_min_F5" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_max_F5">
+<span class="target" id="structvrna__mx__mfe__s_1a794ba42ca5afa5320a2da88554928516"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_F5</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_max_F5" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_min_F5">
+<span class="target" id="structvrna__mx__mfe__s_1aad6fc641a5815149b8d938ca277019a5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_F5</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_min_F5" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_max_F5">
+<span class="target" id="structvrna__mx__mfe__s_1a321a00180a1d046796328d0a9b66ec81"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_F5</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_max_F5" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_F3">
+<span class="target" id="structvrna__mx__mfe__s_1a4d055707928eb6f3147c962141cc70e8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_F3</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_F3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_min_F3">
+<span class="target" id="structvrna__mx__mfe__s_1abf0389ece58e97652f580d7dc1e133d8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_F3</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_min_F3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_max_F3">
+<span class="target" id="structvrna__mx__mfe__s_1afadce4435141575c7275b1e0b75e8eba"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_F3</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_max_F3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_min_F3">
+<span class="target" id="structvrna__mx__mfe__s_1a063fb9477172048bd24786ef363315db"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_F3</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_min_F3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_max_F3">
+<span class="target" id="structvrna__mx__mfe__s_1a1e20cd5b9d422f547b3366e74b59b1bd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_F3</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_max_F3" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_C">
+<span class="target" id="structvrna__mx__mfe__s_1af7007bfa68981a0d7a7a2186c357eb4f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_C</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_C" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_min_C">
+<span class="target" id="structvrna__mx__mfe__s_1a33f9c476304c568c78918a5bcc3e2c2f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_C</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_min_C" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_max_C">
+<span class="target" id="structvrna__mx__mfe__s_1afb0db136ff9fd3c78ad30816aa276ed3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_C</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_max_C" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_min_C">
+<span class="target" id="structvrna__mx__mfe__s_1a37d2df63ba2ae973059279f325b0e617"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_C</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_min_C" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_max_C">
+<span class="target" id="structvrna__mx__mfe__s_1a9bb98ec849469ab7dda8042384a0114e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_C</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_max_C" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_M">
+<span class="target" id="structvrna__mx__mfe__s_1aace1bc1fb8f3e0e83296a91e40bda7a5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_M" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_min_M">
+<span class="target" id="structvrna__mx__mfe__s_1a48afd9784e58e427fcbe4694d4670c57"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_M</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_min_M" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_max_M">
+<span class="target" id="structvrna__mx__mfe__s_1a59641489689bf8ba2236466b4a9be82a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_M</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_max_M" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_min_M">
+<span class="target" id="structvrna__mx__mfe__s_1a7a723bdda23a431fa498b6e46f71de05"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_M</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_min_M" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_max_M">
+<span class="target" id="structvrna__mx__mfe__s_1a45f8584d5a51e734de9376889e9a890e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_M</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_max_M" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_M1">
+<span class="target" id="structvrna__mx__mfe__s_1a2a0eccd64e94962e9ec7c0652c5adcf2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M1</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_M1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_min_M1">
+<span class="target" id="structvrna__mx__mfe__s_1a83ceae2cd2fa2a478fbc917419f4f43c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_M1</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_min_M1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_max_M1">
+<span class="target" id="structvrna__mx__mfe__s_1abacc2eb5bd2798188191693d562941fe"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_M1</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_max_M1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_min_M1">
+<span class="target" id="structvrna__mx__mfe__s_1a31b0f5d774d868d3723b0e98a64ab4c2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_M1</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_min_M1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_max_M1">
+<span class="target" id="structvrna__mx__mfe__s_1ad7aa8ad7e4246927b79f0e69cfdb20b2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_M1</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_max_M1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_M2">
+<span class="target" id="structvrna__mx__mfe__s_1a84f072a7e5a9d1dc978e92b3a78f53f8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M2</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_M2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_min_M2">
+<span class="target" id="structvrna__mx__mfe__s_1a0ee034810d6ece4cd0f4604ec4c94c22"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_M2</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_min_M2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_max_M2">
+<span class="target" id="structvrna__mx__mfe__s_1a0d78bbbc4621247d97f00160803a05b0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_M2</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_max_M2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_min_M2">
+<span class="target" id="structvrna__mx__mfe__s_1a27eede8de57b179fc24839bc25e96be0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_M2</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_min_M2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_max_M2">
+<span class="target" id="structvrna__mx__mfe__s_1ac3bc074f2b291247b65d34e336ef064f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_M2</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_max_M2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_Fc">
+<span class="target" id="structvrna__mx__mfe__s_1ac81b8edd7d1297b43af1c163214ec95b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_Fc</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_Fc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_min_Fc">
+<span class="target" id="structvrna__mx__mfe__s_1a64f1fdc523370d4d27f4e74db37ec3f2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_Fc</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_min_Fc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_max_Fc">
+<span class="target" id="structvrna__mx__mfe__s_1a253b64237c811ef8587de8a714658365"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_Fc</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_max_Fc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_min_Fc">
+<span class="target" id="structvrna__mx__mfe__s_1a3b381c1a816112c9557056a52db5d104"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_Fc</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_min_Fc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_max_Fc">
+<span class="target" id="structvrna__mx__mfe__s_1a2aa2123340602899bd7a61d82db95a3f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_Fc</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_max_Fc" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_FcH">
+<span class="target" id="structvrna__mx__mfe__s_1a366499237acdae5e4f422e4bc82bfc0d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_FcH</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_FcH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_min_FcH">
+<span class="target" id="structvrna__mx__mfe__s_1a5d0a6a5cd45a42d23fc0eabf0763caa8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_FcH</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_min_FcH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_max_FcH">
+<span class="target" id="structvrna__mx__mfe__s_1a89192a2ab2c8de9f5b702edc9fe68613"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_FcH</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_max_FcH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_min_FcH">
+<span class="target" id="structvrna__mx__mfe__s_1aa3f7198e3c6207737934088d27639911"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_FcH</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_min_FcH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_max_FcH">
+<span class="target" id="structvrna__mx__mfe__s_1a8e94d63c103c7effce55652619b3b469"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_FcH</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_max_FcH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_FcI">
+<span class="target" id="structvrna__mx__mfe__s_1a3e9793de5245f038ed83c2a607b37970"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_FcI</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_FcI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_min_FcI">
+<span class="target" id="structvrna__mx__mfe__s_1abc4dd9942f140f91adb52d2719e78bc4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_FcI</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_min_FcI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_max_FcI">
+<span class="target" id="structvrna__mx__mfe__s_1a41cb6dbbda30f5d7bafd6b0ea62bca8c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_FcI</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_max_FcI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_min_FcI">
+<span class="target" id="structvrna__mx__mfe__s_1acbf5d0bd27435ad5328482f9b4b32833"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_FcI</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_min_FcI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_max_FcI">
+<span class="target" id="structvrna__mx__mfe__s_1a6b13abef4bee7a08fd28b0780535373e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_FcI</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_max_FcI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_FcM">
+<span class="target" id="structvrna__mx__mfe__s_1aad18f800b7bc0f26d012b9bc36aa5382"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_FcM</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_FcM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_min_FcM">
+<span class="target" id="structvrna__mx__mfe__s_1a7ee24b747cf1d4ecc1cdc7380cf39594"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_FcM</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_min_FcM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.l_max_FcM">
+<span class="target" id="structvrna__mx__mfe__s_1a0d419ae5a7e10b98734d42f5391d25f5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_FcM</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.l_max_FcM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_min_FcM">
+<span class="target" id="structvrna__mx__mfe__s_1a36089cee4d38f465f79db7e3589693a7"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_FcM</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_min_FcM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.k_max_FcM">
+<span class="target" id="structvrna__mx__mfe__s_1aa5a4d2fd78e38c82ee666f9bdc911e66"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_FcM</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.k_max_FcM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_F5_rem">
+<span class="target" id="structvrna__mx__mfe__s_1af286d9ea990a98a33c065b4e16eaa311"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_F5_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_F5_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_F3_rem">
+<span class="target" id="structvrna__mx__mfe__s_1afa8e42da47467e098bab0c6f1c16bea4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_F3_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_F3_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_C_rem">
+<span class="target" id="structvrna__mx__mfe__s_1a00f20c8bd9eda2ebcd99267cce52909c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_C_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_C_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_M_rem">
+<span class="target" id="structvrna__mx__mfe__s_1a92b0234e1e3cdaba2dea416e37904a09"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_M_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_M1_rem">
+<span class="target" id="structvrna__mx__mfe__s_1a89dddd61f360292fddcc9b25e7cbc699"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M1_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_M1_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_M2_rem">
+<span class="target" id="structvrna__mx__mfe__s_1a5fc042fba42b3676226b64fb4ab80ad2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">E_M2_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_M2_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_Fc_rem">
+<span class="target" id="structvrna__mx__mfe__s_1aec03a4d7538bfa0e1113ba2825175428"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">E_Fc_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_Fc_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_FcH_rem">
+<span class="target" id="structvrna__mx__mfe__s_1a120dc87d9b5f452b12ab796046a0f704"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">E_FcH_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_FcH_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_FcI_rem">
+<span class="target" id="structvrna__mx__mfe__s_1add53b23599a083140d0ddbd158a84d1d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">E_FcI_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_FcI_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_mfe_s.E_FcM_rem">
+<span class="target" id="structvrna__mx__mfe__s_1ad821cb861e772e1c0fd4efddb44380c7"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">E_FcM_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_mfe_s.E_FcM_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c">
+<span class="target" id="structvrna__mx__mfe__s_1a89946e78f4d70575e7f5e428f903c838"></span><span class="sig-name descname"><span class="pre">union</span> <span class="pre">vrna_mx_mfe_s</span></span></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s">
+<span class="target" id="structvrna__mx__pf__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_mx_pf_s</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/dp_matrices.h&gt;</em></div>
+<p>Partition function (PF) Dynamic Programming (DP) matrices data structure required within the <a class="reference internal" href="fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-common-fields-for-dp-matrices">Common fields for DP matrices</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.type">
+<span class="target" id="structvrna__mx__pf__s_1af3ef433500adebc8ca0a35b5e2bfccfa"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_mx_type_e" title="vrna_mx_type_e"><span class="n"><span class="pre">vrna_mx_type_e</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.type" title="Link to this definition"></a><br /></dt>
+<dd><p>Type of the DP matrices </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.length">
+<span class="target" id="structvrna__mx__pf__s_1a798f72ece3f3f970bb0de2120600ad63"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">length</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.length" title="Link to this definition"></a><br /></dt>
+<dd><p>Size of the DP matrices (i.e. sequence length) </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.scale">
+<span class="target" id="structvrna__mx__pf__s_1a133ac57938cb0969da254a594572baf8"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">scale</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.scale" title="Link to this definition"></a><br /></dt>
+<dd><p>Boltzmann factor scaling </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.expMLbase">
+<span class="target" id="structvrna__mx__pf__s_1ae18e83833416f62943d5dd7be1cc038f"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">expMLbase</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.expMLbase" title="Link to this definition"></a><br /></dt>
+<dd><p>Boltzmann factors for unpaired bases in multibranch loop </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-default-pf-matrices">Default PF matrices</p>
+<p><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These data fields are available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_mx_pf_t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">VRNA_MX_DEFAULT</span> 
+</pre></div>
+</div>
+</p>
+</div>
+</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.q">
+<span class="target" id="structvrna__mx__pf__s_1a033a0277ac33736256c6a13f13d75879"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">q</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.q" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qb">
+<span class="target" id="structvrna__mx__pf__s_1abd5ea8aa63458625d0c8b2a868fcfa28"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">qb</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qm">
+<span class="target" id="structvrna__mx__pf__s_1a612e774309a7fd0b6812200aa31f87d5"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">qm</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qm" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qm1">
+<span class="target" id="structvrna__mx__pf__s_1ad60e1fd6fa490ae72cdd899c37a52165"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">qm1</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qm1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.probs">
+<span class="target" id="structvrna__mx__pf__s_1aee4b900811aa012ab135838e2e5868f2"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">probs</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.probs" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.q1k">
+<span class="target" id="structvrna__mx__pf__s_1a6ee76a2c5cefd1a9d6addf0a32071124"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">q1k</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.q1k" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qln">
+<span class="target" id="structvrna__mx__pf__s_1ae3a10b81e574b966d062e705b4ad8168"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">qln</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qln" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.G">
+<span class="target" id="structvrna__mx__pf__s_1a40d61ddad03db0ba06e1848ce9004138"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">G</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.G" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qo">
+<span class="target" id="structvrna__mx__pf__s_1a160e39f74bfcd3f94c77bdf334070782"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qo</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qo" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qm2">
+<span class="target" id="structvrna__mx__pf__s_1a0a4ff1fd1b71810ccab242a862cfdf8c"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">qm2</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qm2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qho">
+<span class="target" id="structvrna__mx__pf__s_1a0841b18e38c22bb92df7efee9caaabb0"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qho</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qho" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qio">
+<span class="target" id="structvrna__mx__pf__s_1ac9c23d0dd3a0bb150c389399afe119eb"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qio</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qio" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qmo">
+<span class="target" id="structvrna__mx__pf__s_1a970e8f6dfdf874185a9d4f77a942f61c"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qmo</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qmo" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-local-folding-dp-matrices-using-window-approach">Local Folding DP matrices using window approach</p>
+<p><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These data fields are available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_mx_mfe_t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">VRNA_MX_WINDOW</span> 
+</pre></div>
+</div>
+</p>
+</div>
+</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.q_local">
+<span class="target" id="structvrna__mx__pf__s_1a742126d3bbd599a459660e78ea150564"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">q_local</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.q_local" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qb_local">
+<span class="target" id="structvrna__mx__pf__s_1a8676136222e69b430a7a4fcbbf27c65c"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">qb_local</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qb_local" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qm_local">
+<span class="target" id="structvrna__mx__pf__s_1adc05b79fd8df7a618a7dfdc852c9703d"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">qm_local</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qm_local" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.pR">
+<span class="target" id="structvrna__mx__pf__s_1a401780fdba30145d0e3af22c36b432d6"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pR</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.pR" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qm2_local">
+<span class="target" id="structvrna__mx__pf__s_1a24af2da1539a28f43f1c557f7d7ec1bf"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">qm2_local</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qm2_local" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.QI5">
+<span class="target" id="structvrna__mx__pf__s_1a1398df7d88fef9aac386d24ee4cb9d17"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">QI5</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.QI5" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.q2l">
+<span class="target" id="structvrna__mx__pf__s_1ab0cbf800f6a85a2d3f8a45ffcd08d7a8"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">q2l</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.q2l" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.qmb">
+<span class="target" id="structvrna__mx__pf__s_1a3eb1defdbdc5494a392a7c2c5eaf63b1"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">qmb</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.qmb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.G_local">
+<span class="target" id="structvrna__mx__pf__s_1abecae05445c9fcf21081b7a8e2f8b395"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">G_local</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.G_local" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-distance-class-dp-matrices">Distance Class DP matrices</p>
+<p><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These data fields are available if <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrna_mx_pf_t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">VRNA_MX_2DFOLD</span> 
+</pre></div>
+</div>
+</p>
+</div>
+</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q">
+<span class="target" id="structvrna__mx__pf__s_1a29678f1d17a805ce2c80d765e00f694d"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_min_Q">
+<span class="target" id="structvrna__mx__pf__s_1a13ccc584739950bcd6de23925a9afe0e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_Q</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_min_Q" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_max_Q">
+<span class="target" id="structvrna__mx__pf__s_1ac136ef6871aad05b013aaec2a4cc9298"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_Q</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_max_Q" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_min_Q">
+<span class="target" id="structvrna__mx__pf__s_1aa09c7b59d39b4b669173330976ae4798"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_Q</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_min_Q" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_max_Q">
+<span class="target" id="structvrna__mx__pf__s_1a6405e58faa7aac0d7fd7bf6fc2821b99"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_Q</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_max_Q" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_B">
+<span class="target" id="structvrna__mx__pf__s_1a7bf41bf6ce96a6a6ffad912a6bb9f023"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_B</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_B" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_min_Q_B">
+<span class="target" id="structvrna__mx__pf__s_1aa6ab6ade9a4f4aa347ea1ac3d780bbf4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_Q_B</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_min_Q_B" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_max_Q_B">
+<span class="target" id="structvrna__mx__pf__s_1a7a6b46c40f038de8798e009ead7e5c81"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_Q_B</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_max_Q_B" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_min_Q_B">
+<span class="target" id="structvrna__mx__pf__s_1a32a61364685e55e2cb90c3bef635fe9e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_Q_B</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_min_Q_B" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_max_Q_B">
+<span class="target" id="structvrna__mx__pf__s_1a4bb8b8fc4b39dbf163584164575253e4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_Q_B</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_max_Q_B" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_M">
+<span class="target" id="structvrna__mx__pf__s_1a283eb582a89f62cf7d12bb6afc774ba7"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_M</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_M" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_min_Q_M">
+<span class="target" id="structvrna__mx__pf__s_1acdb695807092c9fa8ba32b4c033881b2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_Q_M</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_min_Q_M" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_max_Q_M">
+<span class="target" id="structvrna__mx__pf__s_1a0e46adc65e479d671aed00097b8f162a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_Q_M</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_max_Q_M" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_min_Q_M">
+<span class="target" id="structvrna__mx__pf__s_1ab3375971ac859512a745d6eec99244d2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_Q_M</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_min_Q_M" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_max_Q_M">
+<span class="target" id="structvrna__mx__pf__s_1a9b9d2a9a7a25929605437af8fe3e7f47"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_Q_M</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_max_Q_M" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_M1">
+<span class="target" id="structvrna__mx__pf__s_1a3ebab8245e0d6747c8cb4068fcb2f14c"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_M1</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_M1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_min_Q_M1">
+<span class="target" id="structvrna__mx__pf__s_1a798dd2cc60f5af4b93dac4cba0459683"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_Q_M1</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_min_Q_M1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_max_Q_M1">
+<span class="target" id="structvrna__mx__pf__s_1afec22c55d9cdea707596702ce40221ec"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_Q_M1</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_max_Q_M1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_min_Q_M1">
+<span class="target" id="structvrna__mx__pf__s_1a89548e61d9fbf7936f9e46aed2296813"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_Q_M1</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_min_Q_M1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_max_Q_M1">
+<span class="target" id="structvrna__mx__pf__s_1abb96656ec2020302fb1e1c9394ff2519"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_Q_M1</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_max_Q_M1" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_M2">
+<span class="target" id="structvrna__mx__pf__s_1a4271859f583cc0b27d0bfb6951c050f5"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_M2</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_M2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_min_Q_M2">
+<span class="target" id="structvrna__mx__pf__s_1ad23a0e61af82fdf8243c10000d418a8f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_Q_M2</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_min_Q_M2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_max_Q_M2">
+<span class="target" id="structvrna__mx__pf__s_1a8182f4fd762fcb853a78ae818e275114"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_Q_M2</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_max_Q_M2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_min_Q_M2">
+<span class="target" id="structvrna__mx__pf__s_1ac76826db329f701f0abf43d9e1a4446c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_min_Q_M2</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_min_Q_M2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_max_Q_M2">
+<span class="target" id="structvrna__mx__pf__s_1a9dc7897463d929ff56198e3cd79aa531"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">k_max_Q_M2</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_max_Q_M2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_c">
+<span class="target" id="structvrna__mx__pf__s_1a50d4c30dd0d535cd3a00c29e2b77c81e"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_c</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_c" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_min_Q_c">
+<span class="target" id="structvrna__mx__pf__s_1a1a165b9e68b552abd6970e7b79398e68"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_Q_c</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_min_Q_c" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_max_Q_c">
+<span class="target" id="structvrna__mx__pf__s_1ad16c8bacc50d9ad75fc4d3aad18b3c74"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_Q_c</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_max_Q_c" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_min_Q_c">
+<span class="target" id="structvrna__mx__pf__s_1aca9ff00550c75057c3f0796526eaa3fd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_Q_c</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_min_Q_c" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_max_Q_c">
+<span class="target" id="structvrna__mx__pf__s_1ac5cdf53876b9ea8060b7c0fc12b2bdca"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_Q_c</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_max_Q_c" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_cH">
+<span class="target" id="structvrna__mx__pf__s_1aba4db9bf16cbe37199838b8ed1ba096c"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_cH</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_cH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_min_Q_cH">
+<span class="target" id="structvrna__mx__pf__s_1a08f5bfd11886731ebb3a9f0ba97a0b6b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_Q_cH</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_min_Q_cH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_max_Q_cH">
+<span class="target" id="structvrna__mx__pf__s_1a1ac1d79977932e1b7131b47948b3915a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_Q_cH</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_max_Q_cH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_min_Q_cH">
+<span class="target" id="structvrna__mx__pf__s_1a763eab70c62986a630fd0013d1931ea8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_Q_cH</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_min_Q_cH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_max_Q_cH">
+<span class="target" id="structvrna__mx__pf__s_1a8093a0a48f24c26e575b18e5d59b1e5c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_Q_cH</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_max_Q_cH" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_cI">
+<span class="target" id="structvrna__mx__pf__s_1a1db737927aabceddad13832191c5fa27"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_cI</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_cI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_min_Q_cI">
+<span class="target" id="structvrna__mx__pf__s_1a9e0b38f8272badd75df592524e383973"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_Q_cI</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_min_Q_cI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_max_Q_cI">
+<span class="target" id="structvrna__mx__pf__s_1a852c2d9450a188cc49d72150f7647e48"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_Q_cI</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_max_Q_cI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_min_Q_cI">
+<span class="target" id="structvrna__mx__pf__s_1addf9d5e7d009a936651fa1b98421e2bd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_Q_cI</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_min_Q_cI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_max_Q_cI">
+<span class="target" id="structvrna__mx__pf__s_1abc3dd1b2bf0f90647e8c73c93432b154"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_Q_cI</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_max_Q_cI" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_cM">
+<span class="target" id="structvrna__mx__pf__s_1ae8e6bc3de40ebe54c7c36677cdc38df8"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_cM</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_cM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_min_Q_cM">
+<span class="target" id="structvrna__mx__pf__s_1aef4bfb509acba7441d9ace1e0a7e4b93"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_min_Q_cM</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_min_Q_cM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.l_max_Q_cM">
+<span class="target" id="structvrna__mx__pf__s_1a57c50e60f1679e2d1add5b48d67b4ad4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">l_max_Q_cM</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.l_max_Q_cM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_min_Q_cM">
+<span class="target" id="structvrna__mx__pf__s_1ab014ff37700866fd2be6139b3ec470c6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_min_Q_cM</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_min_Q_cM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.k_max_Q_cM">
+<span class="target" id="structvrna__mx__pf__s_1a10c73fd5be9a9bbd350f929d758ac8cf"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k_max_Q_cM</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.k_max_Q_cM" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_rem">
+<span class="target" id="structvrna__mx__pf__s_1a9d0f5ad230b36b3553ddf7585c1ae2ec"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_B_rem">
+<span class="target" id="structvrna__mx__pf__s_1a3e398f1778086b00deb05a3990d533ab"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_B_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_B_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_M_rem">
+<span class="target" id="structvrna__mx__pf__s_1a07d9c31f3205d96e094104971b8a85a6"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_M_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_M_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_M1_rem">
+<span class="target" id="structvrna__mx__pf__s_1a7d77708c602e982af5a6c1f340d329f4"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_M1_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_M1_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_M2_rem">
+<span class="target" id="structvrna__mx__pf__s_1a6480ac40d5405af825dee74e3518d6ae"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Q_M2_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_M2_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_c_rem">
+<span class="target" id="structvrna__mx__pf__s_1a0ce7f4b73a6df939f79dfd2f21de80b8"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Q_c_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_c_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_cH_rem">
+<span class="target" id="structvrna__mx__pf__s_1aff841b24d39a4f162ba1d10e5109cbe3"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Q_cH_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_cH_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_cI_rem">
+<span class="target" id="structvrna__mx__pf__s_1a844916b65f091b27e89547f7a51a2dea"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Q_cI_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_cI_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_mx_pf_s.Q_cM_rem">
+<span class="target" id="structvrna__mx__pf__s_1a6f6bad095f31114e990d68af46d2eda5"></span><a class="reference internal" href="../data_structures.html#c.FLT_OR_DBL" title="FLT_OR_DBL"><span class="n"><span class="pre">FLT_OR_DBL</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Q_cM_rem</span></span></span><a class="headerlink" href="#c.vrna_mx_pf_s.Q_cM_rem" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c">
+<span class="target" id="structvrna__mx__pf__s_1a4809f5c43d078cd88b4e3c812e2d8835"></span><span class="sig-name descname"><span class="pre">union</span> <span class="pre">vrna_mx_pf_s</span></span></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fold_compound.html" class="btn btn-neutral float-left" title="The Fold Compound" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="hash_tables.html" class="btn btn-neutral float-right" title="Hash Tables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

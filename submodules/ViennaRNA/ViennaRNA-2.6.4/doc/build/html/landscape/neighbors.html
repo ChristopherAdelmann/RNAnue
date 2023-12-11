@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neighborhood Relation and Move Sets for Secondary Structures &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="(Re-)folding Paths, Saddle Points, Energy Barriers, and Local Minima" href="paths.html" />
+    <link rel="prev" title="The RNA Secondary Structure Landscape" href="../landscape.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../landscape.html">The RNA Secondary Structure Landscape</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Neighborhood Relation and Move Sets for Secondary Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="paths.html">(Re-)folding Paths, Saddle Points, Energy Barriers, and Local Minima</a></li>
+<li class="toctree-l3"><a class="reference internal" href="paths_direct.html">Direct Refolding Paths between two Secondary Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="paths_walk.html">Folding Paths that start at a single Secondary Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="paths_deprecated.html">Deprecated Interface for (Re-)folding Paths, Saddle Points, and Energy Barriers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../landscape.html">The RNA Secondary Structure Landscape</a></li>
+      <li class="breadcrumb-item active">Neighborhood Relation and Move Sets for Secondary Structures</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="neighborhood-relation-and-move-sets-for-secondary-structures">
+<h1>Neighborhood Relation and Move Sets for Secondary Structures<a class="headerlink" href="#neighborhood-relation-and-move-sets-for-secondary-structures" title="Link to this heading"></a></h1>
+<p>Different functions to generate structural neighbors of a secondary
+structure according to a particular Move Set.</p>
+<p>This module contains methods to compute the neighbors of an RNA
+secondary structure. Neighbors of a given structure are all structures
+that differ in exactly one base pair. That means one can insert an
+delete base pairs in the given structure. These insertions and
+deletions of base pairs are usually called moves. A third move which
+is considered in these methods is a shift move. A shifted base pair
+has one stable position and one position that changes. These moves
+are encoded as follows:</p>
+<ul class="simple">
+<li><p>insertion: <span class="math notranslate nohighlight">\((i, j)\)</span> where <span class="math notranslate nohighlight">\(i,j &gt; 0\)</span></p></li>
+<li><p>deletion: <span class="math notranslate nohighlight">\((i, j)\)</span> where <span class="math notranslate nohighlight">\(i,j\)</span> &lt; 0</p></li>
+<li><p>shift: <span class="math notranslate nohighlight">\((i, j)\)</span> where either <span class="math notranslate nohighlight">\(i &gt; 0, j &lt; 0\)</span> or <span class="math notranslate nohighlight">\(i &lt; 0, j &gt; 0\)</span></p></li>
+</ul>
+<p>The negative position of a shift indicates the position that has changed.</p>
+<p>An example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">We</span> <span class="n">are</span> <span class="n">given</span> <span class="n">a</span> <span class="n">sequence</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">structure</span><span class="o">.</span>
+<span class="n">Sequence</span>  <span class="n">AAGGAAACC</span>
+ <span class="n">Structure</span> <span class="o">..</span><span class="p">(</span><span class="o">.....</span><span class="p">)</span>
+ <span class="n">Indices</span>   <span class="mi">123456789</span>
+
+ <span class="n">The</span> <span class="n">given</span> <span class="n">base</span> <span class="n">pair</span> <span class="ow">is</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">neighbors</span> <span class="n">are</span> <span class="n">the</span> <span class="n">insertion</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+ <span class="n">the</span> <span class="n">deletion</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">9</span><span class="p">),</span> <span class="n">the</span> <span class="n">shift</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">shift</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span><span class="o">.</span>
+ <span class="n">This</span> <span class="n">leads</span> <span class="n">to</span> <span class="n">the</span> <span class="n">neighbored</span> <span class="n">structures</span><span class="p">:</span>
+ <span class="o">...</span><span class="p">(</span><span class="o">....</span><span class="p">)</span>
+ <span class="o">.........</span>
+ <span class="o">...</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span>
+ <span class="o">....</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A simple method to construct all insertions is to iterate over the positions of a sequence twice. The first
+iteration has the index i in [1, sequence length], the second iteration has the index j in [i+1, sequence length].
+All pairs (i,j) with compatible letters and which are non-crossing with present base pairs are valid neighbored
+insertion moves.
+Valid deletion moves are all present base pairs with negative sign.
+Valid shift moves are constructed by taking all paired positions as fix position of a shift move and iterating over
+all positions of the sequence. If the letters of a position are compatible and if it the move is non-crossing with
+existing base pairs, we have a valid shift move.
+The method of generating shift moves can be accelerated by skipping neighbored base pairs.</p>
+<p>If we need to construct all neighbors several times for subsequent moves, we can speed up the task by using
+the move set of the previous structure. The previous move set has to be filtered, such that all moves that would
+cross the next selected move are non-crossing. Next, the selected move has to be removed. Then one has to only
+to generate all moves that were not possible before.
+One move is the inverted selected move (if it was an insertion, simply make the indices negative).
+The generation of all other new moves is different and depends on the selected move. It is easy for an insertion move,
+because we have only to include all non-crossing shift moves, that are possible with the new base pair. For that we can
+either iterate over the sequence or we can select all crossing shift moves in the filter procedure and convert them into
+shifts.</p>
+<p>The generation of new moves given a deletion is a little bit more complex, because we can create more moves. At first
+we can insert the deleted pair as insertion move. Then we generate all insertions that would have crossed the deleted
+base pair. Finally we construct all crossing shift moves.</p>
+<p>If the given move is a shift, we can save much time by specifying the intervals for the generation of new moves.
+The interval which was enclosed by the positive position of the shift move and the previous paired position is the
+freed interval after applying the move. This freed interval includes all positions and base pairs that we need to
+construct new insertions and shifts. All these new moves have one position in the freed interval and the other position
+in the environment of the freed interval. The environment are all position which are outside the freed interval, but within
+the same enclosing loop of the shift move. The environment for valid base pairs can be divided into one or more intervals,
+depending on the shift move. The following examples describe a few scenarios to specify the intervals of the environment.</p>
+<p>Example 1:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">increase</span> <span class="n">the</span> <span class="n">freed</span> <span class="n">interval</span> <span class="k">with</span> <span class="n">a</span> <span class="n">shift</span> <span class="n">move</span>
+<span class="n">AAAAGACAAGAAACAAAAGAGAAACAACAAACAAGAAACAAACAAAA</span>
+<span class="o">....</span><span class="p">(</span><span class="o">....</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">....</span><span class="p">(</span><span class="o">.</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">..</span><span class="p">)</span><span class="o">......</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="o">....</span> <span class="o">//</span> <span class="n">structure</span> <span class="n">before</span> <span class="n">the</span> <span class="n">shift</span>
+<span class="o">....</span><span class="p">(</span><span class="o">....</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">....</span><span class="p">(</span><span class="o">.</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">......</span><span class="p">)</span><span class="o">..</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="o">....</span> <span class="o">//</span> <span class="n">structure</span> <span class="n">after</span> <span class="n">the</span> <span class="n">shift</span>
+<span class="o">............................</span><span class="p">[</span><span class="n">__</span><span class="p">]</span><span class="o">...............</span> <span class="o">//</span> <span class="n">freed</span> <span class="n">interval</span>
+<span class="o">..................</span><span class="p">[</span><span class="n">________</span><span class="p">]</span><span class="o">...................</span> <span class="o">//</span> <span class="n">interval</span> <span class="n">that</span> <span class="n">can</span> <span class="n">pair</span> <span class="k">with</span> <span class="n">the</span> <span class="n">freed</span> <span class="n">interval</span>
+</pre></div>
+</div>
+<p>Example 2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span> <span class="n">the</span> <span class="n">freed</span> <span class="n">interval</span> <span class="k">with</span> <span class="n">a</span> <span class="n">shift</span> <span class="n">move</span>
+<span class="n">AAAAGACAAGAAACAAAAGAGAAACAACAAACAAGAAACAAACAAAA</span>
+<span class="o">....</span><span class="p">(</span><span class="o">....</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">....</span><span class="p">(</span><span class="o">.</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">..</span><span class="p">)</span><span class="o">......</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="o">....</span> <span class="o">//</span> <span class="n">structure</span> <span class="n">before</span> <span class="n">the</span> <span class="n">shift</span>
+<span class="o">....</span><span class="p">(</span><span class="o">.</span><span class="p">(</span><span class="o">..</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">....</span><span class="p">)</span><span class="o">.</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.........</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="o">....</span> <span class="o">//</span> <span class="n">structure</span> <span class="n">after</span> <span class="n">the</span> <span class="n">shift</span>
+<span class="o">...................</span><span class="p">[</span><span class="n">_______</span><span class="p">]</span><span class="o">...................</span> <span class="o">//</span> <span class="n">freed</span> <span class="n">interval</span>
+<span class="o">....</span><span class="p">[</span><span class="n">_</span><span class="p">]</span><span class="o">.....................</span><span class="p">[</span><span class="n">_____________</span><span class="p">]</span><span class="o">....</span> <span class="o">//</span> <span class="n">intervals</span> <span class="n">that</span> <span class="n">can</span> <span class="n">pair</span> <span class="k">with</span> <span class="n">the</span> <span class="n">freed</span> <span class="n">interval</span>
+</pre></div>
+</div>
+<p>Example 3:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">decrease</span> <span class="n">the</span> <span class="n">freed</span> <span class="n">interval</span> <span class="k">with</span> <span class="n">a</span> <span class="n">shift</span> <span class="n">move</span>
+<span class="n">AAAAGACAAGAAACAAAAGAGAAACAACAAACAAGAAACAAACAAAA</span>
+<span class="o">....</span><span class="p">(</span><span class="o">....</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">....</span><span class="p">(</span><span class="o">.</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">......</span><span class="p">)</span><span class="o">..</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="o">....</span> <span class="o">//</span> <span class="n">structure</span> <span class="n">before</span> <span class="n">the</span> <span class="n">shift</span>
+<span class="o">....</span><span class="p">(</span><span class="o">....</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">....</span><span class="p">(</span><span class="o">.</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">..</span><span class="p">)</span><span class="o">......</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="o">....</span> <span class="o">//</span> <span class="n">structure</span> <span class="n">after</span> <span class="n">the</span> <span class="n">shift</span>
+<span class="o">............................</span><span class="p">[</span><span class="n">__</span><span class="p">]</span><span class="o">...............</span> <span class="o">//</span> <span class="n">freed</span> <span class="n">interval</span>
+<span class="o">....</span><span class="p">[</span><span class="n">____________</span><span class="p">]</span><span class="o">.............</span><span class="p">[</span><span class="n">__________</span><span class="p">]</span><span class="o">....</span> <span class="o">//</span> <span class="n">intervals</span> <span class="n">that</span> <span class="n">can</span> <span class="n">pair</span> <span class="k">with</span> <span class="n">the</span> <span class="n">freed</span> <span class="n">interval</span>
+</pre></div>
+</div>
+<img alt="../_images/shift_move_intervals.png" src="../_images/shift_move_intervals.png" />
+<p>Given the intervals of the environment and the freed interval, the new shift moves can be constructed quickly.
+One has to take all positions of pairs from the environment in order to create valid pairs with positions in the freed interval.
+The same procedure can be applied for the other direction. This is taking all paired positions within the freed interval
+in order to look for pairs with valid positions in the intervals of the environment.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__neighbors"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MOVESET_INSERTION">
+<span class="target" id="group__neighbors_1gaf39028db9c70d3be528929182a3f2d5a"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MOVESET_INSERTION</span></span></span><a class="headerlink" href="#c.VRNA_MOVESET_INSERTION" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>Option flag indicating insertion move. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87"><span class="std std-ref">vrna_neighbors()</span></a>, <a class="reference internal" href="#group__neighbors_1gab70db80566b1c30257bd9e0c813df59e"><span class="std std-ref">vrna_neighbors_successive</span></a>, <a class="reference internal" href="paths_walk.html#group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"><span class="std std-ref">vrna_path()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MOVESET_DELETION">
+<span class="target" id="group__neighbors_1gac05db9392c6647e3e9a6982096c5b384"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MOVESET_DELETION</span></span></span><a class="headerlink" href="#c.VRNA_MOVESET_DELETION" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>Option flag indicating deletion move. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87"><span class="std std-ref">vrna_neighbors()</span></a>, <a class="reference internal" href="#group__neighbors_1gab70db80566b1c30257bd9e0c813df59e"><span class="std std-ref">vrna_neighbors_successive</span></a>, <a class="reference internal" href="paths_walk.html#group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"><span class="std std-ref">vrna_path()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MOVESET_SHIFT">
+<span class="target" id="group__neighbors_1ga68ea27c81de4b74e48b775c04052590b"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MOVESET_SHIFT</span></span></span><a class="headerlink" href="#c.VRNA_MOVESET_SHIFT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>Option flag indicating shift move. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87"><span class="std std-ref">vrna_neighbors()</span></a>, <a class="reference internal" href="#group__neighbors_1gab70db80566b1c30257bd9e0c813df59e"><span class="std std-ref">vrna_neighbors_successive</span></a>, <a class="reference internal" href="paths_walk.html#group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"><span class="std std-ref">vrna_path()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MOVESET_NO_LP">
+<span class="target" id="group__neighbors_1ga258084b251b218fba9398826435a4393"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MOVESET_NO_LP</span></span></span><a class="headerlink" href="#c.VRNA_MOVESET_NO_LP" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>Option flag indicating moves without lonely base pairs. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87"><span class="std std-ref">vrna_neighbors()</span></a>, <a class="reference internal" href="#group__neighbors_1gab70db80566b1c30257bd9e0c813df59e"><span class="std std-ref">vrna_neighbors_successive</span></a>, <a class="reference internal" href="paths_walk.html#group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"><span class="std std-ref">vrna_path()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MOVESET_DEFAULT">
+<span class="target" id="group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MOVESET_DEFAULT</span></span></span><a class="headerlink" href="#c.VRNA_MOVESET_DEFAULT" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>Option flag indicating default move set, i.e. insertions/deletion of a base pair. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87"><span class="std std-ref">vrna_neighbors()</span></a>, <a class="reference internal" href="#group__neighbors_1gab70db80566b1c30257bd9e0c813df59e"><span class="std std-ref">vrna_neighbors_successive</span></a>, <a class="reference internal" href="paths_walk.html#group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a"><span class="std std-ref">vrna_path()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_MOVE_NO_APPLY">
+<span class="target" id="group__neighbors_1ga555087dc5cc35a93f71d952220d83388"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_MOVE_NO_APPLY</span></span></span><a class="headerlink" href="#c.VRNA_MOVE_NO_APPLY" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em></dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_NEIGHBOR_CHANGE">
+<span class="target" id="group__neighbors_1gae72b0e349b6108c00737df51cce44622"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_NEIGHBOR_CHANGE</span></span></span><a class="headerlink" href="#c.VRNA_NEIGHBOR_CHANGE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/neighbor.h&gt;</em><p>State indicator for a neighbor that has been changed. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1gaa034225aad402bebd2a05dae51316f47"><span class="std std-ref">vrna_move_neighbor_diff_cb()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_NEIGHBOR_INVALID">
+<span class="target" id="group__neighbors_1gaf7e3417828057ae0ed4d0de03178116a"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_NEIGHBOR_INVALID</span></span></span><a class="headerlink" href="#c.VRNA_NEIGHBOR_INVALID" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/neighbor.h&gt;</em><p>State indicator for a neighbor that has been invalidated. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1gaa034225aad402bebd2a05dae51316f47"><span class="std std-ref">vrna_move_neighbor_diff_cb()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_NEIGHBOR_NEW">
+<span class="target" id="group__neighbors_1ga9343dd62daad15b6b8c55c1260c09228"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_NEIGHBOR_NEW</span></span></span><a class="headerlink" href="#c.VRNA_NEIGHBOR_NEW" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/neighbor.h&gt;</em><p>State indicator for a neighbor that has become newly available. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1gaa034225aad402bebd2a05dae51316f47"><span class="std std-ref">vrna_move_neighbor_diff_cb()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_move_t">
+<span class="target" id="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_s" title="vrna_move_s"><span class="n"><span class="pre">vrna_move_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_t</span></span></span><a class="headerlink" href="#c.vrna_move_t" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>A single move that transforms a secondary structure into one of its neighbors. </p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.vrna_move_update_f">
+<span class="target" id="group__neighbors_1gada5cf954de328f9d283558c8bd0eeedb"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_update_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">neighbor</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_move_update_f" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/neighbor.h&gt;</em><p>Prototype of the neighborhood update callback. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1gaa034225aad402bebd2a05dae51316f47"><span class="std std-ref">vrna_move_neighbor_diff_cb()</span></a>, <a class="reference internal" href="#group__neighbors_1gae72b0e349b6108c00737df51cce44622"><span class="std std-ref">VRNA_NEIGHBOR_CHANGE</span></a>, <a class="reference internal" href="#group__neighbors_1gaf7e3417828057ae0ed4d0de03178116a"><span class="std std-ref">VRNA_NEIGHBOR_INVALID</span></a>, <a class="reference internal" href="#group__neighbors_1ga9343dd62daad15b6b8c55c1260c09228"><span class="std std-ref">VRNA_NEIGHBOR_NEW</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param fc<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The fold compound the calling function is working on </p>
+</dd>
+<dt class="field-even">Param neighbor<span class="colon">:</span></dt>
+<dd class="field-even"><p>The move that generates the (changed or new) neighbor </p>
+</dd>
+<dt class="field-odd">Param state<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The state of the neighbor (move) as supplied by argument <code class="docutils literal notranslate"><span class="pre">neighbor</span></code></p>
+</dd>
+<dt class="field-even">Param data<span class="colon">:</span></dt>
+<dd class="field-even"><p>Some arbitrary data pointer as passed to <a class="reference internal" href="#group__neighbors_1gaa034225aad402bebd2a05dae51316f47"><span class="std std-ref">vrna_move_neighbor_diff_cb()</span></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="target" id="group__neighbors_1ga4605019694e3d38e2c40d5a97ef99920"></span><span class="sig-name descname"><span class="pre">void()</span> <span class="pre">vrna_callback_move_update</span> <span class="pre">(vrna_fold_compound_t</span> <span class="pre">*fc,</span> <span class="pre">vrna_move_t</span> <span class="pre">neighbor,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">state,</span> <span class="pre">void</span> <span class="pre">*data)</span></span></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/neighbor.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_move_init">
+<span class="target" id="group__neighbors_1gaeff6157398a2073f587416fa9ec94789"></span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_init</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">pos_5</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">pos_3</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_move_init" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>Create an atomic move. </p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#structvrna__move__s"><span class="std std-ref">vrna_move_s</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos_5</strong> – The 5’ position of the move (positive for insertions, negative for removal, any value for shift moves) </p></li>
+<li><p><strong>pos_3</strong> – The 3’ position of the move (positive for insertions, negative for removal, any value for shift moves) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An atomic move as specified by <code class="docutils literal notranslate"><span class="pre">pos_5</span></code> and <code class="docutils literal notranslate"><span class="pre">pos_3</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_move_list_free">
+<span class="target" id="group__neighbors_1gad085062ae3aa7ee20783debe4a906fad"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_list_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">moves</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_move_list_free" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>delete all moves in a zero terminated list. </p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_move_apply">
+<span class="target" id="group__neighbors_1gacdbc5f609b46aeb07d2c7e015677a1e0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_apply</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">m</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_move_apply" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>Apply a particular move / transition to a secondary structure, i.e. transform a structure. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt</strong> – <strong>[inout]</strong> The pair table representation of the secondary structure </p></li>
+<li><p><strong>m</strong> – <strong>[in]</strong> The move to apply </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_move_apply_db">
+<span class="target" id="group__neighbors_1gab791a8a0623af5693d99618d41e51bf1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_apply_db</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">m</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_move_apply_db" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_move_is_removal">
+<span class="target" id="group__neighbors_1ga9cf75e9c6551f46ea568abf4f7fd11cd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_is_removal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">m</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_move_is_removal" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>Test whether a move is a base pair removal. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> – The move to test against </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero if the move is a base pair removal, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_move_is_insertion">
+<span class="target" id="group__neighbors_1ga613d33e6fa8e784d76b34bb07458f398"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_is_insertion</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">m</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_move_is_insertion" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>Test whether a move is a base pair insertion. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> – The move to test against </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero if the move is a base pair insertion, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_move_is_shift">
+<span class="target" id="group__neighbors_1ga31a8c4c2db9f54cb8f2d2cdf3b725d4d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_is_shift</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">m</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_move_is_shift" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>Test whether a move is a base pair shift. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> – The move to test against </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero if the move is a base pair shift, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_move_compare">
+<span class="target" id="group__neighbors_1gad0d2065cfa00151d9e8f79459d98173d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_compare</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">m</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">b</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_move_compare" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/move.h&gt;</em><p>Compare two moves. </p>
+<p>The function compares two moves <code class="docutils literal notranslate"><span class="pre">m</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> and returns whether move <code class="docutils literal notranslate"><span class="pre">m</span></code> is lexicographically smaller (-1), larger (1) or equal to move <code class="docutils literal notranslate"><span class="pre">b</span></code>.</p>
+<p>If any of the moves <code class="docutils literal notranslate"><span class="pre">m</span></code> or <code class="docutils literal notranslate"><span class="pre">b</span></code> is a shift move, this comparison only makes sense in a structure context. Thus, the third argument with the current structure must be provided.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function returns 0 (equality) upon any error, e.g. missing input</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Currently, shift moves are not supported!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> – The first move of the comparison </p></li>
+<li><p><strong>b</strong> – The second move of the comparison </p></li>
+<li><p><strong>pt</strong> – The pair table of the current structure that is compatible with both moves (maybe NULL if moves are guaranteed to be no shifts) </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>-1 if <code class="docutils literal notranslate"><span class="pre">m</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">b</span></code>, 1 if <code class="docutils literal notranslate"><span class="pre">m</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">b</span></code>, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_loopidx_update">
+<span class="target" id="group__neighbors_1ga5ceb55ee56494b1f5b7aaa758cb722d1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_loopidx_update</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">loopidx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">m</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_loopidx_update" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/neighbor.h&gt;</em><p>Alters the loopIndices array that was constructed with <a class="reference internal" href="../utils/structures.html#group__struct__utils_1ga8a2c825d6a9c2d73329b6c09320a6a90"><span class="std std-ref">vrna_loopidx_from_ptable()</span></a>. </p>
+<p>The loopIndex of the current move will be inserted. The correctness of the input will not be checked because the speed should be optimized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>loopidx</strong> – <strong>[inout]</strong> The loop index data structure that needs an update </p></li>
+<li><p><strong>pt</strong> – <strong>[in]</strong> A pair table on which the move will be executed </p></li>
+<li><p><strong>length</strong> – The length of the structure </p></li>
+<li><p><strong>m</strong> – <strong>[in]</strong> The move that is applied to the current structure </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_neighbors">
+<span class="target" id="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87"></span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_neighbors</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pt</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_neighbors" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/neighbor.h&gt;</em><p>Generate neighbors of a secondary structure. </p>
+<p>This function allows one to generate all structural neighbors (according to a particular move set) of an RNA secondary structure. The neighborhood is then returned as a list of transitions / moves required to transform the current structure into the actual neighbor.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../wrappers.html#wrappers_1_wrappers000129"><span class="std std-ref"><span class="pre">SWIG</span> <span class="pre">Wrapper</span> <span class="pre">Notes:</span></span></a></dt>
+<dd><p>This function is attached as an overloaded method <code class="docutils literal notranslate"><span class="pre">neighbors()</span></code> to objects of type <code class="docutils literal notranslate"><span class="pre">fold_compound</span></code>. The optional parameter <code class="docutils literal notranslate"><span class="pre">options</span></code> defaults to <a class="reference internal" href="#group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1"><span class="std std-ref">VRNA_MOVESET_DEFAULT</span></a> if it is omitted. See, e.g.  <span><a class="reference internal" href="../api_python.html#RNA.fold_compound.neighbors" title="RNA.fold_compound.neighbors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RNA.fold_compound.neighbors()</span></code></a> in the <a class="reference internal" href="../api_python.html"><span class="doc">Python API</span></a></span>. </p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1gab70db80566b1c30257bd9e0c813df59e"><span class="std std-ref">vrna_neighbors_successive()</span></a>, <a class="reference internal" href="#group__neighbors_1gacdbc5f609b46aeb07d2c7e015677a1e0"><span class="std std-ref">vrna_move_apply()</span></a>, <a class="reference internal" href="#group__neighbors_1gaf39028db9c70d3be528929182a3f2d5a"><span class="std std-ref">VRNA_MOVESET_INSERTION</span></a>, <a class="reference internal" href="#group__neighbors_1gac05db9392c6647e3e9a6982096c5b384"><span class="std std-ref">VRNA_MOVESET_DELETION</span></a>, <a class="reference internal" href="#group__neighbors_1ga68ea27c81de4b74e48b775c04052590b"><span class="std std-ref">VRNA_MOVESET_SHIFT</span></a>, <a class="reference internal" href="#group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1"><span class="std std-ref">VRNA_MOVESET_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – <strong>[in]</strong> A vrna_fold_compound_t containing the energy parameters and model details </p></li>
+<li><p><strong>pt</strong> – <strong>[in]</strong> The pair table representation of the structure </p></li>
+<li><p><strong>options</strong> – Options to modify the behavior of this function, e.g. available move set </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Neighbors as a list of moves / transitions (the last element in the list has both of its fields set to 0)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_neighbors_successive">
+<span class="target" id="group__neighbors_1gab70db80566b1c30257bd9e0c813df59e"></span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_neighbors_successive</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">curr_move</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">prev_pt</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">prev_neighbors</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">size_prev_neighbors</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">size_neighbors</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_neighbors_successive" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/neighbor.h&gt;</em><p>Generate neighbors of a secondary structure (the fast way) </p>
+<p>This function implements a fast way to generate all neighbors of a secondary structure that results from successive applications of individual moves. The speed-up results from updating an already known list of valid neighbors before the individual move towards the current structure took place. In essence, this function removes neighbors that are not accessible anymore and inserts neighbors emerging after a move took place.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87"><span class="std std-ref">vrna_neighbors()</span></a>, <a class="reference internal" href="#group__neighbors_1gacdbc5f609b46aeb07d2c7e015677a1e0"><span class="std std-ref">vrna_move_apply()</span></a>, <a class="reference internal" href="#group__neighbors_1gaf39028db9c70d3be528929182a3f2d5a"><span class="std std-ref">VRNA_MOVESET_INSERTION</span></a>, <a class="reference internal" href="#group__neighbors_1gac05db9392c6647e3e9a6982096c5b384"><span class="std std-ref">VRNA_MOVESET_DELETION</span></a>, <a class="reference internal" href="#group__neighbors_1ga68ea27c81de4b74e48b775c04052590b"><span class="std std-ref">VRNA_MOVESET_SHIFT</span></a>, <a class="reference internal" href="#group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1"><span class="std std-ref">VRNA_MOVESET_DEFAULT</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – <strong>[in]</strong> A vrna_fold_compound_t containing the energy parameters and model details </p></li>
+<li><p><strong>curr_move</strong> – <strong>[in]</strong> The move that was/will be applied to <code class="docutils literal notranslate"><span class="pre">prev_pt</span></code></p></li>
+<li><p><strong>prev_pt</strong> – <strong>[in]</strong> A pair table representation of the structure before <code class="docutils literal notranslate"><span class="pre">curr_move</span></code> is/was applied </p></li>
+<li><p><strong>prev_neighbors</strong> – <strong>[in]</strong> The list of neighbors of <code class="docutils literal notranslate"><span class="pre">prev_pt</span></code></p></li>
+<li><p><strong>size_prev_neighbors</strong> – The size of <code class="docutils literal notranslate"><span class="pre">prev_neighbors</span></code>, i.e. the lists length </p></li>
+<li><p><strong>size_neighbors</strong> – <strong>[out]</strong> A pointer to store the size / length of the new neighbor list </p></li>
+<li><p><strong>options</strong> – Options to modify the behavior of this function, e.g. available move set </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Neighbors as a list of moves / transitions (the last element in the list has both of its fields set to 0) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_move_neighbor_diff_cb">
+<span class="target" id="group__neighbors_1gaa034225aad402bebd2a05dae51316f47"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_neighbor_diff_cb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ptable</span></span>, <a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">move</span></span>, <a class="reference internal" href="#c.vrna_move_update_f" title="vrna_move_update_f"><span class="n"><span class="pre">vrna_move_update_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_move_neighbor_diff_cb" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/neighbor.h&gt;</em><p>Apply a move to a secondary structure and indicate which neighbors have changed consequentially. </p>
+<p>This function applies a move to a secondary structure and explores the local neighborhood of the affected loop. Any changes to previously compatible neighbors that have been affected by this loop will be reported through a callback function. In particular, any of the three cases might appear:<ul class="simple">
+<li><p>A previously available neighbor move has changed, usually the free energy change of the move (<a class="reference internal" href="#group__neighbors_1gae72b0e349b6108c00737df51cce44622"><span class="std std-ref">VRNA_NEIGHBOR_CHANGE</span></a>)</p></li>
+<li><p>A previously available neighbor move became invalid (<a class="reference internal" href="#group__neighbors_1gaf7e3417828057ae0ed4d0de03178116a"><span class="std std-ref">VRNA_NEIGHBOR_INVALID</span></a>)</p></li>
+<li><p>A new neighbor move becomes available (<a class="reference internal" href="#group__neighbors_1ga9343dd62daad15b6b8c55c1260c09228"><span class="std std-ref">VRNA_NEIGHBOR_NEW</span></a>)</p></li>
+</ul>
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__neighbors_1ga7dde18e6f83355493cd698f07e259c75"><span class="std std-ref">vrna_move_neighbor_diff()</span></a>, <a class="reference internal" href="#group__neighbors_1gae72b0e349b6108c00737df51cce44622"><span class="std std-ref">VRNA_NEIGHBOR_CHANGE</span></a>, <a class="reference internal" href="#group__neighbors_1gaf7e3417828057ae0ed4d0de03178116a"><span class="std std-ref">VRNA_NEIGHBOR_INVALID</span></a>, <a class="reference internal" href="#group__neighbors_1ga9343dd62daad15b6b8c55c1260c09228"><span class="std std-ref">VRNA_NEIGHBOR_NEW</span></a>, <a class="reference internal" href="#group__neighbors_1gada5cf954de328f9d283558c8bd0eeedb"><span class="std std-ref">vrna_move_update_f</span></a>, VRNA_MOVE_NO_APPLY</p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – A fold compound for the RNA sequence(s) that this function operates on </p></li>
+<li><p><strong>ptable</strong> – The current structure as pair table </p></li>
+<li><p><strong>move</strong> – The move to apply </p></li>
+<li><p><strong>cb</strong> – The address of the callback function that is passed the neighborhood changes </p></li>
+<li><p><strong>data</strong> – An arbitrary data pointer that will be passed through to the callback function <code class="docutils literal notranslate"><span class="pre">cb</span></code></p></li>
+<li><p><strong>options</strong> – Options to modify the behavior of this function, .e.g available move set </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Non-zero on success, 0 otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_move_neighbor_diff">
+<span class="target" id="group__neighbors_1ga7dde18e6f83355493cd698f07e259c75"></span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_neighbor_diff</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../utils/datastructures/fold_compound.html#c.vrna_fold_compound_t" title="vrna_fold_compound_t"><span class="n"><span class="pre">vrna_fold_compound_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fc</span></span>, <span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ptable</span></span>, <a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">move</span></span>, <a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">invalid_moves</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_move_neighbor_diff" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/landscape/neighbor.h&gt;</em><p>Apply a move to a secondary structure and indicate which neighbors have changed consequentially. </p>
+<p>Similar to <a class="reference internal" href="#group__neighbors_1gaa034225aad402bebd2a05dae51316f47"><span class="std std-ref">vrna_move_neighbor_diff_cb()</span></a>, this function applies a move to a secondary structure and reports back the neighbors of the current structure become affected by this move. Instead of executing a callback for each of the affected neighbors, this function compiles two lists of neighbor moves, one that is returned and consists of all moves that are novel or may have changed in energy, and a second, <code class="docutils literal notranslate"><span class="pre">invalid_moves</span></code>, that consists of all the neighbor moves that become invalid, respectively.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fc</strong> – A fold compound for the RNA sequence(s) that this function operates on </p></li>
+<li><p><strong>ptable</strong> – The current structure as pair table </p></li>
+<li><p><strong>move</strong> – The move to apply </p></li>
+<li><p><strong>invalid_moves</strong> – The address of a move list where the function stores those moves that become invalid </p></li>
+<li><p><strong>options</strong> – Options to modify the behavior of this function, .e.g available move set </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of moves that might have changed in energy or are novel compared to the structure before application of the move </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.vrna_move_s">
+<span class="target" id="structvrna__move__s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_move_s</span></span></span><a class="headerlink" href="#c.vrna_move_s" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ViennaRNA/landscape/move.h&gt;</em></div>
+<p>An atomic representation of the transition / move from one structure to its neighbor. </p>
+<p>An atomic transition / move may be one of the following:<ul class="simple">
+<li><p>a <strong>base pair insertion</strong>,</p></li>
+<li><p>a <strong>base pair removal</strong>, or</p></li>
+<li><p>a <strong>base pair shift</strong> where an existing base pair changes one of its pairing partner.</p></li>
+</ul>
+</p>
+<p>These moves are encoded by two integer values that represent the affected 5’ and 3’ nucleotide positions. Furthermore, we use the following convention on the signedness of these encodings:<ul class="simple">
+<li><p>both values are positive for <em>insertion moves</em></p></li>
+<li><p>both values are negative for <em>base pair removals</em></p></li>
+<li><p>both values have different signedness for <em>shift moves</em>, where the positive value indicates the nucleotide that stays constant, and the others absolute value is the new pairing partner</p></li>
+</ul>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A value of 0 in either field is used as list-end indicator and doesn’t represent any valid move. </p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_move_s.pos_5">
+<span class="target" id="structvrna__move__s_1a8af908c74786675a456d0f20cc8fcb9b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pos_5</span></span></span><a class="headerlink" href="#c.vrna_move_s.pos_5" title="Link to this definition"></a><br /></dt>
+<dd><p>The (absolute value of the) 5’ position of a base pair, or any position of a shifted pair. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_move_s.pos_3">
+<span class="target" id="structvrna__move__s_1a3849db905a45c4e399991df38705a36b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pos_3</span></span></span><a class="headerlink" href="#c.vrna_move_s.pos_3" title="Link to this definition"></a><br /></dt>
+<dd><p>The (absolute value of the) 3’ position of a base pair, or any position of a shifted pair. </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.vrna_move_s.next">
+<span class="target" id="structvrna__move__s_1a181681bc3aab907d93e340df4777e759"></span><a class="reference internal" href="#c.vrna_move_t" title="vrna_move_t"><span class="n"><span class="pre">vrna_move_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">next</span></span></span><a class="headerlink" href="#c.vrna_move_s.next" title="Link to this definition"></a><br /></dt>
+<dd><p>The next base pair (if an elementary move changes more than one base pair), or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> Has to be terminated with move 0,0. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../landscape.html" class="btn btn-neutral float-left" title="The RNA Secondary Structure Landscape" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="paths.html" class="btn btn-neutral float-right" title="(Re-)folding Paths, Saddle Points, Energy Barriers, and Local Minima" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

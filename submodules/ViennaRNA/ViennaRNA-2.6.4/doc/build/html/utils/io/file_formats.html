@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nucleic Acid Sequences and Structures &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Multiple Sequence Alignments" href="file_formats_msa.html" />
+    <link rel="prev" title="Files and I/O" href="../io.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../manpages.html">Manpages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_rnalib.html">Using RNAlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">Concepts and Algorithms</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../eval.html">Free Energy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../grammar.html">The RNA Folding Grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../landscape.html">The RNA Secondary Structure Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mfe.html">Minimum Free Energy (MFE) Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pf_fold.html">Partition Function and Equilibrium Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../subopt_and_representatives.html">Suboptimals and Representative Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cofold.html">RNA-RNA Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class_fold.html">Classified Dynamic Programming Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inverse.html">Inverse Folding (Design)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../probing_data.html">Experimental Structure Probing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ligand_binding.html">Ligands Binding to RNA Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paired_modules.html">Structure Modules and Pseudoknots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modified_bases.html">Post-transcriptional Base Modifications</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../utils.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../alphabet.html">Utilities to deal with Nucleotide Alphabets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../strings.html">(Nucleic Acid Sequence) String Utilitites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../structures.html">Secondary Structure Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../msa.html">Multiple Sequence Alignment Utilities</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../io.html">Files and I/O</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Nucleic Acid Sequences and Structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="file_formats_msa.html">Multiple Sequence Alignments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commands.html">Command Files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../plots.html">Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../search.html">Search Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../combinatorics.html">Combinatorics Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data_structures.html">(Abstract) Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../units.html">Unit Conversion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrna_3.0.html">RNAlib API v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../callbacks.html">Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecated.html">Deprecated List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../io.html">Files and I/O</a></li>
+      <li class="breadcrumb-item active">Nucleic Acid Sequences and Structures</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nucleic-acid-sequences-and-structures">
+<h1>Nucleic Acid Sequences and Structures<a class="headerlink" href="#nucleic-acid-sequences-and-structures" title="Link to this heading"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__file__formats"></span></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_OPTION_MULTILINE">
+<span class="target" id="group__file__formats_1gabec89c09874528c6cb73140a4c3d86d7"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_OPTION_MULTILINE</span></span></span><a class="headerlink" href="#c.VRNA_OPTION_MULTILINE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em><p>Tell a function that an input is assumed to span several lines. </p>
+<p>If used as input-option a function might also be returning this state telling that it has read data from multiple lines.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats_1gac788da233f9160b06c2e751afad8936c"><span class="std std-ref">vrna_extract_record_rest_structure()</span></a>, <a class="reference internal" href="#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a></p>
+</div>
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_CONSTRAINT_MULTILINE">
+<span class="target" id="group__file__formats_1ga7d725ef525b29891abef3f1ed42599a4"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_CONSTRAINT_MULTILINE</span></span></span><a class="headerlink" href="#c.VRNA_CONSTRAINT_MULTILINE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em><p>parse multiline constraint </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000165"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>see <a class="reference internal" href="#group__file__formats_1gac788da233f9160b06c2e751afad8936c"><span class="std std-ref">vrna_extract_record_rest_structure()</span></a></p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.VRNA_INPUT_VERBOSE">
+<span class="target" id="group__file__formats_1ga7f27c535ce0c8622ee426424a96ba7d5"></span><span class="sig-name descname"><span class="n"><span class="pre">VRNA_INPUT_VERBOSE</span></span></span><a class="headerlink" href="#c.VRNA_INPUT_VERBOSE" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_helixlist">
+<span class="target" id="group__file__formats_1gaaface7db12fadc3d271641c4515ab6e4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_helixlist</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">db</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_helixlist" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em><p>Print a secondary structure as helix list. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq</strong> – The RNA sequence </p></li>
+<li><p><strong>db</strong> – The structure in dot-bracket format </p></li>
+<li><p><strong>energy</strong> – Free energy of the structure in kcal/mol </p></li>
+<li><p><strong>file</strong> – The file handle used to print to (print defaults to ‘stdout’ if(file == NULL) ) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_connect">
+<span class="target" id="group__file__formats_1gab69682373ccca1e0e28cc967eec07745"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_connect</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">db</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">identifier</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_connect" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em><p>Print a secondary structure as connect table. </p>
+<p>Connect table file format looks like this: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">300</span>  <span class="n">ENERGY</span> <span class="o">=</span> <span class="mf">7.0</span>  <span class="n">example</span>
+<span class="o">*</span> <span class="mi">1</span> <span class="n">G</span>       <span class="mi">0</span>    <span class="mi">2</span>   <span class="mi">22</span>    <span class="mi">1</span>
+<span class="o">*</span> <span class="mi">2</span> <span class="n">G</span>       <span class="mi">1</span>    <span class="mi">3</span>   <span class="mi">21</span>    <span class="mi">2</span>
+<span class="o">*</span>
+</pre></div>
+</div>
+ where the headerline is followed by 6 columns with:<ol class="loweralpha simple">
+<li><p>Base number: index n</p></li>
+<li><p>Base (A, C, G, T, U, X)</p></li>
+<li><p>Index n-1 (0 if first nucleotide)</p></li>
+<li><p>Index n+1 (0 if last nucleotide)</p></li>
+<li><p>Number of the base to which n is paired. No pairing is indicated by 0 (zero).</p></li>
+<li><p>Natural numbering.</p></li>
+</ol>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq</strong> – The RNA sequence </p></li>
+<li><p><strong>db</strong> – The structure in dot-bracket format </p></li>
+<li><p><strong>energy</strong> – The free energy of the structure </p></li>
+<li><p><strong>identifier</strong> – An optional identifier for the sequence </p></li>
+<li><p><strong>file</strong> – The file handle used to print to (print defaults to ‘stdout’ if(file == NULL) ) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_bpseq">
+<span class="target" id="group__file__formats_1ga9b462e6f202594af5d3fa56e280d633f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_bpseq</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">db</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_bpseq" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em><p>Print a secondary structure in bpseq format. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq</strong> – The RNA sequence </p></li>
+<li><p><strong>db</strong> – The structure in dot-bracket format </p></li>
+<li><p><strong>file</strong> – The file handle used to print to (print defaults to ‘stdout’ if(file == NULL) ) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_json">
+<span class="target" id="group__file__formats_1ga31f4a6c2ea1495a6e4f9eb45a9f6193d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_json</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">seq</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">db</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">energy</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">identifier</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_json" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em><p>Print a secondary structure in jsonformat. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq</strong> – The RNA sequence </p></li>
+<li><p><strong>db</strong> – The structure in dot-bracket format </p></li>
+<li><p><strong>energy</strong> – The free energy </p></li>
+<li><p><strong>identifier</strong> – An identifier for the sequence </p></li>
+<li><p><strong>file</strong> – The file handle used to print to (print defaults to ‘stdout’ if(file == NULL) ) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_fasta_read_record">
+<span class="target" id="group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_fasta_read_record</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">header</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">rest</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_fasta_read_record" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em><p>Get a (fasta) data set from a file or stdin. </p>
+<p>This function may be used to obtain complete datasets from a filehandle or stdin. A dataset is always defined to contain at least a sequence. If data starts with a fasta header, i.e. a line like <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">some</span> <span class="n">header</span> <span class="n">info</span>
+</pre></div>
+</div>
+ then <a class="reference internal" href="#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a> will assume that the sequence that follows the header may span over several lines. To disable this behavior and to assign a single line to the argument ‘sequence’ one can pass <a class="reference internal" href="../../utils.html#group__utils_1ga0de536599b881c787b0943a2671da476"><span class="std std-ref">VRNA_INPUT_NO_SPAN</span></a> in the ‘options’ argument. If no fasta header is read in the beginning of a data block, a sequence must not span over multiple lines!</p>
+<p>Unless the options <a class="reference internal" href="../../utils.html#group__utils_1ga0f6311f11bed1842e3a527ab27b294c6"><span class="std std-ref">VRNA_INPUT_NOSKIP_COMMENTS</span></a> or <a class="reference internal" href="../../utils.html#group__utils_1gab4db885222b3b69608310d7c7e63e286"><span class="std std-ref">VRNA_INPUT_NOSKIP_BLANK_LINES</span></a><p>are passed, a sequence may be interrupted by lines starting with a comment character or empty lines.</p>
+<p>A sequence is regarded as completely read if it was either assumed to not span over multiple lines, a secondary structure or structure constraint follows the sequence on the next line, or a new header marks the beginning of a new sequence…</p>
+</p>
+<p>All lines following the sequence (this includes comments) that do not initiate a new dataset according to the above definition are available through the line-array ‘rest’. Here one can usually find the structure constraint or other information belonging to the current dataset. Filling of ‘rest’ may be prevented by passing <a class="reference internal" href="../../utils.html#group__utils_1ga7a2e8c50a0c7ce82e60da1016e1367fd"><span class="std std-ref">VRNA_INPUT_NO_REST</span></a> to the options argument.</p>
+<p>The main purpose of this function is to be able to easily parse blocks of data in the header of a loop where all calculations for the appropriate data is done inside the loop. The loop may be then left on certain return values, e.g.:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="o">**</span><span class="n">rest</span><span class="p">;</span>
+<span class="kt">int</span><span class="w">  </span><span class="n">i</span><span class="p">;</span>
+<span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="n">rest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">vrna_file_fasta_read_record</span><span class="p">(</span><span class="o">&amp;</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">seq</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">rest</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">VRNA_INPUT_ERROR</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">VRNA_INPUT_QUIT</span><span class="p">))){</span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">rest</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rest</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">      </span><span class="n">free</span><span class="p">(</span><span class="n">rest</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">rest</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">seq</span><span class="p">);</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In the example above, the while loop will be terminated when <a class="reference internal" href="#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a> returns either an error, EOF, or a user initiated quit request.</p>
+<p>As long as data is read from stdin (we are passing NULL as the file pointer), the id is printed if it is available for the current block of data. The sequence will be printed in any case and if some more lines belong to the current block of data each line will be printed as well.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><p>This function will exit any program with an error message if no sequence could be read!</p>
+<p>This function is NOT threadsafe! It uses a global variable to store information about the next data block. Do not forget to free the memory occupied by header, sequence and rest!</p>
+</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header</strong> – A pointer which will be set such that it points to the header of the record </p></li>
+<li><p><strong>sequence</strong> – A pointer which will be set such that it points to the sequence of the record </p></li>
+<li><p><strong>rest</strong> – A pointer which will be set such that it points to an array of lines which also belong to the record </p></li>
+<li><p><strong>file</strong> – A file handle to read from (if NULL, this function reads from stdin) </p></li>
+<li><p><strong>options</strong> – Some options which may be passed to alter the behavior of the function, use 0 for no options </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A flag with information about what the function actually did read </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_extract_record_rest_structure">
+<span class="target" id="group__file__formats_1gac788da233f9160b06c2e751afad8936c"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_extract_record_rest_structure</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lines</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">option</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_extract_record_rest_structure" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em><p>Extract a dot-bracket structure string from (multiline)character array. </p>
+<p>This function extracts a dot-bracket structure string from the ‘rest’ array as returned by <a class="reference internal" href="#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a> and returns it. All occurences of comments within the ‘lines’ array will be skipped as long as they do not break the structure string. If no structure could be read, this function returns NULL.</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lines</strong> – The (multiline) character array to be parsed </p></li>
+<li><p><strong>length</strong> – The assumed length of the dot-bracket string (passing a value &lt; 1 results in no length limit) </p></li>
+<li><p><strong>option</strong> – Some options which may be passed to alter the behavior of the function, use 0 for no options </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>The argument ‘lines’ has to be a 2-dimensional character array as obtained by <a class="reference internal" href="#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The dot-bracket string read from lines or NULL </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_SHAPE_read">
+<span class="target" id="group__file__formats_1ga646ebf45450a69a7f2533f9ecd283a32"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_SHAPE_read</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file_name</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">default_value</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_SHAPE_read" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em><p>Read data from a given SHAPE reactivity input file. </p>
+<p>This function parses the informations from a given file and stores the result in the preallocated string sequence and the double array values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> – Path to the constraints file </p></li>
+<li><p><strong>length</strong> – Length of the sequence (file entries exceeding this limit will cause an error) </p></li>
+<li><p><strong>default_value</strong> – Value for missing indices </p></li>
+<li><p><strong>sequence</strong> – Pointer to an array used for storing the sequence obtained from the SHAPE reactivity file </p></li>
+<li><p><strong>values</strong> – Pointer to an array used for storing the values obtained from the SHAPE reactivity file </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_connect_read_record">
+<span class="target" id="group__file__formats_1ga209f6dc03315f7f46482c2fce6b07425"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_connect_read_record</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">remainder</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_connect_read_record" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_file_RNAstrand_db_read_record">
+<span class="target" id="group__file__formats_1ga276c0201ca8e767fc292c69f587049bc"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_file_RNAstrand_db_read_record</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name_p</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence_p</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">structure_p</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source_p</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fname_p</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id_p</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_file_RNAstrand_db_read_record" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.vrna_extract_record_rest_constraint">
+<span class="target" id="group__file__formats_1ga55a9ae6dfeecc1b3f0c2acf6fa796c15"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_extract_record_rest_constraint</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">cstruc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lines</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">option</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_extract_record_rest_constraint" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em><p>Extract a hard constraint encoded as pseudo dot-bracket string. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000166"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>Use <a class="reference internal" href="#group__file__formats_1gac788da233f9160b06c2e751afad8936c"><span class="std std-ref">vrna_extract_record_rest_structure()</span></a> instead!</p>
+</dd></dl>
+
+</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a>, <a class="reference internal" href="../../grammar/constraints/hard.html#group__hard__constraints_1ga13053547a2de5532b64b64d35e097ae1"><span class="std std-ref">VRNA_CONSTRAINT_DB_PIPE</span></a>, <a class="reference internal" href="../../grammar/constraints/hard.html#group__hard__constraints_1ga369bea82eae75fbe626f409fa425747e"><span class="std std-ref">VRNA_CONSTRAINT_DB_DOT</span></a>, <a class="reference internal" href="../../grammar/constraints/hard.html#group__hard__constraints_1ga7283bbe0f8954f7b030ecc3f2d1932b2"><span class="std std-ref">VRNA_CONSTRAINT_DB_X</span></a> VRNA_CONSTRAINT_DB_ANG_BRACK, <a class="reference internal" href="../../grammar/constraints/hard.html#group__hard__constraints_1gac17b034852c914bc5879954c65d7e74b"><span class="std std-ref">VRNA_CONSTRAINT_DB_RND_BRACK</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cstruc</strong> – A pointer to a character array that is used as pseudo dot-bracket output </p></li>
+<li><p><strong>lines</strong> – A 2-dimensional character array with the extension lines from the FASTA input </p></li>
+<li><p><strong>option</strong> – The option flags that define the behavior and recognition pattern of this function </p></li>
+</ul>
+</dd>
+<dt class="field-even">Pre<span class="colon">:</span></dt>
+<dd class="field-even"><p>The argument ‘lines’ has to be a 2-dimensional character array as obtained by <a class="reference internal" href="#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.extract_record_rest_structure">
+<span class="target" id="group__file__formats_1ga9aff92bd6fa80dfb4b947a8c313c5b84"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">extract_record_rest_structure</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lines</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">option</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.extract_record_rest_structure" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.read_record">
+<span class="target" id="group__file__formats_1gafd194a69af9d92b5b0412a7627ac1595"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_record</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">header</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sequence</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">rest</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.read_record" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em><p>Get a data record from stdin. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<a class="reference internal" href="../../deprecated.html#deprecated_1_deprecated000168"><span class="std std-ref"><span class="pre">Deprecated:</span></span></a></dt>
+<dd><p>This function is deprecated! Use <a class="reference internal" href="#group__file__formats_1ga8cfb7e271efc9e1f34640acb85475639"><span class="std std-ref">vrna_file_fasta_read_record()</span></a> as a replacment.</p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_multi_input_line">
+<span class="target" id="group__file__formats_1ga61b9a7a4716c98a315ee9da411515f9c"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_multi_input_line</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_multi_input_line" title="Link to this definition"></a><br /></dt>
+<dd><em>#include &lt;ViennaRNA/io/file_formats.h&gt;</em></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../io.html" class="btn btn-neutral float-left" title="Files and I/O" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="file_formats_msa.html" class="btn btn-neutral float-right" title="Multiple Sequence Alignments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

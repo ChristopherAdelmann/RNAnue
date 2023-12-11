@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Examples &mdash; ViennaRNA Package</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Perl 5 Examples" href="perl5.html" />
+    <link rel="prev" title="C Examples" href="c.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Usage and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manpages.html">Manpages</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../using_rnalib.html">Using RNAlib</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../linking.html">Linking against RNAlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="c.html">C Examples</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Python Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mfe-prediction-flat-interface">MFE Prediction (flat interface)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mfe-prediction-object-oriented-interface">MFE Prediction (object oriented interface)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#suboptimal-structure-prediction">Suboptimal Structure Prediction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#boltzmann-sampling">Boltzmann Sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rnafold-p-mea-equivalent">RNAfold -p MEA equivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mfe-consensus-structure-prediction">MFE Consensus Structure Prediction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mfe-prediction-deviating-from-default-settings">MFE Prediction (deviating from default settings)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fun-with-soft-constraints">Fun with Soft Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parsing-alignments">Parsing Alignments</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="perl5.html">Perl 5 Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../io.html">I/O Formats</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RNAlib API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Concepts and Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrappers.html">SWIG Wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_python.html">Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">What's new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Links
+            
+            </span>
+        </p>
+        <ul>
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA"><i class="fa fa-github fa-fw"></i> Source code</a></li>
+                
+            
+                
+                    <li class="toctree-l1"><a href="https://github.com/ViennaRNA/ViennaRNA/issues"><i class="fa fa-bug fa-fw"></i> Issue tracker</a></li>
+                
+            
+        </ul>
+    
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ViennaRNA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../using_rnalib.html">Using RNAlib</a></li>
+      <li class="breadcrumb-item active">Python Examples</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-examples">
+<h1>Python Examples<a class="headerlink" href="#python-examples" title="Link to this heading"></a></h1>
+<section id="mfe-prediction-flat-interface">
+<h2>MFE Prediction (flat interface)<a class="headerlink" href="#mfe-prediction-flat-interface" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">RNA</span>
+
+<span class="c1"># The RNA sequence</span>
+<span class="n">seq</span> <span class="o">=</span> <span class="s2">&quot;GAGUAGUGGAACCAGGCUAUGUUUGUGACUCGCAGACUAACA&quot;</span>
+
+<span class="c1"># compute minimum free energy (MFE) and corresponding structure</span>
+<span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">mfe</span><span class="p">)</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+
+<span class="c1"># print output</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="s2"> [ </span><span class="si">{:6.2f}</span><span class="s2"> ]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">mfe</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="mfe-prediction-object-oriented-interface">
+<h2>MFE Prediction (object oriented interface)<a class="headerlink" href="#mfe-prediction-object-oriented-interface" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">RNA</span><span class="p">;</span>
+
+<span class="n">sequence</span> <span class="o">=</span> <span class="s2">&quot;CGCAGGGAUACCCGCG&quot;</span>
+
+<span class="c1"># create new fold_compound object</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">fold_compound</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+
+<span class="c1"># compute minimum free energy (mfe) and corresponding structure</span>
+<span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">mfe</span><span class="p">)</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">mfe</span><span class="p">()</span>
+
+<span class="c1"># print output</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> [ </span><span class="si">{:6.2f}</span><span class="s2"> ]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">mfe</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="suboptimal-structure-prediction">
+<h2>Suboptimal Structure Prediction<a class="headerlink" href="#suboptimal-structure-prediction" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">RNA</span>
+
+<span class="n">sequence</span> <span class="o">=</span> <span class="s2">&quot;GGGGAAAACCCC&quot;</span>
+
+<span class="c1"># Set global switch for unique ML decomposition</span>
+<span class="n">RNA</span><span class="o">.</span><span class="n">cvar</span><span class="o">.</span><span class="n">uniq_ML</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">subopt_data</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;counter&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;sequence&#39;</span> <span class="p">:</span> <span class="n">sequence</span> <span class="p">}</span>
+
+<span class="c1"># Print a subopt result as FASTA record</span>
+<span class="k">def</span> <span class="nf">print_subopt_result</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">structure</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;subopt </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;counter&#39;</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="s2"> [</span><span class="si">{:6.2f}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sequence&#39;</span><span class="p">],</span> <span class="n">structure</span><span class="p">,</span> <span class="n">energy</span><span class="p">))</span>
+        <span class="c1"># increase structure counter</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;counter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;counter&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="c1"># Create a &#39;fold_compound&#39; for our sequence</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">fold_compound</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+
+<span class="c1"># Enumerate all structures 500 dacal/mol = 5 kcal/mol arround</span>
+<span class="c1"># the MFE and print each structure using the function above</span>
+<span class="n">a</span><span class="o">.</span><span class="n">subopt_cb</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="n">print_subopt_result</span><span class="p">,</span> <span class="n">subopt_data</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="boltzmann-sampling">
+<h2>Boltzmann Sampling<a class="headerlink" href="#boltzmann-sampling" title="Link to this heading"></a></h2>
+<p>a.k.a. Probabilistic Backtracing</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">RNA</span>
+
+<span class="n">sequence</span> <span class="o">=</span> <span class="s2">&quot;UGGGAAUAGUCUCUUCCGAGUCUCGCGGGCGACGGGCGAUCUUCGAAAGUGGAAUCCGUACUUAUACCGCCUGUGCGGACUACUAUCCUGACCACAUAGU&quot;</span>
+
+<span class="k">def</span> <span class="nf">store_structure</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A simple callback function that stores</span>
+<span class="sd">    a structure sample into a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">s</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">First we prepare a fold_compound object</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># create model details</span>
+<span class="n">md</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">md</span><span class="p">()</span>
+
+<span class="c1"># activate unique multibranch loop decomposition</span>
+<span class="n">md</span><span class="o">.</span><span class="n">uniq_ML</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># create fold compound object</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">fold_compound</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">md</span><span class="p">)</span>
+
+<span class="c1"># compute MFE</span>
+<span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">mfe</span><span class="p">)</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">mfe</span><span class="p">()</span>
+
+<span class="c1"># rescale Boltzmann factors according to MFE</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">exp_params_rescale</span><span class="p">(</span><span class="n">mfe</span><span class="p">)</span>
+
+<span class="c1"># compute partition function to fill DP matrices</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">pf</span><span class="p">()</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Now we are ready to perform Boltzmann sampling</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># 1. backtrace a single sub-structure of length 10</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack5</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
+
+
+<span class="c1"># 2. backtrace a single sub-structure of length 50</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack5</span><span class="p">(</span><span class="mi">50</span><span class="p">)))</span>
+
+<span class="c1"># 3. backtrace multiple sub-structures of length 10 at once</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack5</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="c1"># 4. backtrace multiple sub-structures of length 50 at once</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack5</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="c1"># 5. backtrace a single structure (full length)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack</span><span class="p">()))</span>
+
+<span class="c1"># 6. backtrace multiple structures at once</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="c1"># 7. backtrace multiple structures non-redundantly</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">RNA</span><span class="o">.</span><span class="n">PBACKTRACK_NON_REDUNDANT</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="c1"># 8. backtrace multiple structures non-redundantly (with resume option)</span>
+<span class="n">num_samples</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">iterations</span>  <span class="o">=</span> <span class="mi">15</span>
+<span class="n">d</span>           <span class="o">=</span> <span class="kc">None</span> <span class="c1"># pbacktrack memory object</span>
+<span class="n">s_list</span>      <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">iterations</span><span class="p">):</span>
+    <span class="n">d</span><span class="p">,</span> <span class="n">ss</span>   <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack</span><span class="p">(</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">RNA</span><span class="o">.</span><span class="n">PBACKTRACK_NON_REDUNDANT</span><span class="p">)</span>
+    <span class="n">s_list</span>  <span class="o">=</span> <span class="n">s_list</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">ss</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">s_list</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="c1"># 9. backtrace multiple sub-structures of length 50 in callback mode</span>
+<span class="n">ss</span>  <span class="o">=</span> <span class="p">[]</span>
+<span class="n">i</span>   <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack5</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">store_structure</span><span class="p">,</span> <span class="n">ss</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ss</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="c1"># 10. backtrace multiple full-length structures in callback mode</span>
+<span class="n">ss</span>  <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">i</span>   <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">store_structure</span><span class="p">,</span> <span class="n">ss</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ss</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="c1"># 11. non-redundantly backtrace multiple full-length structures in callback mode</span>
+<span class="n">ss</span>  <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">i</span>   <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">store_structure</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">RNA</span><span class="o">.</span><span class="n">PBACKTRACK_NON_REDUNDANT</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ss</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="c1"># 12. non-redundantly backtrace multiple full length structures</span>
+<span class="c1"># in callback mode with resume option</span>
+<span class="n">ss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">d</span>  <span class="o">=</span> <span class="kc">None</span> <span class="c1"># pbacktrack memory object</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">iterations</span><span class="p">):</span>
+    <span class="n">d</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack</span><span class="p">(</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">store_structure</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">RNA</span><span class="o">.</span><span class="n">PBACKTRACK_NON_REDUNDANT</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ss</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="c1"># 13. backtrace a single substructure from the sequence interval [10:50]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack_sub</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">)))</span>
+
+<span class="c1"># 14. backtrace multiple substructures from the sequence interval [10:50]</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack_sub</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="c1"># 15. backtrace multiple substructures from the sequence interval [10:50] non-redundantly</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">fc</span><span class="o">.</span><span class="n">pbacktrack_sub</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">RNA</span><span class="o">.</span><span class="n">PBACKTRACK_NON_REDUNDANT</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="rnafold-p-mea-equivalent">
+<h2>RNAfold -p MEA equivalent<a class="headerlink" href="#rnafold-p-mea-equivalent" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">RNA</span>
+
+<span class="n">seq</span> <span class="o">=</span> <span class="s2">&quot;AUUUCCACUAGAGAAGGUCUAGAGUGUUUGUCGUUUGUCAGAAGUCCCUAUUCCAGGUACGAACACGGUGGAUAUGUUCGACGACAGGAUCGGCGCACUA&quot;</span>
+
+<span class="c1"># create fold_compound data structure (required for all subsequently applied  algorithms)</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">fold_compound</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+
+<span class="c1"># compute MFE and MFE structure</span>
+<span class="p">(</span><span class="n">mfe_struct</span><span class="p">,</span> <span class="n">mfe</span><span class="p">)</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">mfe</span><span class="p">()</span>
+
+<span class="c1"># rescale Boltzmann factors for partition function computation</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">exp_params_rescale</span><span class="p">(</span><span class="n">mfe</span><span class="p">)</span>
+
+<span class="c1"># compute partition function</span>
+<span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">pf</span><span class="p">)</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">pf</span><span class="p">()</span>
+
+<span class="c1"># compute centroid structure</span>
+<span class="p">(</span><span class="n">centroid_struct</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">centroid</span><span class="p">()</span>
+
+<span class="c1"># compute free energy of centroid structure</span>
+<span class="n">centroid_en</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">eval_structure</span><span class="p">(</span><span class="n">centroid_struct</span><span class="p">)</span>
+
+<span class="c1"># compute MEA structure</span>
+<span class="p">(</span><span class="n">MEA_struct</span><span class="p">,</span> <span class="n">MEA</span><span class="p">)</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">MEA</span><span class="p">()</span>
+
+<span class="c1"># compute free energy of MEA structure</span>
+<span class="n">MEA_en</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">eval_structure</span><span class="p">(</span><span class="n">MEA_struct</span><span class="p">)</span>
+
+<span class="c1"># print everything like RNAfold -p --MEA</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="s2"> (</span><span class="si">{:6.2f}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">mfe_struct</span><span class="p">,</span> <span class="n">mfe</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> [</span><span class="si">{:6.2f}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">pf</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> {{</span><span class="si">{:6.2f}</span><span class="s2"> d=</span><span class="si">{:.2f}</span><span class="s2">}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">centroid_struct</span><span class="p">,</span> <span class="n">centroid_en</span><span class="p">,</span> <span class="n">dist</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> {{</span><span class="si">{:6.2f}</span><span class="s2"> MEA=</span><span class="si">{:.2f}</span><span class="s2">}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">MEA_struct</span><span class="p">,</span> <span class="n">MEA_en</span><span class="p">,</span> <span class="n">MEA</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; frequency of mfe structure in ensemble </span><span class="si">{:g}</span><span class="s2">; ensemble diversity </span><span class="si">{:-6.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">pr_structure</span><span class="p">(</span><span class="n">mfe_struct</span><span class="p">),</span> <span class="n">fc</span><span class="o">.</span><span class="n">mean_bp_distance</span><span class="p">()))</span>
+</pre></div>
+</div>
+</section>
+<section id="mfe-consensus-structure-prediction">
+<h2>MFE Consensus Structure Prediction<a class="headerlink" href="#mfe-consensus-structure-prediction" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">RNA</span>
+
+<span class="c1"># The RNA sequence alignment</span>
+<span class="n">sequences</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;CUGCCUCACAACGUUUGUGCCUCAGUUACCCGUAGAUGUAGUGAGGGU&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CUGCCUCACAACAUUUGUGCCUCAGUUACUCAUAGAUGUAGUGAGGGU&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;---CUCGACACCACU---GCCUCGGUUACCCAUCGGUGCAGUGCGGGU&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># compute the consensus sequence</span>
+<span class="n">cons</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">consensus</span><span class="p">(</span><span class="n">sequences</span><span class="p">)</span>
+
+<span class="c1"># predict Minmum Free Energy and corresponding secondary structure</span>
+<span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">mfe</span><span class="p">)</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">alifold</span><span class="p">(</span><span class="n">sequences</span><span class="p">);</span>
+
+<span class="c1"># print output</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="s2"> [ </span><span class="si">{:6.2f}</span><span class="s2"> ]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cons</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">mfe</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="mfe-prediction-deviating-from-default-settings">
+<h2>MFE Prediction (deviating from default settings)<a class="headerlink" href="#mfe-prediction-deviating-from-default-settings" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">RNA</span>
+
+<span class="c1"># The RNA sequence</span>
+<span class="n">seq</span> <span class="o">=</span> <span class="s2">&quot;GAGUAGUGGAACCAGGCUAUGUUUGUGACUCGCAGACUAACA&quot;</span>
+
+<span class="c1"># create a new model details structure</span>
+<span class="n">md</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">md</span><span class="p">()</span>
+
+<span class="c1"># change temperature and dangle model</span>
+<span class="n">md</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="mf">20.0</span> <span class="c1"># 20 Deg Celcius</span>
+<span class="n">md</span><span class="o">.</span><span class="n">dangles</span>     <span class="o">=</span> <span class="mi">1</span>    <span class="c1"># Dangle Model 1</span>
+
+<span class="c1"># create a fold compound</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">fold_compound</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">md</span><span class="p">)</span>
+
+<span class="c1"># predict Minmum Free Energy and corresponding secondary structure</span>
+<span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">mfe</span><span class="p">)</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">mfe</span><span class="p">()</span>
+
+<span class="c1"># print sequence, structure and MFE</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="s2"> [ </span><span class="si">{:6.2f}</span><span class="s2"> ]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">mfe</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="fun-with-soft-constraints">
+<h2>Fun with Soft Constraints<a class="headerlink" href="#fun-with-soft-constraints" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">RNA</span>
+
+<span class="n">seq1</span> <span class="o">=</span> <span class="s2">&quot;CUCGUCGCCUUAAUCCAGUGCGGGCGCUAGACAUCUAGUUAUCGCCGCAA&quot;</span>
+
+<span class="c1"># Turn-off dangles globally</span>
+<span class="n">RNA</span><span class="o">.</span><span class="n">cvar</span><span class="o">.</span><span class="n">dangles</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Data structure that will be passed to our MaximumMatching() callback with two components:</span>
+<span class="c1"># 1. a &#39;dummy&#39; fold_compound to evaluate loop energies w/o constraints, 2. a fresh set of energy parameters</span>
+<span class="n">mm_data</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;dummy&#39;</span><span class="p">:</span> <span class="n">RNA</span><span class="o">.</span><span class="n">fold_compound</span><span class="p">(</span><span class="n">seq1</span><span class="p">),</span> <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="n">RNA</span><span class="o">.</span><span class="n">param</span><span class="p">()</span> <span class="p">}</span>
+
+<span class="c1"># Nearest Neighbor Parameter reversal functions</span>
+<span class="n">revert_NN</span> <span class="o">=</span> <span class="p">{</span> 
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_PAIR_HP</span><span class="p">:</span>       <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">eval_hp_loop</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_PAIR_IL</span><span class="p">:</span>       <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">eval_int_loop</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="o">-</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_PAIR_ML</span><span class="p">:</span>       <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">MLclosing</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">MLintern</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">MLbase</span> <span class="o">-</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_ML_ML_STEM</span><span class="p">:</span>    <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">MLintern</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">MLbase</span><span class="p">,</span>
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_ML_STEM</span><span class="p">:</span>       <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">MLintern</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="n">l</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">MLbase</span><span class="p">,</span>
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_ML_ML</span><span class="p">:</span>         <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="n">l</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">MLbase</span><span class="p">,</span>
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_ML_ML_ML</span><span class="p">:</span>      <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_ML_UP</span><span class="p">:</span>         <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">MLbase</span><span class="p">,</span>
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_EXT_STEM</span><span class="p">:</span>      <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">eval_ext_stem</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">),</span>
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_EXT_EXT</span><span class="p">:</span>       <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_EXT_STEM_EXT</span><span class="p">:</span>  <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">eval_ext_stem</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span>
+    <span class="n">RNA</span><span class="o">.</span><span class="n">DECOMP_EXT_EXT_STEM</span><span class="p">:</span>  <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">eval_ext_stem</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span>
+            <span class="p">}</span>
+
+<span class="c1"># Maximum Matching callback function (will be called by RNAlib in each decomposition step)</span>
+<span class="k">def</span> <span class="nf">MaximumMatching</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">revert_NN</span><span class="p">[</span><span class="n">d</span><span class="p">](</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;dummy&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">])</span>
+
+<span class="c1"># Create a &#39;fold_compound&#39; for our sequence</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">fold_compound</span><span class="p">(</span><span class="n">seq1</span><span class="p">)</span>
+
+<span class="c1"># Add maximum matching soft-constraints</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">sc_add_f</span><span class="p">(</span><span class="n">MaximumMatching</span><span class="p">)</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">sc_add_data</span><span class="p">(</span><span class="n">mm_data</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Call MFE algorithm</span>
+<span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">mm</span><span class="p">)</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">mfe</span><span class="p">()</span>
+
+<span class="c1"># print result</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="s2"> (MM: </span><span class="si">{:d}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="n">mm</span><span class="p">)))</span>
+
+</pre></div>
+</div>
+</section>
+<section id="parsing-alignments">
+<h2>Parsing Alignments<a class="headerlink" href="#parsing-alignments" title="Link to this heading"></a></h2>
+<p>Reading the first entry from a STOCKHOLM 1.0 formatted MSA file <code class="docutils literal notranslate"><span class="pre">msa.stk</span></code> may look like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">num</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">aln</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">ss</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">file_msa_read</span><span class="p">(</span><span class="s2">&quot;msa.stk&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Similarly, if the file contains more than one alignment, one can use the <a class="reference internal" href="../api_python.html#RNA.file_msa_read_record" title="RNA.file_msa_read_record"><code class="xref py py-func docutils literal notranslate"><span class="pre">RNA.file_msa_read_record()</span></code></a>
+function to subsequently read each alignment separately:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;msa.stk&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">num</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">aln</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">ss</span> <span class="o">=</span> <span class="n">RNA</span><span class="o">.</span><span class="n">file_msa_read_record</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">elif</span> <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;empty alignment&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">aln</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After successfully reading the first record, the variable <code class="docutils literal notranslate"><span class="pre">num</span></code> contains the number of
+sequences in the alignment (the actual return value of the C-function), while the variables
+<code class="docutils literal notranslate"><span class="pre">names</span></code>, <code class="docutils literal notranslate"><span class="pre">aln</span></code>, <code class="docutils literal notranslate"><span class="pre">id</span></code>, and <code class="docutils literal notranslate"><span class="pre">ss</span></code> are lists of the sequence names and aligned sequences,
+as well as strings holding the alignment ID and the structure as stated in the <code class="docutils literal notranslate"><span class="pre">SS_cons</span></code> line,
+respectively.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The last two return values may be empty strings in case the alignment does not provide
+the required data.</p>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="c.html" class="btn btn-neutral float-left" title="C Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="perl5.html" class="btn btn-neutral float-right" title="Perl 5 Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1994 - 2023, Ronny Lorenz, Ivo L. Hofacker, et al..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

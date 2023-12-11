@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="edit__cost_8h" kind="file" language="C++">
+    <compoundname>edit_cost.h</compoundname>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="edit__cost_8h_1a5e151c615eda34903514212f05a5ccf8" prot="public" static="no">
+        <name>PRIVATE</name>
+        <initializer>static</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/edit_cost.h" line="6" column="9" bodyfile="ViennaRNA/edit_cost.h" bodystart="6" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edit__cost_8h_1af69cf5890f7d2ec10fb217de3ed100a1" prot="public" static="no">
+        <name>DIST_INF</name>
+        <initializer>10000  /* infinity */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/edit_cost.h" line="11" column="9" bodyfile="ViennaRNA/edit_cost.h" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="edit__cost_8h_1a92d274fbf287cf304b0668563743669b" prot="public" static="no">
+        <type>int</type>
+        <definition>typedef int CostMatrix[10][10]</definition>
+        <argsstring>[10][10]</argsstring>
+        <name>CostMatrix</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/edit_cost.h" line="13" column="13" bodyfile="ViennaRNA/edit_cost.h" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="edit__cost_8h_1a2f44b091be60ccdd664997eb163d2ff4" prot="public" static="yes" mutable="no">
+        <type>char</type>
+        <definition>char sep</definition>
+        <argsstring></argsstring>
+        <name>sep</name>
+        <initializer>= &apos;:&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/edit_cost.h" line="8" column="15" bodyfile="ViennaRNA/edit_cost.h" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="edit__cost_8h_1ac41e3012035ff423d506fcda00e68e39" prot="public" static="yes" mutable="no">
+        <type>char *</type>
+        <definition>char* coding</definition>
+        <argsstring></argsstring>
+        <name>coding</name>
+        <initializer>= &quot;Null:U:P:H:B:I:M:S:E:R&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/edit_cost.h" line="9" column="14" bodyfile="ViennaRNA/edit_cost.h" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="edit__cost_8h_1a4b2c3dbaaf8d940cad775933b1192994" prot="public" static="yes" mutable="no">
+        <type>CostMatrix *</type>
+        <definition>CostMatrix* EditCost</definition>
+        <argsstring></argsstring>
+        <name>EditCost</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/edit_cost.h" line="15" column="19" bodyfile="ViennaRNA/edit_cost.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="edit__cost_8h_1a11ae721f907254c7d522d9de7c5d9474" prot="public" static="yes" mutable="no">
+        <type>CostMatrix</type>
+        <definition>CostMatrix UsualCost</definition>
+        <argsstring></argsstring>
+        <name>UsualCost</name>
+        <initializer>=
+{
+
+
+
+   {        0,        1,        2,        2,        2,        2,        2,        1,        1, DIST_INF},   
+   {        1,        0,        1, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF},   
+   {        2,        1,        0, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF},   
+   {        2, DIST_INF, DIST_INF,        0,        2,        2,        2, DIST_INF, DIST_INF, DIST_INF},   
+   {        2, DIST_INF, DIST_INF,        2,        0,        1,        2, DIST_INF, DIST_INF, DIST_INF},   
+   {        2, DIST_INF, DIST_INF,        2,        1,        0,        2, DIST_INF, DIST_INF, DIST_INF},   
+   {        2, DIST_INF, DIST_INF,        2,        2,        2,        0, DIST_INF, DIST_INF, DIST_INF},   
+   {        1, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF,        0, DIST_INF, DIST_INF},   
+   {        1, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF,        0, DIST_INF},   
+   { DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF,        0},   
+
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/edit_cost.h" line="17" column="20" bodyfile="ViennaRNA/edit_cost.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="edit__cost_8h_1ab582cb25302d7071b5cfee41049955ee" prot="public" static="yes" mutable="no">
+        <type>CostMatrix</type>
+        <definition>CostMatrix ShapiroCost</definition>
+        <argsstring></argsstring>
+        <name>ShapiroCost</name>
+        <initializer>=
+{
+
+
+
+   {        0,        1,        2,      100,        5,        5,       75,        5,        5, DIST_INF},   
+   {        1,        0,        1, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF},   
+   {        2,        1,        0, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF},   
+   {      100, DIST_INF, DIST_INF,        0,        8,        8,        8, DIST_INF, DIST_INF, DIST_INF},   
+   {        5, DIST_INF, DIST_INF,        8,        0,        3,        8, DIST_INF, DIST_INF, DIST_INF},   
+   {        5, DIST_INF, DIST_INF,        8,        3,        0,        8, DIST_INF, DIST_INF, DIST_INF},   
+   {       75, DIST_INF, DIST_INF,        8,        8,        8,        0, DIST_INF, DIST_INF, DIST_INF},   
+   {        5, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF,        0, DIST_INF, DIST_INF},   
+   {        5, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF,        0, DIST_INF},   
+   { DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF, DIST_INF,        0},   
+
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/edit_cost.h" line="36" column="19" bodyfile="ViennaRNA/edit_cost.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>global variables for Edit Costs included by treedist.c and stringdist.c </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PRIVATE<sp/>static</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">PRIVATE<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><sp/><sp/>sep<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="charliteral">&apos;:&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">PRIVATE<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><sp/>*coding<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Null:U:P:H:B:I:M:S:E:R&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DIST_INF<sp/>10000<sp/><sp/></highlight><highlight class="comment">/*<sp/>infinity<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>CostMatrix[10][10];</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal">PRIVATE<sp/>CostMatrix<sp/>*EditCost;<sp/><sp/></highlight><highlight class="comment">/*<sp/>will<sp/>point<sp/>to<sp/>UsualCost<sp/>or<sp/>ShapiroCost<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal">PRIVATE<sp/>CostMatrix<sp/><sp/>UsualCost<sp/>=</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/><sp/><sp/>Null,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>P,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>H,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>B,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>I,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>M,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>S,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>E,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R<sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Null<sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>U<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>P<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>H<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>B<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>I<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>M<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>S<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>E<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/>{<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>R<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">PRIVATE<sp/>CostMatrix<sp/>ShapiroCost<sp/>=</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/><sp/><sp/>Null,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>P,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>H,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>B,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>I,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>M,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>S,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>E,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R<sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/>100,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>75,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Null<sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>U<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>P<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/>100,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>H<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>3,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>B<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>3,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>I<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/>75,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>M<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>DIST_INF,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>S<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>DIST_INF},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>E<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/>{<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/>DIST_INF,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0},<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>R<sp/><sp/><sp/><sp/>replaced<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="ViennaRNA/edit_cost.h"/>
+  </compounddef>
+</doxygen>

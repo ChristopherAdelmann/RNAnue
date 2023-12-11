@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__file__utils" kind="group">
+    <compoundname>file_utils</compoundname>
+    <title>Files and I/O</title>
+    <innerfile refid="commands_8h">commands.h</innerfile>
+    <innerfile refid="ribo_8h">ribo.h</innerfile>
+    <innerfile refid="io_2file__formats_8h">file_formats.h</innerfile>
+    <innerfile refid="io_2file__formats__msa_8h">file_formats_msa.h</innerfile>
+    <innerfile refid="io_2utils_8h">utils.h</innerfile>
+    <innergroup refid="group__file__formats">Nucleic Acid Sequences and Structures</innergroup>
+    <innergroup refid="group__file__formats__msa">Multiple Sequence Alignments</innergroup>
+    <innergroup refid="group__command__files">Command Files</innergroup>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__file__utils_1gafea21dc418a77f5fe583d63d9972da9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float **</type>
+        <definition>float ** get_ribosum</definition>
+        <argsstring>(const char **Alseq, int n_seq, int length)</argsstring>
+        <name>get_ribosum</name>
+        <param>
+          <type>const char **</type>
+          <declname>Alseq</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>n_seq</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a RiboSum Scoring Matrix for a given Alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/ribo.h" line="22" column="7" declfile="ViennaRNA/ribo.h" declline="22" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__utils_1gaa6abc35f1fc474c0826bae6c7ce51583" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float **</type>
+        <definition>float ** readribosum</definition>
+        <argsstring>(char *name)</argsstring>
+        <name>readribosum</name>
+        <param>
+          <type>char *</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Read a RiboSum or other user-defined Scoring Matrix and Store into global Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/ribo.h" line="31" column="7" declfile="ViennaRNA/ribo.h" declline="31" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__utils_1ga4382a56d2fee9ed738364b99329edc7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_file_copy</definition>
+        <argsstring>(FILE *from, FILE *to)</argsstring>
+        <name>vrna_file_copy</name>
+        <param>
+          <type>FILE *</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Inefficient <lsquo/>cp<rsquo/>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/utils.h" line="20" column="6" declfile="ViennaRNA/io/utils.h" declline="20" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__utils_1gaed2a3fdeab38ede529ff3c9d02ef3415" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_read_line</definition>
+        <argsstring>(FILE *fp)</argsstring>
+        <name>vrna_read_line</name>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+        </param>
+        <briefdescription>
+<para>Read a line of arbitrary length from a stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a pointer to the resulting string. The necessary memory is allocated and should be released using <emphasis>free()</emphasis> when the string is no longer needed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file pointer to the stream where the function should read from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the resulting string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/utils.h" line="34" column="6" declfile="ViennaRNA/io/utils.h" declline="34" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__utils_1gacfa44a974272a4d42c5d391cc780a0ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_mkdir_p</definition>
+        <argsstring>(const char *path)</argsstring>
+        <name>vrna_mkdir_p</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Recursivly create a directory tree. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/utils.h" line="40" column="5" declfile="ViennaRNA/io/utils.h" declline="40" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__utils_1ga2651f14d45847757e32a9f8a44d272fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_basename</definition>
+        <argsstring>(const char *path)</argsstring>
+        <name>vrna_basename</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Extract the filename from a file path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/utils.h" line="46" column="6" declfile="ViennaRNA/io/utils.h" declline="46" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__utils_1ga5da9ff6aaba9c9cec721e58d44947426" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_dirname</definition>
+        <argsstring>(const char *path)</argsstring>
+        <name>vrna_dirname</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Extract the directory part of a file path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/utils.h" line="52" column="6" declfile="ViennaRNA/io/utils.h" declline="52" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__utils_1ga906922daed59145d1fc5dffa1a1a0785" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_filename_sanitize</definition>
+        <argsstring>(const char *name, const char *replacement)</argsstring>
+        <name>vrna_filename_sanitize</name>
+        <param>
+          <type>const char *</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>replacement</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize a file name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a new file name where all invalid characters are substituted by a replacement character. If no replacement character is supplied, invalid characters are simply removed from the filename. File names may also never exceed a length of 255 characters. Longer file names will undergo a &apos;smart&apos; truncation process, where the filenames<lsquo/> suffix, i.e. everything after the last dot <rsquo/>.&apos;, is attempted to be kept intact. Hence, only the filename part before the suffix is reduced in such a way that the total filename complies to the length restriction of 255 characters. If no suffix is present or the suffix itself already exceeds the maximum length, the filename is simply truncated from the back of the string.</para>
+<para>For now we consider the following characters invalid:<itemizedlist>
+<listitem><para>backslash &apos;\&apos;</para>
+</listitem><listitem><para>slash &apos;/&apos;</para>
+</listitem><listitem><para>question mark &apos;?&apos;</para>
+</listitem><listitem><para>percent sign &apos;&apos;</para>
+</listitem><listitem><para>asterisk &apos;*&apos;</para>
+</listitem><listitem><para>colon &apos;:&apos;</para>
+</listitem><listitem><para>pipe symbol &apos;|&apos;</para>
+</listitem><listitem><para>double quote &apos;&quot;&apos;</para>
+</listitem><listitem><para>triangular brackets &apos;&lt;&apos; and &apos;&gt;&apos;</para>
+</listitem></itemizedlist>
+</para>
+<para>Furthermore, the (resulting) file name must not be a reserved file name, such as:<itemizedlist>
+<listitem><para>&apos;.&apos;</para>
+</listitem><listitem><para>&apos;..&apos;</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>This function allocates a new block of memory for the sanitized string. It also may return (a) NULL if the input is pointing to NULL, or (b) an empty string if the input only consists of invalid characters which are simply removed!</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input file name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replacement</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The replacement character, or NULL </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The sanitized file name, or NULL </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/utils.h" line="96" column="6" declfile="ViennaRNA/io/utils.h" declline="96" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__file__utils_1ga80cf1f4bb5704622f72f2911f48aee55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_file_exists</definition>
+        <argsstring>(const char *filename)</argsstring>
+        <name>vrna_file_exists</name>
+        <param>
+          <type>const char *</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Check if a file already exists in the file system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of (path to) the file to check for existence </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 if it doesn&apos;t exists, 1 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/io/utils.h" line="107" column="1" declfile="ViennaRNA/io/utils.h" declline="107" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

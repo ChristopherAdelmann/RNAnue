@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__command__files" kind="group">
+    <compoundname>command_files</compoundname>
+    <title>Command Files</title>
+    <innerfile refid="commands_8h">commands.h</innerfile>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__command__files_1gaf31afe4c5f8e4bf44a670ab4c3dcd916" prot="public" static="no">
+        <type>struct vrna_command_s *</type>
+        <definition>typedef struct vrna_command_s* vrna_cmd_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_cmd_t</name>
+        <briefdescription>
+<para>A data structure that contains commands. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/commands.h" line="18" column="29" bodyfile="ViennaRNA/commands.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__command__files_1gae5f56400ed43683338f7bf1c1102655a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__command__files_1gaf31afe4c5f8e4bf44a670ab4c3dcd916" kindref="member">vrna_cmd_t</ref></type>
+        <definition>vrna_cmd_t vrna_file_commands_read</definition>
+        <argsstring>(const char *filename, unsigned int options)</argsstring>
+        <name>vrna_file_commands_read</name>
+        <param>
+          <type>const char *</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Extract a list of commands from a command file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Read a list of commands specified in the input file and return them as list of abstract commands</para>
+<para><simplesect kind="see"><para><ref refid="group__command__files_1ga9232cb0efe364086a8a5ee1449e537ba" kindref="member">vrna_commands_apply()</ref>, <ref refid="group__command__files_1ga3118909bd91ecaeb4663b2e3bc2d5edd" kindref="member">vrna_file_commands_apply()</ref>, <ref refid="group__command__files_1ga3dc372dcbb43d2c4c91b5ef79b460428" kindref="member">vrna_commands_free()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filename </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options to limit the type of commands read from the file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of abstract commands</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000033"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as global function <computeroutput>file_commands_read()</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.file_commands_read()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/commands.h" line="74" column="1" declfile="ViennaRNA/commands.h" declline="74" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__command__files_1ga3118909bd91ecaeb4663b2e3bc2d5edd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_file_commands_apply</definition>
+        <argsstring>(vrna_fold_compound_t *fc, const char *filename, unsigned int options)</argsstring>
+        <name>vrna_file_commands_apply</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Apply a list of commands from a command file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is a shortcut to directly parse a commands file and apply all successfully parsed commands to a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> data structure. It is the same as: <programlisting filename="commands.c"><codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">vrna_command_s<sp/>*cmds;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>cmds<sp/><sp/>=<sp/><ref refid="group__command__files_1gae5f56400ed43683338f7bf1c1102655a" kindref="member">vrna_file_commands_read</ref>(filename,<sp/>options);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>r<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="group__command__files_1ga9232cb0efe364086a8a5ee1449e537ba" kindref="member">vrna_commands_apply</ref>(vc,<sp/>cmds,<sp/>options);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="group__command__files_1ga3dc372dcbb43d2c4c91b5ef79b460428" kindref="member">vrna_commands_free</ref>(cmds);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> the command list will be applied to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filename </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options to limit the type of commands read from the file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number of commands successfully applied</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000034"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>file_commands_apply()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.file_commands_apply()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/commands.h" line="92" column="1" declfile="ViennaRNA/commands.h" declline="92" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__command__files_1ga9232cb0efe364086a8a5ee1449e537ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int vrna_commands_apply</definition>
+        <argsstring>(vrna_fold_compound_t *fc, vrna_cmd_t commands, unsigned int options)</argsstring>
+        <name>vrna_commands_apply</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type><ref refid="group__command__files_1gaf31afe4c5f8e4bf44a670ab4c3dcd916" kindref="member">vrna_cmd_t</ref></type>
+          <declname>commands</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Apply a list of commands to a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> the command list will be applied to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>commands</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The commands to apply </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options to limit the type of commands read from the file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number of commands successfully applied</para>
+</simplesect>
+<xrefsect id="wrappers_1_wrappers000035"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>commands_apply()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.commands_apply()` in the :doc:`/api_python` </verbatim>. </para>
+</parblock></para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/commands.h" line="106" column="1" declfile="ViennaRNA/commands.h" declline="106" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__command__files_1ga3dc372dcbb43d2c4c91b5ef79b460428" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vrna_commands_free</definition>
+        <argsstring>(vrna_cmd_t commands)</argsstring>
+        <name>vrna_commands_free</name>
+        <param>
+          <type><ref refid="group__command__files_1gaf31afe4c5f8e4bf44a670ab4c3dcd916" kindref="member">vrna_cmd_t</ref></type>
+          <declname>commands</declname>
+        </param>
+        <briefdescription>
+<para>Free memory occupied by a list of commands. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Release memory occupied by a list of commands <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>commands</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a list of commands </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/commands.h" line="118" column="1" declfile="ViennaRNA/commands.h" declline="118" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__command__files_1gac54dec838d7b6bebd5df85f71702d324" prot="public" static="no">
+        <name>VRNA_CMD_PARSE_HC</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+<para>Command parse/apply flag indicating hard constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__command__files_1gaf31afe4c5f8e4bf44a670ab4c3dcd916" kindref="member">vrna_cmd_t</ref>, <ref refid="group__command__files_1gae5f56400ed43683338f7bf1c1102655a" kindref="member">vrna_file_commands_read()</ref>, <ref refid="group__command__files_1ga3118909bd91ecaeb4663b2e3bc2d5edd" kindref="member">vrna_file_commands_apply()</ref>, <ref refid="group__command__files_1ga9232cb0efe364086a8a5ee1449e537ba" kindref="member">vrna_commands_apply()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/commands.h" line="28" column="9" bodyfile="ViennaRNA/commands.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__command__files_1ga8cad3c1f83e6f149829c49a186a83e21" prot="public" static="no">
+        <name>VRNA_CMD_PARSE_SC</name>
+        <initializer>2U</initializer>
+        <briefdescription>
+<para>Command parse/apply flag indicating soft constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__command__files_1gaf31afe4c5f8e4bf44a670ab4c3dcd916" kindref="member">vrna_cmd_t</ref>, <ref refid="group__command__files_1gae5f56400ed43683338f7bf1c1102655a" kindref="member">vrna_file_commands_read()</ref>, <ref refid="group__command__files_1ga3118909bd91ecaeb4663b2e3bc2d5edd" kindref="member">vrna_file_commands_apply()</ref>, <ref refid="group__command__files_1ga9232cb0efe364086a8a5ee1449e537ba" kindref="member">vrna_commands_apply()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/commands.h" line="34" column="9" bodyfile="ViennaRNA/commands.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__command__files_1ga6c6409780698826b04ebfed9151d7649" prot="public" static="no">
+        <name>VRNA_CMD_PARSE_UD</name>
+        <initializer>4U</initializer>
+        <briefdescription>
+<para>Command parse/apply flag indicating unstructured domains. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__command__files_1gaf31afe4c5f8e4bf44a670ab4c3dcd916" kindref="member">vrna_cmd_t</ref>, <ref refid="group__command__files_1gae5f56400ed43683338f7bf1c1102655a" kindref="member">vrna_file_commands_read()</ref>, <ref refid="group__command__files_1ga3118909bd91ecaeb4663b2e3bc2d5edd" kindref="member">vrna_file_commands_apply()</ref>, <ref refid="group__command__files_1ga9232cb0efe364086a8a5ee1449e537ba" kindref="member">vrna_commands_apply()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/commands.h" line="40" column="9" bodyfile="ViennaRNA/commands.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__command__files_1gaf5e20210173cdb83bf70256a454f284b" prot="public" static="no">
+        <name>VRNA_CMD_PARSE_SD</name>
+        <initializer>8U</initializer>
+        <briefdescription>
+<para>Command parse/apply flag indicating structured domains. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__command__files_1gaf31afe4c5f8e4bf44a670ab4c3dcd916" kindref="member">vrna_cmd_t</ref>, <ref refid="group__command__files_1gae5f56400ed43683338f7bf1c1102655a" kindref="member">vrna_file_commands_read()</ref>, <ref refid="group__command__files_1ga3118909bd91ecaeb4663b2e3bc2d5edd" kindref="member">vrna_file_commands_apply()</ref>, <ref refid="group__command__files_1ga9232cb0efe364086a8a5ee1449e537ba" kindref="member">vrna_commands_apply()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/commands.h" line="46" column="9" bodyfile="ViennaRNA/commands.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__command__files_1ga0a6c88e21e366dca14958d69cd024008" prot="public" static="no">
+        <name>VRNA_CMD_PARSE_DEFAULTS</name>
+        <initializer>                                 (<ref refid="group__command__files_1gac54dec838d7b6bebd5df85f71702d324" kindref="member">VRNA_CMD_PARSE_HC</ref> \
+                                 | <ref refid="group__command__files_1ga8cad3c1f83e6f149829c49a186a83e21" kindref="member">VRNA_CMD_PARSE_SC</ref> \
+                                 | <ref refid="group__command__files_1ga6c6409780698826b04ebfed9151d7649" kindref="member">VRNA_CMD_PARSE_UD</ref> \
+                                 | <ref refid="group__command__files_1gaf5e20210173cdb83bf70256a454f284b" kindref="member">VRNA_CMD_PARSE_SD</ref> \
+                                 )</initializer>
+        <briefdescription>
+<para>Command parse/apply flag indicating default set of commands. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="group__command__files_1gaf31afe4c5f8e4bf44a670ab4c3dcd916" kindref="member">vrna_cmd_t</ref>, <ref refid="group__command__files_1gae5f56400ed43683338f7bf1c1102655a" kindref="member">vrna_file_commands_read()</ref>, <ref refid="group__command__files_1ga3118909bd91ecaeb4663b2e3bc2d5edd" kindref="member">vrna_file_commands_apply()</ref>, <ref refid="group__command__files_1ga9232cb0efe364086a8a5ee1449e537ba" kindref="member">vrna_commands_apply()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/commands.h" line="52" column="9" bodyfile="ViennaRNA/commands.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__command__files_1ga8d6c5d6d2936464a11f542b843bd1610" prot="public" static="no">
+        <name>VRNA_CMD_PARSE_SILENT</name>
+        <initializer>16U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/commands.h" line="58" column="9" bodyfile="ViennaRNA/commands.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Functions to parse and interpret the content of constraint-formats-file. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

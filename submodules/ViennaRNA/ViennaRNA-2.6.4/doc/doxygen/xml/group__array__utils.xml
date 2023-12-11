@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__array__utils" kind="group">
+    <compoundname>array_utils</compoundname>
+    <title>Arrays</title>
+    <innerfile refid="array_8h">array.h</innerfile>
+    <innerclass refid="structvrna__array__header__s" prot="public">vrna_array_header_s</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__array__utils_1gae5058b15eb7d97c5a5aadda15957c3c5" prot="public" static="no">
+        <type>struct <ref refid="structvrna__array__header__s" kindref="compound">vrna_array_header_s</ref></type>
+        <definition>typedef struct vrna_array_header_s vrna_array_header_t</definition>
+        <argsstring></argsstring>
+        <name>vrna_array_header_t</name>
+        <briefdescription>
+<para>The header of an array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="32" column="21"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__array__utils_1gac476667891b09a95b8b43ef73657c8ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * vrna__array_set_capacity</definition>
+        <argsstring>(void *array, size_t capacity, size_t element_size)</argsstring>
+        <name>vrna__array_set_capacity</name>
+        <param>
+          <type>void *</type>
+          <declname>array</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>element_size</declname>
+        </param>
+        <briefdescription>
+<para>Explicitely set the capacity of an array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Do not use this function. Rather resort to the <ref refid="group__array__utils_1gae10b43a9d87c9dbc32674b3d89a28580" kindref="member">vrna_array_set_capacity</ref> macro </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="82" column="1" declfile="ViennaRNA/datastructures/array.h" declline="82" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__array__utils_1ga97302e41c5c33faae998eb956c8f1f91" prot="public" static="no">
+        <name>vrna_array</name>
+        <param><defname>Type</defname></param>
+        <initializer>Type *</initializer>
+        <briefdescription>
+<para>Define an array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="37" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__array__utils_1ga163bb41feb9b5e3a3a64272c29aff02e" prot="public" static="no">
+        <name>vrna_array_make</name>
+        <param><defname>Type</defname></param>
+        <param><defname>Name</defname></param>
+        <initializer>Type * Name; <ref refid="group__array__utils_1gae89f7b8409aea39fa43c95cb9f9fbffe" kindref="member">vrna_array_init</ref>(Name)</initializer>
+        <briefdescription>
+<para>Make an array <computeroutput>Name</computeroutput> of type <computeroutput>Type</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="42" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__array__utils_1ga8b6225c59d71c3e7db577c64144a8c33" prot="public" static="no">
+        <name>VRNA_ARRAY_GROW_FORMULA</name>
+        <param><defname>n</defname></param>
+        <initializer>(1.4 * (n) + 8)</initializer>
+        <briefdescription>
+<para>The default growth formula for array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="49" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__array__utils_1gaad964f70514d8ff3a8c1ebab4ffca148" prot="public" static="no">
+        <name>VRNA_ARRAY_HEADER</name>
+        <param><defname>input</defname></param>
+        <initializer>((<ref refid="group__array__utils_1gae5058b15eb7d97c5a5aadda15957c3c5" kindref="member">vrna_array_header_t</ref> *)(input) - 1)</initializer>
+        <briefdescription>
+<para>Retrieve a pointer to the header of an array <computeroutput>input</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="55" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__array__utils_1ga19c467225b21d15618d8b2d436f88572" prot="public" static="no">
+        <name>vrna_array_size</name>
+        <param><defname>input</defname></param>
+        <initializer>(<ref refid="group__array__utils_1gaad964f70514d8ff3a8c1ebab4ffca148" kindref="member">VRNA_ARRAY_HEADER</ref>(input)-&gt;num)</initializer>
+        <briefdescription>
+<para>Get the number of elements of an array <computeroutput>input</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="59" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__array__utils_1gac41fc88614162b63643bcd0b6cf59eda" prot="public" static="no">
+        <name>vrna_array_capacity</name>
+        <param><defname>input</defname></param>
+        <initializer>(<ref refid="group__array__utils_1gaad964f70514d8ff3a8c1ebab4ffca148" kindref="member">VRNA_ARRAY_HEADER</ref>(input)-&gt;size)</initializer>
+        <briefdescription>
+<para>Get the size of an array <computeroutput>input</computeroutput>, i.e. its actual capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="63" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__array__utils_1gae10b43a9d87c9dbc32674b3d89a28580" prot="public" static="no">
+        <name>vrna_array_set_capacity</name>
+        <param><defname>a</defname></param>
+        <param><defname>capacity</defname></param>
+        <initializer>  do { \
+  if (a) { \
+    void **a_ptr = (void **)&amp;(a); \
+    *a_ptr = <ref refid="group__array__utils_1gac476667891b09a95b8b43ef73657c8ae" kindref="member">vrna__array_set_capacity</ref>((a), (capacity), sizeof(*(a))); \
+  } \
+} while (0)</initializer>
+        <briefdescription>
+<para>Explicitely set the capacity of an array <computeroutput>a</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="68" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__array__utils_1ga6dc975fd556e2bb40d7ca420b3288249" prot="public" static="no">
+        <name>vrna_array_init_size</name>
+        <param><defname>a</defname></param>
+        <param><defname>init_size</defname></param>
+        <initializer>  do { \
+  void **a_ptr = (void **)&amp;(a); \
+  size_t size = sizeof(*(a)) * (init_size) + sizeof(<ref refid="group__array__utils_1gae5058b15eb7d97c5a5aadda15957c3c5" kindref="member">vrna_array_header_t</ref>); \
+  <ref refid="group__array__utils_1gae5058b15eb7d97c5a5aadda15957c3c5" kindref="member">vrna_array_header_t</ref> *h = (void *)<ref refid="group__utils_1gafae44c31c8772450d6c674a582be3e3c" kindref="member">vrna_alloc</ref>(size); \
+  h-&gt;num           = 0; \
+  h-&gt;size          = init_size; \
+  *a_ptr           = (void *)(h + 1); \
+} while (0)</initializer>
+        <briefdescription>
+<para>Initialize an array <computeroutput>a</computeroutput> with a particular pre-allocated size <computeroutput>init_size</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="90" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__array__utils_1gae89f7b8409aea39fa43c95cb9f9fbffe" prot="public" static="no">
+        <name>vrna_array_init</name>
+        <param><defname>a</defname></param>
+        <initializer><ref refid="group__array__utils_1ga6dc975fd556e2bb40d7ca420b3288249" kindref="member">vrna_array_init_size</ref>(a, <ref refid="group__array__utils_1ga8b6225c59d71c3e7db577c64144a8c33" kindref="member">VRNA_ARRAY_GROW_FORMULA</ref>(0));</initializer>
+        <briefdescription>
+<para>Initialize an array <computeroutput>a</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="102" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__array__utils_1gac6464c225211e87eafb15f39f224cc99" prot="public" static="no">
+        <name>vrna_array_free</name>
+        <param><defname>a</defname></param>
+        <initializer>  do { \
+  <ref refid="group__array__utils_1gae5058b15eb7d97c5a5aadda15957c3c5" kindref="member">vrna_array_header_t</ref> *h = <ref refid="group__array__utils_1gaad964f70514d8ff3a8c1ebab4ffca148" kindref="member">VRNA_ARRAY_HEADER</ref>(a); \
+  free(h); \
+} while (0)</initializer>
+        <briefdescription>
+<para>Release memory of an array <computeroutput>a</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="108" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__array__utils_1ga6fb843579e27a1c998d3f4eda8873099" prot="public" static="no">
+        <name>vrna_array_append</name>
+        <param><defname>a</defname></param>
+        <param><defname>item</defname></param>
+        <initializer>  do { \
+  if (<ref refid="group__array__utils_1gac41fc88614162b63643bcd0b6cf59eda" kindref="member">vrna_array_capacity</ref>(a) &lt; <ref refid="group__array__utils_1ga19c467225b21d15618d8b2d436f88572" kindref="member">vrna_array_size</ref>(a) + 1) \
+    <ref refid="group__array__utils_1ga280582bd20255a079653906546ba8ac2" kindref="member">vrna_array_grow</ref>(a, 0); \
+  (a)[<ref refid="group__array__utils_1ga19c467225b21d15618d8b2d436f88572" kindref="member">vrna_array_size</ref>(a)++] = (item); \
+} while (0)</initializer>
+        <briefdescription>
+<para>Safely append an item to an array <computeroutput>a</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="117" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__array__utils_1ga280582bd20255a079653906546ba8ac2" prot="public" static="no">
+        <name>vrna_array_grow</name>
+        <param><defname>a</defname></param>
+        <param><defname>min_capacity</defname></param>
+        <initializer>  do { \
+  size_t new_capacity = <ref refid="group__array__utils_1ga8b6225c59d71c3e7db577c64144a8c33" kindref="member">VRNA_ARRAY_GROW_FORMULA</ref>(<ref refid="group__array__utils_1gac41fc88614162b63643bcd0b6cf59eda" kindref="member">vrna_array_capacity</ref>(a)); \
+  if (new_capacity &lt; (min_capacity)) \
+    new_capacity = (min_capacity); \
+  <ref refid="group__array__utils_1gae10b43a9d87c9dbc32674b3d89a28580" kindref="member">vrna_array_set_capacity</ref>(a, new_capacity); \
+} while (0)</initializer>
+        <briefdescription>
+<para>Grow an array <computeroutput>a</computeroutput> to provide a minimum capacity <computeroutput>min_capacity</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/datastructures/array.h" line="127" column="9" bodyfile="ViennaRNA/datastructures/array.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
+  <compounddef id="group__kl__neighborhood__mfe" kind="group">
+    <compoundname>kl_neighborhood_mfe</compoundname>
+    <title>Computing MFE representatives of a Distance Based Partitioning</title>
+    <innerclass refid="structvrna__sol__TwoD__t" prot="public">vrna_sol_TwoD_t</innerclass>
+    <innerclass refid="structTwoDfold__vars" prot="public">TwoDfold_vars</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structvrna__sol__TwoD__t" kindref="compound">vrna_sol_TwoD_t</ref> *</type>
+        <definition>vrna_sol_TwoD_t * vrna_mfe_TwoD</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int distance1, int distance2)</argsstring>
+        <name>vrna_mfe_TwoD</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>distance1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>distance2</declname>
+        </param>
+        <briefdescription>
+<para>Compute MFE&apos;s and representative for distance partitioning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function computes the minimum free energies and a representative secondary structure for each distance class according to the two references specified in the datastructure &apos;vars&apos;. The maximum basepair distance to each of both references may be set by the arguments &apos;distance1&apos; and &apos;distance2&apos;, respectively. If both distance arguments are set to &apos;-1&apos;, no restriction is assumed and the calculation is performed for each distance class possible.</para>
+<para>The returned list contains an entry for each distance class. If a maximum basepair distance to either of the references was passed, an entry with k=l=-1 will be appended in the list, denoting the class where all structures exceeding the maximum will be thrown into. The end of the list is denoted by an attribute value of INF in the k-attribute of the list entry.</para>
+<para><simplesect kind="see"><para>vrna_fold_compound_TwoD(), <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb" kindref="member">vrna_pf_TwoD()</ref> <ref refid="group__kl__neighborhood__mfe_1ga1297d34a208f6e3df1670420baaaaead" kindref="member">vrna_backtrack5_TwoD()</ref>, <ref refid="structvrna__sol__TwoD__t" kindref="compound">vrna_sol_TwoD_t</ref>, <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The datastructure containing all precomputed folding attributes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>distance1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum distance to reference1 (-1 means no restriction) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>distance2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum distance to reference2 (-1 means no restriction) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of minimum free energies (and corresponding structures) for each distance class </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/2Dfold.h" line="82" column="1" declfile="ViennaRNA/2Dfold.h" declline="82" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__kl__neighborhood__mfe_1ga1297d34a208f6e3df1670420baaaaead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * vrna_backtrack5_TwoD</definition>
+        <argsstring>(vrna_fold_compound_t *fc, int k, int l, unsigned int j)</argsstring>
+        <name>vrna_backtrack5_TwoD</name>
+        <param>
+          <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Backtrack a minimum free energy structure from a 5&apos; section of specified length. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows one to backtrack a secondary structure beginning at the 5&apos; end, a specified length and residing in a specific distance class. If the argument &apos;k&apos; gets a value of -1, the structure that is backtracked is assumed to reside in the distance class where all structures exceeding the maximum basepair distance specified in <ref refid="group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709" kindref="member">vrna_mfe_TwoD()</ref> belong to.</para>
+<para><simplesect kind="note"><para>The argument &apos;vars&apos; must contain precalculated energy values in the energy matrices, i.e. a call to <ref refid="group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709" kindref="member">vrna_mfe_TwoD()</ref> preceding this function is mandatory!</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709" kindref="member">vrna_mfe_TwoD()</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The datastructure containing all precomputed folding attributes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length in nucleotides beginning from the 5&apos; end </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>distance to reference1 (may be -1) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>distance to reference2 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/2Dfold.h" line="107" column="1" declfile="ViennaRNA/2Dfold.h" declline="107" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__kl__neighborhood__mfe_1ga9dd36b619bffbbead5735ff5f0d91ee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structTwoDfold__vars" kindref="compound">TwoDfold_vars</ref> *</type>
+        <definition>TwoDfold_vars * get_TwoDfold_variables</definition>
+        <argsstring>(const char *seq, const char *structure1, const char *structure2, int circ)</argsstring>
+        <name>get_TwoDfold_variables</name>
+        <param>
+          <type>const char *</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure1</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>structure2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>circ</declname>
+        </param>
+        <briefdescription>
+<para>Get a structure of type <ref refid="structTwoDfold__vars" kindref="compound">TwoDfold_vars</ref> prefilled with current global settings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function returns a datastructure of type <ref refid="structTwoDfold__vars" kindref="compound">TwoDfold_vars</ref>. The data fields inside the <ref refid="structTwoDfold__vars" kindref="compound">TwoDfold_vars</ref> are prefilled by global settings and all memory allocations necessary to start a computation are already done for the convenience of the user</para>
+<para><simplesect kind="note"><para>Make sure that the reference structures are compatible with the sequence according to Watson-Crick- and Wobble-base pairing</para>
+</simplesect>
+<xrefsect id="deprecated_1_deprecated000002"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use the new API that relies on <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> and the corresponding functions vrna_fold_compound_TwoD(), <ref refid="group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709" kindref="member">vrna_mfe_TwoD()</ref>, and <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref> instead!</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The RNA sequence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The first reference structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>structure2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The second reference structure in dot-bracket notation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>circ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A switch to indicate the assumption to fold a circular instead of linear RNA (0=OFF, 1=ON) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A datastructure prefilled with folding options and allocated memory </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/2Dfold.h" line="259" column="28" declfile="ViennaRNA/2Dfold.h" declline="259" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="function" id="group__kl__neighborhood__mfe_1ga05bf4f31d216b1b160fd2d3d68e9b487" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void destroy_TwoDfold_variables</definition>
+        <argsstring>(TwoDfold_vars *our_variables)</argsstring>
+        <name>destroy_TwoDfold_variables</name>
+        <param>
+          <type><ref refid="structTwoDfold__vars" kindref="compound">TwoDfold_vars</ref> *</type>
+          <declname>our_variables</declname>
+        </param>
+        <briefdescription>
+<para>Destroy a <ref refid="structTwoDfold__vars" kindref="compound">TwoDfold_vars</ref> datastructure without memory loss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function free&apos;s all allocated memory that depends on the datastructure given.</para>
+<para><xrefsect id="deprecated_1_deprecated000003"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use the new API that relies on <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> and the corresponding functions vrna_fold_compound_TwoD(), <ref refid="group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709" kindref="member">vrna_mfe_TwoD()</ref>, and <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref> instead!</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>our_variables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the datastructure to be destroyed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/2Dfold.h" line="273" column="18" declfile="ViennaRNA/2Dfold.h" declline="273" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="group__kl__neighborhood__mfe_1gad2c0d04ff67eb827b6f4ea78e65a719c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TwoDfold_solution *</type>
+        <definition>TwoDfold_solution * TwoDfoldList</definition>
+        <argsstring>(TwoDfold_vars *vars, int distance1, int distance2)</argsstring>
+        <name>TwoDfoldList</name>
+        <param>
+          <type><ref refid="structTwoDfold__vars" kindref="compound">TwoDfold_vars</ref> *</type>
+          <declname>vars</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>distance1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>distance2</declname>
+        </param>
+        <briefdescription>
+<para>Compute MFE&apos;s and representative for distance partitioning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function computes the minimum free energies and a representative secondary structure for each distance class according to the two references specified in the datastructure &apos;vars&apos;. The maximum basepair distance to each of both references may be set by the arguments &apos;distance1&apos; and &apos;distance2&apos;, respectively. If both distance arguments are set to &apos;-1&apos;, no restriction is assumed and the calculation is performed for each distance class possible.</para>
+<para>The returned list contains an entry for each distance class. If a maximum basepair distance to either of the references was passed, an entry with k=l=-1 will be appended in the list, denoting the class where all structures exceeding the maximum will be thrown into. The end of the list is denoted by an attribute value of INF in the k-attribute of the list entry.</para>
+<para><xrefsect id="deprecated_1_deprecated000004"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use the new API that relies on <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> and the corresponding functions vrna_fold_compound_TwoD(), <ref refid="group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709" kindref="member">vrna_mfe_TwoD()</ref>, and <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref> instead!</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the datastructure containing all predefined folding attributes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>distance1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum distance to reference1 (-1 means no restriction) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>distance2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum distance to reference2 (-1 means no restriction) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/2Dfold.h" line="304" column="32" declfile="ViennaRNA/2Dfold.h" declline="304" declcolumn="32"/>
+      </memberdef>
+      <memberdef kind="function" id="group__kl__neighborhood__mfe_1ga83816eb31ac4d0d7403354d1916495c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * TwoDfold_backtrack_f5</definition>
+        <argsstring>(unsigned int j, int k, int l, TwoDfold_vars *vars)</argsstring>
+        <name>TwoDfold_backtrack_f5</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type><ref refid="structTwoDfold__vars" kindref="compound">TwoDfold_vars</ref> *</type>
+          <declname>vars</declname>
+        </param>
+        <briefdescription>
+<para>Backtrack a minimum free energy structure from a 5&apos; section of specified length. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function allows one to backtrack a secondary structure beginning at the 5&apos; end, a specified length and residing in a specific distance class. If the argument &apos;k&apos; gets a value of -1, the structure that is backtracked is assumed to reside in the distance class where all structures exceeding the maximum basepair distance specified in TwoDfold() belong to.</para>
+<para><simplesect kind="note"><para>The argument &apos;vars&apos; must contain precalculated energy values in the energy matrices, i.e. a call to TwoDfold() preceding this function is mandatory!</para>
+</simplesect>
+<xrefsect id="deprecated_1_deprecated000005"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use the new API that relies on <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> and the corresponding functions vrna_fold_compound_TwoD(), <ref refid="group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709" kindref="member">vrna_mfe_TwoD()</ref>, <ref refid="group__kl__neighborhood__mfe_1ga1297d34a208f6e3df1670420baaaaead" kindref="member">vrna_backtrack5_TwoD()</ref>, and <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref> instead!</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length in nucleotides beginning from the 5&apos; end </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>distance to reference1 (may be -1) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>distance to reference2 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the datastructure containing all predefined folding attributes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/2Dfold.h" line="331" column="7" declfile="ViennaRNA/2Dfold.h" declline="331" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__kl__neighborhood__mfe_1gafcf26281cf10e489b53cbfbe910ef694" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TwoDfold_solution **</type>
+        <definition>TwoDfold_solution ** TwoDfold</definition>
+        <argsstring>(TwoDfold_vars *our_variables, int distance1, int distance2)</argsstring>
+        <name>TwoDfold</name>
+        <param>
+          <type><ref refid="structTwoDfold__vars" kindref="compound">TwoDfold_vars</ref> *</type>
+          <declname>our_variables</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>distance1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>distance2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/2Dfold.h" line="339" column="20" declfile="ViennaRNA/2Dfold.h" declline="339" declcolumn="20"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__kl__neighborhood__mfe_1ga09e71024abb1a2bd19d9137596376e15" prot="public" static="no">
+        <name>TwoDfold_solution</name>
+        <initializer><ref refid="structvrna__sol__TwoD__t" kindref="compound">vrna_sol_TwoD_t</ref>         /* restore compatibility of struct rename */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ViennaRNA/2Dfold.h" line="115" column="9" bodyfile="ViennaRNA/2Dfold.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

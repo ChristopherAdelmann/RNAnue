@@ -381,8 +381,20 @@ void SplitReadCalling::addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2,
   rec1.tags()["XE"_tag] = static_cast<float>(hyb.energy);
   rec2.tags()["XE"_tag] = static_cast<float>(hyb.energy);
 
-  rec1.tags()["XK"_tag] = static_cast<float>(hyb.normCrosslinkingScore);
-  rec2.tags()["XK"_tag] = static_cast<float>(hyb.normCrosslinkingScore);
+  if (hyb.crosslinkingResult.has_value()) {
+    CrosslinkingResult &crosslinkingResult = hyb.crosslinkingResult.value();
+    rec1.tags()["XK"_tag] = static_cast<float>(crosslinkingResult.normCrosslinkingScore);
+    rec2.tags()["XK"_tag] = static_cast<float>(crosslinkingResult.normCrosslinkingScore);
+
+    rec1.tags()["XP"_tag] = crosslinkingResult.prefferedCrosslinkingScore;
+    rec2.tags()["XP"_tag] = crosslinkingResult.prefferedCrosslinkingScore;
+
+    rec1.tags()["XO"_tag] = crosslinkingResult.nonPrefferedCrosslinkingScore;
+    rec2.tags()["XO"_tag] = crosslinkingResult.nonPrefferedCrosslinkingScore;
+
+    rec1.tags()["XW"_tag] = crosslinkingResult.wobbleCrosslinkingScore;
+    rec2.tags()["XW"_tag] = crosslinkingResult.wobbleCrosslinkingScore;
+  }
 }
 
 //
@@ -442,19 +454,20 @@ std::optional<HybridizationResult> SplitReadCalling::hybridize(std::span<seqan3:
 
   vrna_fold_compound_t *vc =
       vrna_fold_compound(interactionSeq.c_str(), NULL, VRNA_OPTION_DEFAULT | VRNA_OPTION_HYBRID);
-  char *structure = (char *)vrna_alloc(sizeof(char) * (strlen(interactionSeq.c_str()) + 1));
+  char *structure = new char[interactionSeq.size() + 1];
   float mfe = vrna_cofold(interactionSeq.c_str(), structure);
 
   auto secondaryStructure = std::string(vrna_cut_point_insert(structure, seq1.size() + 1)) |
                             seqan3::views::char_to<seqan3::dot_bracket3> |
                             seqan3::ranges::to<std::vector>();
 
-  double normCrosslinkingScore = findCrosslinkingSites(seq1, seq2, secondaryStructure);
+  std::optional<CrosslinkingResult> crosslinkingResult =
+      findCrosslinkingSites(seq1, seq2, secondaryStructure);
 
-  free(structure);
-  free(vc);
+  delete[] structure;
+  vrna_fold_compound_free(vc);
 
-  return HybridizationResult{mfe, normCrosslinkingScore};
+  return HybridizationResult{mfe, crosslinkingResult};
 }
 
 std::optional<InteractionWindow> SplitReadCalling::getContinuosNucleotideWindows(
@@ -511,12 +524,12 @@ std::optional<InteractionWindow> SplitReadCalling::getContinuosNucleotideWindows
   return std::nullopt;
 }
 
-double SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> const &seq1,
-                                               std::span<seqan3::dna5> const &seq2,
-                                               std::vector<seqan3::dot_bracket3> &dotbracket) {
+std::optional<CrosslinkingResult> SplitReadCalling::findCrosslinkingSites(
+    std::span<seqan3::dna5> const &seq1, std::span<seqan3::dna5> const &seq2,
+    std::vector<seqan3::dot_bracket3> &dotbracket) {
   if (seq1.empty() || seq2.empty() || dotbracket.empty()) {
     Logger::log(LogLevel::WARNING, "Empty input sequences or dot-bracket vector!");
-    return std::numeric_limits<double>::quiet_NaN();
+    return std::nullopt;
   }
 
   std::vector<size_t> openPos;
@@ -543,12 +556,12 @@ double SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> const &se
   if (!openPos.empty()) {
     Logger::log(LogLevel::WARNING,
                 "Unpaired bases in dot-bracket notation! (" + std::to_string(openPos.size()) + ")");
-    return std::numeric_limits<double>::quiet_NaN();
+    return std::nullopt;
   }
 
   if (interactionPositions.size() == 0) {
     Logger::log(LogLevel::WARNING, "No interaction sites found!");
-    return std::numeric_limits<double>::quiet_NaN();
+    return std::nullopt;
   }
 
   std::vector<NucleotidePositionsWindow> crosslinkingSites;
@@ -556,6 +569,10 @@ double SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> const &se
 
   size_t intraCrosslinkingScore = 0;
   size_t interCrosslinkingScore = 0;
+
+  int preferredCrosslinkingCount = 0;
+  int nonPreferredCrosslinkingCount = 0;
+  int wobbleCrosslinkingCount = 0;
 
   // Iterate over all pairs of interaction sites until the second last pair (last pair has no
   // following pair for window)
@@ -578,6 +595,13 @@ double SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> const &se
         const size_t score = it->second;
         if (v_interactionWindow.isInterFragment) {
           interCrosslinkingScore += score;
+          if (score == 3) {
+            preferredCrosslinkingCount++;
+          } else if (score == 2) {
+            nonPreferredCrosslinkingCount++;
+          } else if (score == 1) {
+            wobbleCrosslinkingCount++;
+          }
         } else {
           intraCrosslinkingScore += score;
         }
@@ -590,10 +614,12 @@ double SplitReadCalling::findCrosslinkingSites(std::span<seqan3::dna5> const &se
 
   if (minSeqLength == 0) {
     Logger::log(LogLevel::WARNING, "Division by zero!");
-    return std::numeric_limits<double>::quiet_NaN();
+    return std::nullopt;
   }
 
-  return static_cast<double>(interCrosslinkingScore) / minSeqLength;
+  double normCrosslinkingScore = static_cast<double>(interCrosslinkingScore) / minSeqLength;
+  return CrosslinkingResult{normCrosslinkingScore, preferredCrosslinkingCount,
+                            nonPreferredCrosslinkingCount, wobbleCrosslinkingCount};
 }
 
 // calculate rows in SAMfile (exclusing header)

@@ -263,10 +263,9 @@ pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath)
   fs::path outConditionDir = fs::path(params["outdir"].as<std::string>()) /
                              params["subcall"].as<std::string>() / group / conditionPath.filename();
 
+  pt::ptree sample, files;
   for (const auto &dataFile : dataFiles) {
     Logger::log(LogLevel::INFO, "Retrieving data for sample ", dataFile.string());
-
-    pt::ptree sample, files;
 
     files.put(sampleKeys[elementCounter % expectedElementCount], dataFile.string());
 
@@ -278,6 +277,8 @@ pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath)
 
       samples.push_back(std::make_pair("", sample));
       elementCounter = 0;
+      files.clear();
+      sample.clear();
     } else {
       ++elementCounter;
     }
@@ -289,12 +290,22 @@ pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath)
   return condition;
 }
 
+void printTree(const boost::property_tree::ptree &pt, int level = 0) {
+  for (const auto &node : pt) {
+    std::cout << std::string(level * 2, ' ') << node.first << ": "
+              << node.second.get_value<std::string>() << "\n";
+    printTree(node.second, level + 1);
+  }
+}
+
 // create ptree of the output files
 pt::ptree Data::retrieveSampleOutputTree(fs::path outConditionDir, pt::ptree inputTree) {
   pt::ptree output;
 
   if (params["subcall"].as<std::string>() == "preproc") {
     // replace input path with output path (results/...)
+    printTree(inputTree);
+
     fs::path fwd = fs::path(inputTree.get<std::string>("input.forward"));
     std::string forward = replaceParentDirPath(outConditionDir, fwd).string();
 

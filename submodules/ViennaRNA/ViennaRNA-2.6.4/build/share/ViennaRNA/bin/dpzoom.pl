@@ -1,4 +1,4 @@
-#!/opt/local/bin/perl -w
+#!/Users/christopherphd/miniconda3/envs/seq/bin/perl -w
 # zoom into a PostScript dot plot produced by RNAfold, RNAalifold or alidot
 # Last changed Time-stamp: <2003-03-24 12:47:26 ivo> 
 sub usage {

@@ -1,4 +1,4 @@
-#!/opt/local/bin/perl -w
+#!/Users/christopherphd/miniconda3/envs/seq/bin/perl -w
 # -*-Perl-*-
 # tool for the design of bistable RNA molecules
 

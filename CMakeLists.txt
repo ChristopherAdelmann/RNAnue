@@ -9,7 +9,7 @@ message("Input file: ${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h.in")
 message("Output file: ${CMAKE_CURRENT_BINARY_DIR}/include/Config.h")
 
 # configure header file to pass the version number to the source code
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/Config.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/Config.hpp)
 
 # ----------------------------------------------------------------------------
 # Dependencies
@@ -30,6 +30,7 @@ set(Boost_DEBUG ON)
 
 add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
 
+# TODO Conditionally enable universal binary if on MacOS
 ##ViennaRNA
 set(VIENNA_BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4/build)
 file(MAKE_DIRECTORY ${VIENNA_BUILD_DIR})
@@ -50,9 +51,13 @@ execute_process(
         --without-tutorial
         --without-tutorial-html
         --without-tutorial-pdf
+        --enable-universal-binary
+        CXX=$ENV{CXX}
+        CC=$ENV{CC}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4
 )
 
+# TODO Remove make command only make with RNAnue
 execute_process(
     COMMAND make
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4
@@ -67,7 +72,7 @@ execute_process(
 #set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-lRNA -fno-lto")
 
 
-file(GLOB SOURCES "./source/*.cpp")
+file(GLOB SOURCES "./src/*.cpp")
 include_directories(
 ./include
 ${VIENNA_BUILD_DIR}/include

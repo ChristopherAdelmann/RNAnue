@@ -1,6 +1,6 @@
 #include "SplitReadCalling.hpp"
 
-#include "Helper.hpp"
+#include "Utility.hpp"
 
 using namespace seqan3::literals;
 

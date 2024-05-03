@@ -1,4 +1,4 @@
-#!/opt/local/bin/perl -w
+#!/Users/christopherphd/miniconda3/envs/seq/bin/perl -w
 
 use Getopt::Long;
 use Pod::Usage;

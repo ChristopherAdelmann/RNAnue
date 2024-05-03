@@ -1,4 +1,4 @@
-#!/opt/local/bin/perl -w
+#!/Users/christopherphd/miniconda3/envs/seq/bin/perl -w
 # -*-Perl-*-
 # Last changed Time-stamp: <2008-08-26 16:04:00 ivo>
 # produce Pauline Hogeweg's mountain representation *_dp.ps files

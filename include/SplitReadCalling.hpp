@@ -35,10 +35,10 @@
 #include <seqan3/io/sequence_file/input.hpp>
 
 // filters
-#include "Helper.hpp"
 #include "Logger.hpp"
 #include "ScoringMatrix.hpp"
 #include "Traceback.hpp"
+#include "Utility.hpp"
 
 // Standard
 #include <bitset>
@@ -71,37 +71,37 @@ using seqan3::get;
 // overload struct to
 template <>
 struct seqan3::sam_tag_type<"XX"_tag> {
-  using type = int32_t;
+    using type = int32_t;
 };
 template <>
 struct seqan3::sam_tag_type<"XY"_tag> {
-  using type = int32_t;
+    using type = int32_t;
 };
 template <>
 struct seqan3::sam_tag_type<"XJ"_tag> {
-  using type = int32_t;
+    using type = int32_t;
 };
 template <>
 struct seqan3::sam_tag_type<"XH"_tag> {
-  using type = int32_t;
+    using type = int32_t;
 };
 
 template <>
 struct seqan3::sam_tag_type<"XM"_tag> {
-  using type = int32_t;
+    using type = int32_t;
 };  // matches in alignment
 template <>
 struct seqan3::sam_tag_type<"XL"_tag> {
-  using type = int32_t;
+    using type = int32_t;
 };  // length of alignment
 template <>
 struct seqan3::sam_tag_type<"XN"_tag> {
-  using type = int32_t;
+    using type = int32_t;
 };
 
 template <>
 struct seqan3::sam_tag_type<"XS"_tag> {
-  using type = std::string;
+    using type = std::string;
 };
 
 typedef std::pair<uint32_t, uint32_t> ReadPos;
@@ -147,82 +147,76 @@ static const std::map<NucleotideWindowPair, size_t> crosslinkingScoringScheme = 
     {{"GT"_dna5, "TA"_dna5}, 1},
     {{"GT"_dna5, "TG"_dna5}, 1}};
 typedef struct {
-  seqan3::dna5_vector forwardWindowNucleotides;
-  seqan3::dna5_vector reverseWindowNucleotides;
-  std::pair<size_t, size_t> forwardWindowPositions;
-  std::pair<size_t, size_t> reverseWindowPositions;
-  bool isInterFragment;
+    seqan3::dna5_vector forwardWindowNucleotides;
+    seqan3::dna5_vector reverseWindowNucleotides;
+    std::pair<size_t, size_t> forwardWindowPositions;
+    std::pair<size_t, size_t> reverseWindowPositions;
+    bool isInterFragment;
 } InteractionWindow;
 
 typedef struct {
-  double normCrosslinkingScore;
-  int prefferedCrosslinkingScore;
-  int nonPrefferedCrosslinkingScore;
-  int wobbleCrosslinkingScore;
+    double normCrosslinkingScore;
+    int prefferedCrosslinkingScore;
+    int nonPrefferedCrosslinkingScore;
+    int wobbleCrosslinkingScore;
 } CrosslinkingResult;
 
 typedef struct {
-  double energy;
-  std::optional<CrosslinkingResult> crosslinkingResult;
+    double energy;
+    std::optional<CrosslinkingResult> crosslinkingResult;
 } HybridizationResult;
 class SplitReadCalling {
- public:
-  SplitReadCalling(po::variables_map params);
-  ~SplitReadCalling();
+   public:
+    SplitReadCalling(po::variables_map params);
+    ~SplitReadCalling() = default;
 
-  void start(pt::ptree sample);
-  void iterate(std::string &matched, std::string &splits, std::string &multsplits);
+    void start(pt::ptree sample);
 
- private:
-  po::variables_map params;
-  std::vector<std::tuple<std::string>> stats;
+   private:
+    po::variables_map params;
+    std::vector<std::tuple<std::string>> stats;
 
-  int readscount;
-  int alignedcount;
-  int splitscount;
-  int msplitscount;
-  int nsurvivedcount;
+    int readscount;
+    int alignedcount;
+    int splitscount;
+    int msplitscount;
+    int nsurvivedcount;
 
-  std::optional<CrosslinkingResult> findCrosslinkingSites(
-      std::span<seqan3::dna5> const &seq1, std::span<seqan3::dna5> const &seq2,
-      std::vector<seqan3::dot_bracket3> &dotbracket);
-  std::optional<InteractionWindow> getContinuosNucleotideWindows(
-      std::span<seqan3::dna5> const &seq1, std::span<seqan3::dna5> const &seq2,
-      NucleotidePositionsWindow positionsPair);
+    std::optional<CrosslinkingResult> findCrosslinkingSites(
+        std::span<seqan3::dna5> const &seq1, std::span<seqan3::dna5> const &seq2,
+        std::vector<seqan3::dot_bracket3> &dotbracket);
+    std::optional<InteractionWindow> getContinuosNucleotideWindows(
+        std::span<seqan3::dna5> const &seq1, std::span<seqan3::dna5> const &seq2,
+        NucleotidePositionsWindow positionsPair);
 
- public:
-  SplitReadCalling();
-  SplitReadCalling(po::variables_map params);
+   public:
+    // iterate through reads
+    void iterate(std::string matched, std::string splits, std::string multsplits);
+    void process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile);
 
-  // iterate through reads
-  void iterate(std::string matched, std::string splits, std::string multsplits);
-  void process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile);
-  void distribute(auto &subrecords, auto &splits, auto &msplits);
+    void filterSegments(auto &splitrecord, std::optional<int32_t> &refOffset,
+                        std::vector<seqan3::cigar> &cigar, std::span<seqan3::dna5> &seq,
+                        seqan3::sam_tag_dictionary &tags, std::vector<SamRecord> &curated);
 
-  void filterSegments(auto &splitrecord, std::optional<int32_t> &refOffset,
-                      std::vector<seqan3::cigar> &cigar, std::span<seqan3::dna5> &seq,
-                      seqan3::sam_tag_dictionary &tags, std::vector<SamRecord> &curated);
+    void addFilterToSamRecord(SamRecord &rec, std::pair<float, float> filters);
+    void addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2, TracebackResult &res);
+    void addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, HybridizationResult &hyb);
 
-  void addFilterToSamRecord(SamRecord &rec, std::pair<float, float> filters);
-  void addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2, TracebackResult &res);
-  void addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, HybridizationResult &hyb);
+    void writeSamFile(auto &samfile, std::vector<std::pair<SamRecord, SamRecord>> &splits);
 
-  void writeSamFile(auto &samfile, std::vector<std::pair<SamRecord, SamRecord>> &splits);
+    TracebackResult complementarity(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2);
+    std::optional<HybridizationResult> hybridize(std::span<seqan3::dna5> &seq1,
+                                                 std::span<seqan3::dna5> &seq2);
+    void createDir(fs::path path);
 
-  TracebackResult complementarity(std::span<seqan3::dna5> &seq1, std::span<seqan3::dna5> &seq2);
-  std::optional<HybridizationResult> hybridize(std::span<seqan3::dna5> &seq1,
-                                               std::span<seqan3::dna5> &seq2);
-  void createDir(fs::path path);
+    void progress(std::ostream &out);
 
-  void progress(std::ostream &out);
+    int countSamEntries(std::string file, std::string command);
+    std::vector<std::vector<fs::path>> splitInputFile(std::string matched, std::string splits,
+                                                      int entries);
 
-  int countSamEntries(std::string file, std::string command);
-  std::vector<std::vector<fs::path>> splitInputFile(std::string matched, std::string splits,
-                                                    int entries);
-
-  std::string addSuffix(std::string _file, std::string _suffix, std::vector<std::string> _keys);
-  void start(pt::ptree sample);
-  IBPTree features;
+    std::string addSuffix(std::string _file, std::string _suffix, std::vector<std::string> _keys);
+    IBPTree features;
 };
 
 #endif  // RNANUE_DETECT_HPP

@@ -1,4 +1,4 @@
-#!/opt/local/bin/perl -w
+#!/Users/christopherphd/miniconda3/envs/seq/bin/perl -w
 # -*-Perl-*-
 # Last changed Time-stamp: <2005-03-09 19:38:25 ivo> 
 # produce Pauline's mountain representation from bracket notation

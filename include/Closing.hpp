@@ -5,19 +5,19 @@
 #ifndef RNANUE_CLOSING_HPP
 #define RNANUE_CLOSING_HPP
 
+#include <string>
 #include <vector>
 
 class Closing {
-    private:
+   private:
     std::vector<std::string> quotes;
 
-    public:
-        Closing();
-        ~Closing();
+   public:
+    Closing();
+    ~Closing();
 
-        std::vector<std::string> retrieveQuotes();
-        void printQuote(std::ostream& out);
-
+    std::vector<std::string> retrieveQuotes();
+    void printQuote(std::ostream& out);
 };
 
-#endif //RNANUE_CLOSING_HPP
+#endif  // RNANUE_CLOSING_HPP

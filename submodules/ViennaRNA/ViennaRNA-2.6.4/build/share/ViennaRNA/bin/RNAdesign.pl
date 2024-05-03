@@ -1,4 +1,4 @@
-#!/opt/local/bin/perl
+#!/Users/christopherphd/miniconda3/envs/seq/bin/perl
 
 use strict;
 use warnings;

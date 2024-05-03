@@ -6,20 +6,21 @@
 #define RNANUE_BASE_HPP
 
 #include <boost/program_options.hpp>
-#include "Utility.hpp"
+
 #include "Data.hpp"
+#include "Utility.hpp"
 
 namespace po = boost::program_options;
 
 class Base {
-    public:
-        Base(po::variables_map params);
-        ~Base();
-        Data data;
+   public:
+    Base(po::variables_map _params, std::string _subcall);
+    ~Base() = default;
+    Data data;
 
-    private:
-        po::variables_map params;
-//        Data data;
+   private:
+    po::variables_map params;
+    //        Data data;
 };
 
-#endif //RNANUE_BASE_HPP
+#endif  // RNANUE_BASE_HPP

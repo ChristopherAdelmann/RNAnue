@@ -63,7 +63,7 @@
 /* #undef HAVE_OPENBLAS_LAPACKE_H */
 
 /* Define if OpenMP is enabled */
-/* #undef HAVE_OPENMP */
+#define HAVE_OPENMP 1
 
 /* Define to 1 if you have the `pow' function. */
 #define HAVE_POW 1
@@ -272,7 +272,7 @@
 /* #undef VRNA_NR_SAMPLING_HASH */
 
 /* Use MPFR for non-redundant sampling data structure operations */
-#define VRNA_NR_SAMPLING_MPFR 1
+/* #undef VRNA_NR_SAMPLING_MPFR */
 
 /* version of ViennaRNA Package */
 #define VRNA_VERSION "2.6.4"

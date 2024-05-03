@@ -2,7 +2,7 @@
 
 // create folder
 void helper::createDir(fs::path path, std::ostream& out) {
-    if(fs::exists(path)) {
+    if (fs::exists(path)) {
         out << getTime() << "The directory " << path << " already exists\n";
     } else {
         fs::create_directory(path);
@@ -24,9 +24,8 @@ void helper::createTmpDir(fs::path path) {
 // lists the files in a directory
 dtp::PathVector helper::listDirFiles(fs::path& path) {
     dtp::PathVector content;
-    for(const auto& entry : fs::directory_iterator(path)) {
-
-        if(entry.path().extension() != ".DS_Store") { // ignore tmp files in macos
+    for (const auto& entry : fs::directory_iterator(path)) {
+        if (entry.path().extension() != ".DS_Store") {  // ignore tmp files in macos
             content.push_back(entry.path());
         }
     }
@@ -45,10 +44,10 @@ dtp::PathVector helper::listDirFiles(fs::path& path) {
 
 dtp::PathVector helper::filterDirFiles(dtp::PathVector& pathvec, std::string subcall) {
     dtp::PathVector filtered;
-    for(auto& file : pathvec) {
+    for (auto& file : pathvec) {
         // in detect mode, only bam files are considered
-        if(subcall == "detect") {
-            if(file.extension() == ".bed" || file.extension() == ".txt") {
+        if (subcall == "detect") {
+            if (file.extension() == ".bed" || file.extension() == ".txt") {
                 continue;
             }
         }
@@ -63,7 +62,7 @@ bool helper::caseInsensitivePathCompare(const fs::path& a, const fs::path& b) {
 
 void helper::renameFiles(fs::path dir, std::string extension) {
     dtp::PathVector files = helper::listDirFiles(dir);
-    for(unsigned i=0;i<files.size();++i) {
+    for (unsigned i = 0; i < files.size(); ++i) {
         fs::path newPath = dir / fs::path(std::to_string(i) + extension);
         fs::rename(files[i], newPath);
         files[i] = newPath;
@@ -74,18 +73,17 @@ dtp::PathVector helper::genOutPath(dtp::PathVector inPathVec, std::string dir) {
     dtp::PathVector outPathVec;
     fs::path outPath = inPathVec[0].parent_path().parent_path() / fs::path(dir);
 
-    for(auto& file : inPathVec) {
+    for (auto& file : inPathVec) {
         outPathVec.push_back(outPath / fs::path(file.filename()));
     }
     return outPathVec;
 }
 
 // switch path (up to level condition from input to Output
-fs::path helper::replacePath(fs::path _replacement, fs::path _original ) {
+fs::path helper::replacePath(fs::path _replacement, fs::path _original) {
     fs::path nPath = _replacement / _original.filename();
     return nPath;
 }
-
 
 // delete folder
 void helper::deleteDir(fs::path path) {
@@ -95,31 +93,47 @@ void helper::deleteDir(fs::path path) {
 }
 
 // adds suffix to filename
-std::string helper::addSuffix(std::string filename, std::string suffix, std::vector<std::string> keywords) {
-    int keyPos, tmpKeyPos = -1; // buffer the positions of the keywords
-    int dotPos = filename.find("."); // determine position of the dot
+std::string helper::addSuffix(std::string filename, std::string suffix,
+                              std::vector<std::string> keywords) {
+    int keyPos, tmpKeyPos = -1;       // buffer the positions of the keywords
+    int dotPos = filename.find(".");  // determine position of the dot
     keyPos = dotPos;
-    if(!keywords.empty()) {
-        for(unsigned i=0;i<keywords.size();++i) {
+    if (!keywords.empty()) {
+        for (unsigned i = 0; i < keywords.size(); ++i) {
             tmpKeyPos = filename.find(keywords[i]);
-            if(tmpKeyPos != -1) { // key could be found
+            if (tmpKeyPos != -1) {  // key could be found
                 keyPos = tmpKeyPos;
             }
         }
     }
-    std::string newFile = filename.substr(0,keyPos);
+    std::string newFile = filename.substr(0, keyPos);
     newFile += suffix;
-    newFile += filename.substr(dotPos,filename.size());
+    newFile += filename.substr(dotPos, filename.size());
 
     return newFile;
 }
 
-
+void helper::simulateProcessing(std::chrono::microseconds desiredDuration) {
+    auto start = std::chrono::high_resolution_clock::now();
+    double result = 0.0;
+    while (true) {
+        for (int i = 0; i < 1000; i++) {
+            for (int j = 0; j < 100; j++) {
+                result += i * j;
+            }
+        }
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> elapsed = end - start;
+        if (elapsed >= desiredDuration) {
+            break;
+        }
+    }
+}
 
 void helper::splitFileN(fs::path source, fs::path targetPath, int sep) {
     fs::path targetStem = targetPath / "F";
     std::string call = "awk 'NR%" + std::to_string(sep) + "==1{x=\"" + targetStem.string();
-    call += "\"++i\"" + source.extension().string() +"\";}{print>x}' " + source.string();
+    call += "\"++i\"" + source.extension().string() + "\";}{print>x}' " + source.string();
 
     system(call.c_str());
 }
@@ -143,19 +157,19 @@ int helper::lineCount(fs::path file, std::string command) {
 }*/
 
 std::vector<fs::path> helper::listFiles(fs::path path) {
-    std::vector<fs::path> files; //
+    std::vector<fs::path> files;  //
     copy(fs::directory_iterator(path), fs::directory_iterator(), back_inserter(files));
-    sort(files.begin(),files.end()); // sort the content
+    sort(files.begin(), files.end());  // sort the content
     return files;
 }
 
 void helper::concatFiles(fs::path target, std::vector<fs::path> files) {
     std::string call = "cat";
-    for(unsigned i=0;i<files.size();++i) {
+    for (unsigned i = 0; i < files.size(); ++i) {
         call += " " + files[i].string();
     }
     call += " > " + target.string();
-    if(files.size() > 0) {
+    if (files.size() > 0) {
         system(call.c_str());
     }
 }
@@ -176,16 +190,15 @@ std::string helper::getTime() {
 bool seqIO::filterReads(auto& qual, int quality, int minlen) {
     // determine the length
     size_t len = std::ranges::size(qual);
-    if(calcAvgPhred(qual) >= quality && len >= minlen) {
+    if (calcAvgPhred(qual) >= quality && len >= minlen) {
         return true;
     } else {
         return false;
     }
 }
 
-
 dtp::DNAVector seqIO::spanToVector(dtp::DNASpan span) {
-    dtp::DNAVector vec = std::vector<seqan3::dna5>{}; // empty vector
+    dtp::DNAVector vec = std::vector<seqan3::dna5>{};  // empty vector
     vec.insert(vec.end(), span.begin(), span.end());
     return vec;
 }
@@ -201,38 +214,45 @@ dtp::DNAVector seqIO::determineAlphabet(dtp::DNAVector seq) {
     return alphabet;
 }
 
-void seqIO::printStates(dtp::DNAVector seq, std::string state, dtp::Left left, dtp::Right right, int readPos) {
+void seqIO::printStates(dtp::DNAVector seq, std::string state, dtp::Left left, dtp::Right right,
+                        int readPos) {
     std::cout << "######################################\n";
     std::cout << "State: " << state << " | ";
     std::cout << "Left: " << left << " | ";
     std::cout << "Right: " << right.first << " " << right.second << " | ";
     std::cout << "ReadPos: " << readPos << " | ";
     std::cout << "Sequence: ";
-    for(auto& s : seq) {
+    for (auto& s : seq) {
         std::cout << seqan3::to_char(s);
     }
     std::cout << "\n";
 }
 
 void seqIO::printDNAVector(dtp::DNAVector seq, std::ostream& ofs) {
-    for(auto& s : seq) {
+    for (auto& s : seq) {
         ofs << seqan3::to_char(s);
     }
     ofs << "\n";
 }
 
 void seqIO::printDNASpan(dtp::DNASpan span, std::ostream& ofs) {
-    for(auto& s : span) {
+    for (auto& s : span) {
         ofs << seqan3::to_char(s);
     }
     ofs << "\n";
 }
 
 void seqIO::printQualSpan(dtp::QualSpan span, std::ostream& ofs) {
-    for(auto& s : span) {
+    for (auto& s : span) {
         ofs << seqan3::to_char(s);
     }
     ofs << "\n";
 }
 
-
+helper::Timer::Timer() : start(std::chrono::high_resolution_clock::now()) {}
+helper::Timer::~Timer() { stop(); }
+void helper::Timer::stop() {
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "Elapsed time: " << elapsed.count() << " s\n";
+}

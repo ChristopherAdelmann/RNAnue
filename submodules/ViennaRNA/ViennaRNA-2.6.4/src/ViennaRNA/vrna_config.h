@@ -27,7 +27,7 @@
  * If this feature is present, the next line defines
  * 'VRNA_WITH_OPENMP'
  */
-
+#define VRNA_WITH_OPENMP
 
 /*
  * Build with single precision partition function

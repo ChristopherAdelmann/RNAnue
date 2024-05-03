@@ -6,9 +6,6 @@
 #ifndef RNANUE_DATA_HPP
 #define RNANUE_DATA_HPP
 
-#include <typeinfo>
-#include <deque>
-
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include <boost/program_options.hpp>
@@ -19,6 +16,7 @@
 #include <iostream>
 #include <limits>
 #include <optional>
+#include <typeinfo>
 
 #include "Align.hpp"
 #include "Analysis.hpp"
@@ -36,94 +34,58 @@ namespace jp = boost::property_tree::json_parser;
 using GroupsPath = std::map<std::string, fs::path>;
 using PathVector = std::vector<fs::path>;
 
-class Data{
-    public:
-        Data(po::variables_map params);
-        ~Data();
+class Data {
+   public:
+    Data(po::variables_map params);
+    ~Data() = default;
+    //
+    template <typename Callable>
+    void callInAndOut(Callable f);
 
-        // get Data
-        GroupsPath getGroupsPath(fs::path& ctrls, fs::path& trtms);
-        void getCondition(GroupsPath& groups);
-        pt::ptree getData(const std::string group, fs::path& condition);
+   private:
+    po::variables_map params;
+    pt::ptree dataStructure;
 
-        // get output data
-        pt::ptree getOutputData(pt::ptree& input, fs::path& conditionOutDir);
-        pt::ptree getPreprocOutputData(pt::ptree& input, fs::path& conditionOutDir);
-        pt::ptree getAlignOutputData(pt::ptree& input, fs::path& conditionOutDir);
-        pt::ptree getDetectOutputData(pt::ptree& input, fs::path& conditionOutDir);
+    void createDirectories(fs::path& path);
+    void createOutDir(fs::path& path, std::string& subcall);
+    bool withControlData();
 
-        //
-        int getNumberElements(PathVector& vec);
-        std::vector<std::string> getSampleKeys();
+    GroupsPath retrieveGroupsPath(std::optional<fs::path> ctrls, fs::path trtms);
+    void retrieveDataStructure(const GroupsPath& groupsPath);
+    fs::path replaceParentDirPath(fs::path replacement, fs::path original);
 
-        // prep functions
-        void preprocDataPrep();
-        void alignDataPrep();
-        void detectDataPrep();
+   public:
+    // getter & setter
+    //
+    pt::ptree getDataStructure();
+    void setSubcall(std::string subcall);
+    void prepareSubcall(std::string subcall);
 
-        //
-        template <typename Callable>
-        void callInAndOut(Callable f);
+    //
+    void preprocDataPrep();
+    void alignDataPrep();
+    void detectDataPrep();
+    void clusteringDataPrep();
+    void analysisDataPrep();
 
-        // callables
-        void preproc();
-        void align();
-        void detect();
+    //
+    pt::ptree retrieveConditionTree(std::string group, fs::path _condition);
+    pt::ptree retrieveSampleOutputTree(fs::path outConditionDir, pt::ptree inputTree);
 
- private:
-  po::variables_map params;
-  pt::ptree dataStructure;
+    // iterates through the data structure and excutes the subcall
 
-  void createDirectories(fs::path &path);
-  void createOutDir(fs::path &path, std::string &subcall);
-  bool withControlData();
+    // helper methods
+    // determine content of directory and sort it (return as vector)
+    PathVector getSortedDirContent(fs::path _path);
+    // filter content of directory to only include files containing search string
+    PathVector filterDirContent(PathVector vec, std::string sestr);
+    std::string addSuffix(std::string _file, std::string _suffix, std::vector<std::string> _keys);
 
-  GroupsPath retrieveGroupsPath(std::optional<fs::path> ctrls, fs::path trtms);
-  void retrieveDataStructure(const GroupsPath &groupsPath);
-  fs::path replaceParentDirPath(fs::path replacement, fs::path original);
-
- public:
-  Data(po::variables_map _params);
-
-  // getter & setter
-  //
-  pt::ptree getDataStructure();
-  void setSubcall(std::string subcall);
-  void prepareSubcall(std::string subcall);
-
-  //
-  void preprocDataPrep();
-  void alignDataPrep();
-  void detectDataPrep();
-  void clusteringDataPrep();
-  void analysisDataPrep();
-
-  //
-  pt::ptree retrieveConditionTree(std::string group, fs::path _condition);
-  pt::ptree retrieveSampleOutputTree(fs::path outConditionDir, pt::ptree inputTree);
-
-  // iterates through the data structure and excutes the subcall
-
-  template <typename Callable>
-  void callInAndOut(Callable f);
-
-  // helper methods
-  // determine content of directory and sort it (return as vector)
-  PathVector getSortedDirContent(fs::path _path);
-  // filter content of directory to only include files containing search string
-  PathVector filterDirContent(PathVector vec, std::string sestr);
-  std::string addSuffix(std::string _file, std::string _suffix, std::vector<std::string> _keys);
-
-  // test stuff
-  template <typename Callable>
-  void bla(Callable f);
-
-  void preproc();
-  void align();
-  void splitReadCalling();
-  void clustering();
-  void analysis();
+    void preproc();
+    void align();
+    void splitReadCalling();
+    void clustering();
+    void analysis();
 };
 
-
-#endif //RNANUE_DATA_HPP
+#endif  // RNANUE_DATA_HPP

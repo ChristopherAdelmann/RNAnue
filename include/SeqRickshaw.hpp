@@ -1,8 +1,8 @@
 #ifndef SEQRICKSHAW_H
 #define SEQRICKSHAW_H
 
-#include "Helper.hpp"
 #include "Logger.hpp"
+#include "Utility.hpp"
 
 // openMP
 #include <omp.h>
@@ -64,103 +64,101 @@ typedef std::pair<PathVector, PathVector> PathVectorPair;
 using seqan3::operator""_dna5;
 using seqan3::operator""_dna4;
 class SeqRickshaw {
- private:
-  po::variables_map params;
+   private:
+    const std::string readtype;
 
-  std::string readtype;
+    const bool trimPolyG;
 
-  bool trimPolyG;
+    const std::string adpt5f;
+    const std::string adpt5r;
+    const std::string adpt3f;
+    const std::string adpt3r;
+    const double missMatchRateTrim;
+    const int minOverlapTrim;
 
-  std::string adpt5f;
-  std::string adpt5r;
-  std::string adpt3f;
-  std::string adpt3r;
-  double missmatchRateTrim;
+    const int minMeanPhread;
+    const int minLen;
 
-  int minPhread;
-  int minLen;
-  int windowTrimSize;
-  size_t threads;
-  size_t chunkSize;
+    const int minWindowPhread;
+    const int windowTrimSize;
 
-  int minOverlapMerge;
-  double missmatchRateMerge;
-  struct SingleEndFastqChunk {
-    std::vector<seqan3::sequence_file_input<>::record_type> records;
-  };
+    const int minOverlapMerge;
+    const double missMatchRateMerge;
 
-  struct PairedEndFastqChunk {
-    std::vector<seqan3::sequence_file_input<>::record_type> recordsFwd;
-    std::vector<seqan3::sequence_file_input<>::record_type> recordsRev;
-    std::vector<seqan3::sequence_file_input<>::record_type> recordsMergedRes;
-    std::vector<seqan3::sequence_file_input<>::record_type> recordsSnglFwdRes;
-    std::vector<seqan3::sequence_file_input<>::record_type> recordsSnglRevRes;
-  };
+    const size_t threads;
+    const size_t chunkSize;
 
-  struct TrimConfig {
+    struct SingleEndFastqChunk {
+        std::vector<seqan3::sequence_file_input<>::record_type> records;
+    };
+
+    struct PairedEndFastqChunk {
+        std::vector<seqan3::sequence_file_input<>::record_type> recordsFwd;
+        std::vector<seqan3::sequence_file_input<>::record_type> recordsRev;
+        std::vector<seqan3::sequence_file_input<>::record_type> recordsMergedRes;
+        std::vector<seqan3::sequence_file_input<>::record_type> recordsSnglFwdRes;
+        std::vector<seqan3::sequence_file_input<>::record_type> recordsSnglRevRes;
+    };
+
+    struct TrimConfig {
+       public:
+        enum Mode { FIVE_PRIME, THREE_PRIME };
+
+        static seqan3::align_cfg::method_global alignmentConfigFor(Mode mode);
+    };
+
+    struct Adapter {
+        const seqan3::dna5_vector sequence;
+        const double maxMissMatchFraction;
+        const TrimConfig::Mode trimmingMode;
+    };
+
+    std::vector<Adapter> loadAdapters(std::string const &filenameOrSequence,
+                                      const TrimConfig::Mode trimmingMode);
+
+    bool passesFilters(auto &record);
+
+    template <typename record_type>
+    void trimWindowedQuality(record_type &record);
+
+    void trimAdapter(const Adapter &adapter, auto &record);
+
+    template <typename record_type>
+    void trim3PolyG(record_type &record);
+
+    template <typename record_type>
+    std::optional<record_type> mergeRecordPair(record_type &record1, record_type &record2);
+
+    template <typename record_type, typename result_type>
+    record_type constructMergedRecord(const record_type &record1, const record_type &record2,
+                                      const seqan3::alignment_result<result_type> &alignmentResult);
+
+    void processSingleEnd(pt::ptree sample);
+    void processPairedEnd(pt::ptree sample);
+
+    void processSingleEndRecordChunk(SeqRickshaw::SingleEndFastqChunk &chunk,
+                                     const std::vector<Adapter> &adapters5,
+                                     const std::vector<Adapter> &adapters3);
+    void processSingleEndFileInChunks(std::string const &recInPath, std::string recOutPath,
+                                      const std::vector<Adapter> &adapters5,
+                                      const std::vector<Adapter> &adapters3, size_t chunkSize,
+                                      size_t numThreads);
+
+    void processPairedEndRecordChunk(PairedEndFastqChunk &chunk,
+                                     const std::vector<Adapter> &adapters5f,
+                                     const std::vector<Adapter> &adapters3f,
+                                     const std::vector<Adapter> &adapters5r,
+                                     const std::vector<Adapter> &adapters3r);
+    void processPairedEndFileInChunks(
+        std::string const &recFwdInPath, std::string const &recRevInPath,
+        std::string const &mergedOutPath, std::string const &snglFwdOutPath,
+        std::string const &snglRevOutPath, const std::vector<Adapter> &adapters5f,
+        const std::vector<Adapter> &adapters3f, const std::vector<Adapter> &adapters5r,
+        const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads);
+
    public:
-    enum Mode { FIVE_PRIME, THREE_PRIME };
+    SeqRickshaw(const po::variables_map &params);
 
-    static seqan3::align_cfg::method_global alignmentConfigFor(Mode mode);
-  };
-
-  struct Adapter {
-    seqan3::dna5_vector sequence;
-    size_t maxMissmatches;
-    TrimConfig::Mode trimmingMode;
-
-    Adapter(seqan3::dna5_vector sequence, double maxMissmatchRatio, TrimConfig::Mode trimmingMode)
-        : sequence(sequence), trimmingMode(trimmingMode) {
-      maxMissmatches = std::floor(sequence.size() * maxMissmatchRatio);
-    }
-  };
-
-  std::vector<Adapter> loadAdapters(std::string const &filenameOrSequence,
-                                    const TrimConfig::Mode trimmingMode);
-
-  bool passesFilters(auto &record);
-
-  template <typename record_type>
-  void trimWindowedQuality(record_type &record);
-
-  void trimAdapter(const Adapter &adapter, auto &record);
-
-  template <typename record_type>
-  void trim3PolyG(record_type &record);
-
-  template <typename record_type>
-  std::optional<record_type> mergeRecordPair(record_type &record1, record_type &record2);
-
-  template <typename record_type>
-  record_type constructMergedRecord(const record_type &record1, const record_type &record2,
-                                    const int overlap);
-
-  void processSingleEnd(pt::ptree sample);
-  void processPairedEnd(pt::ptree sample);
-
-  void processSingleEndRecordChunk(SeqRickshaw::SingleEndFastqChunk &chunk,
-                                   const std::vector<Adapter> &adapters5,
-                                   const std::vector<Adapter> &adapters3);
-  void processSingleEndFileInChunks(std::string const &recInPath, std::string recOutPath,
-                                    const std::vector<Adapter> &adapters5,
-                                    const std::vector<Adapter> &adapters3, size_t chunkSize,
-                                    size_t numThreads);
-
-  void processPairedEndRecordChunk(PairedEndFastqChunk &chunk,
-                                   const std::vector<Adapter> &adapters5f,
-                                   const std::vector<Adapter> &adapters3f,
-                                   const std::vector<Adapter> &adapters5r,
-                                   const std::vector<Adapter> &adapters3r);
-  void processPairedEndFileInChunks(
-      std::string const &recFwdInPath, std::string const &recRevInPath,
-      std::string const &mergedOutPath, std::string const &snglFwdOutPath,
-      std::string const &snglRevOutPath, const std::vector<Adapter> &adapters5f,
-      const std::vector<Adapter> &adapters3f, const std::vector<Adapter> &adapters5r,
-      const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads);
-
- public:
-  SeqRickshaw(const po::variables_map &params);
-
-  void start(pt::ptree sample);
+    void start(pt::ptree sample);
 };
 #endif

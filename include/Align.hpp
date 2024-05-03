@@ -3,7 +3,7 @@
 
 // Boost
 #include <boost/filesystem.hpp>
-#include <boost/process.hpp>
+// #include <boost/process.hpp>
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>
 
@@ -56,41 +56,23 @@ namespace po = boost::program_options;
 namespace pt = boost::property_tree;
 
 class Align {
- public:
-  // constructor/destructor
-  Align(po::variables_map params);
-  ~Align();
+   public:
+    // constructor/destructor
+    Align(po::variables_map params);
+    ~Align() = default;
 
-  // alignment
-  void start(pt::ptree sample);
-  void buildIndex();
-  void alignReads(std::string query, std::string mate, std::string matched);
+    // alignment
+    void buildIndex();
+    void alignReads(std::string query, std::string mate, std::string matched);
+    void start(pt::ptree sample);
+    seqan3::dna5 string2dna5(std::string rna);
 
- private:
-  po::variables_map params;
-  std::string segemehlSysCall;
-  std::string index;
+   private:
+    po::variables_map params;
+    std::string segemehlSysCall;
+    std::string index;
 
-  void sortAlignments(std::string alignmentsPath);
-
- public:
-  // constructor
-  Align(po::variables_map params);
-  Align();
-
-  void buildIndex();
-  void alignReads(std::string query, std::string matched);
-  void detSplits(std::string matched, std::string splits);
-
-  double complementarity(seqan3::dna5_vector rna1, seqan3::dna5_vector rna2);
-  double hybridize(seqan3::dna5_vector rna1, seqan3::dna5_vector rna2);
-
-  void processSplits(auto &splitrecords, auto &splitsfile);
-
-  seqan3::dna5 string2dna5(std::string rna);
-
-  void constructIndex();
-  void start(pt::ptree sample);
+    void sortAlignments(std::string alignmentsPath);
 };
 
 #endif  // RNANUE_ALIGN_HPP

@@ -112,8 +112,8 @@ void SeqRickshaw::processPairedEnd(pt::ptree sample) {
  * @param trimmingMode The trimming mode to be used for the adapters.
  * @return A vector of SeqRickshaw::Adapter objects containing the loaded adapters.
  */
-std::vector<SeqRickshaw::Adapter> SeqRickshaw::loadAdapters(
-    std::string const &filenameOrSequence, const SeqRickshaw::TrimConfig::Mode trimmingMode) {
+const std::vector<SeqRickshaw::Adapter> SeqRickshaw::loadAdapters(
+    const std::string &filenameOrSequence, const SeqRickshaw::TrimConfig::Mode trimmingMode) {
     std::vector<SeqRickshaw::Adapter> adapters;
 
     if (filenameOrSequence.empty()) return adapters;
@@ -125,9 +125,9 @@ std::vector<SeqRickshaw::Adapter> SeqRickshaw::loadAdapters(
                 SeqRickshaw::Adapter{record.sequence(), missMatchRateTrim, trimmingMode});
         }
     } else {
-        seqan3::dna5_vector adapterSequence = filenameOrSequence |
-                                              seqan3::views::char_to<seqan3::dna5> |
-                                              seqan3::ranges::to<std::vector>();
+        const seqan3::dna5_vector adapterSequence = filenameOrSequence |
+                                                    seqan3::views::char_to<seqan3::dna5> |
+                                                    seqan3::ranges::to<std::vector>();
         adapters.push_back(SeqRickshaw::Adapter{adapterSequence, missMatchRateTrim, trimmingMode});
     }
 
@@ -186,40 +186,35 @@ void SeqRickshaw::trimWindowedQuality(record_type &record) {
  * std::nullopt.
  */
 template <typename record_type>
-std::optional<record_type> SeqRickshaw::mergeRecordPair(record_type &record1,
-                                                        record_type &record2) {
-    seqan3::align_cfg::method_global endGapConfig{
+const std::optional<record_type> SeqRickshaw::mergeRecordPair(const record_type &record1,
+                                                              const record_type &record2) {
+    const seqan3::align_cfg::method_global endGapConfig{
         seqan3::align_cfg::free_end_gaps_sequence1_leading{true},
         seqan3::align_cfg::free_end_gaps_sequence2_leading{true},
         seqan3::align_cfg::free_end_gaps_sequence1_trailing{true},
         seqan3::align_cfg::free_end_gaps_sequence2_trailing{true}};
 
-    seqan3::align_cfg::scoring_scheme scoringSchemeConfig{
+    const seqan3::align_cfg::scoring_scheme scoringSchemeConfig{
         seqan3::nucleotide_scoring_scheme{seqan3::match_score{1}, seqan3::mismatch_score{-1}}};
 
-    seqan3::align_cfg::gap_cost_affine gapSchemeConfig{seqan3::align_cfg::open_score{-2},
-                                                       seqan3::align_cfg::extension_score{-4}};
+    const seqan3::align_cfg::gap_cost_affine gapSchemeConfig{
+        seqan3::align_cfg::open_score{-2}, seqan3::align_cfg::extension_score{-4}};
 
-    auto outputConfig =
+    const auto outputConfig =
         seqan3::align_cfg::output_score{} | seqan3::align_cfg::output_begin_position{} |
         seqan3::align_cfg::output_end_position{} | seqan3::align_cfg::output_alignment{};
 
-    auto alignmentConfig = endGapConfig | scoringSchemeConfig | gapSchemeConfig | outputConfig;
+    const auto alignmentConfig =
+        endGapConfig | scoringSchemeConfig | gapSchemeConfig | outputConfig;
 
-    auto &seq1 = record1.sequence();
-    auto seq2ReverseComplement =
+    const auto &seq1 = record1.sequence();
+    const auto &seq2ReverseComplement =
         record2.sequence() | std::views::reverse | seqan3::views::complement;
 
     std::optional<record_type> mergedRecord{std::nullopt};
 
-    int iteration = 0;
-
     for (auto const &result :
          seqan3::align_pairwise(std::tie(seq1, seq2ReverseComplement), alignmentConfig)) {
-        if (iteration > 0) {
-            std::cout << "Multiple results for alignment" << std::endl;
-        }
-
         const int overlap = result.sequence1_end_position() - result.sequence1_begin_position();
         if (overlap < minOverlapMerge) continue;
 
@@ -227,8 +222,6 @@ std::optional<record_type> SeqRickshaw::mergeRecordPair(record_type &record1,
         if (result.score() >= minScore) {
             mergedRecord = constructMergedRecord(record1, record2, result);
         }
-
-        iteration++;
     }
 
     return mergedRecord;
@@ -244,11 +237,11 @@ std::optional<record_type> SeqRickshaw::mergeRecordPair(record_type &record1,
  * @return The merged record.
  */
 template <typename record_type, typename result_type>
-record_type SeqRickshaw::constructMergedRecord(
+const record_type SeqRickshaw::constructMergedRecord(
     const record_type &record1, const record_type &record2,
     const seqan3::alignment_result<result_type> &alignmentResult) {
-    auto record1Qualities = record1.base_qualities();
-    auto record2Qualities = record2.base_qualities();
+    const auto &record1Qualities = record1.base_qualities();
+    const auto &record2Qualities = record2.base_qualities();
 
     seqan3::dna5_vector mergedSequence{};
     std::vector<seqan3::phred42> mergedQualities{};
@@ -256,9 +249,9 @@ record_type SeqRickshaw::constructMergedRecord(
     mergedSequence.reserve(record1.sequence().size() + record2.sequence().size());
     mergedQualities.reserve(record1Qualities.size() + record2Qualities.size());
 
-    auto record2RevCompSequence =
+    const auto &record2RevCompSequence =
         record2.sequence() | seqan3::views::complement | std::views::reverse;
-    auto record2RevCompQualities = record2Qualities | std::views::reverse;
+    const auto &record2RevCompQualities = record2Qualities | std::views::reverse;
 
     // 5' overhang of read one that is not in overlap region
     mergedSequence.insert(mergedSequence.end(), record1.sequence().begin(),
@@ -277,7 +270,7 @@ record_type SeqRickshaw::constructMergedRecord(
         const seqan3::phred42 qual2 = record2RevCompQualities[posRecord2];
 
         if (el1 == el2) {
-            seqan3::dna5 base1 = el1.template convert_to<seqan3::dna5>();
+            const seqan3::dna5 base1 = el1.template convert_to<seqan3::dna5>();
             mergedSequence.insert(mergedSequence.end(), base1);
             mergedQualities.insert(mergedQualities.end(), std::max(qual1, qual2));
 
@@ -288,11 +281,11 @@ record_type SeqRickshaw::constructMergedRecord(
 
         if (el1 != seqan3::gap{} && el2 != seqan3::gap{}) {
             if (qual1 < qual2) {
-                seqan3::dna5 base2 = el2.template convert_to<seqan3::dna5>();
+                const seqan3::dna5 base2 = el2.template convert_to<seqan3::dna5>();
                 mergedSequence.insert(mergedSequence.end(), base2);
                 mergedQualities.insert(mergedQualities.end(), qual2);
             } else {
-                seqan3::dna5 base1 = el1.template convert_to<seqan3::dna5>();
+                const seqan3::dna5 base1 = el1.template convert_to<seqan3::dna5>();
                 mergedSequence.insert(mergedSequence.end(), base1);
                 mergedQualities.insert(mergedQualities.end(), qual1);
             }
@@ -303,7 +296,7 @@ record_type SeqRickshaw::constructMergedRecord(
         }
 
         if (el1 == seqan3::gap{}) {
-            seqan3::dna5 base2 = el2.template convert_to<seqan3::dna5>();
+            const seqan3::dna5 base2 = el2.template convert_to<seqan3::dna5>();
             mergedSequence.insert(mergedSequence.end(), base2);
             mergedQualities.insert(mergedQualities.end(), qual2);
 
@@ -312,7 +305,7 @@ record_type SeqRickshaw::constructMergedRecord(
         }
 
         if (el2 == seqan3::gap{}) {
-            seqan3::dna5 base1 = el1.template convert_to<seqan3::dna5>();
+            const seqan3::dna5 base1 = el1.template convert_to<seqan3::dna5>();
             mergedSequence.insert(mergedSequence.end(), base1);
             mergedQualities.insert(mergedQualities.end(), qual1);
 
@@ -339,22 +332,16 @@ record_type SeqRickshaw::constructMergedRecord(
  * @param record The record to be checked.
  * @return True if the record passes all the filters, false otherwise.
  */
-bool SeqRickshaw::passesFilters(auto &record) {
+const bool SeqRickshaw::passesFilters(const auto &record) {
     // Filter for mean quality
-    auto phredQual =
+    const auto phredQual =
         record.base_qualities() | std::views::transform([](auto q) { return q.to_phred(); });
-    double sum = std::accumulate(phredQual.begin(), phredQual.end(), 0);
-    double meanPhred = sum / std::ranges::size(phredQual);
-    bool passesQual = meanPhred >= minMeanPhread;
+    const double sum = std::accumulate(phredQual.begin(), phredQual.end(), 0);
+    const double meanPhred = sum / std::ranges::size(phredQual);
+    const bool passesQual = meanPhred >= minMeanPhread;
 
     // Filter for length
     const bool passesLen = record.sequence().size() >= minLen;
-
-    if (record.id() == std::string{"@SRR18331301.217 217 length=36"}) {
-        seqan3::debug_stream << "Record: " << record << std::endl;
-        seqan3::debug_stream << "Passes phread: " << passesQual << " Passes len: " << passesLen
-                             << std::endl;
-    }
 
     return passesQual && passesLen;
 }
@@ -367,16 +354,17 @@ bool SeqRickshaw::passesFilters(auto &record) {
  * @param trimmingMode The trimming mode to be applied.
  */
 void SeqRickshaw::trimAdapter(const SeqRickshaw::Adapter &adapter, auto &record) {
-    seqan3::align_cfg::scoring_scheme scoringSchemeConfig{
+    const seqan3::align_cfg::scoring_scheme scoringSchemeConfig{
         seqan3::nucleotide_scoring_scheme{seqan3::match_score{1}, seqan3::mismatch_score{-1}}};
-    seqan3::align_cfg::gap_cost_affine gapSchemeConfig{seqan3::align_cfg::open_score{-2},
-                                                       seqan3::align_cfg::extension_score{-4}};
-    auto outputConfig = seqan3::align_cfg::output_score{} |
-                        seqan3::align_cfg::output_end_position{} |
-                        seqan3::align_cfg::output_begin_position{};
+    const seqan3::align_cfg::gap_cost_affine gapSchemeConfig{
+        seqan3::align_cfg::open_score{-2}, seqan3::align_cfg::extension_score{-4}};
+    const auto outputConfig = seqan3::align_cfg::output_score{} |
+                              seqan3::align_cfg::output_end_position{} |
+                              seqan3::align_cfg::output_begin_position{};
 
-    auto alignment_config = SeqRickshaw::TrimConfig::alignmentConfigFor(adapter.trimmingMode) |
-                            scoringSchemeConfig | gapSchemeConfig | outputConfig;
+    const auto alignment_config =
+        SeqRickshaw::TrimConfig::alignmentConfigFor(adapter.trimmingMode) | scoringSchemeConfig |
+        gapSchemeConfig | outputConfig;
 
     auto &seq = record.sequence();
     auto &qual = record.base_qualities();
@@ -384,11 +372,11 @@ void SeqRickshaw::trimAdapter(const SeqRickshaw::Adapter &adapter, auto &record)
     //  TODO Manage multiple results for trimming correctly
     for (auto const &result :
          seqan3::align_pairwise(std::tie(adapter.sequence, seq), alignment_config)) {
-        int overlap = result.sequence2_end_position() - result.sequence2_begin_position();
+        const int overlap = result.sequence2_end_position() - result.sequence2_begin_position();
 
         if (overlap < minOverlapTrim) continue;
 
-        int minScore = overlap - (overlap * adapter.maxMissMatchFraction) * 2;
+        const int minScore = overlap - (overlap * adapter.maxMissMatchFraction) * 2;
 
         // seqan3::debug_stream << "Alignment result: " << result << std::endl;
 
@@ -417,6 +405,8 @@ void SeqRickshaw::trimAdapter(const SeqRickshaw::Adapter &adapter, auto &record)
  */
 template <typename record_type>
 void SeqRickshaw::trim3PolyG(record_type &record) {
+    // TODO Optimize this function
+
     auto &seq = record.sequence();
     auto &qual = record.base_qualities();
 
@@ -430,11 +420,11 @@ void SeqRickshaw::trim3PolyG(record_type &record) {
     auto qualIt = qual.rbegin();
 
     auto sufficientMeanQuality = [&]() {
-        auto qualities = qualitiesPhread | std::views::transform([](auto quality) {
-                             return seqan3::to_phred(quality);
-                         });
+        const auto qualities = qualitiesPhread | std::views::transform([](auto quality) {
+                                   return seqan3::to_phred(quality);
+                               });
 
-        auto sum = std::accumulate(qualities.begin(), qualities.end(), 0);
+        const auto sum = std::accumulate(qualities.begin(), qualities.end(), 0);
         return std::ranges::size(qualities) == 0 || sum / std::ranges::size(qualities) >= 20;
     };
 
@@ -444,7 +434,7 @@ void SeqRickshaw::trim3PolyG(record_type &record) {
         ++qualIt;
     }
 
-    std::size_t polyGCount = qualitiesPhread.size();
+    const std::size_t polyGCount = qualitiesPhread.size();
 
     if (polyGCount >= 5) {
         seq.erase(seq.end() - polyGCount, seq.end());
@@ -514,7 +504,7 @@ void SeqRickshaw::processSingleEndFileInChunks(std::string const &recInPath, std
     // Function to read a chunk from the FASTQ file and process it.
     auto processChunkFunc = [&]() {
         while (true) {
-            std::chrono::high_resolution_clock::time_point start =
+            const std::chrono::high_resolution_clock::time_point start =
                 std::chrono::high_resolution_clock::now();
 
             // Read a chunk of records from the FASTQ file.
@@ -543,8 +533,8 @@ void SeqRickshaw::processSingleEndFileInChunks(std::string const &recInPath, std
                     recOut.push_back(record);
                 }
 
-                auto end = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double> duration = end - start;
+                const auto end = std::chrono::high_resolution_clock::now();
+                const std::chrono::duration<double> duration = end - start;
 
                 Logger::log(LogLevel::INFO, "Processed chunk (" + std::to_string(chunkSize) +
                                                 " reads). Elapsed time: " +
@@ -566,9 +556,9 @@ void SeqRickshaw::processSingleEndFileInChunks(std::string const &recInPath, std
 
 // Function to read a FASTQ file in chunks and process each chunk.
 void SeqRickshaw::processPairedEndFileInChunks(
-    std::string const &recFwdInPath, std::string const &recRevInPath,
-    std::string const &mergedOutPath, std::string const &snglFwdOutPath,
-    std::string const &snglRevOutPath, const std::vector<SeqRickshaw::Adapter> &adapters5f,
+    const std::string &recFwdInPath, std::string const &recRevInPath,
+    const std::string &mergedOutPath, std::string const &snglFwdOutPath,
+    const std::string &snglRevOutPath, const std::vector<SeqRickshaw::Adapter> &adapters5f,
     const std::vector<SeqRickshaw::Adapter> &adapters3f,
     const std::vector<SeqRickshaw::Adapter> &adapters5r,
     const std::vector<SeqRickshaw::Adapter> &adapters3r, size_t chunkSize, size_t numThreads) {
@@ -585,9 +575,9 @@ void SeqRickshaw::processPairedEndFileInChunks(
     size_t chunkCount = 0;
 
     // Function to read a chunk from the FASTQ file and process it.
-    auto processChunkFunc = [&]() {
+    const auto processChunkFunc = [&]() {
         while (true) {
-            std::chrono::high_resolution_clock::time_point start =
+            const std::chrono::high_resolution_clock::time_point start =
                 std::chrono::high_resolution_clock::now();
 
             // Read a chunk of records from the FASTQ file.
@@ -623,8 +613,8 @@ void SeqRickshaw::processPairedEndFileInChunks(
                     snglRevOut.push_back(record);
                 }
 
-                auto end = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double> duration = end - start;
+                const auto end = std::chrono::high_resolution_clock::now();
+                const std::chrono::duration<double> duration = end - start;
 
                 Logger::log(LogLevel::INFO, "Processed chunk (" + std::to_string(chunkSize) +
                                                 " read pairs). Elapsed time: " +
@@ -676,22 +666,25 @@ void SeqRickshaw::processPairedEndRecordChunk(SeqRickshaw::PairedEndFastqChunk &
 
         // seqan3::debug_stream << "Records: " << record1 << "\n" << record2 << std::endl;
 
-        bool filtFwd = passesFilters(record1);
-        bool filtRev = passesFilters(record2);
+        const bool filtFwd = passesFilters(record1);
+        const bool filtRev = passesFilters(record2);
 
-        // TODO Clean up this mess
         if (filtFwd && filtRev) {
-            auto mergedRecord = mergeRecordPair(record1, record2);
-            if (mergedRecord.has_value()) {
-                const auto mergedRecordValue = mergedRecord.value();
-                if (passesFilters(mergedRecordValue)) {
-                    chunk.recordsMergedRes.push_back(std::move(mergedRecord.value()));
-                }
-            } else {
+            const auto mergedRecord = mergeRecordPair(record1, record2);
+
+            if (!mergedRecord.has_value()) {
                 chunk.recordsSnglFwdRes.push_back(std::move(record1));
                 chunk.recordsSnglRevRes.push_back(std::move(record2));
+                continue;
             }
-        } else {
+
+            const auto &mergedRecordValue = mergedRecord.value();
+
+            if (passesFilters(mergedRecordValue)) {
+                chunk.recordsMergedRes.push_back(std::move(mergedRecord.value()));
+                continue;
+            }
+
             if (filtFwd) {
                 chunk.recordsSnglFwdRes.push_back(std::move(record1));
             }

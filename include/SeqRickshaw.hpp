@@ -113,25 +113,28 @@ class SeqRickshaw {
         const TrimConfig::Mode trimmingMode;
     };
 
-    std::vector<Adapter> loadAdapters(std::string const &filenameOrSequence,
-                                      const TrimConfig::Mode trimmingMode);
+    const std::vector<Adapter> loadAdapters(const std::string &filenameOrSequence,
+                                            const TrimConfig::Mode trimmingMode);
 
-    bool passesFilters(auto &record);
+    const bool passesFilters(const auto &record);
 
     template <typename record_type>
     void trimWindowedQuality(record_type &record);
 
-    void trimAdapter(const Adapter &adapter, auto &record);
+    template <typename record_type>
+    void trimAdapter(const Adapter &adapter, record_type &record);
 
     template <typename record_type>
     void trim3PolyG(record_type &record);
 
     template <typename record_type>
-    std::optional<record_type> mergeRecordPair(record_type &record1, record_type &record2);
+    const std::optional<record_type> mergeRecordPair(const record_type &record1,
+                                                     const record_type &record2);
 
     template <typename record_type, typename result_type>
-    record_type constructMergedRecord(const record_type &record1, const record_type &record2,
-                                      const seqan3::alignment_result<result_type> &alignmentResult);
+    const record_type constructMergedRecord(
+        const record_type &record1, const record_type &record2,
+        const seqan3::alignment_result<result_type> &alignmentResult);
 
     void processSingleEnd(pt::ptree sample);
     void processPairedEnd(pt::ptree sample);

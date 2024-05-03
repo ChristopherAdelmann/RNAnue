@@ -11,6 +11,7 @@ void Align::alignReads(std::string query, std::string matched) {
 
   std::string align = segemehlSysCall;
   align += " -S ";
+  align += " -b ";  // output in bam format
   align += " -A " + std::to_string(params["accuracy"].as<int>());
   align += " -U " + std::to_string(params["minfragsco"].as<int>());
   align += " -W " + std::to_string(params["minsplicecov"].as<int>());
@@ -44,7 +45,10 @@ void Align::buildIndex() {
     std::string genIndex = segemehlSysCall + " -x " + gen.string() + " -d " + ref;
     std::cout << genIndex << std::endl;
     const char *call = genIndex.c_str();
-    system(call);
+    int result = system(call);
+    if (result != 0) {
+      std::cout << helper::getTime() << "Error: Could not create index for " << ref << "\n";
+    }
   }
   index = gen.string();
 }
@@ -105,9 +109,28 @@ void Align::start(pt::ptree sample) {
   pt::ptree input = sample.get_child("input");
   pt::ptree output = sample.get_child("output");
 
-  // align the reads
-  std::string forward = input.get<std::string>("forward");
-  std::string matched = output.get<std::string>("matched");
-  alignReads(forward, matched);
-  sortAlignments(matched);
+  // align the reads (regular)
+  std::string inFwd = input.get<std::string>("forward");
+  std::string outMatched = output.get<std::string>("matched");
+
+  alignReads(inFwd, "", outMatched);
+
+  if (params["readtype"].as<std::string>() == "PE") {
+    if (params["unprd"].as<std::bitset<1> >() == std::bitset<1>("1")) {
+      std::string inR1only = input.get<std::string>("R1only");
+      std::string outR1only = output.get<std::string>("matched_R1only");
+      alignReads(inR1only, "", outR1only);
+
+      std::string inR2only = input.get<std::string>("R2only");
+      std::string outR2only = output.get<std::string>("matched_R2only");
+      alignReads(inR2only, "", outR2only);
+    }
+
+    if (params["unmrg"].as<std::bitset<1> >() == std::bitset<1>("1")) {
+      std::string inR1unmrg = input.get<std::string>("R1unmerged");
+      std::string inR2unmrg = input.get<std::string>("R2unmerged");
+      std::string outunmrg = output.get<std::string>("matched_unmerged");
+      alignReads(inR1unmrg, inR2unmrg, outunmrg);
+    }
+  }
 }

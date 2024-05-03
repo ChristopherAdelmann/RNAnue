@@ -1,7 +1,13 @@
-#ifndef DATA_HPP
-#define DATA_HPP
+//
+// Created by Richard Albin Schaefer on 1/24/24.
+//
 
 #include <math.h>
+#ifndef RNANUE_DATA_HPP
+#define RNANUE_DATA_HPP
+
+#include <typeinfo>
+#include <deque>
 
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
@@ -22,21 +28,48 @@
 #include "SplitReadCalling.hpp"
 
 namespace po = boost::program_options;
-namespace pt = boost::property_tree;
 namespace fs = boost::filesystem;
+namespace pt = boost::property_tree;
+namespace jp = boost::property_tree::json_parser;
 
-using GroupsPath = std::map<std::string, fs::path>;  // path to ctrls, trtms
+// map that contains the paths to the groups (e.g., ctrls, trtms)
+using GroupsPath = std::map<std::string, fs::path>;
+using PathVector = std::vector<fs::path>;
 
-template <class DataType>
-using GroupsMap = std::map<std::string, std::pair<std::string, DataType>>;
+class Data{
+    public:
+        Data(po::variables_map params);
+        ~Data();
 
-typedef std::vector<fs::path> PathVector;
+        // get Data
+        GroupsPath getGroupsPath(fs::path& ctrls, fs::path& trtms);
+        void getCondition(GroupsPath& groups);
+        pt::ptree getData(const std::string group, fs::path& condition);
 
-class Data {
-  /*
-   * the type of the data:
-   *
-   */
+        // get output data
+        pt::ptree getOutputData(pt::ptree& input, fs::path& conditionOutDir);
+        pt::ptree getPreprocOutputData(pt::ptree& input, fs::path& conditionOutDir);
+        pt::ptree getAlignOutputData(pt::ptree& input, fs::path& conditionOutDir);
+        pt::ptree getDetectOutputData(pt::ptree& input, fs::path& conditionOutDir);
+
+        //
+        int getNumberElements(PathVector& vec);
+        std::vector<std::string> getSampleKeys();
+
+        // prep functions
+        void preprocDataPrep();
+        void alignDataPrep();
+        void detectDataPrep();
+
+        //
+        template <typename Callable>
+        void callInAndOut(Callable f);
+
+        // callables
+        void preproc();
+        void align();
+        void detect();
+
  private:
   po::variables_map params;
   pt::ptree dataStructure;
@@ -92,4 +125,5 @@ class Data {
   void analysis();
 };
 
-#endif  // DATA_HPP
+
+#endif //RNANUE_DATA_HPP

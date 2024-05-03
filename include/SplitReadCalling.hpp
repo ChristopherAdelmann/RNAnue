@@ -1,3 +1,6 @@
+#ifndef RNANUE_DETECT_HPP
+#define RNANUE_DETECT_HPP
+
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>
@@ -37,6 +40,18 @@
 #include "ScoringMatrix.hpp"
 #include "Traceback.hpp"
 
+// Standard
+#include <bitset>
+#include <iostream>
+
+// Boost
+#include <boost/filesystem.hpp>
+#include <boost/program_options.hpp>
+#include <boost/property_tree/ptree.hpp>
+
+// Classes
+#include "IBPTree.hpp"
+
 extern "C" {
 #include <ViennaRNA/cofold.h>
 #include <ViennaRNA/utils/basic.h>
@@ -44,7 +59,6 @@ extern "C" {
 }
 
 namespace po = boost::program_options;
-namespace pt = boost::property_tree;
 namespace fs = boost::filesystem;
 
 using seqan3::operator""_tag;
@@ -115,6 +129,7 @@ typedef std::vector<
 typedef std::pair<size_t, size_t> NucleotidePairPositions;
 typedef std::pair<NucleotidePairPositions, NucleotidePairPositions> NucleotidePositionsWindow;
 typedef std::pair<seqan3::dna5_vector, seqan3::dna5_vector> NucleotideWindowPair;
+namespace pt = boost::property_tree;
 
 static const std::map<NucleotideWindowPair, size_t> crosslinkingScoringScheme = {
     {{"TA"_dna5, "AT"_dna5}, 3},  // Preffered pyrimidine crosslinking
@@ -151,6 +166,13 @@ typedef struct {
   std::optional<CrosslinkingResult> crosslinkingResult;
 } HybridizationResult;
 class SplitReadCalling {
+ public:
+  SplitReadCalling(po::variables_map params);
+  ~SplitReadCalling();
+
+  void start(pt::ptree sample);
+  void iterate(std::string &matched, std::string &splits, std::string &multsplits);
+
  private:
   po::variables_map params;
   std::vector<std::tuple<std::string>> stats;
@@ -200,4 +222,7 @@ class SplitReadCalling {
 
   std::string addSuffix(std::string _file, std::string _suffix, std::vector<std::string> _keys);
   void start(pt::ptree sample);
+  IBPTree features;
 };
+
+#endif  // RNANUE_DETECT_HPP

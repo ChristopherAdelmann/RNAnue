@@ -11,7 +11,7 @@ Data::Data(po::variables_map _params) : params(_params) {}
  */
 void Data::createDirectories(fs::path &path) {
     if (fs::exists(path)) {
-        Logger::log(LogLevel::INFO, "The direcotory", path.string(), " already exists.");
+        Logger::log(LogLevel::INFO, "The directory ", path.string(), " already exists");
     } else {
         fs::create_directories(path);
         Logger::log(LogLevel::INFO, "Created directory ", path.string());
@@ -290,23 +290,11 @@ pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath)
 
     return condition;
 }
-
-void printTree(const boost::property_tree::ptree &pt, int level = 0) {
-    for (const auto &node : pt) {
-        std::cout << std::string(level * 2, ' ') << node.first << ": "
-                  << node.second.get_value<std::string>() << "\n";
-        printTree(node.second, level + 1);
-    }
-}
-
 // create ptree of the output files
 pt::ptree Data::retrieveSampleOutputTree(fs::path outConditionDir, pt::ptree inputTree) {
     pt::ptree output;
 
     if (params["subcall"].as<std::string>() == "preproc") {
-        // replace input path with output path (results/...)
-        printTree(inputTree);
-
         fs::path fwd = fs::path(inputTree.get<std::string>("input.forward"));
         std::string forward = replaceParentDirPath(outConditionDir, fwd).string();
 
@@ -376,8 +364,7 @@ void Data::callInAndOut(Callable f) {
 
     fs::path outDir = fs::path(params["outdir"].as<std::string>());
     fs::path outSubcallDir = outDir / fs::path(subcallStr);
-
-    std::cout << "Calling " << subcallStr << " start creating output dir" << std::endl;
+    Logger::log(LogLevel::INFO, "Calling ", subcallStr, " pipeline");
 
     // create output directory (and subdirectory for subcall)
     createDirectories(outDir);         // create output
@@ -388,8 +375,7 @@ void Data::callInAndOut(Callable f) {
     try {
         subcall = dataStructure.get_child(subcallStr);
     } catch (pt::ptree_error &e) {
-        std::cout << "### ERROR - " << subcallStr << " has not been found in the data structure"
-                  << std::endl;
+        Logger::log(LogLevel::ERROR, subcallStr, " has not been found in the data structure");
         exit(EXIT_FAILURE);
     }
 
@@ -400,9 +386,6 @@ void Data::callInAndOut(Callable f) {
 
     pt::ptree conditions, samples, path;
     fs::path outGroupDir, outConditionDir;
-
-    std::cout << "*** create directories to store the results (specified via --outdir)"
-              << std::endl;
 
     for (unsigned i = 0; i < groups.size(); ++i) {
         // create directory for groups (e.g., ctrls, trtms)
@@ -433,6 +416,8 @@ void Data::callInAndOut(Callable f) {
             }
         }
     }
+
+    Logger::log(LogLevel::INFO, "Finished ", subcallStr, " pipeline");
 }
 
 void Data::preproc() {
@@ -456,7 +441,6 @@ void Data::clustering() {
     callInAndOut(std::bind(&Clustering::start, &clu, std::placeholders::_1));
 
     clu.sumup();
-    std::cout << "Clustering finished" << std::endl;
 }
 
 void Data::analysis() {

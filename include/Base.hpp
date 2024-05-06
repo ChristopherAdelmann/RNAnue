@@ -14,7 +14,7 @@ namespace po = boost::program_options;
 
 class Base {
    public:
-    Base(po::variables_map _params, std::string _subcall);
+    Base(po::variables_map _params);
     ~Base() = default;
     Data data;
 

@@ -1,6 +1,6 @@
 #include "Base.hpp"
 
-Base::Base(po::variables_map _params, std::string _subcall) : params(_params), data(_params) {
+Base::Base(po::variables_map _params) : data(_params), params(_params) {
     std::string subcall = _params["subcall"].as<std::string>();
     // Define a vector of pairs from strings to member function pointers
     std::vector<std::pair<std::string, void (Data::*)()>> subcallMap = {
@@ -11,8 +11,8 @@ Base::Base(po::variables_map _params, std::string _subcall) : params(_params), d
         {"analysis", &Data::analysis}};
 
     // Check if the subcall is valid
-    auto it = std::find_if(subcallMap.begin(), subcallMap.end(),
-                           [&](const auto &pair) { return pair.first == subcall; });
+    auto it =
+        std::ranges::find_if(subcallMap, [&](const auto &pair) { return pair.first == subcall; });
     if (it == subcallMap.end() && subcall != "complete") {
         std::cout << "subcall: " << subcall << " invalid!" << std::endl;
         exit(EXIT_FAILURE);

@@ -2,9 +2,10 @@
 // Created by Richard Albin Schaefer on 1/24/24.
 //
 
-#include <math.h>
 #ifndef RNANUE_DATA_HPP
 #define RNANUE_DATA_HPP
+
+#include <math.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>

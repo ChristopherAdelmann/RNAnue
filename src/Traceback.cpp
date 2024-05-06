@@ -1,90 +1,88 @@
 #include "Traceback.hpp"
-#include "Logger.hpp"
+
 #include <set>
+
+#include "Logger.hpp"
 
 /*
 TracebackResult *traceback(ScoringMatrix matrix, const char *a, const char *b) {
     char* a = calloc(sizeof(char), strlen(b));
 }*/
 
-
 std::vector<TracebackResult> traceback(ScoringMatrix matrix, const char *a, const char *b) {
-    std::vector<std::pair<int,int>> mids; // store indices of maximum elementh
-    mids.push_back(std::make_pair(0,0)); // init
+    std::vector<std::pair<int, int>> mids;  // store indices of maximum elementh
+    mids.push_back(std::make_pair(0, 0));   // init
     // find maximum value in scoring matrix
-    for(int i=0;i<matrix.height;++i) {
-        for(int j=0;j<matrix.width;++j) {
-            if(matrix.scoring[(matrix.width * i + j)] > matrix.scoring[(matrix.width * mids[0].first + mids[0].second)]) {
+    for (int i = 0; i < matrix.height; ++i) {
+        for (int j = 0; j < matrix.width; ++j) {
+            if (matrix.scoring[(matrix.width * i + j)] >
+                matrix.scoring[(matrix.width * mids[0].first + mids[0].second)]) {
                 mids.clear();
-                mids.push_back(std::make_pair(i,j));
+                mids.push_back(std::make_pair(i, j));
             } else {
-                if(matrix.scoring[(matrix.width * i + j)] == matrix.scoring[(matrix.width * mids[0].first + mids[0].second)]) {
-                    mids.push_back(std::make_pair(i,j));
+                if (matrix.scoring[(matrix.width * i + j)] ==
+                    matrix.scoring[(matrix.width * mids[0].first + mids[0].second)]) {
+                    mids.push_back(std::make_pair(i, j));
                 }
             }
         }
     }
 
-    std::set<std::pair<char, char>> matchingNucleotides = {{'A', 'T'}, {'T', 'A'}, {'C', 'G'}, {'G', 'C'}, {'T', 'G'}, {'G', 'T'}};
+    std::set<std::pair<char, char>> matchingNucleotides = {{'A', 'T'}, {'T', 'A'}, {'C', 'G'},
+                                                           {'G', 'C'}, {'T', 'G'}, {'G', 'T'}};
 
     std::vector<TracebackResult> res;
-    for(auto &max : mids) {
-        TracebackResult trc{"","",0,0,0,0.0,0.0};
-        
-        int x = max.first; // rows
-        int y = max.second; // cols 
+    for (auto &max : mids) {
+        TracebackResult trc{"", "", 0, 0, 0, 0.0, 0.0};
+
+        int x = max.first;   // rows
+        int y = max.second;  // cols
         int counter = 0;
         int matches = 0;
 
         std::string aAlign;
         std::string bAlign;
 
-        while(matrix.scoring[matrix.width * x + y] > 0) {
+        while (matrix.scoring[matrix.width * x + y] > 0) {
             std::bitset<3> direction = matrix.traceback[matrix.width * x + y];
 
-            if (matchingNucleotides.count(std::make_pair(a[x - 1], b[y - 1])) > 0)
-            {
+            if (matchingNucleotides.count(std::make_pair(a[x - 1], b[y - 1])) > 0) {
                 matches++;
             }
 
-            // if (matrix.scoring[matrix.width * x + y] - 1 == matrix.scoring[matrix.width * (x - 1) + (y - 1)])
+            // if (matrix.scoring[matrix.width * x + y] - 1 == matrix.scoring[matrix.width * (x - 1)
+            // + (y - 1)])
             // {
             //     matches++;
             // }
 
-            if(direction.count() > 0) {
-                if(direction[0] == 1) {
-                    aAlign += a[x-1];
-                    bAlign += b[y-1];
+            if (direction.count() > 0) {
+                if (direction[0] == 1) {
+                    aAlign += a[x - 1];
+                    bAlign += b[y - 1];
                     x--;
                     y--;
-                }
-                else
-                {
-                    if (direction[1] == 1)
-                    {
+                } else {
+                    if (direction[1] == 1) {
                         aAlign += '-';
                         bAlign += b[y - 1];
                         y--;
-                    }
-                    else
-                    {
-                        if (direction[2] == 1)
-                        {
+                    } else {
+                        if (direction[2] == 1) {
                             aAlign += a[x - 1];
                             bAlign += '-';
                             x--;
                         }
                     }
                 }
-            } else { // end reached
+            } else {  // end reached
                 break;
             }
             counter++;
         }
 
-        std::reverse(aAlign.begin(),aAlign.end());
-        std::reverse(bAlign.begin(),bAlign.end());
+        std::reverse(aAlign.begin(), aAlign.end());
+        std::reverse(bAlign.begin(), bAlign.end());
 
         // write back to object
         trc.a = aAlign;
@@ -99,13 +97,5 @@ std::vector<TracebackResult> traceback(ScoringMatrix matrix, const char *a, cons
     return res;
 }
 
-
-
-
 //
-void free_traceback(TracebackResult trc) {
-    
-}
-
-
-
+void free_traceback(TracebackResult trc) {}

@@ -12,6 +12,7 @@
 
 enum class LogLevel { INFO, WARNING, ERROR };
 
+// TODO Change implementation to use os_syncstream
 class Logger {
    public:
     static Logger &getInstance() {

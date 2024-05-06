@@ -5,10 +5,7 @@
 
 #include <iostream>
 
-Clustering::Clustering(po::variables_map params) : params(params) {
-    std::cout << helper::getTime() << " start the clustering procedure" << std::endl;
-    result = {};
-}
+Clustering::Clustering(po::variables_map params) : params(params) { result = {}; }
 
 void Clustering::iterate(std::string splits) {
     // input .sam file of sngl splits
@@ -82,10 +79,7 @@ bool Clustering::startPosCmp(Cluster &a, Cluster &b) {
 }
 
 void Clustering::sumup() {
-    std::cout << helper::getTime() << " write clusters to file" << std::endl;
-
-    // std::cout << "sumup" << std::endl;
-    // std::cout << result.size() << std::endl;
+    Logger::log(LogLevel::INFO, "Writing clusters to file");
 
     // retrieve output directory
     fs::path output = fs::path(params["outdir"].as<std::string>()) / fs::path("clustering");

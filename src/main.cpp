@@ -56,8 +56,6 @@ int main(int argc, char* argv[]) {
         std::string readType;
         std::string configFile;
 
-        std::cout << "before general" << std::endl;
-
         po::options_description general("General");
         general.add_options()("readtype,r", po::value<std::string>(&readType)->default_value("SE"),
                               "single-end (=SE) or paired-end (=PE) reads");
@@ -115,13 +113,13 @@ int main(int argc, char* argv[]) {
         preproc.add_options()(
             "minqual,q", po::value<int>()->default_value(20),
             "lower limit for the mean quality (Phred Quality Score) of the reads (default: 20)");
-        preproc.add_options()("minlen,l", po::value<int>()->default_value(15),
+        preproc.add_options()("minlen,l", po::value<std::size_t>()->default_value(15),
                               "minimum length of the reads");
         preproc.add_options()(
-            "wqual", po::value<int>()->default_value(20),
+            "wqual", po::value<std::size_t>()->default_value(20),
             "minimum mean quality for each window (Phred Quality Score) (default: 20)");
         preproc.add_options()(
-            "wtrim", po::value<int>()->default_value(0),
+            "wtrim", po::value<std::size_t>()->default_value(0),
             "window size for quality trimming from 3' end. Selecting '0' will not "
             "apply quality trimming (default: 0)");
         preproc.add_options()("minovl", po::value<int>()->default_value(5),
@@ -214,7 +212,7 @@ int main(int argc, char* argv[]) {
         // include parameters from the configfile if available
         std::ifstream ifs(configFile.c_str());
 
-        Closing cl;  // class that handles the closing remarks
+        Closing cl{};  // class that handles the closing remarks
         if (vm.count("help")) {
             std::cout << cmdlineOptions << std::endl;
             cl.printQuote(std::cout);
@@ -228,23 +226,21 @@ int main(int argc, char* argv[]) {
         }
 
         if (!ifs) {
-            std::cout << "configuration file" << configFile << "could not be opened!" << std::endl;
-            return 0;
+            Logger::log(LogLevel::ERROR, "Configuration file could not be opened!");
+            return 1;
         } else {
             po::store(po::parse_config_file(ifs, configFileOptions), vm);
             notify(vm);
         }
 
         if (!vm.count("subcall")) {
-            std::cout << "Please provide a subcall." << std::endl;
-            return 0;
+            Logger::log(LogLevel::ERROR, "Please provide a subcall.");
+            return 1;
         }
-
-        std::cout << "before calling subcall" << std::endl;
 
         // start execution
         showVersion(std::cout);
-        Base bs(vm, vm["subcall"].as<std::string>());  // controls all downstream processing
+        Base bs(vm);  // controls all downstream processing
 
         cl.printQuote(std::cout);
     } catch (po::error& e) {

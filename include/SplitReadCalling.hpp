@@ -209,8 +209,6 @@ class SplitReadCalling {
                                                  std::span<seqan3::dna5> &seq2);
     void createDir(fs::path path);
 
-    void progress(std::ostream &out);
-
     int countSamEntries(std::string file, std::string command);
     std::vector<std::vector<fs::path>> splitInputFile(std::string matched, std::string splits,
                                                       int entries);

@@ -2,12 +2,11 @@
 
 Align::Align(po::variables_map params) : params(params) {
     segemehlSysCall = params["segemehl"].as<std::string>();
-    std::cout << "create align object" << std::endl;
     buildIndex();
 }
 
 void Align::alignReads(std::string query, std::string mate, std::string matched) {
-    std::cout << helper::getTime() << "Start Alignment\n";
+    Logger::log(LogLevel::INFO, "Aligning reads");
     std::string align = segemehlSysCall;
     align += " -S ";  // split mode
     align += " -A " + std::to_string(params["accuracy"].as<int>());
@@ -15,7 +14,7 @@ void Align::alignReads(std::string query, std::string mate, std::string matched)
     align += " -W " + std::to_string(params["minsplicecov"].as<int>());
     align += " -Z " + std::to_string(params["minfraglen"].as<int>());
     align += " -t " + std::to_string(params["threads"].as<int>());
-    align += " -m " + std::to_string(params["minlen"].as<int>());
+    align += " -m " + std::to_string(params["minlen"].as<std::size_t>());
     align += " -i " + index;
     align += " -d " + params["dbref"].as<std::string>();
     align += " -q " + query;
@@ -26,7 +25,8 @@ void Align::alignReads(std::string query, std::string mate, std::string matched)
     const char *alignCallChar = align.c_str();
     int result = system(alignCallChar);
     if (result != 0) {
-        std::cerr << helper::getTime() << "Error: Could not align reads\n";
+        Logger::log(LogLevel::ERROR, "Could not align reads");
+        exit(1);
     }
 }
 
@@ -38,16 +38,17 @@ void Align::buildIndex() {
     fs::path gen = outDir / fs::path(ref).replace_extension(".idx").filename();
 
     if (fs::exists(gen)) {
-        std::cout << "segemehl index found on filesystem\n";
+        Logger::log(LogLevel::INFO, "Existing index found");
     } else {
-        std::cout << "generate index "
-                  << "\n";
+        Logger::log(LogLevel::INFO, "Building index");
+
         std::string genIndex = segemehlSysCall + " -x " + gen.string() + " -d " + ref;
-        std::cout << genIndex << std::endl;
+
         const char *call = genIndex.c_str();
         int result = system(call);
         if (result != 0) {
-            std::cout << helper::getTime() << "Error: Could not create index for " << ref << "\n";
+            Logger::log(LogLevel::ERROR, "Could not create index for " + ref);
+            exit(1);
         }
     }
     index = gen.string();

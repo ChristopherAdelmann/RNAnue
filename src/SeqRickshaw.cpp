@@ -10,9 +10,9 @@ SeqRickshaw::SeqRickshaw(const po::variables_map &params)
       missMatchRateTrim(params["mtrim"].as<double>()),
       minOverlapTrim(params["mintrim"].as<int>()),
       minMeanPhread(params["minqual"].as<int>()),
-      minLen(params["minlen"].as<int>()),
-      minWindowPhread(params["wqual"].as<int>()),
-      windowTrimSize(params["wtrim"].as<int>()),
+      minLen(params["minlen"].as<std::size_t>()),
+      minWindowPhread(params["wqual"].as<std::size_t>()),
+      windowTrimSize(params["wtrim"].as<std::size_t>()),
       threads(params["threads"].as<int>()),
       chunkSize(params["chunksize"].as<int>()),
       minOverlapMerge(params["minovl"].as<int>()),
@@ -73,6 +73,7 @@ void SeqRickshaw::processPairedEnd(pt::ptree sample) {
     seqan3::sequence_file_input forwardRecIn{forwardRecInPath};
     seqan3::sequence_file_input reverseRecIn{reverseRecInPath};
 
+    // TODO Implement async input buffer for paired-end reads
     std::string snglFwdOutPath = output.get<std::string>("R1only");
     std::string snglRevOutPath = output.get<std::string>("R2only");
 
@@ -82,6 +83,9 @@ void SeqRickshaw::processPairedEnd(pt::ptree sample) {
     std::string mergeRecOutPath = output.get<std::string>("forward");
     seqan3::sequence_file_output mergeRecOut{mergeRecOutPath};
 
+    const std::string sampleName = std::filesystem::path(forwardRecInPath).stem().string();
+    Logger::log(LogLevel::INFO, "Started pre-processing " + sampleName + " in paired-end mode ...");
+
     std::vector<SeqRickshaw::Adapter> adapters5f =
         loadAdapters(adpt5f, SeqRickshaw::TrimConfig::Mode::FIVE_PRIME);
     std::vector<SeqRickshaw::Adapter> adapters3f =
@@ -90,9 +94,6 @@ void SeqRickshaw::processPairedEnd(pt::ptree sample) {
         loadAdapters(adpt5r, SeqRickshaw::TrimConfig::Mode::FIVE_PRIME);
     std::vector<SeqRickshaw::Adapter> adapters3r =
         loadAdapters(adpt3r, SeqRickshaw::TrimConfig::Mode::THREE_PRIME);
-
-    const std::string sampleName = std::filesystem::path(forwardRecInPath).stem().string();
-    Logger::log(LogLevel::INFO, "Started pre-processing " + sampleName + " in paired-end mode ...");
 
     processPairedEndFileInChunks(forwardRecInPath, reverseRecInPath, mergeRecOutPath,
                                  snglFwdOutPath, snglRevOutPath, adapters5f, adapters3f, adapters5r,
@@ -112,7 +113,7 @@ void SeqRickshaw::processPairedEnd(pt::ptree sample) {
  * @param trimmingMode The trimming mode to be used for the adapters.
  * @return A vector of SeqRickshaw::Adapter objects containing the loaded adapters.
  */
-const std::vector<SeqRickshaw::Adapter> SeqRickshaw::loadAdapters(
+std::vector<SeqRickshaw::Adapter> SeqRickshaw::loadAdapters(
     const std::string &filenameOrSequence, const SeqRickshaw::TrimConfig::Mode trimmingMode) {
     std::vector<SeqRickshaw::Adapter> adapters;
 
@@ -186,8 +187,8 @@ void SeqRickshaw::trimWindowedQuality(record_type &record) {
  * std::nullopt.
  */
 template <typename record_type>
-const std::optional<record_type> SeqRickshaw::mergeRecordPair(const record_type &record1,
-                                                              const record_type &record2) {
+std::optional<record_type> SeqRickshaw::mergeRecordPair(const record_type &record1,
+                                                        const record_type &record2) {
     const seqan3::align_cfg::method_global endGapConfig{
         seqan3::align_cfg::free_end_gaps_sequence1_leading{true},
         seqan3::align_cfg::free_end_gaps_sequence2_leading{true},
@@ -237,7 +238,7 @@ const std::optional<record_type> SeqRickshaw::mergeRecordPair(const record_type 
  * @return The merged record.
  */
 template <typename record_type, typename result_type>
-const record_type SeqRickshaw::constructMergedRecord(
+record_type SeqRickshaw::constructMergedRecord(
     const record_type &record1, const record_type &record2,
     const seqan3::alignment_result<result_type> &alignmentResult) {
     const auto &record1Qualities = record1.base_qualities();
@@ -332,7 +333,7 @@ const record_type SeqRickshaw::constructMergedRecord(
  * @param record The record to be checked.
  * @return True if the record passes all the filters, false otherwise.
  */
-const bool SeqRickshaw::passesFilters(const auto &record) {
+bool SeqRickshaw::passesFilters(const auto &record) {
     // Filter for mean quality
     const auto phredQual =
         record.base_qualities() | std::views::transform([](auto q) { return q.to_phred(); });
@@ -353,7 +354,8 @@ const bool SeqRickshaw::passesFilters(const auto &record) {
  * @param record The record from which the adapter sequence will be trimmed.
  * @param trimmingMode The trimming mode to be applied.
  */
-void SeqRickshaw::trimAdapter(const SeqRickshaw::Adapter &adapter, auto &record) {
+template <typename record_type>
+void SeqRickshaw::trimAdapter(const SeqRickshaw::Adapter &adapter, record_type &record) {
     const seqan3::align_cfg::scoring_scheme scoringSchemeConfig{
         seqan3::nucleotide_scoring_scheme{seqan3::match_score{1}, seqan3::mismatch_score{-1}}};
     const seqan3::align_cfg::gap_cost_affine gapSchemeConfig{
@@ -369,7 +371,6 @@ void SeqRickshaw::trimAdapter(const SeqRickshaw::Adapter &adapter, auto &record)
     auto &seq = record.sequence();
     auto &qual = record.base_qualities();
 
-    //  TODO Manage multiple results for trimming correctly
     for (auto const &result :
          seqan3::align_pairwise(std::tie(adapter.sequence, seq), alignment_config)) {
         const int overlap = result.sequence2_end_position() - result.sequence2_begin_position();
@@ -377,8 +378,6 @@ void SeqRickshaw::trimAdapter(const SeqRickshaw::Adapter &adapter, auto &record)
         if (overlap < minOverlapTrim) continue;
 
         const int minScore = overlap - (overlap * adapter.maxMissMatchFraction) * 2;
-
-        // seqan3::debug_stream << "Alignment result: " << result << std::endl;
 
         if (result.score() >= minScore) {
             if (adapter.trimmingMode == SeqRickshaw::TrimConfig::Mode::FIVE_PRIME) {
@@ -585,6 +584,9 @@ void SeqRickshaw::processPairedEndFileInChunks(
             {
                 std::lock_guard<std::mutex> lock(mutex);
 
+                chunk.recordsFwd.reserve(chunkSize);
+                chunk.recordsRev.reserve(chunkSize);
+
                 int count = 0;
 
                 for (auto &&[record1, record2] : seqan3::views::zip(recFwdIn, recRevIn)) {
@@ -616,7 +618,7 @@ void SeqRickshaw::processPairedEndFileInChunks(
                 const auto end = std::chrono::high_resolution_clock::now();
                 const std::chrono::duration<double> duration = end - start;
 
-                Logger::log(LogLevel::INFO, "Processed chunk (" + std::to_string(chunkSize) +
+                Logger::log(LogLevel::INFO, "Processed chunk (up to " + std::to_string(chunkSize) +
                                                 " read pairs). Elapsed time: " +
                                                 std::to_string(duration.count()) + " seconds.");
             }
@@ -640,21 +642,15 @@ void SeqRickshaw::processPairedEndRecordChunk(SeqRickshaw::PairedEndFastqChunk &
                                               const std::vector<SeqRickshaw::Adapter> &adapters5r,
                                               const std::vector<SeqRickshaw::Adapter> &adapters3r) {
     for (auto &&[record1, record2] : seqan3::views::zip(chunk.recordsFwd, chunk.recordsRev)) {
-        // seqan3::debug_stream << "Records: " << record1 << "\n" << record2 << std::endl;
-
         if (trimPolyG) {
             trim3PolyG(record1);
             trim3PolyG(record2);
         }
 
-        // seqan3::debug_stream << "Records: " << record1 << "\n" << record2 << std::endl;
-
         if (windowTrimSize > 0) {
             trimWindowedQuality(record1);
             trimWindowedQuality(record2);
         }
-
-        // seqan3::debug_stream << "Records: " << record1 << "\n" << record2 << std::endl;
 
         for (auto const &adapter : adapters5f) trimAdapter(adapter, record1);
 
@@ -663,8 +659,6 @@ void SeqRickshaw::processPairedEndRecordChunk(SeqRickshaw::PairedEndFastqChunk &
         for (auto const &adapter : adapters5r) trimAdapter(adapter, record2);
 
         for (auto const &adapter : adapters3r) trimAdapter(adapter, record2);
-
-        // seqan3::debug_stream << "Records: " << record1 << "\n" << record2 << std::endl;
 
         const bool filtFwd = passesFilters(record1);
         const bool filtRev = passesFilters(record2);

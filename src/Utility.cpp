@@ -21,6 +21,13 @@ void helper::createTmpDir(fs::path path) {
     fs::create_directory(path);
 }
 
+void helper::printTree(const boost::property_tree::ptree& pt, int level = 0) {
+    for (const auto& node : pt) {
+        std::cout << std::string(level * 2, ' ') << node.first << ": "
+                  << node.second.get_value<std::string>() << "\n";
+        printTree(node.second, level + 1);
+    }
+}
 // lists the files in a directory
 dtp::PathVector helper::listDirFiles(fs::path& path) {
     dtp::PathVector content;

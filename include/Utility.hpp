@@ -6,6 +6,7 @@
 #define UTILITY_HPP
 
 #include <boost/filesystem.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <chrono>
 #include <iomanip>
 #include <iostream>
@@ -26,6 +27,7 @@ dtp::PathVector filterDirFiles(dtp::PathVector& pathvec, std::string subcall);
 bool caseInsensitivePathCompare(const fs::path& a, const fs::path& b);
 void renameFiles(fs::path dir, std::string extension);
 dtp::PathVector genOutPath(dtp::PathVector pathvec, std::string dir);
+void printTree(const boost::property_tree::ptree& pt, int level);
 
 fs::path replacePath(fs::path _replacement, fs::path _original);
 void deleteDir(fs::path path);

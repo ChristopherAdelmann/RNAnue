@@ -4,6 +4,14 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_FLAGS -fopenmp)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
+set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
 message("Configuring Config.h")
 message("Input file: ${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h.in")
 message("Output file: ${CMAKE_CURRENT_BINARY_DIR}/include/Config.h")
@@ -63,15 +71,6 @@ execute_process(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4
 )
 
-execute_process(
-    COMMAND make install
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4
-)
-
-#Compiler flags
-#set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-lRNA -fno-lto")
-
-
 file(GLOB SOURCES "./src/*.cpp")
 include_directories(
 ./include
@@ -88,3 +87,5 @@ target_link_libraries(RNAnue ${VIENNA_BUILD_DIR}/lib/libRNA.a)
 if(OpenMP_CXX_FOUND)
     target_link_libraries (RNAnue OpenMP::OpenMP_CXX)
 endif()
+
+target_compile_options(RNAnue PRIVATE -Wno-interference-size)

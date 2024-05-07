@@ -21,6 +21,41 @@ void helper::createTmpDir(fs::path path) {
     fs::create_directory(path);
 }
 
+std::size_t helper::countUniqueSamEntries(fs::path path) {
+    std::ifstream infile(path);
+    if (!infile.is_open()) {
+        throw std::runtime_error("Could not open file");
+    }
+
+    std::unordered_set<std::string> uniqueIDs;
+    std::string line;
+    while (std::getline(infile, line)) {
+        if (!line.empty() && line[0] != '@') {
+            std::string id = line.substr(0, line.find('\t'));
+            uniqueIDs.insert(id);
+        }
+    }
+
+    return uniqueIDs.size();
+}
+
+std::size_t helper::countSamEntries(fs::path path) {
+    std::ifstream infile(path);
+    if (!infile.is_open()) {
+        throw std::runtime_error("Could not open file");
+    }
+
+    int count = 0;
+    std::string line;
+    while (std::getline(infile, line)) {
+        if (!line.empty() && line[0] != '@') {
+            ++count;
+        }
+    }
+
+    return count;
+}
+
 void helper::printTree(const boost::property_tree::ptree& pt, int level = 0) {
     for (const auto& node : pt) {
         std::cout << std::string(level * 2, ' ') << node.first << ": "

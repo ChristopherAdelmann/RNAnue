@@ -11,6 +11,7 @@
 #include <iomanip>
 #include <iostream>
 #include <seqan3/io/sequence_file/all.hpp>
+#include <unordered_set>
 
 #include "DataTypes.hpp"
 
@@ -21,6 +22,9 @@ namespace helper {
 void createDir(fs::path path, std::ostream& out);
 void createOutDir(fs::path path, std::ostream& out);
 void createTmpDir(fs::path subpath);
+
+std::size_t countUniqueSamEntries(fs::path path);
+std::size_t countSamEntries(fs::path path);
 
 dtp::PathVector listDirFiles(fs::path& path);
 dtp::PathVector filterDirFiles(dtp::PathVector& pathvec, std::string subcall);

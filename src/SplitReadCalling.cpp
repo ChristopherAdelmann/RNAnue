@@ -754,9 +754,10 @@ void SplitReadCalling::start(pt::ptree sample) {
     // input
     pt::ptree input = sample.get_child("input");
     std::string matched = input.get<std::string>("matched");
+    fs::path matchedPath = fs::path(matched);
 
     int threads = params["threads"].as<int>();
-    int entries = std::round(countSamEntries(matched, "") / threads) + threads;
+    int entries = std::round(helper::countSamEntries(matchedPath) / threads) + threads;
 
     // output
     pt::ptree output = sample.get_child("output");
@@ -800,11 +801,13 @@ void SplitReadCalling::start(pt::ptree sample) {
     // generate stats
     if (params["stats"].as<std::bitset<1>>() == 1) {
         fs::path statsfile = fs::path(params["outdir"].as<std::string>()) / "detectStat.txt";
+        fs::path splitsPath{splits};
+        fs::path multiSplitsPath{multsplits};
         std::fstream fs;
         fs.open(statsfile.string(), std::fstream::app);
         fs << fs::path(matched).stem().string() << "\t";
-        fs << countSamEntries(splits, "") / 2 << "\t";
-        fs << countSamEntries(multsplits, " | cut -f1 | sort | uniq ") << "\t";
+        fs << helper::countUniqueSamEntries(splitsPath) << "\t";
+        fs << helper::countUniqueSamEntries(multiSplitsPath) << "\t";
         fs << "\n";
         fs.close();
     }

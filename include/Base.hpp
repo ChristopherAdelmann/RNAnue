@@ -7,7 +7,7 @@
 
 #include <boost/program_options.hpp>
 
-#include "Constansts.hpp"
+#include "Constants.hpp"
 #include "Data.hpp"
 #include "Utility.hpp"
 

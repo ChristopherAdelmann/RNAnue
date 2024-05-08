@@ -1,7 +1,7 @@
-#include "Analysis.hpp"
+#include "Analyze.hpp"
 
 //
-Analysis::Analysis(po::variables_map _params) : params(_params) {
+Analyze::Analyze(po::variables_map _params) : params(_params) {
     std::string line;
     std::ifstream anno;
     anno.open(params["features"].as<std::string>());
@@ -41,7 +41,7 @@ Analysis::Analysis(po::variables_map _params) : params(_params) {
 }
 
 //
-void Analysis::createCountTable() {
+void Analyze::createCountTable() {
     std::map<std::tuple<std::string, std::string, std::string, std::string>,
              std::vector<std::tuple<int, std::vector<float>, std::vector<float>>>>
         counts;
@@ -152,8 +152,7 @@ void Analysis::createCountTable() {
 }
 
 //
-std::string Analysis::retrieveTagValue(std::string tags, std::string tagName,
-                                       std::string oldValue) {
+std::string Analyze::retrieveTagValue(std::string tags, std::string tagName, std::string oldValue) {
     std::size_t start_position = tags.find(tagName + "=");
     // gene name
     if (start_position != std::string::npos) {
@@ -164,7 +163,7 @@ std::string Analysis::retrieveTagValue(std::string tags, std::string tagName,
     return oldValue;
 }
 
-void Analysis::start(pt::ptree sample) {
+void Analyze::start(pt::ptree sample) {
     // retrieve input and output files
     pt::ptree input = sample.get_child("input");
     std::string splits = input.get<std::string>("splits");

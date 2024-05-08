@@ -33,6 +33,7 @@ void Align::alignReads(std::string query, std::string mate, std::string matched)
 void Align::buildIndex() {
     // retrieve path of reference genome
     std::string ref = params["dbref"].as<std::string>();
+    int const threads = params["threads"].as<int>();
 
     fs::path outDir = fs::path(params["outdir"].as<std::string>());
     fs::path gen = outDir / fs::path(ref).replace_extension(".idx").filename();
@@ -42,7 +43,8 @@ void Align::buildIndex() {
     } else {
         Logger::log(LogLevel::INFO, "Building index");
 
-        std::string genIndex = segemehlSysCall + " -x " + gen.string() + " -d " + ref;
+        std::string genIndex =
+            segemehlSysCall + " -x " + gen.string() + "-t" + std::to_string(threads) + " -d " + ref;
 
         const char *call = genIndex.c_str();
         int result = system(call);

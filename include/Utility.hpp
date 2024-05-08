@@ -13,7 +13,7 @@
 #include <seqan3/io/sequence_file/all.hpp>
 #include <unordered_set>
 
-#include "Constansts.hpp"
+#include "Constants.hpp"
 #include "DataTypes.hpp"
 
 namespace pi = constants::pipelines;

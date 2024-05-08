@@ -36,7 +36,7 @@ struct seqan3::sam_tag_type<"XC"_tag> {
 
 typedef std::pair<std::pair<int, int>, std::string> Feature;
 
-class Analysis {
+class Analyze {
    private:
     po::variables_map params;
     std::map<std::string, std::vector<std::pair<std::pair<int, int>, std::string>>> features;
@@ -44,8 +44,8 @@ class Analysis {
     std::vector<std::string> interPaths;  // paths of the interactions file
 
    public:
-    Analysis();
-    Analysis(po::variables_map params);
+    Analyze();
+    Analyze(po::variables_map params);
 
     std::string retrieveTagValue(std::string tags, std::string tagName, std::string oldValue);
 

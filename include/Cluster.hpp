@@ -15,9 +15,6 @@
 #include <seqan3/io/sam_file/sam_tag_dictionary.hpp>
 #include <seqan3/utility/views/chunk.hpp>
 
-// probably deprecated in 3.3.0
-// #include <seqan3/utility/views/chunk.hpp>
-
 #include "Logger.hpp"
 #include "Utility.hpp"
 
@@ -36,26 +33,25 @@ struct Segment {
         : refid(_refid), flag(_flag), start(_start), end(_end){};
 };
 
-struct Cluster {
+struct ReadCluster {
     std::vector<Segment> elements;
     int count;
 
-    Cluster() : elements({}), count(1){};
-    bool operator<(const Cluster &a) const { return elements[0].start < a.elements[0].start; }
+    ReadCluster() : elements({}), count(1){};
+    bool operator<(const ReadCluster &a) const { return elements[0].start < a.elements[0].start; }
 };
 
-class Clustering {
+class Cluster {
    private:
     po::variables_map params;
-    std::vector<Cluster> result;
+    std::vector<ReadCluster> result;
 
    public:
-    Clustering(po::variables_map params);
-    Clustering();
+    Cluster(po::variables_map params);
 
     void iterate(std::string splits);
-    void overlaps(std::vector<Cluster> &clusterlist);
-    bool startPosCmp(Cluster &a, Cluster &b);
+    void overlaps(std::vector<ReadCluster> &clusterlist);
+    bool startPosCmp(ReadCluster &a, ReadCluster &b);
     void start(pt::ptree sample);
     void sumup();
 };

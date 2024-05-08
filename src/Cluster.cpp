@@ -1,13 +1,13 @@
 //
 // Created by Richard Albin Schaefer on 3/4/24.
 //
-#include "Clustering.hpp"
+#include "Cluster.hpp"
 
 #include <iostream>
 
-Clustering::Clustering(po::variables_map params) : params(params) { result = {}; }
+Cluster::Cluster(po::variables_map params) : params(params) { result = {}; }
 
-void Clustering::iterate(std::string splits) {
+void Cluster::iterate(std::string splits) {
     // input .sam file of sngl splits
     seqan3::sam_file_input fin{
         splits,
@@ -15,7 +15,7 @@ void Clustering::iterate(std::string splits) {
                        seqan3::field::ref_offset, seqan3::field::seq, seqan3::field::tags>{}};
 
     int chunks = 5;
-    std::vector<Cluster> subset;
+    std::vector<ReadCluster> subset;
 
     std::vector<seqan3::sam_flag> flags;
     std::vector<std::string> refIDs;
@@ -30,7 +30,7 @@ void Clustering::iterate(std::string splits) {
 
     uint32_t flag, start, end;
     for (auto &&rec : fin | seqan3::views::chunk(2)) {
-        Cluster cl;
+        ReadCluster cl;
         for (auto &split : rec) {
             std::optional<int32_t> refID = split.reference_id();
             uint32_t flag{0};  // SAMFLAG
@@ -74,11 +74,11 @@ void Clustering::iterate(std::string splits) {
 }
 
 //
-bool Clustering::startPosCmp(Cluster &a, Cluster &b) {
+bool Cluster::startPosCmp(ReadCluster &a, ReadCluster &b) {
     return a.elements[0].start < b.elements[0].start;
 }
 
-void Clustering::sumup() {
+void Cluster::sumup() {
     Logger::log(LogLevel::INFO, "Writing clusters to file");
 
     // retrieve output directory
@@ -90,22 +90,18 @@ void Clustering::sumup() {
         if (outputFile.is_open()) {
             outputFile << result[i].elements[0].refid << "\t";
             if (result[i].elements[0].flag == 0) {
-                outputFile << "+"
-                           << "\t";
+                outputFile << "+" << "\t";
             } else {
-                outputFile << "-"
-                           << "\t";
+                outputFile << "-" << "\t";
             }
             outputFile << result[i].elements[0].start << "\t";
             outputFile << result[i].elements[0].end << "\t";
 
             outputFile << result[i].elements[1].refid << "\t";
             if (result[i].elements[1].flag == 0) {
-                outputFile << "+"
-                           << "\t";
+                outputFile << "+" << "\t";
             } else {
-                outputFile << "-"
-                           << "\t";
+                outputFile << "-" << "\t";
             }
             outputFile << result[i].elements[1].start << "\t";
             outputFile << result[i].elements[1].end << "\t";
@@ -121,7 +117,7 @@ void Clustering::sumup() {
         //std::cout << clusters[i].count << std::endl;
     }*/
 }
-void Clustering::overlaps(std::vector<Cluster> &clusterlist) {
+void Cluster::overlaps(std::vector<ReadCluster> &clusterlist) {
     std::sort(clusterlist.begin(), clusterlist.end());
 
     uint32_t s1Start, s1End, s2Start, s2End;
@@ -167,7 +163,7 @@ void Clustering::overlaps(std::vector<Cluster> &clusterlist) {
                         // .. same with strand
                         if ((clusterlist[i].elements[0].flag == clusterlist[j].elements[0].flag) &&
                             (clusterlist[i].elements[1].flag == clusterlist[j].elements[1].flag)) {
-                            Cluster ncl = clusterlist[j];
+                            ReadCluster ncl = clusterlist[j];
                             ncl.count += 1;
 
                             if (s1Start < xs1Start) {
@@ -196,7 +192,7 @@ void Clustering::overlaps(std::vector<Cluster> &clusterlist) {
     }
 }
 
-void Clustering::start(pt::ptree sample) {
+void Cluster::start(pt::ptree sample) {
     pt::ptree input = sample.get_child("input");
     // pt::ptree output = sample.get_child("output");
 

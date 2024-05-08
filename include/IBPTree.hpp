@@ -11,7 +11,7 @@
 #include <boost/program_options.hpp>
 
 // Class
-#include "Constansts.hpp"
+#include "Constants.hpp"
 #include "DataTypes.hpp"
 #include "Node.hpp"
 #include "Utility.hpp"

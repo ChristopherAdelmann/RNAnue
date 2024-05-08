@@ -1,4 +1,4 @@
-#include "SplitReadCalling.hpp"
+#include "Detect.hpp"
 
 #include "Utility.hpp"
 
@@ -7,7 +7,7 @@ using namespace seqan3::literals;
 // WARNING: This split read calling is not working as intended and is currently not handling
 // multiple alignments correctly.
 
-SplitReadCalling::SplitReadCalling(po::variables_map params) : params(params) {
+Detect::Detect(po::variables_map params) : params(params) {
     readscount = 0;
     alignedcount = 0;
     splitscount = 0;
@@ -15,7 +15,7 @@ SplitReadCalling::SplitReadCalling(po::variables_map params) : params(params) {
     nsurvivedcount = 0;
 }
 //
-void SplitReadCalling::iterate(std::string matched, std::string splits, std::string multsplits) {
+void Detect::iterate(std::string matched, std::string splits, std::string multsplits) {
     using sam_fields =
         seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
                        seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
@@ -72,7 +72,7 @@ void SplitReadCalling::iterate(std::string matched, std::string splits, std::str
     Logger::log(LogLevel::INFO, "Processed ", readscount, " reads");
 }
 
-void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile) {
+void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile) {
     Splts splits;
 
     seqan3::cigar::operation cigarOp;  // operation of cigar string
@@ -317,8 +317,7 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
 }
 
 // write splits back to file
-void SplitReadCalling::writeSamFile(auto &samfile,
-                                    std::vector<std::pair<SamRecord, SamRecord>> &splits) {
+void Detect::writeSamFile(auto &samfile, std::vector<std::pair<SamRecord, SamRecord>> &splits) {
     for (auto &[first, second] : splits) {
         auto &[id1, flag1, ref_id1, ref_offset1, mapq1, cigar1, seq1, tags1] = first;
         samfile.emplace_back(id1, flag1, ref_id1, ref_offset1, mapq1.value(), cigar1, seq1, tags1);
@@ -328,11 +327,9 @@ void SplitReadCalling::writeSamFile(auto &samfile,
     }
 }
 
-void SplitReadCalling::filterSegments(auto &splitrecord, std::optional<int32_t> &refOffset,
-                                      std::vector<seqan3::cigar> &cigar,
-                                      std::span<seqan3::dna5> &seq,
-                                      seqan3::sam_tag_dictionary &tags,
-                                      std::vector<SamRecord> &curated) {
+void Detect::filterSegments(auto &splitrecord, std::optional<int32_t> &refOffset,
+                            std::vector<seqan3::cigar> &cigar, std::span<seqan3::dna5> &seq,
+                            seqan3::sam_tag_dictionary &tags, std::vector<SamRecord> &curated) {
     SamRecord segment{};  // create new SamRecord
 
     seqan3::sam_flag flag{0};
@@ -357,13 +354,12 @@ void SplitReadCalling::filterSegments(auto &splitrecord, std::optional<int32_t> 
     curated.push_back(segment);
 }
 
-void SplitReadCalling::addFilterToSamRecord(SamRecord &rec, std::pair<float, float> filters) {
+void Detect::addFilterToSamRecord(SamRecord &rec, std::pair<float, float> filters) {
     rec.tags()["XC"_tag] = filters.first;
     rec.tags()["XE"_tag] = filters.second;
 }
 
-void SplitReadCalling::addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2,
-                                                     TracebackResult &res) {
+void Detect::addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2, TracebackResult &res) {
     // number of matches
     rec1.tags()["XM"_tag] = res.matches;
     rec2.tags()["XM"_tag] = res.matches;
@@ -390,8 +386,7 @@ void SplitReadCalling::addComplementarityToSamRecord(SamRecord &rec1, SamRecord 
 }
 
 //
-void SplitReadCalling::addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2,
-                                               HybridizationResult &hyb) {
+void Detect::addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, HybridizationResult &hyb) {
     rec1.tags()["XE"_tag] = static_cast<float>(hyb.energy);
     rec2.tags()["XE"_tag] = static_cast<float>(hyb.energy);
 
@@ -412,8 +407,8 @@ void SplitReadCalling::addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2,
 }
 
 //
-TracebackResult SplitReadCalling::complementarity(std::span<seqan3::dna5> &seq1,
-                                                  std::span<seqan3::dna5> &seq2) {
+TracebackResult Detect::complementarity(std::span<seqan3::dna5> &seq1,
+                                        std::span<seqan3::dna5> &seq2) {
     std::string seq1_str;
     std::string seq2_str;
 
@@ -458,8 +453,8 @@ TracebackResult SplitReadCalling::complementarity(std::span<seqan3::dna5> &seq1,
     }
 }
 
-std::optional<HybridizationResult> SplitReadCalling::hybridize(std::span<seqan3::dna5> &seq1,
-                                                               std::span<seqan3::dna5> &seq2) {
+std::optional<HybridizationResult> Detect::hybridize(std::span<seqan3::dna5> &seq1,
+                                                     std::span<seqan3::dna5> &seq2) {
     auto toString = [](auto &seq) {
         return (seq | seqan3::views::to_char | seqan3::ranges::to<std::string>());
     };
@@ -484,7 +479,7 @@ std::optional<HybridizationResult> SplitReadCalling::hybridize(std::span<seqan3:
     return HybridizationResult{mfe, crosslinkingResult};
 }
 
-std::optional<InteractionWindow> SplitReadCalling::getContinuosNucleotideWindows(
+std::optional<InteractionWindow> Detect::getContinuosNucleotideWindows(
     std::span<seqan3::dna5> const &seq1, std::span<seqan3::dna5> const &seq2,
     NucleotidePositionsWindow positionsPair) {
     std::pair<uint16_t, uint16_t> forwardPair =
@@ -541,7 +536,7 @@ std::optional<InteractionWindow> SplitReadCalling::getContinuosNucleotideWindows
     return std::nullopt;
 }
 
-std::optional<CrosslinkingResult> SplitReadCalling::findCrosslinkingSites(
+std::optional<CrosslinkingResult> Detect::findCrosslinkingSites(
     std::span<seqan3::dna5> const &seq1, std::span<seqan3::dna5> const &seq2,
     std::vector<seqan3::dot_bracket3> &dotbracket) {
     if (seq1.empty() || seq2.empty() || dotbracket.empty()) {
@@ -640,7 +635,7 @@ std::optional<CrosslinkingResult> SplitReadCalling::findCrosslinkingSites(
 }
 
 // calculate rows in SAMfile (exclusing header)
-int SplitReadCalling::countSamEntries(std::string file, std::string command) {
+int Detect::countSamEntries(std::string file, std::string command) {
     std::string entries = "awk '!/^@/ {print $0}' " + file + " " + command + " | wc -l";
     const char *call = entries.c_str();
     std::array<char, 128> buffer;
@@ -657,8 +652,8 @@ int SplitReadCalling::countSamEntries(std::string file, std::string command) {
 }
 
 // adds suffix to filename (optional:
-std::string SplitReadCalling::addSuffix(std::string _file, std::string _suffix,
-                                        std::vector<std::string> _keywords) {
+std::string Detect::addSuffix(std::string _file, std::string _suffix,
+                              std::vector<std::string> _keywords) {
     int keyPos, tmpKeyPos = -1;    // buffer the positions of the keywords
     int dotPos = _file.find(".");  // determine position of the dot
     keyPos = dotPos;
@@ -677,16 +672,15 @@ std::string SplitReadCalling::addSuffix(std::string _file, std::string _suffix,
     return newFile;
 }
 
-void SplitReadCalling::createDir(fs::path path) {
+void Detect::createDir(fs::path path) {
     if (fs::exists(path)) {
         fs::remove_all(path);
     }
     fs::create_directory(path);
 }
 //
-std::vector<std::vector<fs::path>> SplitReadCalling::splitInputFile(std::string matched,
-                                                                    std::string splits,
-                                                                    int entries) {
+std::vector<std::vector<fs::path>> Detect::splitInputFile(std::string matched, std::string splits,
+                                                          int entries) {
     fs::path matchedFilePath = fs::path(matched);
     fs::path splitsFilePath = fs::path(splits);
 
@@ -744,7 +738,7 @@ std::vector<std::vector<fs::path>> SplitReadCalling::splitInputFile(std::string 
 }
 
 // start
-void SplitReadCalling::start(pt::ptree sample) {
+void Detect::start(pt::ptree sample) {
     // reset counts
     readscount = 0;
     alignedcount = 0;

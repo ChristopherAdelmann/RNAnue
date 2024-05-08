@@ -20,12 +20,12 @@
 #include <typeinfo>
 
 #include "Align.hpp"
-#include "Analysis.hpp"
-#include "Clustering.hpp"
-#include "Constansts.hpp"
+#include "Analyze.hpp"
+#include "Cluster.hpp"
+#include "Constants.hpp"
+#include "Detect.hpp"
 #include "Logger.hpp"
 #include "Preprocess.hpp"
-#include "SplitReadCalling.hpp"
 
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;

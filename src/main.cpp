@@ -17,7 +17,7 @@
 #include "Base.hpp"
 #include "Closing.hpp"
 #include "Config.hpp"
-#include "Constansts.hpp"
+#include "Constants.hpp"
 #include "Utility.hpp"
 
 namespace po = boost::program_options;

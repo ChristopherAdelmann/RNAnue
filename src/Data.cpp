@@ -431,21 +431,21 @@ void Data::align() {
 }
 
 void Data::splitReadCalling() {
-    SplitReadCalling src(params);
-    callInAndOut(std::bind(&SplitReadCalling::start, src, std::placeholders::_1));
+    Detect src(params);
+    callInAndOut(std::bind(&Detect::start, src, std::placeholders::_1));
 }
 
 void Data::clustering() {
     // create Object of CLustering
-    Clustering clu(params);
-    callInAndOut(std::bind(&Clustering::start, &clu, std::placeholders::_1));
+    Cluster clu(params);
+    callInAndOut(std::bind(&Cluster::start, &clu, std::placeholders::_1));
 
     clu.sumup();
 }
 
 void Data::analysis() {
-    Analysis anl(params);
-    callInAndOut(std::bind(&Analysis::start, &anl, std::placeholders::_1));
+    Analyze anl(params);
+    callInAndOut(std::bind(&Analyze::start, &anl, std::placeholders::_1));
 
     if (params["outcnt"].as<std::bitset<1>>() == std::bitset<1>(1)) {
         anl.createCountTable();

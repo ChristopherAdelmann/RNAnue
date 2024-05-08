@@ -165,10 +165,10 @@ typedef struct {
     double energy;
     std::optional<CrosslinkingResult> crosslinkingResult;
 } HybridizationResult;
-class SplitReadCalling {
+class Detect {
    public:
-    SplitReadCalling(po::variables_map params);
-    ~SplitReadCalling() = default;
+    Detect(po::variables_map params);
+    ~Detect() = default;
 
     void start(pt::ptree sample);
 

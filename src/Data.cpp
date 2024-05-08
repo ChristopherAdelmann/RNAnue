@@ -55,23 +55,23 @@ void Data::prepareSubcall(std::string subcall) {
     fs::path resultsDir = fs::path(params["outdir"].as<std::string>());
     createOutDir(resultsDir, subcall);
 
-    if (subcall == "preproc") {
+    if (subcall == pi::PREPROCESS) {
         preprocDataPrep();
     }
 
-    if (subcall == "align") {
+    if (subcall == pi::ALIGN) {
         alignDataPrep();
     }
 
-    if (subcall == "detect") {
+    if (subcall == pi::DETECT) {
         detectDataPrep();
     }
 
-    if (subcall == "clustering") {
+    if (subcall == pi::CLUSTER) {
         clusteringDataPrep();
     }
 
-    if (subcall == "analysis") {
+    if (subcall == pi::ANALYZE) {
         analysisDataPrep();
     }
 }
@@ -93,16 +93,16 @@ void Data::preprocDataPrep() {
 void Data::alignDataPrep() {
     Logger::log(LogLevel::INFO, "Retrieving the data for alignment.");
 
-    bool withPreprocessing = params["preproc"].as<std::bitset<1>>() == std::bitset<1>(1);
+    bool withPreprocessing = params[pi::PREPROCESS].as<std::bitset<1>>() == std::bitset<1>(1);
 
     std::optional<fs::path> ctrlsPath = std::nullopt;
     fs::path trtmsPath;
 
     if (withPreprocessing) {
         if (withControlData()) {
-            ctrlsPath = fs::path(params["outdir"].as<std::string>()) / "preproc/ctrls";
+            ctrlsPath = fs::path(params["outdir"].as<std::string>()) / pi::PREPROCESS / "ctrls";
         }
-        trtmsPath = fs::path(params["outdir"].as<std::string>()) / "preproc/trtms";
+        trtmsPath = fs::path(params["outdir"].as<std::string>()) / pi::PREPROCESS / "trtms";
     } else {
         ctrlsPath = fs::path(params["ctrls"].as<std::string>());
         trtmsPath = fs::path(params["trtms"].as<std::string>());
@@ -116,18 +116,19 @@ void Data::detectDataPrep() {
     Logger::log(LogLevel::INFO, "Retrieving the data for detecting split reads.");
 
     if (params["stats"].as<std::bitset<1>>() == 1) {
-        fs::path statsfile = fs::path(params["outdir"].as<std::string>()) / "detect/detectStat.txt";
+        fs::path statsfile =
+            fs::path(params["outdir"].as<std::string>()) / pi::DETECT / "detectStat.txt";
         std::ofstream ofs;
         ofs.open(statsfile.string());
-        ofs << "sample\tmapped\tsplits\tmultisplits" << std::endl;
+        ofs << "sample\tsplits\tmultisplits" << std::endl;
         ofs.close();
     }
 
     std::optional<fs::path> ctrlsPath = std::nullopt;
     if (withControlData()) {
-        ctrlsPath = fs::path(params["outdir"].as<std::string>()) / "align/ctrls";
+        ctrlsPath = fs::path(params["outdir"].as<std::string>()) / pi::ALIGN / "ctrls";
     }
-    fs::path trtmsPath = fs::path(params["outdir"].as<std::string>()) / "align/trtms";
+    fs::path trtmsPath = fs::path(params["outdir"].as<std::string>()) / pi::ALIGN / "trtms";
 
     GroupsPath group = retrieveGroupsPath(ctrlsPath, trtmsPath);
     retrieveDataStructure(group);
@@ -238,23 +239,23 @@ pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath)
     Logger::log(LogLevel::INFO, "Retrieving data for condition ", conditionName, " from ",
                 conditionPath.string());
 
-    if (subcall == "preproc") {
+    if (subcall == pi::PREPROCESS) {
         expectedElementCount = (params["readtype"].as<std::string>() == "PE") ? 2 : 1;
         sampleKeys = {"forward", "reverse"};
         dataFiles = filterDirContent(dataFiles, ".fastq");
-    } else if (subcall == "align") {
+    } else if (subcall == pi::ALIGN) {
         expectedElementCount = 1;
         sampleKeys = {"forward"};
-        if (params["preproc"].as<std::bitset<1>>() == std::bitset<1>(1)) {
+        if (params[pi::PREPROCESS].as<std::bitset<1>>() == std::bitset<1>(1)) {
             dataFiles = filterDirContent(dataFiles, "_preproc.fastq");
         } else {
             dataFiles = filterDirContent(dataFiles, ".fastq");
         }
-    } else if (subcall == "detect") {
+    } else if (subcall == pi::DETECT) {
         expectedElementCount = 1;
         sampleKeys = {"matched"};
         dataFiles = filterDirContent(dataFiles, "matched.sam");
-    } else if (subcall == "clustering" || subcall == "analysis") {
+    } else if (subcall == pi::CLUSTER || subcall == pi::ANALYZE) {
         expectedElementCount = 1;
         sampleKeys = {"splits"};
         dataFiles = filterDirContent(dataFiles, "_splits.sam");
@@ -294,7 +295,7 @@ pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath)
 pt::ptree Data::retrieveSampleOutputTree(fs::path outConditionDir, pt::ptree inputTree) {
     pt::ptree output;
 
-    if (params["subcall"].as<std::string>() == "preproc") {
+    if (params["subcall"].as<std::string>() == pi::PREPROCESS) {
         fs::path fwd = fs::path(inputTree.get<std::string>("input.forward"));
         std::string forward = replaceParentDirPath(outConditionDir, fwd).string();
 
@@ -322,30 +323,32 @@ pt::ptree Data::retrieveSampleOutputTree(fs::path outConditionDir, pt::ptree inp
             output.put("R1unmerged", r1unmerged);
             output.put("R2unmerged", r2unmerged);
         }
-    } else if (params["subcall"].as<std::string>() == "align") {
+    } else if (params["subcall"].as<std::string>() == pi::ALIGN) {
         fs::path fwdInPath =
             fs::path(inputTree.get<std::string>("input.forward")).replace_extension(".sam");
         std::string fwdOutPath = replaceParentDirPath(outConditionDir, fwdInPath).string();
         std::string matched = addSuffix(fwdOutPath, "_matched", {});
 
         output.put("matched", matched);
-    } else if (params["subcall"].as<std::string>() == "detect") {
+    } else if (params["subcall"].as<std::string>() == pi::DETECT) {
         fs::path matchedInPath = fs::path(inputTree.get<std::string>("input.matched"));
         std::string splitsGeneralPath =
             replaceParentDirPath(outConditionDir, matchedInPath).string();
         std::string splitsOutPath = addSuffix(splitsGeneralPath, "splits", {"matched"});
         std::string multsplitsOutPath = addSuffix(splitsGeneralPath, "multsplits", {"matched"});
+        std::string statsOutPath = (outConditionDir / "detectStat.txt").string();
 
         output.put("splits", splitsOutPath);
         output.put("multsplits", multsplitsOutPath);
-    } else if (params["subcall"].as<std::string>() == "clustering") {
+        output.put("stats", statsOutPath);
+    } else if (params["subcall"].as<std::string>() == pi::CLUSTER) {
         fs::path splits = fs::path(inputTree.get<std::string>("input.splits"));
         splits.replace_extension(".txt");
         std::string clu = replaceParentDirPath(outConditionDir, splits).string();
         std::string clusters = addSuffix(clu, "_clusters", {"_splits"});
         // output.put("clusters", clusters); # no individual outputs for each -
         // instead one file
-    } else if (params["subcall"].as<std::string>() == "analysis") {
+    } else if (params["subcall"].as<std::string>() == pi::ANALYZE) {
         fs::path splits = fs::path(inputTree.get<std::string>("input.splits"));
         splits.replace_extension(".txt");
         std::string its = replaceParentDirPath(outConditionDir, splits).string();
@@ -391,10 +394,7 @@ void Data::callInAndOut(Callable f) {
         // create directory for groups (e.g., ctrls, trtms)
         outGroupDir = outSubcallDir / fs::path(groups[i]);
 
-        // don't create subfolders for clustering && analysis
-        // if(params["subcall"].as<std::string>() != "clustering") {
         createDirectories(outGroupDir);
-        //}
 
         conditions = subcall.get_child(groups[i]);
         BOOST_FOREACH (pt::ptree::value_type const &v, conditions.get_child("")) {
@@ -421,8 +421,8 @@ void Data::callInAndOut(Callable f) {
 }
 
 void Data::preproc() {
-    SeqRickshaw srs(params);
-    callInAndOut(std::bind(&SeqRickshaw::start, srs, std::placeholders::_1));
+    Preprocess srs(params);
+    callInAndOut(std::bind(&Preprocess::start, srs, std::placeholders::_1));
 }
 
 void Data::align() {
@@ -474,7 +474,6 @@ PathVector Data::filterDirContent(PathVector vec, std::string sestr) {
     return content;
 }
 
-// adds suffix to filename (optional:
 std::string Data::addSuffix(std::string _file, std::string _suffix,
                             std::vector<std::string> _keywords) {
     int keyPos, tmpKeyPos = -1;    // buffer the positions of the keywords

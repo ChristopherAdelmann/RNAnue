@@ -2,7 +2,7 @@
 
 IBPTree::IBPTree(po::variables_map params, int k) : params(params) {
     this->rootnodes = std::vector<std::pair<std::string, Node*>>();
-    this->order = k; // can be later extracted from config file
+    this->order = k;  // can be later extracted from config file
 
     std::cout << helper::getTime() << "Constructing IBPTree using ";
     std::cout << "features from " << params["features"].as<std::string>() << "\n";
@@ -13,12 +13,11 @@ IBPTree::IBPTree(po::variables_map params, int k) : params(params) {
 IBPTree::IBPTree() {}
 IBPTree::~IBPTree() {}
 
-
 // constructs the IBPTree (either from annotations/clusters or both)
 void IBPTree::construct() {
     std::string subcall = params["subcall"].as<std::string>();
     // fill tree with annotation
-    if(subcall == "detect") { // in the case of detect only annotation is needed
+    if (subcall == pi::DETECT) {  // in the case of detect only annotation is needed
         iterateFeatures(params["features"].as<std::string>());
     }
 }
@@ -26,19 +25,20 @@ void IBPTree::construct() {
 void IBPTree::iterateFeatures(std::string featuresFile) {
     // iterate over features
     std::ifstream gff(featuresFile);
-    if(!gff) {
-        std::cout << helper::getTime() << " Annotation file " << featuresFile << " could not be opened!\n";
+    if (!gff) {
+        std::cout << helper::getTime() << " Annotation file " << featuresFile
+                  << " could not be opened!\n";
         EXIT_FAILURE;
     }
 
     // null pointer
     Interval* intvl = nullptr;
     dtp::FeatureFields fields;
-    int junctionPos = -1; // position of the splice junction
+    int junctionPos = -1;  // position of the splice junction
 
     std::string line;
-    while(getline(gff, line)) {
-        if(line[0] == '#') { // ignore header lines
+    while (getline(gff, line)) {
+        if (line[0] == '#') {  // ignore header lines
             continue;
         }
         std::string token;
@@ -46,7 +46,7 @@ void IBPTree::iterateFeatures(std::string featuresFile) {
         std::istringstream ss(line);
 
         // split the input string
-        while(getline(ss, token, '\t')) {
+        while (getline(ss, token, '\t')) {
             tokens.push_back(token);
         }
         fields.seqid = tokens[0];
@@ -59,7 +59,7 @@ void IBPTree::iterateFeatures(std::string featuresFile) {
         fields.phase = tokens[7][0];
         fields.attributes = tokens[8];
 
-        if(fields.type == "region") {
+        if (fields.type == "region") {
             continue;
         }
         std::map<std::string, std::string> attr = getAttributes(fields.attributes);
@@ -67,40 +67,40 @@ void IBPTree::iterateFeatures(std::string featuresFile) {
         // get tags needed for the intervals
         std::string id = getTag(attr, "ID");
         std::string name = getTag(attr, "Name");
-        if(name == "") {
+        if (name == "") {
             name = getTag(attr, fields.type + "_name");
         }
         std::string biotype = getTag(attr, fields.type + "_biotype");
-        if(biotype == "") {
+        if (biotype == "") {
             biotype = getTag(attr, fields.type + "_type");
         }
 
         // new gene/transcript indicated by missing 'Parent' attribute
-        if(attr.find("Parent") == attr.end()) {
-            if(intvl != nullptr) {
-               insert(intvl->getChrom(),*intvl);
+        if (attr.find("Parent") == attr.end()) {
+            if (intvl != nullptr) {
+                insert(intvl->getChrom(), *intvl);
             }
-            intvl = new Interval(fields.seqid, fields.strand, id,
-                                           name, biotype, fields.start, fields.end);
+            intvl = new Interval(fields.seqid, fields.strand, id, name, biotype, fields.start,
+                                 fields.end);
 
-            //std::cout << intvl << std::endl;
-        } else { // Parent detected
-            if(fields.type == "transcript") {
+            // std::cout << intvl << std::endl;
+        } else {  // Parent detected
+            if (fields.type == "transcript") {
                 // check if ID/Parent is the same
                 std::string parent = getTag(attr, "Parent");
-                if(parent == intvl->getId()) { // the IDs match
-                    if(intvl->isSubset(fields.start, fields.end)) {
+                if (parent == intvl->getId()) {  // the IDs match
+                    if (intvl->isSubset(fields.start, fields.end)) {
                         intvl->narrow(fields.start, fields.end);
                         intvl->setId(id);
                     }
                 }
             } else {
                 // scan annotations for splice junctions (only needed for detect step)
-                if(params["subcall"].as<std::string>() == "detect") {
-                    if(fields.type == "exon") {
-                        if(junctionPos == -1) {
+                if (params["subcall"].as<std::string>() == pi::DETECT) {
+                    if (fields.type == "exon") {
+                        if (junctionPos == -1) {
                             // first exon (that has been read)
-                            junctionPos = fields.end+1;
+                            junctionPos = fields.end + 1;
                         } else {
                             intvl->setJunction(std::make_pair(junctionPos, fields.start));
                         }
@@ -114,12 +114,13 @@ void IBPTree::iterateFeatures(std::string featuresFile) {
 
 //
 void IBPTree::insert(std::string chrom, const Interval& interval) {
-//    std::cout << "Inserting interval\n";
+    //    std::cout << "Inserting interval\n";
 }
 
 // get attribute from the attributes fields
-std::string IBPTree::getTag(std::map<std::string, std::string>& attributes, const std::string& key) {
-    if(attributes.find(key) != attributes.end()) {
+std::string IBPTree::getTag(std::map<std::string, std::string>& attributes,
+                            const std::string& key) {
+    if (attributes.find(key) != attributes.end()) {
         return attributes[key];
     } else {
         return "";
@@ -128,20 +129,16 @@ std::string IBPTree::getTag(std::map<std::string, std::string>& attributes, cons
 
 // return
 std::map<std::string, std::string> IBPTree::getAttributes(const std::string& attributes) {
-    std::map<std::string, std::string> attr; // output to be map with key-value pairs
-    std::istringstream ss(attributes); // create string stream
+    std::map<std::string, std::string> attr;  // output to be map with key-value pairs
+    std::istringstream ss(attributes);        // create string stream
     std::string token;
-    while(getline(ss, token, ';')) {
+    while (getline(ss, token, ';')) {
         std::string key = token.substr(0, token.find("="));
         std::string value = token.substr(token.find("=") + 1);
         attr.insert(std::make_pair(key, value));
     }
     return attr;
 }
-
-
-
-
 
 /*
 void IBPTree::insert(std::string chrom, const Interval& interval) {
@@ -255,10 +252,9 @@ void IBPTree::insertNonFull(Node* node, const Interval& interval) {
             i--;
         }
         i++;
-        if (internal->children[i]->isLeaf() && static_cast<LeafNode*>(internal->children[i])->keys.size() == 2 * degree - 1) {
-            splitChild(internal, i);
-            if (interval.low > internal->keys[i])
-                i++;
+        if (internal->children[i]->isLeaf() &&
+static_cast<LeafNode*>(internal->children[i])->keys.size() == 2 * degree - 1) { splitChild(internal,
+i); if (interval.low > internal->keys[i]) i++;
         }
         insertNonFull(internal->children[i], interval);
     }

@@ -1,7 +1,7 @@
 #include "Align.hpp"
 
 Align::Align(po::variables_map params) : params(params) {
-    segemehlSysCall = params["segemehl"].as<std::string>();
+    this->segemehlSysCall = params["segemehl"].as<std::string>();
     buildIndex();
 }
 

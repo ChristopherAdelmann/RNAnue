@@ -88,7 +88,7 @@ dtp::PathVector helper::filterDirFiles(dtp::PathVector& pathvec, std::string sub
     dtp::PathVector filtered;
     for (auto& file : pathvec) {
         // in detect mode, only bam files are considered
-        if (subcall == "detect") {
+        if (subcall == pi::DETECT) {
             if (file.extension() == ".bed" || file.extension() == ".txt") {
                 continue;
             }

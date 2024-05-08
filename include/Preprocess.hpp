@@ -1,5 +1,5 @@
-#ifndef SEQRICKSHAW_H
-#define SEQRICKSHAW_H
+#ifndef PREPROCESS_H
+#define PREPROCESS_H
 
 #include "Logger.hpp"
 #include "Utility.hpp"
@@ -57,7 +57,7 @@ typedef std::vector<fs::path> PathVector;
 typedef std::pair<PathVector, PathVector> PathVectorPair;
 
 using seqan3::operator""_dna5;
-class SeqRickshaw {
+class Preprocess {
    private:
     const std::string readtype;
 
@@ -153,7 +153,7 @@ class SeqRickshaw {
         const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads);
 
    public:
-    SeqRickshaw(const po::variables_map &params);
+    Preprocess(const po::variables_map &params);
 
     void start(pt::ptree sample);
 };

@@ -22,14 +22,16 @@
 #include "Align.hpp"
 #include "Analysis.hpp"
 #include "Clustering.hpp"
+#include "Constansts.hpp"
 #include "Logger.hpp"
-#include "SeqRickshaw.hpp"
+#include "Preprocess.hpp"
 #include "SplitReadCalling.hpp"
 
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
 namespace pt = boost::property_tree;
 namespace jp = boost::property_tree::json_parser;
+namespace pi = constants::pipelines;
 
 // map that contains the paths to the groups (e.g., ctrls, trtms)
 using GroupsPath = std::map<std::string, fs::path>;

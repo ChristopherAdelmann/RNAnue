@@ -7,10 +7,12 @@
 
 #include <boost/program_options.hpp>
 
+#include "Constansts.hpp"
 #include "Data.hpp"
 #include "Utility.hpp"
 
 namespace po = boost::program_options;
+namespace pi = constants::pipelines;
 
 class Base {
    public:

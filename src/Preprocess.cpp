@@ -1,6 +1,6 @@
-#include "SeqRickshaw.hpp"
+#include "Preprocess.hpp"
 
-SeqRickshaw::SeqRickshaw(const po::variables_map &params)
+Preprocess::Preprocess(const po::variables_map &params)
     : readtype(params["readtype"].as<std::string>()),
       trimPolyG(params["trimpolyg"].as<bool>()),
       adpt5f(params["adpt5f"].as<std::string>()),
@@ -13,12 +13,12 @@ SeqRickshaw::SeqRickshaw(const po::variables_map &params)
       minLen(params["minlen"].as<std::size_t>()),
       minWindowPhread(params["wqual"].as<std::size_t>()),
       windowTrimSize(params["wtrim"].as<std::size_t>()),
-      threads(params["threads"].as<int>()),
-      chunkSize(params["chunksize"].as<int>()),
       minOverlapMerge(params["minovl"].as<int>()),
-      missMatchRateMerge(params["mmerge"].as<double>()) {}
+      missMatchRateMerge(params["mmerge"].as<double>()),
+      threads(params["threads"].as<int>()),
+      chunkSize(params["chunksize"].as<int>()) {}
 
-void SeqRickshaw::start(pt::ptree sample) {
+void Preprocess::start(pt::ptree sample) {
     if (readtype == "SE") {
         processSingleEnd(sample);
     } else if (readtype == "PE") {
@@ -34,7 +34,7 @@ void SeqRickshaw::start(pt::ptree sample) {
  *
  * @param sample The sample to be processed.
  */
-void SeqRickshaw::processSingleEnd(pt::ptree sample) {
+void Preprocess::processSingleEnd(pt::ptree sample) {
     const pt::ptree input = sample.get_child("input");
     const pt::ptree output = sample.get_child("output");
 
@@ -47,10 +47,10 @@ void SeqRickshaw::processSingleEnd(pt::ptree sample) {
     const std::string sampleName = std::filesystem::path(recInPath).stem().string();
     Logger::log(LogLevel::INFO, "Started pre-processing " + sampleName + " in single-end mode ...");
 
-    const std::vector<SeqRickshaw::Adapter> adapters5 =
-        loadAdapters(adpt5f, SeqRickshaw::TrimConfig::Mode::FIVE_PRIME);
-    const std::vector<SeqRickshaw::Adapter> adapters3 =
-        loadAdapters(adpt3f, SeqRickshaw::TrimConfig::Mode::THREE_PRIME);
+    const std::vector<Preprocess::Adapter> adapters5 =
+        loadAdapters(adpt5f, Preprocess::TrimConfig::Mode::FIVE_PRIME);
+    const std::vector<Preprocess::Adapter> adapters3 =
+        loadAdapters(adpt3f, Preprocess::TrimConfig::Mode::THREE_PRIME);
 
     processSingleEndFileInChunks(recInPath, recOutPath, adapters5, adapters3, chunkSize, threads);
 
@@ -63,7 +63,7 @@ void SeqRickshaw::processSingleEnd(pt::ptree sample) {
  *
  * @param sample The sample to be processed.
  */
-void SeqRickshaw::processPairedEnd(pt::ptree sample) {
+void Preprocess::processPairedEnd(pt::ptree sample) {
     const pt::ptree input = sample.get_child("input");
     const pt::ptree output = sample.get_child("output");
 
@@ -86,14 +86,14 @@ void SeqRickshaw::processPairedEnd(pt::ptree sample) {
     const std::string sampleName = std::filesystem::path(forwardRecInPath).stem().string();
     Logger::log(LogLevel::INFO, "Started pre-processing " + sampleName + " in paired-end mode ...");
 
-    std::vector<SeqRickshaw::Adapter> adapters5f =
-        loadAdapters(adpt5f, SeqRickshaw::TrimConfig::Mode::FIVE_PRIME);
-    std::vector<SeqRickshaw::Adapter> adapters3f =
-        loadAdapters(adpt3f, SeqRickshaw::TrimConfig::Mode::THREE_PRIME);
-    std::vector<SeqRickshaw::Adapter> adapters5r =
-        loadAdapters(adpt5r, SeqRickshaw::TrimConfig::Mode::FIVE_PRIME);
-    std::vector<SeqRickshaw::Adapter> adapters3r =
-        loadAdapters(adpt3r, SeqRickshaw::TrimConfig::Mode::THREE_PRIME);
+    std::vector<Preprocess::Adapter> adapters5f =
+        loadAdapters(adpt5f, Preprocess::TrimConfig::Mode::FIVE_PRIME);
+    std::vector<Preprocess::Adapter> adapters3f =
+        loadAdapters(adpt3f, Preprocess::TrimConfig::Mode::THREE_PRIME);
+    std::vector<Preprocess::Adapter> adapters5r =
+        loadAdapters(adpt5r, Preprocess::TrimConfig::Mode::FIVE_PRIME);
+    std::vector<Preprocess::Adapter> adapters3r =
+        loadAdapters(adpt3r, Preprocess::TrimConfig::Mode::THREE_PRIME);
 
     processPairedEndFileInChunks(forwardRecInPath, reverseRecInPath, mergeRecOutPath,
                                  snglFwdOutPath, snglRevOutPath, adapters5f, adapters3f, adapters5r,
@@ -107,15 +107,15 @@ void SeqRickshaw::processPairedEnd(pt::ptree sample) {
  * @brief Loads adapters from a file or a sequence.
  *
  * This function loads adapters from either a file or a sequence and returns them as a vector of
- * SeqRickshaw::Adapter objects.
+ * Preprocess::Adapter objects.
  *
  * @param filenameOrSequence The filename or sequence from which to load the adapters.
  * @param trimmingMode The trimming mode to be used for the adapters.
- * @return A vector of SeqRickshaw::Adapter objects containing the loaded adapters.
+ * @return A vector of Preprocess::Adapter objects containing the loaded adapters.
  */
-std::vector<SeqRickshaw::Adapter> SeqRickshaw::loadAdapters(
-    const std::string &filenameOrSequence, const SeqRickshaw::TrimConfig::Mode trimmingMode) {
-    std::vector<SeqRickshaw::Adapter> adapters;
+std::vector<Preprocess::Adapter> Preprocess::loadAdapters(
+    const std::string &filenameOrSequence, const Preprocess::TrimConfig::Mode trimmingMode) {
+    std::vector<Preprocess::Adapter> adapters;
 
     if (filenameOrSequence.empty()) return adapters;
 
@@ -123,13 +123,13 @@ std::vector<SeqRickshaw::Adapter> SeqRickshaw::loadAdapters(
         seqan3::sequence_file_input adapterFile{filenameOrSequence};
         for (auto &record : adapterFile) {
             adapters.push_back(
-                SeqRickshaw::Adapter{record.sequence(), missMatchRateTrim, trimmingMode});
+                Preprocess::Adapter{record.sequence(), missMatchRateTrim, trimmingMode});
         }
     } else {
         const seqan3::dna5_vector adapterSequence = filenameOrSequence |
                                                     seqan3::views::char_to<seqan3::dna5> |
                                                     seqan3::ranges::to<std::vector>();
-        adapters.push_back(SeqRickshaw::Adapter{adapterSequence, missMatchRateTrim, trimmingMode});
+        adapters.push_back(Preprocess::Adapter{adapterSequence, missMatchRateTrim, trimmingMode});
     }
 
     for (auto &adapter : adapters) {
@@ -148,7 +148,7 @@ std::vector<SeqRickshaw::Adapter> SeqRickshaw::loadAdapters(
  * @param record The record to trim.
  */
 template <typename record_type>
-void SeqRickshaw::trimWindowedQuality(record_type &record) {
+void Preprocess::trimWindowedQuality(record_type &record) {
     std::size_t trimmingEnd = record.sequence().size();
 
     while ((trimmingEnd - windowTrimSize) >= windowTrimSize) {
@@ -187,8 +187,8 @@ void SeqRickshaw::trimWindowedQuality(record_type &record) {
  * std::nullopt.
  */
 template <typename record_type>
-std::optional<record_type> SeqRickshaw::mergeRecordPair(const record_type &record1,
-                                                        const record_type &record2) {
+std::optional<record_type> Preprocess::mergeRecordPair(const record_type &record1,
+                                                       const record_type &record2) {
     const seqan3::align_cfg::method_global endGapConfig{
         seqan3::align_cfg::free_end_gaps_sequence1_leading{true},
         seqan3::align_cfg::free_end_gaps_sequence2_leading{true},
@@ -238,7 +238,7 @@ std::optional<record_type> SeqRickshaw::mergeRecordPair(const record_type &recor
  * @return The merged record.
  */
 template <typename record_type, typename result_type>
-record_type SeqRickshaw::constructMergedRecord(
+record_type Preprocess::constructMergedRecord(
     const record_type &record1, const record_type &record2,
     const seqan3::alignment_result<result_type> &alignmentResult) {
     const auto &record1Qualities = record1.base_qualities();
@@ -333,7 +333,7 @@ record_type SeqRickshaw::constructMergedRecord(
  * @param record The record to be checked.
  * @return True if the record passes all the filters, false otherwise.
  */
-bool SeqRickshaw::passesFilters(const auto &record) {
+bool Preprocess::passesFilters(const auto &record) {
     // Filter for mean quality
     const auto phredQual =
         record.base_qualities() | std::views::transform([](auto q) { return q.to_phred(); });
@@ -355,7 +355,7 @@ bool SeqRickshaw::passesFilters(const auto &record) {
  * @param trimmingMode The trimming mode to be applied.
  */
 template <typename record_type>
-void SeqRickshaw::trimAdapter(const SeqRickshaw::Adapter &adapter, record_type &record) {
+void Preprocess::trimAdapter(const Preprocess::Adapter &adapter, record_type &record) {
     const seqan3::align_cfg::scoring_scheme scoringSchemeConfig{
         seqan3::nucleotide_scoring_scheme{seqan3::match_score{1}, seqan3::mismatch_score{-1}}};
     const seqan3::align_cfg::gap_cost_affine gapSchemeConfig{
@@ -364,9 +364,8 @@ void SeqRickshaw::trimAdapter(const SeqRickshaw::Adapter &adapter, record_type &
                               seqan3::align_cfg::output_end_position{} |
                               seqan3::align_cfg::output_begin_position{};
 
-    const auto alignment_config =
-        SeqRickshaw::TrimConfig::alignmentConfigFor(adapter.trimmingMode) | scoringSchemeConfig |
-        gapSchemeConfig | outputConfig;
+    const auto alignment_config = Preprocess::TrimConfig::alignmentConfigFor(adapter.trimmingMode) |
+                                  scoringSchemeConfig | gapSchemeConfig | outputConfig;
 
     auto &seq = record.sequence();
     auto &qual = record.base_qualities();
@@ -380,7 +379,7 @@ void SeqRickshaw::trimAdapter(const SeqRickshaw::Adapter &adapter, record_type &
         const int minScore = overlap - (overlap * adapter.maxMissMatchFraction) * 2;
 
         if (result.score() >= minScore) {
-            if (adapter.trimmingMode == SeqRickshaw::TrimConfig::Mode::FIVE_PRIME) {
+            if (adapter.trimmingMode == Preprocess::TrimConfig::Mode::FIVE_PRIME) {
                 seq.erase(seq.begin(), seq.begin() + result.sequence2_end_position());
                 qual.erase(qual.begin(), qual.begin() + result.sequence2_end_position());
             } else {
@@ -403,7 +402,7 @@ void SeqRickshaw::trimAdapter(const SeqRickshaw::Adapter &adapter, record_type &
  * @param record The sequence record to trim.
  */
 template <typename record_type>
-void SeqRickshaw::trim3PolyG(record_type &record) {
+void Preprocess::trim3PolyG(record_type &record) {
     // TODO Optimize this function
 
     auto &seq = record.sequence();
@@ -448,18 +447,18 @@ void SeqRickshaw::trim3PolyG(record_type &record) {
  * @param mode The mode to use for trimming.
  * @return seqan3::align_cfg::method_global The semi-global alignment configuration.
  */
-seqan3::align_cfg::method_global SeqRickshaw::TrimConfig::alignmentConfigFor(
-    SeqRickshaw::TrimConfig::Mode mode) {
+seqan3::align_cfg::method_global Preprocess::TrimConfig::alignmentConfigFor(
+    Preprocess::TrimConfig::Mode mode) {
     seqan3::align_cfg::method_global config;
 
     switch (mode) {
-        case SeqRickshaw::TrimConfig::Mode::FIVE_PRIME:
+        case Preprocess::TrimConfig::Mode::FIVE_PRIME:
             config.free_end_gaps_sequence1_leading = true;
             config.free_end_gaps_sequence2_leading = true;
             config.free_end_gaps_sequence1_trailing = false;
             config.free_end_gaps_sequence2_trailing = true;
             break;
-        case SeqRickshaw::TrimConfig::Mode::THREE_PRIME:
+        case Preprocess::TrimConfig::Mode::THREE_PRIME:
             config.free_end_gaps_sequence1_leading = false;
             config.free_end_gaps_sequence2_leading = true;
             config.free_end_gaps_sequence1_trailing = true;
@@ -470,9 +469,9 @@ seqan3::align_cfg::method_global SeqRickshaw::TrimConfig::alignmentConfigFor(
     return config;
 }
 
-void SeqRickshaw::processSingleEndRecordChunk(SeqRickshaw::SingleEndFastqChunk &chunk,
-                                              const std::vector<SeqRickshaw::Adapter> &adapters5,
-                                              const std::vector<SeqRickshaw::Adapter> &adapters3) {
+void Preprocess::processSingleEndRecordChunk(Preprocess::SingleEndFastqChunk &chunk,
+                                             const std::vector<Preprocess::Adapter> &adapters5,
+                                             const std::vector<Preprocess::Adapter> &adapters3) {
     auto it = std::remove_if(chunk.records.begin(), chunk.records.end(), [&](auto &record) {
         if (trimPolyG) trim3PolyG(record);
 
@@ -489,10 +488,10 @@ void SeqRickshaw::processSingleEndRecordChunk(SeqRickshaw::SingleEndFastqChunk &
 }
 
 // Function to read a FASTQ file in chunks and process each chunk.
-void SeqRickshaw::processSingleEndFileInChunks(std::string const &recInPath, std::string recOutPath,
-                                               const std::vector<SeqRickshaw::Adapter> &adapters5,
-                                               const std::vector<SeqRickshaw::Adapter> &adapters3,
-                                               size_t chunkSize, size_t numThreads) {
+void Preprocess::processSingleEndFileInChunks(std::string const &recInPath, std::string recOutPath,
+                                              const std::vector<Preprocess::Adapter> &adapters5,
+                                              const std::vector<Preprocess::Adapter> &adapters3,
+                                              size_t chunkSize, size_t numThreads) {
     seqan3::sequence_file_input recIn{recInPath};
     seqan3::sequence_file_output recOut{recOutPath};
 
@@ -554,13 +553,13 @@ void SeqRickshaw::processSingleEndFileInChunks(std::string const &recInPath, std
 }
 
 // Function to read a FASTQ file in chunks and process each chunk.
-void SeqRickshaw::processPairedEndFileInChunks(
+void Preprocess::processPairedEndFileInChunks(
     const std::string &recFwdInPath, std::string const &recRevInPath,
     const std::string &mergedOutPath, std::string const &snglFwdOutPath,
-    const std::string &snglRevOutPath, const std::vector<SeqRickshaw::Adapter> &adapters5f,
-    const std::vector<SeqRickshaw::Adapter> &adapters3f,
-    const std::vector<SeqRickshaw::Adapter> &adapters5r,
-    const std::vector<SeqRickshaw::Adapter> &adapters3r, size_t chunkSize, size_t numThreads) {
+    const std::string &snglRevOutPath, const std::vector<Preprocess::Adapter> &adapters5f,
+    const std::vector<Preprocess::Adapter> &adapters3f,
+    const std::vector<Preprocess::Adapter> &adapters5r,
+    const std::vector<Preprocess::Adapter> &adapters3r, size_t chunkSize, size_t numThreads) {
     seqan3::sequence_file_input recFwdIn{recFwdInPath};
     seqan3::sequence_file_input recRevIn{recRevInPath};
 
@@ -587,7 +586,7 @@ void SeqRickshaw::processPairedEndFileInChunks(
                 chunk.recordsFwd.reserve(chunkSize);
                 chunk.recordsRev.reserve(chunkSize);
 
-                int count = 0;
+                std::size_t count = 0;
 
                 for (auto &&[record1, record2] : seqan3::views::zip(recFwdIn, recRevIn)) {
                     chunk.recordsFwd.push_back(record1);
@@ -636,11 +635,11 @@ void SeqRickshaw::processPairedEndFileInChunks(
     for (auto &thread : threads) thread.join();
 }
 
-void SeqRickshaw::processPairedEndRecordChunk(SeqRickshaw::PairedEndFastqChunk &chunk,
-                                              const std::vector<SeqRickshaw::Adapter> &adapters5f,
-                                              const std::vector<SeqRickshaw::Adapter> &adapters3f,
-                                              const std::vector<SeqRickshaw::Adapter> &adapters5r,
-                                              const std::vector<SeqRickshaw::Adapter> &adapters3r) {
+void Preprocess::processPairedEndRecordChunk(Preprocess::PairedEndFastqChunk &chunk,
+                                             const std::vector<Preprocess::Adapter> &adapters5f,
+                                             const std::vector<Preprocess::Adapter> &adapters3f,
+                                             const std::vector<Preprocess::Adapter> &adapters5r,
+                                             const std::vector<Preprocess::Adapter> &adapters3r) {
     for (auto &&[record1, record2] : seqan3::views::zip(chunk.recordsFwd, chunk.recordsRev)) {
         if (trimPolyG) {
             trim3PolyG(record1);

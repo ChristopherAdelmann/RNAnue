@@ -13,8 +13,8 @@ std::vector<TracebackResult> traceback(ScoringMatrix matrix, const char *a, cons
     std::vector<std::pair<int, int>> mids;  // store indices of maximum elementh
     mids.push_back(std::make_pair(0, 0));   // init
     // find maximum value in scoring matrix
-    for (int i = 0; i < matrix.height; ++i) {
-        for (int j = 0; j < matrix.width; ++j) {
+    for (std::size_t i = 0; i < matrix.height; ++i) {
+        for (std::size_t j = 0; j < matrix.width; ++j) {
             if (matrix.scoring[(matrix.width * i + j)] >
                 matrix.scoring[(matrix.width * mids[0].first + mids[0].second)]) {
                 mids.clear();
@@ -96,6 +96,3 @@ std::vector<TracebackResult> traceback(ScoringMatrix matrix, const char *a, cons
     }
     return res;
 }
-
-//
-void free_traceback(TracebackResult trc) {}

@@ -1,3 +1,4 @@
+#include <array>
 #include <bitset>
 #include <iostream>
 #include <string>
@@ -16,6 +17,7 @@
 #include "Base.hpp"
 #include "Closing.hpp"
 #include "Config.hpp"
+#include "Constansts.hpp"
 #include "Utility.hpp"
 
 namespace po = boost::program_options;
@@ -37,15 +39,12 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
 }
 
 void handler(int sig) {
-    void* array[10];
-    size_t size;
-
-    // get void*'s for all entries on the stack
-    size = backtrace(array, 10);
+    std::array<void*, 10> array;
+    size_t size = backtrace(array.data(), 10);
 
     // print out all the frames to stderr
-    fprintf(stderr, "Error: signal %d:\n", sig);
-    backtrace_symbols_fd(array, size, STDERR_FILENO);
+    std::cerr << "Error: signal " << sig << ":" << std::endl;
+    backtrace_symbols_fd(array.data(), size, STDERR_FILENO);
     exit(1);
 }
 
@@ -53,6 +52,8 @@ int main(int argc, char* argv[]) {
     signal(SIGSEGV, handler);  // register handler to catch segmentation faults
 
     try {
+        using namespace constants::pipelines;
+
         std::string readType;
         std::string configFile;
 
@@ -80,56 +81,57 @@ int main(int argc, char* argv[]) {
         general.add_options()("splicing", po::value<std::bitset<1>>()->default_value(0),
                               "splicing events are considered in the detection of split reads");
 
-        po::options_description preproc("Preprocessing");
-        preproc.add_options()("preproc", po::value<std::bitset<1>>()->default_value(1),
-                              "include preprocessing of the raw reads in the workflow of RNAnue");
-        preproc.add_options()("chunksize", po::value<int>()->default_value(100000),
-                              "number of reads to be processed in parallel (default: 100000)");
-        preproc.add_options()(
+        po::options_description preprocess("Preprocessing");
+        preprocess.add_options()(
+            pi::PREPROCESS.c_str(), po::value<std::bitset<1>>()->default_value(1),
+            "include preprocessing of the raw reads in the workflow of RNAnue");
+        preprocess.add_options()("chunksize", po::value<int>()->default_value(100000),
+                                 "number of reads to be processed in parallel (default: 100000)");
+        preprocess.add_options()(
             "trimpolyg", po::bool_switch()->default_value(false),
             "trim high quality polyG tails from the reads. Applicable for Illumina "
             "NextSeq reads. (default: false)");
-        preproc.add_options()(
+        preprocess.add_options()(
             "adpt5f", po::value<std::string>()->default_value(""),
             "single sequence or file [.fasta] of the adapter sequences to be removed "
             "from the 5' end (forward read if PE)");
-        preproc.add_options()(
+        preprocess.add_options()(
             "adpt5r", po::value<std::string>()->default_value(""),
             "single sequence or file [.fasta] of the adapter sequences to be removed "
             "from the 5' end of the reverse read (PE only)");
-        preproc.add_options()(
+        preprocess.add_options()(
             "adpt3f", po::value<std::string>()->default_value(""),
             "single sequence or file [.fasta] of the adapter sequences to be removed "
             "from the 3' end (forward read if PE)");
-        preproc.add_options()(
+        preprocess.add_options()(
             "adpt3r", po::value<std::string>()->default_value(""),
             "single sequence or file [.fasta] of the adapter sequences to be removed "
             "from the 3' end of the reverse read (PE only)");
-        preproc.add_options()(
+        preprocess.add_options()(
             "mtrim", po::value<double>()->default_value(0.05),
             "rate of mismatches allowed when aligning adapters to sequences (default: 0.05)");
-        preproc.add_options()("mintrim", po::value<int>()->default_value(5),
-                              "minimum length of overlap between adapter and read (default: 5)");
-        preproc.add_options()(
+        preprocess.add_options()("mintrim", po::value<int>()->default_value(5),
+                                 "minimum length of overlap between adapter and read (default: 5)");
+        preprocess.add_options()(
             "minqual,q", po::value<int>()->default_value(20),
             "lower limit for the mean quality (Phred Quality Score) of the reads (default: 20)");
-        preproc.add_options()("minlen,l", po::value<std::size_t>()->default_value(15),
-                              "minimum length of the reads");
-        preproc.add_options()(
+        preprocess.add_options()("minlen,l", po::value<std::size_t>()->default_value(15),
+                                 "minimum length of the reads");
+        preprocess.add_options()(
             "wqual", po::value<std::size_t>()->default_value(20),
             "minimum mean quality for each window (Phred Quality Score) (default: 20)");
-        preproc.add_options()(
+        preprocess.add_options()(
             "wtrim", po::value<std::size_t>()->default_value(0),
             "window size for quality trimming from 3' end. Selecting '0' will not "
             "apply quality trimming (default: 0)");
-        preproc.add_options()("minovl", po::value<int>()->default_value(5),
-                              "minimal overlap to merge paired-end reads (default: 5)");
-        preproc.add_options()(
+        preprocess.add_options()("minovl", po::value<int>()->default_value(5),
+                                 "minimal overlap to merge paired-end reads (default: 5)");
+        preprocess.add_options()(
             "mmerge", po::value<double>()->default_value(0.05),
             "rate of mismatches allowed when merging paired end reads (default: 0.05)");
 
-        po::options_description alignment("Alignment");
-        alignment.add_options()("dbref", po::value<std::string>(), "reference genome (.fasta)")(
+        po::options_description align("Alignment");
+        align.add_options()("dbref", po::value<std::string>(), "reference genome (.fasta)")(
             "accuracy", po::value<int>()->default_value(90), "minimum percentage of read matches")(
             "minfragsco", po::value<int>()->default_value(18),
             "minimum score of a spliced fragment")("minfraglen",
@@ -177,13 +179,12 @@ int main(int argc, char* argv[]) {
             "configuration file that contains the parameters");
 
         po::options_description subcall("Subcall");
-        subcall.add_options()("subcall", po::value<std::string>(),
-                              "preproc, detect, alignment, clustering, analysis");
+        subcall.add_options()("subcall", po::value<std::string>(), SUBCALL_DESCRIPTION.c_str());
 
         po::options_description cmdlineOptions;
         cmdlineOptions.add(general)
-            .add(preproc)
-            .add(alignment)
+            .add(preprocess)
+            .add(align)
             .add(detect)
             .add(clustering)
             .add(analysis)
@@ -192,8 +193,8 @@ int main(int argc, char* argv[]) {
 
         po::options_description configFileOptions;
         configFileOptions.add(general)
-            .add(preproc)
-            .add(alignment)
+            .add(preprocess)
+            .add(align)
             .add(detect)
             .add(clustering)
             .add(analysis)

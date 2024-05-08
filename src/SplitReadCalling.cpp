@@ -99,23 +99,25 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
     auto it = splitrecords.begin();
     while (it != splitrecords.end()) {
         // extract information
-        qname = it->id();                    // QNAME
-        seqan3::sam_flag flag = it->flag();  // SAMFLAG
-        std::optional<int32_t> refID = it->reference_id();
+        // TODO Handle remaining tags
+        qname = it->id();  // QNAME
+        // seqan3::sam_flag flag = it->flag();  // SAMFLAG
+        //  std::optional<int32_t> refID = it->reference_id();
         std::optional<int32_t> refOffset = it->reference_position();
-        std::optional<uint8_t> qual = it->mapping_quality();  // MAPQ
+        // std::optional<uint8_t> qual = it->mapping_quality();  // MAPQ
 
         // CIGAR string
         std::vector<seqan3::cigar> cigar{it->cigar_sequence()};
         std::vector<seqan3::cigar> cigarSplit{};       // individual cigar for each split
         std::span<seqan3::dna5> seq = it->sequence();  // SEQ
 
+        // TODO Handle remaining tags
         // extract the tags (information about split reads)
         tags = it->tags();
-        auto xhtag = tags.get<"XH"_tag>();
+        // auto xhtag = tags.get<"XH"_tag>();
         auto xjtag = tags.get<"XJ"_tag>();
         auto xxtag = tags.get<"XX"_tag>();
-        auto xytag = tags.get<"XY"_tag>();
+        // auto xytag = tags.get<"XY"_tag>();
 
         if (xjtag == 2) {      // splits in SAMfile need to consists of at least 2 segments
             startPosRead = 1;  // intialise start & end of reads
@@ -211,9 +213,8 @@ void SplitReadCalling::process(auto &splitrecords, auto &splitsfile, auto &mults
         std::string p1Qname;
         std::string p2Qname;
 
-        std::map<int, std::vector<SamRecord>>::iterator itSplits = putative.begin();
-        for (itSplits; itSplits != putative.end(); ++itSplits) {
-            std::vector<SamRecord> splits = itSplits->second;
+        for (auto &element : putative) {
+            std::vector<SamRecord> splits = element.second;
             if (splits.size() > 1) {  // splits consists at least of 2 segments
                 for (unsigned i = 0; i < splits.size(); ++i) {
                     for (unsigned j = i + 1; j < splits.size(); ++j) {
@@ -348,7 +349,7 @@ void SplitReadCalling::filterSegments(auto &splitrecord, std::optional<int32_t> 
     segment.sequence() = seq;
     segment.tags() = tags;
 
-    if (seq.size() <= params["minfraglen"].as<int>()) {
+    if (seq.size() <= (std::size_t)params["minfraglen"].as<int>()) {
         return;
     }
 
@@ -800,7 +801,7 @@ void SplitReadCalling::start(pt::ptree sample) {
 
     // generate stats
     if (params["stats"].as<std::bitset<1>>() == 1) {
-        fs::path statsfile = fs::path(params["outdir"].as<std::string>()) / "detectStat.txt";
+        fs::path statsfile = fs::path(output.get<std::string>("stats"));
         fs::path splitsPath{splits};
         fs::path multiSplitsPath{multsplits};
         std::fstream fs;

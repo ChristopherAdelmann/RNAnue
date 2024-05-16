@@ -1,8 +1,12 @@
 #ifndef RNANUE_DATATYPES_HPP
 #define RNANUE_DATATYPES_HPP
 
+// Standard
+#include <map>
 #include <span>
+#include <unordered_map>
 #include <vector>
+
 // boost
 #include <boost/filesystem.hpp>
 
@@ -13,7 +17,6 @@
 #include <seqan3/utility/type_list/type_list.hpp>
 
 namespace fs = boost::filesystem;
-
 namespace dtp {
 using PathVector = std::vector<fs::path>;
 using SubPathsMap = std::map<std::string, PathVector>;
@@ -39,8 +42,26 @@ using State = std::tuple<std::string, int, std::pair<int, int>, std::size_t>;
 
 using Bases = std::map<std::pair<std::string, DNAVector>, DNAVector>;
 using STTEntry = std::tuple<int, int, int, int>;
+struct GenomicRegion {
+    std::string seqid;
+    int start;
+    int end;
+    GenomicRegion(const std::string &seqid, int start, int end)
+        : seqid(seqid), start(start), end(end) {}
+};
 
 // FeaturesFields for GFF3/GTF
+struct Feature {
+    std::string seqid;
+    std::string type;
+    size_t start;
+    size_t end;
+    char strand;
+    std::string id;
+};
+
+using FeatureMap = std::unordered_map<std::string, std::vector<Feature>>;
+
 struct FeatureFields {
     std::string seqid;
     std::string source;

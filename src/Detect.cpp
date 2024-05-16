@@ -1,7 +1,5 @@
 #include "Detect.hpp"
 
-#include "Utility.hpp"
-
 using namespace seqan3::literals;
 
 // WARNING: This split read calling is not working as intended and is currently not handling
@@ -22,6 +20,15 @@ void Detect::iterate(std::string matched, std::string splits, std::string multsp
                        seqan3::field::seq, seqan3::field::tags>;
 
     seqan3::sam_file_input alignmentsIn{matched, sam_fields{}};
+
+    fs::path annotationPath = params["features"].as<std::string>();
+    const auto start = std::chrono::high_resolution_clock::now();
+    Annotation::FeatureAnnotator featureAnnotator =
+        Annotation::FeatureAnnotator(annotationPath, {"gene"}, std::nullopt);
+    const auto end = std::chrono::high_resolution_clock::now();
+    const std::chrono::duration<double> elapsed_seconds = end - start;
+    Logger::log(LogLevel::INFO, "Feature annotation tree init took ", elapsed_seconds.count(),
+                " seconds");
 
     std::vector<size_t> ref_lengths;
     ref_lengths.reserve(alignmentsIn.header().ref_id_info.size());
@@ -51,7 +58,7 @@ void Detect::iterate(std::string matched, std::string splits, std::string multsp
         bool isNewRecord = !currentRecordId.empty() && (currentRecordId != recordId);
 
         if (isNewRecord) {
-            process(currentRecordList, splitsfile, multsplitsfile);
+            process(currentRecordList, splitsfile, multsplitsfile, featureAnnotator);
             currentRecordList.clear();
         }
 
@@ -66,13 +73,14 @@ void Detect::iterate(std::string matched, std::string splits, std::string multsp
 
     if (!currentRecordList.empty()) {
         readscount++;
-        process(currentRecordList, splitsfile, multsplitsfile);
+        process(currentRecordList, splitsfile, multsplitsfile, featureAnnotator);
     }
 
     Logger::log(LogLevel::INFO, "Processed ", readscount, " reads");
 }
 
-void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile) {
+void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile,
+                     auto &featureTreeMap) {
     Splts splits;
 
     seqan3::cigar::operation cigarOp;  // operation of cigar string
@@ -105,6 +113,30 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile)
         //  std::optional<int32_t> refID = it->reference_id();
         std::optional<int32_t> refOffset = it->reference_position();
         // std::optional<uint8_t> qual = it->mapping_quality();  // MAPQ
+
+        if (refOffset.has_value()) {
+            const int referenceIDIndex = it->reference_id().value();
+            const std::string referenceID = splitsfile.header().ref_ids()[referenceIDIndex];
+            const int referenceOffset = refOffset.value();
+            const int referenceEnd = refOffset.value() + it->sequence().size();
+
+            const dtp::GenomicRegion region(referenceID, referenceOffset, referenceEnd);
+
+            std::string last_feature_a{};
+            for (const dtp::Feature &feature :
+                 featureTreeMap.getOverlappingFeatureIterator(region)) {
+                last_feature_a = feature.id;
+            }
+
+            std::string last_feature_b{};
+            auto results = featureTreeMap.overlappingFeatures(region);
+            for (const auto &feature : results) {
+                last_feature_b = feature.id;
+            }
+
+            // assert that last feature is the same as the one returned by the iterator
+            assert(last_feature_a == last_feature_b);
+        }
 
         // CIGAR string
         std::vector<seqan3::cigar> cigar{it->cigar_sequence()};

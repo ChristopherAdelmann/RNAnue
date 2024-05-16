@@ -35,6 +35,7 @@
 #include <seqan3/io/sequence_file/input.hpp>
 
 // filters
+#include "FeatureAnnotator.hpp"
 #include "Logger.hpp"
 #include "ScoringMatrix.hpp"
 #include "Traceback.hpp"
@@ -42,6 +43,7 @@
 
 // Standard
 #include <bitset>
+#include <chrono>
 #include <iostream>
 
 // Boost
@@ -192,7 +194,7 @@ class Detect {
    public:
     // iterate through reads
     void iterate(std::string matched, std::string splits, std::string multsplits);
-    void process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile);
+    void process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile, auto &featureTreeMap);
 
     void filterSegments(auto &splitrecord, std::optional<int32_t> &refOffset,
                         std::vector<seqan3::cigar> &cigar, std::span<seqan3::dna5> &seq,

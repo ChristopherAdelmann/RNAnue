@@ -4,34 +4,44 @@ using namespace Annotation;
 
 FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
                                    const std::unordered_set<std::string> &includedFeatures,
-                                   const std::optional<std::string> &featureIDFlag = std::nullopt) {
+                                   const std::optional<std::string> &featureIDFlag = std::nullopt)
+    : featureTreeMap(buildFeatureTreeMap(featureFilePath, includedFeatures, featureIDFlag)) {}
+
+Annotation::FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
+    const fs::path &featureFilePath, const std::unordered_set<std::string> &includedFeatures,
+    const std::optional<std::string> &featureIDFlag) const {
+    Annotation::FeatureTreeMap featureTreeMap;
+
     dtp::FeatureMap featureMap =
         FeatureParser(includedFeatures, featureIDFlag).parse(featureFilePath);
+
+    featureTreeMap.reserve(featureMap.size());
 
     for (const auto &[seqid, features] : featureMap) {
         IITree<int, dtp::Feature> tree;
         for (const auto &feature : features) {
             tree.add(feature.start, feature.end, feature);
         }
-        featureTreeMap[seqid] = tree;
-        featureTreeMap[seqid].index();
+        featureTreeMap.emplace(seqid, std::move(tree));
     }
+
+    return featureTreeMap;
 }
 
 std::vector<dtp::Feature> FeatureAnnotator::overlappingFeatures(
     const dtp::GenomicRegion &region) const {
     std::vector<dtp::Feature> features;
-    if (featureTreeMap.contains(region.seqid)) {
+    if (auto it = featureTreeMap.find(region.seqid); it != featureTreeMap.end()) {
         std::vector<size_t> indices;
-        featureTreeMap.at(region.seqid).overlap(region.start, region.end, indices);
+        it->second.overlap(region.start, region.end, indices);
         for (const auto &index : indices) {
-            features.push_back(featureTreeMap.at(region.seqid).data(index));
+            features.push_back(it->second.data(index));
         }
     }
     return features;
 }
 
-FeatureAnnotator::Results FeatureAnnotator::getOverlappingFeatureIterator(
+FeatureAnnotator::Results FeatureAnnotator::overlappingFeatureIt(
     const dtp::GenomicRegion &region) {
     if (auto it = featureTreeMap.find(region.seqid); it != featureTreeMap.end()) {
         std::vector<size_t> indices;

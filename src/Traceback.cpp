@@ -87,10 +87,13 @@ std::vector<TracebackResult> traceback(ScoringMatrix matrix, const char *a, cons
         // write back to object
         trc.a = aAlign;
         trc.b = bAlign;
+        // TODO I'm not sure whether this is correct sind aAlign and bAlign are not the same length
+        // --> should be local alignment
         trc.length = aAlign.size();
         trc.matches = matches;
         trc.score = matrix.scoring[matrix.width * mids[0].first + mids[0].second];
         trc.cmpl = (double)trc.matches / trc.length;
+        //  TODO Should'nt this be the trc.length / (strlen(a) + strlen(b))?
         trc.ratio = (double)trc.matches / (strlen(a) + strlen(b));
         res.push_back(trc);
     }

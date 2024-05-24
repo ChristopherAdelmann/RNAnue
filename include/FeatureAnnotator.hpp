@@ -28,10 +28,14 @@ class FeatureAnnotator {
     class Results;
 
     std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region) const;
-    Results getOverlappingFeatureIterator(const dtp::GenomicRegion& region);
+    Results overlappingFeatureIt(const dtp::GenomicRegion& region);
 
    private:
-    FeatureTreeMap featureTreeMap;
+    const FeatureTreeMap featureTreeMap;
+
+    FeatureTreeMap buildFeatureTreeMap(const fs::path& featureFilePath,
+                                       const std::unordered_set<std::string>& includedFeatures,
+                                       const std::optional<std::string>& featureIDFlag) const;
 };
 
 class FeatureAnnotator::Results {

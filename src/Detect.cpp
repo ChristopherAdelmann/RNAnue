@@ -6,82 +6,69 @@ using namespace seqan3::literals;
 // multiple alignments correctly.
 
 Detect::Detect(po::variables_map params) : params(params) {
-    readscount = 0;
+    readsCount = 0;
     alignedcount = 0;
     splitscount = 0;
     msplitscount = 0;
     nsurvivedcount = 0;
 }
 //
-void Detect::iterate(std::string matched, std::string splits, std::string multsplits) {
-    using sam_fields =
-        seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
-                       seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
-                       seqan3::field::seq, seqan3::field::tags>;
+void Detect::iterate(std::string matched, std::string splitsPath, std::string multSplitsPath) {
+    seqan3::sam_file_input alignmentsIn{matched, sam_field_ids{}};
 
-    seqan3::sam_file_input alignmentsIn{matched, sam_fields{}};
+    std::vector<size_t> ref_lengths{};
+    std::ranges::transform(alignmentsIn.header().ref_id_info, std::back_inserter(ref_lengths),
+                           [](auto const &info) { return std::get<0>(info); });
 
-    fs::path annotationPath = params["features"].as<std::string>();
-    const auto start = std::chrono::high_resolution_clock::now();
-    Annotation::FeatureAnnotator featureAnnotator =
-        Annotation::FeatureAnnotator(annotationPath, {"gene"}, std::nullopt);
-    const auto end = std::chrono::high_resolution_clock::now();
-    const std::chrono::duration<double> elapsed_seconds = end - start;
-    Logger::log(LogLevel::INFO, "Feature annotation tree init took ", elapsed_seconds.count(),
-                " seconds");
-
-    std::vector<size_t> ref_lengths;
-    ref_lengths.reserve(alignmentsIn.header().ref_id_info.size());
-
-    for (auto const &info : alignmentsIn.header().ref_id_info) {
-        ref_lengths.emplace_back(std::get<0>(info));
-    }
     std::deque<std::string> &ref_ids = alignmentsIn.header().ref_ids();
 
     // output file for splits
-    seqan3::sam_file_output splitsfile{splits, ref_ids, ref_lengths, sam_fields{}};
+    seqan3::sam_file_output splitsOut{splitsPath, ref_ids, ref_lengths, sam_field_ids{}};
 
     // output file for multi splits
-    seqan3::sam_file_output multsplitsfile{multsplits, ref_ids, ref_lengths, sam_fields{}};
+    seqan3::sam_file_output multiSplitsOut{multSplitsPath, ref_ids, ref_lengths, sam_field_ids{}};
 
     std::string currentRecordId = "";
 
     using RecordType = typename decltype(alignmentsIn)::record_type;
-    std::list<RecordType> currentRecordList;
+    std::vector<RecordType> currentRecordList;
 
     for (auto &record : alignmentsIn) {
+        if (static_cast<bool>(record.flag() & seqan3::sam_flag::unmapped)) {
+            continue;
+        }
         if (record.sequence().size() <= params["minlen"].as<std::size_t>()) {
             continue;
         }
 
+        // This line depends on the SAM file being sorted by read ID
         std::string recordId = record.id();
         bool isNewRecord = !currentRecordId.empty() && (currentRecordId != recordId);
 
         if (isNewRecord) {
-            process(currentRecordList, splitsfile, multsplitsfile, featureAnnotator);
+            process(currentRecordList, splitsOut, multiSplitsOut);
             currentRecordList.clear();
         }
 
-        currentRecordList.push_back(record);
+        currentRecordList.push_back(std::move(record));
         currentRecordId = recordId;
 
-        readscount++;
-        if (readscount % 100000 == 0) {
-            Logger::log(LogLevel::INFO, "Processed ", readscount, " reads");
+        readsCount++;
+        if (readsCount % 100000 == 0) {
+            Logger::log(LogLevel::INFO, "Processed ", readsCount, " reads");
         }
     }
 
     if (!currentRecordList.empty()) {
-        readscount++;
-        process(currentRecordList, splitsfile, multsplitsfile, featureAnnotator);
+        readsCount++;
+        process(currentRecordList, splitsOut, multiSplitsOut);
     }
 
-    Logger::log(LogLevel::INFO, "Processed ", readscount, " reads");
+    Logger::log(LogLevel::INFO, "Processed ", readsCount, " reads");
 }
 
-void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile,
-                     auto &featureTreeMap) {
-    Splts splits;
+void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile) {
+    Splits splits;
 
     seqan3::cigar::operation cigarOp;  // operation of cigar string
     uint32_t cigarOpSize;
@@ -103,49 +90,25 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile,
     std::map<int, std::vector<SamRecord>> putative;
     std::vector<std::pair<SamRecord, SamRecord>> splitSegments;
 
-    //
-    auto it = splitrecords.begin();
-    while (it != splitrecords.end()) {
+    size_t process_count = 0;
+
+    for (const auto &it : splitrecords) {
         // extract information
         // TODO Handle remaining tags
-        qname = it->id();  // QNAME
+        qname = it.id();  // QNAME
         // seqan3::sam_flag flag = it->flag();  // SAMFLAG
         //  std::optional<int32_t> refID = it->reference_id();
-        std::optional<int32_t> refOffset = it->reference_position();
+        std::optional<int32_t> refOffset = it.reference_position();
         // std::optional<uint8_t> qual = it->mapping_quality();  // MAPQ
 
-        if (refOffset.has_value()) {
-            const int referenceIDIndex = it->reference_id().value();
-            const std::string referenceID = splitsfile.header().ref_ids()[referenceIDIndex];
-            const int referenceOffset = refOffset.value();
-            const int referenceEnd = refOffset.value() + it->sequence().size();
-
-            const dtp::GenomicRegion region(referenceID, referenceOffset, referenceEnd);
-
-            std::string last_feature_a{};
-            for (const dtp::Feature &feature :
-                 featureTreeMap.getOverlappingFeatureIterator(region)) {
-                last_feature_a = feature.id;
-            }
-
-            std::string last_feature_b{};
-            auto results = featureTreeMap.overlappingFeatures(region);
-            for (const auto &feature : results) {
-                last_feature_b = feature.id;
-            }
-
-            // assert that last feature is the same as the one returned by the iterator
-            assert(last_feature_a == last_feature_b);
-        }
-
         // CIGAR string
-        std::vector<seqan3::cigar> cigar{it->cigar_sequence()};
-        std::vector<seqan3::cigar> cigarSplit{};       // individual cigar for each split
-        std::span<seqan3::dna5> seq = it->sequence();  // SEQ
+        std::vector<seqan3::cigar> cigar{it.cigar_sequence()};
+        std::vector<seqan3::cigar> cigarSplit{};  // individual cigar for each split
+        const auto &seq = it.sequence();          // SEQ
 
         // TODO Handle remaining tags
         // extract the tags (information about split reads)
-        tags = it->tags();
+        tags = it.tags();
         // auto xhtag = tags.get<"XH"_tag>();
         auto xjtag = tags.get<"XJ"_tag>();
         auto xxtag = tags.get<"XX"_tag>();
@@ -157,7 +120,6 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile,
 
             startPosSplit = xxtag;  // determine the start position within split
             endPosSplit = xxtag - 1;
-
             // check the cigar string for splits
             for (auto &cig : cigar) {
                 // determine size and operator of cigar element
@@ -174,7 +136,7 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile,
                     ntags.get<"XY"_tag>() = endPosSplit;
                     ntags["XN"_tag] = splitID;
 
-                    filterSegments(*it, refOffset, cigarSplit, subSeq, ntags, curated);
+                    filterSegments(it, refOffset, cigarSplit, subSeq, ntags, curated);
 
                     // settings for prepare for next split
                     startPosSplit = endPosSplit + 1;
@@ -216,7 +178,7 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile,
             ntags.get<"XY"_tag>() = endPosSplit;
             ntags["XN"_tag] = splitID;
 
-            filterSegments(*it, refOffset, cigarSplit, subSeq, ntags, curated);
+            filterSegments(it, refOffset, cigarSplit, subSeq, ntags, curated);
             segmentNr++;
 
             if (segmentNr == xjtag) {
@@ -226,9 +188,6 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile,
                 segmentNr = 0;
                 ++splitID;
             }
-            ++it;
-        } else {
-            ++it;
         }
     }
 
@@ -270,8 +229,10 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile,
                             std::optional<HybridizationResult> initHyb;
                             {
                                 // helper::Timer timer;
+                                complementaritySeqAn(splits[i].sequence(), splits[j].sequence());
                                 initCmpl =
                                     complementarity(splits[i].sequence(), splits[j].sequence());
+                                process_count++;
                             }
                             { initHyb = hybridize(splits[i].sequence(), splits[j].sequence()); }
 
@@ -286,8 +247,14 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile,
                                 }
                             }
                         } else {
+                            complementaritySeqAn(splits[i].sequence(), splits[j].sequence());
+
                             TracebackResult cmpl =
                                 complementarity(splits[i].sequence(), splits[j].sequence());
+
+                            seqan3::debug_stream << "Sequences ELSE: " << splits[i].sequence()
+                                                 << " " << splits[j].sequence() << "\n";
+                            std::cout << "cmpl: " << cmpl.score << std::endl;
                             std::optional<HybridizationResult> hyb =
                                 hybridize(splits[i].sequence(), splits[j].sequence());
 
@@ -333,8 +300,11 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile,
         }
     }
 
+    std::cout << "Processed " << process_count << " split reads" << std::endl;
+
     {
-        // write to file
+        // TODO Multisplits file not correct, segments size can be higher due to multiple alignments
+        // without splits! write to file
         if (splitSegments.size() == 1) {
             writeSamFile(splitsfile, splitSegments);
             splitscount++;
@@ -359,8 +329,8 @@ void Detect::writeSamFile(auto &samfile, std::vector<std::pair<SamRecord, SamRec
     }
 }
 
-void Detect::filterSegments(auto &splitrecord, std::optional<int32_t> &refOffset,
-                            std::vector<seqan3::cigar> &cigar, std::span<seqan3::dna5> &seq,
+void Detect::filterSegments(const auto &splitrecord, std::optional<int32_t> &refOffset,
+                            std::vector<seqan3::cigar> &cigar, std::span<const seqan3::dna5> seq,
                             seqan3::sam_tag_dictionary &tags, std::vector<SamRecord> &curated) {
     SamRecord segment{};  // create new SamRecord
 
@@ -375,7 +345,7 @@ void Detect::filterSegments(auto &splitrecord, std::optional<int32_t> &refOffset
     segment.reference_position() = refOffset;
     segment.mapping_quality() = splitrecord.mapping_quality();
     segment.cigar_sequence() = cigar;
-    segment.sequence() = seq;
+    segment.sequence().assign(seq.begin(), seq.end());
     segment.tags() = tags;
 
     if (seq.size() <= (std::size_t)params["minfraglen"].as<int>()) {
@@ -439,8 +409,8 @@ void Detect::addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, Hybridiza
 }
 
 //
-TracebackResult Detect::complementarity(std::span<seqan3::dna5> &seq1,
-                                        std::span<seqan3::dna5> &seq2) {
+TracebackResult Detect::complementarity(std::vector<seqan3::dna5> &seq1,
+                                        std::vector<seqan3::dna5> &seq2) {
     std::string seq1_str;
     std::string seq2_str;
 
@@ -464,7 +434,7 @@ TracebackResult Detect::complementarity(std::span<seqan3::dna5> &seq1,
     int idx = -1;
     int cmpl = -1;
     // filter (multiple) alignments
-    if (res.size() > 1) {
+    if (res.size() > 0) {
         for (unsigned i = 0; i < res.size(); ++i) {
             // check if sitelenratio & complementarity exceed cutoffs
             if (params["sitelenratio"].as<double>() <= res[i].ratio &&
@@ -476,7 +446,6 @@ TracebackResult Detect::complementarity(std::span<seqan3::dna5> &seq1,
         }
     }
 
-    //    printMatrix(matrix); // print matrix
     freeMatrix(&matrix);
     if (idx != -1) {
         return res[idx];
@@ -485,8 +454,143 @@ TracebackResult Detect::complementarity(std::span<seqan3::dna5> &seq1,
     }
 }
 
-std::optional<HybridizationResult> Detect::hybridize(std::span<seqan3::dna5> &seq1,
-                                                     std::span<seqan3::dna5> &seq2) {
+void Detect::complementaritySeqAn(seqan3::dna5_vector &seq1, seqan3::dna5_vector &seq2) {
+    seqan3::nucleotide_scoring_scheme scheme;
+    scheme.set_simple_scheme(seqan3::match_score{1}, seqan3::mismatch_score{-1});
+
+    scheme.score('A'_dna5, 'T'_dna5) = 1;
+    scheme.score('T'_dna5, 'A'_dna5) = 1;
+    scheme.score('G'_dna5, 'C'_dna5) = 1;
+    scheme.score('C'_dna5, 'G'_dna5) = 1;
+    scheme.score('G'_dna5, 'T'_dna5) = 1;
+    scheme.score('T'_dna5, 'G'_dna5) = 1;
+
+    scheme.score('T'_dna5, 'T'_dna5) = -1;
+    scheme.score('A'_dna5, 'A'_dna5) = -1;
+    scheme.score('C'_dna5, 'C'_dna5) = -1;
+    scheme.score('G'_dna5, 'G'_dna5) = -1;
+
+    scheme.score('A'_dna5, 'G'_dna5) = -1;
+    scheme.score('A'_dna5, 'C'_dna5) = -1;
+    scheme.score('G'_dna5, 'A'_dna5) = -1;
+    scheme.score('C'_dna5, 'A'_dna5) = -1;
+
+    scheme.score('T'_dna5, 'C'_dna5) = -1;
+    scheme.score('C'_dna5, 'T'_dna5) = -1;
+
+    const auto config = seqan3::align_cfg::method_local{} |
+                        seqan3::align_cfg::scoring_scheme{scheme} |
+                        seqan3::align_cfg::gap_cost_affine{seqan3::align_cfg::open_score{-2},
+                                                           seqan3::align_cfg::extension_score{-2}} |
+                        seqan3::align_cfg::output_alignment{} | seqan3::align_cfg::output_score{} |
+                        seqan3::align_cfg::detail::debug{};
+    ;
+
+    const auto &seq1Reverse = seq1 | std::views::reverse;
+
+    seqan3::debug_stream << "Seq1: " << seq1 << " Seq2: " << seq2 << std::endl;
+
+    using trace_matrix_t =
+        seqan3::detail::two_dimensional_matrix<std::optional<seqan3::detail::trace_directions>>;
+    using score_matrix_t = seqan3::detail::row_wise_matrix<std::optional<int>>;
+    for (auto const &result : seqan3::align_pairwise(std::tie(seq1Reverse, seq2), config)) {
+        seqan3::debug_stream << "Original result: " << result << std::endl;
+
+        score_matrix_t score_matrix{result.score_matrix()};
+        trace_matrix_t trace_matrix{result.trace_matrix()};
+
+        const std::optional<int> score = result.score();
+
+        // Find all positions of the maximum score.
+
+        auto it = std::find(score_matrix.begin(), score_matrix.end(), score);
+        while (it != score_matrix.end()) {
+            size_t row = std::distance(score_matrix.begin(), it) / score_matrix.cols();
+            size_t col = std::distance(score_matrix.begin(), it) % score_matrix.cols();
+
+            seqan3::detail::matrix_coordinate index{};
+            index.row = row;
+            index.col = col;
+            const auto result =
+                Detect::make_result(std::tie(seq2, seq1Reverse), 0, score, index, trace_matrix);
+
+            seqan3::debug_stream << "Result: " << result.score.value()
+                                 << " END FIRST: " << result.end_positions.first
+                                 << " END SECOND: " << result.end_positions.second
+                                 << " Begin first: " << result.begin_positions.first
+                                 << " Begin second: " << result.begin_positions.second << std::endl;
+
+            it = std::find(std::next(it), score_matrix.end(), score);
+        }
+    }
+}
+
+auto Detect::trace_path(
+    seqan3::detail::matrix_coordinate const &trace_begin,
+    seqan3::detail::two_dimensional_matrix<seqan3::detail::trace_directions> &complete_matrix,
+    const size_t row_count, const size_t column_count) {
+    using matrix_t = seqan3::detail::two_dimensional_matrix<seqan3::detail::trace_directions>;
+    using matrix_iter_t = std::ranges::iterator_t<matrix_t const>;
+    using trace_iterator_t = seqan3::detail::trace_iterator<matrix_iter_t>;
+    using path_t = std::ranges::subrange<trace_iterator_t, std::default_sentinel_t>;
+
+    if (trace_begin.row >= row_count || trace_begin.col >= column_count)
+        throw std::invalid_argument{
+            "The given coordinate exceeds the matrix in vertical or horizontal direction."};
+
+    seqan3::detail::matrix_offset const offset{trace_begin};
+
+    return path_t{trace_iterator_t{complete_matrix.begin() + offset}, std::default_sentinel};
+}
+
+template <typename sequence_pair_t, typename index_t, typename score_t,
+          typename matrix_coordinate_t>
+al_res Detect::make_result(
+    [[maybe_unused]] sequence_pair_t &&sequence_pair, [[maybe_unused]] index_t &&id,
+    [[maybe_unused]] score_t score, [[maybe_unused]] matrix_coordinate_t end_positions,
+    [[maybe_unused]] seqan3::detail::two_dimensional_matrix<
+        std::optional<seqan3::detail::trace_directions>> const &alignment_matrix) {
+    using std::get;
+
+    al_res result{};
+
+    result.sequence1_id = id;
+
+    result.sequence2_id = id;
+
+    // Cast alignment matrix to
+    // seqan3::detail::two_dimensional_matrixseqan3::detail::trace_directions>
+
+    std::vector<seqan3::detail::trace_directions> trace_directions;
+
+    for (auto const &direction : alignment_matrix) {
+        trace_directions.push_back(direction.value_or(seqan3::detail::trace_directions::none));
+    }
+
+    seqan3::detail::number_rows rows_n{alignment_matrix.rows()};
+    seqan3::detail::number_cols cols_n{alignment_matrix.cols()};
+
+    seqan3::detail::two_dimensional_matrix<seqan3::detail::trace_directions> trace_matrix(
+        rows_n, cols_n, trace_directions);
+
+    result.score = std::move(score);
+    result.end_positions.first = end_positions.col;
+    result.end_positions.second = end_positions.row;
+
+    seqan3::detail::aligned_sequence_builder builder{get<0>(sequence_pair), get<1>(sequence_pair)};
+    auto aligned_sequence_result = builder(
+        trace_path(end_positions, trace_matrix, alignment_matrix.rows(), alignment_matrix.cols()));
+
+    result.begin_positions.first = aligned_sequence_result.first_sequence_slice_positions.first;
+    result.begin_positions.second = aligned_sequence_result.second_sequence_slice_positions.first;
+
+    seqan3::debug_stream << aligned_sequence_result.alignment << std::endl;
+
+    return result;
+}
+
+std::optional<HybridizationResult> Detect::hybridize(std::span<const seqan3::dna5> seq1,
+                                                     std::span<const seqan3::dna5> seq2) {
     auto toString = [](auto &seq) {
         return (seq | seqan3::views::to_char | seqan3::ranges::to<std::string>());
     };
@@ -512,7 +616,7 @@ std::optional<HybridizationResult> Detect::hybridize(std::span<seqan3::dna5> &se
 }
 
 std::optional<InteractionWindow> Detect::getContinuosNucleotideWindows(
-    std::span<seqan3::dna5> const &seq1, std::span<seqan3::dna5> const &seq2,
+    std::span<const seqan3::dna5> seq1, std::span<const seqan3::dna5> seq2,
     NucleotidePositionsWindow positionsPair) {
     std::pair<uint16_t, uint16_t> forwardPair =
         std::make_pair(positionsPair.first.first, positionsPair.second.first);
@@ -569,7 +673,7 @@ std::optional<InteractionWindow> Detect::getContinuosNucleotideWindows(
 }
 
 std::optional<CrosslinkingResult> Detect::findCrosslinkingSites(
-    std::span<seqan3::dna5> const &seq1, std::span<seqan3::dna5> const &seq2,
+    std::span<const seqan3::dna5> seq1, std::span<const seqan3::dna5> seq2,
     std::vector<seqan3::dot_bracket3> &dotbracket) {
     if (seq1.empty() || seq2.empty() || dotbracket.empty()) {
         Logger::log(LogLevel::WARNING, "Empty input sequences or dot-bracket vector!");
@@ -772,7 +876,7 @@ std::vector<std::vector<fs::path>> Detect::splitInputFile(std::string matched, s
 // start
 void Detect::start(pt::ptree sample) {
     // reset counts
-    readscount = 0;
+    readsCount = 0;
     alignedcount = 0;
     splitscount = 0;
     msplitscount = 0;

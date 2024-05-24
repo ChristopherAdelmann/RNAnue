@@ -46,7 +46,7 @@ typedef std::vector<seqan3::cigar> CigarSplt;
 typedef std::vector<
     std::tuple<std::string, seqan3::sam_flag, std::optional<int32_t>, std::optional<int32_t>,
                std::vector<seqan3::cigar>, seqan3::dna5_vector, seqan3::sam_tag_dictionary>>
-    Splts;
+    Splits;
 #include <bitset>
 #include <filesystem>
 

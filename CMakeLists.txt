@@ -45,7 +45,7 @@ endif()
 set(VIENNA_BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4/build)
 file(MAKE_DIRECTORY ${VIENNA_BUILD_DIR})
 
-    execute_process(
+execute_process(
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4/configure
         --prefix=${VIENNA_BUILD_DIR}
         --enable-lto

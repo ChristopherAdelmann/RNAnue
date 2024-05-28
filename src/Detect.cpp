@@ -5,7 +5,10 @@ using namespace seqan3::literals;
 // WARNING: This split read calling is not working as intended and is currently not handling
 // multiple alignments correctly.
 
-Detect::Detect(po::variables_map params) : params(params) {
+Detect::Detect(po::variables_map params)
+    : params(params),
+      minComplementarity(params["cmplmin"].as<double>()),
+      minFraction(params["sitelenratio"].as<double>()) {
     readsCount = 0;
     alignedcount = 0;
     splitscount = 0;
@@ -227,14 +230,13 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile)
                         {
                             TracebackResult initCmpl;
                             std::optional<HybridizationResult> initHyb;
-                            {
-                                // helper::Timer timer;
+
+                            const auto complResult =
                                 complementaritySeqAn(splits[i].sequence(), splits[j].sequence());
-                                initCmpl =
-                                    complementarity(splits[i].sequence(), splits[j].sequence());
-                                process_count++;
-                            }
-                            { initHyb = hybridize(splits[i].sequence(), splits[j].sequence()); }
+                            initCmpl = complementarity(splits[i].sequence(), splits[j].sequence());
+                            process_count++;
+
+                            initHyb = hybridize(splits[i].sequence(), splits[j].sequence());
 
                             // split read survived complementarity & sitelenratio cutoff
                             if (!initCmpl.a.empty() && initHyb.has_value()) {
@@ -252,9 +254,6 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile)
                             TracebackResult cmpl =
                                 complementarity(splits[i].sequence(), splits[j].sequence());
 
-                            seqan3::debug_stream << "Sequences ELSE: " << splits[i].sequence()
-                                                 << " " << splits[j].sequence() << "\n";
-                            std::cout << "cmpl: " << cmpl.score << std::endl;
                             std::optional<HybridizationResult> hyb =
                                 hybridize(splits[i].sequence(), splits[j].sequence());
 
@@ -299,8 +298,6 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile)
             }
         }
     }
-
-    std::cout << "Processed " << process_count << " split reads" << std::endl;
 
     {
         // TODO Multisplits file not correct, segments size can be higher due to multiple alignments
@@ -433,6 +430,7 @@ TracebackResult Detect::complementarity(std::vector<seqan3::dna5> &seq1,
 
     int idx = -1;
     int cmpl = -1;
+
     // filter (multiple) alignments
     if (res.size() > 0) {
         for (unsigned i = 0; i < res.size(); ++i) {
@@ -454,9 +452,16 @@ TracebackResult Detect::complementarity(std::vector<seqan3::dna5> &seq1,
     }
 }
 
-void Detect::complementaritySeqAn(seqan3::dna5_vector &seq1, seqan3::dna5_vector &seq2) {
-    seqan3::nucleotide_scoring_scheme scheme;
-    scheme.set_simple_scheme(seqan3::match_score{1}, seqan3::mismatch_score{-1});
+std::optional<CoOptimalPairwiseAligner::AlignmentResult> Detect::complementaritySeqAn(
+    seqan3::dna5_vector &seq1, seqan3::dna5_vector &seq2) {
+    const auto &seq1Reverse = seq1 | std::views::reverse;
+    const auto results = CoOptimalPairwiseAligner{complementaryScoringScheme()}.getLocalAlignments(
+        std::tie(seq1Reverse, seq2));
+    return getOptimalAlignment(results);
+}
+
+constexpr seqan3::nucleotide_scoring_scheme<int8_t> Detect::complementaryScoringScheme() const {
+    seqan3::nucleotide_scoring_scheme scheme{seqan3::match_score{1}, seqan3::mismatch_score{-1}};
 
     scheme.score('A'_dna5, 'T'_dna5) = 1;
     scheme.score('T'_dna5, 'A'_dna5) = 1;
@@ -478,115 +483,32 @@ void Detect::complementaritySeqAn(seqan3::dna5_vector &seq1, seqan3::dna5_vector
     scheme.score('T'_dna5, 'C'_dna5) = -1;
     scheme.score('C'_dna5, 'T'_dna5) = -1;
 
-    const auto config = seqan3::align_cfg::method_local{} |
-                        seqan3::align_cfg::scoring_scheme{scheme} |
-                        seqan3::align_cfg::gap_cost_affine{seqan3::align_cfg::open_score{-2},
-                                                           seqan3::align_cfg::extension_score{-2}} |
-                        seqan3::align_cfg::output_alignment{} | seqan3::align_cfg::output_score{} |
-                        seqan3::align_cfg::detail::debug{};
-    ;
+    return scheme;
+}
 
-    const auto &seq1Reverse = seq1 | std::views::reverse;
+std::optional<CoOptimalPairwiseAligner::AlignmentResult> Detect::getOptimalAlignment(
+    const std::vector<CoOptimalPairwiseAligner::AlignmentResult> &alignResults) {
+    if (alignResults.empty()) {
+        return std::nullopt;
+    }
 
-    seqan3::debug_stream << "Seq1: " << seq1 << " Seq2: " << seq2 << std::endl;
+    std::optional<CoOptimalPairwiseAligner::AlignmentResult> optimalAlignment = std::nullopt;
 
-    using trace_matrix_t =
-        seqan3::detail::two_dimensional_matrix<std::optional<seqan3::detail::trace_directions>>;
-    using score_matrix_t = seqan3::detail::row_wise_matrix<std::optional<int>>;
-    for (auto const &result : seqan3::align_pairwise(std::tie(seq1Reverse, seq2), config)) {
-        seqan3::debug_stream << "Original result: " << result << std::endl;
+    for (auto &alignResult : alignResults) {
+        if (alignResult.complementarity < minComplementarity ||
+            alignResult.fraction < minFraction) {
+            continue;
+        }
 
-        score_matrix_t score_matrix{result.score_matrix()};
-        trace_matrix_t trace_matrix{result.trace_matrix()};
-
-        const std::optional<int> score = result.score();
-
-        // Find all positions of the maximum score.
-
-        auto it = std::find(score_matrix.begin(), score_matrix.end(), score);
-        while (it != score_matrix.end()) {
-            size_t row = std::distance(score_matrix.begin(), it) / score_matrix.cols();
-            size_t col = std::distance(score_matrix.begin(), it) % score_matrix.cols();
-
-            seqan3::detail::matrix_coordinate index{};
-            index.row = row;
-            index.col = col;
-            const auto result =
-                Detect::make_result(std::tie(seq2, seq1Reverse), 0, score, index, trace_matrix);
-
-            seqan3::debug_stream << "Result: " << result.score.value()
-                                 << " END FIRST: " << result.end_positions.first
-                                 << " END SECOND: " << result.end_positions.second
-                                 << " Begin first: " << result.begin_positions.first
-                                 << " Begin second: " << result.begin_positions.second << std::endl;
-
-            it = std::find(std::next(it), score_matrix.end(), score);
+        if (!optimalAlignment.has_value() ||
+            alignResult.complementarity > optimalAlignment.value().complementarity ||
+            (alignResult.complementarity == optimalAlignment.value().complementarity &&
+             alignResult.fraction > optimalAlignment.value().fraction)) {
+            optimalAlignment = alignResult;
         }
     }
-}
 
-auto Detect::trace_path(
-    seqan3::detail::matrix_coordinate const &trace_begin,
-    seqan3::detail::two_dimensional_matrix<seqan3::detail::trace_directions> &complete_matrix,
-    const size_t row_count, const size_t column_count) {
-    using matrix_t = seqan3::detail::two_dimensional_matrix<seqan3::detail::trace_directions>;
-    using matrix_iter_t = std::ranges::iterator_t<matrix_t const>;
-    using trace_iterator_t = seqan3::detail::trace_iterator<matrix_iter_t>;
-    using path_t = std::ranges::subrange<trace_iterator_t, std::default_sentinel_t>;
-
-    if (trace_begin.row >= row_count || trace_begin.col >= column_count)
-        throw std::invalid_argument{
-            "The given coordinate exceeds the matrix in vertical or horizontal direction."};
-
-    seqan3::detail::matrix_offset const offset{trace_begin};
-
-    return path_t{trace_iterator_t{complete_matrix.begin() + offset}, std::default_sentinel};
-}
-
-template <typename sequence_pair_t, typename index_t, typename score_t,
-          typename matrix_coordinate_t>
-al_res Detect::make_result(
-    [[maybe_unused]] sequence_pair_t &&sequence_pair, [[maybe_unused]] index_t &&id,
-    [[maybe_unused]] score_t score, [[maybe_unused]] matrix_coordinate_t end_positions,
-    [[maybe_unused]] seqan3::detail::two_dimensional_matrix<
-        std::optional<seqan3::detail::trace_directions>> const &alignment_matrix) {
-    using std::get;
-
-    al_res result{};
-
-    result.sequence1_id = id;
-
-    result.sequence2_id = id;
-
-    // Cast alignment matrix to
-    // seqan3::detail::two_dimensional_matrixseqan3::detail::trace_directions>
-
-    std::vector<seqan3::detail::trace_directions> trace_directions;
-
-    for (auto const &direction : alignment_matrix) {
-        trace_directions.push_back(direction.value_or(seqan3::detail::trace_directions::none));
-    }
-
-    seqan3::detail::number_rows rows_n{alignment_matrix.rows()};
-    seqan3::detail::number_cols cols_n{alignment_matrix.cols()};
-
-    seqan3::detail::two_dimensional_matrix<seqan3::detail::trace_directions> trace_matrix(
-        rows_n, cols_n, trace_directions);
-
-    result.score = std::move(score);
-    result.end_positions.first = end_positions.col;
-    result.end_positions.second = end_positions.row;
-
-    seqan3::detail::aligned_sequence_builder builder{get<0>(sequence_pair), get<1>(sequence_pair)};
-    auto aligned_sequence_result = builder(
-        trace_path(end_positions, trace_matrix, alignment_matrix.rows(), alignment_matrix.cols()));
-
-    result.begin_positions.first = aligned_sequence_result.first_sequence_slice_positions.first;
-    result.begin_positions.second = aligned_sequence_result.second_sequence_slice_positions.first;
-
-    seqan3::debug_stream << aligned_sequence_result.alignment << std::endl;
-
-    return result;
+    return optimalAlignment;
 }
 
 std::optional<HybridizationResult> Detect::hybridize(std::span<const seqan3::dna5> seq1,
@@ -667,8 +589,8 @@ std::optional<InteractionWindow> Detect::getContinuosNucleotideWindows(
             forwardPair, reversePair, true};
     }
 
-    // Due to sorting of base pairs first pair in second sequence and second pair in first sequence
-    // is not possible
+    // Due to sorting of base pairs first pair in second sequence and second pair in first
+    // sequence is not possible
     return std::nullopt;
 }
 

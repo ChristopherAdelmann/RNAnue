@@ -62,6 +62,7 @@
 #include <boost/property_tree/ptree.hpp>
 
 // Classes
+#include "CooptimalPairwiseAligner.hpp"
 #include "IBPTree.hpp"
 
 extern "C" {
@@ -195,6 +196,9 @@ class Detect {
     po::variables_map params;
     std::vector<std::tuple<std::string>> stats;
 
+    const double minComplementarity;
+    const double minFraction;
+
     int readsCount;
     int alignedcount;
     int splitscount;
@@ -207,24 +211,16 @@ class Detect {
     std::optional<InteractionWindow> getContinuosNucleotideWindows(
         std::span<const seqan3::dna5> seq1, std::span<const seqan3::dna5> seq2,
         NucleotidePositionsWindow positionsPair);
+    std::optional<CoOptimalPairwiseAligner::AlignmentResult> getOptimalAlignment(
+        const std::vector<CoOptimalPairwiseAligner::AlignmentResult> &alignResults);
+    std::optional<CoOptimalPairwiseAligner::AlignmentResult> complementaritySeqAn(
+        seqan3::dna5_vector &seq1, seqan3::dna5_vector &seq2);
+    constexpr seqan3::nucleotide_scoring_scheme<int8_t> complementaryScoringScheme() const;
 
    public:
     // iterate through reads
     void iterate(std::string matched, std::string splits, std::string multsplits);
     void process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile);
-
-    template <typename sequence_pair_t, typename index_t, typename score_t,
-              typename matrix_coordinate_t>
-    al_res make_result(
-        [[maybe_unused]] sequence_pair_t &&sequence_pair, [[maybe_unused]] index_t &&id,
-        [[maybe_unused]] score_t score, [[maybe_unused]] matrix_coordinate_t end_positions,
-        [[maybe_unused]] seqan3::detail::two_dimensional_matrix<
-            std::optional<seqan3::detail::trace_directions>> const &alignment_matrix);
-
-    auto trace_path(
-        seqan3::detail::matrix_coordinate const &trace_begin,
-        seqan3::detail::two_dimensional_matrix<seqan3::detail::trace_directions> &complete_matrix,
-        const size_t row_count, const size_t column_count);
 
     void filterSegments(const auto &splitrecord, std::optional<int32_t> &refOffset,
                         std::vector<seqan3::cigar> &cigar, std::span<const seqan3::dna5> seq,
@@ -239,7 +235,6 @@ class Detect {
     TracebackResult complementarity(std::vector<seqan3::dna5> &seq1,
                                     std::vector<seqan3::dna5> &seq2);
 
-    void complementaritySeqAn(seqan3::dna5_vector &seq1, seqan3::dna5_vector &seq2);
     std::optional<HybridizationResult> hybridize(std::span<const seqan3::dna5> seq1,
                                                  std::span<const seqan3::dna5> seq2);
     void createDir(fs::path path);

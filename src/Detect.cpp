@@ -70,8 +70,129 @@ void Detect::iterate(std::string matched, std::string splitsPath, std::string mu
     Logger::log(LogLevel::INFO, "Processed ", readsCount, " reads");
 }
 
+std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readRecord) {
+    const size_t expectedSplitRecords = readRecord.tags().get<"XJ"_tag>();
+
+    SplitRecords splitRecords{};
+    splitRecords.reserve(10);
+
+    std::vector<seqan3::cigar> currentCigar{};
+    splitRecords.reserve(10);
+
+    size_t referencePosition = readRecord.reference_position().value_or(0);
+    size_t startPosRead{};
+    size_t endPosRead{};  // absolute position in read/alignment (e.g., 1 to end)
+    size_t startPosSplit{};
+    size_t endPosSplit{};  // position in split read (e.g., XX:i to XY:i / 14 to 20)
+
+    const bool excludeClipping = params["exclclipping"].as<std::bitset<1>>() == 1;
+
+    auto const addOtherCigar = [&](const auto &cigar) {
+        const auto cigarValue = get<0>(cigar);
+        endPosRead += cigarValue;
+        endPosSplit += cigarValue;
+        currentCigar.push_back(cigar);
+    };
+
+    auto const addSplitRecord = [&]() {
+        const auto splitSeq =
+            readRecord.sequence() | seqan3::views::slice(startPosRead, endPosRead);
+        const auto splitQual =
+            readRecord.base_qualities() | seqan3::views::slice(startPosRead, endPosRead);
+
+        seqan3::sam_tag_dictionary tags{};
+        tags.get<"XX"_tag>() = startPosSplit;
+        tags.get<"XY"_tag>() = endPosSplit;
+        tags.get<"XN"_tag>() = splitRecords.size();
+
+        splitRecords.emplace_back(readRecord.id(), readRecord.flag(), readRecord.reference_id(),
+                                  referencePosition, readRecord.mapping_quality(), currentCigar,
+                                  seqan3::dna5_vector(splitSeq.begin(), splitSeq.end()),
+                                  std::vector<seqan3::phred42>(splitQual.begin(), splitQual.end()),
+                                  std::move(tags));
+    };
+
+    auto const addDeletionCigar = [&](const auto &cigar) { currentCigar.push_back(cigar); };
+
+    auto const addSoftClipCigar = [&](const auto &cigar) {
+        if (!excludeClipping) {
+            addOtherCigar(cigar);
+        }
+
+        /* If current cigar is empty, we are at the beginning of the read in case of soft clipping
+        at the end of the read it is just ignored */
+        if (currentCigar.empty()) {
+            const auto cigarValue = get<0>(cigar);
+            startPosRead += cigarValue;
+            endPosRead += cigarValue;
+            startPosSplit += cigarValue;
+            endPosSplit += cigarValue;
+        }
+    };
+
+    auto const addSkipCigar = [&](const auto &cigar) {
+        if (currentCigar.empty()) {
+            return;
+        }
+
+        addSplitRecord();
+
+        // Set up positions for the next split
+        const auto cigarValue = get<0>(cigar);
+        referencePosition += cigarValue + endPosRead + 1;
+        endPosSplit += 1;
+        startPosSplit = endPosSplit;
+        endPosRead += 1;
+        startPosRead = endPosRead;
+        currentCigar.clear();
+    };
+
+    for (const auto &cigar : readRecord.cigar_sequence()) {
+        switch (cigar.to_rank()) {
+            case 'M'_cigar_operation.to_rank():
+            case '='_cigar_operation.to_rank():
+            case 'X'_cigar_operation.to_rank():
+            case 'I'_cigar_operation.to_rank():
+                addOtherCigar(cigar);
+                break;
+            case 'D'_cigar_operation.to_rank():
+                addDeletionCigar(cigar);
+                break;
+            case 'S'_cigar_operation.to_rank():
+                addSoftClipCigar(cigar);
+                break;
+            case 'N'_cigar_operation.to_rank():
+                addSkipCigar(cigar);
+                break;
+            default:
+                break;
+        }
+    }
+
+    addSplitRecord();
+
+    if (splitRecords.size() != expectedSplitRecords) {
+        Logger::log(LogLevel::WARNING, "Expected ", expectedSplitRecords,
+                    " split records, but got ", splitRecords.size());
+
+        return std::nullopt;
+    }
+
+    return splitRecords;
+}
+
+SplitRecords Detect::getSplitRecords(const std::vector<SamRecord> &readRecords) {
+    SplitRecords splitRecords;
+
+    for (const auto &record : readRecords) {
+        splitRecords.push_back(record);
+    }
+
+    return splitRecords;
+}
+
 void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile) {
-    Splits splits;
+    SplitRecords splits;
 
     seqan3::cigar::operation cigarOp;  // operation of cigar string
     uint32_t cigarOpSize;
@@ -212,6 +333,8 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile)
             if (splits.size() > 1) {  // splits consists at least of 2 segments
                 for (unsigned i = 0; i < splits.size(); ++i) {
                     for (unsigned j = i + 1; j < splits.size(); ++j) {
+                        process_count++;
+
                         p1Tags = splits[i].tags();
                         p2Tags = splits[j].tags();
 
@@ -228,26 +351,21 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile)
 
                         if (true)  // splitSegments.empty()
                         {
-                            TracebackResult initCmpl;
-                            std::optional<HybridizationResult> initHyb;
-
                             const auto complResult =
                                 complementaritySeqAn(splits[i].sequence(), splits[j].sequence());
-                            initCmpl = complementarity(splits[i].sequence(), splits[j].sequence());
-                            process_count++;
 
-                            initHyb = hybridize(splits[i].sequence(), splits[j].sequence());
+                            const auto hybResult =
+                                hybridize(splits[i].sequence(), splits[j].sequence());
 
-                            // split read survived complementarity & sitelenratio cutoff
-                            if (!initCmpl.a.empty() && initHyb.has_value()) {
-                                double &hybEnergy = initHyb.value().energy;
-                                if (hybEnergy <= params["nrgmax"].as<double>()) {
-                                    filters = std::make_pair(initCmpl.cmpl, hybEnergy);
-                                    addComplementarityToSamRecord(splits[i], splits[j], initCmpl);
-                                    addHybEnergyToSamRecord(splits[i], splits[j], initHyb.value());
-                                    splitSegments.push_back(std::make_pair(splits[i], splits[j]));
-                                }
+                            if (!complResult.has_value() || !hybResult.has_value()) {
+                                continue;
                             }
+
+                            addComplementarityToSamRecord(splits[i], splits[j],
+                                                          complResult.value());
+                            addHybEnergyToSamRecord(splits[i], splits[j], hybResult.value());
+                            splitSegments.push_back(std::make_pair(splits[i], splits[j]));
+
                         } else {
                             complementaritySeqAn(splits[i].sequence(), splits[j].sequence());
 
@@ -318,11 +436,13 @@ void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile)
 // write splits back to file
 void Detect::writeSamFile(auto &samfile, std::vector<std::pair<SamRecord, SamRecord>> &splits) {
     for (auto &[first, second] : splits) {
-        auto &[id1, flag1, ref_id1, ref_offset1, mapq1, cigar1, seq1, tags1] = first;
-        samfile.emplace_back(id1, flag1, ref_id1, ref_offset1, mapq1.value(), cigar1, seq1, tags1);
+        auto &[id1, flag1, ref_id1, ref_offset1, mapq1, cigar1, seq1, qual1, tags1] = first;
+        samfile.emplace_back(id1, flag1, ref_id1, ref_offset1, mapq1.value(), cigar1, seq1, qual1,
+                             tags1);
 
-        auto &[id2, flag2, ref_id2, ref_offset2, mapq2, cigar2, seq2, tags2] = second;
-        samfile.emplace_back(id2, flag2, ref_id2, ref_offset2, mapq2.value(), cigar2, seq2, tags2);
+        auto &[id2, flag2, ref_id2, ref_offset2, mapq2, cigar2, seq2, qual2, tags2] = second;
+        samfile.emplace_back(id2, flag2, ref_id2, ref_offset2, mapq2.value(), cigar2, seq2, qual2,
+                             tags2);
     }
 }
 
@@ -384,13 +504,42 @@ void Detect::addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2, Tra
     rec2.tags()["XS"_tag] = res.score;
 }
 
-//
-void Detect::addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, HybridizationResult &hyb) {
-    rec1.tags()["XE"_tag] = static_cast<float>(hyb.energy);
-    rec2.tags()["XE"_tag] = static_cast<float>(hyb.energy);
+void Detect::addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2,
+                                           const CoOptimalPairwiseAligner::AlignmentResult &res) {
+    // // number of matches
+    // rec1.tags()["XM"_tag] = res.matches;
+    // rec2.tags()["XM"_tag] = res.matches;
 
-    if (hyb.crosslinkingResult.has_value()) {
-        CrosslinkingResult &crosslinkingResult = hyb.crosslinkingResult.value();
+    // length of alignment
+    const int length = res.end_positions.first - res.begin_positions.first;
+    rec1.tags()["XL"_tag] = length;
+    rec2.tags()["XL"_tag] = length;
+
+    // complementarity
+    rec1.tags()["XC"_tag] = static_cast<float>(res.complementarity);
+    rec2.tags()["XC"_tag] = static_cast<float>(res.complementarity);
+
+    // sitelenratio
+    rec1.tags()["XR"_tag] = static_cast<float>(res.fraction);
+    rec2.tags()["XR"_tag] = static_cast<float>(res.fraction);
+
+    // // alignments
+    // rec1.tags()["XA"_tag] = res.a;
+    // rec2.tags()["XA"_tag] = res.b;
+
+    // score
+    rec1.tags()["XS"_tag] = res.score;
+    rec2.tags()["XS"_tag] = res.score;
+}
+
+//
+void Detect::addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2,
+                                     const HybridizationResult &res) {
+    rec1.tags()["XE"_tag] = static_cast<float>(res.energy);
+    rec2.tags()["XE"_tag] = static_cast<float>(res.energy);
+
+    if (res.crosslinkingResult.has_value()) {
+        const CrosslinkingResult &crosslinkingResult = res.crosslinkingResult.value();
         rec1.tags()["XK"_tag] = static_cast<float>(crosslinkingResult.normCrosslinkingScore);
         rec2.tags()["XK"_tag] = static_cast<float>(crosslinkingResult.normCrosslinkingScore);
 
@@ -533,6 +682,12 @@ std::optional<HybridizationResult> Detect::hybridize(std::span<const seqan3::dna
 
     delete[] structure;
     vrna_fold_compound_free(vc);
+
+    const double mfeThreshold = params["nrgmax"].as<double>();
+
+    if (mfe > mfeThreshold) {
+        return std::nullopt;
+    }
 
     return HybridizationResult{mfe, crosslinkingResult};
 }

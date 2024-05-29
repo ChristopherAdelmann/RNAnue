@@ -9,18 +9,6 @@
 // openMP
 #include <omp.h>
 
-#include <algorithm>
-#include <bitset>
-#include <chrono>
-#include <cmath>
-#include <ctime>
-#include <filesystem>
-#include <fstream>
-#include <iostream>
-#include <list>
-#include <optional>
-#include <regex>
-
 // seqan3
 #include <seqan3/alignment/configuration/align_config_debug.hpp>
 #include <seqan3/alignment/configuration/align_config_gap_cost_affine.hpp>
@@ -50,10 +38,18 @@
 #include "Utility.hpp"
 
 // Standard
+#include <algorithm>
 #include <bitset>
 #include <chrono>
+#include <cmath>
+#include <ctime>
 #include <execution>
+#include <filesystem>
+#include <fstream>
 #include <iostream>
+#include <list>
+#include <optional>
+#include <regex>
 #include <string>
 
 // Boost
@@ -125,36 +121,33 @@ typedef std::vector<seqan3::cigar> CigarSplt;
 // introduce record_type
 using sam_field_types =
     seqan3::type_list<std::string, seqan3::sam_flag, std::optional<int32_t>, std::optional<int32_t>,
-                      std::optional<uint8_t>, std::vector<seqan3::cigar>, std::vector<seqan3::dna5>,
-                      seqan3::sam_tag_dictionary>;
+                      std::optional<uint8_t>, std::vector<seqan3::cigar>, seqan3::dna5_vector,
+                      std::vector<seqan3::phred42>, seqan3::sam_tag_dictionary>;
 
-using sam_field_ids = seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
-                                     seqan3::field::ref_offset, seqan3::field::mapq,
-                                     seqan3::field::cigar, seqan3::field::seq, seqan3::field::tags>;
+using sam_field_ids =
+    seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
+                   seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
+                   seqan3::field::seq, seqan3::field::qual, seqan3::field::tags>;
 
 using SamRecord = seqan3::sam_record<sam_field_types, sam_field_ids>;
-using ComplResult = std::tuple<int, int, double, double, std::vector<char>, std::vector<char>>;
-
-using Splits = std::vector<
-    std::tuple<std::string, seqan3::sam_flag, std::optional<int32_t>, std::optional<int32_t>,
-               std::vector<seqan3::cigar>, seqan3::dna5_vector, seqan3::sam_tag_dictionary>>;
+using SplitRecords = std::vector<SamRecord>;
 
 using NucleotidePairPositions = std::pair<size_t, size_t>;
 using NucleotidePositionsWindow = std::pair<NucleotidePairPositions, NucleotidePairPositions>;
 using NucleotideWindowPair = std::pair<seqan3::dna5_vector, seqan3::dna5_vector>;
 
 static const std::map<NucleotideWindowPair, size_t> crosslinkingScoringScheme = {
-    {{"TA"_dna5, "AT"_dna5}, 3},  // Preffered pyrimidine crosslinking
+    {{"TA"_dna5, "AT"_dna5}, 3},  // Preferred pyrimidine cross-linking
     {{"TG"_dna5, "GT"_dna5}, 3},
     {{"TC"_dna5, "CT"_dna5}, 3},
     {{"AT"_dna5, "TA"_dna5}, 3},
     {{"GT"_dna5, "TG"_dna5}, 3},
     {{"CT"_dna5, "TC"_dna5}, 3},
-    {{"CA"_dna5, "AC"_dna5}, 2},  // Non-preffered pyrimidine crosslinking
+    {{"CA"_dna5, "AC"_dna5}, 2},  // Non-preferred pyrimidine cross-linking
     {{"CG"_dna5, "GC"_dna5}, 2},
     {{"AC"_dna5, "CA"_dna5}, 2},
     {{"GC"_dna5, "CG"_dna5}, 2},
-    {{"TA"_dna5, "GT"_dna5}, 1},  // Wobble base pairs crosslinking
+    {{"TA"_dna5, "GT"_dna5}, 1},  // Wobble base pairs cross-linking
     {{"TG"_dna5, "GT"_dna5}, 1},
     {{"GT"_dna5, "TA"_dna5}, 1},
     {{"GT"_dna5, "TG"_dna5}, 1}};
@@ -172,14 +165,6 @@ typedef struct {
     int nonPrefferedCrosslinkingScore;
     int wobbleCrosslinkingScore;
 } CrosslinkingResult;
-
-struct al_res {
-    size_t sequence1_id{};
-    size_t sequence2_id{};
-    std::optional<int> score = 0;
-    std::pair<size_t, size_t> end_positions{};
-    std::pair<size_t, size_t> begin_positions{};
-};
 
 typedef struct {
     double energy;
@@ -205,17 +190,26 @@ class Detect {
     int msplitscount;
     int nsurvivedcount;
 
+    std::optional<SplitRecords> constructSplitRecords(const SamRecord &readRecord);
+    std::optional<SplitRecords> constructSplitRecords(const std::vector<SamRecord> &readRecords);
+    SplitRecords getSplitRecords(const std::vector<SamRecord> &readRecords);
+
     std::optional<CrosslinkingResult> findCrosslinkingSites(
         std::span<const seqan3::dna5> seq1, std::span<const seqan3::dna5> seq2,
         std::vector<seqan3::dot_bracket3> &dotbracket);
     std::optional<InteractionWindow> getContinuosNucleotideWindows(
         std::span<const seqan3::dna5> seq1, std::span<const seqan3::dna5> seq2,
         NucleotidePositionsWindow positionsPair);
+
+    constexpr seqan3::nucleotide_scoring_scheme<int8_t> complementaryScoringScheme() const;
     std::optional<CoOptimalPairwiseAligner::AlignmentResult> getOptimalAlignment(
         const std::vector<CoOptimalPairwiseAligner::AlignmentResult> &alignResults);
     std::optional<CoOptimalPairwiseAligner::AlignmentResult> complementaritySeqAn(
         seqan3::dna5_vector &seq1, seqan3::dna5_vector &seq2);
-    constexpr seqan3::nucleotide_scoring_scheme<int8_t> complementaryScoringScheme() const;
+
+    void addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2,
+                                       const CoOptimalPairwiseAligner::AlignmentResult &res);
+    void addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, const HybridizationResult &res);
 
    public:
     // iterate through reads
@@ -228,7 +222,6 @@ class Detect {
 
     void addFilterToSamRecord(SamRecord &rec, std::pair<float, float> filters);
     void addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2, TracebackResult &res);
-    void addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2, HybridizationResult &hyb);
 
     void writeSamFile(auto &samfile, std::vector<std::pair<SamRecord, SamRecord>> &splits);
 

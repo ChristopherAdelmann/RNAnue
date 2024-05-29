@@ -26,7 +26,7 @@ class CoOptimalPairwiseAligner {
     ~CoOptimalPairwiseAligner() = default;
 
     struct AlignmentResult {
-        std::optional<size_t> score;
+        int score;
         double complementarity;
         double fraction;
         std::pair<size_t, size_t> begin_positions;
@@ -54,7 +54,7 @@ class CoOptimalPairwiseAligner {
 
         const std::optional<int> score = alignResult.score();
 
-        if (!score) {
+        if (!score.has_value()) {
             return {};
         }
 
@@ -65,7 +65,7 @@ class CoOptimalPairwiseAligner {
 
             seqan3::detail::matrix_coordinate traceBegin{seqan3::detail::row_index_type{row},
                                                          seqan3::detail::column_index_type{col}};
-            results.push_back(makeResult(sequencePair, score, traceBegin, traceMatrix));
+            results.push_back(makeResult(sequencePair, score.value(), traceBegin, traceMatrix));
 
             it = std::ranges::find(it + 1, scoreMatrix.end(), score);
         }

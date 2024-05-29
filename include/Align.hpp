@@ -18,6 +18,10 @@
 #include <filesystem>
 #include <iostream>
 #include <regex>
+#include <sstream>
+#include <utility>
+
+// Seqan3
 #include <seqan3/alignment/configuration/all.hpp>
 #include <seqan3/alignment/pairwise/align_pairwise.hpp>
 #include <seqan3/alignment/scoring/nucleotide_scoring_scheme.hpp>
@@ -28,8 +32,6 @@
 #include <seqan3/core/debug_stream.hpp>
 #include <seqan3/io/sam_file/sam_flag.hpp>
 #include <seqan3/io/sam_file/sam_tag_dictionary.hpp>
-#include <sstream>
-#include <utility>
 
 #include "Logger.hpp"
 
@@ -42,11 +44,6 @@ using namespace seqan3::literals;
 typedef std::pair<uint32_t, uint32_t> ReadPos;
 typedef std::pair<uint64_t, uint64_t> GenomePos;
 typedef std::vector<seqan3::cigar> CigarSplt;
-
-typedef std::vector<
-    std::tuple<std::string, seqan3::sam_flag, std::optional<int32_t>, std::optional<int32_t>,
-               std::vector<seqan3::cigar>, seqan3::dna5_vector, seqan3::sam_tag_dictionary>>
-    Splits;
 #include <bitset>
 #include <filesystem>
 

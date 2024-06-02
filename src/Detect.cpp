@@ -2,79 +2,93 @@
 
 using namespace seqan3::literals;
 
-// WARNING: This split read calling is not working as intended and is currently not handling
-// multiple alignments correctly.
-
 Detect::Detect(po::variables_map params)
     : params(params),
+      minReadLength(params["minlen"].as<std::size_t>()),
+      excludeSoftClipping(params["exclclipping"].as<bool>()),
       minComplementarity(params["cmplmin"].as<double>()),
-      minFraction(params["sitelenratio"].as<double>()) {
-    readsCount = 0;
-    alignedcount = 0;
-    splitscount = 0;
-    msplitscount = 0;
-    nsurvivedcount = 0;
-}
+      minFraction(params["sitelenratio"].as<double>()) {}
 //
-void Detect::iterate(std::string matched, std::string splitsPath, std::string multSplitsPath) {
-    seqan3::sam_file_input alignmentsIn{matched, sam_field_ids{}};
+void Detect::iterateSortedMappingsFile(const std::string &mappingsInPath,
+                                       const std::string &splitsPath,
+                                       const std::string &multSplitsPath) {
+    seqan3::sam_file_input alignmentsIn{mappingsInPath, sam_field_ids{}};
 
+    auto &header = alignmentsIn.header();
     std::vector<size_t> ref_lengths{};
-    std::ranges::transform(alignmentsIn.header().ref_id_info, std::back_inserter(ref_lengths),
+    std::ranges::transform(header.ref_id_info, std::back_inserter(ref_lengths),
                            [](auto const &info) { return std::get<0>(info); });
 
-    std::deque<std::string> &ref_ids = alignmentsIn.header().ref_ids();
+    const std::deque<std::string> &ref_ids = header.ref_ids();
 
-    // output file for splits
     seqan3::sam_file_output splitsOut{splitsPath, ref_ids, ref_lengths, sam_field_ids{}};
-
-    // output file for multi splits
     seqan3::sam_file_output multiSplitsOut{multSplitsPath, ref_ids, ref_lengths, sam_field_ids{}};
 
-    std::string currentRecordId = "";
-
-    using RecordType = typename decltype(alignmentsIn)::record_type;
-    std::vector<RecordType> currentRecordList;
+    std::string currentRecordId;
+    std::vector<SamRecord> currentRecordList;
+    std::unordered_set<size_t> invalidRecordHitGroups;
+    size_t readsCount = 0;
 
     for (auto &record : alignmentsIn) {
-        if (static_cast<bool>(record.flag() & seqan3::sam_flag::unmapped)) {
-            continue;
-        }
-        if (record.sequence().size() <= params["minlen"].as<std::size_t>()) {
-            continue;
-        }
+        readsCount++;
 
         // This line depends on the SAM file being sorted by read ID
-        std::string recordId = record.id();
-        bool isNewRecord = !currentRecordId.empty() && (currentRecordId != recordId);
+        bool isNewRecordID = !currentRecordId.empty() && (currentRecordId != record.id());
 
-        if (isNewRecord) {
-            process(currentRecordList, splitsOut, multiSplitsOut);
+        if (isNewRecordID) {
+            // Remove current records that belong to invalid hit groups
+            currentRecordList.erase(
+                std::remove_if(currentRecordList.begin(), currentRecordList.end(),
+                               [&](const SamRecord &record) {
+                                   return invalidRecordHitGroups.contains(
+                                       record.tags().get<"HI"_tag>());
+                               }),
+                currentRecordList.end());
+
+            processReadRecords(currentRecordList, splitsOut, multiSplitsOut);
             currentRecordList.clear();
+            invalidRecordHitGroups.clear();
         }
 
+        currentRecordId = record.id();
+
+        if (static_cast<bool>(record.flag() & seqan3::sam_flag::unmapped) ||
+            record.sequence().size() < minReadLength || !record.tags().contains("XJ"_tag) ||
+            record.tags().get<"XJ"_tag>() < 2 ||
+            invalidRecordHitGroups.contains(record.tags().get<"HI"_tag>())) {
+            invalidRecordHitGroups.insert(record.tags().get<"HI"_tag>());
+            continue;
+        }
         currentRecordList.push_back(std::move(record));
-        currentRecordId = recordId;
-
-        readsCount++;
-        if (readsCount % 100000 == 0) {
-            Logger::log(LogLevel::INFO, "Processed ", readsCount, " reads");
-        }
     }
 
-    if (!currentRecordList.empty()) {
-        readsCount++;
-        process(currentRecordList, splitsOut, multiSplitsOut);
-    }
+    processReadRecords(currentRecordList, splitsOut, multiSplitsOut);
 
     Logger::log(LogLevel::INFO, "Processed ", readsCount, " reads");
 }
 
+void Detect::processReadRecords(const std::vector<SamRecord> &readRecords, auto &splitsOut,
+                                auto &multiSplitsOut) {
+    if (readRecords.empty()) {
+        return;
+    }
+
+    const auto splitRecords = getSplitRecords(readRecords);
+
+    if (!splitRecords.has_value()) {
+        return;
+    }
+
+    // TODO Implement multi split writing
+    writeSamFile(splitsOut, splitRecords.value().splitRecords);
+}
+
 std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readRecord) {
-    const size_t expectedSplitRecords = readRecord.tags().get<"XJ"_tag>();
+    // Number of expected split records for within the record
+    const size_t expectedSplitRecords = readRecord.tags().get<"XH"_tag>();
 
     SplitRecords splitRecords{};
-    splitRecords.reserve(10);
+    splitRecords.reserve(expectedSplitRecords);
 
     std::vector<seqan3::cigar> currentCigar{};
     splitRecords.reserve(10);
@@ -85,7 +99,7 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readR
     size_t startPosSplit{};
     size_t endPosSplit{};  // position in split read (e.g., XX:i to XY:i / 14 to 20)
 
-    const bool excludeClipping = params["exclclipping"].as<std::bitset<1>>() == 1;
+    bool isValid = true;
 
     auto const addOtherCigar = [&](const auto &cigar) {
         const auto cigarValue = get<0>(cigar);
@@ -99,6 +113,11 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readR
             readRecord.sequence() | seqan3::views::slice(startPosRead, endPosRead);
         const auto splitQual =
             readRecord.base_qualities() | seqan3::views::slice(startPosRead, endPosRead);
+
+        if (splitSeq.size() < minReadLength) {
+            isValid = false;
+            return;
+        }
 
         seqan3::sam_tag_dictionary tags{};
         tags.get<"XX"_tag>() = startPosSplit;
@@ -115,12 +134,12 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readR
     auto const addDeletionCigar = [&](const auto &cigar) { currentCigar.push_back(cigar); };
 
     auto const addSoftClipCigar = [&](const auto &cigar) {
-        if (!excludeClipping) {
+        if (!excludeSoftClipping) {
             addOtherCigar(cigar);
         }
 
-        /* If current cigar is empty, we are at the beginning of the read in case of soft clipping
-        at the end of the read it is just ignored */
+        /* If current cigar is empty, we are at the beginning of the read in case of soft
+        clipping at the end of the read it is just ignored */
         if (currentCigar.empty()) {
             const auto cigarValue = get<0>(cigar);
             startPosRead += cigarValue;
@@ -139,41 +158,35 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readR
 
         // Set up positions for the next split
         const auto cigarValue = get<0>(cigar);
-        referencePosition += cigarValue + endPosRead + 1;
-        endPosSplit += 1;
+        referencePosition += cigarValue + endPosRead;
         startPosSplit = endPosSplit;
-        endPosRead += 1;
         startPosRead = endPosRead;
         currentCigar.clear();
     };
 
     for (const auto &cigar : readRecord.cigar_sequence()) {
-        switch (cigar.to_rank()) {
-            case 'M'_cigar_operation.to_rank():
-            case '='_cigar_operation.to_rank():
-            case 'X'_cigar_operation.to_rank():
-            case 'I'_cigar_operation.to_rank():
-                addOtherCigar(cigar);
-                break;
-            case 'D'_cigar_operation.to_rank():
-                addDeletionCigar(cigar);
-                break;
-            case 'S'_cigar_operation.to_rank():
-                addSoftClipCigar(cigar);
-                break;
-            case 'N'_cigar_operation.to_rank():
-                addSkipCigar(cigar);
-                break;
-            default:
-                break;
+        if (cigar == 'M'_cigar_operation || cigar == '='_cigar_operation ||
+            cigar == 'X'_cigar_operation || cigar == 'I'_cigar_operation) {
+            addOtherCigar(cigar);
+        } else if (cigar == 'D'_cigar_operation) {
+            addDeletionCigar(cigar);
+        } else if (cigar == 'S'_cigar_operation) {
+            addSoftClipCigar(cigar);
+        } else if (cigar == 'N'_cigar_operation) {
+            addSkipCigar(cigar);
         }
     }
 
     addSplitRecord();
 
+    if (!isValid) {
+        return std::nullopt;
+    }
+
     if (splitRecords.size() != expectedSplitRecords) {
         Logger::log(LogLevel::WARNING, "Expected ", expectedSplitRecords,
-                    " split records, but got ", splitRecords.size());
+                    " split records, but got ", splitRecords.size(),
+                    ". Record ID: ", readRecord.id());
 
         return std::nullopt;
     }
@@ -181,842 +194,216 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readR
     return splitRecords;
 }
 
-SplitRecords Detect::getSplitRecords(const std::vector<SamRecord> &readRecords) {
-    SplitRecords splitRecords;
+std::optional<SplitRecords> Detect::constructSplitRecords(
+    const std::vector<SamRecord> &readRecords) {
+    // Number of expected split records for whole read
+    const size_t expectedSplitRecords = readRecords.front().tags().get<"XJ"_tag>();
+
+    SplitRecords splitRecords{};
+    splitRecords.reserve(expectedSplitRecords);
 
     for (const auto &record : readRecords) {
-        splitRecords.push_back(record);
+        auto splitRecord = constructSplitRecords(record);
+
+        if (!splitRecord.has_value()) {
+            return std::nullopt;
+        }
+
+        splitRecords.insert(splitRecords.end(), splitRecord->begin(), splitRecord->end());
+    }
+
+    if (splitRecords.size() != expectedSplitRecords) {
+        Logger::log(LogLevel::WARNING, "Expected ", expectedSplitRecords,
+                    " split records, but got ", splitRecords.size(),
+                    ". Record ID: ", readRecords.front().id());
+
+        return std::nullopt;
     }
 
     return splitRecords;
 }
 
-void Detect::process(auto &splitrecords, auto &splitsfile, auto &multsplitsfile) {
-    SplitRecords splits;
+std::optional<EvaluatedSplitRecords> Detect::getSplitRecords(
+    const std::vector<SamRecord> &readRecords) {
+    std::unordered_map<size_t, std::vector<SamRecord>> recordHitGroups{};
+    for (const auto &record : readRecords) {
+        recordHitGroups[record.tags().get<"HI"_tag>()].push_back(record);
+    }
 
-    seqan3::cigar::operation cigarOp;  // operation of cigar string
-    uint32_t cigarOpSize;
+    std::optional<EvaluatedSplitRecords> bestSplitRecords{};
 
-    uint32_t startPosRead;
-    uint32_t endPosRead;  // absolute position in read/alignment (e.g., 1 to end)
-    uint32_t startPosSplit;
-    uint32_t endPosSplit;  // position in split read (e.g., XX:i to XY:i / 14 to 20)
+    const auto insertBestSplitRecords = [&](SplitRecords &splitRecords) {
+        const auto evaluatedSplitRecords = EvaluatedSplitRecords::calculateEvaluatedSplitRecords(
+            splitRecords, minComplementarity, minFraction, params["nrgmax"].as<double>());
 
-    seqan3::sam_tag_dictionary tags;
+        if (!evaluatedSplitRecords.has_value()) {
+            return;
+        }
 
-    int segmentNr = 0;  // intialize active segment
-    int splitID = 0;    //
+        if (!bestSplitRecords.has_value() ||
+            evaluatedSplitRecords.value() > bestSplitRecords.value()) {
+            bestSplitRecords.emplace(evaluatedSplitRecords.value());
+        }
+    };
 
-    std::string qname = "";
-    std::vector<SamRecord> curated;
+    for (const auto &[_, hitGroup] : recordHitGroups) {
+        auto splitRecords = constructSplitRecords(hitGroup);
 
-    // create object of putative splits
-    std::map<int, std::vector<SamRecord>> putative;
-    std::vector<std::pair<SamRecord, SamRecord>> splitSegments;
-
-    size_t process_count = 0;
-
-    for (const auto &it : splitrecords) {
-        // extract information
-        // TODO Handle remaining tags
-        qname = it.id();  // QNAME
-        // seqan3::sam_flag flag = it->flag();  // SAMFLAG
-        //  std::optional<int32_t> refID = it->reference_id();
-        std::optional<int32_t> refOffset = it.reference_position();
-        // std::optional<uint8_t> qual = it->mapping_quality();  // MAPQ
-
-        // CIGAR string
-        std::vector<seqan3::cigar> cigar{it.cigar_sequence()};
-        std::vector<seqan3::cigar> cigarSplit{};  // individual cigar for each split
-        const auto &seq = it.sequence();          // SEQ
-
-        // TODO Handle remaining tags
-        // extract the tags (information about split reads)
-        tags = it.tags();
-        // auto xhtag = tags.get<"XH"_tag>();
-        auto xjtag = tags.get<"XJ"_tag>();
-        auto xxtag = tags.get<"XX"_tag>();
-        // auto xytag = tags.get<"XY"_tag>();
-
-        if (xjtag == 2) {      // splits in SAMfile need to consists of at least 2 segments
-            startPosRead = 1;  // intialise start & end of reads
-            endPosRead = 0;
-
-            startPosSplit = xxtag;  // determine the start position within split
-            endPosSplit = xxtag - 1;
-            // check the cigar string for splits
-            for (auto &cig : cigar) {
-                // determine size and operator of cigar element
-                cigarOpSize = get<uint32_t>(cig);
-                cigarOp = get<seqan3::cigar::operation>(cig);
-
-                //
-                if (cigarOp == 'N'_cigar_operation) {
-                    auto subSeq = seq | seqan3::views::slice(startPosRead - 1, endPosRead);
-
-                    // add properties to tags - lightweight
-                    seqan3::sam_tag_dictionary ntags;
-                    ntags.get<"XX"_tag>() = startPosSplit;
-                    ntags.get<"XY"_tag>() = endPosSplit;
-                    ntags["XN"_tag] = splitID;
-
-                    filterSegments(it, refOffset, cigarSplit, subSeq, ntags, curated);
-
-                    // settings for prepare for next split
-                    startPosSplit = endPosSplit + 1;
-                    startPosRead = endPosRead + 1;
-                    cigarSplit = {};  // new split - new CIGAR
-                    refOffset.value() +=
-                        cigarOpSize + endPosRead + 1;  // adjust leftmost mapping position
-
-                    // change for next iteration
-                    segmentNr++;  // counts as segment of split
-                } else {
-                    // deletion does not account for length in split
-                    seqan3::cigar cigarElement{cigarOpSize, cigarOp};
-                    // seqan3::debug_stream << "cigarElement: " << cigarElement << std::endl;
-
-                    // exclude soft clipping from alignment
-                    if (cigarOp == 'S'_cigar_operation &&
-                        params["exclclipping"].as<std::bitset<1>>() == 1) {
-                        if (cigarSplit.size() == 0) {
-                            startPosRead += cigarOpSize;
-                            endPosRead += cigarOpSize;
-                            startPosSplit += cigarOpSize;
-                            endPosSplit += cigarOpSize;
-                        }
-                    } else {
-                        if (cigarOp != 'D'_cigar_operation) {
-                            endPosRead += cigarOpSize;
-                            endPosSplit += cigarOpSize;
-                        }
-                        cigarSplit.push_back(cigarElement);
-                    }
-                }
-            }
-
-            auto subSeq = seq | seqan3::views::slice(startPosRead - 1, endPosRead);
-
-            seqan3::sam_tag_dictionary ntags;
-            ntags.get<"XX"_tag>() = startPosSplit;
-            ntags.get<"XY"_tag>() = endPosSplit;
-            ntags["XN"_tag] = splitID;
-
-            filterSegments(it, refOffset, cigarSplit, subSeq, ntags, curated);
-            segmentNr++;
-
-            if (segmentNr == xjtag) {
-                std::map<int, std::vector<SamRecord>>::iterator itPutative = putative.begin();
-                putative.insert(itPutative, std::make_pair(splitID, curated));
-                curated.clear();
-                segmentNr = 0;
-                ++splitID;
-            }
+        if (splitRecords.has_value()) {
+            insertBestSplitRecords(splitRecords.value());
         }
     }
 
-    if (putative.size() > 0) {  // split reads found
-        std::vector<SamRecord> p1;
-        std::vector<SamRecord> p2;
+    return bestSplitRecords;
+}
 
-        seqan3::sam_tag_dictionary p1Tags;
-        seqan3::sam_tag_dictionary p2Tags;
-
-        // value for complementarity and hybridization energy
-        std::pair<double, double> filters;
-
-        std::string p1Qname;
-        std::string p2Qname;
-
-        for (auto &element : putative) {
-            std::vector<SamRecord> splits = element.second;
-            if (splits.size() > 1) {  // splits consists at least of 2 segments
-                for (unsigned i = 0; i < splits.size(); ++i) {
-                    for (unsigned j = i + 1; j < splits.size(); ++j) {
-                        process_count++;
-
-                        p1Tags = splits[i].tags();
-                        p2Tags = splits[j].tags();
-
-                        auto p1Start = p1Tags.get<"XX"_tag>();
-                        auto p1End = p1Tags.get<"XY"_tag>();
-                        auto p2Start = p2Tags.get<"XX"_tag>();
-                        auto p2End = p2Tags.get<"XY"_tag>();
-
-                        // prevent an overlap between reads position -> same segment of read
-                        if ((p2Start >= p1Start && p2Start <= p1End) ||
-                            (p1Start >= p2Start && p1Start <= p2End)) {
-                            continue;
-                        }
-
-                        if (true)  // splitSegments.empty()
-                        {
-                            const auto complResult =
-                                complementaritySeqAn(splits[i].sequence(), splits[j].sequence());
-
-                            const auto hybResult =
-                                hybridize(splits[i].sequence(), splits[j].sequence());
-
-                            if (!complResult.has_value() || !hybResult.has_value()) {
-                                continue;
-                            }
-
-                            addComplementarityToSamRecord(splits[i], splits[j],
-                                                          complResult.value());
-                            addHybEnergyToSamRecord(splits[i], splits[j], hybResult.value());
-                            splitSegments.push_back(std::make_pair(splits[i], splits[j]));
-
-                        } else {
-                            complementaritySeqAn(splits[i].sequence(), splits[j].sequence());
-
-                            TracebackResult cmpl =
-                                complementarity(splits[i].sequence(), splits[j].sequence());
-
-                            std::optional<HybridizationResult> hyb =
-                                hybridize(splits[i].sequence(), splits[j].sequence());
-
-                            if (!cmpl.a.empty() &&
-                                hyb.has_value()) {  // check that there is data for
-                                                    // complementarity / passed cutoffs
-                                double hybEnergy = hyb.value().energy;
-                                if (cmpl.cmpl > filters.first) {  // complementarity is higher
-                                    splitSegments.clear();
-                                    filters = std::make_pair(cmpl.cmpl, hybEnergy);
-                                    addComplementarityToSamRecord(splits[i], splits[j], cmpl);
-                                    addHybEnergyToSamRecord(splits[i], splits[j], hyb.value());
-                                    splitSegments.push_back(std::make_pair(splits[i], splits[j]));
-                                } else {
-                                    if (cmpl.cmpl == filters.first) {
-                                        if (hybEnergy > filters.second) {
-                                            splitSegments.clear();
-                                            filters = std::make_pair(cmpl.cmpl, hybEnergy);
-                                            addComplementarityToSamRecord(splits[i], splits[j],
-                                                                          cmpl);
-                                            addHybEnergyToSamRecord(splits[i], splits[j],
-                                                                    hyb.value());
-                                            splitSegments.push_back(
-                                                std::make_pair(splits[i], splits[j]));
-                                        }
-                                    } else {
-                                        if (hybEnergy ==
-                                            filters.second) {  // same cmpl & hyb -> ambigious read!
-                                            addComplementarityToSamRecord(splits[i], splits[j],
-                                                                          cmpl);
-                                            addHybEnergyToSamRecord(splits[i], splits[j],
-                                                                    hyb.value());
-                                            splitSegments.push_back(
-                                                std::make_pair(splits[i], splits[j]));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    {
-        // TODO Multisplits file not correct, segments size can be higher due to multiple alignments
-        // without splits! write to file
-        if (splitSegments.size() == 1) {
-            writeSamFile(splitsfile, splitSegments);
-            splitscount++;
-        } else {
-            if (splitSegments.size() > 1) {
-                writeSamFile(multsplitsfile, splitSegments);
-                msplitscount++;
-            }
-        }
-        std::vector<std::pair<SamRecord, SamRecord>>().swap(splitSegments);
+void Detect::writeSamFile(auto &samOut, const std::vector<SamRecord> &splitRecords) {
+    for (auto &&record : splitRecords) {
+        auto [id, flag, ref_id, ref_offset, mapq, cigar, seq, qual, tags] = record;
+        samOut.emplace_back(id, flag, ref_id, ref_offset, mapq, cigar, seq, qual, tags);
     }
 }
 
-// write splits back to file
-void Detect::writeSamFile(auto &samfile, std::vector<std::pair<SamRecord, SamRecord>> &splits) {
-    for (auto &[first, second] : splits) {
-        auto &[id1, flag1, ref_id1, ref_offset1, mapq1, cigar1, seq1, qual1, tags1] = first;
-        samfile.emplace_back(id1, flag1, ref_id1, ref_offset1, mapq1.value(), cigar1, seq1, qual1,
-                             tags1);
+std::vector<Detect::ChunkedInOutFilePaths> Detect::prepareInputOutputFiles(
+    const fs::path &mappingsFilePath, const fs::path &splitsFilePath,
+    const int mappingRecordsCount) {
+    // create tmp folder (for inputs)
+    fs::path tmpInDirPath = mappingsFilePath.parent_path() / "tmpIn";
+    fs::path tmpSplitsOutDirPath = splitsFilePath.parent_path() / "tmpSplit";
+    fs::path tmpMultiSplitsOutDirPath = splitsFilePath.parent_path() / "tmpMsplit";
 
-        auto &[id2, flag2, ref_id2, ref_offset2, mapq2, cigar2, seq2, qual2, tags2] = second;
-        samfile.emplace_back(id2, flag2, ref_id2, ref_offset2, mapq2.value(), cigar2, seq2, qual2,
-                             tags2);
+    helper::createTmpDir(tmpInDirPath);
+    helper::createTmpDir(tmpSplitsOutDirPath);
+    helper::createTmpDir(tmpMultiSplitsOutDirPath);
+
+    std::string tmpInPath = (tmpInDirPath / "tmp").string();
+
+    const std::vector<fs::path> splitMappingsFilePaths =
+        splitMappingsFile(mappingsFilePath, tmpInPath, mappingRecordsCount);
+
+    std::vector<Detect::ChunkedInOutFilePaths> subFiles;
+    for (auto &file : splitMappingsFilePaths) {
+        fs::path tmpSplitsOutPath = tmpSplitsOutDirPath / file.filename();
+        fs::path tmpMultiSplitsOutPath = tmpMultiSplitsOutDirPath / file.filename();
+        subFiles.push_back({file, tmpSplitsOutPath, tmpMultiSplitsOutPath});
     }
+
+    return subFiles;
 }
 
-void Detect::filterSegments(const auto &splitrecord, std::optional<int32_t> &refOffset,
-                            std::vector<seqan3::cigar> &cigar, std::span<const seqan3::dna5> seq,
-                            seqan3::sam_tag_dictionary &tags, std::vector<SamRecord> &curated) {
-    SamRecord segment{};  // create new SamRecord
-
-    seqan3::sam_flag flag{0};
-    if (static_cast<bool>(splitrecord.flag() & seqan3::sam_flag::on_reverse_strand)) {
-        flag = seqan3::sam_flag{seqan3::sam_flag::on_reverse_strand};
+std::vector<fs::path> Detect::splitMappingsFile(const fs::path &mappingsFilePath,
+                                                const fs::path &tmpInPath,
+                                                const int entries) const {
+    std::ifstream inputFile(mappingsFilePath, std::ios::in);
+    if (!inputFile.is_open()) {
+        throw std::runtime_error("Could not open the input file.");
     }
 
-    segment.id() = splitrecord.id();
-    segment.flag() = flag;
-    segment.reference_id() = splitrecord.reference_id();
-    segment.reference_position() = refOffset;
-    segment.mapping_quality() = splitrecord.mapping_quality();
-    segment.cigar_sequence() = cigar;
-    segment.sequence().assign(seq.begin(), seq.end());
-    segment.tags() = tags;
+    std::ofstream outputFile;
+    std::string line, prev;
+    std::stringstream hdrStream;
+    int numLines = 0, numBlocks = 0;
 
-    if (seq.size() <= (std::size_t)params["minfraglen"].as<int>()) {
-        return;
-    }
+    std::string outPathPrefix = tmpInPath.string() + "_";
+    std::vector<fs::path> tmpOutFiles;
 
-    // std::cout << "length " << seq.size() << std::endl;
-    curated.push_back(segment);
-}
-
-void Detect::addFilterToSamRecord(SamRecord &rec, std::pair<float, float> filters) {
-    rec.tags()["XC"_tag] = filters.first;
-    rec.tags()["XE"_tag] = filters.second;
-}
-
-void Detect::addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2, TracebackResult &res) {
-    // number of matches
-    rec1.tags()["XM"_tag] = res.matches;
-    rec2.tags()["XM"_tag] = res.matches;
-
-    // length of alignment
-    rec1.tags()["XL"_tag] = res.length;
-    rec2.tags()["XL"_tag] = res.length;
-
-    // complementarity
-    rec1.tags()["XC"_tag] = static_cast<float>(res.cmpl);
-    rec2.tags()["XC"_tag] = static_cast<float>(res.cmpl);
-
-    // sitelenratio
-    rec1.tags()["XR"_tag] = static_cast<float>(res.ratio);
-    rec2.tags()["XR"_tag] = static_cast<float>(res.ratio);
-
-    // alignments
-    rec1.tags()["XA"_tag] = res.a;
-    rec2.tags()["XA"_tag] = res.b;
-
-    // score
-    rec1.tags()["XS"_tag] = res.score;
-    rec2.tags()["XS"_tag] = res.score;
-}
-
-void Detect::addComplementarityToSamRecord(SamRecord &rec1, SamRecord &rec2,
-                                           const CoOptimalPairwiseAligner::AlignmentResult &res) {
-    // // number of matches
-    // rec1.tags()["XM"_tag] = res.matches;
-    // rec2.tags()["XM"_tag] = res.matches;
-
-    // length of alignment
-    const int length = res.end_positions.first - res.begin_positions.first;
-    rec1.tags()["XL"_tag] = length;
-    rec2.tags()["XL"_tag] = length;
-
-    // complementarity
-    rec1.tags()["XC"_tag] = static_cast<float>(res.complementarity);
-    rec2.tags()["XC"_tag] = static_cast<float>(res.complementarity);
-
-    // sitelenratio
-    rec1.tags()["XR"_tag] = static_cast<float>(res.fraction);
-    rec2.tags()["XR"_tag] = static_cast<float>(res.fraction);
-
-    // // alignments
-    // rec1.tags()["XA"_tag] = res.a;
-    // rec2.tags()["XA"_tag] = res.b;
-
-    // score
-    rec1.tags()["XS"_tag] = res.score;
-    rec2.tags()["XS"_tag] = res.score;
-}
-
-//
-void Detect::addHybEnergyToSamRecord(SamRecord &rec1, SamRecord &rec2,
-                                     const HybridizationResult &res) {
-    rec1.tags()["XE"_tag] = static_cast<float>(res.energy);
-    rec2.tags()["XE"_tag] = static_cast<float>(res.energy);
-
-    if (res.crosslinkingResult.has_value()) {
-        const CrosslinkingResult &crosslinkingResult = res.crosslinkingResult.value();
-        rec1.tags()["XK"_tag] = static_cast<float>(crosslinkingResult.normCrosslinkingScore);
-        rec2.tags()["XK"_tag] = static_cast<float>(crosslinkingResult.normCrosslinkingScore);
-
-        rec1.tags()["XP"_tag] = crosslinkingResult.prefferedCrosslinkingScore;
-        rec2.tags()["XP"_tag] = crosslinkingResult.prefferedCrosslinkingScore;
-
-        rec1.tags()["XO"_tag] = crosslinkingResult.nonPrefferedCrosslinkingScore;
-        rec2.tags()["XO"_tag] = crosslinkingResult.nonPrefferedCrosslinkingScore;
-
-        rec1.tags()["XW"_tag] = crosslinkingResult.wobbleCrosslinkingScore;
-        rec2.tags()["XW"_tag] = crosslinkingResult.wobbleCrosslinkingScore;
-    }
-}
-
-//
-TracebackResult Detect::complementarity(std::vector<seqan3::dna5> &seq1,
-                                        std::vector<seqan3::dna5> &seq2) {
-    std::string seq1_str;
-    std::string seq2_str;
-
-    if (seq1.size() == 0 || seq2.size() == 0) {
-        return {"", "", 0, 0, 0, -1.0, 0.0};
-    }
-
-    // rna1 (reverse)
-    for (unsigned z = seq1.size(); z-- > 0;) {
-        seq1_str += seq1[z].to_char();
-    }
-
-    // rna
-    for (unsigned y = 0; y < seq2.size(); ++y) {
-        seq2_str += seq2[y].to_char();
-    }
-
-    ScoringMatrix matrix = createScoringMatrix(seq1_str.c_str(), seq2_str.c_str(), 1, -1, 2);
-    std::vector<TracebackResult> res = traceback(matrix, seq1_str.c_str(), seq2_str.c_str());
-
-    int idx = -1;
-    int cmpl = -1;
-
-    // filter (multiple) alignments
-    if (res.size() > 0) {
-        for (unsigned i = 0; i < res.size(); ++i) {
-            // check if sitelenratio & complementarity exceed cutoffs
-            if (params["sitelenratio"].as<double>() <= res[i].ratio &&
-                params["cmplmin"].as<double>() <= res[i].cmpl) {
-                if (res[i].cmpl > cmpl) {
-                    idx = i;
-                }
-            }
-        }
-    }
-
-    freeMatrix(&matrix);
-    if (idx != -1) {
-        return res[idx];
-    } else {
-        return {"", "", 0, 0, 0, 0.0, 0.0};
-    }
-}
-
-std::optional<CoOptimalPairwiseAligner::AlignmentResult> Detect::complementaritySeqAn(
-    seqan3::dna5_vector &seq1, seqan3::dna5_vector &seq2) {
-    const auto &seq1Reverse = seq1 | std::views::reverse;
-    const auto results = CoOptimalPairwiseAligner{complementaryScoringScheme()}.getLocalAlignments(
-        std::tie(seq1Reverse, seq2));
-    return getOptimalAlignment(results);
-}
-
-constexpr seqan3::nucleotide_scoring_scheme<int8_t> Detect::complementaryScoringScheme() const {
-    seqan3::nucleotide_scoring_scheme scheme{seqan3::match_score{1}, seqan3::mismatch_score{-1}};
-
-    scheme.score('A'_dna5, 'T'_dna5) = 1;
-    scheme.score('T'_dna5, 'A'_dna5) = 1;
-    scheme.score('G'_dna5, 'C'_dna5) = 1;
-    scheme.score('C'_dna5, 'G'_dna5) = 1;
-    scheme.score('G'_dna5, 'T'_dna5) = 1;
-    scheme.score('T'_dna5, 'G'_dna5) = 1;
-
-    scheme.score('T'_dna5, 'T'_dna5) = -1;
-    scheme.score('A'_dna5, 'A'_dna5) = -1;
-    scheme.score('C'_dna5, 'C'_dna5) = -1;
-    scheme.score('G'_dna5, 'G'_dna5) = -1;
-
-    scheme.score('A'_dna5, 'G'_dna5) = -1;
-    scheme.score('A'_dna5, 'C'_dna5) = -1;
-    scheme.score('G'_dna5, 'A'_dna5) = -1;
-    scheme.score('C'_dna5, 'A'_dna5) = -1;
-
-    scheme.score('T'_dna5, 'C'_dna5) = -1;
-    scheme.score('C'_dna5, 'T'_dna5) = -1;
-
-    return scheme;
-}
-
-std::optional<CoOptimalPairwiseAligner::AlignmentResult> Detect::getOptimalAlignment(
-    const std::vector<CoOptimalPairwiseAligner::AlignmentResult> &alignResults) {
-    if (alignResults.empty()) {
-        return std::nullopt;
-    }
-
-    std::optional<CoOptimalPairwiseAligner::AlignmentResult> optimalAlignment = std::nullopt;
-
-    for (auto &alignResult : alignResults) {
-        if (alignResult.complementarity < minComplementarity ||
-            alignResult.fraction < minFraction) {
+    while (std::getline(inputFile, line)) {
+        if (line.starts_with('@')) {
+            hdrStream << line << '\n';
             continue;
         }
 
-        if (!optimalAlignment.has_value() ||
-            alignResult.complementarity > optimalAlignment.value().complementarity ||
-            (alignResult.complementarity == optimalAlignment.value().complementarity &&
-             alignResult.fraction > optimalAlignment.value().fraction)) {
-            optimalAlignment = alignResult;
-        }
-    }
-
-    return optimalAlignment;
-}
-
-std::optional<HybridizationResult> Detect::hybridize(std::span<const seqan3::dna5> seq1,
-                                                     std::span<const seqan3::dna5> seq2) {
-    auto toString = [](auto &seq) {
-        return (seq | seqan3::views::to_char | seqan3::ranges::to<std::string>());
-    };
-
-    std::string interactionSeq = toString(seq1) + "&" + toString(seq2);
-
-    vrna_fold_compound_t *vc =
-        vrna_fold_compound(interactionSeq.c_str(), NULL, VRNA_OPTION_DEFAULT | VRNA_OPTION_HYBRID);
-    char *structure = new char[interactionSeq.size() + 1];
-    float mfe = vrna_cofold(interactionSeq.c_str(), structure);
-
-    auto secondaryStructure = std::string(vrna_cut_point_insert(structure, seq1.size() + 1)) |
-                              seqan3::views::char_to<seqan3::dot_bracket3> |
-                              seqan3::ranges::to<std::vector>();
-
-    std::optional<CrosslinkingResult> crosslinkingResult =
-        findCrosslinkingSites(seq1, seq2, secondaryStructure);
-
-    delete[] structure;
-    vrna_fold_compound_free(vc);
-
-    const double mfeThreshold = params["nrgmax"].as<double>();
-
-    if (mfe > mfeThreshold) {
-        return std::nullopt;
-    }
-
-    return HybridizationResult{mfe, crosslinkingResult};
-}
-
-std::optional<InteractionWindow> Detect::getContinuosNucleotideWindows(
-    std::span<const seqan3::dna5> seq1, std::span<const seqan3::dna5> seq2,
-    NucleotidePositionsWindow positionsPair) {
-    std::pair<uint16_t, uint16_t> forwardPair =
-        std::make_pair(positionsPair.first.first, positionsPair.second.first);
-    std::pair<uint16_t, uint16_t> reversePair =
-        std::make_pair(positionsPair.first.second, positionsPair.second.second);
-
-    // Check that both pairs are from a continous region
-    if (forwardPair.first + 1 != forwardPair.second ||
-        reversePair.first - 1 != reversePair.second) {
-        return std::nullopt;
-    }
-
-    size_t seq1Length = seq1.size();
-
-    bool forwardPairSplit = forwardPair.first < seq1Length && forwardPair.second >= seq1Length;
-    bool reversePairSplit = reversePair.first >= seq1Length && reversePair.second < seq1Length;
-
-    if (forwardPairSplit || reversePairSplit) {
-        return std::nullopt;
-    }
-
-    bool firstPairInSeq1 = forwardPair.second < seq1Length;
-    bool secondPairInSeq1 = reversePair.first < seq1Length;
-
-    // Both pairs are in the first sequence
-    if (firstPairInSeq1 && secondPairInSeq1) {
-        return InteractionWindow{
-            seqan3::dna5_vector{seq1[forwardPair.first], seq1[forwardPair.second]},
-            seqan3::dna5_vector{seq1[reversePair.first], seq1[reversePair.second]}, forwardPair,
-            reversePair, false};
-    }
-
-    // Both pairs are in the second sequence
-    if (!firstPairInSeq1 && !secondPairInSeq1) {
-        return InteractionWindow{seqan3::dna5_vector{seq2[forwardPair.first - seq1Length - 1],
-                                                     seq2[forwardPair.second - seq1Length - 1]},
-                                 seqan3::dna5_vector{seq2[reversePair.first - seq1Length - 1],
-                                                     seq2[reversePair.second - seq1Length - 1]},
-                                 forwardPair, reversePair, false};
-    }
-
-    // The first pair is in the first sequence and the second pair is in the second sequence
-    if (firstPairInSeq1 && !secondPairInSeq1) {
-        return InteractionWindow{
-            seqan3::dna5_vector{seq1[forwardPair.first], seq1[forwardPair.second]},
-            seqan3::dna5_vector{seq2[reversePair.first - seq1Length - 1],
-                                seq2[reversePair.second - seq1Length - 1]},
-            forwardPair, reversePair, true};
-    }
-
-    // Due to sorting of base pairs first pair in second sequence and second pair in first
-    // sequence is not possible
-    return std::nullopt;
-}
-
-std::optional<CrosslinkingResult> Detect::findCrosslinkingSites(
-    std::span<const seqan3::dna5> seq1, std::span<const seqan3::dna5> seq2,
-    std::vector<seqan3::dot_bracket3> &dotbracket) {
-    if (seq1.empty() || seq2.empty() || dotbracket.empty()) {
-        Logger::log(LogLevel::WARNING, "Empty input sequences or dot-bracket vector!");
-        return std::nullopt;
-    }
-
-    std::vector<size_t> openPos;
-
-    std::vector<NucleotidePairPositions> interactionPositions;
-    interactionPositions.reserve(dotbracket.size() / 2);
-
-    for (size_t i = 0; i < dotbracket.size(); ++i) {
-        if (dotbracket[i].is_pair_open()) {
-            openPos.push_back(i);
-        } else if (dotbracket[i].is_pair_close()) {
-            int open = openPos.back();
-            openPos.pop_back();
-            interactionPositions.emplace_back(open, i);
-        }
-    }
-
-    // Sort pairing sites by first position
-    std::sort(interactionPositions.begin(), interactionPositions.end(),
-              [](const NucleotidePairPositions &a, const NucleotidePairPositions &b) {
-                  return a.first < b.first;
-              });
-
-    if (!openPos.empty()) {
-        Logger::log(LogLevel::WARNING, "Unpaired bases in dot-bracket notation! (" +
-                                           std::to_string(openPos.size()) + ")");
-        return std::nullopt;
-    }
-
-    if (interactionPositions.size() == 0) {
-        Logger::log(LogLevel::WARNING, "No interaction sites found!");
-        return std::nullopt;
-    }
-
-    std::vector<NucleotidePositionsWindow> crosslinkingSites;
-    crosslinkingSites.reserve(interactionPositions.size() - 1);
-
-    size_t intraCrosslinkingScore = 0;
-    size_t interCrosslinkingScore = 0;
-
-    int preferredCrosslinkingCount = 0;
-    int nonPreferredCrosslinkingCount = 0;
-    int wobbleCrosslinkingCount = 0;
-
-    // Iterate over all pairs of interaction sites until the second last pair (last pair has no
-    // following pair for window)
-    for (size_t i = 0; i < interactionPositions.size() - 1; ++i) {
-        const NucleotidePositionsWindow window =
-            std::make_pair(interactionPositions[i], interactionPositions[i + 1]);
-
-        std::optional<InteractionWindow> interactionWindow =
-            getContinuosNucleotideWindows(seq1, seq2, window);
-
-        if (interactionWindow) {
-            InteractionWindow &v_interactionWindow = interactionWindow.value();
-
-            const NucleotideWindowPair nucleotidePairs =
-                std::make_pair(v_interactionWindow.forwardWindowNucleotides,
-                               v_interactionWindow.reverseWindowNucleotides);
-
-            const auto it = crosslinkingScoringScheme.find(nucleotidePairs);
-            if (it != crosslinkingScoringScheme.end()) {
-                const size_t score = it->second;
-                if (v_interactionWindow.isInterFragment) {
-                    interCrosslinkingScore += score;
-                    if (score == 3) {
-                        preferredCrosslinkingCount++;
-                    } else if (score == 2) {
-                        nonPreferredCrosslinkingCount++;
-                    } else if (score == 1) {
-                        wobbleCrosslinkingCount++;
-                    }
-                } else {
-                    intraCrosslinkingScore += score;
+        ++numLines;
+        if ((numLines % entries) == 1) {
+            if (line == prev) {
+                --numLines;
+            } else {
+                if (outputFile.is_open()) {
+                    outputFile.close();
                 }
-                crosslinkingSites.emplace_back(window);
+                std::string outFileName = std::format("{}{}.sam", outPathPrefix, ++numBlocks);
+                tmpOutFiles.push_back(outFileName);
+                outputFile.open(outFileName, std::ios::out);
+                if (!outputFile.is_open()) {
+                    throw std::runtime_error("Could not open the output file.");
+                }
+                outputFile << hdrStream.str();
+                numLines = 1;
             }
         }
+        outputFile << line << '\n';
+        prev = line;
     }
 
-    size_t minSeqLength = std::min(seq1.size(), seq2.size());
-
-    if (minSeqLength == 0) {
-        Logger::log(LogLevel::WARNING, "Division by zero!");
-        return std::nullopt;
+    if (outputFile.is_open()) {
+        outputFile.close();
     }
 
-    double normCrosslinkingScore = static_cast<double>(interCrosslinkingScore) / minSeqLength;
-    return CrosslinkingResult{normCrosslinkingScore, preferredCrosslinkingCount,
-                              nonPreferredCrosslinkingCount, wobbleCrosslinkingCount};
+    inputFile.close();
+
+    return tmpOutFiles;
 }
 
-// calculate rows in SAMfile (exclusing header)
-int Detect::countSamEntries(std::string file, std::string command) {
-    std::string entries = "awk '!/^@/ {print $0}' " + file + " " + command + " | wc -l";
-    const char *call = entries.c_str();
-    std::array<char, 128> buffer;
+void Detect::createStatisticsFile(const fs::path &splitsFilePath,
+                                  const fs::path &multSplitsFilePath,
+                                  const fs::path &statsFilePath) const {
+    std::ofstream statsFileStream(statsFilePath, std::ios::app);
 
-    std::string result;
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(call, "r"), pclose);
-    if (!pipe) {
-        throw std::runtime_error("popen() failed!");
+    if (!statsFileStream.is_open()) {
+        throw std::runtime_error("Could not open the stats file.");
     }
-    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-        result += buffer.data();
-    }
-    return std::stoi(result);
+
+    statsFileStream << splitsFilePath.stem().string() << "\t"
+                    << helper::countUniqueSamEntries(splitsFilePath) << "\t"
+                    << helper::countUniqueSamEntries(multSplitsFilePath) << "\n";
 }
 
-// adds suffix to filename (optional:
-std::string Detect::addSuffix(std::string _file, std::string _suffix,
-                              std::vector<std::string> _keywords) {
-    int keyPos, tmpKeyPos = -1;    // buffer the positions of the keywords
-    int dotPos = _file.find(".");  // determine position of the dot
-    keyPos = dotPos;
-    if (!_keywords.empty()) {
-        for (unsigned i = 0; i < _keywords.size(); ++i) {
-            tmpKeyPos = _file.find(_keywords[i]);
-            if (tmpKeyPos != -1) {  // key could be found
-                keyPos = tmpKeyPos;
-            }
-        }
-    }
-    std::string newFile = _file.substr(0, keyPos);
-    newFile += _suffix;
-    newFile += _file.substr(dotPos, _file.size());
-
-    return newFile;
-}
-
-void Detect::createDir(fs::path path) {
-    if (fs::exists(path)) {
-        fs::remove_all(path);
-    }
-    fs::create_directory(path);
-}
-//
-std::vector<std::vector<fs::path>> Detect::splitInputFile(std::string matched, std::string splits,
-                                                          int entries) {
-    fs::path matchedFilePath = fs::path(matched);
-    fs::path splitsFilePath = fs::path(splits);
-
-    // create tmp folder (for inputs)
-    fs::path tmpIn = matchedFilePath.parent_path() / "tmpIn";
-    fs::path tmpSplit = splitsFilePath.parent_path() / "tmpSplit";
-    fs::path tmpMsplit = splitsFilePath.parent_path() / "tmpMsplit";
-
-    createDir(tmpIn);
-    createDir(tmpSplit);
-    createDir(tmpMsplit);
-
-    // fs::path tmpInPath = tmpIn / fs::path(matched).filename();
-    // std::string tmpInNoExt = tmpInPath.string().substr(0,tmpInPath.size()-4);
-
-    std::string tmpInPath = (tmpIn / "tmp").string();
-
-    std::string call = "awk '/^@/ {hdr = hdr $0 ORS; next;}";
-    call +=
-        "( (++numLines) % " + std::to_string(entries) + " ) == 1 { if($0 == prev ) {--numLines}";
-    call += "else {close(out); out = \"" + tmpInPath +
-            "_\" (++numBlocks) \".sam\"; printf \"%s\", hdr > out; numLines = 1;}}";
-    call += "{print > out; prev = $0}' " + matched;
-
-    system(call.c_str());
-
-    // list all files in tmpIn directory
-    std::vector<fs::path> subfilesInput;  //
-    copy(fs::directory_iterator(tmpIn), fs::directory_iterator(), back_inserter(subfilesInput));
-    sort(subfilesInput.begin(), subfilesInput.end());  // sort the content
-
-    fs::path splitsPath;
-    fs::path msplitsPath;
-    std::vector<fs::path> subfilesSplits;
-    std::vector<fs::path> subfilesMsplits;
-
-    int counter = 1;
-    for (auto &file : subfilesInput) {
-        //     std::cout << tmpSplit / file.filename() << std::endl;
-        //        fs::path splitsPath = tmpSplit / file.stem();
-        //       fs::path msplitsPath = tmpMsplit / file.stem();
-        subfilesSplits.push_back(tmpSplit / file.filename());
-        subfilesMsplits.push_back(tmpMsplit / file.filename());
-        //        subfilesSplits.push_back(fs::path(splitsPath.string().substr(0,splitsPath.size()-2)+"_splits_"+std::to_string(counter)+".sam"));
-        //       subfilesMsplits.push_back(fs::path(msplitsPath.string().substr(0,msplitsPath.size()-2)+"_msplits_"+std::to_string(counter)+".sam"));
-        counter++;
-    }
-
-    std::vector<std::vector<fs::path>> subfiles;
-    subfiles.push_back(subfilesInput);
-    subfiles.push_back(subfilesSplits);
-    subfiles.push_back(subfilesMsplits);
-
-    return subfiles;
-}
-
-// start
 void Detect::start(pt::ptree sample) {
-    // reset counts
-    readsCount = 0;
-    alignedcount = 0;
-    splitscount = 0;
-    msplitscount = 0;
-    nsurvivedcount = 0;
-
-    // input
     pt::ptree input = sample.get_child("input");
-    std::string matched = input.get<std::string>("matched");
-    fs::path matchedPath = fs::path(matched);
+    fs::path mappingRecordsInPath = input.get<std::string>("matched");
 
     int threads = params["threads"].as<int>();
-    int entries = std::round(helper::countSamEntries(matchedPath) / threads) + threads;
+
+    if (threads < 1) {
+        throw std::runtime_error("Number of threads must be at least 1.");
+    }
+
+    size_t entries = std::round(helper::countSamEntries(mappingRecordsInPath) / threads);
 
     // output
     pt::ptree output = sample.get_child("output");
-    std::string splits = output.get<std::string>("splits");
-    std::string multsplits = output.get<std::string>("multsplits");
+    fs::path mergedSplitsOutPath = output.get<std::string>("splits");
+    fs::path mergedMultiSplitsOutPath = output.get<std::string>("multsplits");
 
-    //
-    std::vector<std::vector<fs::path>> subfiles = splitInputFile(matched, splits, entries);
+    std::vector<ChunkedInOutFilePaths> subFiles =
+        prepareInputOutputFiles(mappingRecordsInPath, mergedSplitsOutPath, entries);
 
-#pragma omp parallel for num_threads(params["threads"].as<int>())
-    for (unsigned i = 0; i < subfiles[0].size(); ++i) {
-        iterate(subfiles[0][i].string(), subfiles[1][i].string(), subfiles[2][i].string());
+#pragma omp parallel for num_threads(threads)
+    for (const auto &subFileChunk : subFiles) {
+        iterateSortedMappingsFile(subFileChunk.mappingsInPath.string(),
+                                  subFileChunk.splitsOutPath.string(),
+                                  subFileChunk.multSplitsOutPath.string());
     }
 
-    // merge results
-    std::string callSplits;
-    std::string callMsplits;
-    if (subfiles[0].size() > 0) {
-        for (unsigned i = 0; i < subfiles[0].size(); ++i) {
-            if (i == 0) {
-                callSplits = "awk '/^@/ {print}' ";
-                callSplits += subfiles[1][i].string() + " > " + splits;
-                callMsplits = "awk '/^@/ {print}' ";
-                callMsplits += subfiles[2][i].string() + " > " + multsplits;
-                system(callSplits.c_str());
-                system(callMsplits.c_str());
-            }
-            callSplits = "awk '!/^@/ {print}' ";
-            callSplits += subfiles[1][i].string() + " >> " + splits;
-            callMsplits = "awk '!/^@/ {print}' ";
-            callMsplits += subfiles[2][i].string() + " >> " + multsplits;
-            system(callSplits.c_str());
-            system(callMsplits.c_str());
-        }
-        // remove tmp folders
-        fs::remove_all(subfiles[0][0].parent_path());
-        fs::remove_all(subfiles[1][0].parent_path());
-        fs::remove_all(subfiles[2][0].parent_path());
+    // Merge results from all processing chunks
+    std::vector<fs::path> splitsChunkPaths;
+    std::vector<fs::path> multiSplitsChunkPaths;
+
+    for (const auto &subFileChunk : subFiles) {
+        splitsChunkPaths.push_back(subFileChunk.splitsOutPath);
+        multiSplitsChunkPaths.push_back(subFileChunk.multSplitsOutPath);
     }
 
-    // generate stats
-    if (params["stats"].as<std::bitset<1>>() == 1) {
-        fs::path statsfile = fs::path(output.get<std::string>("stats"));
-        fs::path splitsPath{splits};
-        fs::path multiSplitsPath{multsplits};
-        std::fstream fs;
-        fs.open(statsfile.string(), std::fstream::app);
-        fs << fs::path(matched).stem().string() << "\t";
-        fs << helper::countUniqueSamEntries(splitsPath) << "\t";
-        fs << helper::countUniqueSamEntries(multiSplitsPath) << "\t";
-        fs << "\n";
-        fs.close();
+    helper::mergeSamFiles(splitsChunkPaths, mergedSplitsOutPath);
+    helper::mergeSamFiles(multiSplitsChunkPaths, mergedMultiSplitsOutPath);
+
+    // Remove temporary files
+    fs::remove_all(subFiles.front().mappingsInPath.parent_path());
+    fs::remove_all(subFiles.front().splitsOutPath.parent_path());
+    fs::remove_all(subFiles.front().multSplitsOutPath.parent_path());
+
+    if (params["stats"].as<bool>()) {
+        fs::path statsFilePath = output.get<std::string>("stats");
+        createStatisticsFile(mergedSplitsOutPath, mergedMultiSplitsOutPath, statsFilePath);
     }
 }

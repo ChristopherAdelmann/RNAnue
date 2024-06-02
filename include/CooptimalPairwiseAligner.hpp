@@ -29,8 +29,8 @@ class CoOptimalPairwiseAligner {
         int score;
         double complementarity;
         double fraction;
-        std::pair<size_t, size_t> begin_positions;
-        std::pair<size_t, size_t> end_positions;
+        std::pair<size_t, size_t> beginPositions;
+        std::pair<size_t, size_t> endPositions;
     };
 
     template <typename sequence_pair_t>
@@ -117,9 +117,10 @@ class CoOptimalPairwiseAligner {
         std::vector<seqan3::detail::trace_directions> traceDirections;
         traceDirections.reserve(elementsN);
 
-        for (const auto &direction : alignmentMatrix) {
-            traceDirections.push_back(direction.value_or(seqan3::detail::trace_directions::none));
-        }
+        std::transform(alignmentMatrix.begin(), alignmentMatrix.end(),
+                       std::back_inserter(traceDirections), [](const auto &direction) {
+                           return direction.value_or(seqan3::detail::trace_directions::none);
+                       });
 
         seqan3::detail::number_rows rowsN{alignmentMatrix.rows()};
         seqan3::detail::number_cols colsN{alignmentMatrix.cols()};
@@ -143,9 +144,11 @@ class CoOptimalPairwiseAligner {
         const size_t alignmentSize = get<0>(alignmentResult).size();
 
         assert(alignmentSize == get<1>(alignmentResult).size());
-        assert(alignmentSize != 0);
 
-        const double complementarity = 1.0 - (static_cast<double>(gapCount) / alignmentSize);
+        double complementarity = 0.0;
+        if (alignmentSize != 0) {
+            complementarity = 1.0 - (static_cast<double>(gapCount) / alignmentSize);
+        }
 
         const int matchCount = alignmentSize - gapCount;
         const double fraction = static_cast<double>(matchCount) /

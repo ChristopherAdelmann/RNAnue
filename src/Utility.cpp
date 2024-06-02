@@ -21,6 +21,39 @@ void helper::createTmpDir(fs::path path) {
     fs::create_directory(path);
 }
 
+void helper::mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
+    if (inputPaths.empty()) {
+        return;
+    }
+
+    std::ofstream outfile(outputPath);
+    if (!outfile.is_open()) {
+        throw std::runtime_error("Could not open file");
+    }
+
+    // Only add the header from the first file
+    std::ifstream firstFile(inputPaths[0]);
+    std::string line;
+    while (std::getline(firstFile, line)) {
+        if (line.empty() || line[0] == '@') {
+            outfile << line << "\n";
+        } else {
+            break;
+        }
+    }
+
+    // Merge the contents of all the files
+    for (const auto& path : inputPaths) {
+        std::ifstream inputFile(path);
+        while (std::getline(inputFile, line)) {
+            if (line.empty() || line[0] == '@') {
+                continue;  // Skip the header lines
+            }
+            outfile << line << "\n";
+        }
+    }
+}
+
 std::size_t helper::countUniqueSamEntries(fs::path path) {
     std::ifstream infile(path);
     if (!infile.is_open()) {
@@ -39,7 +72,12 @@ std::size_t helper::countUniqueSamEntries(fs::path path) {
     return uniqueIDs.size();
 }
 
-std::size_t helper::countSamEntries(fs::path path) {
+std::size_t helper::countSamEntriesSeqAn(fs::path path) {
+    seqan3::sam_file_input fin{path.string(), seqan3::fields<>{}};
+    return std::ranges::distance(fin.begin(), fin.end());
+}
+
+size_t helper::countSamEntries(fs::path path) {
     std::ifstream infile(path);
     if (!infile.is_open()) {
         throw std::runtime_error("Could not open file");
@@ -179,24 +217,6 @@ void helper::splitFileN(fs::path source, fs::path targetPath, int sep) {
 
     system(call.c_str());
 }
-
-/*
-int helper::lineCount(fs::path file, std::string command) {
-    std::string entries = "cat " + file.string() + " " + command + " | wc -l";
-    const char* call = entries.c_str();
-
-    std::array<char, 128> buffer;
-
-    std::string result;
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(call, "r"), pclose);
-    if (!pipe) {
-        throw std::runtime_error("popen() failed!");
-    }
-    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-        result += buffer.data();
-    }
-    return std::stoi(result);
-}*/
 
 std::vector<fs::path> helper::listFiles(fs::path path) {
     std::vector<fs::path> files;  //

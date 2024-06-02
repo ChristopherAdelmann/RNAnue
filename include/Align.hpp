@@ -1,74 +1,43 @@
-#ifndef RNANUE_ALIGN_HPP
-#define RNANUE_ALIGN_HPP
+#pragma once
 
 // Boost
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>
 
-// Class
-#include "Utility.hpp"
-
 // Standard
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include <bitset>
-#include <filesystem>
 #include <iostream>
+#include <optional>
 #include <regex>
 #include <sstream>
 #include <utility>
 
-// Seqan3
-#include <seqan3/alignment/configuration/all.hpp>
-#include <seqan3/alignment/pairwise/align_pairwise.hpp>
-#include <seqan3/alignment/scoring/nucleotide_scoring_scheme.hpp>
-#include <seqan3/alphabet/cigar/cigar.hpp>
-#include <seqan3/alphabet/nucleotide/dna15.hpp>
-#include <seqan3/alphabet/nucleotide/dna4.hpp>
-#include <seqan3/alphabet/nucleotide/dna5.hpp>
-#include <seqan3/core/debug_stream.hpp>
-#include <seqan3/io/sam_file/sam_flag.hpp>
-#include <seqan3/io/sam_file/sam_tag_dictionary.hpp>
-
+// Class
 #include "Logger.hpp"
+#include "Utility.hpp"
 
 namespace pt = boost::property_tree;
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
-
-using namespace seqan3::literals;
-
-typedef std::pair<uint32_t, uint32_t> ReadPos;
-typedef std::pair<uint64_t, uint64_t> GenomePos;
-typedef std::vector<seqan3::cigar> CigarSplt;
-#include <bitset>
-#include <filesystem>
-
-namespace fs = boost::filesystem;
-namespace po = boost::program_options;
-namespace pt = boost::property_tree;
 
 class Align {
    public:
-    // constructor/destructor
-    Align(po::variables_map params);
+    explicit Align(po::variables_map params);
     ~Align() = default;
 
     // alignment
-    void buildIndex();
-    void alignReads(std::string query, std::string mate, std::string matched);
     void start(pt::ptree sample);
-    seqan3::dna5 string2dna5(std::string rna);
 
    private:
     po::variables_map params;
-    std::string segemehlSysCall;
     std::string index;
+    std::string segemehlSysCall;
 
     void sortAlignments(std::string alignmentsPath);
+    void buildIndex();
+    void alignReads(const std::string &query, const std::string &mate, const std::string &matched);
 };
-
-#endif  // RNANUE_ALIGN_HPP

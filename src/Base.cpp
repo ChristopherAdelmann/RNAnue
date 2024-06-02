@@ -22,8 +22,7 @@ Base::Base(po::variables_map _params) : data(_params), params(_params) {
     for (auto &pair : subcallMap) {
         if (subcall == pair.first || subcall == pi::COMPLETE) {
             // Check if the preproc step is skipped
-            if (params[pi::PREPROCESS].as<std::bitset<1>>() == std::bitset<1>(0) &&
-                pair.first == pi::PREPROCESS) {
+            if (!params[pi::PREPROCESS].as<bool>() && pair.first == pi::PREPROCESS) {
                 continue;
             }
 

@@ -3,7 +3,6 @@
 
 #include <math.h>
 
-#include <bitset>
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>
@@ -17,22 +16,12 @@
 #include <tuple>
 #include <vector>
 
+#include "CustomSamTags.hpp"
 #include "Logger.hpp"
 
 namespace pt = boost::property_tree;
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
-
-using seqan3::operator""_tag;
-
-template <>
-struct seqan3::sam_tag_type<"XE"_tag> {
-    using type = std::string;
-};
-template <>
-struct seqan3::sam_tag_type<"XC"_tag> {
-    using type = std::string;
-};
 
 typedef std::pair<std::pair<int, int>, std::string> Feature;
 
@@ -44,7 +33,6 @@ class Analyze {
     std::vector<std::string> interPaths;  // paths of the interactions file
 
    public:
-    Analyze();
     Analyze(po::variables_map params);
 
     std::string retrieveTagValue(std::string tags, std::string tagName, std::string oldValue);

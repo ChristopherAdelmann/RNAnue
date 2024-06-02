@@ -1,5 +1,4 @@
 #include <array>
-#include <bitset>
 #include <iostream>
 #include <string>
 // Boost
@@ -74,16 +73,16 @@ int main(int argc, char* argv[]) {
         general.add_options()("loglevel", po::value<std::string>()->default_value("info"),
                               "log level (info, warning, error)");
         general.add_options()("threads,p", po::value<int>()->default_value(1),
-                              "the number of threads");
-        general.add_options()(
-            "mapquality", po::value<int>()->default_value(20),
-            "lower limit for the quality (Phred Quality Score) of the alignments");
-        general.add_options()("splicing", po::value<std::bitset<1>>()->default_value(0),
-                              "splicing events are considered in the detection of split reads");
+                              "max number of threads");
+        // general.add_options()(
+        //     "mapquality", po::value<int>()->default_value(20),
+        //     "lower limit for the quality (Phred Quality Score) of the alignments");
+        // general.add_options()("splicing", po::bool_switch->default_value(false),
+        //                       "splicing events are considered in the detection of split reads");
 
         po::options_description preprocess("Preprocessing");
         preprocess.add_options()(
-            pi::PREPROCESS.c_str(), po::value<std::bitset<1>>()->default_value(1),
+            pi::PREPROCESS.c_str(), po::bool_switch()->default_value(true),
             "include preprocessing of the raw reads in the workflow of RNAnue");
         preprocess.add_options()("chunksize", po::value<int>()->default_value(100000),
                                  "number of reads to be processed in parallel (default: 100000)");
@@ -139,12 +138,12 @@ int main(int argc, char* argv[]) {
                                                    "minimum length of a spliced fragment")(
             "minsplicecov", po::value<int>()->default_value(80),
             "minimum coverage for spliced transcripts")(
-            "exclclipping", po::value<std::bitset<1>>()->default_value(0),
-            "exclude soft clipping from the alignments")(
-            "unprd", po::value<std::bitset<1>>()->default_value(0),
-            "only for paired-end reads: include unpaired reads")(
-            "unmrg", po::value<std::bitset<1>>()->default_value(0),
-            "only for paired-end reads: include unmerged reads");
+            "exclclipping", po::bool_switch()->default_value(false),
+            "exclude soft clipping from the alignments");  //(
+        // "unprd", po::bool_switch()->default_value(false),
+        // "only for paired-end reads: include unpaired reads")(
+        // "unmrg", po::bool_switch()->default_value(false),
+        // "only for paired-end reads: include unmerged reads");
 
         po::options_description detect("Split Read Calling");
         detect.add_options()("cmplmin", po::value<double>()->default_value(0.0),
@@ -155,9 +154,12 @@ int main(int argc, char* argv[]) {
             "hybridization energy cutoff for split reads");
 
         po::options_description clustering("Clustering");
-        clustering.add_options()("clust", po::value<std::bitset<1>>()->default_value(1),
-                                 "include clustering of the split reads in the workflow of RNAnue")(
-            "clustdist", po::value<int>()->default_value(0), "minimum distance between clusters");
+        // clustering.add_options()
+        //     // ("clust", po::bool_switch()->default_value(true),
+        //     //                          "include clustering of the split reads in the workflow of
+        //     //                          RNAnue")
+        //     ("clustdist", po::value<int>()->default_value(0), "minimum distance between
+        //     clusters");
 
         po::options_description analysis("Analysis");
         analysis.add_options()("features", po::value<std::string>(),
@@ -165,12 +167,13 @@ int main(int argc, char* argv[]) {
 
         po::options_description output("Output");
         output.add_options()(
-            "stats", po::value<std::bitset<1>>()->default_value(0),
+            "stats", po::bool_switch()->default_value(false),
             "whether (=1) or not (=0) to (additionally) create statistics of the libraries")(
-            "outcnt", po::value<std::bitset<1>>()->default_value(0),
-            "whether (=1) or not (=0) to (additionally) save results as count table for DEA")(
-            "outjgf", po::value<std::bitset<1>>()->default_value(0),
-            "whether (=1) or not (=0) to (additionally) save results as JSON Graph FILE (JGF)");
+            "outcnt", po::bool_switch()->default_value(false),
+            "whether (=1) or not (=0) to (additionally) save results as count table for DEA");
+        //(
+        // "outjgf", po::bool_switch()->default_value(false),
+        // "whether (=1) or not (=0) to (additionally) save results as JSON Graph FILE (JGF)");
 
         po::options_description other("Other");
         other.add_options()("version,v", "display the version number")("help,h",

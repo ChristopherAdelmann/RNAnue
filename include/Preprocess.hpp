@@ -8,7 +8,6 @@
 #include <omp.h>
 
 #include <algorithm>
-#include <bitset>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -22,7 +21,6 @@
 #include <vector>
 
 // boost
-#include <boost/dynamic_bitset.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>

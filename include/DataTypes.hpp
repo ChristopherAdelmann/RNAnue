@@ -3,6 +3,7 @@
 
 // Standard
 #include <map>
+#include <optional>
 #include <span>
 #include <unordered_map>
 #include <vector>
@@ -14,6 +15,7 @@
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 #include <seqan3/alphabet/quality/phred42.hpp>
 #include <seqan3/io/record.hpp>
+#include <seqan3/io/sam_file/all.hpp>
 #include <seqan3/utility/type_list/type_list.hpp>
 
 namespace fs = boost::filesystem;
@@ -31,6 +33,20 @@ using QualVector = std::vector<seqan3::phred42>;
 using FASTQFormat = seqan3::type_list<std::string, DNASpan, QualSpan>;
 using FASTQFields = seqan3::fields<seqan3::field::id, seqan3::field::seq, seqan3::field::qual>;
 using FASTQRecord = seqan3::record<FASTQFormat, FASTQFields>;
+
+// SAM
+using sam_field_types =
+    seqan3::type_list<std::string, seqan3::sam_flag, std::optional<int32_t>, std::optional<int32_t>,
+                      uint8_t, std::vector<seqan3::cigar>, seqan3::dna5_vector,
+                      std::vector<seqan3::phred42>, seqan3::sam_tag_dictionary>;
+
+using sam_field_ids =
+    seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
+                   seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
+                   seqan3::field::seq, seqan3::field::qual, seqan3::field::tags>;
+
+using SamRecord = seqan3::sam_record<sam_field_types, sam_field_ids>;
+using SplitRecords = std::vector<SamRecord>;
 
 // data types used in preprocessing (state transition table)
 using Left = std::size_t;                           // left matching block

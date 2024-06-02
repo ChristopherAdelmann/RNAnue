@@ -93,7 +93,7 @@ void Data::preprocDataPrep() {
 void Data::alignDataPrep() {
     Logger::log(LogLevel::INFO, "Retrieving the data for alignment.");
 
-    bool withPreprocessing = params[pi::PREPROCESS].as<std::bitset<1>>() == std::bitset<1>(1);
+    bool withPreprocessing = params[pi::PREPROCESS].as<bool>();
 
     std::optional<fs::path> ctrlsPath = std::nullopt;
     fs::path trtmsPath;
@@ -115,7 +115,7 @@ void Data::alignDataPrep() {
 void Data::detectDataPrep() {
     Logger::log(LogLevel::INFO, "Retrieving the data for detecting split reads.");
 
-    if (params["stats"].as<std::bitset<1>>() == 1) {
+    if (params["stats"].as<bool>()) {
         fs::path statsfile =
             fs::path(params["outdir"].as<std::string>()) / pi::DETECT / "detectStat.txt";
         std::ofstream ofs;
@@ -246,7 +246,7 @@ pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath)
     } else if (subcall == pi::ALIGN) {
         expectedElementCount = 1;
         sampleKeys = {"forward"};
-        if (params[pi::PREPROCESS].as<std::bitset<1>>() == std::bitset<1>(1)) {
+        if (params[pi::PREPROCESS].as<bool>()) {
             dataFiles = filterDirContent(dataFiles, "_preproc.fastq");
         } else {
             dataFiles = filterDirContent(dataFiles, ".fastq");
@@ -336,7 +336,8 @@ pt::ptree Data::retrieveSampleOutputTree(fs::path outConditionDir, pt::ptree inp
             replaceParentDirPath(outConditionDir, matchedInPath).string();
         std::string splitsOutPath = addSuffix(splitsGeneralPath, "splits", {"matched"});
         std::string multsplitsOutPath = addSuffix(splitsGeneralPath, "multsplits", {"matched"});
-        std::string statsOutPath = (outConditionDir / "detectStat.txt").string();
+        std::string statsOutPath =
+            (fs::path(params["outdir"].as<std::string>()) / pi::DETECT / "detectStat.txt").string();
 
         output.put("splits", splitsOutPath);
         output.put("multsplits", multsplitsOutPath);
@@ -447,7 +448,7 @@ void Data::analysis() {
     Analyze anl(params);
     callInAndOut(std::bind(&Analyze::start, &anl, std::placeholders::_1));
 
-    if (params["outcnt"].as<std::bitset<1>>() == std::bitset<1>(1)) {
+    if (params["outcnt"].as<bool>()) {
         anl.createCountTable();
     }
 }

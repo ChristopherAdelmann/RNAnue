@@ -321,7 +321,7 @@ std::vector<fs::path> Detect::splitMappingsFile(const fs::path &mappingsFilePath
                 if (outputFile.is_open()) {
                     outputFile.close();
                 }
-                std::string outFileName = std::format("{}{}.sam", outPathPrefix, ++numBlocks);
+                std::string outFileName = outPathPrefix + std::to_string(++numBlocks) + ".sam";
                 tmpOutFiles.push_back(outFileName);
                 outputFile.open(outFileName, std::ios::out);
                 if (!outputFile.is_open()) {

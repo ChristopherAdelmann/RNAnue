@@ -1,21 +1,20 @@
 ############################################################
 # Dockerfile to build RNAnue container
 # Based on Debian
-# v0.2.0
+# v1.0.0
 ############################################################
 
 # set the base image to debian
 FROM ubuntu:23.04
 # tag version
-ARG VERSION=v0.2
+ARG VERSION=v1.0.0
 # file author
-LABEL authors="Richard A. Schaefer"
+LABEL authors="Christopher Adelmann and Richard A. Schaefer"
 
 # update sources list
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y curl build-essential cmake git pkg-config
 RUN apt-get install -y libbz2-dev zlib1g-dev libncurses5-dev liblzma-dev
-RUN apt-get install -y libboost-all-dev
 
 # install htslib
 WORKDIR /
@@ -34,16 +33,12 @@ WORKDIR /segemehl-0.3.4
 RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 RUN make all
 RUN cp segemehl.x /usr/local/bin
+RUN echo 'alias segemehl="segemehl.x"' >> ~/.bashrc
 
 # retrieve RNAnue
 WORKDIR /
-RUN git clone https://github.com/Ibvt/RNAnue.git
+RUN git clone --recurse-submodules https://github.com/Ibvt/RNAnue.git
 WORKDIR /RNAnue
-
-# retrieve SeqAn
-RUN curl -L https://github.com/seqan/seqan3/releases/download/3.3.0/seqan3-3.3.0-Source.tar.xz -o seqan3-3.3.0-Source.tar.xz
-RUN tar -xvf seqan3-3.3.0-Source.tar.xz && rm seqan3-3.3.0-Source.tar.xz
-RUN mv seqan3-3.3.0-Source seqan3
 
 # install RNAnue
 WORKDIR /RNAnue/build

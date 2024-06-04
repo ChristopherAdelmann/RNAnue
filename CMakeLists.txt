@@ -72,6 +72,32 @@ execute_process(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4
 )
 
+### samtools
+execute_process(
+    COMMAND autoheader
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/samtools
+)
+
+execute_process(
+    COMMAND autoconf -Wno-syntax
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/samtools
+)
+
+execute_process(
+    COMMAND ./configure --prefix=${CMAKE_CURRENT_SOURCE_DIR}/submodules/samtools/build
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/samtools
+)
+
+execute_process(
+    COMMAND make
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/samtools
+)
+
+execute_process(
+    COMMAND make install
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/samtools
+)
+
 # ----------------------------------------------------------------------------
 # Build Setup
 # ----------------------------------------------------------------------------

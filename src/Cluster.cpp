@@ -90,18 +90,22 @@ void Cluster::sumup() {
         if (outputFile.is_open()) {
             outputFile << result[i].elements[0].refid << "\t";
             if (result[i].elements[0].flag == 0) {
-                outputFile << "+" << "\t";
+                outputFile << "+"
+                           << "\t";
             } else {
-                outputFile << "-" << "\t";
+                outputFile << "-"
+                           << "\t";
             }
             outputFile << result[i].elements[0].start << "\t";
             outputFile << result[i].elements[0].end << "\t";
 
             outputFile << result[i].elements[1].refid << "\t";
             if (result[i].elements[1].flag == 0) {
-                outputFile << "+" << "\t";
+                outputFile << "+"
+                           << "\t";
             } else {
-                outputFile << "-" << "\t";
+                outputFile << "-"
+                           << "\t";
             }
             outputFile << result[i].elements[1].start << "\t";
             outputFile << result[i].elements[1].end << "\t";

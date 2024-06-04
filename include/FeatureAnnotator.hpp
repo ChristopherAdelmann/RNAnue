@@ -1,5 +1,4 @@
-#ifndef RNANUE_FEATUREANNOTATOR_HPP
-#define RNANUE_FEATUREANNOTATOR_HPP
+#pragma once
 
 // Boost
 #include <boost/filesystem.hpp>
@@ -28,10 +27,10 @@ class FeatureAnnotator {
     class Results;
 
     std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region) const;
-    Results overlappingFeatureIt(const dtp::GenomicRegion& region);
+    std::optional<Results> overlappingFeatureIt(const dtp::GenomicRegion& region);
 
    private:
-    const FeatureTreeMap featureTreeMap;
+    FeatureTreeMap featureTreeMap;
 
     FeatureTreeMap buildFeatureTreeMap(const fs::path& featureFilePath,
                                        const std::unordered_set<std::string>& includedFeatures,
@@ -40,16 +39,19 @@ class FeatureAnnotator {
 
 class FeatureAnnotator::Results {
    public:
-    Results(const IITree<int, dtp::Feature>& tree, const std::vector<size_t> indices);
+    Results(const IITree<int, dtp::Feature>& tree, const std::vector<size_t>& indices);
 
     struct Iterator;
 
     [[nodiscard]] Iterator begin() const;
     [[nodiscard]] Iterator end() const;
 
+    [[nodiscard]] Iterator cbegin() const;
+    [[nodiscard]] Iterator cend() const;
+
    private:
-    const IITree<int, dtp::Feature>& tree_;
-    const std::vector<size_t> indices_;
+    const IITree<int, dtp::Feature>& tree;
+    std::vector<size_t> indices;
 };
 
 struct FeatureAnnotator::Results::Iterator {
@@ -59,7 +61,7 @@ struct FeatureAnnotator::Results::Iterator {
     using pointer = const dtp::Feature*;
     using iterator_category = std::forward_iterator_tag;
 
-    Iterator(const IITree<int, dtp::Feature>& tree, const std::vector<size_t> indices,
+    Iterator(const IITree<int, dtp::Feature>& tree, const std::vector<size_t>& indices,
              size_t index);
 
     [[nodiscard]] reference operator*() const;
@@ -83,5 +85,3 @@ struct FeatureAnnotator::Results::Iterator {
 };
 
 }  // namespace Annotation
-
-#endif  // RNANUE_FEATUREANNOTATOR_HPP

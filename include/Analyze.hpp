@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "CustomSamTags.hpp"
+#include "FeatureAnnotator.hpp"
 #include "Logger.hpp"
 
 namespace pt = boost::property_tree;
@@ -29,6 +30,7 @@ class Analyze {
    private:
     po::variables_map params;
     std::map<std::string, std::vector<std::pair<std::pair<int, int>, std::string>>> features;
+    Annotation::FeatureAnnotator annotator;
 
     std::vector<std::string> interPaths;  // paths of the interactions file
 

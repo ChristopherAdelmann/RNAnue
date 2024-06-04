@@ -37,7 +37,7 @@ class Align {
     std::string index;
     std::string segemehlSysCall;
 
-    void sortAlignments(std::string alignmentsPath);
+    void sortAlignments(const std::string &alignmentsPath);
     void buildIndex();
     void alignReads(const std::string &query, const std::string &mate, const std::string &matched);
 };

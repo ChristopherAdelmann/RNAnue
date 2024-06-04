@@ -1,5 +1,4 @@
-#ifndef LOGGER_H
-#define LOGGER_H
+#pragma once
 
 #include <iostream>
 #include <map>
@@ -10,7 +9,7 @@
 
 #include "Utility.hpp"
 
-enum class LogLevel { INFO, WARNING, ERROR };
+enum class LogLevel { DEBUG, INFO, WARNING, ERROR };
 
 // TODO Change implementation to use os_syncstream
 class Logger {
@@ -40,6 +39,9 @@ class Logger {
         if (level >= getInstance().logLevel) {
             std::string levelStr;
             switch (level) {
+                case LogLevel::DEBUG:
+                    levelStr = "DEBUG";
+                    break;
                 case LogLevel::INFO:
                     levelStr = "INFO";
                     break;
@@ -63,5 +65,3 @@ class Logger {
     LogLevel logLevel;
     std::mutex logMutex;
 };
-
-#endif  // LOGGER_H

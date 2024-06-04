@@ -1,7 +1,10 @@
 #include "Analyze.hpp"
 
 //
-Analyze::Analyze(po::variables_map _params) : params(_params) {
+Analyze::Analyze(po::variables_map _params)
+    : params(_params),
+      annotator(Annotation::FeatureAnnotator(params["features"].as<std::string>(), {"gene"},
+                                             std::nullopt)) {
     std::string line;
     std::ifstream anno;
     anno.open(params["features"].as<std::string>());
@@ -222,6 +225,24 @@ void Analyze::start(pt::ptree sample) {
         cmpl = 0.0;
 
         for (auto &read : chimericReadPair) {
+            // const auto &referenceID = read.reference_id();
+            // const auto &referenceBeginPosition = read.reference_position();
+
+            // if (!referenceID.has_value() || !referenceBeginPosition.has_value()) {
+            //     continue;
+            // }
+
+            // const auto &referenceEndPosition =
+            //     referenceBeginPosition.value() + read.sequence().size() - 1;
+            // const dtp::GenomicRegion region = dtp::GenomicRegion(
+            //     ref_ids[referenceID.value()], referenceBeginPosition.value(),
+            //     referenceEndPosition);
+
+            // const auto &overlappingFeatures = annotator.overlappingFeatureIt(region);
+            // for (const auto &feature : overlappingFeatures.value()) {
+            //     std::cout << "Feature: " << feature.id << std::endl;
+            // }
+
             qNAME = read.id();
             flag =
                 (static_cast<bool>(read.flag() & seqan3::sam_flag::on_reverse_strand)) ? "-" : "+";
@@ -255,11 +276,14 @@ void Analyze::start(pt::ptree sample) {
                         (end >= featuresSubset[i].first.first &&
                          end <= featuresSubset[i].first.second)) {
                         std::string oldGeneName = geneName;
-                        geneName = retrieveTagValue(featuresSubset[i].second, "ID", geneName);
+                        const auto geneID =
+                            retrieveTagValue(featuresSubset[i].second, "ID", geneName);
                         geneName = retrieveTagValue(featuresSubset[i].second, "gene", geneName);
                         product = retrieveTagValue(featuresSubset[i].second, "product", product);
                         annoStrand =
                             retrieveTagValue(featuresSubset[i].second, "strand", annoStrand);
+
+                        std::cout << "Gene name: " << geneID << std::endl;
 
                         if (oldGeneName != geneName) {
                             overlaps++;
@@ -270,7 +294,7 @@ void Analyze::start(pt::ptree sample) {
                 }
 
                 if (overlaps > 1) {
-                    Logger::log(LogLevel::WARNING, "Ambiguous annotation detected: ", refID, ":",
+                    Logger::log(LogLevel::DEBUG, "Ambiguous annotation detected: ", refID, ":",
                                 start, "-", end);
                     ambiguousOverlaps++;
                 } else if (overlaps == 1) {

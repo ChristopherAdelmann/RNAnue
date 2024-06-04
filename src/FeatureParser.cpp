@@ -1,5 +1,15 @@
 #include "FeatureParser.hpp"
 
+/** @brief Constructs a FeatureParser object.
+ *
+ * This constructor initializes a FeatureParser object with the specified included features and
+ * feature ID flag.
+ *
+ * @param includedFeatures The set of included features. Default is exon.
+ *        Possible values include exon, gene, lncRNA, and other.
+ * @param featureIDFlag The optional feature ID flag. Default is empty.
+ *       Default is ID for GFF files and gene_id for GTF files.
+ */
 Annotation::FeatureParser::FeatureParser(const std::unordered_set<std::string> &includedFeatures,
                                          const std::optional<std::string> &featureIDFlag)
     : includedFeatures(includedFeatures), featureIDFlag(featureIDFlag) {}
@@ -20,9 +30,9 @@ Annotation::FileType Annotation::FeatureParser::getFileType(const fs::path &feat
     std::getline(file, line);
 
     if (line.starts_with("##gff-version")) {
-        return FileType::GFF;
+        return FileType(FileType::GFF);
     } else if (line.starts_with("##gtf-version")) {
-        return FileType::GTF;
+        return FileType(FileType::GTF);
     }
 
     throw std::runtime_error(
@@ -40,6 +50,7 @@ dtp::FeatureMap Annotation::FeatureParser::iterateFeatureFile(
         throw std::runtime_error("Could not open file: " + featureFilePath.string());
     }
 
+    size_t parsedFeatures = 0;
     for (std::string line; std::getline(file, line);) {
         if (line[0] == '#') {
             continue;
@@ -84,7 +95,15 @@ dtp::FeatureMap Annotation::FeatureParser::iterateFeatureFile(
                              .id = identifier.value()};
 
         featureMap[seqid].push_back(feature);
+
+        ++parsedFeatures;
     }
+
+    const std::string includedFeatureTypes =
+        std::accumulate(includedFeatures.begin(), includedFeatures.end(), std::string(),
+                        [](const std::string &a, const std::string &b) { return a + b + ", "; });
+    Logger::log(LogLevel::INFO, "Parsed " + std::to_string(parsedFeatures) +
+                                    " features of type:" + includedFeatureTypes);
 
     return featureMap;
 }

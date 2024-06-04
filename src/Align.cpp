@@ -54,44 +54,12 @@ void Align::buildIndex() {
     index = indexPath.string();
 }
 
-void Align::sortAlignments(std::string alignmentsPath) {
+void Align::sortAlignments(const std::string &alignmentsPath) {
     Logger::log(LogLevel::INFO, "Sorting alignments");
 
-    int const threads = params["threads"].as<int>();
-    std::string tmpHeader = alignmentsPath + ".header";
-    std::string tmpAlignments = alignmentsPath + ".alignments";
-
-    // Command for extracting all header lines
-    std::string headerCommand =
-        "awk '/^@/ {print; next} {exit}' " + alignmentsPath + " > " + tmpHeader;
-    // Command for sorting the alignments
-    std::string sortCommand = "grep -v '^@' " + alignmentsPath + "| grep 'XJ:i:'" +
-                              "| LC_ALL=C sort --parallel=" + std::to_string(threads) +
-                              " -k1,1 -t$'\t' > " + tmpAlignments;
-    // Command for merging the header and the sorted alignments
-    std::string mergeCommand = "cat " + tmpHeader + " " + tmpAlignments + " > " + alignmentsPath;
-
-    int result = system(headerCommand.c_str());
-    if (result != 0) {
-        Logger::log(LogLevel::ERROR, "Failed to execute header extraction");
-        exit(1);
-    }
-
-    result = system(sortCommand.c_str());
-    if (result != 0) {
-        Logger::log(LogLevel::ERROR, "Failed to execute alignment sorting");
-        exit(1);
-    }
-
-    result = system(mergeCommand.c_str());
-    if (result != 0) {
-        Logger::log(LogLevel::ERROR, "Failed to execute header and alignment merging");
-        exit(1);
-    }
-
-    // Remove the temporary files
-    fs::remove(tmpHeader);
-    fs::remove(tmpAlignments);
+    const std::string samtoolsSortCall = "samtools sort -n -@ " +
+                                         std::to_string(params["threads"].as<int>()) + " -o " +
+                                         alignmentsPath + " " + alignmentsPath;
 
     Logger::log(LogLevel::INFO, "Sorting alignments done");
 }

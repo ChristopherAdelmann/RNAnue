@@ -5,7 +5,7 @@ std::optional<EvaluatedSplitRecords> EvaluatedSplitRecords::calculateEvaluatedSp
     SplitRecords &splitRecords, const double minComplementarity,
     const double minComplementarityFraction, const double mfeThreshold) {
     if (splitRecords.size() != 2) {
-        Logger::log(LogLevel::WARNING, "Currently only two split records are supported!");
+        Logger::log(LogLevel::DEBUG, "Currently only two split records are supported!");
         return std::nullopt;
     }
 

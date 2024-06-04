@@ -1,11 +1,11 @@
-#ifndef RNANUE_FEATUREPARSER_HPP
-#define RNANUE_FEATUREPARSER_HPP
+#pragma once
 
 // Boost
 #include <boost/filesystem.hpp>
 
 // Standard
 #include <fstream>
+#include <numeric>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -20,8 +20,7 @@ namespace fs = boost::filesystem;
 class FileType {
    public:
     enum Value : uint8_t { GFF, GTF };
-    FileType() = default;
-    constexpr FileType(Value p_value) : value(p_value) {};
+    explicit constexpr FileType(Value p_value) : value(p_value) {};
 
     constexpr char attrDelim() const { return ';'; }
 
@@ -30,6 +29,8 @@ class FileType {
             case GFF:
                 return "ID";
             case GTF:
+                return "gene_id";
+            default:
                 return "gene_id";
         }
     }
@@ -62,5 +63,3 @@ class FeatureParser {
 };
 
 }  // namespace Annotation
-
-#endif  // RNANUE_FEATUREPARSER_HPP

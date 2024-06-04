@@ -1,6 +1,6 @@
-#ifndef RNANUE_IITREE_HPP
-#define RNANUE_IITREE_HPP
+#pragma once
 
+// Standard
 #include <algorithm>
 #include <vector>
 
@@ -72,8 +72,8 @@ class IITree {
 
    private:
     struct StackCell {
-        size_t x;
-        int k, w;
+        size_t x{};
+        int k{}, w{};
         StackCell() = default;
         StackCell(int k_, size_t x_, int w_) : x(x_), k(k_), w(w_) {}
     };
@@ -110,5 +110,3 @@ class IITree {
         return k - 1;
     }
 };
-
-#endif  // RNANUE_IITREE_HPP

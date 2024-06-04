@@ -44,9 +44,10 @@ class FileType {
 
 class FeatureParser {
    public:
-    FeatureParser(const std::unordered_set<std::string> &includedFeatures,
-                  const std::optional<std::string> &featureIDFlag);
+    explicit FeatureParser(const std::unordered_set<std::string> &includedFeatures,
+                           const std::optional<std::string> &featureIDFlag);
     ~FeatureParser() = default;
+
     dtp::FeatureMap parse(const fs::path featureFilePath) const;
 
    private:

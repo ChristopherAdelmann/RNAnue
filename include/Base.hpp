@@ -1,12 +1,9 @@
-//
-// Created by Richard Albin Schaefer on 1/23/24.
-//
+#pragma once
 
-#ifndef RNANUE_BASE_HPP
-#define RNANUE_BASE_HPP
-
+// Boost
 #include <boost/program_options.hpp>
 
+// Classes
 #include "Constants.hpp"
 #include "Data.hpp"
 #include "Utility.hpp"
@@ -16,13 +13,10 @@ namespace pi = constants::pipelines;
 
 class Base {
    public:
-    Base(po::variables_map _params);
+    explicit Base(po::variables_map _params);
     ~Base() = default;
-    Data data;
 
    private:
     po::variables_map params;
-    //        Data data;
+    Data data;
 };
-
-#endif  // RNANUE_BASE_HPP

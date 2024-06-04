@@ -1,5 +1,4 @@
-#ifndef RNANUE_DATATYPES_HPP
-#define RNANUE_DATATYPES_HPP
+#pragma once
 
 // Standard
 #include <map>
@@ -100,5 +99,3 @@ struct FeatureFields {
           attributes("") {}
 };
 }  // namespace dtp
-
-#endif  // RNANUE_DATATYPES_HPP

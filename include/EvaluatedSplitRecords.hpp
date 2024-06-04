@@ -1,5 +1,6 @@
 #pragma once
 
+// Standard
 #include <ranges>
 
 // seqan3
@@ -45,35 +46,35 @@ static const std::map<NucleotideWindowPair, size_t> crosslinkingScoringScheme = 
     {{"GT"_dna5, "TA"_dna5}, 1},
     {{"GT"_dna5, "TG"_dna5}, 1}};
 
-typedef struct {
+struct InteractionWindow {
     seqan3::dna5_vector forwardWindowNucleotides;
     seqan3::dna5_vector reverseWindowNucleotides;
     std::pair<size_t, size_t> forwardWindowPositions;
     std::pair<size_t, size_t> reverseWindowPositions;
     bool isInterFragment;
-} InteractionWindow;
+};
 
-typedef struct {
+struct CrosslinkingResult {
     double normCrosslinkingScore;
     int preferredCrosslinkingScore;
     int nonPreferredCrosslinkingScore;
     int wobbleCrosslinkingScore;
-} CrosslinkingResult;
+};
 
-typedef struct {
+struct HybridizationResult {
     double energy;
     std::optional<CrosslinkingResult> crosslinkingResult;
-} HybridizationResult;
+};
 
 class EvaluatedSplitRecords {
    public:
+       static std::optional<EvaluatedSplitRecords> calculateEvaluatedSplitRecords(
+        SplitRecords &splitRecords, const double minComplementarity,
+        const double minComplementarityFraction, const double mfeThreshold);
+
     const SplitRecords splitRecords;
     const CoOptimalPairwiseAligner::AlignmentResult complementarityResult;
     const HybridizationResult hybridizationResult;
-
-    static std::optional<EvaluatedSplitRecords> calculateEvaluatedSplitRecords(
-        SplitRecords &splitRecords, const double minComplementarity,
-        const double minComplementarityFraction, const double mfeThreshold);
 
     bool operator<(const EvaluatedSplitRecords &other) const;
     bool operator>(const EvaluatedSplitRecords &other) const;

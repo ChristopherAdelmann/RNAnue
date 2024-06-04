@@ -17,8 +17,6 @@
 #include <seqan3/alphabet/gap/gap.hpp>
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 
-#include "seqan3/core/debug_stream.hpp"
-
 class CoOptimalPairwiseAligner {
    public:
     explicit CoOptimalPairwiseAligner(seqan3::nucleotide_scoring_scheme<int8_t> scoringScheme)
@@ -131,6 +129,7 @@ class CoOptimalPairwiseAligner {
         using std::get;
         seqan3::detail::aligned_sequence_builder builder{get<0>(sequencePair),
                                                          get<1>(sequencePair)};
+
         const auto traceResult =
             builder(CoOptimalPairwiseAligner::tracePath(endPositions, traceMatrix));
 

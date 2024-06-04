@@ -1,13 +1,14 @@
 #pragma once
 
+// Standard
+#include <chrono>
 #include <iostream>
 #include <map>
 #include <mutex>
-#include <optional>
-#include <seqan3/core/debug_stream.hpp>
 #include <string>
 
-#include "Utility.hpp"
+// seqan3
+#include <seqan3/core/debug_stream.hpp>
 
 enum class LogLevel { DEBUG, INFO, WARNING, ERROR };
 
@@ -52,7 +53,7 @@ class Logger {
                     levelStr = "ERROR";
                     break;
             }
-            seqan3::debug_stream << "[" << levelStr << "] " << helper::getTime() << " ";
+            seqan3::debug_stream << "[" << levelStr << "] " << getTime() << " ";
             (seqan3::debug_stream << ... << std::forward<Args>(args)) << "\n";
         }
     }
@@ -64,4 +65,14 @@ class Logger {
 
     LogLevel logLevel;
     std::mutex logMutex;
+
+    static std::string getTime() {
+        const auto now = std::chrono::system_clock::now();
+        const std::time_t current_time = std::chrono::system_clock::to_time_t(now);
+
+        std::ostringstream time_stream;
+        time_stream << std::put_time(std::localtime(&current_time), "[%Y-%m-%d %H:%M:%S]") << " ";
+
+        return time_stream.str();
+    };
 };

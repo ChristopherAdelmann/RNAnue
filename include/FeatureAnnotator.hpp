@@ -4,11 +4,10 @@
 #include <boost/filesystem.hpp>
 
 // Standard
-#include <Iterator>
 #include <cstddef>
 #include <unordered_map>
 
-// RNAnue
+// Classes
 #include "DataTypes.hpp"
 #include "FeatureParser.hpp"
 #include "IITree.hpp"
@@ -19,7 +18,7 @@ using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dtp::Feature>
 
 class FeatureAnnotator {
    public:
-    FeatureAnnotator(fs::path featureFilePath,
+    explicit FeatureAnnotator(fs::path featureFilePath,
                      const std::unordered_set<std::string>& includedFeatures,
                      const std::optional<std::string>& featureIDFlag);
     ~FeatureAnnotator() = default;

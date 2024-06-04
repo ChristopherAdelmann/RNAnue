@@ -1,6 +1,6 @@
-#ifndef CONSTANTS_HPP
-#define CONSTANTS_HPP
+#pragma once
 
+// Standard
 #include <string>
 
 namespace constants {
@@ -18,5 +18,3 @@ const std::string SUBCALL_DESCRIPTION =
     "order.";
 }  // namespace pipelines
 }  // namespace constants
-
-#endif  // CONSTANTS_HPP

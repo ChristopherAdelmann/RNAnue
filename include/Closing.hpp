@@ -1,10 +1,6 @@
-//
-// Created by Richard Albin Schaefer on 1/22/24.
-//
+#pragma once
 
-#ifndef RNANUE_CLOSING_HPP
-#define RNANUE_CLOSING_HPP
-
+// Standard
 #include <string>
 #include <vector>
 
@@ -19,5 +15,3 @@ class Closing {
     std::vector<std::string> retrieveQuotes();
     void printQuote(std::ostream& out);
 };
-
-#endif  // RNANUE_CLOSING_HPP

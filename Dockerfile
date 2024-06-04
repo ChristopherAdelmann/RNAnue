@@ -35,14 +35,15 @@ RUN make all
 RUN cp segemehl.x /usr/local/bin
 RUN echo 'alias segemehl="segemehl.x"' >> ~/.bashrc
 
+# TODO Change to main when release is available
 # retrieve RNAnue
 WORKDIR /
-RUN git clone --recurse-submodules https://github.com/Ibvt/RNAnue.git
+RUN git clone -b develop --recurse-submodules https://github.com/ChristopherAdelmann/RNAnue.git
 WORKDIR /RNAnue
 
 # install RNAnue
 WORKDIR /RNAnue/build
 RUN cmake .. -DCMAKE_BUILD_TYPE=Release
-RUN make
+RUN cmake --build . --parallel 10
 RUN echo 'alias RNAnue="./RNAnue/build/RNAnue"' >> ~/.bashrc
 WORKDIR /

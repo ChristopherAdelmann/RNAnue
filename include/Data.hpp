@@ -1,24 +1,18 @@
-//
-// Created by Richard Albin Schaefer on 1/24/24.
-//
+#pragma once
 
-#ifndef RNANUE_DATA_HPP
-#define RNANUE_DATA_HPP
-
-#include <math.h>
-
+// Boost
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include <boost/program_options.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
-#include <deque>
-#include <fstream>
-#include <iostream>
-#include <limits>
-#include <optional>
-#include <typeinfo>
 
+// Standard
+#include <deque>
+#include <iostream>
+#include <optional>
+
+// Classes
 #include "Align.hpp"
 #include "Analyze.hpp"
 #include "Cluster.hpp"
@@ -39,7 +33,7 @@ using PathVector = std::vector<fs::path>;
 
 class Data {
    public:
-    Data(po::variables_map params);
+    explicit Data(po::variables_map params);
     ~Data() = default;
     //
     template <typename Callable>
@@ -90,5 +84,3 @@ class Data {
     void clustering();
     void analysis();
 };
-
-#endif  // RNANUE_DATA_HPP

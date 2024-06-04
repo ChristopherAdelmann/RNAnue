@@ -14,7 +14,7 @@ void Align::alignReads(const std::string &query, const std::string &mate,
     align += " -Z " + std::to_string(params["minfraglen"].as<int>());
     align += " -t " + std::to_string(params["threads"].as<int>());
     align += " -m " + std::to_string(params["minlen"].as<std::size_t>());
-    align += " -i " + index;
+    align += " -i " + indexPath.string();
     align += " -d " + params["dbref"].as<std::string>();
     align += " -q " + query;
     if (!mate.empty()) {
@@ -34,11 +34,10 @@ void Align::buildIndex() {
     int const threads = params["threads"].as<int>();
 
     fs::path outDir = fs::path(params["outdir"].as<std::string>());
-    fs::path indexPath = outDir / referencePath.replace_extension(".idx").filename();
+    indexPath = outDir / referencePath.replace_extension(".idx").filename();
 
     if (fs::exists(indexPath)) {
         Logger::log(LogLevel::INFO, "Existing index found: ", indexPath);
-        index = indexPath.string();
         return;
     }
 
@@ -50,8 +49,6 @@ void Align::buildIndex() {
         Logger::log(LogLevel::ERROR, "Could not create index for: ", referencePath);
         exit(1);
     }
-
-    index = indexPath.string();
 }
 
 void Align::sortAlignments(const std::string &alignmentsPath) {

@@ -4,11 +4,9 @@
 #include <omp.h>
 
 // seqan3
-#include <seqan3/alignment/configuration/all.hpp>
 #include <seqan3/alignment/scoring/nucleotide_scoring_scheme.hpp>
 #include <seqan3/alphabet/cigar/cigar.hpp>
 #include <seqan3/io/sam_file/all.hpp>
-#include <seqan3/io/sequence_file/input.hpp>
 
 // Standard
 #include <algorithm>
@@ -32,18 +30,11 @@
 #include "Logger.hpp"
 #include "Utility.hpp"
 
-extern "C" {
-#include <ViennaRNA/cofold.h>
-#include <ViennaRNA/utils/basic.h>
-#include <ViennaRNA/utils/strings.h>
-}
-
 namespace po = boost::program_options;
 namespace pt = boost::property_tree;
 namespace fs = boost::filesystem;
 
 using namespace dtp;
-
 class Detect {
    public:
     explicit Detect(po::variables_map params);

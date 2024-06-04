@@ -1,6 +1,6 @@
 #include "Base.hpp"
 
-Base::Base(po::variables_map _params) : data(_params), params(_params) {
+Base::Base(po::variables_map _params) : params(_params), data(_params) {
     std::string subcall = _params["subcall"].as<std::string>();
     // Define a vector of pairs from strings to member function pointers
     std::vector<std::pair<std::string, void (Data::*)()>> subcallMap = {

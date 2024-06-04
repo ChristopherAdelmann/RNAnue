@@ -1,23 +1,23 @@
-#include <array>
-#include <iostream>
-#include <string>
+
 // Boost
 #include <boost/program_options.hpp>
 
-// Seqan
+// Standard
 #include <execinfo.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <seqan3/core/debug_stream.hpp>
+#include <array>
+#include <iostream>
+#include <string>
 
+// Classes
 #include "Base.hpp"
 #include "Closing.hpp"
 #include "Config.hpp"
 #include "Constants.hpp"
-#include "Utility.hpp"
 
 namespace po = boost::program_options;
 

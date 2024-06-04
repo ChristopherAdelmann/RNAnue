@@ -100,6 +100,7 @@ EvaluatedSplitRecords::calculateComplementarity(const seqan3::dna5_vector &seq1,
                                                 const double minComplementarity,
                                                 const double minComplementarityFraction) {
     const auto seq1Reverse = seq1 | std::views::reverse;
+
     const auto results = CoOptimalPairwiseAligner{complementaryScoringScheme()}.getLocalAlignments(
         std::tie(seq1Reverse, seq2));
     return getOptimalAlignment(results, minComplementarity, minComplementarityFraction);

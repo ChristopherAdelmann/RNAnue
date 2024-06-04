@@ -1,7 +1,7 @@
 #include "Preprocess.hpp"
 
 Preprocess::Preprocess(const po::variables_map &params)
-    : readtype(params["readtype"].as<std::string>()),
+    : readType(params["readtype"].as<std::string>()),
       trimPolyG(params["trimpolyg"].as<bool>()),
       adpt5f(params["adpt5f"].as<std::string>()),
       adpt5r(params["adpt5r"].as<std::string>()),
@@ -15,16 +15,16 @@ Preprocess::Preprocess(const po::variables_map &params)
       windowTrimSize(params["wtrim"].as<std::size_t>()),
       minOverlapMerge(params["minovl"].as<int>()),
       missMatchRateMerge(params["mmerge"].as<double>()),
-      threads(params["threads"].as<int>()),
+      threadCount(params["threads"].as<int>()),
       chunkSize(params["chunksize"].as<int>()) {}
 
 void Preprocess::start(pt::ptree sample) {
-    if (readtype == "SE") {
+    if (readType == "SE") {
         processSingleEnd(sample);
-    } else if (readtype == "PE") {
+    } else if (readType == "PE") {
         processPairedEnd(sample);
     } else {
-        Logger::log(LogLevel::ERROR, "Invalid readtype specified: " + readtype);
+        Logger::log(LogLevel::ERROR, "Invalid read type specified: " + readType);
         exit(1);
     }
 }
@@ -52,7 +52,8 @@ void Preprocess::processSingleEnd(pt::ptree sample) {
     const std::vector<Preprocess::Adapter> adapters3 =
         loadAdapters(adpt3f, Preprocess::TrimConfig::Mode::THREE_PRIME);
 
-    processSingleEndFileInChunks(recInPath, recOutPath, adapters5, adapters3, chunkSize, threads);
+    processSingleEndFileInChunks(recInPath, recOutPath, adapters5, adapters3, chunkSize,
+                                 threadCount);
 
     Logger::log(LogLevel::INFO,
                 "Finished pre-processing " + sampleName + " in single-end mode ...");
@@ -97,7 +98,7 @@ void Preprocess::processPairedEnd(pt::ptree sample) {
 
     processPairedEndFileInChunks(forwardRecInPath, reverseRecInPath, mergeRecOutPath,
                                  snglFwdOutPath, snglRevOutPath, adapters5f, adapters3f, adapters5r,
-                                 adapters3r, chunkSize, threads);
+                                 adapters3r, chunkSize, threadCount);
 
     Logger::log(LogLevel::INFO,
                 "Finished pre-processing " + sampleName + " in paired-end mode ...");
@@ -121,7 +122,7 @@ std::vector<Preprocess::Adapter> Preprocess::loadAdapters(
 
     if (std::filesystem::exists(filenameOrSequence)) {
         seqan3::sequence_file_input adapterFile{filenameOrSequence};
-        for (auto &record : adapterFile) {
+        for (const auto &record : adapterFile) {
             adapters.push_back(
                 Preprocess::Adapter{record.sequence(), missMatchRateTrim, trimmingMode});
         }
@@ -132,7 +133,7 @@ std::vector<Preprocess::Adapter> Preprocess::loadAdapters(
         adapters.push_back(Preprocess::Adapter{adapterSequence, missMatchRateTrim, trimmingMode});
     }
 
-    for (auto &adapter : adapters) {
+    for (const auto &adapter : adapters) {
         Logger::log(LogLevel::INFO, "Loaded adapter: " + filenameOrSequence + " with " +
                                         std::to_string(adapter.maxMissMatchFraction) +
                                         " allowed miss-match fraction.");
@@ -678,12 +679,14 @@ void Preprocess::processPairedEndRecordChunk(Preprocess::PairedEndFastqChunk &ch
                 continue;
             }
 
-            if (filtFwd) {
-                chunk.recordsSnglFwdRes.push_back(std::move(record1));
-            }
-            if (filtRev) {
-                chunk.recordsSnglRevRes.push_back(std::move(record2));
-            }
+            continue;
+        }
+
+        if (filtFwd) {
+            chunk.recordsSnglFwdRes.push_back(std::move(record1));
+        }
+        if (filtRev) {
+            chunk.recordsSnglRevRes.push_back(std::move(record2));
         }
     }
 }

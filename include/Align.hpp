@@ -34,7 +34,7 @@ class Align {
 
    private:
     po::variables_map params;
-    std::string index;
+    fs::path indexPath;
     std::string segemehlSysCall;
 
     void sortAlignments(const std::string &alignmentsPath);

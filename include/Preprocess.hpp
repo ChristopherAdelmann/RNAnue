@@ -1,23 +1,13 @@
-#ifndef PREPROCESS_H
-#define PREPROCESS_H
+#pragma once
 
-#include "Logger.hpp"
-#include "Utility.hpp"
-
-// openMP
-#include <omp.h>
-
+// Standard
 #include <algorithm>
-#include <filesystem>
-#include <fstream>
 #include <iostream>
-#include <map>
 #include <mutex>
+#include <numeric>
 #include <optional>
 #include <ranges>
-#include <set>
 #include <thread>
-#include <tuple>
 #include <vector>
 
 // boost
@@ -25,60 +15,53 @@
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>
 
-// seqan
-#include <numeric>
-#include <ranges>
+// seqan3
 #include <seqan3/alignment/pairwise/align_pairwise.hpp>
 #include <seqan3/alignment/scoring/all.hpp>
-#include <seqan3/alphabet/nucleotide/dna4.hpp>
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 #include <seqan3/alphabet/views/char_to.hpp>
 #include <seqan3/alphabet/views/complement.hpp>
-#include <seqan3/core/debug_stream.hpp>
-#include <seqan3/io/exception.hpp>
 #include <seqan3/io/sequence_file/all.hpp>
-#include <seqan3/utility/views/chunk.hpp>
-#include <seqan3/utility/views/slice.hpp>
+
+// Class
+#include "Logger.hpp"
+#include "Utility.hpp"
 
 namespace pt = boost::property_tree;
 namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 
-typedef std::tuple<std::string, int, std::pair<int, int>, std::size_t> State;
-typedef std::vector<State> States;
-
-typedef std::map<std::pair<int, char>, std::tuple<int, int, int, int>> LookupTable;
-
-typedef std::map<std::pair<std::string, std::string>, LookupTable> Adapters;
-
-typedef std::vector<fs::path> PathVector;
-typedef std::pair<PathVector, PathVector> PathVectorPair;
-
 using seqan3::operator""_dna5;
 class Preprocess {
+   public:
+    explicit Preprocess(const po::variables_map &params);
+    ~Preprocess() = default;
+
+    void start(pt::ptree sample);
+
    private:
-    const std::string readtype;
+    std::string readType;
 
-    const bool trimPolyG;
+    bool trimPolyG;
 
-    const std::string adpt5f;
-    const std::string adpt5r;
-    const std::string adpt3f;
-    const std::string adpt3r;
-    const double missMatchRateTrim;
-    const int minOverlapTrim;
+    std::string adpt5f;
+    std::string adpt5r;
+    std::string adpt3f;
+    std::string adpt3r;
+    double missMatchRateTrim;
+    int minOverlapTrim;
 
-    const int minMeanPhread;
-    const std::size_t minLen;
+    int minMeanPhread;
+    std::size_t minLen;
 
-    const std::size_t minWindowPhread;
-    const std::size_t windowTrimSize;
+    std::size_t minWindowPhread;
+    std::size_t windowTrimSize;
 
-    const int minOverlapMerge;
-    const double missMatchRateMerge;
+    int minOverlapMerge;
+    double missMatchRateMerge;
 
-    const size_t threads;
-    const size_t chunkSize;
+    size_t threadCount;
+    size_t chunkSize;
 
     struct SingleEndFastqChunk {
         std::vector<seqan3::sequence_file_input<>::record_type> records;
@@ -149,10 +132,4 @@ class Preprocess {
         std::string const &snglRevOutPath, const std::vector<Adapter> &adapters5f,
         const std::vector<Adapter> &adapters3f, const std::vector<Adapter> &adapters5r,
         const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads);
-
-   public:
-    Preprocess(const po::variables_map &params);
-
-    void start(pt::ptree sample);
 };
-#endif

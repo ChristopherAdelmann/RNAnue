@@ -1,3 +1,3 @@
-#include "CoOptimalPairwiseAligner.hpp"
+#include "CooptimalPairwiseAligner.hpp"
 
 // TODO Split up header and implementation

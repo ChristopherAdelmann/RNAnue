@@ -38,39 +38,68 @@ endif()
 add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
 
 ### ViennaRNA
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(MACOSX_UNIVERSAL_BINARY --enable-universal-binary)
+include (FindPkgConfig)
+pkg_check_modules (ViennaRNA RNAlib2)
+
+if (NOT ViennaRNA_FOUND)
+    include (ExternalProject)
+    ExternalProject_Add (
+            "ViennaRNA"
+            PREFIX "${CMAKE_CURRENT_BINARY_DIR}/ext/ViennaRNA"
+            LOG_DOWNLOAD 1
+            DOWNLOAD_NO_PROGRESS 1
+            TIMEOUT 240
+            URL https://github.com/ViennaRNA/ViennaRNA/releases/download/v2.4.17/ViennaRNA-2.4.17.tar.gz
+            URL_HASH MD5=530b5ce7caf0e7cf58535cad22265215
+            LOG_CONFIGURE 1
+            USES_TERMINAL_CONFIGURE 1
+            CONFIGURE_COMMAND <SOURCE_DIR>/configure CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER}
+                --prefix=<INSTALL_DIR> --without-swig --without-kinfold --disable-simd
+                --without-forester --without-rnalocmin --without-doc --without-tutorial
+            LOG_BUILD 1
+            USES_TERMINAL_BUILD 1
+            BUILD_IN_SOURCE 1
+            BUILD_COMMAND make -j
+            LOG_INSTALL 1
+    )
+    ExternalProject_Get_Property (ViennaRNA INSTALL_DIR)
 endif()
 
-set(VIENNA_BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4/build)
-file(MAKE_DIRECTORY ${VIENNA_BUILD_DIR})
+# set(VIENNA_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/submodules/ViennaRNA/build)
+# file(MAKE_DIRECTORY ${VIENNA_BUILD_DIR})
 
-execute_process(
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4/configure
-        --prefix=${VIENNA_BUILD_DIR}
-        --enable-lto
-        --without-perl
-        --without-python
-        --without-doc
-        --without-kinfold
-        --without-forester
-        --without-kinwalker
-        --without-cla
-        --without-cla-pdf
-        --without-doc-html
-        --without-doc-pdf
-        --without-tutorial
-        --without-tutorial-html
-        --without-tutorial-pdf
-        CXX=$ENV{CXX}
-        CC=$ENV{CC}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4
-)
+# add_custom_target(
+#     BuildViennaRNA ALL
+#     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/configure
+#         --prefix=${VIENNA_BUILD_DIR}
+#         --enable-lto
+#         --without-perl
+#         --without-python
+#         --without-doc
+#         --without-kinfold
+#         --without-forester
+#         --without-kinwalker
+#         --without-cla
+#         --without-cla-pdf
+#         --without-doc-html
+#         --without-doc-pdf
+#         --without-tutorial
+#         --without-tutorial-html
+#         --without-tutorial-pdf
+#         --enable-universal-binary
+#         CXX=$ENV{CXX}
+#         CC=$ENV{CC}
+#     COMMAND make
+#     COMMAND make install
+#     WORKING_DIRECTORY ${VIENNA_BUILD_DIR}
+# )
 
-execute_process(
-    COMMAND make
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/ViennaRNA-2.6.4
-)
+# add_library(ViennaRNA STATIC IMPORTED GLOBAL)
+# set_property(TARGET ViennaRNA PROPERTY
+#     IMPORTED_LOCATION ${VIENNA_BUILD_DIR}/src/ViennaRNA/libRNA.a
+# )
+
+# add_dependencies(ViennaRNA BuildViennaRNA)
 
 ### samtools
 execute_process(
@@ -103,19 +132,24 @@ execute_process(
 # ----------------------------------------------------------------------------
 
 file(GLOB SOURCES "./src/*.cpp")
-include_directories(
-./include
-${VIENNA_BUILD_DIR}/include
-) 
+include_directories(include) 
 
 add_executable (RNAnue ${SOURCES})
 
-target_link_libraries (RNAnue seqan3::seqan3)
-target_link_libraries (RNAnue Boost::program_options Boost::filesystem Boost::property_tree Boost::foreach Boost::dynamic_bitset)
-target_link_libraries(RNAnue ${VIENNA_BUILD_DIR}/lib/libRNA.a)
+target_link_libraries (RNAnue PRIVATE seqan3::seqan3)
+target_link_libraries (RNAnue PRIVATE Boost::program_options Boost::filesystem Boost::property_tree Boost::foreach Boost::dynamic_bitset)
+
+if (ViennaRNA_FOUND)
+    target_include_directories (RNAnue SYSTEM PUBLIC ${ViennaRNA_INCLUDE_DIRS})
+    target_link_libraries (RNAnue PUBLIC ${ViennaRNA_LDFLAGS})
+else ()
+    add_dependencies (RNAnue ViennaRNA)
+    target_include_directories (RNAnue SYSTEM PUBLIC ${INSTALL_DIR}/include)
+    target_link_libraries (RNAnue PUBLIC ${INSTALL_DIR}/lib/libRNA.a)
+endif ()
 
 if(OpenMP_CXX_FOUND)
-    target_link_libraries (RNAnue OpenMP::OpenMP_CXX)
+    target_link_libraries (RNAnue PRIVATE OpenMP::OpenMP_CXX)
 endif()
 
 target_compile_options(RNAnue PRIVATE -Wno-interference-size)

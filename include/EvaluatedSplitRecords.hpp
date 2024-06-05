@@ -10,7 +10,7 @@
 #include <seqan3/alphabet/views/to_char.hpp>
 #include <seqan3/utility/range/to.hpp>
 
-// varna
+// viennaRNA
 extern "C" {
 #include <ViennaRNA/cofold.h>
 #include <ViennaRNA/utils/basic.h>
@@ -68,7 +68,7 @@ struct HybridizationResult {
 
 class EvaluatedSplitRecords {
    public:
-       static std::optional<EvaluatedSplitRecords> calculateEvaluatedSplitRecords(
+    static std::optional<EvaluatedSplitRecords> calculateEvaluatedSplitRecords(
         SplitRecords &splitRecords, const double minComplementarity,
         const double minComplementarityFraction, const double mfeThreshold);
 

@@ -27,6 +27,8 @@ void Align::alignReads(const std::string &query, const std::string &mate,
         Logger::log(LogLevel::ERROR, "Could not align reads");
         exit(1);
     }
+
+    sortAlignmentsHTSLIB(matched, matched);
 }
 
 void Align::buildIndex() {
@@ -57,6 +59,26 @@ void Align::sortAlignments(const std::string &alignmentsPath) {
     const std::string samtoolsSortCall = "samtools sort -n -@ " +
                                          std::to_string(params["threads"].as<int>()) + " -o " +
                                          alignmentsPath + " " + alignmentsPath;
+
+    Logger::log(LogLevel::INFO, "Sorting alignments done");
+}
+
+void Align::sortAlignmentsHTSLIB(const std::string &alignmentsPath,
+                                 const std::string &sortedAlignmentsPath) {
+    Logger::log(LogLevel::INFO, "Sorting alignments");
+    const size_t SORT_DEFAULT_MEGS_PER_THREAD = 768;
+    const size_t maxMem = SORT_DEFAULT_MEGS_PER_THREAD << 20;
+    const htsFormat inFmt = {sequence_data, sam, {1, 6}, no_compression, 0, 0};
+    const htsFormat outFmt = {sequence_data, sam, {1, 6}, no_compression, 0, 0};
+    const fs::path tempDir = fs::path(alignmentsPath).parent_path();
+    int ret = bam_sort_core_ext(QueryName, "", 0, true, true, alignmentsPath.c_str(),
+                                tempDir.c_str(), sortedAlignmentsPath.c_str(), "wb", maxMem,
+                                params["threads"].as<int>(), &inFmt, &outFmt, "", true, 0);
+
+    if (ret != 0) {
+        Logger::log(LogLevel::ERROR, "Could not sort alignments");
+        exit(1);
+    }
 
     Logger::log(LogLevel::INFO, "Sorting alignments done");
 }

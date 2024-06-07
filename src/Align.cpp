@@ -6,29 +6,44 @@ Align::Align(po::variables_map params)
 void Align::alignReads(const std::string &query, const std::string &mate,
                        const std::string &matched) {
     Logger::log(LogLevel::INFO, "Aligning reads");
-    std::string align = segemehlSysCall;
-    align += " -S ";  // split mode
-    align += " -A " + std::to_string(params["accuracy"].as<int>());
-    align += " -U " + std::to_string(params["minfragsco"].as<int>());
-    align += " -W " + std::to_string(params["minsplicecov"].as<int>());
-    align += " -Z " + std::to_string(params["minfraglen"].as<int>());
-    align += " -t " + std::to_string(params["threads"].as<int>());
-    align += " -m " + std::to_string(params["minlen"].as<std::size_t>());
-    align += " -i " + indexPath.string();
-    align += " -d " + params["dbref"].as<std::string>();
-    align += " -q " + query;
+
+    std::vector<std::string> args = {"-S",
+                                     "-A",
+                                     std::to_string(params["accuracy"].as<int>()),
+                                     "-U",
+                                     std::to_string(params["minfragsco"].as<int>()),
+                                     "-W",
+                                     std::to_string(params["minsplicecov"].as<int>()),
+                                     "-Z",
+                                     std::to_string(params["minfraglen"].as<int>()),
+                                     "-t",
+                                     std::to_string(params["threads"].as<int>()),
+                                     "-m",
+                                     std::to_string(params["minlen"].as<std::size_t>()),
+                                     "-i",
+                                     indexPath.string(),
+                                     "-d",
+                                     params["dbref"].as<std::string>(),
+                                     "-q",
+                                     query};
+
     if (!mate.empty()) {
-        align += " -p " + mate;
-    }
-    align += " -o " + matched;
-    const char *alignCallChar = align.c_str();
-    int result = system(alignCallChar);
-    if (result != 0) {
-        Logger::log(LogLevel::ERROR, "Could not align reads");
-        exit(1);
+        args.insert(args.end(), {"-p", mate});
     }
 
-    sortAlignmentsHTSLIB(matched, matched);
+    args.insert(args.end(), {"-o", matched});
+
+    std::vector<char *> c_args(args.size() + 1);
+    std::transform(args.begin(), args.end(), c_args.begin(),
+                   [](std::string &arg) { return const_cast<char *>(arg.c_str()); });
+    c_args.back() = nullptr;  // argv must be null terminated
+
+    int result = segemehl(c_args.size() - 1, c_args.data());
+
+    if (result != 0) {
+        Logger::log(LogLevel::ERROR, "Could not align reads");
+        throw std::runtime_error("Could not align reads");
+    }
 }
 
 void Align::buildIndex() {
@@ -36,7 +51,8 @@ void Align::buildIndex() {
     int const threads = params["threads"].as<int>();
 
     fs::path outDir = fs::path(params["outdir"].as<std::string>());
-    indexPath = outDir / referencePath.replace_extension(".idx").filename();
+    fs::path indexFileName = referencePath.filename().replace_extension(".idx");
+    indexPath = outDir / indexFileName;
 
     if (fs::exists(indexPath)) {
         Logger::log(LogLevel::INFO, "Existing index found: ", indexPath);
@@ -44,36 +60,39 @@ void Align::buildIndex() {
     }
 
     Logger::log(LogLevel::INFO, "Building index");
-    std::string generateIndexCall = segemehlSysCall + " -x " + indexPath.string() + "-t" +
-                                    std::to_string(threads) + " -d " + referencePath.string();
-    int result = system(generateIndexCall.c_str());
+    std::vector<std::string> args = {"-x", indexPath.string(),     "-d", referencePath.string(),
+                                     "-t", std::to_string(threads)};
+
+    std::vector<char *> c_args(args.size() + 1);
+    std::transform(args.begin(), args.end(), c_args.begin(),
+                   [](std::string &arg) { return const_cast<char *>(arg.c_str()); });
+    c_args.back() = nullptr;  // argv must be null terminated
+
+    int result = segemehl(c_args.size() - 1, c_args.data());
+
     if (result != 0) {
         Logger::log(LogLevel::ERROR, "Could not create index for: ", referencePath);
         exit(1);
     }
 }
 
-void Align::sortAlignments(const std::string &alignmentsPath) {
+void Align::sortAlignmentsByQueryName(const std::string &alignmentsPath,
+                                      const std::string &sortedAlignmentsPath) {
     Logger::log(LogLevel::INFO, "Sorting alignments");
 
-    const std::string samtoolsSortCall = "samtools sort -n -@ " +
-                                         std::to_string(params["threads"].as<int>()) + " -o " +
-                                         alignmentsPath + " " + alignmentsPath;
-
-    Logger::log(LogLevel::INFO, "Sorting alignments done");
-}
-
-void Align::sortAlignmentsHTSLIB(const std::string &alignmentsPath,
-                                 const std::string &sortedAlignmentsPath) {
-    Logger::log(LogLevel::INFO, "Sorting alignments");
+    // TODO Adapt output format to selection from config
     const size_t SORT_DEFAULT_MEGS_PER_THREAD = 768;
     const size_t maxMem = SORT_DEFAULT_MEGS_PER_THREAD << 20;
     const htsFormat inFmt = {sequence_data, sam, {1, 6}, no_compression, 0, 0};
     const htsFormat outFmt = {sequence_data, sam, {1, 6}, no_compression, 0, 0};
+
     const fs::path tempDir = fs::path(alignmentsPath).parent_path();
-    int ret = bam_sort_core_ext(QueryName, "", 0, true, true, alignmentsPath.c_str(),
-                                tempDir.c_str(), sortedAlignmentsPath.c_str(), "wb", maxMem,
-                                params["threads"].as<int>(), &inFmt, &outFmt, "", true, 0);
+    char emptyStr[] = "";
+    const char wbStr[] = "wb";
+
+    int ret = bam_sort_core_ext(QueryName, emptyStr, 0, true, true, alignmentsPath.c_str(),
+                                tempDir.c_str(), sortedAlignmentsPath.c_str(), wbStr, maxMem,
+                                params["threads"].as<int>(), &inFmt, &outFmt, emptyStr, true, 0);
 
     if (ret != 0) {
         Logger::log(LogLevel::ERROR, "Could not sort alignments");
@@ -95,7 +114,7 @@ void Align::start(pt::ptree sample) {
 
     alignReads(inFwd, "", outMatched);
 
-    // sortAlignments(outMatched);
+    sortAlignmentsByQueryName(outMatched, outMatched);
 
     // TODO implement unpaired read analysis with all downstream steps
     // if (params["readtype"].as<std::string>() == "PE") {

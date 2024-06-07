@@ -66,13 +66,31 @@ add_custom_target(
         --without-tutorial-html
         --without-tutorial-pdf
         --enable-universal-binary
-    COMMAND make
+    COMMAND make CXX=$ENV{CXX} CC=$ENV{CC}
     COMMAND make install
     WORKING_DIRECTORY ${VIENNA_BUILD_DIR}
 )
 
 ### htslib
 include(htslib)
+
+### segemehl
+# set(SEGEMEHL_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/submodules/segemehl/build)
+# set(SEGEMEHL_BIN_DIR ${CMAKE_CURRENT_BINARY_DIR}/submodules/segemehl/bin)
+# file(MAKE_DIRECTORY ${SEGEMEHL_BUILD_DIR})
+# file(MAKE_DIRECTORY ${SEGEMEHL_BIN_DIR})
+
+# set(ENV{PKG_CONFIG_PATH} ${CMAKE_CURRENT_BINARY_DIR}/submodules/htslib-install/lib/pkgconfig:ENV{PKG_CONFIG_PATH})
+
+# add_custom_target(
+#     segemehl ALL
+#     COMMAND make all TARGETDIR=${SEGEMEHL_BIN_DIR} BUILDDIR=${SEGEMEHL_BUILD_DIR} CXX=$ENV{CXX} CC=$ENV{CC} PKG_CONFIG_PATH=${CMAKE_CURRENT_BINARY_DIR}/submodules/htslib-install/lib/pkgconfig
+#     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/segemehl
+# )
+
+# add_dependencies(segemehl htslib)
+
+add_subdirectory(submodules/segemehl)
 
 # ----------------------------------------------------------------------------
 # Build Setup
@@ -100,7 +118,7 @@ add_dependencies(RNAnue ViennaRNA)
 target_include_directories (RNAnue PRIVATE ${VIENNA_BUILD_DIR}/include)
 target_link_libraries (RNAnue PRIVATE ${VIENNA_BUILD_DIR}/lib/libRNA.a)
 
-target_link_libraries (RNAnue PRIVATE seqan3::seqan3 Boost::program_options Boost::filesystem Boost::property_tree Boost::foreach Boost::dynamic_bitset)
+target_link_libraries (RNAnue PRIVATE seqan3::seqan3 Boost::program_options Boost::filesystem Boost::property_tree Boost::foreach Boost::dynamic_bitset segemehl)
 
 if(OpenMP_CXX_FOUND)
     target_link_libraries (RNAnue PRIVATE OpenMP::OpenMP_CXX)

@@ -73,23 +73,6 @@ add_custom_target(
 
 ### htslib
 include(htslib)
-
-### segemehl
-# set(SEGEMEHL_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/submodules/segemehl/build)
-# set(SEGEMEHL_BIN_DIR ${CMAKE_CURRENT_BINARY_DIR}/submodules/segemehl/bin)
-# file(MAKE_DIRECTORY ${SEGEMEHL_BUILD_DIR})
-# file(MAKE_DIRECTORY ${SEGEMEHL_BIN_DIR})
-
-# set(ENV{PKG_CONFIG_PATH} ${CMAKE_CURRENT_BINARY_DIR}/submodules/htslib-install/lib/pkgconfig:ENV{PKG_CONFIG_PATH})
-
-# add_custom_target(
-#     segemehl ALL
-#     COMMAND make all TARGETDIR=${SEGEMEHL_BIN_DIR} BUILDDIR=${SEGEMEHL_BUILD_DIR} CXX=$ENV{CXX} CC=$ENV{CC} PKG_CONFIG_PATH=${CMAKE_CURRENT_BINARY_DIR}/submodules/htslib-install/lib/pkgconfig
-#     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/segemehl
-# )
-
-# add_dependencies(segemehl htslib)
-
 add_subdirectory(submodules/segemehl)
 
 # ----------------------------------------------------------------------------
@@ -103,22 +86,31 @@ list(APPEND SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort/bam_sort.c
                     ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort/bam.c
                     ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort/sam_utils.c)
 
-include_directories(include ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort) 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include 
+                    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort) 
 
-add_executable (RNAnue ${SOURCES} ${SMATOOLS_SOURCES})
+add_executable (RNAnue  ${SOURCES} 
+                        ${SMATOOLS_SOURCES})
 
+### htslib
 if(NOT HTSlib_FOUND)
     add_dependencies(RNAnue htslib)
 endif()
-
 target_link_libraries(RNAnue PRIVATE ${HTSlib_LIBRARIES})
 target_include_directories(RNAnue PRIVATE ${HTSlib_INCLUDE_DIRS} ${HTSlib_INCLUDE_DIRS}/htslib)
+
 
 add_dependencies(RNAnue ViennaRNA)
 target_include_directories (RNAnue PRIVATE ${VIENNA_BUILD_DIR}/include)
 target_link_libraries (RNAnue PRIVATE ${VIENNA_BUILD_DIR}/lib/libRNA.a)
 
-target_link_libraries (RNAnue PRIVATE seqan3::seqan3 Boost::program_options Boost::filesystem Boost::property_tree Boost::foreach Boost::dynamic_bitset segemehl)
+target_link_libraries (RNAnue PRIVATE   seqan3::seqan3 
+                                        Boost::program_options 
+                                        Boost::filesystem 
+                                        Boost::property_tree 
+                                        Boost::foreach 
+                                        Boost::dynamic_bitset 
+                                        segemehl)
 
 if(OpenMP_CXX_FOUND)
     target_link_libraries (RNAnue PRIVATE OpenMP::OpenMP_CXX)
@@ -136,7 +128,6 @@ set(CPACK_VERBATIM_VARIABLES TRUE)
 set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME})
 
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE)
-#set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_SOURCE_DIR}/README.md)
 
 if(APPLE)
     message(STATUS "Building for MacOS")

@@ -71,5 +71,5 @@ class Detect {
                                                                const fs::path &splitsFilePath,
                                                                const int mappingRecordsCount);
     std::vector<fs::path> splitMappingsFile(const fs::path &mappingsFilePath,
-                                            const fs::path &tmpInPath, const int entries) const;
+                                            const fs::path &tmpInPath, const int entries);
 };

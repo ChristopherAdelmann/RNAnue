@@ -19,13 +19,13 @@ using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dtp::Feature>
 class FeatureAnnotator {
    public:
     explicit FeatureAnnotator(fs::path featureFilePath,
-                     const std::unordered_set<std::string>& includedFeatures,
-                     const std::optional<std::string>& featureIDFlag);
+                              const std::unordered_set<std::string>& includedFeatures,
+                              const std::optional<std::string>& featureIDFlag);
     ~FeatureAnnotator() = default;
 
     class Results;
 
-    std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region) const;
+    std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region);
     std::optional<Results> overlappingFeatureIt(const dtp::GenomicRegion& region);
 
    private:
@@ -33,7 +33,7 @@ class FeatureAnnotator {
 
     FeatureTreeMap buildFeatureTreeMap(const fs::path& featureFilePath,
                                        const std::unordered_set<std::string>& includedFeatures,
-                                       const std::optional<std::string>& featureIDFlag) const;
+                                       const std::optional<std::string>& featureIDFlag);
 };
 
 class FeatureAnnotator::Results {

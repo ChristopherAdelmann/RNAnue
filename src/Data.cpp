@@ -440,8 +440,6 @@ void Data::clustering() {
     // create Object of CLustering
     Cluster clu(params);
     callInAndOut(std::bind(&Cluster::start, &clu, std::placeholders::_1));
-
-    clu.sumup();
 }
 
 void Data::analysis() {

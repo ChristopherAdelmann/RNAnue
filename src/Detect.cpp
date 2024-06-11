@@ -1,7 +1,5 @@
 #include "Detect.hpp"
 
-using namespace seqan3::literals;
-
 Detect::Detect(po::variables_map params)
     : params(params),
       minReadLength(params["minlen"].as<std::size_t>()),
@@ -194,6 +192,14 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readR
     return splitRecords;
 }
 
+/**
+ * Constructs split records for a list of records with one or more elements that comprise a splitted
+ * read.
+ *
+ * @param readRecords The vector of read records.
+ * @return An optional containing the split records if construction is successful, otherwise
+ * std::nullopt.
+ */
 std::optional<SplitRecords> Detect::constructSplitRecords(
     const std::vector<SamRecord> &readRecords) {
     // Number of expected split records for whole read
@@ -223,6 +229,16 @@ std::optional<SplitRecords> Detect::constructSplitRecords(
     return splitRecords;
 }
 
+/**
+ * Retrieves the split records from the given vector of read records.
+ *
+ * This function groups the read records based on their "HI" tag and constructs split records
+ * for each group. It then evaluates the split records and returns the best evaluated split records.
+ *
+ * @param readRecords The vector of read records.
+ * @return An optional containing the best evaluated split records, or an empty optional if no
+ *         split records were found.
+ */
 std::optional<EvaluatedSplitRecords> Detect::getSplitRecords(
     const std::vector<SamRecord> &readRecords) {
     std::unordered_map<size_t, std::vector<SamRecord>> recordHitGroups{};
@@ -292,8 +308,7 @@ std::vector<Detect::ChunkedInOutFilePaths> Detect::prepareInputOutputFiles(
 }
 
 std::vector<fs::path> Detect::splitMappingsFile(const fs::path &mappingsFilePath,
-                                                const fs::path &tmpInPath,
-                                                const int entries) const {
+                                                const fs::path &tmpInPath, const int entries) {
     std::ifstream inputFile(mappingsFilePath, std::ios::in);
     if (!inputFile.is_open()) {
         throw std::runtime_error("Could not open the input file.");

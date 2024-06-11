@@ -59,8 +59,6 @@ int main(int argc, char* argv[]) {
         po::options_description general("General");
         general.add_options()("readtype,r", po::value<std::string>(&readType)->default_value("SE"),
                               "single-end (=SE) or paired-end (=PE) reads");
-        general.add_options()("segemehl,g", po::value<std::string>()->default_value("segemehl"),
-                              "path to the segemehl executable or alias (default: segemehl)");
         general.add_options()(
             "trtms,t", po::value<std::string>(),
             "folder containing the raw reads of the treatments including replicates "
@@ -154,12 +152,11 @@ int main(int argc, char* argv[]) {
             "hybridization energy cutoff for split reads");
 
         po::options_description clustering("Clustering");
-        // clustering.add_options()
-        //     // ("clust", po::bool_switch()->default_value(true),
-        //     //                          "include clustering of the split reads in the workflow of
-        //     //                          RNAnue")
-        //     ("clustdist", po::value<int>()->default_value(0), "minimum distance between
-        //     clusters");
+        clustering.add_options()
+            // ("clust", po::bool_switch()->default_value(true),
+            //                          "include clustering of the split reads in the workflow of
+            //                          RNAnue")
+            ("clustdist", po::value<int>()->default_value(0), "minimum distance between clusters");
 
         po::options_description analysis("Analysis");
         analysis.add_options()("features", po::value<std::string>(),

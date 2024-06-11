@@ -3,194 +3,118 @@
 //
 #include "Cluster.hpp"
 
-#include <iostream>
+Cluster::Cluster(po::variables_map params) : params(params) {}
 
-Cluster::Cluster(po::variables_map params) : params(params) { result = {}; }
-
-void Cluster::iterate(std::string splits) {
+void Cluster::iterate(std::string splitsInPath) {
     // input .sam file of sngl splits
-    seqan3::sam_file_input fin{
-        splits,
-        seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
-                       seqan3::field::ref_offset, seqan3::field::seq, seqan3::field::tags>{}};
+    seqan3::sam_file_input splitsIn{splitsInPath, sam_field_ids{}};
 
-    int chunks = 5;
-    std::vector<ReadCluster> subset;
-
-    std::vector<seqan3::sam_flag> flags;
-    std::vector<std::string> refIDs;
     std::vector<std::optional<int32_t>> refOffsets;
 
+    auto &header = splitsIn.header();
     std::vector<size_t> ref_lengths{};
-    for (auto &info : fin.header().ref_id_info) {
-        ref_lengths.push_back(std::get<0>(info));
-    }
+    std::ranges::transform(header.ref_id_info, std::back_inserter(ref_lengths),
+                           [](auto const &info) { return std::get<0>(info); });
 
-    std::deque<std::string> ref_ids = fin.header().ref_ids();
+    const std::deque<std::string> &referenceIDs = header.ref_ids();
 
-    uint32_t flag, start, end;
-    for (auto &&rec : fin | seqan3::views::chunk(2)) {
-        ReadCluster cl;
-        for (auto &split : rec) {
-            std::optional<int32_t> refID = split.reference_id();
-            uint32_t flag{0};  // SAMFLAG
-            if (static_cast<bool>(split.flag() & seqan3::sam_flag::on_reverse_strand)) {
-                flag = 16;
-            }
-            // start & end
-            uint32_t start = split.reference_position().value();
-            uint32_t end = start + split.sequence().size() - 1;
+    int subsetChunkSize = 5;
+    std::vector<ReadCluster> subset;
+    subset.reserve(subsetChunkSize);
 
-            Segment s(ref_ids[refID.value()], flag, start, end);
-            cl.elements.push_back(s);
+    for (auto &&records : splitsIn | seqan3::views::chunk(2)) {
+        std::optional<Segment> segment1 = Segment::fromSamRecord(*records.begin());
+        std::optional<Segment> segment2 = Segment::fromSamRecord(*(++records.begin()));
+
+        if (!segment1.has_value() || !segment2.has_value()) {
+            continue;
         }
 
-        // always have the left segment occurring first
-        if (cl.elements[0].start > cl.elements[1].start) {
-            Segment cl0 = cl.elements[0];
-            cl.elements[0] = cl.elements[1];
-            cl.elements[1] = cl0;
+        auto cluster = ReadCluster::fromSegments(segment1.value(), segment2.value());
+
+        if (!cluster.has_value()) {
+            continue;
         }
-        subset.push_back(cl);
 
-        // std::cout << "size of subset: " << subset.size() << std::endl;
+        subset.push_back(std::move(cluster.value()));
 
-        if (subset.size() == chunks) {
-            overlaps(subset);
-            result.insert(result.end(), subset.begin(), subset.end());
-            // std::cout << "results size: " << result.size() << std::endl;
+        if (subset.size() == subsetChunkSize) {
+            mergeOverlappingClusters(subset);
+            result.insert(result.end(), std::make_move_iterator(subset.begin()),
+                          std::make_move_iterator(subset.end()));
             subset.clear();
         }
     }
-    if (subset.size() > 0) {
-        overlaps(subset);
-        result.insert(result.end(), subset.begin(), subset.end());
-        //  std::cout << "results size: " << result.size() << std::endl;
-        subset.clear();
+
+    if (!subset.empty()) {
+        mergeOverlappingClusters(subset);
+        result.insert(result.end(), std::make_move_iterator(subset.begin()),
+                      std::make_move_iterator(subset.end()));
     }
 
-    overlaps(result);
-    // std::cout << "final results size: " << result.size() << std::endl;
+    mergeOverlappingClusters(result);
+
+    writeClustersToFile(referenceIDs);
 }
 
-//
-bool Cluster::startPosCmp(ReadCluster &a, ReadCluster &b) {
-    return a.elements[0].start < b.elements[0].start;
-}
-
-void Cluster::sumup() {
-    Logger::log(LogLevel::INFO, "Writing clusters to file");
-
+void Cluster::writeClustersToFile(const std::deque<std::string> &referenceIDs) {
     // retrieve output directory
-    fs::path output = fs::path(params["outdir"].as<std::string>()) / fs::path("clustering");
-    fs::path cluster_results = output / fs::path("clusters.tab");
+    fs::path output = fs::path(params["outdir"].as<std::string>()) / constants::pipelines::CLUSTER;
+    fs::path cluster_results = output / "clusters.tab";
+
+    Logger::log(LogLevel::INFO, "Writing clusters to file: ", cluster_results.string());
+
+    const auto getStrand = [](const uint32_t flag) -> std::string { return flag == 0 ? "+" : "-"; };
+    const auto getReferenceID = [&referenceIDs](const uint32_t referenceIDIndex) -> std::string {
+        return referenceIDs[referenceIDIndex];
+    };
 
     std::ofstream outputFile(cluster_results.string());
-    for (unsigned i = 0; i < result.size(); ++i) {
-        if (outputFile.is_open()) {
-            outputFile << result[i].elements[0].refid << "\t";
-            if (result[i].elements[0].flag == 0) {
-                outputFile << "+"
-                           << "\t";
-            } else {
-                outputFile << "-"
-                           << "\t";
-            }
-            outputFile << result[i].elements[0].start << "\t";
-            outputFile << result[i].elements[0].end << "\t";
-
-            outputFile << result[i].elements[1].refid << "\t";
-            if (result[i].elements[1].flag == 0) {
-                outputFile << "+"
-                           << "\t";
-            } else {
-                outputFile << "-"
-                           << "\t";
-            }
-            outputFile << result[i].elements[1].start << "\t";
-            outputFile << result[i].elements[1].end << "\t";
-            outputFile << result[i].count << "\t";
-            outputFile << (result[i].elements[0].end + 1) - result[i].elements[0].start << "\t";
-            outputFile << (result[i].elements[1].end + 1) - result[i].elements[1].start << "\n";
-        }
+    if (!outputFile.is_open()) {
+        Logger::log(LogLevel::ERROR, "Could not open file: ", cluster_results.string());
+        exit(1);
     }
+
+    outputFile << "clustID\tfst_seg_chr\tfst_seg_strd\tfst_seg_strt\tfst_seg_end\t"
+                  "sec_seg_chr\tsec_seg_strd\tsec_seg_strt\tsec_seg_end\tno_splits\t"
+                  "fst_seg_len\tsec_seg_len\n";
+
+    size_t clusterID = 1;
+    for (const auto &cluster : result) {
+        outputFile << "cluster" << clusterID++ << "\t";
+
+        outputFile << getReferenceID(cluster.elements.first.referenceIDIndex) << "\t";
+        outputFile << getStrand(cluster.elements.first.flag) << "\t";
+        outputFile << cluster.elements.first.start << "\t";
+        outputFile << cluster.elements.first.end << "\t";
+
+        outputFile << getReferenceID(cluster.elements.second.referenceIDIndex) << "\t";
+        outputFile << getStrand(cluster.elements.second.flag) << "\t";
+        outputFile << cluster.elements.second.start << "\t";
+        outputFile << cluster.elements.second.end << "\t";
+
+        outputFile << cluster.count << "\t";
+        outputFile << (cluster.elements.first.end + 1) - cluster.elements.first.start << "\t";
+        outputFile << (cluster.elements.second.end + 1) - cluster.elements.second.start << "\n";
+    }
+
     outputFile.close();
-
-    /*
-    for(unsigned i=0;clusters.size();++i) {
-        //std::cout << clusters[i].count << std::endl;
-    }*/
 }
-void Cluster::overlaps(std::vector<ReadCluster> &clusterlist) {
-    std::sort(clusterlist.begin(), clusterlist.end());
 
-    uint32_t s1Start, s1End, s2Start, s2End;
-    uint32_t xs1Start, xs1End, xs2Start, xs2End;
+void Cluster::mergeOverlappingClusters(std::vector<ReadCluster> &clusters) {
+    // sort by first segment (and the second)
+    std::ranges::sort(clusters, std::less{});
 
-    for (unsigned i = 0; i < clusterlist.size(); ++i) {
-        //        std::cout << clusterlist[i].elements[0].start << std::endl;
-        for (unsigned j = i + 1; j < clusterlist.size(); ++j) {
-            uint32_t s1Start = clusterlist[i].elements[0].start + 1;
-            uint32_t s1End = clusterlist[i].elements[0].end + 1;
-            uint32_t s2Start = clusterlist[i].elements[1].start + 1;
-            uint32_t s2End = clusterlist[i].elements[1].end + 1;
+    int clusterDistance = params["clustdist"].as<int>();
 
-            uint32_t xs1Start = clusterlist[j].elements[0].start + 1;
-            uint32_t xs1End = clusterlist[j].elements[0].end + 1;
-            uint32_t xs2Start = clusterlist[j].elements[1].start + 1;
-            uint32_t xs2End = clusterlist[j].elements[1].end + 1;
-
-            /*
-            std::cout << "######### i " << std::endl;
-            std::cout << "first" << std::endl;
-            std::cout << "start: " << s1Start << std::endl;
-            std::cout << "end: " << s1End << std::endl;
-            std::cout << "second" << std::endl;
-            std::cout << "start: " << s2Start << std::endl;
-            std::cout << "end: " << s2End << std::endl;
-
-            std::cout << "######### j " << std::endl;
-            std::cout << "first" << std::endl;
-            std::cout << "start: " << xs1Start << std::endl;
-            std::cout << "end: " << xs1End << std::endl;
-            std::cout << "second" << std::endl;
-            std::cout << "start: " << xs2Start << std::endl;
-            std::cout << "end: " << xs2End << std::endl;
-            */
-
-            if ((xs1Start <= s1End)) {  // first split matches
-                if ((s2Start >= xs2Start) && (s2Start <= xs2End) ||
-                    (xs2Start >= s2Start) && (xs2Start <= s2End)) {
-                    // refid needs to match
-                    if ((clusterlist[i].elements[0].refid == clusterlist[j].elements[0].refid) &&
-                        (clusterlist[i].elements[1].refid == clusterlist[j].elements[1].refid)) {
-                        // .. same with strand
-                        if ((clusterlist[i].elements[0].flag == clusterlist[j].elements[0].flag) &&
-                            (clusterlist[i].elements[1].flag == clusterlist[j].elements[1].flag)) {
-                            ReadCluster ncl = clusterlist[j];
-                            ncl.count += 1;
-
-                            if (s1Start < xs1Start) {
-                                ncl.elements[0].start = s1Start;
-                            }
-                            if (s1End > xs1End) {
-                                ncl.elements[0].end = s1End;
-                            }
-                            if (s2Start < xs2Start) {
-                                ncl.elements[1].start = s2Start;
-                            }
-                            if (s2End > xs2End) {
-                                ncl.elements[1].end = s2End;
-                            }
-
-                            clusterlist[j] = ncl;
-
-                            // remove cluster
-                            clusterlist.erase(clusterlist.begin() + i);
-                            // std::remove(clusterlist.begin(),clusterlist.end(),clusterlist[i]);
-                        }
-                    }
-                }
+    for (size_t i = 0; i < clusters.size(); ++i) {
+        for (size_t j = i + 1; j < clusters.size(); ++j) {
+            // checks if the first overlaps
+            if (clusters[i].overlaps(clusters[j], clusterDistance)) {
+                clusters[j].merge(clusters[i]);
+                clusters.erase(clusters.begin() + i);  // remove cluster
+                --i;
+                break;
             }
         }
     }
@@ -198,15 +122,8 @@ void Cluster::overlaps(std::vector<ReadCluster> &clusterlist) {
 
 void Cluster::start(pt::ptree sample) {
     pt::ptree input = sample.get_child("input");
-    // pt::ptree output = sample.get_child("output");
 
     std::string splits = input.get<std::string>("splits");
-    // std::string clusters = output.get<std::string>("clusters");
-
-    // std::cout << clusters << std::endl;
-    // std::cout << splits << std::endl;
 
     iterate(splits);
-
-    // std::cout << "within start" << splits << std::endl;
 }

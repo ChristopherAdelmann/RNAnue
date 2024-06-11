@@ -1,7 +1,6 @@
 #include "Align.hpp"
 
-Align::Align(po::variables_map params)
-    : params(params), segemehlSysCall(params["segemehl"].as<std::string>()) {}
+Align::Align(po::variables_map params) : params(params) {}
 
 void Align::alignReads(const std::string &query, const std::string &mate,
                        const std::string &matched) {

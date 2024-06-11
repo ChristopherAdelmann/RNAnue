@@ -9,7 +9,7 @@ FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
 
 Annotation::FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
     const fs::path &featureFilePath, const std::unordered_set<std::string> &includedFeatures,
-    const std::optional<std::string> &featureIDFlag) const {
+    const std::optional<std::string> &featureIDFlag) {
     Annotation::FeatureTreeMap newFeatureTreeMap;
 
     dtp::FeatureMap featureMap =
@@ -29,8 +29,7 @@ Annotation::FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
     return newFeatureTreeMap;
 }
 
-std::vector<dtp::Feature> FeatureAnnotator::overlappingFeatures(
-    const dtp::GenomicRegion &region) const {
+std::vector<dtp::Feature> FeatureAnnotator::overlappingFeatures(const dtp::GenomicRegion &region) {
     std::vector<dtp::Feature> features;
     if (auto it = featureTreeMap.find(region.seqid); it != featureTreeMap.end()) {
         std::vector<size_t> indices;

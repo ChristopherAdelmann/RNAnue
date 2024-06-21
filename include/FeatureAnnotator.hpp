@@ -4,7 +4,8 @@
 #include <boost/filesystem.hpp>
 
 // Standard
-#include <cstddef>
+#include <algorithm>
+#include <optional>
 #include <unordered_map>
 
 // Classes
@@ -18,22 +19,26 @@ using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dtp::Feature>
 
 class FeatureAnnotator {
    public:
-    explicit FeatureAnnotator(fs::path featureFilePath,
-                              const std::unordered_set<std::string>& includedFeatures,
-                              const std::optional<std::string>& featureIDFlag);
+    FeatureAnnotator(fs::path featureFilePath, const std::vector<std::string>& includedFeatures,
+                     const std::string& featureIDFlag);
+    FeatureAnnotator(fs::path featureFilePath, const std::vector<std::string>& includedFeatures);
+    explicit FeatureAnnotator(const dtp::FeatureMap& featureMap);
+
     ~FeatureAnnotator() = default;
 
     class Results;
 
     std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region);
-    std::optional<Results> overlappingFeatureIt(const dtp::GenomicRegion& region);
+    Results overlappingFeatureIterator(const dtp::GenomicRegion& region);
+    std::optional<dtp::Feature> getBestOverlappingFeature(const dtp::GenomicRegion& region);
 
    private:
     FeatureTreeMap featureTreeMap;
 
     FeatureTreeMap buildFeatureTreeMap(const fs::path& featureFilePath,
-                                       const std::unordered_set<std::string>& includedFeatures,
+                                       const std::vector<std::string>& includedFeatures,
                                        const std::optional<std::string>& featureIDFlag);
+    FeatureTreeMap buildFeatureTreeMap(const dtp::FeatureMap& featureMap);
 };
 
 class FeatureAnnotator::Results {
@@ -44,9 +49,6 @@ class FeatureAnnotator::Results {
 
     [[nodiscard]] Iterator begin() const;
     [[nodiscard]] Iterator end() const;
-
-    [[nodiscard]] Iterator cbegin() const;
-    [[nodiscard]] Iterator cend() const;
 
    private:
     const IITree<int, dtp::Feature>& tree;
@@ -60,8 +62,8 @@ struct FeatureAnnotator::Results::Iterator {
     using pointer = const dtp::Feature*;
     using iterator_category = std::forward_iterator_tag;
 
-    Iterator(const IITree<int, dtp::Feature>& tree, const std::vector<size_t>& indices,
-             size_t index);
+    explicit Iterator(const IITree<int, dtp::Feature>* tree, const std::vector<size_t>& indices,
+                      size_t index);
 
     [[nodiscard]] reference operator*() const;
     [[nodiscard]] pointer operator->() const;
@@ -70,17 +72,17 @@ struct FeatureAnnotator::Results::Iterator {
     Iterator operator++(int);
 
     friend bool operator==(const Iterator& a, const Iterator& b) {
-        return a.current_index_ == b.current_index_;
+        return a.current_index == b.current_index;
     }
 
     friend bool operator!=(const Iterator& a, const Iterator& b) {
-        return a.current_index_ != b.current_index_;
+        return a.current_index != b.current_index;
     }
 
    private:
-    const IITree<int, dtp::Feature>& tree_;
-    const std::vector<size_t> indices_;
-    size_t current_index_;
+    const IITree<int, dtp::Feature>* tree;
+    std::vector<size_t> indices;
+    size_t current_index;
 };
 
 }  // namespace Annotation

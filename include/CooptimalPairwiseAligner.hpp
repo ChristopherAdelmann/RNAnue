@@ -144,9 +144,12 @@ class CoOptimalPairwiseAligner {
 
         assert(alignmentSize == get<1>(alignmentResult).size());
 
+        // TODO The number to add depends on the scoring scheme and gap penalties
+        const size_t matchingCount = gapCount > 0 ? ((score + alignmentSize + gapCount + 2) / 2)
+                                                  : ((score + alignmentSize) / 2);
         double complementarity = 0.0;
         if (alignmentSize != 0) {
-            complementarity = 1.0 - (static_cast<double>(gapCount) / alignmentSize);
+            complementarity = (static_cast<double>(matchingCount) / alignmentSize);
         }
 
         const int matchCount = alignmentSize - gapCount;

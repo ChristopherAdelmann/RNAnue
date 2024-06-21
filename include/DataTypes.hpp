@@ -57,45 +57,43 @@ using State = std::tuple<std::string, int, std::pair<int, int>, std::size_t>;
 
 using Bases = std::map<std::pair<std::string, DNAVector>, DNAVector>;
 using STTEntry = std::tuple<int, int, int, int>;
+
+enum class Strand { FORWARD = '+', REVERSE = '-' };
 struct GenomicRegion {
-    std::string seqid;
-    int start;
-    int end;
-    GenomicRegion(const std::string &seqid, int start, int end)
-        : seqid(seqid), start(start), end(end) {}
+    std::string referenceID;
+    size_t startPosition;
+    size_t endPosition;
+    std::optional<Strand> strand;
+
+    GenomicRegion(const std::string &referenceID, size_t startPosition, size_t endPosition,
+                  std::optional<Strand> strand = std::nullopt)
+        : referenceID(referenceID),
+          startPosition(startPosition),
+          endPosition(endPosition),
+          strand(strand) {}
+
+    static GenomicRegion fromSamRecord(const SamRecord &record,
+                                       const std::deque<std::string> &referenceIDs) {
+        const auto isReverseStrand =
+            static_cast<bool>(record.flag() & seqan3::sam_flag::on_reverse_strand);
+        const Strand strand{isReverseStrand ? Strand::REVERSE : Strand::FORWARD};
+
+        return GenomicRegion{
+            referenceIDs[record.reference_id().value()],
+            (size_t)record.reference_position().value(),
+            (size_t)(record.reference_position().value() + record.sequence().size() - 1), strand};
+    }
 };
 
 // FeaturesFields for GFF3/GTF
 struct Feature {
-    std::string seqid;
+    std::string referenceID;
     std::string type;
-    size_t start;
-    size_t end;
-    char strand;
+    size_t startPosition;
+    size_t endPosition;
+    Strand strand;
     std::string id;
 };
 
 using FeatureMap = std::unordered_map<std::string, std::vector<Feature>>;
-
-struct FeatureFields {
-    std::string seqid;
-    std::string source;
-    std::string type;
-    int start;
-    int end;
-    std::string score;
-    char strand;
-    char phase;
-    std::string attributes;
-    FeatureFields()
-        : seqid(""),
-          source(""),
-          type(""),
-          start(-1),
-          end(-1),
-          score(""),
-          strand(' '),
-          phase(' '),
-          attributes("") {}
-};
 }  // namespace dtp

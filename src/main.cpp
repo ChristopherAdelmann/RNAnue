@@ -37,6 +37,15 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
     return os;
 }
 
+namespace std {
+std::ostream& operator<<(std::ostream& os, const std::vector<std::string>& vec) {
+    for (auto item : vec) {
+        os << item << " ";
+    }
+    return os;
+}
+}  // namespace std
+
 void handler(int sig) {
     std::array<void*, 10> array;
     size_t size = backtrace(array.data(), 10);
@@ -72,11 +81,19 @@ int main(int argc, char* argv[]) {
                               "log level (info, warning, error)");
         general.add_options()("threads,p", po::value<int>()->default_value(1),
                               "max number of threads");
-        // general.add_options()(
-        //     "mapquality", po::value<int>()->default_value(20),
-        //     "lower limit for the quality (Phred Quality Score) of the alignments");
+        general.add_options()("features", po::value<std::string>(),
+                              "annotation/features in .GFF3 format");
+        general.add_options()("featuretypes",
+                              po::value<std::vector<std::string>>()->multitoken()->default_value(
+                                  std::vector<std::string>{"gene"}),
+                              "feature types to be considered for the analysis, can be specified "
+                              "as --featuretypes gene rRNA ... (default: gene)");
+        general.add_options()(
+            "mapqmin", po::value<int>()->default_value(20),
+            "lower limit for the quality (Phred Quality Score) of the alignments");
         // general.add_options()("splicing", po::bool_switch->default_value(false),
-        //                       "splicing events are considered in the detection of split reads");
+        //                       "splicing events are considered in the detection of split
+        //                       reads");
 
         po::options_description preprocess("Preprocessing");
         preprocess.add_options()(
@@ -159,8 +176,6 @@ int main(int argc, char* argv[]) {
             ("clustdist", po::value<int>()->default_value(0), "minimum distance between clusters");
 
         po::options_description analysis("Analysis");
-        analysis.add_options()("features", po::value<std::string>(),
-                               "annotation/features in .GFF3 format");
 
         po::options_description output("Output");
         output.add_options()(

@@ -120,7 +120,7 @@ void Data::detectDataPrep() {
             fs::path(params["outdir"].as<std::string>()) / pi::DETECT / "detectStat.txt";
         std::ofstream ofs;
         ofs.open(statsfile.string());
-        ofs << "sample\tsplits\tmultisplits" << std::endl;
+        ofs << "sample\tsplits\tsingletons" << std::endl;
         ofs.close();
     }
 
@@ -227,8 +227,8 @@ void Data::retrieveDataStructure(const GroupsPath &groupsPath) {
 pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath) {
     std::string subcall = params["subcall"].as<std::string>();
 
-    int expectedElementCount = 0;
-    int elementCounter = 0;
+    size_t expectedElementCount = 0;
+    size_t elementCounter = 0;
 
     pt::ptree condition, samples;
 
@@ -256,9 +256,15 @@ pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath)
         sampleKeys = {"matched"};
         dataFiles = filterDirContent(dataFiles, "matched.sam");
     } else if (subcall == pi::CLUSTER || subcall == pi::ANALYZE) {
-        expectedElementCount = 1;
-        sampleKeys = {"splits"};
-        dataFiles = filterDirContent(dataFiles, "_splits.sam");
+        expectedElementCount = 2;
+        sampleKeys = {"splits", "singletonunassigned"};
+        dataFiles = filterDirContent(dataFiles, "_splits.sam", "singletonUnassigned.sam");
+    }
+
+    if (expectedElementCount != dataFiles.size()) {
+        Logger::log(LogLevel::ERROR, "Expected ", expectedElementCount, " files, but found ",
+                    dataFiles.size(), " files in ", conditionPath.string());
+        exit(EXIT_FAILURE);
     }
 
     fs::path outConditionDir = fs::path(params["outdir"].as<std::string>()) /
@@ -336,19 +342,31 @@ pt::ptree Data::retrieveSampleOutputTree(fs::path outConditionDir, pt::ptree inp
             replaceParentDirPath(outConditionDir, matchedInPath).string();
         std::string splitsOutPath = addSuffix(splitsGeneralPath, "splits", {"matched"});
         std::string multsplitsOutPath = addSuffix(splitsGeneralPath, "multsplits", {"matched"});
+        std::string singletonUnassignedOutPath =
+            addSuffix(splitsGeneralPath, "singletonUnassigned", {"matched"});
         std::string statsOutPath =
             (fs::path(params["outdir"].as<std::string>()) / pi::DETECT / "detectStat.txt").string();
+        fs::path singletonTranscriptCountsOutPath =
+            addSuffix(splitsGeneralPath, "singletonTranscriptCounts", {"matched"});
+        singletonTranscriptCountsOutPath.replace_extension(".tsv");
 
         output.put("splits", splitsOutPath);
         output.put("multsplits", multsplitsOutPath);
         output.put("stats", statsOutPath);
+        output.put("singleton", singletonTranscriptCountsOutPath.string());
+        output.put("singletonUnassigned", singletonUnassignedOutPath);
     } else if (params["subcall"].as<std::string>() == pi::CLUSTER) {
         fs::path splits = fs::path(inputTree.get<std::string>("input.splits"));
-        splits.replace_extension(".txt");
+        splits.replace_extension(".tab");
         std::string clu = replaceParentDirPath(outConditionDir, splits).string();
         std::string clusters = addSuffix(clu, "_clusters", {"_splits"});
-        // output.put("clusters", clusters); # no individual outputs for each -
-        // instead one file
+        std::string clusterTranscriptCounts =
+            addSuffix(clu, "_clusterTranscriptCounts", {"_splits"});
+        fs::path supplementaryFeatures = addSuffix(clu, "_supplementaryFeatures", {"_splits"});
+        supplementaryFeatures.replace_extension(".gff");
+        output.put("clusters", clusters);
+        output.put("clustertranscriptcounts", clusterTranscriptCounts);
+        output.put("supplementaryfeatures", supplementaryFeatures.string());
     } else if (params["subcall"].as<std::string>() == pi::ANALYZE) {
         fs::path splits = fs::path(inputTree.get<std::string>("input.splits"));
         splits.replace_extension(".txt");
@@ -447,7 +465,7 @@ void Data::analysis() {
     callInAndOut(std::bind(&Analyze::start, &anl, std::placeholders::_1));
 
     if (params["outcnt"].as<bool>()) {
-        anl.createCountTable();
+        // anl.createCountTable();
     }
 }
 
@@ -463,13 +481,18 @@ PathVector Data::getSortedDirContent(fs::path _path) {
     return content;
 }
 
-// filters content of directory
-PathVector Data::filterDirContent(PathVector vec, std::string sestr) {
-    PathVector content;  // create new vector
-    std::copy_if(vec.begin(), vec.end(), std::back_inserter(content), [&sestr](fs::path x) {
-        // only return if fs::path contains sestr
-        return x.string().find(sestr) != std::string::npos;
-    });
+template <typename... Seeds>
+PathVector Data::filterDirContent(const PathVector &paths, Seeds... seeds) {
+    PathVector content;
+    std::vector<std::string> seedsVec{seeds...};
+
+    for (const auto &seed : seedsVec) {
+        std::copy_if(paths.begin(), paths.end(), std::back_inserter(content), [&seed](fs::path x) {
+            // only return if fs::path contains seed
+            return x.string().find(seed) != std::string::npos;
+        });
+    }
+
     return content;
 }
 

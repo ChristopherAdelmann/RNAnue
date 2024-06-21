@@ -87,12 +87,13 @@ dtp::FeatureMap Annotation::FeatureParser::iterateFeatureFile(
 
         const std::string seqid = tokens.value()[0];
 
-        dtp::Feature feature{.seqid = seqid,
-                             .type = tokens_v[2],
-                             .start = std::stoul(tokens_v[3]),
-                             .end = std::stoul(tokens_v[4]),
-                             .strand = tokens_v[6][0],
-                             .id = identifier.value()};
+        dtp::Feature feature{
+            .referenceID = seqid,
+            .type = tokens_v[2],
+            .startPosition = std::stoul(tokens_v[3]),
+            .endPosition = std::stoul(tokens_v[4]),
+            .strand = tokens_v[6][0] == '+' ? dtp::Strand::FORWARD : dtp::Strand::REVERSE,
+            .id = identifier.value()};
 
         featureMap[seqid].push_back(feature);
 

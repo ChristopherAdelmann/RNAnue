@@ -75,7 +75,8 @@ class Data {
     // determine content of directory and sort it (return as vector)
     PathVector getSortedDirContent(fs::path _path);
     // filter content of directory to only include files containing search string
-    PathVector filterDirContent(PathVector vec, std::string sestr);
+    template <typename... Seeds>
+    PathVector filterDirContent(const PathVector& paths, Seeds... seeds);
     std::string addSuffix(std::string _file, std::string _suffix, std::vector<std::string> _keys);
 
     void preproc();

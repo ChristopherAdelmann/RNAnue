@@ -46,26 +46,44 @@ class Detect {
         fs::path mappingsInPath;
         fs::path splitsOutPath;
         fs::path multSplitsOutPath;
+        fs::path unassignedSingletonRecordsOutPath;
     };
+    using TranscriptCounts = std::unordered_map<std::string, size_t>;
+
+    struct Results {
+        TranscriptCounts transcriptCounts;
+        size_t splitFragmentsCount{0};
+        size_t singletonFragmentsCount{0};
+    };
+
     po::variables_map params;
 
     size_t minReadLength;
-    bool excludeSoftClipping;
     double minComplementarity;
     double minFraction;
+    int minMapQuality;
+    bool excludeSoftClipping;
 
-    void iterateSortedMappingsFile(const std::string &mappingsInPath, const std::string &splitsPath,
-                                   const std::string &multSplitsPath);
-    void processReadRecords(const std::vector<SamRecord> &readRecords, auto &splitsOut,
-                            [[maybe_unused]] auto &multiSplitsOut);
+    Annotation::FeatureAnnotator featureAnnotator;
+
+    Results iterateSortedMappingsFile(const std::string &mappingsInPath,
+                                      const std::string &splitsPath,
+                                      const std::string &multSplitsPath,
+                                      const fs::path &unassignedSingletonRecordsOutPath);
+    size_t processReadRecords(const std::vector<SamRecord> &readRecords, auto &splitsOut,
+                              [[maybe_unused]] auto &multiSplitsOut);
 
     std::optional<SplitRecords> constructSplitRecords(const SamRecord &readRecord);
     std::optional<SplitRecords> constructSplitRecords(const std::vector<SamRecord> &readRecords);
     std::optional<EvaluatedSplitRecords> getSplitRecords(const std::vector<SamRecord> &readRecords);
 
+    void mergeResults(Results &transcriptCounts, const Results &newTranscriptCounts) const;
     void writeSamFile(auto &samOut, const std::vector<SamRecord> &splitRecords);
-    void createStatisticsFile(const fs::path &splitsFilePath, const fs::path &multSplitsFilePath,
-                              const fs::path &statsFilePath) const;
+
+    void writeTranscriptCountsFile(const fs::path &transcriptCountsFilePath,
+                                   const TranscriptCounts &transcriptCounts) const;
+    void writeStatisticsFile(const Results &results, const std::string &sampleName,
+                             const fs::path &statsFilePath) const;
 
     std::vector<ChunkedInOutFilePaths> prepareInputOutputFiles(const fs::path &mappingsFilePath,
                                                                const fs::path &splitsFilePath,

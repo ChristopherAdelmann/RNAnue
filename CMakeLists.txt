@@ -32,9 +32,9 @@ find_package(seqan3 3.3.0 REQUIRED)
 find_package(OpenMP) 
 
 ### Boost
-set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)  
-set(Boost_USE_STATIC_RUNTIME OFF)
+set(Boost_USE_STATIC_RUNTIME ON)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(Boost_DEBUG ON)
 endif()
@@ -109,7 +109,7 @@ target_link_libraries (RNAnue PRIVATE   seqan3::seqan3
                                         Boost::filesystem 
                                         Boost::property_tree 
                                         Boost::foreach 
-                                        Boost::dynamic_bitset 
+                                        Boost::dynamic_bitset
                                         segemehl)
 
 if(OpenMP_CXX_FOUND)

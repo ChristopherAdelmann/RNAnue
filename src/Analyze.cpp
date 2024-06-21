@@ -1,341 +1,434 @@
 #include "Analyze.hpp"
 
 //
-Analyze::Analyze(po::variables_map _params)
-    : params(_params),
-      annotator(Annotation::FeatureAnnotator(params["features"].as<std::string>(), {"gene"},
-                                             std::nullopt)) {
-    std::string line;
-    std::ifstream anno;
-    anno.open(params["features"].as<std::string>());
-
-    // parse annotations
-    if (!anno.is_open()) {
-        perror("Error open");
-        exit(EXIT_FAILURE);
-    }
-    while (getline(anno, line)) {
-        if (line[0] == '#') {
-            continue;
-        }
-
-        std::vector<std::string> tokens;
-        std::istringstream iss(line);
-        std::string token;
-        while (std::getline(iss, token, '\t')) {
-            tokens.push_back(token);
-        }
-
-        // boundaries
-        std::pair<int, int> bnds = std::make_pair(std::stoi(tokens[3]), std::stoi(tokens[4]));
-        std::pair<std::pair<int, int>, std::string> con =
-            std::make_pair(bnds, "strand=" + tokens[6] + ";" + tokens[8]);
-
-        auto it = features.find(tokens[0]);
-
-        if (it == features.end()) {
-            features.insert(
-                std::pair<std::string, std::vector<std::pair<std::pair<int, int>, std::string>>>(
-                    tokens[0], {con}));
-        } else {
-            features[tokens[0]].push_back(con);
-        }
-    }
-}
-
-//
-void Analyze::createCountTable() {
-    std::map<std::tuple<std::string, std::string, std::string, std::string>,
-             std::vector<std::tuple<int, std::vector<float>, std::vector<float>>>>
-        counts;
-
-    std::ifstream intsfile;
-    for (unsigned i = 0; i < interPaths.size(); ++i) {
-        intsfile.open(interPaths[i]);
-
-        if (!intsfile.is_open()) {
-            perror("Error open");
-            exit(EXIT_FAILURE);
-        }
-
-        std::string line;
-        while (getline(intsfile, line)) {
-            if (line[0] == '#') {
-                continue;
-            }
-
-            std::vector<std::string> tokens;
-            std::istringstream iss(line);
-            std::string token;
-            while (std::getline(iss, token, '\t')) {
-                tokens.push_back(token);
-            }
-
-            // Create keys from tokens
-            auto key = std::make_tuple(tokens[5], tokens[8], tokens[13], tokens[16]);
-
-            // Check if key exists in counts
-            auto it = counts.find(key);
-            if (it == counts.end()) {
-                // Key does not exist, create new entry
-                std::vector<std::tuple<int, std::vector<float>, std::vector<float>>> content(
-                    interPaths.size(), {0, {}, {}});
-
-                std::get<0>(content[i]) = 1;
-                std::get<1>(content[i]).push_back(std::stof(tokens[17]));
-                std::get<2>(content[i]).push_back(std::stof(tokens[18]));
-
-                counts.emplace(key, content);
-            } else {
-                // Key exists, update existing entry
-                auto &oldVal = it->second[i];
-                std::get<0>(oldVal) += 1;
-                std::get<1>(oldVal).push_back(std::stof(tokens[17]));
-                std::get<2>(oldVal).push_back(std::stof(tokens[18]));
-            }
-        }
-    }
-
-    // write back to file
-    std::string outfile = params["outdir"].as<std::string>();
-    fs::path outPath = fs::path(outfile) / "allints.txt";
-
-    std::ofstream outFileHandle;
-    outFileHandle.open(outPath.string());
-
-    outFileHandle << "RNA1\tRNA2\tRNA1orientation\tRNA2orientation\t";
-
-    for (const auto &interPath : interPaths) {
-        std::string stem = fs::path(interPath).stem().string();
-        outFileHandle << stem << "_counts\t";
-        outFileHandle << stem << "_ges\t";
-        outFileHandle << stem << "_gcs\t";
-    }
-    outFileHandle << std::endl;
-
-    for (const auto &count : counts) {
-        outFileHandle << std::get<0>(count.first) << "\t";
-        outFileHandle << std::get<2>(count.first) << "\t";
-        outFileHandle << std::get<1>(count.first) << "\t";
-        outFileHandle << std::get<3>(count.first) << "\t";
-
-        for (const auto &second : count.second) {
-            outFileHandle << std::get<0>(second) << "\t";
-
-            std::vector<float> vecNrg = std::get<1>(second);
-            std::vector<float> vecCpl = std::get<2>(second);
-
-            // determine ges
-            float ges = 0.0;
-            size_t vecNrgSize = vecNrg.size();
-            if (vecNrgSize == 1) {
-                ges = vecNrg[0];
-            } else if (vecNrgSize > 1) {
-                auto m = vecNrg.begin() + vecNrgSize / 2;
-                std::nth_element(vecNrg.begin(), m, vecNrg.end());
-                ges = vecNrg[vecNrgSize / 2];
-            }
-            outFileHandle << ges << "\t";
-
-            // determine gcs
-            float gcs = 0.0;
-            size_t vecCplSize = vecCpl.size();
-            if (vecCplSize == 1) {
-                gcs = vecCpl[0];
-            } else if (vecCplSize > 1) {
-                auto m = vecCpl.begin() + vecCplSize / 2;
-                std::nth_element(vecCpl.begin(), m, vecCpl.end());
-                gcs = vecCpl[vecCplSize / 2];
-            }
-            outFileHandle << gcs << "\t";
-        }
-        outFileHandle << std::endl;
-    }
-    outFileHandle.close();
-}
-
-//
-std::string Analyze::retrieveTagValue(std::string tags, std::string tagName, std::string oldValue) {
-    std::size_t start_position = tags.find(tagName + "=");
-    // gene name
-    if (start_position != std::string::npos) {
-        std::string sub = tags.substr(start_position + tagName.size() + 1, tags.length());
-        std::size_t end_position = sub.find(";");
-        oldValue = sub.substr(0, end_position);
-    }
-    return oldValue;
+Analyze::Analyze(po::variables_map _params) : params(_params), repcount{0}, readcount{0} {
+    // int k = 3;  // can be later extracted from config file
+    // // extract features (e.g., IBPTree)
+    // this->features = IBPTree(params, k);  // create IBPT w/ annotations
+    // if (params["clust"].as<std::bitset<1>>() == std::bitset<1>("1")) {
+    //     std::cout << helper::getTime() << "Add clusters to IBPTree\n";
+    //     fs::path outDir = params["outdir"].as<std::string>();
+    //     fs::path clusterFile = outDir / fs::path("clustering") / fs::path("clusters.tab");
+    //     this->features.iterateClusters(clusterFile.string());
+    // }
+    // this->freq = std::map<std::pair<std::string, std::string>, double>();
+    // this->suppreads = std::map<dtp::IntKey, std::vector<double>>();
+    // this->complementarities = std::map<dtp::IntKey, std::vector<std::vector<double>>>();
+    // this->hybenergies = std::map<dtp::IntKey, std::vector<std::vector<double>>>();
 }
 
 void Analyze::start(pt::ptree sample) {
-    // retrieve input and output files
-    pt::ptree input = sample.get_child("input");
-    std::string splits = input.get<std::string>("splits");
-    pt::ptree output = sample.get_child("output");
-    std::string interactions = output.get<std::string>("interactions");
+    // this->freq.clear();  // reset freq
+    // // retrieve input and output files
+    // pt::ptree input = sample.get_child("input");
+    // std::string single = input.get<std::string>("single");
+    // std::string splits = input.get<std::string>("splits");
 
-    interPaths.push_back(interactions);
+    // pt::ptree output = sample.get_child("output");
+    // std::string interactions = output.get<std::string>("interactions");
 
-    // input .sam record
-    seqan3::sam_file_input fin{
-        splits,
-        seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
-                       seqan3::field::ref_offset, seqan3::field::seq, seqan3::field::tags>{}};
+    // //
+    // this->freq = std::map<std::pair<std::string, std::string>, double>();
+    // this->condition = condition.get<std::string>("condition");  // store current condition
 
-    std::vector<seqan3::sam_flag> flags;
-    std::vector<std::string> refIDs;
-    std::vector<std::optional<int32_t>> refOffsets;
+    // this->readcount = 0;
 
-    std::vector<size_t> ref_lengths{};
-    for (auto &info : fin.header().ref_id_info) {
-        ref_lengths.push_back(std::get<0>(info));
-    }
-    std::deque<std::string> ref_ids = fin.header().ref_ids();
+    // processSingle(single);
+    // processSplits(splits, interactions);
 
-    //    uint32_t flag, start, end;
+    // this->repcount++;  // increase replicate count
 
-    // open file
-    std::ofstream outInts;
-    outInts.open(interactions);
-
-    std::string entry;  // stores output to write to file
-
-    // variables for interactions file
-    std::string qNAME, flag;
-    uint32_t start, end;
-    std::string geneName, product, annoStrand;
-    float hybnrg, cmpl;
-
-    seqan3::sam_tag_dictionary tags;
-
-    outInts << "#QNAME\tSegment1Strand\tSegment1Start\tSegment1End\tSegment1RefName\tSegment1Name\t"
-               "Segment1AnnoStrand\tSegment1Product\tSegment1Orientation\tSegment2Strand\tSegment2S"
-               "tart\tSegment2End\tSegment2RefName\tSegment2Name\tSegment2AnnoStrand\tSegment2Produ"
-               "ct\tSegment2Orientation\tenergy\tcomplementarity\n";
-
-    int segCnt = 0;
-    int segCntMatch = 0;
-    int segFound = 0;
-
-    int uniqueOverlaps = 0;
-    int ambiguousOverlaps = 0;
-
-    for (auto &&chimericReadPair : fin | seqan3::views::chunk(2)) {
-        entry = "";
-        hybnrg = 0.0;
-        cmpl = 0.0;
-
-        for (auto &read : chimericReadPair) {
-            // const auto &referenceID = read.reference_id();
-            // const auto &referenceBeginPosition = read.reference_position();
-
-            // if (!referenceID.has_value() || !referenceBeginPosition.has_value()) {
-            //     continue;
-            // }
-
-            // const auto &referenceEndPosition =
-            //     referenceBeginPosition.value() + read.sequence().size() - 1;
-            // const dtp::GenomicRegion region = dtp::GenomicRegion(
-            //     ref_ids[referenceID.value()], referenceBeginPosition.value(),
-            //     referenceEndPosition);
-
-            // const auto &overlappingFeatures = annotator.overlappingFeatureIt(region);
-            // for (const auto &feature : overlappingFeatures.value()) {
-            //     std::cout << "Feature: " << feature.id << std::endl;
-            // }
-
-            qNAME = read.id();
-            flag =
-                (static_cast<bool>(read.flag() & seqan3::sam_flag::on_reverse_strand)) ? "-" : "+";
-
-            // start & end
-            start = read.reference_position().value();
-            end = start + read.sequence().size() - 1;
-
-            // refID
-            std::optional<int32_t> refIDidx = read.reference_id();
-            std::string refID = ref_ids[refIDidx.value()];
-
-            tags = read.tags();
-            auto nrg = tags["XE"_tag];
-            auto cpl = tags["XC"_tag];
-            hybnrg = std::get<float>(nrg);
-            cmpl = std::get<float>(cpl);
-
-            if (features.count(refID) > 0) {
-                std::vector<Feature> &featuresSubset = features[refID];
-
-                geneName = ".";
-                product = ".";
-                annoStrand = ".";
-
-                int overlaps = 0;
-                // Rework this only keeps last feature not all features that could match
-                for (unsigned i = 0; i < featuresSubset.size(); ++i) {
-                    if ((start >= featuresSubset[i].first.first &&
-                         start <= featuresSubset[i].first.second) ||
-                        (end >= featuresSubset[i].first.first &&
-                         end <= featuresSubset[i].first.second)) {
-                        std::string oldGeneName = geneName;
-                        const auto geneID =
-                            retrieveTagValue(featuresSubset[i].second, "ID", geneName);
-                        geneName = retrieveTagValue(featuresSubset[i].second, "gene", geneName);
-                        product = retrieveTagValue(featuresSubset[i].second, "product", product);
-                        annoStrand =
-                            retrieveTagValue(featuresSubset[i].second, "strand", annoStrand);
-
-                        std::cout << "Gene name: " << geneID << std::endl;
-
-                        if (oldGeneName != geneName) {
-                            overlaps++;
-                        }
-
-                        segFound = 1;  // found a match (in annotation) for segment
-                    }
-                }
-
-                if (overlaps > 1) {
-                    Logger::log(LogLevel::DEBUG, "Ambiguous annotation detected: ", refID, ":",
-                                start, "-", end);
-                    ambiguousOverlaps++;
-                } else if (overlaps == 1) {
-                    uniqueOverlaps++;
-                }
-
-                if (segFound == 1) {
-                    if (segCnt == 0) {
-                        entry += qNAME + "\t";
-                    }
-                    entry += flag + "\t";
-                    entry += std::to_string(start) + "\t";
-                    entry += std::to_string(end) + "\t";
-                    entry += refID + "\t";
-                    entry += geneName + "\t";
-                    entry += annoStrand + "\t";
-                    entry += "\"" + product + "\"\t";
-
-                    if (flag == annoStrand) {
-                        entry += "sense\t";
-                    } else {
-                        entry += "antisense\t";
-                    }
-
-                    segCntMatch++;
-                    segFound = 0;
-                }
-            }
-            segCnt++;  // on to the next segment
-        }
-
-        if (segCntMatch == 2) {
-            outInts << entry << hybnrg << "\t" << cmpl << "\n";
-        }
-
-        segCnt = 0;  // reset segment
-        segCntMatch = 0;
-    }
-
-    Logger::log(LogLevel::INFO, "Unique cluster annotations: ", uniqueOverlaps,
-                "; Ambiguous cluster annotations: ", ambiguousOverlaps);
-
-    outInts.close();
+    // normalize();
 }
+
+// void Analysis::processSingle(std::string& single) {
+//     seqan3::sam_file_input inputSingle{single};  // match reads
+//     std::vector<size_t> ref_lengths{};           // header
+//     for (auto& info : inputSingle.header().ref_id_info) {
+//         ref_lengths.push_back(std::get<0>(info));
+//     }
+//     std::deque<std::string> refIds = inputSingle.header().ref_ids();
+//     std::optional<int32_t> refOffset = std::nullopt;
+//     std::string orient = "";  // e.g., sense (ss) or antisense (as)
+//     char strand = ' ';
+//     uint32_t start = 0, end = 0;
+//     for (auto& rec : inputSingle) {
+//         refOffset = rec.reference_position();
+//         start = rec.reference_position().value();
+//         end = rec.reference_position().value() + rec.sequence().size();
+//         if (static_cast<bool>(rec.flag() & seqan3::sam_flag::on_reverse_strand)) {
+//             strand = '-';
+//         } else {
+//             strand = '+';
+//         }
+
+//         std::vector<std::pair<Node*, IntervalData*>> ovlps =
+//             features.search(refIds[rec.reference_id().value()], {start, end});
+//         if (ovlps.size() > 0) {
+//             for (auto& ovl : ovlps) {
+//                 if (strand == ovl.second->getStrand()) {
+//                     orient = "sense";
+//                 } else {
+//                     orient = "antisense";
+//                 }
+//                 addToFreqMap(std::make_pair(orient, ovl.second->getName()),
+//                              1.0 / (double)ovlps.size());  // add to freq
+//             }
+//         }
+//         readcount++;
+//     }
+// }
+
+// void Analysis::processSplits(std::string& splits, std::string& output) {
+//     seqan3::sam_file_input inputSplits{splits};    // match reads
+//     std::ofstream outInts(output, std::ios::out);  // output interactions
+//     writeInteractionsHeader(outInts);              // write header in output file
+
+//     std::vector<size_t> ref_lengths{};  // header
+//     for (auto& info : inputSplits.header().ref_id_info) {
+//         ref_lengths.push_back(std::get<0>(info));
+//     }
+//     std::deque<std::string> refIds = inputSplits.header().ref_ids();
+
+//     // variables
+//     std::string outLine = "";     // buffers the output file for interaction entry
+//     std::bitset<1> skip = 0;      // skip if no match
+//     char strand = ' ';            // strand of segment
+//     std::string orient = "";      // orientation of segment (ss or as)
+//     uint32_t start = 0, end = 0;  // start and end of segment
+//     std::string refName = "";     // reference name
+
+//     // information from the tags
+//     seqan3::sam_tag_dictionary tags;
+//     std::pair<float, float> filters;  // complementarity and hybridization energy
+//     std::vector<std::string> aligns;  // alignment of complementarity
+
+//     // segment information (e.g., gene name, product, etc.) - keys are the as or ss
+//     std::map<std::string, std::vector<IntervalData*>> segmentInfo = {};
+
+//     for (auto&& rec : inputSplits | seqan3::views::chunk(2)) {
+//         outLine = (*rec.begin()).id();  // QNAME
+//         // reset
+//         skip = 0;                            // reset skip
+//         segmentInfo.clear();                 // reset segment info
+//         filters = std::make_pair(0.0, 0.0);  // reset filters
+//         aligns.clear();
+
+//         // retrieve complementarity and energy
+//         tags = (*rec.begin()).tags();
+//         filters = std::make_pair(std::get<float>(tags["XC"_tag]),
+//         std::get<float>(tags["XE"_tag]));
+
+//         dtp::IntKey intKey =
+//             {};  // key to store the interaction (partner1, orientation1, partner2, orientation2)
+
+//         for (auto& split : rec) {
+//             if (static_cast<bool>(split.flag() & seqan3::sam_flag::on_reverse_strand)) {
+//                 strand = '-';
+//             } else {
+//                 strand = '+';
+//             }
+//             outLine += "\t" + std::string(1, strand);  // strand
+//             start = split.reference_position().value();
+//             end = split.reference_position().value() + split.sequence().size();
+//             outLine += "\t" + std::to_string(start) + "\t" + std::to_string(end);  // start & end
+//             refName = refIds[split.reference_id().value()];
+//             outLine += "\t" + refName;  // reference name
+
+//             tags = split.tags();  // retrieve the alignment information
+//             aligns.push_back(std::get<std::string>(tags["XA"_tag]));
+
+//             // match with features
+//             std::vector<std::pair<Node*, IntervalData*>> ovlps =
+//                 features.search(refIds[split.reference_id().value()], {start, end});
+//             segmentInfo = {};  // reset segmentInfo
+//             if (ovlps.size() > 0) {
+//                 segmentInfo.insert({"sense", {}});
+//                 segmentInfo.insert({"antisense", {}});
+//                 for (auto& ovl : ovlps) {
+//                     if (strand == ovl.second->getStrand()) {
+//                         orient = "sense";
+//                     } else {
+//                         orient = "antisense";
+//                     }
+//                     segmentInfo[orient].push_back(ovl.second);  // add to segmentInfo
+//                     addToFreqMap(std::make_pair(orient, ovl.second->getName()),
+//                                  1.0 / (double)ovlps.size());  // add to freq
+
+//                     /*
+//                     std::string info = ovl.second->getName() + "\t" + ovl.second->getBiotype() +
+//                     "\t" + ovl.second->getStrand() + "\t" + "." + "\t" + orient;
+//                     segmentInfo[orient].push_back(info);*/
+//                 }
+//                 // check which one to select
+//                 if (segmentInfo["sense"].size() == 1) {
+//                     IntervalData* data = segmentInfo["sense"][0];
+//                     outLine += "\t" + data->getName() + "\t" + data->getBiotype() + "\t" +
+//                                data->getStrand();
+//                     outLine += "\t.\tsense";
+//                     intKey.push_back(dtp::IntPartner(data->getName(), "sense"));
+//                 } else {
+//                     if (segmentInfo["antisense"].size() == 1) {
+//                         IntervalData* data = segmentInfo["antisense"][0];
+//                         outLine += "\t" + data->getName() + "\t" + data->getBiotype() + "\t" +
+//                                    data->getStrand();
+//                         outLine += "\t.\tsense";
+//                         intKey.push_back(dtp::IntPartner(data->getName(), "antisense"));
+//                     } else {
+//                         skip = 1;  // skip if not unique
+//                     }
+//                 }
+//             } else {
+//                 skip = 1;
+//             }  // skip if no match
+//         }
+//         outLine += "\t" + std::to_string(filters.first);          // complementarity
+//         outLine += "\t" + aligns[0] + "\t" + aligns[1];           // alignment
+//         outLine += "\t" + std::to_string(filters.second) + "\n";  // energy
+//         if (skip == 0) {
+//             outInts << outLine;
+//             addToSuppReads(intKey[0], intKey[1]);
+//             addToCompl(intKey[0], intKey[1], filters.first);
+//             addToHybEnergies(intKey[0], intKey[1], filters.second);
+//         }  // write to file (if not skipped)
+//         readcount++;
+//     }
+//     outInts.close();
+// }
+
+// void Analysis::writeInteractionsHeader(std::ofstream& fout) {
+//     fout <<
+//     "qname\tfst_seg_strd\tfst_seg_strt\tfst_seg_end\tfst_seg_ref\tfst_seg_name\tfirst_seg_"
+//             "bt\t";
+//     fout << "fst_seg_anno_strd\tfst_seg_prod\tfst_seg_ori\tsec_seg_strd\tsec_seg_strt\tsec_seg_"
+//             "end\t";
+//     fout <<
+//     "sec_seg_ref\tsec_seg_name\tsec_seg_bt\tsec_seg_anno_strd\tsec_seg_prod\tsec_seg_ori\t"; fout
+//     << "cmpl\tfst_seg_compl_aln\tsec_seg_cmpl_aln\tmfe\n";
+// }
+
+// void Analysis::writeAllIntsHeader(std::ofstream& fout) {
+//     fout << "fst_rna\tsec_rna\tfst_rna_ori\tsec_rna_ori";
+// }
+// void Analysis::addToAllIntsHeader(std::ofstream& fout, std::string key) { fout << "\t" << key; }
+
+// void Analysis::normalize() {
+//     // sum up all frequencies
+//     double sum = 0.0;
+//     for (auto& f : this->freq) {
+//         sum += f.second;
+//     }
+
+//     // normalize
+//     for (auto& f : this->freq) {
+//         f.second = f.second / sum;
+//     }
+
+//     // print
+//     /*
+//     for(auto& f : freq) {
+//         std::cout << f.first.first << " " << f.first.second << " " << f.second << std::endl;
+//     }*/
+// }
+
+// void Analysis::addToFreqMap(std::pair<std::string, std::string> key, double value) {
+//     if (freq.count(key) == 0) {
+//         freq.insert(std::make_pair(key, value));
+//     } else {
+//         freq[key] += value;
+//     }
+// }
+
+// bool operator<(const dtp::IntKey& lhs, const dtp::IntKey& rhs) {
+//     return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+// }
+
+// void Analysis::addToSuppReads(dtp::IntPartner p1, dtp::IntPartner p2) {
+//     dtp::IntKey key;
+//     if (p1 < p2) {
+//         key = {p1, p2};
+//     } else {
+//         key = {p2, p1};
+//     }
+//     // check if key in map
+//     if (suppreads.find(key) == suppreads.end()) {
+//         std::vector<double> suppReadsRepl =
+//             {};  // new list for all replicates (up to the current one)
+//         for (int i = 0; i < repcount; ++i) {
+//             suppReadsRepl.push_back(0.0);
+//         }
+//         suppReadsRepl.push_back(1.0);  // add 1.0 for the last (current) replicate
+//         suppreads.insert({key, suppReadsRepl});
+//     } else {  // key found in map
+//         std::vector<double>& suppReadsRepl = this->suppreads[key];
+//         if (suppReadsRepl.size() <
+//             repcount) {  // not yet at the current replicate (probably skipped a few)
+//             for (int i = suppReadsRepl.size(); i < repcount; ++i) {
+//                 suppReadsRepl.push_back(0.0);
+//             }
+//             suppReadsRepl.push_back(1.0);
+//         } else {
+//             if (suppReadsRepl.size() > repcount) {
+//                 suppReadsRepl[repcount] += 1.0;
+//             } else {
+//                 suppReadsRepl.push_back(1.0);
+//             }
+//         }
+//     }
+// }
+
+// void Analysis::addToCompl(dtp::IntPartner p1, dtp::IntPartner p2, double complementarity) {
+//     dtp::IntKey key;
+//     if (p1 < p2) {
+//         key = {p1, p2};
+//     } else {
+//         key = {p2, p1};
+//     }
+//     // check if key in map
+//     if (complementarities.find(key) == complementarities.end()) {
+//         std::vector<std::vector<double>> CmplsRepl =
+//             {};  // new list for all replicates (up to the current one)
+//         for (int i = 0; i < repcount; ++i) {
+//             CmplsRepl.push_back({});
+//         }
+//         CmplsRepl.push_back({complementarity});  // add 1.0 for the last (current) replicate
+//         complementarities.insert({key, CmplsRepl});
+//     } else {
+//         std::vector<std::vector<double>>& cmplsRepl = this->complementarities[key];
+//         if (cmplsRepl.size() <
+//             repcount) {  // not yet at the current replicate (probably skipped a few)
+//             for (int i = cmplsRepl.size(); i < repcount; ++i) {
+//                 cmplsRepl.push_back({});
+//             }
+//             cmplsRepl.push_back({complementarity});
+//         } else {
+//             if (cmplsRepl.size() > repcount) {
+//                 cmplsRepl[repcount].push_back(complementarity);
+//             } else {
+//                 cmplsRepl.push_back({complementarity});
+//             }
+//         }
+//     }
+// }
+
+// void Analysis::addToHybEnergies(dtp::IntPartner p1, dtp::IntPartner p2, double hybenergy) {
+//     dtp::IntKey key;
+//     if (p1 < p2) {
+//         key = {p1, p2};
+//     } else {
+//         key = {p2, p1};
+//     }
+//     // check if key in map
+//     if (hybenergies.find(key) == hybenergies.end()) {
+//         std::vector<std::vector<double>> hybRepl =
+//             {};  // new list for all replicates (up to the current one)
+//         for (int i = 0; i < repcount; ++i) {
+//             hybRepl.push_back({});
+//         }
+//         hybRepl.push_back({hybenergy});  // add 1.0 for the last (current) replicate
+//         hybenergies.insert({key, hybRepl});
+//     } else {
+//         std::vector<std::vector<double>>& hybRepl = this->hybenergies[key];
+//         if (hybRepl.size() <
+//             repcount) {  // not yet at the current replicate (probably skipped a few)
+//             for (int i = hybRepl.size(); i < repcount; ++i) {
+//                 hybRepl.push_back({});
+//             }
+//             hybRepl.push_back({hybenergy});
+//         } else {
+//             if (hybRepl.size() > repcount) {
+//                 hybRepl[repcount].push_back(hybenergy);
+//             } else {
+//                 hybRepl.push_back({hybenergy});
+//             }
+//         }
+//     }
+// }
+
+// double Analysis::calcGCS(std::vector<double>& complementarities) {
+//     if (complementarities.size() == 0) {
+//         return 0.0;
+//     }
+//     double median = stats::median(complementarities);
+//     double maximum = *std::max_element(complementarities.begin(), complementarities.end());
+//     return median * maximum;
+// }
+
+// double Analysis::calcGHS(std::vector<double>& hybenergies) {
+//     if (hybenergies.size() == 0) {
+//         return 1000.0;
+//     }
+//     double median = stats::median(hybenergies);
+//     double minimum = *std::min_element(hybenergies.begin(), hybenergies.end());
+//     if (median < 0 && minimum < 0) {
+//         return -sqrt(median * minimum);
+//     } else {
+//         if (median > 0 && minimum > 0) {
+//             return sqrt(median * minimum);
+//         } else {
+//             return sqrt(abs(median * minimum));
+//         }
+//     }
+// }
+
+// double Analysis::calcStat(dtp::IntKey key, int x) {
+//     std::pair<std::string, std::string> p1 = {key[0].orientation, key[0].partner};
+//     std::pair<std::string, std::string> p2 = {key[1].orientation, key[1].partner};
+//     double p;
+//     if (freq.find(p1) == freq.end() || freq.find(p2) == freq.end()) {
+//         p = 0.0;
+//     } else {
+//         if (p1 == p2) {
+//             p = freq[p1] * freq[p2];
+//         } else {
+//             p = 2 * freq[p1] * freq[p2];
+//         }
+//     }
+//     ma::binomial_distribution<double> binomial(this->readcount, p);
+//     double pval = 1.0 - ma::cdf(binomial, x);
+//     return pval;
+// }
+
+// void Analysis::writeAllInts() {
+//     std::string outDirPath = params["outdir"].as<std::string>();
+//     fs::path outDirDetectPath = fs::path(outDirPath) / fs::path("analysis");
+//     fs::path allIntsPath = fs::path(outDirDetectPath) / fs::path("allints.txt");
+//     std::ofstream fout(allIntsPath.string(), std::ios::out);
+
+//     if (fout.is_open()) {
+//         for (auto& entry : suppreads) {
+//             fout << entry.first[0].partner << "\t" << entry.first[1].partner;
+//             fout << "\t" << entry.first[0].orientation << "\t" << entry.first[1].orientation;
+//             for (int i = 0; i < entry.second.size(); ++i) {
+//                 fout << "\t" << entry.second[i];  // counts
+//                 double gcs =
+//                     calcGCS(complementarities[entry.first][i]);  // complementarity score (GCS)
+//                 if (gcs != 0.0) {
+//                     fout << "\t" << gcs;
+//                 } else {
+//                     fout << "\t.";
+//                 }
+//                 double ghs = calcGHS(hybenergies[entry.first][i]);  // Hybridization score (GHS)
+//                 if (ghs != 1000.0) {
+//                     fout << "\t" << ghs;
+//                 } else {
+//                     fout << "\t.";
+//                 }
+//                 // statistical
+//                 // call with key(RNA1/2 and orient) and counts
+//                 double stat = calcStat(entry.first, entry.second[i]);
+//                 fout << "\t" << stat;
+//             }
+//             if (entry.second.size() < repcount) {
+//                 for (int i = entry.second.size(); i < repcount; ++i) {
+//                     fout << "\t0\t.\t.\t.";
+//                 }
+//             }
+//             fout << "\n";
+//         }
+//         fout.close();
+//         std::cout << helper::getTime() << "Interactions written to file: " <<
+//         allIntsPath.string()
+//                   << "\n";
+//     }
+// }

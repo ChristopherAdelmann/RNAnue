@@ -14,7 +14,7 @@ Base::Base(po::variables_map _params) : params(_params), data(_params) {
     auto it =
         std::ranges::find_if(subcallMap, [&](const auto &pair) { return pair.first == subcall; });
     if (it == subcallMap.end() && subcall != pi::COMPLETE) {
-        std::cout << "subcall: " << subcall << " invalid!" << std::endl;
+        Logger::log(LogLevel::ERROR, "subcall: ", subcall, " invalid!");
         exit(EXIT_FAILURE);
     }
 

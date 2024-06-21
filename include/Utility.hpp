@@ -34,6 +34,17 @@ std::size_t countSamEntriesSeqAn(fs::path path);
 
 void printTree(const boost::property_tree::ptree& pt, int level);
 
+template <typename T>
+T calculateMedian(std::vector<T> values) {
+    std::sort(values.begin(), values.end());
+    const auto size = values.size();
+    if (size % 2 == 0) {
+        return (values[size / 2 - 1] + values[size / 2]) / 2;
+    } else {
+        return values[size / 2];
+    }
+}
+
 std::string getTime();  // reports the current time
 class Timer {
    public:

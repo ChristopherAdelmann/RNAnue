@@ -19,6 +19,8 @@
 
 namespace fs = boost::filesystem;
 namespace dtp {
+using namespace seqan3::literals;
+
 using PathVector = std::vector<fs::path>;
 using SubPathsMap = std::map<std::string, PathVector>;
 
@@ -59,38 +61,28 @@ using Bases = std::map<std::pair<std::string, DNAVector>, DNAVector>;
 using STTEntry = std::tuple<int, int, int, int>;
 
 enum class Strand { FORWARD = '+', REVERSE = '-' };
+
+std::optional<int32_t> recordEndPosition(const SamRecord &record);
+
 struct GenomicRegion {
     std::string referenceID;
-    size_t startPosition;
-    size_t endPosition;
+    int32_t startPosition;
+    int32_t endPosition;
     std::optional<Strand> strand;
 
-    GenomicRegion(const std::string &referenceID, size_t startPosition, size_t endPosition,
-                  std::optional<Strand> strand = std::nullopt)
-        : referenceID(referenceID),
-          startPosition(startPosition),
-          endPosition(endPosition),
-          strand(strand) {}
+    GenomicRegion(const std::string &referenceID, int32_t startPosition, int32_t endPosition,
+                  std::optional<Strand> strand = std::nullopt);
 
-    static GenomicRegion fromSamRecord(const SamRecord &record,
-                                       const std::deque<std::string> &referenceIDs) {
-        const auto isReverseStrand =
-            static_cast<bool>(record.flag() & seqan3::sam_flag::on_reverse_strand);
-        const Strand strand{isReverseStrand ? Strand::REVERSE : Strand::FORWARD};
-
-        return GenomicRegion{
-            referenceIDs[record.reference_id().value()],
-            (size_t)record.reference_position().value(),
-            (size_t)(record.reference_position().value() + record.sequence().size() - 1), strand};
-    }
+    static std::optional<GenomicRegion> fromSamRecord(const SamRecord &record,
+                                                      const std::deque<std::string> &referenceIDs);
 };
 
 // FeaturesFields for GFF3/GTF
 struct Feature {
     std::string referenceID;
     std::string type;
-    size_t startPosition;
-    size_t endPosition;
+    int32_t startPosition;
+    int32_t endPosition;
     Strand strand;
     std::string id;
 };

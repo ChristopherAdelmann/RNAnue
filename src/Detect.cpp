@@ -44,16 +44,20 @@ Detect::Results Detect::iterateSortedMappingsFile(
         }
 
         const std::string referenceID = refIDs[record.reference_id().value()];
-        const size_t referenceBeginPosition = record.reference_position().value();
-        const size_t referenceEndPosition = referenceBeginPosition + record.sequence().size();
+        const auto referenceBeginPosition = record.reference_position().value();
+        const auto referenceEndPosition = dtp::recordEndPosition(record).value();
 
         // TODO Implement if annotation should be strand specific
         // const char strand =
         //     static_cast<bool>(record.flag() & seqan3::sam_flag::on_reverse_strand) ? '-' : '+';
 
-        const GenomicRegion region{referenceID, referenceBeginPosition, referenceEndPosition};
+        const auto region = GenomicRegion::fromSamRecord(record, refIDs);
 
-        const auto bestFeature = featureAnnotator.getBestOverlappingFeature(region);
+        if (!region.has_value()) {
+            return;
+        }
+
+        const auto bestFeature = featureAnnotator.getBestOverlappingFeature(region.value());
 
         if (bestFeature.has_value()) {
             singletonTranscriptCounts[bestFeature->id]++;
@@ -443,6 +447,7 @@ void Detect::writeStatisticsFile(const Results &results, const std::string &samp
         throw std::runtime_error("Could not open the stats file.");
     }
 
+    statsFileStream << "sample\tsplits\tsingletons" << std::endl;
     statsFileStream << sampleName << "\t" << results.splitFragmentsCount << "\t"
                     << results.singletonFragmentsCount << "\n";
 }

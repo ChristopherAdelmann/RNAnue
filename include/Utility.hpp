@@ -5,6 +5,7 @@
 #include <boost/property_tree/ptree.hpp>
 
 // seqan3
+#include <seqan3/alphabet/cigar/cigar.hpp>
 #include <seqan3/io/sam_file/all.hpp>
 
 // Standard
@@ -43,7 +44,7 @@ T calculateMedian(std::vector<T> values) {
     } else {
         return values[size / 2];
     }
-}
+};
 
 std::string getTime();  // reports the current time
 class Timer {

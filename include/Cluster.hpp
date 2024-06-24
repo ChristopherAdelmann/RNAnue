@@ -6,10 +6,12 @@
 // Standard
 #include <algorithm>
 #include <filesystem>
+#include <random>
 #include <ranges>
 
 // Boost
 #include <boost/filesystem.hpp>
+#include <boost/math/distributions/binomial.hpp>
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>
 
@@ -29,6 +31,7 @@
 namespace po = boost::program_options;
 namespace pt = boost::property_tree;
 namespace fs = boost::filesystem;
+namespace math = boost::math;
 
 using namespace dtp;
 using seqan3::operator""_tag;
@@ -37,52 +40,20 @@ struct Segment {
     std::string recordID;
     int32_t referenceIDIndex;
     dtp::Strand strand;
-    uint32_t start;
-    uint32_t end;
+    int32_t start;
+    int32_t end;
     double complementarityScore;
     double hybridizationEnergy;
 
-    static std::optional<Segment> fromSamRecord(const dtp::SamRecord &record) {
-        if (!record.reference_position().has_value() || !record.reference_id().has_value()) {
-            return std::nullopt;
-        }
+    static std::optional<Segment> fromSamRecord(const dtp::SamRecord &record);
 
-        const auto isReverseStrand =
-            static_cast<bool>(record.flag() & seqan3::sam_flag::on_reverse_strand);
-        const dtp::Strand strand{isReverseStrand ? dtp::Strand::REVERSE : dtp::Strand::FORWARD};
-
-        const uint32_t start = record.reference_position().value();
-        const uint32_t end = start + record.sequence().size() - 1;
-
-        const double hybridizationEnergy = record.tags().get<"XE"_tag>();
-        const double complementarityScore = record.tags().get<"XC"_tag>();
-
-        return Segment{record.id(),
-                       record.reference_id().value(),
-                       strand,
-                       start,
-                       end,
-                       complementarityScore,
-                       hybridizationEnergy};
-    }
-
-    dtp::GenomicRegion toGenomicRegion(const std::deque<std::string> &referenceIDs) const {
-        return dtp::GenomicRegion{referenceIDs[referenceIDIndex], start, end};
-    }
+    dtp::GenomicRegion toGenomicRegion(const std::deque<std::string> &referenceIDs) const;
 
     dtp::Feature toFeature(const std::deque<std::string> &referenceIDs,
                            const std::string &featureID,
-                           const std::string &featureType = "transcript") const {
-        return dtp::Feature{
-            referenceIDs[referenceIDIndex], featureType, start, end, strand, featureID};
-    }
+                           const std::string &featureType = "transcript") const;
 
-    void merge(const Segment &other) {
-        start = std::min(start, other.start);
-        end = std::max(end, other.end);
-        complementarityScore = std::max(complementarityScore, other.complementarityScore);
-        hybridizationEnergy = std::min(hybridizationEnergy, other.hybridizationEnergy);
-    }
+    void merge(const Segment &other);
 };
 
 struct ReadCluster {
@@ -90,86 +61,30 @@ struct ReadCluster {
     std::vector<double> complementarityScores;
     std::vector<double> hybridizationEnergies;
     std::optional<std::pair<std::string, std::string>> transcriptIDs = std::nullopt;
+    std::optional<double> pValue = std::nullopt;
+    std::optional<double> pAdj = std::nullopt;
     int count{1};
 
-    bool operator<(const ReadCluster &a) const {
-        return std::tie(segments.first.start, segments.second.start) <
-               std::tie(a.segments.first.start, a.segments.second.start);
-    }
-
     static std::optional<ReadCluster> fromSegments(const Segment &segment1,
-                                                   const Segment &segment2) {
-        const auto sortedElements = getSortedElements(segment1, segment2);
-        if (!sortedElements.has_value()) {
-            return std::nullopt;
-        }
-        assert(sortedElements.value().first.complementarityScore ==
-               sortedElements.value().second.complementarityScore);
-        assert(sortedElements.value().first.hybridizationEnergy ==
-               sortedElements.value().second.hybridizationEnergy);
-        return ReadCluster{sortedElements.value(),
-                           {sortedElements->first.complementarityScore},
-                           {sortedElements->first.hybridizationEnergy}};
-    }
+                                                   const Segment &segment2);
 
-    bool overlaps(const ReadCluster &other, const int graceDistance) const {
-        const bool firstOverlaps =
-            segments.first.end + graceDistance >= other.segments.first.start &&
-            segments.first.start <= other.segments.first.end + graceDistance;
+    bool operator<(const ReadCluster &a) const;
 
-        const bool secondOverlaps =
-            segments.second.end + graceDistance >= other.segments.second.start &&
-            segments.second.start <= other.segments.second.end + graceDistance;
+    bool overlaps(const ReadCluster &other, const int graceDistance) const;
 
-        return segments.first.referenceIDIndex == other.segments.first.referenceIDIndex &&
-               segments.second.referenceIDIndex == other.segments.second.referenceIDIndex &&
-               firstOverlaps && secondOverlaps &&
-               segments.first.strand == other.segments.first.strand &&
-               segments.second.strand == other.segments.second.strand;
-    }
+    void merge(const ReadCluster &other);
 
-    void merge(const ReadCluster &other) {
-        segments.first.merge(other.segments.first);
-        segments.second.merge(other.segments.second);
-        complementarityScores.insert(complementarityScores.end(),
-                                     other.complementarityScores.begin(),
-                                     other.complementarityScores.end());
-        hybridizationEnergies.insert(hybridizationEnergies.end(),
-                                     other.hybridizationEnergies.begin(),
-                                     other.hybridizationEnergies.end());
-        count += other.count;
-    }
+    double complementarityStatistics() const;
 
-    double complementarityStatistics() const {
-        assert(!complementarityScores.empty());
-        assert(segments.first.complementarityScore == segments.second.complementarityScore);
-        return helper::calculateMedian(complementarityScores) / segments.first.complementarityScore;
-    }
-
-    double hybridizationEnergyStatistics() const {
-        assert(!hybridizationEnergies.empty());
-        assert(segments.first.hybridizationEnergy == segments.second.hybridizationEnergy);
-        return std::sqrt(helper::calculateMedian(hybridizationEnergies) /
-                         segments.first.hybridizationEnergy);
-    }
+    double hybridizationEnergyStatistics() const;
 
    private:
     explicit ReadCluster(std::pair<Segment, Segment> segments,
                          std::vector<double> complementarityScores,
-                         std::vector<double> hybridizationEnergies)
-        : segments(segments),
-          complementarityScores(complementarityScores),
-          hybridizationEnergies(hybridizationEnergies) {}
+                         std::vector<double> hybridizationEnergies);
+
     static std::optional<std::pair<Segment, Segment>> getSortedElements(const Segment &segment1,
-                                                                        const Segment &segment2) {
-        if (segment1.recordID != segment2.recordID) {
-            Logger::log(LogLevel::WARNING, "Record IDs do not match: ", segment1.recordID, " vs. ",
-                        segment2.recordID, ". Make sure reads are sorted by name.");
-            return std::nullopt;
-        }
-        return segment1.start < segment2.start ? std::make_pair(segment1, segment2)
-                                               : std::make_pair(segment2, segment1);
-    }
+                                                                        const Segment &segment2);
 };
 
 class Cluster {
@@ -184,17 +99,28 @@ class Cluster {
     Annotation::FeatureAnnotator featureAnnotator;
 
     void iterate(const std::string &splitsInPath, const fs::path &unassignedSingletonsInPath,
-                 const fs::path &clusterOutPath, const fs::path &supplementaryFeaturesOutPath,
+                 const fs::path &fragmentCountsInPath, const fs::path &clusterOutPath,
+                 const fs::path &supplementaryFeaturesOutPath,
                  const fs::path &clusterTranscriptCountsOutPath);
     void mergeOverlappingClusters(std::vector<ReadCluster> &clusters);
-    void assignClustersToTranscripts(const std::vector<ReadCluster> &clusters,
+    void assignClustersToTranscripts(std::vector<ReadCluster> &clusters,
                                      const std::deque<std::string> &referenceIDs,
                                      const fs::path &unassignedSingletonsInPath,
+                                     const fs::path &fragmentCountsInPath,
                                      const fs::path &supplementaryFeaturesOutPath,
                                      const fs::path &transcriptCountsOutPath);
+    std::unordered_map<std::string, double> getTranscriptProbabilities(
+        const std::unordered_map<std::string, size_t> &transcriptCounts,
+        const size_t totalTranscriptCount);
+
+    void assignPValuesToClusters(std::vector<ReadCluster> &clusters,
+                                 const std::unordered_map<std::string, size_t> &transcriptCounts,
+                                 const size_t totalTranscriptCount);
+    void assignPAdjustedValuesToClusters(std::vector<ReadCluster> &clusters);
     void writeClustersToFile(const fs::path &clusterOutPath,
                              const std::deque<std::string> &referenceIDs);
     void assignUnassignedSingletonsToSupplementaryFeatures(
         const fs::path &unassignedSingletonsInPath, Annotation::FeatureAnnotator &featureAnnotator,
         std::unordered_map<std::string, size_t> &transcriptCounts);
+    size_t parseSampleFragmentCount(const fs::path &sampleCountsInPath);
 };

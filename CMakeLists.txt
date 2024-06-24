@@ -110,6 +110,7 @@ target_link_libraries (RNAnue PRIVATE   seqan3::seqan3
                                         Boost::property_tree 
                                         Boost::foreach 
                                         Boost::dynamic_bitset
+                                        Boost::math
                                         segemehl)
 
 if(OpenMP_CXX_FOUND)

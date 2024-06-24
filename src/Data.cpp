@@ -115,15 +115,6 @@ void Data::alignDataPrep() {
 void Data::detectDataPrep() {
     Logger::log(LogLevel::INFO, "Retrieving the data for detecting split reads.");
 
-    if (params["stats"].as<bool>()) {
-        fs::path statsfile =
-            fs::path(params["outdir"].as<std::string>()) / pi::DETECT / "detectStat.txt";
-        std::ofstream ofs;
-        ofs.open(statsfile.string());
-        ofs << "sample\tsplits\tsingletons" << std::endl;
-        ofs.close();
-    }
-
     std::optional<fs::path> ctrlsPath = std::nullopt;
     if (withControlData()) {
         ctrlsPath = fs::path(params["outdir"].as<std::string>()) / pi::ALIGN / "ctrls";
@@ -256,9 +247,10 @@ pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath)
         sampleKeys = {"matched"};
         dataFiles = filterDirContent(dataFiles, "matched.sam");
     } else if (subcall == pi::CLUSTER || subcall == pi::ANALYZE) {
-        expectedElementCount = 2;
-        sampleKeys = {"splits", "singletonunassigned"};
-        dataFiles = filterDirContent(dataFiles, "_splits.sam", "singletonUnassigned.sam");
+        expectedElementCount = 3;
+        sampleKeys = {"splits", "singletonunassigned", "samplecounts"};
+        dataFiles = filterDirContent(dataFiles, "_splits.sam", "singletonUnassigned.sam",
+                                     "sampleCounts.tsv");
     }
 
     if (expectedElementCount != dataFiles.size()) {
@@ -345,7 +337,9 @@ pt::ptree Data::retrieveSampleOutputTree(fs::path outConditionDir, pt::ptree inp
         std::string singletonUnassignedOutPath =
             addSuffix(splitsGeneralPath, "singletonUnassigned", {"matched"});
         std::string statsOutPath =
-            (fs::path(params["outdir"].as<std::string>()) / pi::DETECT / "detectStat.txt").string();
+            fs::path(addSuffix(splitsGeneralPath, "sampleCounts", {"matched"}))
+                .replace_extension(".tsv")
+                .string();
         fs::path singletonTranscriptCountsOutPath =
             addSuffix(splitsGeneralPath, "singletonTranscriptCounts", {"matched"});
         singletonTranscriptCountsOutPath.replace_extension(".tsv");

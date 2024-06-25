@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.22)
 
 project(RNAnue VERSION 1.0.0)
 
@@ -10,7 +10,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 set(CMAKE_CXX_FLAGS "-fopenmp")
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-interference-size")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
@@ -52,6 +52,7 @@ add_custom_target(
         CC=$ENV{CC}
         --prefix=${VIENNA_BUILD_DIR}
         --enable-lto
+        --without-gsl
         --without-perl
         --without-python
         --without-doc
@@ -74,8 +75,7 @@ add_custom_target(
         --disable-check-perl
         --disable-check-python
         --disable-check-python2
-    COMMAND make CXX=$ENV{CXX} CC=$ENV{CC}
-    COMMAND make install
+    COMMAND make install CXX=$ENV{CXX} CC=$ENV{CC} || exit(0)
     WORKING_DIRECTORY ${VIENNA_BUILD_DIR}
 )
 
@@ -136,6 +136,7 @@ set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(CPACK_VERBATIM_VARIABLES TRUE)
 set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME})
 
+set(CPACK_PACKAGE_CONTACT "Christopher Adelmann; RNA Biology & Bioinformatics; Institute of Biomedical Genetics; University of Stuttgart")
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE)
 
 if(APPLE)
@@ -143,7 +144,7 @@ if(APPLE)
     set(CPACK_GENERATOR TGZ productbuild)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     message(STATUS "Building for Linux")
-    set(CPACK_GENERATOR TGZ RPM)
+    set(CPACK_GENERATOR TGZ DEB)
 else()
     message(STATUS "Building for Other OS")
     set(CPACK_GENERATOR TGZ)

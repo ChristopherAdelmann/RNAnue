@@ -58,6 +58,7 @@ else()
   ExternalProject_Add(
     htslib
     PREFIX ${htslib_PREFIX}
+    DOWNLOAD_EXTRACT_TIMESTAMP true
     URL https://github.com/samtools/htslib/releases/download/1.20/htslib-1.20.tar.bz2
     BUILD_IN_SOURCE 1
     UPDATE_COMMAND ""

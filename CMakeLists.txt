@@ -34,12 +34,13 @@ find_package(OpenMP)
 ### Boost
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)  
-set(Boost_USE_STATIC_RUNTIME ON)
+#set(Boost_USE_STATIC_RUNTIME ON)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(Boost_DEBUG ON)
 endif()
 
 add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
+
 
 ### ViennaRNA
 set(VIENNA_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/submodules/ViennaRNA/build)
@@ -75,7 +76,7 @@ add_custom_target(
         --disable-check-perl
         --disable-check-python
         --disable-check-python2
-    COMMAND make install CXX=$ENV{CXX} CC=$ENV{CC} || exit(0)
+    COMMAND make install CXX=$ENV{CXX} CC=$ENV{CC} || true
     WORKING_DIRECTORY ${VIENNA_BUILD_DIR}
 )
 
@@ -112,7 +113,7 @@ add_dependencies(RNAnue ViennaRNA)
 target_include_directories (RNAnue PRIVATE ${VIENNA_BUILD_DIR}/include)
 target_link_libraries (RNAnue PRIVATE ${VIENNA_BUILD_DIR}/lib/libRNA.a)
 
-target_link_libraries (RNAnue PRIVATE   seqan3::seqan3 
+target_link_libraries (RNAnue PRIVATE   seqan3::seqan3
                                         Boost::program_options 
                                         Boost::filesystem 
                                         Boost::property_tree 

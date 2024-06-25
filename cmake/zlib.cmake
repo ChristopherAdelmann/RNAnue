@@ -6,6 +6,7 @@ set(zlib_INSTALL ${CMAKE_BINARY_DIR}/submodules/zlib-install)
 ExternalProject_Add(
   zlib
   PREFIX ${zlib_PREFIX}
+  DOWNLOAD_EXTRACT_TIMESTAMP true
   GIT_REPOSITORY "https://github.com/madler/zlib.git"
   GIT_TAG "v1.3.1"
   UPDATE_COMMAND ""

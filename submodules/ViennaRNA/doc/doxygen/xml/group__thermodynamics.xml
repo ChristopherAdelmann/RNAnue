@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__thermodynamics" kind="group">
     <compoundname>thermodynamics</compoundname>
     <title>Predicting various thermodynamic properties</title>
@@ -46,9 +46,13 @@
 <para>Get the mean base pair distance in the thermodynamic ensemble from a probability matrix. </para>
         </briefdescription>
         <detaileddescription>
-<para><formula id="21">\[ &lt;d&gt; = \sum_{a,b} p_a p_b d(S_a,S_b) \]</formula></para>
-<para>this can be computed from the pair probs <formula id="22">$ p_{ij} $</formula> as</para>
-<para><formula id="23">\[ &lt;d&gt; = \sum_{ij} p_{ij}(1-p_{ij}) \]</formula></para>
+<para><formula id="22">\[
+&lt;d&gt; = \sum_{a,b} p_a p_b d(S_a,S_b)
+\]</formula></para>
+<para>this can be computed from the pair probs <formula id="23">$ p_{ij} $</formula> as</para>
+<para><formula id="24">\[
+&lt;d&gt; = \sum_{ij} p_{ij}(1-p_{ij})
+\]</formula></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>length</parametername>
@@ -87,9 +91,13 @@
 <para>Get the mean base pair distance in the thermodynamic ensemble. </para>
         </briefdescription>
         <detaileddescription>
-<para><formula id="21">\[ &lt;d&gt; = \sum_{a,b} p_a p_b d(S_a,S_b) \]</formula></para>
-<para>this can be computed from the pair probs <formula id="24">$p_{ij}$</formula> as</para>
-<para><formula id="23">\[ &lt;d&gt; = \sum_{ij} p_{ij}(1-p_{ij}) \]</formula></para>
+<para><formula id="22">\[
+&lt;d&gt; = \sum_{a,b} p_a p_b d(S_a,S_b)
+\]</formula></para>
+<para>this can be computed from the pair probs <formula id="25">$p_{ij}$</formula> as</para>
+<para><formula id="24">\[
+&lt;d&gt; = \sum_{ij} p_{ij}(1-p_{ij})
+\]</formula></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>fc</parametername>
@@ -126,9 +134,11 @@
 <para>Compute the Ensemble Defect for a given target structure provided as a <bold>vrna_ptable</bold>. </para>
         </briefdescription>
         <detaileddescription>
-<para>Given a target structure <formula id="25">$s$</formula>, compute the average dissimilarity of a randomly drawn structure from the ensemble, i.e.:</para>
-<para><formula id="26">\[ ED(s) = 1 - \frac{1}{n} \sum_{ij, (i,j) \in s} p_{ij} - \frac{1}{n} \sum_{i}(1 - s_i)q_i \]</formula></para>
-<para>with sequence length <formula id="27">$n$</formula>, the probability <formula id="24">$p_{ij}$</formula> of a base pair <formula id="28">$(i,j)$</formula>, the probability <formula id="29">$q_i = 1 - \sum_j p_{ij}$</formula> of nucleotide <formula id="30">$i$</formula> being unpaired, and the indicator variable <formula id="31">$s_i = 1$</formula> if <formula id="32">$\exists (i,j) \in s$</formula>, and <formula id="33">$s_i = 0$</formula> otherwise.</para>
+<para>Given a target structure <formula id="26">$s$</formula>, compute the average dissimilarity of a randomly drawn structure from the ensemble, i.e.:</para>
+<para><formula id="27">\[
+  ED(s) = 1 - \frac{1}{n} \sum_{ij, (i,j) \in s} p_{ij} - \frac{1}{n} \sum_{i}(1 - s_i)q_i
+\]</formula></para>
+<para>with sequence length <formula id="28">$n$</formula>, the probability <formula id="25">$p_{ij}$</formula> of a base pair <formula id="29">$(i,j)$</formula>, the probability <formula id="30">$q_i = 1 - \sum_j p_{ij}$</formula> of nucleotide <formula id="31">$i$</formula> being unpaired, and the indicator variable <formula id="32">$s_i = 1$</formula> if <formula id="33">$\exists (i,j) \in s$</formula>, and <formula id="34">$s_i = 0$</formula> otherwise.</para>
 <para><simplesect kind="pre"><para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> input parameter <computeroutput>fc</computeroutput> must contain a valid base pair probability matrix. This means that partition function and base pair probabilities must have been computed using <computeroutput>fc</computeroutput> before execution of this function!</para>
 </simplesect>
 <simplesect kind="see"><para><ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref>, vrna_pairing_probs(), <ref refid="group__thermodynamics_1gaaf197722d1faa86af5e7b4240acafdee" kindref="member">vrna_ensemble_defect()</ref></para>
@@ -177,9 +187,11 @@
 <para>Compute the Ensemble Defect for a given target structure. </para>
         </briefdescription>
         <detaileddescription>
-<para>This is a wrapper around <bold><ref refid="group__thermodynamics_1ga20b7a56fa9e451461805fd968c6cd909" kindref="member">vrna_ensemble_defect_pt()</ref></bold>. Given a target structure <formula id="25">$s$</formula>, compute the average dissimilarity of a randomly drawn structure from the ensemble, i.e.:</para>
-<para><formula id="26">\[ ED(s) = 1 - \frac{1}{n} \sum_{ij, (i,j) \in s} p_{ij} - \frac{1}{n} \sum_{i}(1 - s_i)q_i \]</formula></para>
-<para>with sequence length <formula id="27">$n$</formula>, the probability <formula id="24">$p_{ij}$</formula> of a base pair <formula id="28">$(i,j)$</formula>, the probability <formula id="29">$q_i = 1 - \sum_j p_{ij}$</formula> of nucleotide <formula id="30">$i$</formula> being unpaired, and the indicator variable <formula id="31">$s_i = 1$</formula> if <formula id="32">$\exists (i,j) \in s$</formula>, and <formula id="33">$s_i = 0$</formula> otherwise.</para>
+<para>This is a wrapper around <bold><ref refid="group__thermodynamics_1ga20b7a56fa9e451461805fd968c6cd909" kindref="member">vrna_ensemble_defect_pt()</ref></bold>. Given a target structure <formula id="26">$s$</formula>, compute the average dissimilarity of a randomly drawn structure from the ensemble, i.e.:</para>
+<para><formula id="27">\[
+  ED(s) = 1 - \frac{1}{n} \sum_{ij, (i,j) \in s} p_{ij} - \frac{1}{n} \sum_{i}(1 - s_i)q_i
+\]</formula></para>
+<para>with sequence length <formula id="28">$n$</formula>, the probability <formula id="25">$p_{ij}$</formula> of a base pair <formula id="29">$(i,j)$</formula>, the probability <formula id="30">$q_i = 1 - \sum_j p_{ij}$</formula> of nucleotide <formula id="31">$i$</formula> being unpaired, and the indicator variable <formula id="32">$s_i = 1$</formula> if <formula id="33">$\exists (i,j) \in s$</formula>, and <formula id="34">$s_i = 0$</formula> otherwise.</para>
 <para><simplesect kind="pre"><para>The <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> input parameter <computeroutput>fc</computeroutput> must contain a valid base pair probability matrix. This means that partition function and base pair probabilities must have been computed using <computeroutput>fc</computeroutput> before execution of this function!</para>
 </simplesect>
 <simplesect kind="see"><para><ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref>, vrna_pairing_probs(), <ref refid="group__thermodynamics_1ga20b7a56fa9e451461805fd968c6cd909" kindref="member">vrna_ensemble_defect_pt()</ref></para>
@@ -225,8 +237,10 @@
         </briefdescription>
         <detaileddescription>
 <para>This function computes the positional entropies from base pair probabilities as</para>
-<para><formula id="34">\[ S(i) = - \sum_j p_{ij} \log(p_{ij}) - q_i \log(q_i) \]</formula></para>
-<para>with unpaired probabilities <formula id="35">$ q_i = 1 - \sum_j p_{ij} $</formula>.</para>
+<para><formula id="35">\[
+S(i) = - \sum_j p_{ij} \log(p_{ij}) - q_i \log(q_i)
+\]</formula></para>
+<para>with unpaired probabilities <formula id="36">$ q_i = 1 - \sum_j p_{ij} $</formula>.</para>
 <para>Low entropy regions have little structural flexibility and the reliability of the predicted structure is high. High entropy implies many structural alternatives. While these alternatives may be functionally important, they make structure prediction more difficult and thus less reliable.</para>
 <para><simplesect kind="pre"><para>This function requires pre-computed base pair probabilities! Thus, <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref> must be called beforehand.</para>
 </simplesect>
@@ -239,7 +253,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>A 1-based vector of positional entropies <formula id="36">$ S(i) $</formula>. (position 0 contains the sequence length)</para>
+<simplesect kind="return"><para>A 1-based vector of positional entropies <formula id="37">$ S(i) $</formula>. (position 0 contains the sequence length)</para>
 </simplesect>
 <xrefsect id="wrappers_1_wrappers000151"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>positional_entropy()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.positional_entropy()` in the :doc:`/api_python`</verbatim>. </para>
 </parblock></para>
@@ -249,9 +263,9 @@
         </inbodydescription>
         <location file="ViennaRNA/equilibrium_probs.h" line="169" column="1" declfile="ViennaRNA/equilibrium_probs.h" declline="169" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__thermodynamics_1gaa687ae9f56f5cedba1e863cd6d54af43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__thermodynamics_1ga39bbe73ccb7685b6521cfa5c1c64ae78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
-        <definition>vrna_ep_t* vrna_stack_prob</definition>
+        <definition>vrna_ep_t * vrna_stack_prob</definition>
         <argsstring>(vrna_fold_compound_t *fc, double cutoff)</argsstring>
         <name>vrna_stack_prob</name>
         <param>
@@ -266,7 +280,7 @@
 <para>Compute stacking probabilities. </para>
         </briefdescription>
         <detaileddescription>
-<para>For each possible base pair <formula id="28">$(i,j)$</formula>, compute the probability of a stack <formula id="28">$(i,j)$</formula>, <formula id="37">$(i+1, j-1)$</formula>.</para>
+<para>For each possible base pair <formula id="29">$(i,j)$</formula>, compute the probability of a stack <formula id="29">$(i,j)$</formula>, <formula id="38">$(i+1, j-1)$</formula>.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>fc</parametername>
@@ -280,11 +294,11 @@
 <parametername>cutoff</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A cutoff value that limits the output to stacks with <formula id="38">$ p &gt; \textrm{cutoff} $</formula>. </para>
+<para>A cutoff value that limits the output to stacks with <formula id="39">$ p &gt; \textrm{cutoff} $</formula>. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>A list of stacks with enclosing base pair <formula id="28">$(i,j)$</formula> and probabiltiy <formula id="39">$ p $</formula> </para>
+<simplesect kind="return"><para>A list of stacks with enclosing base pair <formula id="29">$(i,j)$</formula> and probabiltiy <formula id="40">$ p $</formula> </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -336,7 +350,7 @@
 <para>Compute Boltzmann probabilities of dimerization without homodimers. </para>
         </briefdescription>
         <detaileddescription>
-<para>Given the pair probabilities and free energies (in the null model) for a dimer AB and the two constituent monomers A and B, compute the conditional pair probabilities given that a dimer AB actually forms. Null model pair probabilities are given as a list as produced by <ref refid="group__part__func__global_1ga3d2a1167543c90edac4c95507e9d3383" kindref="member">vrna_plist_from_probs()</ref>, the dimer probabilities &apos;prAB&apos; are modified in place.</para>
+<para>Given the pair probabilities and free energies (in the null model) for a dimer AB and the two constituent monomers A and B, compute the conditional pair probabilities given that a dimer AB actually forms. Null model pair probabilities are given as a list as produced by <ref refid="group__part__func__global_1ga2d1b1c2e37abe57911ce647123c8ae06" kindref="member">vrna_plist_from_probs()</ref>, the dimer probabilities &apos;prAB&apos; are modified in place.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>FAB</parametername>
@@ -428,11 +442,15 @@
 <para>Compute the equilibrium probability of a particular secondary structure. </para>
         </briefdescription>
         <detaileddescription>
-<para>The probability <formula id="40">$p(s)$</formula> of a particular secondary structure <formula id="25">$s$</formula> can be computed as</para>
-<para><formula id="41">\[ p(s) = \frac{exp(-\beta E(s)}{Z} \]</formula></para>
-<para>from the structures free energy <formula id="42">$E(s)$</formula> and the partition function</para>
-<para><formula id="43">\[ Z = \sum_s exp(-\beta E(s)),\quad\mathrm{with}\quad\beta = \frac{1}{RT} \]</formula></para>
-<para>where <formula id="44">$R$</formula> is the gas constant and <formula id="45">$T$</formula> the thermodynamic temperature.</para>
+<para>The probability <formula id="41">$p(s)$</formula> of a particular secondary structure <formula id="26">$s$</formula> can be computed as</para>
+<para><formula id="42">\[
+  p(s) = \frac{exp(-\beta E(s)}{Z}
+\]</formula></para>
+<para>from the structures free energy <formula id="43">$E(s)$</formula> and the partition function</para>
+<para><formula id="44">\[
+  Z = \sum_s exp(-\beta E(s)),\quad\mathrm{with}\quad\beta = \frac{1}{RT}
+\]</formula></para>
+<para>where <formula id="45">$R$</formula> is the gas constant and <formula id="46">$T$</formula> the thermodynamic temperature.</para>
 <para><simplesect kind="pre"><para>The fold compound <computeroutput>fc</computeroutput> must have went through a call to <ref refid="group__part__func__global_1gaff6fe7a499a62d62d10cb850d5222f00" kindref="member">vrna_pf()</ref> to fill the dynamic programming matrices with the corresponding partition function.</para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
@@ -452,7 +470,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>The probability of the input structure (range <formula id="46">$[0:1]$</formula>)</para>
+<simplesect kind="return"><para>The probability of the input structure (range <formula id="47">$[0:1]$</formula>)</para>
 </simplesect>
 <xrefsect id="wrappers_1_wrappers000152"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>pr_structure()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.pr_structure()` in the :doc:`/api_python`</verbatim>. </para>
 </parblock></para>
@@ -519,7 +537,7 @@
         </briefdescription>
         <detaileddescription>
 <para>This function computes an RNAs specific heat in a given temperature range from the partition function by numeric differentiation. The result is returned as a list of pairs of temperature in <deg/>C and specific heat in Kcal/(Mol*K).</para>
-<para>Users can specify the temperature range for the computation from <computeroutput>T_min</computeroutput> to <computeroutput>T_max</computeroutput>, as well as the increment step size <computeroutput>T_increment</computeroutput>. The latter also determines how many times the partition function is computed. Finally, the parameter <computeroutput>mpoints</computeroutput> determines how smooth the curve should be. The algorithm itself fits a parabola to <formula id="51">$ 2 \cdot mpoints + 1 $</formula> data points to calculate 2nd derivatives. Increasing this parameter produces a smoother curve.</para>
+<para>Users can specify the temperature range for the computation from <computeroutput>T_min</computeroutput> to <computeroutput>T_max</computeroutput>, as well as the increment step size <computeroutput>T_increment</computeroutput>. The latter also determines how many times the partition function is computed. Finally, the parameter <computeroutput>mpoints</computeroutput> determines how smooth the curve should be. The algorithm itself fits a parabola to <formula id="52">$ 2 \cdot mpoints + 1 $</formula> data points to calculate 2nd derivatives. Increasing this parameter produces a smoother curve.</para>
 <para><simplesect kind="see"><para><ref refid="group__thermodynamics_1ga19ef508fcc66ab80833aa2fe402d8927" kindref="member">vrna_heat_capacity_cb()</ref>, <ref refid="group__thermodynamics_1ga99dc703d840310177ecf7aedf72b4409" kindref="member">vrna_heat_capacity_t</ref>, <ref refid="structvrna__heat__capacity__s" kindref="compound">vrna_heat_capacity_s</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
@@ -611,7 +629,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Similar to <ref refid="group__thermodynamics_1gafd95c2350d67d8f4374369c19cf111f1" kindref="member">vrna_heat_capacity()</ref>, this function computes an RNAs specific heat in a given temperature range from the partition function by numeric differentiation. Instead of returning a list of temperature/specific heat pairs, however, this function returns the individual results through a callback mechanism. The provided function will be called for each result and passed the corresponding temperature and specific heat values along with the arbitrary data as provided through the <computeroutput>data</computeroutput> pointer argument.</para>
-<para>Users can specify the temperature range for the computation from <computeroutput>T_min</computeroutput> to <computeroutput>T_max</computeroutput>, as well as the increment step size <computeroutput>T_increment</computeroutput>. The latter also determines how many times the partition function is computed. Finally, the parameter <computeroutput>mpoints</computeroutput> determines how smooth the curve should be. The algorithm itself fits a parabola to <formula id="51">$ 2 \cdot mpoints + 1 $</formula> data points to calculate 2nd derivatives. Increasing this parameter produces a smoother curve.</para>
+<para>Users can specify the temperature range for the computation from <computeroutput>T_min</computeroutput> to <computeroutput>T_max</computeroutput>, as well as the increment step size <computeroutput>T_increment</computeroutput>. The latter also determines how many times the partition function is computed. Finally, the parameter <computeroutput>mpoints</computeroutput> determines how smooth the curve should be. The algorithm itself fits a parabola to <formula id="52">$ 2 \cdot mpoints + 1 $</formula> data points to calculate 2nd derivatives. Increasing this parameter produces a smoother curve.</para>
 <para><simplesect kind="see"><para><ref refid="group__thermodynamics_1gafd95c2350d67d8f4374369c19cf111f1" kindref="member">vrna_heat_capacity()</ref>, <ref refid="group__thermodynamics_1gafa73325bee7e6b7c9d1732d70e67d65a" kindref="member">vrna_heat_capacity_f</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
@@ -714,7 +732,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Similar to <ref refid="group__thermodynamics_1gafd95c2350d67d8f4374369c19cf111f1" kindref="member">vrna_heat_capacity()</ref>, this function computes an RNAs specific heat in a given temperature range from the partition function by numeric differentiation. This simplified version, however, only requires the RNA sequence as input instead of a vrna_fold_compound_t data structure. The result is returned as a list of pairs of temperature in <deg/>C and specific heat in Kcal/(Mol*K).</para>
-<para>Users can specify the temperature range for the computation from <computeroutput>T_min</computeroutput> to <computeroutput>T_max</computeroutput>, as well as the increment step size <computeroutput>T_increment</computeroutput>. The latter also determines how many times the partition function is computed. Finally, the parameter <computeroutput>mpoints</computeroutput> determines how smooth the curve should be. The algorithm itself fits a parabola to <formula id="51">$ 2 \cdot mpoints + 1 $</formula> data points to calculate 2nd derivatives. Increasing this parameter produces a smoother curve.</para>
+<para>Users can specify the temperature range for the computation from <computeroutput>T_min</computeroutput> to <computeroutput>T_max</computeroutput>, as well as the increment step size <computeroutput>T_increment</computeroutput>. The latter also determines how many times the partition function is computed. Finally, the parameter <computeroutput>mpoints</computeroutput> determines how smooth the curve should be. The algorithm itself fits a parabola to <formula id="52">$ 2 \cdot mpoints + 1 $</formula> data points to calculate 2nd derivatives. Increasing this parameter produces a smoother curve.</para>
 <para><simplesect kind="see"><para><ref refid="group__thermodynamics_1gafd95c2350d67d8f4374369c19cf111f1" kindref="member">vrna_heat_capacity()</ref>, <ref refid="group__thermodynamics_1ga19ef508fcc66ab80833aa2fe402d8927" kindref="member">vrna_heat_capacity_cb()</ref>, <ref refid="group__thermodynamics_1ga99dc703d840310177ecf7aedf72b4409" kindref="member">vrna_heat_capacity_t</ref>, <ref refid="structvrna__heat__capacity__s" kindref="compound">vrna_heat_capacity_s</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
@@ -841,7 +859,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ViennaRNA/heat_capacity.h" line="61" column="10" bodyfile="ViennaRNA/heat_capacity.h" bodystart="69" bodyend="-1"/>
+        <location file="ViennaRNA/heat_capacity.h" line="69" column="35" bodyfile="ViennaRNA/heat_capacity.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

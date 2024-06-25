@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__eval__loops__hp" kind="group">
     <compoundname>eval_loops_hp</compoundname>
     <title>Hairpin Loops</title>
@@ -28,7 +28,7 @@
         </briefdescription>
         <detaileddescription>
 <para>This function evaluates the free energy of a hairpin loop</para>
-<para>In case the base pair is not allowed due to a constraint conflict, this function returns <ref refid="constants_8h_1a12c2040f25d8e3a7b9e1c2024c618cb6" kindref="member">INF</ref>.</para>
+<para>In case the base pair is not allowed due to a constraint conflict, this function returns INF.</para>
 <para><simplesect kind="note"><para>This function is polymorphic! The provided <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> may be of type <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447da7e264dd3cf2dc9b6448caabcb7763cd6" kindref="member">VRNA_FC_TYPE_SINGLE</ref> or <ref refid="group__fold__compound_1gga01a4ff86fa71deaaa5d1abbd95a1447dab821ce46ea3cf665be97df22a76f5023" kindref="member">VRNA_FC_TYPE_COMPARATIVE</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
@@ -167,7 +167,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Free energy of the hairpin loop closed by <formula id="92">$ (i,j) $</formula> in deka-kal/mol</para>
+<simplesect kind="return"><para>Free energy of the hairpin loop closed by <formula id="94">$ (i,j) $</formula> in deka-kal/mol</para>
 </simplesect>
 <xrefsect id="wrappers_1_wrappers000074"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <computeroutput>eval_hp_loop()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.eval_hp_loop()` in the :doc:`/api_python` </verbatim>. </para>
 </parblock></para>
@@ -222,7 +222,7 @@
 </para>
 <para><simplesect kind="note"><para>The parameter sequence should contain the sequence of the loop in capital letters of the nucleic acid alphabet if the loop size is below 7. This is useful for unusually stable tri-, tetra- and hexa-loops which are treated differently (based on experimental data) if they are tabulated.</para>
 </simplesect>
-<simplesect kind="see"><para><ref refid="group__energy__parameters_1ga541f2cf7436e9bc939b0a49b24baf987" kindref="member">scale_parameters()</ref>, <ref refid="group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35" kindref="member">vrna_param_t</ref></para>
+<simplesect kind="see"><para><ref refid="group__energy__parameters_1ga5fe3524fd6d2a297099238f117254c13" kindref="member">scale_parameters()</ref>, <ref refid="group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35" kindref="member">vrna_param_t</ref></para>
 </simplesect>
 <simplesect kind="warning"><para>Not (really) thread safe! A threadsafe implementation will replace this function in a future release!<linebreak/>
  Energy evaluation may change due to updates in global variable &quot;tetra_loop&quot;</para>
@@ -264,7 +264,7 @@
 <parametername>string</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The sequence of the loop (May be <computeroutput>NULL</computeroutput>, otherwise mst be at least <formula id="93">$size + 2$</formula> long) </para>
+<para>The sequence of the loop (May be <computeroutput>NULL</computeroutput>, otherwise mst be at least <formula id="95">$size + 2$</formula> long) </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -317,12 +317,12 @@
           <declname>P</declname>
         </param>
         <briefdescription>
-<para>Compute Boltzmann weight <formula id="88">$e^{-\Delta G/kT} $</formula> of a hairpin loop. </para>
+<para>Compute Boltzmann weight <formula id="90">$e^{-\Delta G/kT} $</formula> of a hairpin loop. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="note"><para>multiply by scale[u+2]</para>
 </simplesect>
-<simplesect kind="see"><para><ref refid="group__energy__parameters_1gabf3b9271c41dd3fac02d56e0b02b3344" kindref="member">get_scaled_pf_parameters()</ref>, <ref refid="group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8" kindref="member">vrna_exp_param_t</ref>, E_Hairpin()</para>
+<simplesect kind="see"><para><ref refid="group__energy__parameters_1ga1007b70b7176f7cc78ed224460b89bbe" kindref="member">get_scaled_pf_parameters()</ref>, <ref refid="group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8" kindref="member">vrna_exp_param_t</ref>, E_Hairpin()</para>
 </simplesect>
 <simplesect kind="warning"><para>Not (really) thread safe! A threadsafe implementation will replace this function in a future release!<linebreak/>
  Energy evaluation may change due to updates in global variable &quot;tetra_loop&quot;</para>
@@ -364,7 +364,7 @@
 <parametername>string</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The sequence of the loop (May be <computeroutput>NULL</computeroutput>, otherwise mst be at least <formula id="93">$size + 2$</formula> long) </para>
+<para>The sequence of the loop (May be <computeroutput>NULL</computeroutput>, otherwise mst be at least <formula id="95">$size + 2$</formula> long) </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>

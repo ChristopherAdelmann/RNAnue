@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Salt Corrections &mdash; ViennaRNA Package</title>
@@ -10,15 +10,19 @@
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
-        <script defer="defer" src="../../_static/js/mathjax/tex-chtml.js"></script>
-        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="../../_static/js/mathjax/tex-chtml.js?v=20daa33d"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -31,11 +35,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> ViennaRNA
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -142,11 +150,11 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../api.html">Concepts and Algorithms</a> &raquo;</li>
-          <li><a href="../../eval.html">Free Energy Evaluation</a> &raquo;</li>
-          <li><a href="../energy_parameters.html">Energy Parameters</a> &raquo;</li>
-      <li>Salt Corrections</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../eval.html">Free Energy Evaluation</a></li>
+          <li class="breadcrumb-item"><a href="../energy_parameters.html">Energy Parameters</a></li>
+      <li class="breadcrumb-item active">Salt Corrections</li>
 
   </ul>
   <hr/>
@@ -155,7 +163,7 @@
            <div itemprop="articleBody">
              
   <section id="salt-corrections">
-<h1>Salt Corrections<a class="headerlink" href="#salt-corrections" title="Permalink to this headline"></a></h1>
+<h1>Salt Corrections<a class="headerlink" href="#salt-corrections" title="Link to this heading"></a></h1>
 <p>All relevant functions to compute salt correction at a given salt concentration and temperature.</p>
 <p>The corrections for loop and stack are taken from <span id="id1">Einert and Netz [<a class="reference internal" href="../../bibliography.html#id51" title="Thomas R Einert and Roland R Netz. Theory for RNA folding, stretching, and melting including loops and salt. Biophysical journal, 100(11):2745–2753, 2011. doi:10.1016/j.bpj.2011.04.038.">2011</a>]</span>.</p>
 <p>All corrections returned are in units of <span class="math notranslate nohighlight">\(\text{dcal} \cdot \text{mol}^{-1}\)</span>.</p>
@@ -166,10 +174,10 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_salt_loop">
-<span class="target" id="group__energy__parameters__salt_1gae83764d58e98e05ea49530775bcba104"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_salt_loop</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">L</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">salt</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">backbonelen</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_salt_loop" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__energy__parameters__salt_1gae83764d58e98e05ea49530775bcba104"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_salt_loop</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">L</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">salt</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">backbonelen</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_salt_loop" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/params/salt.h&gt;</em><p>Get salt correction for a loop at a given salt concentration and temperature. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>L</strong> – backbone number in loop </p></li>
 <li><p><strong>salt</strong> – salt concentration (M) </p></li>
@@ -177,7 +185,7 @@
 <li><p><strong>backbonelen</strong> – Backbone Length, phosphate-to-phosphate distance (typically 6 for RNA, 6.76 for DNA)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Salt correction for loop in dcal/mol </p>
 </dd>
 </dl>
@@ -185,7 +193,7 @@
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_salt_loop_int">
-<span class="target" id="group__energy__parameters__salt_1ga79eb7c0dcb7e08dd37437c19be4a7751"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_salt_loop_int</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">L</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">salt</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">backbonelen</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_salt_loop_int" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__energy__parameters__salt_1ga79eb7c0dcb7e08dd37437c19be4a7751"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_salt_loop_int</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">L</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">salt</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">backbonelen</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_salt_loop_int" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/params/salt.h&gt;</em><p>Get salt correction for a loop at a given salt concentration and temperature. </p>
 <p>This functions is same as vrna_salt_loop but returns rounded salt correction in integer</p>
 <p><div class="admonition seealso">
@@ -194,7 +202,7 @@
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>L</strong> – backbone number in loop </p></li>
 <li><p><strong>salt</strong> – salt concentration (M) </p></li>
@@ -202,7 +210,7 @@
 <li><p><strong>backbonelen</strong> – Backbone Length, phosphate-to-phosphate distance (typically 6 for RNA, 6.76 for DNA)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Rounded salt correction for loop in dcal/mol </p>
 </dd>
 </dl>
@@ -210,17 +218,17 @@
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_salt_stack">
-<span class="target" id="group__energy__parameters__salt_1gab1b3e5d8995b1688765e4244038f157f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_salt_stack</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">salt</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">hrise</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_salt_stack" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__energy__parameters__salt_1gab1b3e5d8995b1688765e4244038f157f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_salt_stack</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">salt</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">hrise</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_salt_stack" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/params/salt.h&gt;</em><p>Get salt correction for a stack at a given salt concentration and temperature. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>salt</strong> – salt concentration (M) </p></li>
 <li><p><strong>T</strong> – absolute temperature (K) </p></li>
 <li><p><strong>hrise</strong> – Helical Rise (typically 2.8 for RNA, 3.4 for DNA)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Rounded salt correction for stack in dcal/mol </p>
 </dd>
 </dl>
@@ -228,7 +236,7 @@
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_salt_ml">
-<span class="target" id="group__energy__parameters__salt_1ga1099cd74de693d0aecc7b471342e1a31"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_salt_ml</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">saltLoop</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">lower</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">upper</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">m</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">b</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_salt_ml" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__energy__parameters__salt_1ga1099cd74de693d0aecc7b471342e1a31"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_salt_ml</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">saltLoop</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">lower</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">upper</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">m</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">b</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_salt_ml" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/params/salt.h&gt;</em><p>Fit linear function to loop salt correction. </p>
 <p>For a given range of loop size (backbone number), we perform a linear fitting on loop salt correction</p>
 <p><div class="math notranslate nohighlight">
@@ -240,7 +248,7 @@
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>saltLoop</strong> – List of loop salt correction of size from 1 </p></li>
 <li><p><strong>lower</strong> – Define the size lower bound for fitting </p></li>
@@ -254,15 +262,15 @@
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_salt_duplex_init">
-<span class="target" id="group__energy__parameters__salt_1ga157f362ca309f306c66bc668edb3aceb"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_salt_duplex_init</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_salt_duplex_init" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__energy__parameters__salt_1ga157f362ca309f306c66bc668edb3aceb"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_salt_duplex_init</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../grammar/model_details.html#c.vrna_md_t" title="vrna_md_t"><span class="n"><span class="pre">vrna_md_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">md</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_salt_duplex_init" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/params/salt.h&gt;</em><p>Get salt correction for duplex initialization at a given salt concentration. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>md</strong> – Model details data structure that specfifies salt concentration in buffer (M) </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Rounded correction for duplex initialization in dcal/mol </p>
 </dd>
 </dl>

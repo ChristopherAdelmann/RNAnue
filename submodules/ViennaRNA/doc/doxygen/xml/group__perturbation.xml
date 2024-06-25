@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__perturbation" kind="group">
     <compoundname>perturbation</compoundname>
     <title>Generate Soft Constraints from Data</title>
@@ -109,9 +109,12 @@
         </briefdescription>
         <detaileddescription>
 <para>Use an iterative minimization algorithm to find a vector of perturbation energies whose incorporation as soft constraints shifts the predicted pairing probabilities closer to the experimentally observed probabilities. The algorithm aims to minimize an objective function that penalizes discripancies between predicted and observed pairing probabilities and energy model adjustments, i.e. an appropriate vector of perturbation energies satisfies</para>
-<para><formula id="74">\[ F(\vec\epsilon) = \sum_{\mu}{ \frac{\epsilon_{\mu}^2}{\tau^2} } + \sum_{i = 1}^n{ \frac{(p_i(\vec\epsilon) - q_i)^2}{\sigma^2} } \to \min. \]</formula></para>
+<para><formula id="76">\[
+F(\vec\epsilon) = \sum_{\mu}{ \frac{\epsilon_{\mu}^2}{\tau^2} } + \sum_{i =
+1}^n{ \frac{(p_i(\vec\epsilon) - q_i)^2}{\sigma^2} } \to \min.
+\]</formula></para>
 <para>An initialized fold compound and an array containing the observed probability for each nucleotide to be unbound are required as input data. The parameters objective_function, sigma_squared and tau_squared are responsible for adjusting the aim of the objective function. Dependend on which type of objective function is selected, either squared or absolute aberrations are contributing to the objective function. The ratio of the parameters sigma_squared and tau_squared can be used to adjust the algorithm to find a solution either close to the thermodynamic prediction (sigma_squared &gt;&gt; tau_squared) or close to the experimental data (tau_squared &gt;&gt; sigma_squared). The minimization can be performed by makeing use of a custom gradient descent implementation or using one of the minimizing algorithms provided by the GNU Scientific Library. All algorithms require the evaluation of the gradient of the objective function, which includes the evaluation of conditional pairing probabilites. Since an exact evaluation is expensive, the probabilities can also be estimated from sampling by setting an appropriate sample size. The found vector of perturbation energies will be stored in the array epsilon. The progress of the minimization process can be tracked by implementing and passing a callback function.</para>
-<para><simplesect kind="see"><para>For further details we refer to <verbatim>embed:rst:inline :cite:t:`washietl:2012` </verbatim>.</para>
+<para><simplesect kind="see"><para>For further details we refer to  <verbatim>embed:rst:inline :cite:t:`washietl:2012` </verbatim>.</para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -201,7 +204,7 @@
 <para>Use the sum of squared aberrations as objective function. </para>
         </briefdescription>
         <detaileddescription>
-<para><formula id="72">$ F(\vec\epsilon) = \sum_{i = 1}^n{ \frac{\epsilon_i^2}{\tau^2} } + \sum_{i = 1}^n{ \frac{(p_i(\vec\epsilon) - q_i)^2}{\sigma^2} } \to min $</formula> </para>
+<para><formula id="74">$ F(\vec\epsilon) = \sum_{i = 1}^n{ \frac{\epsilon_i^2}{\tau^2} } + \sum_{i = 1}^n{ \frac{(p_i(\vec\epsilon) - q_i)^2}{\sigma^2} } \to min $</formula> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -214,7 +217,7 @@
 <para>Use the sum of absolute aberrations as objective function. </para>
         </briefdescription>
         <detaileddescription>
-<para><formula id="73">$ F(\vec\epsilon) = \sum_{i = 1}^n{ \frac{|\epsilon_i|}{\tau^2} } + \sum_{i = 1}^n{ \frac{|p_i(\vec\epsilon) - q_i|}{\sigma^2} } \to min $</formula> </para>
+<para><formula id="75">$ F(\vec\epsilon) = \sum_{i = 1}^n{ \frac{|\epsilon_i|}{\tau^2} } + \sum_{i = 1}^n{ \frac{|p_i(\vec\epsilon) - q_i|}{\sigma^2} } \to min $</formula> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>

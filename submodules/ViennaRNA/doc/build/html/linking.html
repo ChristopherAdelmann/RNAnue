@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Linking against RNAlib &mdash; ViennaRNA Package</title>
@@ -10,13 +10,17 @@
       <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="shortcut icon" href="_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/clipboard.min.js"></script>
-        <script src="_static/copybutton.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5248d183"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -29,11 +33,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> ViennaRNA
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ViennaRNA
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -115,9 +123,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="using_rnalib.html">Using RNAlib</a> &raquo;</li>
-      <li>Linking against RNAlib</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="using_rnalib.html">Using RNAlib</a></li>
+      <li class="breadcrumb-item active">Linking against RNAlib</li>
 
   </ul>
   <hr/>
@@ -126,14 +134,14 @@
            <div itemprop="articleBody">
              
   <section id="linking-against-rnalib">
-<h1>Linking against RNAlib<a class="headerlink" href="#linking-against-rnalib" title="Permalink to this headline"></a></h1>
+<h1>Linking against RNAlib<a class="headerlink" href="#linking-against-rnalib" title="Link to this heading"></a></h1>
 <p>In order to use our implemented algorithms you simply need to link your program
 to our <em>RNAlib</em> C-library that usually comes along with the ViennaRNA Package
 installation. If you’ve installed the ViennaRNA Package as a pre-build binary package,
 you probably need the corresponding development package, e.g. <code class="docutils literal notranslate"><span class="pre">viennarna-devel</span></code>, or
 <code class="docutils literal notranslate"><span class="pre">viennarna-dev</span></code>. The only thing that is left is to include the ViennaRNA header
 files into your source code, e.g.:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/mfe.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ViennaRNA/mfe.h&gt;</span>
 </pre></div>
 </div>
 <p>and start using our fast and efficient algorithm implementations.</p>
@@ -143,7 +151,7 @@ files into your source code, e.g.:</p>
 usually is a good starting point for your application.</p>
 </div>
 <section id="compiler-and-linker-flags">
-<h2>Compiler and Linker flags<a class="headerlink" href="#compiler-and-linker-flags" title="Permalink to this headline"></a></h2>
+<h2>Compiler and Linker flags<a class="headerlink" href="#compiler-and-linker-flags" title="Link to this heading"></a></h2>
 <p>Of course, simply adding the ViennaRNA header files into your source code is
 usually not enough. You probably need to tell your compiler where to find the
 header files, and sometimes add additional pre-processor directives. Whenever
@@ -221,7 +229,7 @@ Optimization.</p>
 </div>
 </section>
 <section id="the-pkg-config-tool">
-<h2>The pkg-config tool<a class="headerlink" href="#the-pkg-config-tool" title="Permalink to this headline"></a></h2>
+<h2>The pkg-config tool<a class="headerlink" href="#the-pkg-config-tool" title="Link to this heading"></a></h2>
 <p>Instead of hard-coding the required compiler and linker flags, you can also let the
 <code class="docutils literal notranslate"><span class="pre">pkg-config</span></code> tool automatically determine the required flags. This tool is usually
 packaged for any Linux distribution and should be available for MacOS X and MinGW as

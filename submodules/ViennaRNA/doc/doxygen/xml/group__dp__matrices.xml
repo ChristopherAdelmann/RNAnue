@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__dp__matrices" kind="group">
     <compoundname>dp_matrices</compoundname>
     <title>The Dynamic Programming Matrices</title>
@@ -23,7 +23,7 @@
 <para>DP matrices suitable for local structure prediction using window approach. </para>
           </briefdescription>
           <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2" kindref="member">vrna_mfe_window()</ref>, <ref refid="group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa" kindref="member">vrna_mfe_window_zscore()</ref>, <ref refid="group__part__func__window__deprecated_1ga7cdf690583871f9c158a0f91d4785cb6" kindref="member">pfl_fold()</ref> </para>
+<para><simplesect kind="see"><para><ref refid="group__mfe__window_1gacdbc049dcfc7a0e2eb37a327efab91e2" kindref="member">vrna_mfe_window()</ref>, <ref refid="group__mfe__window_1ga90d3756f07aa78a47ffac187ead3c0aa" kindref="member">vrna_mfe_window_zscore()</ref>, <ref refid="group__part__func__window__deprecated_1gaf6d77f10775c1d58c8199d5ec95d4228" kindref="member">pfl_fold()</ref> </para>
 </simplesect>
 </para>
           </detaileddescription>
@@ -34,7 +34,7 @@
 <para>DP matrices suitable for distance class partitioned structure prediction. </para>
           </briefdescription>
           <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__kl__neighborhood__mfe_1gaaee907015f196f670406649d98e5f8ab" kindref="member">vrna_mfe_TwoD()</ref>, <ref refid="group__kl__neighborhood__pf_1ga60505826ff99f05e9e1579f34ebf4dee" kindref="member">vrna_pf_TwoD()</ref> </para>
+<para><simplesect kind="see"><para><ref refid="group__kl__neighborhood__mfe_1ga264ac71e75add31dfb1fc72a0b2de709" kindref="member">vrna_mfe_TwoD()</ref>, <ref refid="group__kl__neighborhood__pf_1gac3bf71cefa4414f695e51f5da7269ebb" kindref="member">vrna_pf_TwoD()</ref> </para>
 </simplesect>
 </para>
           </detaileddescription>
@@ -65,7 +65,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ViennaRNA/dp_matrices.h" line="1" column="0" bodyfile="ViennaRNA/dp_matrices.h" bodystart="20" bodyend="-1"/>
+        <location file="ViennaRNA/dp_matrices.h" line="20" column="28" bodyfile="ViennaRNA/dp_matrices.h" bodystart="20" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="group__dp__matrices_1ga68729ab3fed26bdd1806fa814f172fc1" prot="public" static="no">
         <type>struct <ref refid="structvrna__mx__pf__s" kindref="compound">vrna_mx_pf_s</ref></type>
@@ -79,7 +79,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ViennaRNA/dp_matrices.h" line="1" column="0" bodyfile="ViennaRNA/dp_matrices.h" bodystart="22" bodyend="-1"/>
+        <location file="ViennaRNA/dp_matrices.h" line="22" column="27" bodyfile="ViennaRNA/dp_matrices.h" bodystart="22" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -107,7 +107,7 @@
 <para>This function adds DP matrices of a specific type to the provided <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>, such that successive DP recursion can be applied. The function caller has to specify which type of DP matrix is requested, see <ref refid="group__dp__matrices_1ga6042ea1d58d01931e959791be6d89343" kindref="member">vrna_mx_type_e</ref>, and what kind of recursive algorithm will be applied later on, using the parameters type, and options, respectively. For the latter, Minimum free energy (MFE), and Partition function (PF) computations are distinguished. A third option that may be passed is <ref refid="group__fold__compound_1ga8f681fa12b8d4b348bf58415fd1fc82f" kindref="member">VRNA_OPTION_HYBRID</ref>, indicating that auxiliary DP arrays are required for RNA-RNA interaction prediction.</para>
 <para><simplesect kind="note"><para>Usually, there is no need to call this function, since the constructors of <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> are handling all the DP matrix memory allocation.</para>
 </simplesect>
-<simplesect kind="see"><para>vrna_mx_mfe_add(), vrna_mx_pf_add(), <ref refid="group__fold__compound_1ga283cf113a37614a75c1388c4ec6d7b2f" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gad6bacc816af274922b13d947f708aa0c" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__dp__matrices_1gab9d4eaceb36345b71d349b12787c5e0a" kindref="member">vrna_mx_pf_free()</ref>, <ref refid="group__dp__matrices_1gaf429b1838e68cb677db6aef7e8f0ffc8" kindref="member">vrna_mx_mfe_free()</ref>, <ref refid="group__dp__matrices_1ga6042ea1d58d01931e959791be6d89343" kindref="member">vrna_mx_type_e</ref>, <ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref>, <ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref>, <ref refid="group__fold__compound_1ga8f681fa12b8d4b348bf58415fd1fc82f" kindref="member">VRNA_OPTION_HYBRID</ref>, <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref></para>
+<simplesect kind="see"><para>vrna_mx_mfe_add(), vrna_mx_pf_add(), <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__dp__matrices_1gab9d4eaceb36345b71d349b12787c5e0a" kindref="member">vrna_mx_pf_free()</ref>, <ref refid="group__dp__matrices_1gaf429b1838e68cb677db6aef7e8f0ffc8" kindref="member">vrna_mx_mfe_free()</ref>, <ref refid="group__dp__matrices_1ga6042ea1d58d01931e959791be6d89343" kindref="member">vrna_mx_type_e</ref>, <ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref>, <ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref>, <ref refid="group__fold__compound_1ga8f681fa12b8d4b348bf58415fd1fc82f" kindref="member">VRNA_OPTION_HYBRID</ref>, <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -226,7 +226,7 @@
 <para>Free memory occupied by the Minimum Free Energy (MFE) Dynamic Programming (DP) matrices. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__fold__compound_1ga283cf113a37614a75c1388c4ec6d7b2f" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gad6bacc816af274922b13d947f708aa0c" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__dp__matrices_1gab9d4eaceb36345b71d349b12787c5e0a" kindref="member">vrna_mx_pf_free()</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__dp__matrices_1gab9d4eaceb36345b71d349b12787c5e0a" kindref="member">vrna_mx_pf_free()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -256,7 +256,7 @@
 <para>Free memory occupied by the Partition Function (PF) Dynamic Programming (DP) matrices. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__fold__compound_1ga283cf113a37614a75c1388c4ec6d7b2f" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gad6bacc816af274922b13d947f708aa0c" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__dp__matrices_1gaf429b1838e68cb677db6aef7e8f0ffc8" kindref="member">vrna_mx_mfe_free()</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__dp__matrices_1gaf429b1838e68cb677db6aef7e8f0ffc8" kindref="member">vrna_mx_mfe_free()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>

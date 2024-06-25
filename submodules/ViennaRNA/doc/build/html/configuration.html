@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Configuration &mdash; ViennaRNA Package</title>
@@ -10,13 +10,17 @@
       <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="shortcut icon" href="_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/clipboard.min.js"></script>
-        <script src="_static/copybutton.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5248d183"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -29,11 +33,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> ViennaRNA
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ViennaRNA
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -126,8 +134,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Configuration</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Configuration</li>
 
   </ul>
   <hr/>
@@ -136,7 +144,7 @@
            <div itemprop="articleBody">
              
   <section id="configuration">
-<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline"></a></h1>
+<h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h1>
 <p>The ViennaRNA Package includes additional executable programs such as</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">RNAforester</span></code>,</p></li>
@@ -151,7 +159,7 @@ Below we list a selection of the available configure options that affect
 the features included in all executable programs, the <em>RNAlib</em> C-library,
 and the corresponding scripting language interface(s).</p>
 <section id="streaming-simd-extension">
-<h2>Streaming SIMD Extension<a class="headerlink" href="#streaming-simd-extension" title="Permalink to this headline"></a></h2>
+<h2>Streaming SIMD Extension<a class="headerlink" href="#streaming-simd-extension" title="Link to this heading"></a></h2>
 <p>Since version 2.3.5 our sources contain code that implements a faster
 multibranch loop decomposition in global MFE predictions, as used e.g.
 in <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>. This implementation makes use of modern processors
@@ -164,12 +172,12 @@ compared to the runtime of the original implementation. This feature is
 enabled by default since version 2.4.11 and a dispatcher ensures that
 the correct implementation will be selected at runtime. If for any
 reason you want to disable this feature at compile-time use the following:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --disable-simd
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--disable-simd
 </pre></div>
 </div>
 </section>
 <section id="scripting-language-interfaces">
-<h2>Scripting Language Interfaces<a class="headerlink" href="#scripting-language-interfaces" title="Permalink to this headline"></a></h2>
+<h2>Scripting Language Interfaces<a class="headerlink" href="#scripting-language-interfaces" title="Link to this heading"></a></h2>
 <p>The ViennaRNA Package comes with scripting language interfaces for <code class="docutils literal notranslate"><span class="pre">Perl</span> <span class="pre">5</span></code>,
 <code class="docutils literal notranslate"><span class="pre">Python</span></code> (provided by <a class="reference external" href="https://www.swig.org/">SWIG</a>), that allow one to
 use the implemented algorithms directly without the need of calling an
@@ -185,7 +193,7 @@ to turn it back on.</p>
 </div>
 <p>You may also switch-off particular languages by passing the
 <code class="docutils literal notranslate"><span class="pre">--without-perl</span></code> and/or <code class="docutils literal notranslate"><span class="pre">--without-python</span></code> configure options, e.g.:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --without-perl --without-python
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--without-perl<span class="w"> </span>--without-python
 </pre></div>
 </div>
 <p>will turn-off the <code class="docutils literal notranslate"><span class="pre">Perl</span> <span class="pre">5</span></code> and <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3</span></code> interfaces.</p>
@@ -193,32 +201,32 @@ to turn it back on.</p>
 <p class="admonition-title">Tip</p>
 <p>Disabling the scripting language support all-together can be accomplished using the
 following switch:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --without-swig
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--without-swig
 </pre></div>
 </div>
 </div>
 </section>
 <section id="cluster-analysis">
-<h2>Cluster Analysis<a class="headerlink" href="#cluster-analysis" title="Permalink to this headline"></a></h2>
+<h2>Cluster Analysis<a class="headerlink" href="#cluster-analysis" title="Link to this heading"></a></h2>
 <p>The programs <code class="docutils literal notranslate"><span class="pre">AnalyseSeqs</span></code> and <code class="docutils literal notranslate"><span class="pre">AnalyseDists</span></code> offer some cluster analysis
 tools (split decomposition, statistical geometry, neighbor joining, Ward’s method)
 for sequences and distance data. To also build these programs add <code class="docutils literal notranslate"><span class="pre">--with-cluster</span></code>
 to your configure options.</p>
 </section>
 <section id="kinfold">
-<h2>Kinfold<a class="headerlink" href="#kinfold" title="Permalink to this headline"></a></h2>
+<h2>Kinfold<a class="headerlink" href="#kinfold" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">kinfold</span></code> program can be used to simulate the folding dynamics of an RNA
 molecule, and is compiled by default. Use the <code class="docutils literal notranslate"><span class="pre">--without-kinfold</span></code> option to
 skip compilation and installation of Kinfold.</p>
 </section>
 <section id="rnaforester">
-<h2>RNAforester<a class="headerlink" href="#rnaforester" title="Permalink to this headline"></a></h2>
+<h2>RNAforester<a class="headerlink" href="#rnaforester" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">RNAforester</span></code> program is used for comparing secondary structures using tree
 alignment. Similar to <code class="docutils literal notranslate"><span class="pre">kinfold`,</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">``--without-forester</span></code> option to skip
 compilation and installation of <code class="docutils literal notranslate"><span class="pre">RNAforester</span></code>.</p>
 </section>
 <section id="kinwalker">
-<h2>Kinwalker<a class="headerlink" href="#kinwalker" title="Permalink to this headline"></a></h2>
+<h2>Kinwalker<a class="headerlink" href="#kinwalker" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">kinwalker</span></code> algorithm performs co-transcriptional folding of RNAs, starting at
 a user specified structure (default: open chain) and ending at the minimum free
 energy structure. Compilation and installation of this program is deactivated by
@@ -226,7 +234,7 @@ default. Use the <code class="docutils literal notranslate"><span class="pre">--
 of <code class="docutils literal notranslate"><span class="pre">kinwalker</span></code>.</p>
 </section>
 <section id="rnalocmin">
-<h2>RNAlocmin<a class="headerlink" href="#rnalocmin" title="Permalink to this headline"></a></h2>
+<h2>RNAlocmin<a class="headerlink" href="#rnalocmin" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">RNAlocmin</span></code> program is part of the <strong>Basin Hopping Graph Framework</strong> and reads
 secondary structures and searches for local minima by performing a gradient walk
 from each of those structures. It then outputs an energetically sorted list of
@@ -237,7 +245,7 @@ installation of this program is activated by default. Use the <code class="docut
 option to disable building and installation of <code class="docutils literal notranslate"><span class="pre">RNAlocmin</span></code>.</p>
 </section>
 <section id="rnaxplorer">
-<h2>RNAxplorer<a class="headerlink" href="#rnaxplorer" title="Permalink to this headline"></a></h2>
+<h2>RNAxplorer<a class="headerlink" href="#rnaxplorer" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">RNAxplorer</span></code> is a multitool, that offers different methods to explore RNA
 energy landscapes. In default mode it takes an RNA sequence as input and produces
 a sample of RNA secondary structures. The repellant sampling heuristic used in
@@ -249,13 +257,13 @@ this tool depends on the <code class="docutils literal notranslate"><span class=
 option to disable building and installation of <code class="docutils literal notranslate"><span class="pre">RNAxplorer</span></code>.</p>
 </section>
 <section id="link-time-optimization">
-<h2>Link Time Optimization<a class="headerlink" href="#link-time-optimization" title="Permalink to this headline"></a></h2>
+<h2>Link Time Optimization<a class="headerlink" href="#link-time-optimization" title="Link to this heading"></a></h2>
 <p>To increase the performance of our implementations, the ViennaRNA Package tries
 to make use of the <em>Link Time Optimization</em> (LTO) feature of modern C-compilers.
 If you are experiencing any troubles at make-time or run-time, or the configure
 script for some reason detects that your compiler supports this feature although
 it doesn’t, you can deactivate it using the flag:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --disable-lto
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--disable-lto
 </pre></div>
 </div>
 <p>Note, that <code class="docutils literal notranslate"><span class="pre">gcc</span></code> before version 5 is known to produce unreliable LTO code,
@@ -264,19 +272,19 @@ We therefore recommend using a more recent compiler (GCC 5 or above) or to turn 
 one of the two features, LTO or SIMD optimized code.</p>
 </section>
 <section id="openmp">
-<h2>OpenMP<a class="headerlink" href="#openmp" title="Permalink to this headline"></a></h2>
+<h2>OpenMP<a class="headerlink" href="#openmp" title="Link to this heading"></a></h2>
 <p>To enable concurrent computation of our implementations and in some cases
 parallelization of the algorithms we make use of the <a class="reference external" href="https://www.openmp.org/">OpenMP</a>
 API. This interface is well understood by most modern compilers. However, in
 some cases it might be necessary to deactivate OpenMP support and therefore transform
 <em>RNAlib</em> into a C-library that is not entirely <em>thread-safe</em>. To do so, add the
 following configure option:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --disable-openmp
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--disable-openmp
 </pre></div>
 </div>
 </section>
 <section id="posix-threads">
-<h2>POSIX threads<a class="headerlink" href="#posix-threads" title="Permalink to this headline"></a></h2>
+<h2>POSIX threads<a class="headerlink" href="#posix-threads" title="Link to this heading"></a></h2>
 <p>To enable concurrent computation of multiple input data in <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code>, and for our
 implementation of the concurrent unordered insert, ordered output flush data structure
 <a class="reference internal" href="utils/datastructures/buffers.html#c.vrna_ostream_t" title="vrna_ostream_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">vrna_ostream_t</span></code></a> we make use of POSIX threads (pthread). This should be
@@ -285,24 +293,24 @@ we use a threadpool implementation that is not compatible with Microsoft Windows
 Thus, POSIX thread support can not be activated for Windows builds until we have
 fixed this problem. If you want to compile <code class="docutils literal notranslate"><span class="pre">RNAfold</span></code> and <em>RNAlib</em> without POSIX threads
 support for any other reasons, add the following configure option:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --disable-pthreads
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--disable-pthreads
 </pre></div>
 </div>
 </section>
 <section id="svm-z-score-filter">
-<h2>SVM Z-score filter<a class="headerlink" href="#svm-z-score-filter" title="Permalink to this headline"></a></h2>
+<h2>SVM Z-score filter<a class="headerlink" href="#svm-z-score-filter" title="Link to this heading"></a></h2>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">RNALfold</span></code> that comes with the ViennaRNA Package allows for Z-score
 filtering of its predicted results using a <em>Support Vector Machine</em> (SVM) provided
 by the <a class="reference external" href="https://www.csie.ntu.edu.tw/~cjlin/libsvm/">LIBSVM</a> library. However, this
 library is statically linked to our own <em>RNAlib</em>. If this introduces any problems for
 your own third-party programs that link against <em>RNAlib</em>, you can safely switch off
 the Z-scoring implementation using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --without-svm
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--without-svm
 </pre></div>
 </div>
 </section>
 <section id="gnu-scientific-library">
-<h2>GNU Scientific Library<a class="headerlink" href="#gnu-scientific-library" title="Permalink to this headline"></a></h2>
+<h2>GNU Scientific Library<a class="headerlink" href="#gnu-scientific-library" title="Link to this heading"></a></h2>
 <p>The program <code class="docutils literal notranslate"><span class="pre">RNApvmin</span></code> computes a pseudo-energy perturbation vector that aims
 to minimize the discrepancy of predicted, and observed pairing probabilities. For
 that purpose it implements several methods to solve the optimization problem. Many
@@ -311,22 +319,22 @@ which is why the <code class="docutils literal notranslate"><span class="pre">RN
 be linked against <code class="docutils literal notranslate"><span class="pre">libgsl</span></code>. If this introduces any problems in your own third-party
 programs that link against <em>RNAlib</em>, you can turn off a larger portion of available
 minimizers in <code class="docutils literal notranslate"><span class="pre">RNApvmin</span></code> and linking against <code class="docutils literal notranslate"><span class="pre">libgsl</span></code> all-together, using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --without-gsl
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--without-gsl
 </pre></div>
 </div>
 </section>
 <section id="multiple-precision-floating-point-computations">
-<h2>Multiple-precision Floating-Point Computations<a class="headerlink" href="#multiple-precision-floating-point-computations" title="Permalink to this headline"></a></h2>
+<h2>Multiple-precision Floating-Point Computations<a class="headerlink" href="#multiple-precision-floating-point-computations" title="Link to this heading"></a></h2>
 <p>Our <a class="reference internal" href="subopt/stochbt.html"><span class="doc">Non-redundant Boltzmann Sampling</span></a> implementation uses
 multi-precision floating-point computations provided by the
 <a class="reference external" href="https://www.mpfr.org/">GNU MPFR library</a> by default. This requires linking against
 <code class="docutils literal notranslate"><span class="pre">libmpfr</span></code> and <code class="docutils literal notranslate"><span class="pre">libgmp</span></code>. You can switch off this feature using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --disable-mpfr
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--disable-mpfr
 </pre></div>
 </div>
 </section>
 <section id="universal-binaries">
-<h2>Universal binaries<a class="headerlink" href="#universal-binaries" title="Permalink to this headline"></a></h2>
+<h2>Universal binaries<a class="headerlink" href="#universal-binaries" title="Link to this heading"></a></h2>
 <p>If you intend to build the ViennaRNA for Mac OS X such that it runs <em>on both</em>, <code class="docutils literal notranslate"><span class="pre">x86_64</span></code>
 and the <code class="docutils literal notranslate"><span class="pre">arm64</span></code> (Apple Silicon Processors) architectures, you need to build a
 so-called <em>universal binary</em>. Note, however, that to accomplish this task, you might
@@ -337,7 +345,7 @@ and <a class="reference internal" href="#gnu-scientific-library"><span class="st
 In order to compile and link the programs, library, and scripting language interfaces
 of the ViennaRNA Package for multiple architectures, we’ve added a new configure switch
 that sets up the required changes automatically:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --enable-universal-binary
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--enable-universal-binary
 </pre></div>
 </div>
 <div class="admonition note">
@@ -349,7 +357,7 @@ turns off <a class="reference internal" href="#link-time-optimization"><span cla
 </div>
 </section>
 <section id="disable-c11-c-11-features">
-<h2>Disable C11/C++11 features<a class="headerlink" href="#disable-c11-c-11-features" title="Permalink to this headline"></a></h2>
+<h2>Disable C11/C++11 features<a class="headerlink" href="#disable-c11-c-11-features" title="Link to this heading"></a></h2>
 <p>By default, we use C11/C++11 features in our implementations. This mainly accounts
 for unnamed unions/structs within <em>RNAlib</em>. The configure script automatically
 detects whether or not your compiler understands these features. In case you are
@@ -362,7 +370,7 @@ option:</p>
 </div>
 </section>
 <section id="deprecated-symbols">
-<h2>Deprecated symbols<a class="headerlink" href="#deprecated-symbols" title="Permalink to this headline"></a></h2>
+<h2>Deprecated symbols<a class="headerlink" href="#deprecated-symbols" title="Link to this heading"></a></h2>
 <p>Since version 2.2 we are in the process of transforming the API of our <em>RNAlib</em>.
 Hence, several symbols are marked as <em>deprecated</em> whenever they have been
 replaced by the new API. By default, deprecation warnings at compile time are
@@ -373,7 +381,7 @@ warnings, enable them using:</p>
 </div>
 </section>
 <section id="single-precision">
-<h2>Single precision<a class="headerlink" href="#single-precision" title="Permalink to this headline"></a></h2>
+<h2>Single precision<a class="headerlink" href="#single-precision" title="Link to this heading"></a></h2>
 <p>Calculation of partition functions (via <code class="docutils literal notranslate"><span class="pre">RNAfold</span> <span class="pre">-p</span></code>) uses double precision
 floats by default, to avoid overflow errors on longer sequences. If your machine
 has little memory and you don’t plan to fold sequences over 1,000 bases in
@@ -388,7 +396,7 @@ running:</p>
 </div>
 </section>
 <section id="help">
-<h2>Help<a class="headerlink" href="#help" title="Permalink to this headline"></a></h2>
+<h2>Help<a class="headerlink" href="#help" title="Link to this heading"></a></h2>
 <p>For a complete list of all <code class="docutils literal notranslate"><span class="pre">./configure</span></code> options and important environment variables,
 type:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">configure</span> <span class="o">--</span><span class="n">help</span>

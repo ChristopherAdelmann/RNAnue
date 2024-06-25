@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Search Algorithms &mdash; ViennaRNA Package</title>
@@ -10,13 +10,17 @@
       <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -29,11 +33,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> ViennaRNA
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -137,10 +145,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../api.html">Concepts and Algorithms</a> &raquo;</li>
-          <li><a href="../utils.html">Utilities</a> &raquo;</li>
-      <li>Search Algorithms</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../utils.html">Utilities</a></li>
+      <li class="breadcrumb-item active">Search Algorithms</li>
 
   </ul>
   <hr/>
@@ -149,7 +157,7 @@
            <div itemprop="articleBody">
              
   <section id="search-algorithms">
-<h1>Search Algorithms<a class="headerlink" href="#search-algorithms" title="Permalink to this headline"></a></h1>
+<h1>Search Algorithms<a class="headerlink" href="#search-algorithms" title="Link to this heading"></a></h1>
 <p>Implementations of various search algorithms to detect strings of objects
 within other strings of objects.</p>
 <dl>
@@ -159,27 +167,27 @@ within other strings of objects.</p>
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_search_BMH_num">
-<span class="target" id="group__search__utils_1ga8af89ab58905851f3dbd52624227d372"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_search_BMH_num</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">needle</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">needle_size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">haystack</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">haystack_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">badchars</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">cyclic</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_search_BMH_num" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__search__utils_1gab7982880343a052452e102d40fd3eff6"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_search_BMH_num</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">needle</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">needle_size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">haystack</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">haystack_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">badchars</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">cyclic</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_search_BMH_num" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/search/BoyerMoore.h&gt;</em><p>Search for a string of elements in a larger string of elements using the Boyer-Moore-Horspool algorithm. </p>
 <p>To speed-up subsequent searches with this function, the Bad Character Table should be precomputed and passed as argument <code class="docutils literal notranslate"><span class="pre">badchars</span></code>.</p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#group__search__utils_1gad315a442e099c86c5dbf6c1c7933223d"><span class="std std-ref">vrna_search_BM_BCT_num()</span></a>, <a class="reference internal" href="#group__search__utils_1ga72574a7cf9786d825ce73f7f7748d3c4"><span class="std std-ref">vrna_search_BMH()</span></a></p>
+<p><a class="reference internal" href="#group__search__utils_1ga66f96a54d0fd58fe86b5566528a1cc8f"><span class="std std-ref">vrna_search_BM_BCT_num()</span></a>, <a class="reference internal" href="#group__search__utils_1ga77ca780913c5f07d9a5c40bd325dc752"><span class="std std-ref">vrna_search_BMH()</span></a></p>
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>needle</strong> – The pattern of object representations to search for </p></li>
 <li><p><strong>needle_size</strong> – The size (length) of the pattern provided in <code class="docutils literal notranslate"><span class="pre">needle</span></code></p></li>
 <li><p><strong>haystack</strong> – The string of objects the search will be performed on </p></li>
 <li><p><strong>haystack_size</strong> – The size (length) of the <code class="docutils literal notranslate"><span class="pre">haystack</span></code> string </p></li>
 <li><p><strong>start</strong> – The position within <code class="docutils literal notranslate"><span class="pre">haystack</span></code> where to start the search </p></li>
-<li><p><strong>badchars</strong> – A pre-computed Bad Character Table obtained from <a class="reference internal" href="#group__search__utils_1gad315a442e099c86c5dbf6c1c7933223d"><span class="std std-ref">vrna_search_BM_BCT_num()</span></a> (If NULL, a Bad Character Table will be generated automatically) </p></li>
+<li><p><strong>badchars</strong> – A pre-computed Bad Character Table obtained from <a class="reference internal" href="#group__search__utils_1ga66f96a54d0fd58fe86b5566528a1cc8f"><span class="std std-ref">vrna_search_BM_BCT_num()</span></a> (If NULL, a Bad Character Table will be generated automatically) </p></li>
 <li><p><strong>cyclic</strong> – Allow for cyclic matches if non-zero, stop search at end of haystack otherwise </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A pointer to the first occurence of <code class="docutils literal notranslate"><span class="pre">needle</span></code> within <code class="docutils literal notranslate"><span class="pre">haystack</span></code> after position <code class="docutils literal notranslate"><span class="pre">start</span></code></p>
 </dd>
 </dl>
@@ -187,27 +195,27 @@ within other strings of objects.</p>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_search_BMH">
-<span class="target" id="group__search__utils_1ga72574a7cf9786d825ce73f7f7748d3c4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_search_BMH</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">needle</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">needle_size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">haystack</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">haystack_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">badchars</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">cyclic</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_search_BMH" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__search__utils_1ga77ca780913c5f07d9a5c40bd325dc752"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_search_BMH</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">needle</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">needle_size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">haystack</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">haystack_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">badchars</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n"><span class="pre">cyclic</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_search_BMH" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/search/BoyerMoore.h&gt;</em><p>Search for an ASCII pattern within a larger ASCII string using the Boyer-Moore-Horspool algorithm. </p>
 <p>To speed-up subsequent searches with this function, the Bad Character Table should be precomputed and passed as argument <code class="docutils literal notranslate"><span class="pre">badchars</span></code>. Furthermore, both, the lengths of <code class="docutils literal notranslate"><span class="pre">needle</span></code> and the length of <code class="docutils literal notranslate"><span class="pre">haystack</span></code> should be pre-computed and must be passed along with each call.</p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#group__search__utils_1ga1d675ef5dcdcc8c33a1b79956a246697"><span class="std std-ref">vrna_search_BM_BCT()</span></a>, <a class="reference internal" href="#group__search__utils_1ga8af89ab58905851f3dbd52624227d372"><span class="std std-ref">vrna_search_BMH_num()</span></a></p>
+<p><a class="reference internal" href="#group__search__utils_1gae4d08bb27d9daaba2be2e59d1c7cf2ab"><span class="std std-ref">vrna_search_BM_BCT()</span></a>, <a class="reference internal" href="#group__search__utils_1gab7982880343a052452e102d40fd3eff6"><span class="std std-ref">vrna_search_BMH_num()</span></a></p>
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>needle</strong> – The NULL-terminated ASCII pattern to search for </p></li>
 <li><p><strong>needle_size</strong> – The size (length) of the pattern provided in <code class="docutils literal notranslate"><span class="pre">needle</span></code></p></li>
 <li><p><strong>haystack</strong> – The NULL-terminated ASCII string of the search will be performed on </p></li>
 <li><p><strong>haystack_size</strong> – The size (length) of the <code class="docutils literal notranslate"><span class="pre">haystack</span></code> string </p></li>
 <li><p><strong>start</strong> – The position within <code class="docutils literal notranslate"><span class="pre">haystack</span></code> where to start the search </p></li>
-<li><p><strong>badchars</strong> – A pre-computed Bad Character Table obtained from <a class="reference internal" href="#group__search__utils_1ga1d675ef5dcdcc8c33a1b79956a246697"><span class="std std-ref">vrna_search_BM_BCT()</span></a> (If NULL, a Bad Character Table will be generated automatically) </p></li>
+<li><p><strong>badchars</strong> – A pre-computed Bad Character Table obtained from <a class="reference internal" href="#group__search__utils_1gae4d08bb27d9daaba2be2e59d1c7cf2ab"><span class="std std-ref">vrna_search_BM_BCT()</span></a> (If NULL, a Bad Character Table will be generated automatically) </p></li>
 <li><p><strong>cyclic</strong> – Allow for cyclic matches if non-zero, stop search at end of haystack otherwise </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A pointer to the first occurence of <code class="docutils literal notranslate"><span class="pre">needle</span></code> within <code class="docutils literal notranslate"><span class="pre">haystack</span></code> after position <code class="docutils literal notranslate"><span class="pre">start</span></code></p>
 </dd>
 </dl>
@@ -215,11 +223,11 @@ within other strings of objects.</p>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_search_BM_BCT_num">
-<span class="target" id="group__search__utils_1gad315a442e099c86c5dbf6c1c7933223d"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_search_BM_BCT_num</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pattern</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">pattern_size</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_max</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_search_BM_BCT_num" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__search__utils_1ga66f96a54d0fd58fe86b5566528a1cc8f"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_search_BM_BCT_num</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pattern</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">pattern_size</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">num_max</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_search_BM_BCT_num" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/search/BoyerMoore.h&gt;</em><p>Retrieve a Boyer-Moore Bad Character Table for a pattern of elements represented by natural numbers. </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#group__search__utils_1ga8af89ab58905851f3dbd52624227d372"><span class="std std-ref">vrna_search_BMH_num()</span></a>, <a class="reference internal" href="#group__search__utils_1ga1d675ef5dcdcc8c33a1b79956a246697"><span class="std std-ref">vrna_search_BM_BCT()</span></a></p>
+<p><a class="reference internal" href="#group__search__utils_1gab7982880343a052452e102d40fd3eff6"><span class="std std-ref">vrna_search_BMH_num()</span></a>, <a class="reference internal" href="#group__search__utils_1gae4d08bb27d9daaba2be2e59d1c7cf2ab"><span class="std std-ref">vrna_search_BM_BCT()</span></a></p>
 </div>
 </p>
 <div class="admonition note">
@@ -227,14 +235,14 @@ within other strings of objects.</p>
 <p>We store the maximum number representation of an element <code class="docutils literal notranslate"><span class="pre">num_max</span></code> at position <code class="docutils literal notranslate"><span class="pre">0</span></code>. So the actual bad character table <code class="docutils literal notranslate"><span class="pre">T</span></code> starts at <code class="docutils literal notranslate"><span class="pre">T</span></code>[1] for an element represented by number <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pattern</strong> – The pattern of element representations used in the subsequent search </p></li>
 <li><p><strong>pattern_size</strong> – The size (length) of the pattern provided in <code class="docutils literal notranslate"><span class="pre">pattern</span></code></p></li>
 <li><p><strong>num_max</strong> – The maximum number representation of an element, i.e. the size of the alphabet </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A Bad Character Table for use in our Boyer-Moore search algorithm implementation(s) </p>
 </dd>
 </dl>
@@ -242,11 +250,11 @@ within other strings of objects.</p>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_search_BM_BCT">
-<span class="target" id="group__search__utils_1ga1d675ef5dcdcc8c33a1b79956a246697"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_search_BM_BCT</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pattern</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_search_BM_BCT" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__search__utils_1gae4d08bb27d9daaba2be2e59d1c7cf2ab"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_search_BM_BCT</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pattern</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_search_BM_BCT" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/search/BoyerMoore.h&gt;</em><p>Retrieve a Boyer-Moore Bad Character Table for a NULL-terminated pattern of ASCII characters. </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#group__search__utils_1ga72574a7cf9786d825ce73f7f7748d3c4"><span class="std std-ref">vrna_search_BMH()</span></a>, <a class="reference internal" href="#group__search__utils_1gad315a442e099c86c5dbf6c1c7933223d"><span class="std std-ref">vrna_search_BM_BCT_num()</span></a></p>
+<p><a class="reference internal" href="#group__search__utils_1ga77ca780913c5f07d9a5c40bd325dc752"><span class="std std-ref">vrna_search_BMH()</span></a>, <a class="reference internal" href="#group__search__utils_1ga66f96a54d0fd58fe86b5566528a1cc8f"><span class="std std-ref">vrna_search_BM_BCT_num()</span></a></p>
 </div>
 </p>
 <div class="admonition note">
@@ -254,12 +262,12 @@ within other strings of objects.</p>
 <p>We store the maximum number representation of an element, i.e. <code class="docutils literal notranslate"><span class="pre">127</span></code> at position <code class="docutils literal notranslate"><span class="pre">0</span></code>. So the actual bad character table <code class="docutils literal notranslate"><span class="pre">T</span></code> starts at <code class="docutils literal notranslate"><span class="pre">T</span></code>[1] for an element represented by ASCII code <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pattern</strong> – The NULL-terminated pattern of ASCII characters used in the subsequent search </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A Bad Character Table for use in our Boyer-Moore search algorithm implementation(s) </p>
 </dd>
 </dl>

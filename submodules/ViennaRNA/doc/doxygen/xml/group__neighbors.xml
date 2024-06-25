@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__neighbors" kind="group">
     <compoundname>neighbors</compoundname>
     <title>Neighborhood Relation and Move Sets for Secondary Structures</title>
@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="1" column="0" bodyfile="ViennaRNA/landscape/move.h" bodystart="20" bodyend="-1"/>
+        <location file="ViennaRNA/landscape/move.h" line="20" column="26" bodyfile="ViennaRNA/landscape/move.h" bodystart="20" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="group__neighbors_1gada5cf954de328f9d283558c8bd0eeedb" prot="public" static="no">
         <type>void(*</type>
@@ -385,7 +385,7 @@
           <declname>m</declname>
         </param>
         <briefdescription>
-<para>Alters the loopIndices array that was constructed with <ref refid="group__struct__utils_1ga03e15af299be0866ff21da880c74b92e" kindref="member">vrna_loopidx_from_ptable()</ref>. </para>
+<para>Alters the loopIndices array that was constructed with <ref refid="group__struct__utils_1ga8a2c825d6a9c2d73329b6c09320a6a90" kindref="member">vrna_loopidx_from_ptable()</ref>. </para>
         </briefdescription>
         <detaileddescription>
 <para>The loopIndex of the current move will be inserted. The correctness of the input will not be checked because the speed should be optimized.</para>
@@ -450,7 +450,7 @@
         </briefdescription>
         <detaileddescription>
 <para>This function allows one to generate all structural neighbors (according to a particular move set) of an RNA secondary structure. The neighborhood is then returned as a list of transitions / moves required to transform the current structure into the actual neighbor.</para>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" kindref="member">vrna_neighbors_successive()</ref>, <ref refid="group__neighbors_1gacdbc5f609b46aeb07d2c7e015677a1e0" kindref="member">vrna_move_apply()</ref>, <ref refid="group__neighbors_1gaf39028db9c70d3be528929182a3f2d5a" kindref="member">VRNA_MOVESET_INSERTION</ref>, <ref refid="group__neighbors_1gac05db9392c6647e3e9a6982096c5b384" kindref="member">VRNA_MOVESET_DELETION</ref>, <ref refid="group__neighbors_1ga68ea27c81de4b74e48b775c04052590b" kindref="member">VRNA_MOVESET_SHIFT</ref>, <ref refid="group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1" kindref="member">VRNA_MOVESET_DEFAULT</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab70db80566b1c30257bd9e0c813df59e" kindref="member">vrna_neighbors_successive()</ref>, <ref refid="group__neighbors_1gacdbc5f609b46aeb07d2c7e015677a1e0" kindref="member">vrna_move_apply()</ref>, <ref refid="group__neighbors_1gaf39028db9c70d3be528929182a3f2d5a" kindref="member">VRNA_MOVESET_INSERTION</ref>, <ref refid="group__neighbors_1gac05db9392c6647e3e9a6982096c5b384" kindref="member">VRNA_MOVESET_DELETION</ref>, <ref refid="group__neighbors_1ga68ea27c81de4b74e48b775c04052590b" kindref="member">VRNA_MOVESET_SHIFT</ref>, <ref refid="group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1" kindref="member">VRNA_MOVESET_DEFAULT</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -487,9 +487,9 @@
         </inbodydescription>
         <location file="ViennaRNA/landscape/neighbor.h" line="113" column="1" declfile="ViennaRNA/landscape/neighbor.h" declline="113" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__neighbors_1gab70db80566b1c30257bd9e0c813df59e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
-        <definition>vrna_move_t* vrna_neighbors_successive</definition>
+        <definition>vrna_move_t * vrna_neighbors_successive</definition>
         <argsstring>(const vrna_fold_compound_t *fc, const vrna_move_t *curr_move, const short *prev_pt, const vrna_move_t *prev_neighbors, int size_prev_neighbors, int *size_neighbors, unsigned int options)</argsstring>
         <name>vrna_neighbors_successive</name>
         <param>
@@ -631,7 +631,7 @@
 </listitem><listitem><para>A new neighbor move becomes available (<ref refid="group__neighbors_1ga9343dd62daad15b6b8c55c1260c09228" kindref="member">VRNA_NEIGHBOR_NEW</ref>)</para>
 </listitem></itemizedlist>
 </para>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1gaa3e8c627d24912974922c5ae805e15e0" kindref="member">vrna_move_neighbor_diff()</ref>, <ref refid="group__neighbors_1gae72b0e349b6108c00737df51cce44622" kindref="member">VRNA_NEIGHBOR_CHANGE</ref>, <ref refid="group__neighbors_1gaf7e3417828057ae0ed4d0de03178116a" kindref="member">VRNA_NEIGHBOR_INVALID</ref>, <ref refid="group__neighbors_1ga9343dd62daad15b6b8c55c1260c09228" kindref="member">VRNA_NEIGHBOR_NEW</ref>, <ref refid="group__neighbors_1gada5cf954de328f9d283558c8bd0eeedb" kindref="member">vrna_move_update_f</ref>, #VRNA_MOVE_NO_APPLY</para>
+<para><simplesect kind="see"><para><ref refid="group__neighbors_1ga7dde18e6f83355493cd698f07e259c75" kindref="member">vrna_move_neighbor_diff()</ref>, <ref refid="group__neighbors_1gae72b0e349b6108c00737df51cce44622" kindref="member">VRNA_NEIGHBOR_CHANGE</ref>, <ref refid="group__neighbors_1gaf7e3417828057ae0ed4d0de03178116a" kindref="member">VRNA_NEIGHBOR_INVALID</ref>, <ref refid="group__neighbors_1ga9343dd62daad15b6b8c55c1260c09228" kindref="member">VRNA_NEIGHBOR_NEW</ref>, <ref refid="group__neighbors_1gada5cf954de328f9d283558c8bd0eeedb" kindref="member">vrna_move_update_f</ref>, VRNA_MOVE_NO_APPLY</para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -690,9 +690,9 @@
         </inbodydescription>
         <location file="ViennaRNA/landscape/neighbor.h" line="171" column="1" declfile="ViennaRNA/landscape/neighbor.h" declline="171" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__neighbors_1gaa3e8c627d24912974922c5ae805e15e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__neighbors_1ga7dde18e6f83355493cd698f07e259c75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
-        <definition>vrna_move_t* vrna_move_neighbor_diff</definition>
+        <definition>vrna_move_t * vrna_move_neighbor_diff</definition>
         <argsstring>(vrna_fold_compound_t *fc, short *ptable, vrna_move_t move, vrna_move_t **invalid_moves, unsigned int options)</argsstring>
         <name>vrna_move_neighbor_diff</name>
         <param>
@@ -778,7 +778,7 @@
 <para>Option flag indicating insertion move. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
+<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1gab70db80566b1c30257bd9e0c813df59e" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -793,7 +793,7 @@
 <para>Option flag indicating deletion move. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
+<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1gab70db80566b1c30257bd9e0c813df59e" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -808,7 +808,7 @@
 <para>Option flag indicating shift move. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
+<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1gab70db80566b1c30257bd9e0c813df59e" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -823,7 +823,7 @@
 <para>Option flag indicating moves without lonely base pairs. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
+<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1gab70db80566b1c30257bd9e0c813df59e" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -838,7 +838,7 @@
 <para>Option flag indicating default move set, i.e. insertions/deletion of a base pair. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
+<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1gab70db80566b1c30257bd9e0c813df59e" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>

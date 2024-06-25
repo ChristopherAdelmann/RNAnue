@@ -275,7 +275,7 @@ am_libRNA_plotting_la_OBJECTS = plotting/alignments.lo \
 	plotting/RNApuzzler/RNAturtle.lo
 libRNA_plotting_la_OBJECTS = $(am_libRNA_plotting_la_OBJECTS)
 libRNA_special_const_la_LIBADD =
-am_libRNA_special_const_la_OBJECTS = special_const.lo
+am_libRNA_special_const_la_OBJECTS = special_const.lo ugly_bt.lo
 libRNA_special_const_la_OBJECTS =  \
 	$(am_libRNA_special_const_la_OBJECTS)
 libRNA_utils_la_LIBADD =
@@ -364,8 +364,8 @@ am__depfiles_remade = ../@DLIB_DIR@/dlib/all/$(DEPDIR)/libRNA_concentrations_la-
 	./$(DEPDIR)/snoop.Plo ./$(DEPDIR)/special_const.Plo \
 	./$(DEPDIR)/stringdist.Plo ./$(DEPDIR)/subopt.Plo \
 	./$(DEPDIR)/subopt_zuker.Plo ./$(DEPDIR)/treedist.Plo \
-	./$(DEPDIR)/unstructured_domains.Plo ./$(DEPDIR)/zscore.Plo \
-	constraints/$(DEPDIR)/SHAPE.Plo \
+	./$(DEPDIR)/ugly_bt.Plo ./$(DEPDIR)/unstructured_domains.Plo \
+	./$(DEPDIR)/zscore.Plo constraints/$(DEPDIR)/SHAPE.Plo \
 	constraints/$(DEPDIR)/constraints.Plo \
 	constraints/$(DEPDIR)/hard.Plo \
 	constraints/$(DEPDIR)/ligand.Plo \
@@ -491,7 +491,7 @@ am__noinst_HEADERS_DIST = params/intl11.h params/intl11dH.h \
 	plotting/RNApuzzler/headers/configtree_struct.h \
 	plotting/RNApuzzler/headers/tBaseInformation_struct.h list.h \
 	../@LIBSVM_DIR@/svm.h ../json/json.h special_const.h \
-	../cephes/mconf.h unistd_win.h
+	../cephes/mconf.h unistd_win.h ugly_bt.h
 am__pkginclude_HEADERS_DIST = concentrations.h wrap_dlib.h pair_mat.h \
 	RNAstruct.h dist_vars.h mfe.h mfe_window.h fold.h part_func.h \
 	part_func_window.h pf_multifold.h stringdist.h edit_cost.h \
@@ -648,6 +648,7 @@ EXEEXT = @EXEEXT@
 F77 = @F77@
 FFLAGS = @FFLAGS@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 FLOAT_PF_FLAG = @FLOAT_PF_FLAG@
 GENGETOPT = @GENGETOPT@
 GREP = @GREP@
@@ -1198,7 +1199,8 @@ libRNA_landscape_la_SOURCES = \
     landscape/walk.c
 
 libRNA_special_const_la_SOURCES = \
-    special_const.c
+    special_const.c \
+    ugly_bt.c
 
 RNAPUZZLER_H = \
     plotting/RNApuzzler/headers/AABB_struct.h \
@@ -1246,7 +1248,8 @@ noinst_HEADERS = params/intl11.h \
                   ${JSON_H} \
                   special_const.h \
                   ${CEPHES_H} \
-                  unistd_win.h
+                  unistd_win.h \
+                  ugly_bt.h
 
 nodist_pkginclude_HEADERS = vrna_config.h
 EXTRA_DIST = $(pkginclude_HEADERS) constraints/hc_depot.inc \
@@ -1260,7 +1263,8 @@ EXTRA_DIST = $(pkginclude_HEADERS) constraints/hc_depot.inc \
 	data_structures_nonred.inc plotting/ps_helpers.inc \
 	plotting/svg_helpers.inc ${RNAPUZZLER_INC} \
 	landscape/local_neighbors.inc ${SVM_H} ${JSON_H} \
-	color_output.inc special_const.h unistd_win.h $(am__append_8)
+	color_output.inc special_const.h unistd_win.h ugly_bt.h \
+	$(am__append_8)
 all: all-recursive
 
 .SUFFIXES:
@@ -1704,6 +1708,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/subopt.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/subopt_zuker.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treedist.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ugly_bt.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructured_domains.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/zscore.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@constraints/$(DEPDIR)/SHAPE.Plo@am__quote@ # am--include-marker
@@ -2448,6 +2453,7 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/subopt.Plo
 	-rm -f ./$(DEPDIR)/subopt_zuker.Plo
 	-rm -f ./$(DEPDIR)/treedist.Plo
+	-rm -f ./$(DEPDIR)/ugly_bt.Plo
 	-rm -f ./$(DEPDIR)/unstructured_domains.Plo
 	-rm -f ./$(DEPDIR)/zscore.Plo
 	-rm -f constraints/$(DEPDIR)/SHAPE.Plo
@@ -2629,6 +2635,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/subopt.Plo
 	-rm -f ./$(DEPDIR)/subopt_zuker.Plo
 	-rm -f ./$(DEPDIR)/treedist.Plo
+	-rm -f ./$(DEPDIR)/ugly_bt.Plo
 	-rm -f ./$(DEPDIR)/unstructured_domains.Plo
 	-rm -f ./$(DEPDIR)/zscore.Plo
 	-rm -f constraints/$(DEPDIR)/SHAPE.Plo

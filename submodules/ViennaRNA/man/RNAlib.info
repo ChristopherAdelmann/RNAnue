@@ -1,4 +1,5 @@
-This is RNAlib.info, produced by makeinfo version 6.8 from RNAlib.texi.
+This is RNAlib.info, produced by makeinfo version 7.0.3 from
+RNAlib.texi.
 
 INFO-DIR-SECTION Vienna RNA library
 START-INFO-DIR-ENTRY
@@ -10,7 +11,7 @@ File: RNAlib.info,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
 
 This file documents the Vienna RNA Package Version 1.6
 
-   Copyright (C) 1994-2002 Ivo Hofacker and Peter Stadler
+   Copyright © 1994-2002 Ivo Hofacker and Peter Stadler
 
 * Menu:
 
@@ -71,7 +72,7 @@ File: RNAlib.info,  Node: mfe Fold,  Next: PF Fold,  Prev: Folding Routines,  Up
 ===============================
 
 The library provides a fast dynamic programming minimum free energy
-folding algorithm as described by 'Zuker & Stiegler (1981)'.  Associated
+folding algorithm as described by ‘Zuker & Stiegler (1981)’.  Associated
 functions are:
 
  -- Function: float fold (char* SEQUENCE, char* STRUCTURE)
@@ -79,11 +80,11 @@ functions are:
      the mfe structure in bracket notation (*note notations::) is
      returned in STRUCTURE.  Sufficient space for string of the same
      length as SEQUENCE must be allocated for STRUCTURE before calling
-     'fold()'.  If 'fold_constrained' (*note Variables: Fold Vars.) is
+     ‘fold()’.  If ‘fold_constrained’ (*note Variables: Fold Vars.) is
      1, the STRUCTURE string is interpreted on input as a list of
-     constraints for the folding.  The characters " | x < > " mark bases
+     constraints for the folding.  The characters “ | x < > “ mark bases
      that are paired, unpaired, paired upstream, or downstream,
-     respectively; matching brackets " ( ) " denote base pairs, dots "."
+     respectively; matching brackets “ ( ) “ denote base pairs, dots “.”
      are used for unconstrained bases.  Constrained folding works by
      assigning bonus energies to all structures that comply with the
      constraint.
@@ -91,7 +92,7 @@ functions are:
  -- Function: float energy_of_struct (char* SEQUENCE, char* STRUCTURE)
      calculates the energy of SEQUENCE on the STRUCTURE
 
-   The 'circ_fold()' and 'energy_of_circ_struct()' provide analogous
+   The ‘circ_fold()’ and ‘energy_of_circ_struct()’ provide analogous
 functions for folding and evaluating cricular RNA molecules.
 
  -- Function: void initialize_fold (int LENGTH)
@@ -100,14 +101,14 @@ functions for folding and evaluating cricular RNA molecules.
      up pairing matrix and energy parameters.
 
  -- Function: void free_arrays ()
-     frees the memory allocated by 'fold()'.
+     frees the memory allocated by ‘fold()’.
 
  -- Function: void update_fold_params ()
      call this to recalculate the pair matrix and energy parameters
-     after a change in folding parameters like 'temperature' (*note
+     after a change in folding parameters like ‘temperature’ (*note
      Variables: Fold Vars.).
 
-   Prototypes for these functions are declared in 'fold.h'.
+   Prototypes for these functions are declared in ‘fold.h’.
 
 
 File: RNAlib.info,  Node: PF Fold,  Next: Inverse Fold,  Prev: mfe Fold,  Up: Folding Routines
@@ -118,36 +119,36 @@ File: RNAlib.info,  Node: PF Fold,  Next: Inverse Fold,  Prev: mfe Fold,  Up: Fo
 Instead of the minimum free energy structure the partition function of
 all possible structures and from that the pairing probability for every
 possible pair can be calculated, using a dynamic programming algorithm
-as described by 'McCaskill (1990)'.  The following functions are
+as described by ‘McCaskill (1990)’.  The following functions are
 provided:
 
  -- Function: float pf_fold (char* SEQUENCE, char* STRUCTURE)
      calculates the partition function Z of SEQUENCE and returns the
      free energy of the ensemble F in kcal/mol, where F=-kT ln(Z). If
      STRUCTURE is not a NULL pointer on input, it contains on return a
-     string consisting of the letters " .  , | { } ( ) " denoting bases
+     string consisting of the letters “ .  , | { } ( ) “ denoting bases
      that are essentially unpaired, weakly paired, strongly paired
      without preference, weakly upstream (downstream) paired, or
      strongly up- (down-)stream paired bases, respectively.  If
-     'fold_constrained' (*note Variables: Fold Vars.) is 1, the
+     ‘fold_constrained’ (*note Variables: Fold Vars.) is 1, the
      STRUCTURE string is interpreted on input as a list of constraints
-     for the folding.  The character "x" marks bases that must be
-     unpaired, matching brackets " ( ) " denote base pairs, all other
+     for the folding.  The character “x“ marks bases that must be
+     unpaired, matching brackets “ ( ) “ denote base pairs, all other
      characters are ignored.  Any pairs conflicting with the constraint
      will be forbidden.  This usually sufficient to ensure the
-     constraints are honored.  If 'do_backtrack' (*note Variables: Fold
+     constraints are honored.  If ‘do_backtrack’ (*note Variables: Fold
      Vars.) has been set to 0 base pairing probabilities will not be
-     computed (saving CPU time), otherwise the 'pr[iindx[i]-j]' (*note
+     computed (saving CPU time), otherwise the ‘pr[iindx[i]-j]’ (*note
      Variables: Fold Vars.) will contain the probability that bases i
      and j pair.
 
  -- Function: void init_pf_fold (int LENGTH)
      allocates memory for folding sequences not longer than LENGTH; sets
      up pairing matrix and energy parameters.  Has to be called before
-     the first call to 'pf_fold()'.
+     the first call to ‘pf_fold()’.
 
  -- Function: void free_pf_arrays (void)
-     frees the memory allocated by 'init_pf_fold()'.
+     frees the memory allocated by ‘init_pf_fold()’.
 
  -- Function: void update_pf_params (int LENGTH)
      Call this function to recalculate the pair matrix and energy
@@ -159,11 +160,11 @@ provided:
      a measure of the structural diversity.  It is given by <d> =
      \sum_{a,b} p_a * p_b * d(a,b), where the sum goes over all pairs of
      possible structure a,b, p_a is the Boltzmann weight of structure a,
-     and d(a,b) is the base pair distance (see 'bp_distance()' in *Note
+     and d(a,b) is the base pair distance (see ‘bp_distance()’ in *Note
      Distances::.).  The mean base pair distances can be computed
      efficiently from the pair probabilities p_ij as <d> = \sum_{ij}
-     p_{ij} * (1-p_{ij}).  Uses the global 'pr' array filled by a
-     previous call to 'pf_fold()'.
+     p_{ij} * (1-p_{ij}).  Uses the global ‘pr’ array filled by a
+     previous call to ‘pf_fold()’.
 
  -- Function: char *centroid (int LENGTH, double *DIST)
      Computes the centroid structure, i.e.  the structure having the
@@ -173,7 +174,7 @@ provided:
      greater 0.5.  The distance of the centroid to the ensemble is
      returned in DIST.
 
-   Prototypes for these functions are declared in 'part_func.h'.
+   Prototypes for these functions are declared in ‘part_func.h’.
 
  -- Function: float *MEA (plist *PL, char *STRUCTURE, double GAMMA)
      Computes a MEA (maximum expected accuracy) structure, such that
@@ -184,7 +185,7 @@ provided:
      only highly likely pairs (high specificity).  The code of the MEA
      function also demonstrates the use of sparse dynamic programming
      scheme to reduce the time and memory complexity of folding.
-   The corresponding protoype is declared in 'MEA.h'.
+   The corresponding protoype is declared in ‘MEA.h’.
 
 
 File: RNAlib.info,  Node: Inverse Fold,  Next: Suboptimal folding,  Prev: PF Fold,  Up: Folding Routines
@@ -199,27 +200,27 @@ structure, thereby inverting the folding routines.
      searches for a sequence with minimum free energy structure TARGET,
      starting with sequence START.  It returns 0 if the search was
      successful, otherwise a structure distance to TARGET is returned.
-     The found sequence is returned in START.  If 'give_up' is set to 1,
+     The found sequence is returned in START.  If ‘give_up’ is set to 1,
      the function will return as soon as it is clear that the search
      will be unsuccessful, this speeds up the algorithm if you are only
-     interested in exact solutions.  Since 'inverse_fold()' calls
-     'fold()' you have to allocate memory for folding by calling
-     'initialize_fold()'
+     interested in exact solutions.  Since ‘inverse_fold()’ calls
+     ‘fold()’ you have to allocate memory for folding by calling
+     ‘initialize_fold()’
 
  -- Function: float inverse_pf_fold (char* START, char* TARGET)
      searches for a sequence with maximum probability to fold into
      structure TARGET using the partition function algorithm.  It
      returns -kT log(p) where p is the frequency of TARGET in the
      ensemble of possible structures.  This is usually much slower than
-     'inverse_fold()'.  Since 'inverse_pf_fold()' calls 'pf_fold()' you
-     have to allocate memory for folding by calling 'init_pf_fold()'
+     ‘inverse_fold()’.  Since ‘inverse_pf_fold()’ calls ‘pf_fold()’ you
+     have to allocate memory for folding by calling ‘init_pf_fold()’
 
  -- Variable: char *symbolset
-     The global variable 'char *symbolset' points to the allowed bases,
-     initially '"AUGC"'.  It can be used to design sequences from
+     The global variable ‘char *symbolset’ points to the allowed bases,
+     initially ‘"AUGC"’.  It can be used to design sequences from
      reduced alphabets.
 
-   Prototypes for these functions are declared in 'inverse.h'.
+   Prototypes for these functions are declared in ‘inverse.h’.
 
 
 File: RNAlib.info,  Node: Suboptimal folding,  Next: Cofolding,  Prev: Inverse Fold,  Up: Folding Routines
@@ -233,11 +234,11 @@ File: RNAlib.info,  Node: Suboptimal folding,  Next: Cofolding,  Prev: Inverse F
           DELTA, FILE* FP)
      produces *all* suboptimal secondary structures within DELTA*0.01
      kcal/mol of the optimum.  The results are either directly written
-     to a FP (if FP is not 'NULL'), or (FP'==NULL') returned in a
-     'SOLUTION *' list terminated by an entry were the 'structure'
-     pointer is 'NULL'.
+     to a FP (if FP is not ‘NULL’), or (FP‘==NULL’) returned in a
+     ‘SOLUTION *’ list terminated by an entry were the ‘structure’
+     pointer is ‘NULL’.
 
-   Prototypes for these functions are declared in 'subopt.h'.
+   Prototypes for these functions are declared in ‘subopt.h’.
 
 
 File: RNAlib.info,  Node: Cofolding,  Next: Local Fold,  Prev: Suboptimal folding,  Up: Folding Routines
@@ -250,45 +251,45 @@ other RNAs.  The following routines therefore allow to predict
 structures formed by two RNA molecules upon hybridization.  One approach
 to co-folding two RNAs consists of concatenating the two sequences and
 keeping track of the concatenation point in all energy evaluations.
-Correspondingly, many of the 'cofold()' and 'co_pf_fold()' routines
+Correspondingly, many of the ‘cofold()’ and ‘co_pf_fold()’ routines
 below take one sequence string as argument and use the the global
 variable CUT_POINT to mark the concatenation point.  Note that while the
-'RNAcofold' program uses the '&' character to mark the chain break in
-its input, you should not use an '&' when using the library routines
+‘RNAcofold’ program uses the ’&’ character to mark the chain break in
+its input, you should not use an ’&’ when using the library routines
 (set CUT_POINT instead).  In a second approach to co-folding two RNAs,
 cofolding is seen as a stepwise process.  In the first step the
 probability of an unpaired region is calculated and in a second step
 this probability of an unpaired region is multiplied with the
 probability of an interaction between the two RNAs.  This approach is
 implemented for the interaction between a long target sequence and a
-short ligand RNA. Function 'pf_unstru()' calculates the partition
+short ligand RNA. Function ‘pf_unstru()’ calculates the partition
 function over all unpaired regions in the input sequence.  Function
-'pf_interact()', which calculates the partition function over all
+‘pf_interact()’, which calculates the partition function over all
 possible interactions between two sequences, needs both sequence as
 separate strings as input.
 
  -- Variable: int cut_point
-     'cut_point' marks the position (starting from 1) of the first
+     ‘cut_point’ marks the position (starting from 1) of the first
      nucleotide of the second molecule within the concatenated sequence.
      The default value of -1 stands for single molecule folding.  The
-     'cut_point' variable is also used by 'PS_rna_plot()' and
-     'PS_dot_plot()' to mark the chain break in postscript plots.
+     ‘cut_point’ variable is also used by ‘PS_rna_plot()’ and
+     ‘PS_dot_plot()’ to mark the chain break in postscript plots.
 
  -- Function: float cofold (char *SEQUENCE, char *STRUCTURE)
-     The analog to the 'fold()' function.  Computes the minimum free
-     energy of two RNA molecules interacting.  If 'cut_point==-1'
-     results should be the same as with 'fold()'.
+     The analog to the ‘fold()’ function.  Computes the minimum free
+     energy of two RNA molecules interacting.  If ‘cut_point==-1’
+     results should be the same as with ‘fold()’.
 
  -- Function: void free_co_arrays (void)
-     Frees arrays allocated by 'cofold()'.
+     Frees arrays allocated by ‘cofold()’.
 
  -- Function: void initialize_cofold (int LENGTH)
      Allocates memory for mfe cofolding sequences not longer than
      LENGTH, and sets up pairing matrix and energy parameters.
-     Explicitly calling 'initialize_cofold()' is normally not necessary,
+     Explicitly calling ‘initialize_cofold()’ is normally not necessary,
      as it will be called automagically before folding.
 
-   Prototypes for these functions are declared in 'cofold.h'.
+   Prototypes for these functions are declared in ‘cofold.h’.
 
 2.6 Partition Function Cofolding
 ================================
@@ -309,19 +310,19 @@ probabilities given that a re dimer is formed or not formed.
  -- data type: cofoldF struct {double F0AB, FAB, FcAB, FA, FB;}
 
  -- Function: cofoldF co_pf_fold (char* SEQUENCE, char* STRUCTURE)
-     The analog to the 'pf_fold()' function, it computes the partition
+     The analog to the ‘pf_fold()’ function, it computes the partition
      function of two interacting RNA molecules as well as base pair
      probabilities.  It returns a struct including free energies
      computed for different models.  F0AB is the free energy in the null
      model; FAB is corrected to include the initiation penalty, FcAB
      only includes real dimers.  FA and FB are the free energies of the
-     2 molecules, resp.  As with 'cofold()' the CUT_POINT global
+     2 molecules, resp.  As with ‘cofold()’ the CUT_POINT global
      variable has to be set to mark the chain break between the
      molecules.
 
  -- Function: void free_co_pf_arrays (void)
-     frees partition function cofold arrays allocated in '
-     co_pf_fold()'.
+     frees partition function cofold arrays allocated in ‘
+     co_pf_fold()’.
 
  -- Function: void init_co_pf_fold (int LENGTH)
      Obsolete function kept for backward compatibility.  Allocates
@@ -336,7 +337,7 @@ probabilities given that a re dimer is formed or not formed.
      all base pairs with a probability less than CUT_OFF.  This is
      useful since the PR array gets overwritten by subsequent foldings.
 
-   Prototypes for these functions are declared in 'co_part_func.h'.
+   Prototypes for these functions are declared in ‘co_part_func.h’.
 
 2.7 Cofolding all Dimeres, Concentrations
 =========================================
@@ -352,13 +353,13 @@ concentrations and sofar and soaway.
      for a dimer AB and the two constituent monomers A and B, compute
      the conditional pair probabilities given that a dimer AB actually
      forms.  Null model pair probabilities are given as a list as
-     produced by 'get_plist()'), the dimer probabilities PRAB are
+     produced by ‘get_plist()’), the dimer probabilities PRAB are
      modified in place.
 
    Dimer formation is inherently concentration dependent.  Given the
 free energies of the monomers A and B and dimers AB, AA, and BB one can
 compute the equilibrium concentrations, given input concentrations of A
-and B, see e.g.~'Dimitrov & Zuker (2004)'
+and B, see e.g.~‘Dimitrov & Zuker (2004)’
 
  -- data type: ConcEnt struct {double A0; double B0;double ABc;double
           AAc; double BBc; double Ac; double Bc;}
@@ -371,9 +372,9 @@ and B, see e.g.~'Dimitrov & Zuker (2004)'
      (terminated by two zeroes), then computes the resulting equilibrium
      concentrations from the free energies for the dimers.  Dimer free
      energies should be the dimer-only free energies, i.e.  the FcAB
-     entries from the 'cofoldF' struct.
+     entries from the ‘cofoldF’ struct.
 
-   Prototypes for these functions are declared in 'co_part_func.h'.
+   Prototypes for these functions are declared in ‘co_part_func.h’.
 
 2.8 Partition Function Cofolding as stepwise process
 ====================================================
@@ -395,27 +396,27 @@ site.
  -- Function: pu_contrib *pf_unstru (char *SEQUENCE, int U)
      This function calculates the partition function over all unpaired
      regions in *SEQUENCE of a maximal length U.  You have to call
-     function 'pf_fold()' for *SEQUENCE befor calling 'pf_unstru()'.  If
+     function ‘pf_fold()’ for *SEQUENCE befor calling ‘pf_unstru()’.  If
      you want to calculate unpaired regions for a constrained structure,
-     set variable STRUCTURE in function 'pf_fold()' to the constrain
-     string.  Function 'pf_unstru' returns a 'pu_contrib' struct
+     set variable STRUCTURE in function ‘pf_fold()’ to the constrain
+     string.  Function ‘pf_unstru’ returns a ‘pu_contrib’ struct
      containing four arrays of dimension [i = 1 to length of
      *SEQUENCE][j = 0 to U-1] containing all possible contributions to
      the probabilities of unpaired regions of maximum length U.  Each
-     array in 'pu_contrib' contains one of the contributions to the
+     array in ‘pu_contrib’ contains one of the contributions to the
      total probability of being unpaired: The probability of being
-     unpaired within an exterior loop is in array 'pu_contrib->E', the
+     unpaired within an exterior loop is in array ‘pu_contrib->E’, the
      probability of being unpaired within a hairpin loop is in array
-     'pu_contrib->H', the probability of being unpaired within an
-     interior loop is in array 'pu_contrib->I' and probability of being
-     unpaired within a multi-loop is in array 'pu_contrib->M'.  The
+     ‘pu_contrib->H’, the probability of being unpaired within an
+     interior loop is in array ‘pu_contrib->I’ and probability of being
+     unpaired within a multi-loop is in array ‘pu_contrib->M’.  The
      total probability of being unpaired is the sum of the four arrays
-     of 'pu_contrib'.  Function 'pf_unstru' frees everything allocated
+     of ‘pu_contrib’.  Function ‘pf_unstru’ frees everything allocated
      automatically.  To free the output structure call
-     'free_pu_contrib'.
+     ‘free_pu_contrib’.
 
  -- Function: void free_pu_contrib (pu_contrib *P_CON)
-     frees the output of function 'pf_unstru'.
+     frees the output of function ‘pf_unstru’.
 
  -- data type: interact struct {double *Pi; double *I; double Gikjl;
           double Gikjl_wo; int i, int k, int j, int l, int length;}
@@ -427,33 +428,33 @@ site.
      *S1 and sequence *S2, considering the probability that the region
      of interaction is unpaired within *S1 and *S2.  The longer sequence
      has to be given as *S1.  The shorter sequence has to be given as
-     *S2.  Function 'pf_unstru()' has to be called for *S1 and *S2,
+     *S2.  Function ‘pf_unstru()’ has to be called for *S1 and *S2,
      where the probabilities of being unpaired have to be given in *P_C
      and *P_C2, respectively.  If you do not want to include the
      probabilities of being unpaired for *S2 set *P_C2 to NULL. If
      variable char *CSTRUC is not NULL, constrained folding is done: The
-     available constrains for intermolecular interaction are: '.'  (no
-     constrain), 'x' (the base has no intermolecular interaction) and
-     '|' (the corresponding base has to be paired intermolecularily).
+     available constrains for intermolecular interaction are: ’.’ (no
+     constrain), ’x’ (the base has no intermolecular interaction) and
+     ’|’ (the corresponding base has to be paired intermolecularily).
      The parameter W determines the maximal length of the interaction.
      The parameters INCR5 and INCR3 allows inclusion of unpaired
      residues left (INCR5) and right (INCR3) of the region of
      interaction in *S1.  If the INCR options are used, function
-     'pf_unstru()' has to be called with W=W+INCR5+INCR3 for the longer
-     sequence *S1.  Function 'pf_interact()' returns a structure of type
-     'interact' which contains the probability of the best local
+     ‘pf_unstru()’ has to be called with W=W+INCR5+INCR3 for the longer
+     sequence *S1.  Function ‘pf_interact()’ returns a structure of type
+     ‘interact’ which contains the probability of the best local
      interaction including residue i in Pi and the minimum free energy
      in Gi, where i is the position in sequence *S1.  The member Gikjl
-     of structure 'interact' is the best interaction between region
+     of structure ‘interact’ is the best interaction between region
      [k,i] k<i in longer sequence *S1 and region [j,l] j<l in *S2.
      Gikjl_wo is Gikjl without the probability of beeing unpaired.  Use
-     'free_interact)' to free the returned structure, all other stuff is
-     freed inside 'pf_interact()'.
+     ‘free_interact)’ to free the returned structure, all other stuff is
+     freed inside ‘pf_interact()’.
 
  -- Function: void free_interact (interact *PIN)
-     frees the output of function 'pf_interact'.
+     frees the output of function ‘pf_interact’.
 
-   Prototypes for these functions are declared in 'part_func_up.h'.
+   Prototypes for these functions are declared in ‘part_func_up.h’.
 
 
 File: RNAlib.info,  Node: Local Fold,  Next: Alignment Fold,  Prev: Cofolding,  Up: Folding Routines
@@ -461,11 +462,11 @@ File: RNAlib.info,  Node: Local Fold,  Next: Alignment Fold,  Prev: Cofolding,  
 2.9 Searching for local structures in large molecules
 =====================================================
 
-Local structures can be predicted by a modified version of the 'fold()'
+Local structures can be predicted by a modified version of the ‘fold()’
 algorithm that restricts the span of all base pairs.
 
  -- Function: float Lfold (char *STRING, char *STRUCTURE, int MAXDIST)
-     The local analog to 'fold()'.  Computes the minimum free energy
+     The local analog to ‘fold()’.  Computes the minimum free energy
      structure including only base pairs with a span smaller than
 
    MAXDIST.
@@ -477,20 +478,20 @@ algorithm that restricts the span of all base pairs.
      WINSIZE possible in a RNA molecule, allowing only pairs with a span
      smaller than PAIRSIZE.  It returns the mean pair probabilities
      averaged over all windows containing the pair in PL.  WINSIZE
-     should always be >= PAIRSIZE.  Note that in contrast to 'Lfold()',
+     should always be >= PAIRSIZE.  Note that in contrast to ‘Lfold()’,
      bases outside of the window do not influence the structure at all.
      Only probabilities higher than CUTOFF are kept.
 
      The remaining arguments are optional in the sense that they can be
      set to NULL unless the corresponding functionality is wanted.  If
-     PU is supplied (i.e is not the NULL pointer), 'pfl_fold()' will
+     PU is supplied (i.e is not the NULL pointer), ‘pfl_fold()’ will
      also compute local _accessibilities_, as the mean probability that
-     regions of length 'u' or smaller are unpaired.  The parameter
-     'ulength' is supplied in 'pU[0][0]'.  On return the PU array will
-     contain these probabilities, with the entry on 'pU[x][y]'
+     regions of length ‘u’ or smaller are unpaired.  The parameter
+     ‘ulength’ is supplied in ‘pU[0][0]’.  On return the PU array will
+     contain these probabilities, with the entry on ‘pU[x][y]’
      containing the mean probability that x and the y following bases
      are unpaired.  If DPP2 is supplied (i.e is not the NULL pointer),
-     'pfl_fold()' will also compute the probability of stacked pairs,
+     ‘pfl_fold()’ will also compute the probability of stacked pairs,
      more precisely the conditional probabilities of base pairs (i,j)
      given that the enclosing pair (i-1,j+1) is formed.  The file
      pointers PUFP and SPUP file pointer is provided, the unpaired
@@ -500,13 +501,13 @@ algorithm that restricts the span of all base pairs.
      which can be useful when memory is an issue).
 
  -- Function: void init_pf_foldLP (int LENGTH)
-     Analog to 'init_pf_fold()'.  LENGTH is the length of the sequence.
+     Analog to ‘init_pf_fold()’.  LENGTH is the length of the sequence.
 
  -- Function: void free_pf_arraysLP (void)
-     frees the arrays used by 'pfl_fold()'
+     frees the arrays used by ‘pfl_fold()’
 
  -- Function: void update_pf_paramsLP (int LENGTH)
-     Analog to 'update_pf_params()'.  LENGTH is the length of the
+     Analog to ‘update_pf_params()’.  LENGTH is the length of the
      sequence.
 
 
@@ -516,44 +517,44 @@ File: RNAlib.info,  Node: Alignment Fold,  Next: Fold Vars,  Prev: Local Fold,  
 ======================================================
 
 Consensus structures can be predicted by a modified version of the
-'fold()' algorithm that takes a set of aligned sequences instead of a
+‘fold()’ algorithm that takes a set of aligned sequences instead of a
 single sequence.  The energy function consists of the mean energy
 averaged over the sequences, plus a covariance term that favors pairs
 with consistent and compensatory mutations and penalizes pairs that
-cannot be formed by all structures.  For details see 'Hofacker (2002)'.
+cannot be formed by all structures.  For details see ‘Hofacker (2002)’.
 
  -- Function: float alifold (char** SEQUENCES, char* STRUCTURE)
      Predicts the consensus structure for the aligned SEQUENCES and
      returns the minimum free energy; the mfe structure in bracket
      notation (*note notations::) is returned in STRUCTURE.  Sufficient
-     space must be allocated for STRUCTURE before calling 'alifold()'.
+     space must be allocated for STRUCTURE before calling ‘alifold()’.
 
  -- Function: void free_alifold_arrays ()
-     frees the memory allocated by 'alifold()'.
+     frees the memory allocated by ‘alifold()’.
 
  -- Function: void update_alifold_params ()
      call this to recalculate the pair matrix and energy parameters
-     after a change in folding parameters like 'temperature' (*note
+     after a change in folding parameters like ‘temperature’ (*note
      Variables: Fold Vars.).
 
  -- Function: float alipf_fold (char** SEQUENCES, char* STRUCTURE,
           pair_info **PI)
-     The partition function version of 'alifold()' works in analogy to
-     'pf_fold()'.  Pair probabilities and information about sequence
+     The partition function version of ‘alifold()’ works in analogy to
+     ‘pf_fold()’.  Pair probabilities and information about sequence
      covariations are returned via the PI variable as a list of
-     'pair_info' structs.  The list is terminated by the first entry
-     with 'pi.i = 0'.
+     ‘pair_info’ structs.  The list is terminated by the first entry
+     with ‘pi.i = 0’.
 
  -- data type: pair_info struct {short i,j; float p; float ent; short
           bp[8]; char comp;}
-     for each base pair 'i,j' the structure lists: its probability 'p',
-     an entropy-like measure for its well-definedness 'ent', and in
-     'bp[]' the frequency of each type of pair.  'bp[0]' contains the
-     number of non-compatible sequences, 'bp[1]' the number of CG pairs,
+     for each base pair ‘i,j’ the structure lists: its probability ‘p’,
+     an entropy-like measure for its well-definedness ‘ent’, and in
+     ‘bp[]’ the frequency of each type of pair.  ‘bp[0]’ contains the
+     number of non-compatible sequences, ‘bp[1]’ the number of CG pairs,
      etc.
 
  -- Variable: double cv_fact
-     'cv_fact' controls the weight of the covariance term in the energy
+     ‘cv_fact’ controls the weight of the covariance term in the energy
      function.  Default is 1.
 
  -- Variable: double nc_fact
@@ -588,33 +589,33 @@ algorithms or contain additional information after folding.
  -- Variable: int energy_set
      if 1 or 2: fold sequences from an artificial alphabet ABCD...,
      where A pairs B, C pairs D, etc.  using either GC (1) or AU
-     parameters (2); default is 0, you probably don't want to change it.
+     parameters (2); default is 0, you probably don’t want to change it.
 
  -- Variable: float temperature
-     rescale energy parameters to a temperature of 'temperature' C.
+     rescale energy parameters to a temperature of ‘temperature’ C.
      Default is 37C. You have to call the update_..._params() functions
      after changing this parameter.
 
  -- Variable: int dangles
      if set to 0 no stabilizing energies are assigned to bases adjacent
      to helices in free ends and multiloops (so called dangling ends).
-     Normally ('dangles = 1') dangling end energies are assigned only to
+     Normally (‘dangles = 1’) dangling end energies are assigned only to
      unpaired bases and a base cannot participate simultaneously in two
-     dangling ends.  In the partition function algorithm 'pf_fold()'
-     these checks are neglected.  If 'dangles' is set to 2, the 'fold()'
-     and 'energy_of_struct()' function will also follow this convention.
+     dangling ends.  In the partition function algorithm ‘pf_fold()’
+     these checks are neglected.  If ‘dangles’ is set to 2, the ‘fold()’
+     and ‘energy_of_struct()’ function will also follow this convention.
      This treatment of dangling ends gives more favorable energies to
      helices directly adjacent to one another, which can be beneficial
      since such helices often do engage in stabilizing interactions
      through co-axial stacking.
-     If 'dangles = 3' co-axial stacking is explicitly included for
+     If ‘dangles = 3’ co-axial stacking is explicitly included for
      adjacent helices in mutli-loops.  The option affects only mfe
-     folding and energy evaluation ('fold()' and 'energy_of_struct()'),
-     as well as suboptimal folding ('subopt()') via re-evaluation of
+     folding and energy evaluation (‘fold()’ and ‘energy_of_struct()’),
+     as well as suboptimal folding (‘subopt()’) via re-evaluation of
      energies.  Co-axial stacking with one intervening mismatch is not
      considered so far.
 
-     Default is 1, 'pf_fold()' treats 1 as 2.
+     Default is 1, ‘pf_fold()’ treats 1 as 2.
 
  -- Variable: char* nonstandards
      Lists additional base pairs that will be allowed to form in
@@ -629,25 +630,25 @@ algorithms or contain additional information after folding.
      structures.
 
  -- Variable: struct bond { int i,j;} base_pair
-     Contains a list of base pairs after a call to 'fold()'.
-     'base_pair[0].i' contains the total number of pairs.
+     Contains a list of base pairs after a call to ‘fold()’.
+     ‘base_pair[0].i’ contains the total number of pairs.
 
  -- Variable: double* pr
      contains the base pair probability matrix after a call to
-     'pf_fold()'.
+     ‘pf_fold()’.
 
  -- Variable: int* iindx
      index array to move through pr.  The probability for base i and j
-     to form a pair is in 'pr[iindx[i]-j]'.
+     to form a pair is in ‘pr[iindx[i]-j]’.
 
  -- Variable: float pf_scale
-     a scaling factor used by 'pf_fold()' to avoid overflows.  Should be
+     a scaling factor used by ‘pf_fold()’ to avoid overflows.  Should be
      set to approximately exp((-F/kT)/length), where F is an estimate
      for the ensemble free energy, for example the minimum free energy.
-     You must call 'update_pf_params()' or 'init_pf_fold()' after
+     You must call ‘update_pf_params()’ or ‘init_pf_fold()’ after
      changing this parameter.  If pf_scale is -1 (the default) , an
      estimate will be provided automatically when calling
-     'init_pf_fold()' or 'update_f_params()'.  The automatic estimate is
+     ‘init_pf_fold()’ or ‘update_f_params()’.  The automatic estimate is
      usually insufficient for sequences more than a few hundred bases
      long.
 
@@ -656,15 +657,15 @@ algorithms or contain additional information after folding.
      mfe Fold::, for more information.  Default is 0;
 
  -- Variable: int do_backtrack
-     if 0, do not calculate pair probabilities in 'pf_fold()'; this is
+     if 0, do not calculate pair probabilities in ‘pf_fold()’; this is
      about twice as fast.  Default is 1.
 
  -- Variable: char backtrack_type
-     only for use by 'inverse_fold()'; 'C': force (1,N) to be paired,
-     'M' fold as if the sequence were inside a multi-loop.  Otherwise
+     only for use by ‘inverse_fold()’; ’C’: force (1,N) to be paired,
+     ’M’ fold as if the sequence were inside a multi-loop.  Otherwise
      the usual mfe structure is computed.
 
-   include 'fold_vars.h' if you want to change any of these variables
+   include ‘fold_vars.h’ if you want to change any of these variables
 from their defaults.
 
 
@@ -673,8 +674,8 @@ File: RNAlib.info,  Node: Param Files,  Prev: Fold Vars,  Up: Folding Routines
 2.12 Energy Parameter Files
 ===========================
 
-A default set of parameters, identical to the one described in 'Mathews
-et.al. (1999)', is compiled into the library.  Alternately, parameters
+A default set of parameters, identical to the one described in ‘Mathews
+et.al. (1999)’, is compiled into the library.  Alternately, parameters
 can be read from and written to a file.
 
  -- Function: void read_parameter_file (const char FNAME[])
@@ -684,7 +685,7 @@ can be read from and written to a file.
      writes current energy parameters to the file FNAME.
 
    The following describes the file format expected by
-'read_parameter_file()'.  All energies should be given as integers in
+‘read_parameter_file()’.  All energies should be given as integers in
 units of 0.01kcal/mol.
 
    Various loop parameters depend in general on the pairs closing the
@@ -697,15 +698,15 @@ and nonstandard bases (type 0) are.  Thus, a table for symmetric size 2
 interior loops would have 7*7*5*5 entries (2 pairs, two unpaired bases).
 
    The order of entries always uses the closing pair or pairs as the
-first indices followed by the unpaired bases in 5' to 3' direction.  To
-determine the type of a pair consider the base at the (local) 5' end of
+first indices followed by the unpaired bases in 5’ to 3’ direction.  To
+determine the type of a pair consider the base at the (local) 5’ end of
 each strand first, i.e.  use the pairs (i,j) and (q,p) for an interior
 loop with i<p<q<j.  This is probably better explained by an example.
 Consider the symmetric size 4 interior loop
      		      5'-GAUA-3'
      		      3'-CGCU-5'
    the first pair is GC, the second UA (not AU!) the unpaired bases are
-(in 5' to 3' direction, starting at the first pair) A U C G. Thus we
+(in 5’ to 3’ direction, starting at the first pair) A U C G. Thus we
 need entry [2,6,1,4,2,3] of the corresponding table.  Because the loop
 is symmetric you could equally well describe it by UA GC C G A U, i.e.
 entry [6,2,2,3,1,4].  Be careful to preserve this symmetry when editing
@@ -789,7 +790,7 @@ of parameter files this table only lists canonical bases (A,C,G,U)
 resulting in a 7*7*4*4*4*4 table.  See above for an example.
 
 # dangle5
-Energies for the interaction of an unpaired base on the 5' side and
+Energies for the interaction of an unpaired base on the 5’ side and
 adjacent to a helix in multiloops and free ends (the equivalent of
 mismatch energies in interior and hairpin loops).  The array is indexed
 by the type of pair closing the helix and the unpaired base and,
@@ -799,18 +800,18 @@ therefore, forms a 8*5 matrix.  For example the dangling base in
 corresponds to entry [1,3] (CG=1, G=3);
 
 # dangle3
-Same as above for bases on the 3' side of a helix.
+Same as above for bases on the 3’ side of a helix.
      			       5'- A-3'
      			       3'-AU-5'
 corresponds to entry [5,1] (AU=5, A=1);
 
 # ML_params
-For the energy of a multi-loop a function of the form 'E = cu*n_unpaired
-+ ci*loop_degree + cc' is used where n_unpaired is the number of
+For the energy of a multi-loop a function of the form ‘E = cu*n_unpaired
++ ci*loop_degree + cc’ is used where n_unpaired is the number of
 unpaired bases in the loop and loop_degree is the number of helices
-forming the loop.  In addition a "terminal AU" penalty is applied to AU
+forming the loop.  In addition a “terminal AU” penalty is applied to AU
 and GU pairs in the loop.  The line following the token should contain
-these four values, in the order 'cu cc ci termAU'.  The terminal AU
+these four values, in the order ‘cu cc ci termAU’.  The terminal AU
 penalty is also used for the exterior loop and size 3 hairpins, for
 other loop types it is already included in the mismatch energies.
 
@@ -828,15 +829,15 @@ Anything beyond this token will be ignored.
    A parameter file need not be complete, it might may contain only a
 subset of interaction parameters, such as only stacking energies.
 However, for each type of interaction listed, all entries have to be
-present.  A '*' may be used to indicate entries of a list that are to
-retain their default value.  For loop energies a 'x' may be used to
+present.  A ‘*’ may be used to indicate entries of a list that are to
+retain their default value.  For loop energies a ‘x’ may be used to
 indicate that the value is to be extrapolated from the values for
 smaller loop sizes.  Parameter files may contain C-style comments, i.e.
-any text between '/*' and '*/' will be ignored.  However, you may have
+any text between ‘/*’ and ‘*/’ will be ignored.  However, you may have
 no more than one comment per line and no multi-line comments.
 
    A parameter file listing the default parameter set should accompany
-your distribution as 'default.par', the file 'old.par' contains
+your distribution as ‘default.par’, the file ‘old.par’ contains
 parameters used in version 1.1b of the Package.
 
 
@@ -857,31 +858,31 @@ File: RNAlib.info,  Node: notations,  Next: Parsing,  Prev: Parsing and Comparin
 3.1 Representations of Secondary Structures
 ===========================================
 
-The standard representation of a secondary structure is the "bracket
-notation", where matching brackets symbolize base pairs and unpaired
+The standard representation of a secondary structure is the “bracket
+notation”, where matching brackets symbolize base pairs and unpaired
 bases are shown as dots.  Alternatively, one may use two types of node
-labels, 'P' for paired and 'U' for unpaired; a dot is then replaced by
-'(U)', and each closed bracket is assigned an additional identifier 'P'.
-We call this the expanded notation.  In 'Fontana et al. (1993)' a
+labels, ’P’ for paired and ’U’ for unpaired; a dot is then replaced by
+’(U)’, and each closed bracket is assigned an additional identifier ’P’.
+We call this the expanded notation.  In ‘Fontana et al. (1993)’ a
 condensed representation of the secondary structure is proposed, the
 so-called homeomorphically irreducible tree (HIT) representation.  Here
-a stack is represented as a single pair of matching brackets labeled 'P'
+a stack is represented as a single pair of matching brackets labeled ’P’
 and weighted by the number of base pairs.  Correspondingly, a contiguous
 strain of unpaired bases is shown as one pair of matching brackets
-labeled 'U' and weighted by its length.  Generally any string consisting
+labeled ’U’ and weighted by its length.  Generally any string consisting
 of matching brackets and identifiers is equivalent to a plane tree with
 as many different types of nodes as there are identifiers.
 
-   'Bruce Shapiro (1988)' proposed a coarse grained representation,
+   ‘Bruce Shapiro (1988)’ proposed a coarse grained representation,
 which, does not retain the full information of the secondary structure.
 He represents the different structure elements by single matching
-brackets and labels them as 'H' (hairpin loop), 'I' (interior loop), 'B'
-(bulge), 'M' (multi-loop), and 'S' (stack).  We extend his alphabet by
-an extra letter for external elements 'E'. Again these identifiers may
+brackets and labels them as ’H’ (hairpin loop), ’I’ (interior loop), ’B’
+(bulge), ’M’ (multi-loop), and ’S’ (stack).  We extend his alphabet by
+an extra letter for external elements ’E’.  Again these identifiers may
 be followed by a weight corresponding to the number of unpaired bases or
 base pairs in the structure element.  All tree representations (except
 for the dot-bracket form) can be encapsulated into a virtual root
-(labeled 'R'), see the example below.
+(labeled ’R’), see the example below.
 
    The following example illustrates the different linear tree
 representations used by the package.  All lines show the same secondary
@@ -900,7 +901,7 @@ structure: the first line shows the more convenient condensed notation
 which is used by our programs; the second line shows the rather clumsy
 expanded notation for completeness, b) HIT structure, c) different
 versions of coarse grained structures: the second line is exactly
-Shapiro's representation, the first line is obtained by neglecting the
+Shapiro’s representation, the first line is obtained by neglecting the
 stems.  Since each loop is closed by a unique stem, these two lines are
 equivalent.  The third line is an extension taking into account also the
 external digits.  d) weighted coarse structure, this time including the
@@ -917,7 +918,7 @@ above examples for tree representations would then look like:
         (E(S(B(S(M(S(HH)S)(S(HH)S)M)S)B)S)E)
      d) (R(E2(S2(B1(S2(M4(S3(H3)S3)((H2)S2)M4)S2)B1)S2)E2)R)
 
-   Aligned structures additionally contain the gap character '_'.
+   Aligned structures additionally contain the gap character ’_’.
 
 
 File: RNAlib.info,  Node: Parsing,  Next: Distances,  Prev: notations,  Up: Parsing and Comparing
@@ -938,23 +939,23 @@ different representations.
 
  -- Function: char* b2C (char* FULL)
      converts the FULL structure from bracket notation to the a coarse
-     grained notation using the 'H' 'B' 'I' 'M' and 'R' identifiers.
+     grained notation using the ’H’ ’B’ ’I’ ’M’ and ’R’ identifiers.
 
  -- Function: char* b2Shapiro (char* FULL)
      converts the FULL structure from bracket notation to the _weighted_
-     coarse grained notation using the 'H' 'B' 'I' 'M' 'S' 'E' and 'R'
+     coarse grained notation using the ’H’ ’B’ ’I’ ’M’ ’S’ ’E’ and ’R’
      identifiers.
 
  -- Function: char* expand_Shapiro (char* COARSE)
-     inserts missing 'S' identifiers in unweighted coarse grained
-     structures as obtained from 'b2C()'.
+     inserts missing ’S’ identifiers in unweighted coarse grained
+     structures as obtained from ‘b2C()’.
 
  -- Function: char* add_root (char* ANY)
      adds a root to an un-rooted tree in any except bracket notation.
 
  -- Function: char* unexpand_Full (char* EXPANDED)
      restores the bracket notation from an expanded full or HIT tree,
-     that is any tree using only identifiers 'U' 'P' and 'R'.
+     that is any tree using only identifiers ’U’ ’P’ and ’R’.
 
  -- Function: char* unweight (char* EXPANDED)
      strip weights from any weighted tree.
@@ -963,7 +964,7 @@ different representations.
 
  -- Function: void unexpand_aligned_F (char* ALIGN[2])
      converts two aligned structures in expanded notation as produced by
-     'tree_edit_distance()' function back to bracket notation with '_'
+     ‘tree_edit_distance()’ function back to bracket notation with ’_’
      as the gap character.  The result overwrites the input.
 
  -- Function: void parse_structure (char* FULL)
@@ -971,7 +972,7 @@ different representations.
      bracket notation, writing to the following global variables:
 
  -- Variable: int loop_size[]
-     contains a list of all loop sizes.  'loop_size[0]' contains the
+     contains a list of all loop sizes.  ‘loop_size[0]’ contains the
      number of external bases.
 
  -- Variable: int loop_degree[]
@@ -989,7 +990,7 @@ different representations.
  -- Variable: int unpaired
      contains the number of unpaired bases.
 
-   Prototypes for the above functions can be found in 'RNAstruct.h'.
+   Prototypes for the above functions can be found in ‘RNAstruct.h’.
 
 
 File: RNAlib.info,  Node: Distances,  Prev: Parsing,  Up: Parsing and Comparing
@@ -1011,13 +1012,13 @@ into the other.  It is therefore particularly useful for comparing
 structures on the same sequence.  It is implemented by
 
  -- Function: int bp_distance (char* S1, char* S2)
-     returns the "base pair" distance between two secondary structures
+     returns the “base pair” distance between two secondary structures
      S1 and S2, which should have the same length.
 
    For other cases a distance measure that allows for gaps is
 preferable.  We can define distances between structures as edit
 distances between trees or their string representations.  In the case of
-string distances this is the same as "sequence alignment".  Given a set
+string distances this is the same as “sequence alignment”.  Given a set
 of edit operations and edit costs, the edit distance is given by the
 minimum sum of the costs along an edit path converting one object into
 the other.  Edit distances like these always define a metric.  The edit
@@ -1055,12 +1056,12 @@ pair incurs a cost of 1.
         {   5, INF, INF, INF, INF,   0, INF},   /* S    replaced */
         {   5, INF, INF, INF, INF, INF,   0},   /* E    replaced */
 
-   The lower matrix uses the costs given in 'Shapiro (1990)'.  All
+   The lower matrix uses the costs given in ‘Shapiro (1990)’.  All
 distance functions use the following global variables:
 
  -- Variable: int cost_matrix
      if 0, use the default cost matrix (upper matrix in example);
-     otherwise use Shapiro's costs (lower matrix).
+     otherwise use Shapiro’s costs (lower matrix).
 
  -- Variable: int edit_backtrack
      produce an alignment of the two structures being compared by
@@ -1068,7 +1069,7 @@ distance functions use the following global variables:
 
  -- Variable: char* aligned_line[2]
      contains the two aligned structures after a call to one of the
-     distance functions with 'edit_backtrack' set to 1.  *Note
+     distance functions with ‘edit_backtrack’ set to 1.  *Note
      notations::, for details on the representation of structures.
 
 
@@ -1078,8 +1079,8 @@ File: RNAlib.info,  Node: Tree Distances,  Next: String Distances,  Prev: Distan
 ---------------------------------------
 
  -- Function: Tree* make_tree (char* XSTRUC)
-     constructs a 'Tree' ( essentially the postorder list ) of the
-     structure XSTRUC, for use in 'tree_edit_distance()'.  XSTRUC may be
+     constructs a ‘Tree’ ( essentially the postorder list ) of the
+     structure XSTRUC, for use in ‘tree_edit_distance()’.  XSTRUC may be
      any rooted structure representation.
 
  -- Function: float tree_edit_distance (Tree* T1, Tree* T2)
@@ -1088,9 +1089,9 @@ File: RNAlib.info,  Node: Tree Distances,  Next: String Distances,  Prev: Distan
  -- Function: void free_tree (Tree* T)
      frees the memory allocated for T.
 
-   Prototypes for the above functions can be found in 'treedist.h'.  The
-type 'Tree' is defined in 'dist_vars.h', which is automatically included
-with 'treedist.h'
+   Prototypes for the above functions can be found in ‘treedist.h’.  The
+type ‘Tree’ is defined in ‘dist_vars.h’, which is automatically included
+with ‘treedist.h’
 
 
 File: RNAlib.info,  Node: String Distances,  Next: Profile Distances,  Prev: Tree Distances,  Up: Distances
@@ -1100,12 +1101,12 @@ File: RNAlib.info,  Node: String Distances,  Next: Profile Distances,  Prev: Tre
 
  -- Function: swString* Make_swString (char* XSTRUC)
      converts the structure XSTRUC into a format suitable for
-     'string_edit_distance()'.
+     ‘string_edit_distance()’.
 
  -- Function: float string_edit_distance (swString* T1, swString* T2)
      calculates the string edit distance of T1 and T2.
 
-   Prototypes for the above functions can be found in 'stringdist.h'.
+   Prototypes for the above functions can be found in ‘stringdist.h’.
 
 
 File: RNAlib.info,  Node: Profile Distances,  Prev: String Distances,  Up: Distances
@@ -1117,20 +1118,20 @@ For comparison of base pair probability matrices, the matrices are first
 condensed into probability profiles which are the compared by alignment.
 
  -- Function: float* Make_bp_profile (int LENGTH)
-     reads the base pair probability matrix 'pr' (*note Variables: Fold
+     reads the base pair probability matrix ‘pr’ (*note Variables: Fold
      Vars.) and calculates a profile, i.e.  a vector containing for each
      base the probabilities of being unpaired, upstream, or downstream
      paired, respectively.  The returned array is suitable for
-     'profile_edit_distance'.
+     ‘profile_edit_distance’.
 
  -- Function: float profile_edit_distance (float* T1, float* T2)
      calculates an alignment distance of the two profiles T1 and T2.
 
  -- Function: void free_profile (float* T)
      frees the memory allocated for the profile T.  Backward
-     compatibility only.  You can just use plain 'free()'
+     compatibility only.  You can just use plain ‘free()’
 
-   Prototypes for the above functions can be found in 'profiledist.h'.
+   Prototypes for the above functions can be found in ‘profiledist.h’.
 
 
 File: RNAlib.info,  Node: Utilities,  Next: Example,  Prev: Parsing and Comparing,  Up: Top
@@ -1141,10 +1142,10 @@ File: RNAlib.info,  Node: Utilities,  Next: Example,  Prev: Parsing and Comparin
 The following utilities are used and therefore provided by the library:
 
  -- Function: int PS_dot_plot (char* SEQUENCE, char* FILENAME)
-     reads base pair probabilities produced by 'pf_fold()' from the
-     global array 'pr' and the pair list 'base_pair' produced by
-     'fold()' and produces a postscript "dot plot" that is written to
-     FILENAME.  The "dot plot" represents each base pairing probability
+     reads base pair probabilities produced by ‘pf_fold()’ from the
+     global array ‘pr’ and the pair list ‘base_pair’ produced by
+     ‘fold()’ and produces a postscript “dot plot” that is written to
+     FILENAME.  The “dot plot” represents each base pairing probability
      by a square of corresponding area in a upper triangle matrix.  The
      lower part of the matrix contains the minimum free energy
      structure.
@@ -1155,11 +1156,11 @@ The following utilities are used and therefore provided by the library:
      FILENAME.  Note that this function has changed from previous
      versions and now expects the structure to be plotted in dot-bracket
      notation as an argument.  It does not make use of the global
-     'base_pair' array anymore.
+     ‘base_pair’ array anymore.
 
  -- Function: int PS_rna_plot_a (char* SEQUENCE, char* STRUCTURE, char*
           FILENAME, char* PRE, char* POST)
-     Same as 'PS_rna_plot' but adds extra PostScript macros for various
+     Same as ‘PS_rna_plot’ but adds extra PostScript macros for various
      annotations (see generated PS code).  The PRE and POST variables
      contain PostScript code that is verbatim copied in the resulting PS
      file just before and after the structure plot.
@@ -1172,24 +1173,24 @@ The following utilities are used and therefore provided by the library:
  -- Function: int gmlRNA (char* SEQUENCE, char* STRUCTURE, char*
           FILENAME, char OPTION)
      produces a secondary structure graph in the Graph Meta Language gml
-     and writes it to FILENAME.  If 'option' is an uppercase letter the
-     'sequence' is used to label nodes, if 'option' equals ''X'' or
-     ''x'' the resulting file will coordinates for an initial layout of
+     and writes it to FILENAME.  If ‘option’ is an uppercase letter the
+     ‘sequence’ is used to label nodes, if ‘option’ equals ‘'X'’ or
+     ‘'x'’ the resulting file will coordinates for an initial layout of
      the graph.
 
  -- Variable: int rna_plot_type
      switches between different layout algorithms for drawing secondary
-     structures in 'PS_rna_plot' and 'gmlRNA'.  Current possibility are
+     structures in ‘PS_rna_plot’ and ‘gmlRNA’.  Current possibility are
      0 for a simple radial drawing or 1 for the modified radial drawing
-     taken from the 'naview' program of 'Bruccoleri & Heinrich (1988)'.
+     taken from the ‘naview’ program of ‘Bruccoleri & Heinrich (1988)’.
 
  -- Function: char* random_string (int L, char* SYMBOLS)
-     generates a "random" string of characters from SYMBOLS with length
+     generates a “random” string of characters from SYMBOLS with length
      L.
 
  -- Function: int hamming (char* S1, char* S2)
      returns the number of positions in which S1 and S2 differ, the so
-     called "Hamming" distance.  S1 and S2 should have the same length.
+     called “Hamming” distance.  S1 and S2 should have the same length.
 
  -- Function: unsigned char* pack_structure (char* STRUC)
      returns a binary string encoding the secondary structure STRUC
@@ -1208,19 +1209,19 @@ The following utilities are used and therefore provided by the library:
      STRUCTURE.
 
  -- Function: char* time_stamp (void)
-     returns a string containing the current date in the format "Fri Mar
-     19 21:10:57 1993".
+     returns a string containing the current date in the format “Fri Mar
+     19 21:10:57 1993”.
 
  -- Function: void nrerror (char* MESSAGE)
      writes MESSAGE to stderr and aborts the program.
 
  -- Function: double urn ()
      returns a pseudo random number in the range [0..1[, usually
-     implemented by calling 'erand48()'.
+     implemented by calling ‘erand48()’.
 
  -- Variable: unsigned short xsubi[3]
-     is used by 'urn ()'.  These should be set to some random number
-     seeds before the first call to 'urn ()'.
+     is used by ‘urn ()’.  These should be set to some random number
+     seeds before the first call to ‘urn ()’.
 
  -- Function: int int_urn (int FROM, int TO)
      generates a pseudo random integer in the range [FROM, TO].
@@ -1232,11 +1233,11 @@ The following utilities are used and therefore provided by the library:
  -- Function: char* get_line (FILE* FP)
      reads a line of arbitrary length from the stream *FP, and returns a
      pointer to the resulting string.  The necessary memory is allocated
-     and should be released using 'free()' when the string is no longer
+     and should be released using ‘free()’ when the string is no longer
      needed.
 
-   Prototypes for 'PS_rna_plot()' and 'PS_dot_plot()' reside in
-'PS_dot.h', the other functions are declared in 'utils.h'.
+   Prototypes for ‘PS_rna_plot()’ and ‘PS_dot_plot()’ reside in
+‘PS_dot.h’, the other functions are declared in ‘utils.h’.
 
 
 File: RNAlib.info,  Node: Example,  Next: References,  Prev: Utilities,  Up: Top
@@ -1331,8 +1332,8 @@ distance of the resulting structures and base pairing probabilities.
      }
 
    In a typical Unix environment you would compile this program using:
-'cc -c example.c -IHPATH' and link using 'cc -o example example.o
--LLPATH -lRNA -lm' where HPATH and LPATH point to the location of the
+‘cc -c example.c -IHPATH’ and link using ‘cc -o example example.o
+-LLPATH -lRNA -lm’ where HPATH and LPATH point to the location of the
 header files and library, respectively.
 
 
@@ -1372,7 +1373,7 @@ File: RNAlib.info,  Node: References,  Next: Function Index,  Prev: Example,  Up
 
    - A.E. Peritz, R. Kierzek, N, Sugimoto, D.H. Turner (1991)
      Thermodynamic Study of Internal Loops in Oligoribonucleotides ...
-     , Biochemistry 30: 6428-6435
+     , Biochemistry 30: 6428–6435
 
    - A. Walter, D. Turner, J. Kim, M. Lyttle, P. Müller, D. Mathews and
      M. Zuker (1994)
@@ -1438,7 +1439,7 @@ File: RNAlib.info,  Node: References,  Next: Function Index,  Prev: Example,  Up
      genome-wide surveys.  Bioinformatics, 20:186–190.
 
    - D. Adams (1979)
-     The hitchhiker's guide to the galaxy, Pan Books, London
+     The hitchhiker’s guide to the galaxy, Pan Books, London
 
 
 File: RNAlib.info,  Node: Function Index,  Next: Variable Index,  Prev: References,  Up: Top
@@ -1569,30 +1570,30 @@ Variable Index
 
 
 Tag Table:
-Node: Top243
-Node: Introduction766
-Node: Folding Routines1780
-Node: mfe Fold2591
-Node: PF Fold4596
-Node: Inverse Fold8633
-Node: Suboptimal folding10274
-Node: Cofolding10956
-Node: Local Fold22333
-Node: Alignment Fold25045
-Node: Fold Vars27378
-Node: Param Files32010
-Node: Parsing and Comparing39344
-Node: notations39754
-Node: Parsing43282
-Node: Distances45925
-Node: Tree Distances49796
-Node: String Distances50575
-Node: Profile Distances51105
-Node: Utilities52187
-Node: Example56833
-Node: References60342
-Node: Function Index64440
-Node: Variable Index69991
+Node: Top245
+Node: Introduction767
+Node: Folding Routines1781
+Node: mfe Fold2592
+Node: PF Fold4641
+Node: Inverse Fold8734
+Node: Suboptimal folding10419
+Node: Cofolding11125
+Node: Local Fold22705
+Node: Alignment Fold25465
+Node: Fold Vars27862
+Node: Param Files32596
+Node: Parsing and Comparing39988
+Node: notations40398
+Node: Parsing43997
+Node: Distances46724
+Node: Tree Distances50613
+Node: String Distances51416
+Node: Profile Distances51954
+Node: Utilities53052
+Node: Example57810
+Node: References61327
+Node: Function Index65429
+Node: Variable Index70980
 
 End Tag Table
 

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__eval__deprecated" kind="group">
     <compoundname>eval_deprecated</compoundname>
     <title>Deprecated Interface for Free Energy Evaluation</title>
@@ -835,7 +835,7 @@ If verbosity level is set to a value &gt;0, energies of structure elements are p
 </simplesect>
 <xrefsect id="deprecated_1_deprecated000058"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This function is deprecated and should not be used in future programs! Use <ref refid="group__eval__deprecated_1ga8831445966b761417e713360791299d8" kindref="member">energy_of_structure_pt()</ref> instead!</para>
 </xrefdescription></xrefsect></para>
-<para><simplesect kind="see"><para><ref refid="group__struct__utils__deprecated_1ga89c32307ee50a0026f4a3131fac0845a" kindref="member">make_pair_table()</ref>, <ref refid="group__eval__deprecated_1gaf93986cb3cb29770ec9cca69c9fab8cf" kindref="member">energy_of_structure()</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__struct__utils__deprecated_1gab037d0de2e4c3d6a3f1d51b5b22315dc" kindref="member">make_pair_table()</ref>, <ref refid="group__eval__deprecated_1gaf93986cb3cb29770ec9cca69c9fab8cf" kindref="member">energy_of_structure()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -1173,7 +1173,7 @@ If verbosity level is set to a value &gt;0, energies of structure elements are p
         <detaileddescription>
 <para><heading level="2">Compute the Energy of an interior-loop</heading>
 </para>
-<para>This function computes the free energy <formula id="86">$\Delta G$</formula> of an interior-loop with the following structure: <linebreak/>
+<para>This function computes the free energy <formula id="88">$\Delta G$</formula> of an interior-loop with the following structure: <linebreak/>
  <preformatted>
       3&apos;  5&apos;
       |   |
@@ -1186,7 +1186,7 @@ If verbosity level is set to a value &gt;0, energies of structure elements are p
       X - Y
       |   |
       5&apos;  3&apos;
-</preformatted> This general structure depicts an interior-loop that is closed by the base pair (X,Y). The enclosed base pair is (V,U) which leaves the unpaired bases a_1-a_n and b_1-b_n that constitute the loop. In this example, the length of the interior-loop is <formula id="95">$(n+m)$</formula> where n or m may be 0 resulting in a bulge-loop or base pair stack. The mismatching nucleotides for the closing pair (X,Y) are:<linebreak/>
+</preformatted> This general structure depicts an interior-loop that is closed by the base pair (X,Y). The enclosed base pair is (V,U) which leaves the unpaired bases a_1-a_n and b_1-b_n that constitute the loop. In this example, the length of the interior-loop is <formula id="97">$(n+m)$</formula> where n or m may be 0 resulting in a bulge-loop or base pair stack. The mismatching nucleotides for the closing pair (X,Y) are:<linebreak/>
  5&apos;-mismatch: a_1<linebreak/>
  3&apos;-mismatch: b_m<linebreak/>
  and for the enclosed base pair (V,U):<linebreak/>
@@ -1196,7 +1196,7 @@ If verbosity level is set to a value &gt;0, energies of structure elements are p
 <para><simplesect kind="note"><para>Base pairs are always denoted in 5&apos;-&gt;3&apos; direction. Thus the enclosed base pair must be &apos;turned arround&apos; when evaluating the free energy of the interior-loop<linebreak/>
  This function is threadsafe</para>
 </simplesect>
-<simplesect kind="see"><para><ref refid="group__energy__parameters_1ga541f2cf7436e9bc939b0a49b24baf987" kindref="member">scale_parameters()</ref>, <ref refid="group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35" kindref="member">vrna_param_t</ref></para>
+<simplesect kind="see"><para><ref refid="group__energy__parameters_1ga5fe3524fd6d2a297099238f117254c13" kindref="member">scale_parameters()</ref>, <ref refid="group__energy__parameters_1ga8a69ca7d787e4fd6079914f5343a1f35" kindref="member">vrna_param_t</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -1277,7 +1277,7 @@ If verbosity level is set to a value &gt;0, energies of structure elements are p
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ViennaRNA/loops/internal.h" line="481" column="1" bodyfile="ViennaRNA/loops/internal.h" bodystart="481" bodyend="582" declfile="ViennaRNA/loops/internal.h" declline="215" declcolumn="13"/>
+        <location file="ViennaRNA/loops/internal.h" line="481" column="1" bodyfile="ViennaRNA/loops/internal.h" bodystart="481" bodyend="582" declfile="ViennaRNA/loops/internal.h" declline="215" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="group__eval__deprecated_1ga73745a132b0fda5e4d8b11ed8eec43ac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="group__data__structures_1ga31125aeace516926bf7f251f759b6126" kindref="member">FLT_OR_DBL</ref></type>
@@ -1323,12 +1323,12 @@ If verbosity level is set to a value &gt;0, energies of structure elements are p
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para><heading level="2">Compute Boltzmann weight <formula id="88">$e^{-\Delta G/kT} $</formula> of interior loop</heading>
+<para><heading level="2">Compute Boltzmann weight <formula id="90">$e^{-\Delta G/kT} $</formula> of interior loop</heading>
 </para>
 <para>multiply by scale[u1+u2+2] for scaling</para>
 <para><simplesect kind="note"><para>This function is threadsafe</para>
 </simplesect>
-<simplesect kind="see"><para><ref refid="group__energy__parameters_1gabf3b9271c41dd3fac02d56e0b02b3344" kindref="member">get_scaled_pf_parameters()</ref>, <ref refid="group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8" kindref="member">vrna_exp_param_t</ref>, E_IntLoop()</para>
+<simplesect kind="see"><para><ref refid="group__energy__parameters_1ga1007b70b7176f7cc78ed224460b89bbe" kindref="member">get_scaled_pf_parameters()</ref>, <ref refid="group__energy__parameters_1ga01d8b92fe734df8d79a6169482c7d8d8" kindref="member">vrna_exp_param_t</ref>, E_IntLoop()</para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -1409,7 +1409,7 @@ If verbosity level is set to a value &gt;0, energies of structure elements are p
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ViennaRNA/loops/internal.h" line="586" column="1" bodyfile="ViennaRNA/loops/internal.h" bodystart="586" bodyend="677" declfile="ViennaRNA/loops/internal.h" declline="245" declcolumn="20"/>
+        <location file="ViennaRNA/loops/internal.h" line="586" column="1" bodyfile="ViennaRNA/loops/internal.h" bodystart="586" bodyend="677" declfile="ViennaRNA/loops/internal.h" declline="245" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="group__eval__deprecated_1ga5fac9ca6a1369512f5335567651cb847" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -1474,7 +1474,7 @@ If verbosity level is set to a value &gt;0, energies of structure elements are p
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ViennaRNA/loops/internal.h" line="681" column="1" bodyfile="ViennaRNA/loops/internal.h" bodystart="681" bodyend="796" declfile="ViennaRNA/loops/internal.h" declline="256" declcolumn="13"/>
+        <location file="ViennaRNA/loops/internal.h" line="681" column="1" bodyfile="ViennaRNA/loops/internal.h" bodystart="681" bodyend="796" declfile="ViennaRNA/loops/internal.h" declline="256" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="group__eval__deprecated_1gabfcc65bcd7f7a06f22767d2cd91eebb3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>

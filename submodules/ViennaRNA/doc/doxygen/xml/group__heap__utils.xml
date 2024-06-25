@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__heap__utils" kind="group">
     <compoundname>heap_utils</compoundname>
     <title>Heaps</title>
@@ -14,7 +14,7 @@
 <para>An abstract heap data structure. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga534a8483824371019241e340c026111b" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1ga5e181d5ef8557d502943b938620c7174" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b" kindref="member">vrna_heap_update()</ref> </para>
+<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -214,9 +214,9 @@
 <para>This function initializes a heap data structure. The implementation is based on a <emphasis>min-heap</emphasis>, i.e. the minimal element is located at the root of the heap. However, by reversing the logic of the compare function, one can easily transform this into a <emphasis>max-heap</emphasis> implementation.</para>
 <para>Beside the regular operations on a heap data structure, we implement removal and update of arbitrary elements within the heap. For that purpose, however, one requires a reverse-index lookup system that, (i) for a given element stores the current position in the heap, and (ii) allows for fast lookup of an elements current position within the heap. The corresponding getter- and setter- functions may be provided through the arguments <computeroutput>get_entry_pos</computeroutput> and <computeroutput>set_entry_pos</computeroutput>, respectively.</para>
 <para>Sometimes, it is difficult to simply compare two data structures without any context. Therefore, the compare function is provided with a user-defined data pointer that can hold any context required.</para>
-<para><simplesect kind="warning"><para>If any of the arguments <computeroutput>get_entry_pos</computeroutput> or <computeroutput>set_entry_pos</computeroutput> is NULL, the operations <ref refid="group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b" kindref="member">vrna_heap_update()</ref> and <ref refid="group__heap__utils_1ga5e181d5ef8557d502943b938620c7174" kindref="member">vrna_heap_remove()</ref> won&apos;t work.</para>
+<para><simplesect kind="warning"><para>If any of the arguments <computeroutput>get_entry_pos</computeroutput> or <computeroutput>set_entry_pos</computeroutput> is NULL, the operations <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref> and <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref> won&apos;t work.</para>
 </simplesect>
-<simplesect kind="see"><para><ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga534a8483824371019241e340c026111b" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1ga5e181d5ef8557d502943b938620c7174" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b" kindref="member">vrna_heap_update()</ref>, <ref refid="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3" kindref="member">vrna_heap_t</ref>, <ref refid="group__heap__utils_1ga7e091ad5eab4e27f7dc47a2c122afea9" kindref="member">vrna_heap_cmp_f</ref>, <ref refid="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19" kindref="member">vrna_heap_get_pos_f</ref>, <ref refid="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345" kindref="member">vrna_heap_set_pos_f</ref></para>
+<simplesect kind="see"><para><ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref>, <ref refid="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3" kindref="member">vrna_heap_t</ref>, <ref refid="group__heap__utils_1ga7e091ad5eab4e27f7dc47a2c122afea9" kindref="member">vrna_heap_cmp_f</ref>, <ref refid="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19" kindref="member">vrna_heap_get_pos_f</ref>, <ref refid="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345" kindref="member">vrna_heap_set_pos_f</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -344,7 +344,7 @@
 <para>Insert an element into the heap. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga534a8483824371019241e340c026111b" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref>, <ref refid="group__heap__utils_1ga5e181d5ef8557d502943b938620c7174" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b" kindref="member">vrna_heap_update()</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref>, <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -369,9 +369,9 @@
         </inbodydescription>
         <location file="ViennaRNA/datastructures/heap.h" line="171" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="171" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void *</type>
-        <definition>void* vrna_heap_pop</definition>
+        <definition>void * vrna_heap_pop</definition>
         <argsstring>(vrna_heap_t h)</argsstring>
         <name>vrna_heap_pop</name>
         <param>
@@ -383,7 +383,7 @@
         </briefdescription>
         <detaileddescription>
 <para>This function removes the root from the heap and returns it to the caller.</para>
-<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga534a8483824371019241e340c026111b" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref> <ref refid="group__heap__utils_1ga5e181d5ef8557d502943b938620c7174" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b" kindref="member">vrna_heap_update()</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8" kindref="member">vrna_heap_top()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref> <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -402,9 +402,9 @@
         </inbodydescription>
         <location file="ViennaRNA/datastructures/heap.h" line="187" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="187" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__heap__utils_1ga534a8483824371019241e340c026111b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const void *</type>
-        <definition>const void* vrna_heap_top</definition>
+        <definition>const void * vrna_heap_top</definition>
         <argsstring>(vrna_heap_t h)</argsstring>
         <name>vrna_heap_top</name>
         <param>
@@ -415,7 +415,7 @@
 <para>Get the object at the root of the heap. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref> <ref refid="group__heap__utils_1ga5e181d5ef8557d502943b938620c7174" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b" kindref="member">vrna_heap_update()</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8" kindref="member">vrna_heap_insert()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref> <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" kindref="member">vrna_heap_update()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -434,9 +434,9 @@
         </inbodydescription>
         <location file="ViennaRNA/datastructures/heap.h" line="200" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="200" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__heap__utils_1ga5e181d5ef8557d502943b938620c7174" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void *</type>
-        <definition>void* vrna_heap_remove</definition>
+        <definition>void * vrna_heap_remove</definition>
         <argsstring>(vrna_heap_t h, const void *v)</argsstring>
         <name>vrna_heap_remove</name>
         <param>
@@ -451,7 +451,7 @@
 <para>Remove an arbitrary element within the heap. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19" kindref="member">vrna_heap_get_pos_f</ref>, <ref refid="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345" kindref="member">vrna_heap_set_pos_f</ref>, <ref refid="group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19" kindref="member">vrna_heap_get_pos_f</ref>, <ref refid="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345" kindref="member">vrna_heap_set_pos_f</ref>, <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref></para>
 </simplesect>
 <simplesect kind="warning"><para>This function won&apos;t work if the heap was not properly initialized with callback functions for fast reverse-index mapping!</para>
 </simplesect>
@@ -480,9 +480,9 @@
         </inbodydescription>
         <location file="ViennaRNA/datastructures/heap.h" line="217" column="1" declfile="ViennaRNA/datastructures/heap.h" declline="217" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void *</type>
-        <definition>void* vrna_heap_update</definition>
+        <definition>void * vrna_heap_update</definition>
         <argsstring>(vrna_heap_t h, void *v)</argsstring>
         <name>vrna_heap_update</name>
         <param>
@@ -501,7 +501,7 @@
 </simplesect>
 <simplesect kind="warning"><para>This function won&apos;t work if the heap was not properly initialized with callback functions for fast reverse-index mapping!</para>
 </simplesect>
-<simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19" kindref="member">vrna_heap_get_pos_f</ref>, <ref refid="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345" kindref="member">vrna_heap_set_pos_f</ref> <ref refid="group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1ga5e181d5ef8557d502943b938620c7174" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref></para>
+<simplesect kind="see"><para><ref refid="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001" kindref="member">vrna_heap_init()</ref>, <ref refid="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19" kindref="member">vrna_heap_get_pos_f</ref>, <ref refid="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345" kindref="member">vrna_heap_set_pos_f</ref> <ref refid="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea" kindref="member">vrna_heap_pop()</ref>, <ref refid="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41" kindref="member">vrna_heap_remove()</ref>, <ref refid="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce" kindref="member">vrna_heap_free()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>

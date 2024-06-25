@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__combinatorics__utils" kind="group">
     <compoundname>combinatorics_utils</compoundname>
     <title>Combinatorics Algorithms</title>
@@ -18,7 +18,7 @@
 <para>Enumerate all necklaces with fixed content. </para>
         </briefdescription>
         <detaileddescription>
-<para>This function implements <emphasis>A fast algorithm to generate necklaces with fixed content</emphasis> as published by <verbatim>embed:rst:inline :cite:t:`sawada:2003` </verbatim>.</para>
+<para>This function implements <emphasis>A fast algorithm to generate necklaces with fixed content</emphasis> as published by  <verbatim>embed:rst:inline :cite:t:`sawada:2003` </verbatim>.</para>
 <para>The function receives a list of counts (the elements on the necklace) for each type of object within a necklace. The list starts at index 0 and ends with an entry that has a count of 0. The algorithm then enumerates all non-cyclic permutations of the content, returned as a list of necklaces. This list, again, is zero-terminated, i.e. the last entry of the list is a <computeroutput>NULL</computeroutput> pointer.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -252,7 +252,7 @@
 <para>Determine the order of rotational symmetry for a dot-bracket structure. </para>
         </briefdescription>
         <detaileddescription>
-<para>Given a (permutation of multiple) RNA strand(s) and a particular secondary structure in dot-bracket notation, compute the degree of rotational symmetry. In case there is only a single linear RNA strand, the structure always has degree 1, as there are no rotational symmetries due to the direction of the nucleic acid sequence and the fixed positions of 5&apos; and 3&apos; ends. However, for circular RNAs, rotational symmetries might arise if the sequence consists of a concatenation of <formula id="17">$k$</formula> identical subsequences.</para>
+<para>Given a (permutation of multiple) RNA strand(s) and a particular secondary structure in dot-bracket notation, compute the degree of rotational symmetry. In case there is only a single linear RNA strand, the structure always has degree 1, as there are no rotational symmetries due to the direction of the nucleic acid sequence and the fixed positions of 5&apos; and 3&apos; ends. However, for circular RNAs, rotational symmetries might arise if the sequence consists of a concatenation of <formula id="18">$k$</formula> identical subsequences.</para>
 <para>This is a simplified version of <ref refid="group__combinatorics__utils_1ga2a4227ebe28dbc7ad55444a3a1bf7119" kindref="member">vrna_rotational_symmetry_db_pos()</ref> that may be useful if one is only interested in the degree of rotational symmetry but not the actual set of rotational symmetric strings.</para>
 <para><simplesect kind="see"><para><ref refid="group__combinatorics__utils_1ga2a4227ebe28dbc7ad55444a3a1bf7119" kindref="member">vrna_rotational_symmetry_db_pos()</ref>, <ref refid="group__combinatorics__utils_1gae1dec02c4b63f303ce06a9293d316762" kindref="member">vrna_rotational_symmetry()</ref>, <ref refid="group__combinatorics__utils_1gac51464b5281833a58c25f9447252c495" kindref="member">vrna_rotational_symmetry_num()</ref></para>
 </simplesect>
@@ -304,7 +304,7 @@
 <para>Determine the order of rotational symmetry for a dot-bracket structure. </para>
         </briefdescription>
         <detaileddescription>
-<para>Given a (permutation of multiple) RNA strand(s) and a particular secondary structure in dot-bracket notation, compute the degree of rotational symmetry. In case there is only a single linear RNA strand, the structure always has degree 1, as there are no rotational symmetries due to the direction of the nucleic acid sequence and the fixed positions of 5&apos; and 3&apos; ends. However, for circular RNAs, rotational symmetries might arise if the sequence consists of a concatenation of <formula id="17">$k$</formula> identical subsequences.</para>
+<para>Given a (permutation of multiple) RNA strand(s) and a particular secondary structure in dot-bracket notation, compute the degree of rotational symmetry. In case there is only a single linear RNA strand, the structure always has degree 1, as there are no rotational symmetries due to the direction of the nucleic acid sequence and the fixed positions of 5&apos; and 3&apos; ends. However, for circular RNAs, rotational symmetries might arise if the sequence consists of a concatenation of <formula id="18">$k$</formula> identical subsequences.</para>
 <para>If the argument <computeroutput>positions</computeroutput> is not <computeroutput>NULL</computeroutput>, the function stores an array of string start positions for rotational shifts that map the string back onto itself. This array has length of order of rotational symmetry, i.e. the number returned by this function. The first element <computeroutput>positions</computeroutput>[0] always contains a shift value of <computeroutput>0</computeroutput> representing the trivial rotation.</para>
 <para><simplesect kind="note"><para>Do not forget to release the memory occupied by <computeroutput>positions</computeroutput> after a successful execution of this function.</para>
 </simplesect>
@@ -345,9 +345,9 @@
         </inbodydescription>
         <location file="ViennaRNA/combinatorics.h" line="201" column="1" declfile="ViennaRNA/combinatorics.h" declline="201" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__combinatorics__utils_1ga273d6a0cf95956516aba47d105d42775" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__combinatorics__utils_1ga1eabc2f2017426376016554f09bb64a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>unsigned int **</type>
-        <definition>unsigned int** vrna_n_multichoose_k</definition>
+        <definition>unsigned int ** vrna_n_multichoose_k</definition>
         <argsstring>(size_t n, size_t k)</argsstring>
         <name>vrna_n_multichoose_k</name>
         <param>
@@ -405,8 +405,8 @@
 <para>Generate a sequence of Boustrophedon distributed numbers. </para>
         </briefdescription>
         <detaileddescription>
-<para>This function generates a sequence of positive natural numbers within the interval <formula id="18">$ [start, end] $</formula> in a Boustrophedon fashion. That is, the numbers <formula id="19">$ start, \ldots, end $</formula> in the resulting list are alternating between left and right ends of the interval while progressing to the inside, i.e. the list consists of a sequence of natural numbers of the form:</para>
-<para><formula id="20">\[ start, end, start + 1, end - 1, start + 2, end - 2, \ldots \]</formula></para>
+<para>This function generates a sequence of positive natural numbers within the interval <formula id="19">$ [start, end] $</formula> in a Boustrophedon fashion. That is, the numbers <formula id="20">$ start, \ldots, end $</formula> in the resulting list are alternating between left and right ends of the interval while progressing to the inside, i.e. the list consists of a sequence of natural numbers of the form:</para>
+<para><formula id="21">\[ start, end, start + 1, end - 1, start + 2, end - 2, \ldots \]</formula></para>
 <para>The resulting list is 1-based and contains the length of the sequence of numbers at it&apos;s 0-th position.</para>
 <para>Upon failure, the function returns <bold>NULL</bold> </para>
 <para><simplesect kind="see"><para><ref refid="group__combinatorics__utils_1ga9093b53bb7eaaa9b5a8972ac87082d32" kindref="member">vrna_boustrophedon_pos()</ref></para>
@@ -428,7 +428,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>A list of alternating numbers from the interval <formula id="18">$ [start, end] $</formula> (or <bold>NULL</bold> on error)</para>
+<simplesect kind="return"><para>A list of alternating numbers from the interval <formula id="19">$ [start, end] $</formula> (or <bold>NULL</bold> on error)</para>
 </simplesect>
 <xrefsect id="wrappers_1_wrappers000032"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is available as overloaded global function <computeroutput>boustrophedon()</computeroutput>. See, e.g.  <verbatim>embed:rst:inline :py:func:`RNA.boustrophedon()` in the :doc:`/api_python` </verbatim>. </para>
 </parblock></para>

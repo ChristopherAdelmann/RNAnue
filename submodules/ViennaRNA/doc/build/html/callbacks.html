@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Callback Functions &mdash; ViennaRNA Package</title>
@@ -10,13 +10,17 @@
       <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="shortcut icon" href="_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/clipboard.min.js"></script>
-        <script src="_static/copybutton.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5248d183"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -29,11 +33,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> ViennaRNA
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ViennaRNA
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -129,9 +137,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="api.html">Concepts and Algorithms</a> &raquo;</li>
-      <li>Callback Functions</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">Concepts and Algorithms</a></li>
+      <li class="breadcrumb-item active">Callback Functions</li>
 
   </ul>
   <hr/>
@@ -140,7 +148,7 @@
            <div itemprop="articleBody">
              
   <section id="callback-functions">
-<h1>Callback Functions<a class="headerlink" href="#callback-functions" title="Permalink to this headline"></a></h1>
+<h1>Callback Functions<a class="headerlink" href="#callback-functions" title="Link to this heading"></a></h1>
 <p>Many functions in <em>RNAlib</em> support so-called <em>callback mechanisms</em> to propagate
 the computation results. In essence, this means that a user defines a function
 that takes computation results as input and does whatever should be done with
@@ -148,7 +156,7 @@ these results. Then, this function is provided to our algorithms in <em>RNAlib</
 such that they can call the function and provide corresponding data as soon
 as it has been computed.</p>
 <section id="why-callbacks">
-<h2>Why Callbacks?<a class="headerlink" href="#why-callbacks" title="Permalink to this headline"></a></h2>
+<h2>Why Callbacks?<a class="headerlink" href="#why-callbacks" title="Link to this heading"></a></h2>
 <p>Using callback mechanisms, our library enables users not only to retrieve computed
 data without the need for parsing complicated data structures, but also allows one
 to tweak our implementation to do additional tasks without the requirement of a
@@ -170,7 +178,7 @@ to …</p>
 the address of an arbitrary, user-defined data structure.</p>
 </section>
 <section id="scripting-language-support">
-<h2>Scripting Language Support<a class="headerlink" href="#scripting-language-support" title="Permalink to this headline"></a></h2>
+<h2>Scripting Language Support<a class="headerlink" href="#scripting-language-support" title="Link to this heading"></a></h2>
 <p>Our callback mechanisms also work in a cross-language specific manner. This
 means that users can write functions (or methods) in a scripting language,
 such as Python, and use them as callbacks for our C-library. Our scripting
@@ -189,7 +197,7 @@ of up to a factor of 10.</p>
 </div>
 </section>
 <section id="available-callbacks">
-<h2>Available Callbacks<a class="headerlink" href="#available-callbacks" title="Permalink to this headline"></a></h2>
+<h2>Available Callbacks<a class="headerlink" href="#available-callbacks" title="Link to this heading"></a></h2>
 <p>Below, you find an enumeration of the individual callback functions that are available
 in <em>RNAlib</em>:</p>
 <dl>
@@ -246,7 +254,7 @@ in <em>RNAlib</em>:</p>
 
 <dl>
 <dt class="sig sig-object cpp">
-<span class="pre">Global</span> <a class="reference internal" href="grammar/constraints/soft.html#group__soft__constraints_1ga687c49c1b3681373d2843c3e287591f7"><span class="std std-ref"><span class="pre">vrna_sc_bt_f</span></span></a>&#160; <span class="pre">)(int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">j,</span> <span class="pre">int</span> <span class="pre">k,</span> <span class="pre">int</span> <span class="pre">l,</span> <span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">d,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
+<span class="pre">Global</span> <a class="reference internal" href="grammar/constraints/soft.html#group__soft__constraints_1gaaa010a245ab273cd5c265929ff0b8bbd"><span class="std std-ref"><span class="pre">vrna_sc_bt_f</span></span></a>&#160; <span class="pre">)(int</span> <span class="pre">i,</span> <span class="pre">int</span> <span class="pre">j,</span> <span class="pre">int</span> <span class="pre">k,</span> <span class="pre">int</span> <span class="pre">l,</span> <span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">d,</span> <span class="pre">void</span> <span class="pre">*data)</span></dt>
 <dd><p><span class="target" id="callbacks_1_callbacks000017"></span> <p>This callback enables one to add auxiliary base pairs in the backtracking steps of hairpin- and interior loops.  </p>
 </p>
 </dd></dl>

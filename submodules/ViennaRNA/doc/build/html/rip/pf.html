@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Partition Function for Two Hybridized Sequences &mdash; ViennaRNA Package</title>
@@ -10,13 +10,17 @@
       <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -29,11 +33,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> ViennaRNA
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ViennaRNA
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -131,10 +139,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../api.html">Concepts and Algorithms</a> &raquo;</li>
-          <li><a href="../cofold.html">RNA-RNA Interaction</a> &raquo;</li>
-      <li>Partition Function for Two Hybridized Sequences</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../cofold.html">RNA-RNA Interaction</a></li>
+      <li class="breadcrumb-item active">Partition Function for Two Hybridized Sequences</li>
 
   </ul>
   <hr/>
@@ -143,7 +151,7 @@
            <div itemprop="articleBody">
              
   <section id="partition-function-for-two-hybridized-sequences">
-<h1>Partition Function for Two Hybridized Sequences<a class="headerlink" href="#partition-function-for-two-hybridized-sequences" title="Permalink to this headline"></a></h1>
+<h1>Partition Function for Two Hybridized Sequences<a class="headerlink" href="#partition-function-for-two-hybridized-sequences" title="Link to this heading"></a></h1>
 <p>To simplify the implementation the partition function computation is done
 internally in a null model that does not include the duplex initiation
 energy, i.e. the entropic penalty for producing a dimer from two
@@ -164,23 +172,23 @@ the equilibrium concentrations, given input concentrations of A and B, see
 e.g. Dimitrov &amp; Zuker (2004)</p>
 <dl class="c type">
 <dt class="sig sig-object c" id="c.vrna_dimer_conc_t">
-<span class="target" id="group__pf__cofold_1gac48c2723444ecfdceafcfd525ca98322"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_dimer_conc_s</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_dimer_conc_t</span></span></span><a class="headerlink" href="#c.vrna_dimer_conc_t" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__pf__cofold_1gac48c2723444ecfdceafcfd525ca98322"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_dimer_conc_s</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_dimer_conc_t</span></span></span><a class="headerlink" href="#c.vrna_dimer_conc_t" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/concentrations.h&gt;</em><p>Typename for the data structure that stores the dimer concentrations, vrna_dimer_conc_s, as required by vrna_pf_dimer_concentration() </p>
 </dd></dl>
 
 <dl class="c type">
 <dt class="sig sig-object c" id="c.ConcEnt">
-<span class="target" id="group__pf__cofold_1ga46244c7adf5040580291c45b465f4efa"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_dimer_conc_s</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConcEnt</span></span></span><a class="headerlink" href="#c.ConcEnt" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__pf__cofold_1ga46244c7adf5040580291c45b465f4efa"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_dimer_conc_s</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConcEnt</span></span></span><a class="headerlink" href="#c.ConcEnt" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/concentrations.h&gt;</em><p>Backward compatibility typedef for vrna_dimer_conc_s. </p>
 </dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_pf_dimer_concentrations">
-<span class="target" id="group__pf__cofold_1ga83b8d5d0f7875d6d5013b208f23e3356"></span><a class="reference internal" href="#c.vrna_dimer_conc_t" title="vrna_dimer_conc_t"><span class="n"><span class="pre">vrna_dimer_conc_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pf_dimer_concentrations</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FcAB</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FcAA</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FcBB</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FEA</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FEB</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">startconc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../eval/energy_parameters.html#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">exp_params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pf_dimer_concentrations" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__pf__cofold_1ga72e714dd5e6612b5d4d6b939c3860c4e"></span><a class="reference internal" href="#c.vrna_dimer_conc_t" title="vrna_dimer_conc_t"><span class="n"><span class="pre">vrna_dimer_conc_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_pf_dimer_concentrations</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FcAB</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FcAA</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FcBB</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FEA</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">FEB</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">startconc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../eval/energy_parameters.html#c.vrna_exp_param_t" title="vrna_exp_param_t"><span class="n"><span class="pre">vrna_exp_param_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">exp_params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_pf_dimer_concentrations" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/concentrations.h&gt;</em><p>Given two start monomer concentrations a and b, compute the concentrations in thermodynamic equilibrium of all dimers and the monomers. </p>
 <p>This function takes an array ‘startconc’ of input concentrations with alternating entries for the initial concentrations of molecules A and B (terminated by two zeroes), then computes the resulting equilibrium concentrations from the free energies for the dimers. Dimer free energies should be the dimer-only free energies, i.e. the FcAB entries from the <a class="reference internal" href="#group__pf__cofold_1ga444df1587c9a2ca15b8eb25188f629c3"><span class="std std-ref">vrna_dimer_pf_t</span></a> struct.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>FcAB</strong> – Free energy of AB dimer (FcAB entry) </p></li>
 <li><p><strong>FcAA</strong> – Free energy of AA dimer (FcAB entry) </p></li>
@@ -191,7 +199,7 @@ e.g. Dimitrov &amp; Zuker (2004)</p>
 <li><p><strong>exp_params</strong> – The precomputed Boltzmann factors </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>vrna_dimer_conc_t array containing the equilibrium energies and start concentrations </p>
 </dd>
 </dl>
@@ -199,7 +207,7 @@ e.g. Dimitrov &amp; Zuker (2004)</p>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_equilibrium_constants">
-<span class="target" id="group__pf__cofold_1gaa7bdcf2a29a2c2ba1a3c7a7123a1dc03"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_equilibrium_constants</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dG_complexes</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dG_strands</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">A</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">kT</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">strands</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">complexes</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_equilibrium_constants" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__pf__cofold_1ga888bc698ac08d3a057c9c0a43b548d78"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_equilibrium_constants</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dG_complexes</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dG_strands</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">A</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">kT</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">strands</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">complexes</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_equilibrium_constants" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/concentrations.h&gt;</em></dd></dl>
 
 <dl class="c function">
@@ -217,14 +225,14 @@ e.g. Dimitrov &amp; Zuker (2004)</p>
 <p>In case you want to use the filled DP matrices for any subsequent post-processing step, or you require other conditions than specified by the default model details, use <a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gae796019c176a158f0e9d7741a85c1743"><span class="std std-ref">vrna_pf_dimer()</span></a>, and the data structure <a class="reference internal" href="../utils/datastructures/fold_compound.html#group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166"><span class="std std-ref">vrna_fold_compound_t</span></a> instead.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>seq</strong> – Two concatenated RNA sequences with a delimiting ‘&amp;’ in between </p></li>
 <li><p><strong>structure</strong> – A pointer to the character array where position-wise pairing propensity will be stored. (Maybe NULL) </p></li>
 <li><p><strong>pl</strong> – A pointer to a list of <a class="reference internal" href="../utils/struct/plist.html#group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca"><span class="std std-ref">vrna_ep_t</span></a> to store pairing probabilities (Maybe NULL) </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>vrna_dimer_pf_t structure containing a set of energies needed for concentration computations. </p>
 </dd>
 </dl>
@@ -232,25 +240,25 @@ e.g. Dimitrov &amp; Zuker (2004)</p>
 
 <dl class="c type">
 <dt class="sig sig-object c" id="c.vrna_dimer_pf_t">
-<span class="target" id="group__pf__cofold_1ga444df1587c9a2ca15b8eb25188f629c3"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="../partfunc/global.html#c.vrna_dimer_pf_s" title="vrna_dimer_pf_s"><span class="n"><span class="pre">vrna_dimer_pf_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_dimer_pf_t</span></span></span><a class="headerlink" href="#c.vrna_dimer_pf_t" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__pf__cofold_1ga444df1587c9a2ca15b8eb25188f629c3"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="../partfunc/global.html#c.vrna_dimer_pf_s" title="vrna_dimer_pf_s"><span class="n"><span class="pre">vrna_dimer_pf_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_dimer_pf_t</span></span></span><a class="headerlink" href="#c.vrna_dimer_pf_t" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Typename for the data structure that stores the dimer partition functions, <a class="reference internal" href="../partfunc/global.html#structvrna__dimer__pf__s"><span class="std std-ref">vrna_dimer_pf_s</span></a>, as returned by <a class="reference internal" href="../partfunc/global.html#group__part__func__global_1gae796019c176a158f0e9d7741a85c1743"><span class="std std-ref">vrna_pf_dimer()</span></a></p>
 </dd></dl>
 
 <dl class="c type">
 <dt class="sig sig-object c" id="c.cofoldF">
-<span class="target" id="group__pf__cofold_1ga5445d8d96a40e9e79b1fa5a7f1a6b7ea"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="../partfunc/global.html#c.vrna_dimer_pf_s" title="vrna_dimer_pf_s"><span class="n"><span class="pre">vrna_dimer_pf_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cofoldF</span></span></span><a class="headerlink" href="#c.cofoldF" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__pf__cofold_1ga5445d8d96a40e9e79b1fa5a7f1a6b7ea"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="../partfunc/global.html#c.vrna_dimer_pf_s" title="vrna_dimer_pf_s"><span class="n"><span class="pre">vrna_dimer_pf_s</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cofoldF</span></span></span><a class="headerlink" href="#c.cofoldF" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/part_func.h&gt;</em><p>Backward compatibility typedef for <a class="reference internal" href="../partfunc/global.html#structvrna__dimer__pf__s"><span class="std std-ref">vrna_dimer_pf_s</span></a>. </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.mirnatog">
-<span class="target" id="group__pf__cofold_1gaff27888c4088cc1f60fd59cbd589474c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mirnatog</span></span></span><a class="headerlink" href="#c.mirnatog" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__pf__cofold_1gaff27888c4088cc1f60fd59cbd589474c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mirnatog</span></span></span><a class="headerlink" href="#c.mirnatog" title="Link to this definition"></a><br /></dt>
 <dd><p>Toggles no intrabp in 2nd mol. </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.F_monomer">
-<span class="target" id="group__pf__cofold_1gac2d1851a710a8561390861155ca988fe"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">F_monomer</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.F_monomer" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__pf__cofold_1gac2d1851a710a8561390861155ca988fe"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">F_monomer</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.F_monomer" title="Link to this definition"></a><br /></dt>
 <dd><p>Free energies of the two monomers. </p>
 </dd></dl>
 

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="default_8h" kind="file" language="C++">
     <compoundname>default.h</compoundname>
     <includes refid="constants_8h" local="no">ViennaRNA/params/constants.h</includes>
@@ -12,26 +12,34 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="3">
-        <label>limits.h</label>
-      </node>
       <node id="1">
         <label>ViennaRNA/params/default.h</label>
         <link refid="default_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
+      <node id="3">
+        <label>limits.h</label>
+      </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="2">
+        <label>ViennaRNA/energy_par.h</label>
+        <link refid="energy__par_8h"/>
+      </node>
+      <node id="4">
+        <label>ViennaRNA/interior_loops.h</label>
+        <link refid="interior__loops_8h"/>
+      </node>
+      <node id="6">
+        <label>ViennaRNA/loop_energies.h</label>
+        <link refid="loop__energies_8h"/>
+      </node>
       <node id="5">
         <label>ViennaRNA/loops/all.h</label>
         <link refid="all_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
-      </node>
-      <node id="2">
-        <label>ViennaRNA/energy_par.h</label>
-        <link refid="energy__par_8h"/>
       </node>
       <node id="3">
         <label>ViennaRNA/loops/internal.h</label>
@@ -48,14 +56,6 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-      </node>
-      <node id="4">
-        <label>ViennaRNA/interior_loops.h</label>
-        <link refid="interior__loops_8h"/>
-      </node>
-      <node id="6">
-        <label>ViennaRNA/loop_energies.h</label>
-        <link refid="loop__energies_8h"/>
       </node>
     </invincdepgraph>
       <sectiondef kind="define">
@@ -963,8 +963,8 @@
 <codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lxc37;<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>parameter<sp/>for<sp/>logarithmic<sp/>loop</highlight></codeline>
 <codeline lineno="14"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>energy<sp/>extrapolation<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="15"><highlight class="normal"></highlight></codeline>
-<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>stack37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1];</highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>stackdH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1];<sp/></highlight><highlight class="comment">/*<sp/>stack<sp/>enthalpies<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>stack37[NBPAIRS+1][NBPAIRS+1];</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>stackdH[NBPAIRS+1][NBPAIRS+1];<sp/></highlight><highlight class="comment">/*<sp/>stack<sp/>enthalpies<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>hairpin37[31];</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>hairpindH[31];</highlight></codeline>
@@ -972,32 +972,32 @@
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>bulgedH[31];</highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>internal_loop37[31];</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>internal_loopdH[31];</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchI37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchIdH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatch1nI37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatch23I37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatch1nIdH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatch23IdH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchH37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>same<sp/>for<sp/>hairpins<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchM37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>same<sp/>for<sp/>multiloops<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchHdH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>same<sp/>for<sp/>hairpins<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchMdH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>same<sp/>for<sp/>multiloops<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchExt37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchExtdH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchI37[NBPAIRS+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchIdH[NBPAIRS+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatch1nI37[NBPAIRS+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatch23I37[NBPAIRS+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatch1nIdH[NBPAIRS+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatch23IdH[NBPAIRS+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>interior<sp/>loop<sp/>mismatches<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchH37[NBPAIRS+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>same<sp/>for<sp/>hairpins<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchM37[NBPAIRS+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>same<sp/>for<sp/>multiloops<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchHdH[NBPAIRS+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>same<sp/>for<sp/>hairpins<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchMdH[NBPAIRS+1][5][5];<sp/><sp/></highlight><highlight class="comment">/*<sp/>same<sp/>for<sp/>multiloops<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchExt37[NBPAIRS+1][5][5];</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mismatchExtdH[NBPAIRS+1][5][5];</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dangle5_37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5];<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>5&apos;<sp/>dangle<sp/>exterior<sp/>of<sp/>pair<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dangle3_37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5];<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>3&apos;<sp/>dangle<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dangle3_dH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5];<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>corresponding<sp/>enthalpies<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dangle5_dH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5];</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dangle5_37[NBPAIRS+1][5];<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>5&apos;<sp/>dangle<sp/>exterior<sp/>of<sp/>pair<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dangle3_37[NBPAIRS+1][5];<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>3&apos;<sp/>dangle<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dangle3_dH[NBPAIRS+1][5];<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>corresponding<sp/>enthalpies<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dangle5_dH[NBPAIRS+1][5];</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int11_37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];<sp/></highlight><highlight class="comment">/*<sp/>1x1<sp/>interior<sp/>loops<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int11_dH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5];</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int11_37[NBPAIRS+1][NBPAIRS+1][5][5];<sp/></highlight><highlight class="comment">/*<sp/>1x1<sp/>interior<sp/>loops<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int11_dH[NBPAIRS+1][NBPAIRS+1][5][5];</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int21_37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5][5];<sp/></highlight><highlight class="comment">/*<sp/>2x1<sp/>interior<sp/>loops<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int21_dH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5][5];</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int21_37[NBPAIRS+1][NBPAIRS+1][5][5][5];<sp/></highlight><highlight class="comment">/*<sp/>2x1<sp/>interior<sp/>loops<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int21_dH[NBPAIRS+1][NBPAIRS+1][5][5][5];</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int22_37[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5][5][5];<sp/></highlight><highlight class="comment">/*<sp/>2x2<sp/>interior<sp/>loops<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int22_dH[<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][<ref refid="constants_8h_1a5e75221c779d618eab81e096f37e32ce" kindref="member">NBPAIRS</ref>+1][5][5][5][5];</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int22_37[NBPAIRS+1][NBPAIRS+1][5][5][5][5];<sp/></highlight><highlight class="comment">/*<sp/>2x2<sp/>interior<sp/>loops<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>int22_dH[NBPAIRS+1][NBPAIRS+1][5][5][5][5];</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"></highlight></codeline>
 <codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>constants<sp/>for<sp/>linearly<sp/>destabilizing<sp/>contributions<sp/>for<sp/>multi-loops</highlight></codeline>
 <codeline lineno="53"><highlight class="comment"><sp/><sp/><sp/>F<sp/>=<sp/>ML_closing<sp/>+<sp/>ML_intern*(k-1)<sp/>+<sp/>ML_BASE*u<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>

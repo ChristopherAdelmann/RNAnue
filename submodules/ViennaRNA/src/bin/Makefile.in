@@ -239,10 +239,12 @@ RNAeval_DEPENDENCIES = libhelpers.la \
 	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3)
 am_RNAfold_OBJECTS = RNAfold_cmdl.$(OBJEXT) RNAfold.$(OBJEXT)
 RNAfold_OBJECTS = $(am_RNAfold_OBJECTS)
-RNAfold_LDADD = $(LDADD)
-RNAfold_DEPENDENCIES = libhelpers.la \
+am__DEPENDENCIES_4 = libhelpers.la \
 	$(top_builddir)/src/ViennaRNA/libRNA_conv.la \
 	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3)
+RNAfold_DEPENDENCIES =  \
+	$(top_builddir)/src/ViennaRNA/libRNA_special_const.la \
+	$(am__DEPENDENCIES_4)
 am_RNAheat_OBJECTS = RNAheat_cmdl.$(OBJEXT) RNAheat.$(OBJEXT)
 RNAheat_OBJECTS = $(am_RNAheat_OBJECTS)
 RNAheat_LDADD = $(LDADD)
@@ -258,9 +260,6 @@ RNAinverse_DEPENDENCIES = libhelpers.la \
 am_RNAmultifold_OBJECTS = RNAmultifold_cmdl.$(OBJEXT) \
 	RNAmultifold.$(OBJEXT)
 RNAmultifold_OBJECTS = $(am_RNAmultifold_OBJECTS)
-am__DEPENDENCIES_4 = libhelpers.la \
-	$(top_builddir)/src/ViennaRNA/libRNA_conv.la \
-	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3)
 RNAmultifold_DEPENDENCIES = $(am__DEPENDENCIES_4)
 am_RNApaln_OBJECTS = RNApaln_cmdl.$(OBJEXT) RNApaln.$(OBJEXT)
 RNApaln_OBJECTS = $(am_RNApaln_OBJECTS)
@@ -500,6 +499,7 @@ EXEEXT = @EXEEXT@
 F77 = @F77@
 FFLAGS = @FFLAGS@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 FLOAT_PF_FLAG = @FLOAT_PF_FLAG@
 GENGETOPT = @GENGETOPT@
 GREP = @GREP@
@@ -814,6 +814,10 @@ noinst_HEADERS = \
 
 SUFFIXES = _cmdl.c _cmdl.h .ggo
 RNAmultifold_LDADD = $(LDADD) -lstdc++
+RNAfold_LDADD = \
+    $(top_builddir)/src/ViennaRNA/libRNA_special_const.la \
+    $(LDADD)
+
 GENGETOPT_CMDL = \
         RNAfold_cmdl.c RNAfold_cmdl.h \
         RNAalifold_cmdl.c RNAalifold_cmdl.h \

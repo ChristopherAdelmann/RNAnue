@@ -303,6 +303,7 @@ EXEEXT = @EXEEXT@
 F77 = @F77@
 FFLAGS = @FFLAGS@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 FLOAT_PF_FLAG = @FLOAT_PF_FLAG@
 GENGETOPT = @GENGETOPT@
 GREP = @GREP@
@@ -1028,7 +1029,7 @@ uninstall-am: uninstall-htmlDATA uninstall-pdfDATA \
 @WITH_REFERENCE_MANUAL_HTML_TRUE@vrna_htmlrefman_inst: installdirs refman-html
 @WITH_REFERENCE_MANUAL_HTML_TRUE@	@$(NORMAL_INSTALL)
 @WITH_REFERENCE_MANUAL_HTML_TRUE@	test -d $(builddir)/build/html || ($(MKDIR_P) $(builddir)/build && $(LN_S) $(srcdir)/build/html $(builddir)/build/html)
-@WITH_REFERENCE_MANUAL_HTML_TRUE@	@for item in $$(find $(builddir)/build/html/ -type d) ; do install -m 755 $${item} -d $(DESTDIR)$(htmldir)/$${item#$(builddir)/build/html/} ; done
+@WITH_REFERENCE_MANUAL_HTML_TRUE@	@for item in $$(find $(builddir)/build/html/ -type d) ; do install -d -m 755 $(DESTDIR)$(htmldir)/$${item#$(builddir)/build/html/} ; done
 @WITH_REFERENCE_MANUAL_HTML_TRUE@	@for item in $$(find $(builddir)/build/html/ -type f) ; do install -m 644 $${item} $(DESTDIR)$(htmldir)/$${item#$(builddir)/build/html/} ; done
 @WITH_REFERENCE_MANUAL_HTML_TRUE@	{ test ! -h $(builddir)/build/html || (rm -f $(builddir)/build/html && rm -rf $(builddir)/build) }
 

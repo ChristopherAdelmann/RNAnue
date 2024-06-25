@@ -1,17 +1,29 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="RNApuzzler_8h" kind="file" language="C++">
     <compoundname>RNApuzzler.h</compoundname>
     <includedby refid="layouts_8h" local="yes">ViennaRNA/plotting/layouts.h</includedby>
     <includedby refid="plotting_2structures_8h" local="yes">ViennaRNA/plotting/structures.h</includedby>
     <invincdepgraph>
+      <node id="3">
+        <label>ViennaRNA/PS_dot.h</label>
+        <link refid="PS__dot_8h"/>
+      </node>
+      <node id="4">
+        <label>ViennaRNA/plot_layouts.h</label>
+        <link refid="plot__layouts_8h"/>
+      </node>
       <node id="6">
         <label>ViennaRNA/plot_structure.h</label>
         <link refid="plot__structure_8h"/>
       </node>
-      <node id="4">
-        <label>ViennaRNA/PS_dot.h</label>
-        <link refid="PS__dot_8h"/>
+      <node id="1">
+        <label>ViennaRNA/plotting/RNApuzzler/RNApuzzler.h</label>
+        <link refid="RNApuzzler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>ViennaRNA/plotting/layouts.h</label>
@@ -23,263 +35,24 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="1">
-        <label>ViennaRNA/plotting/RNApuzzler/RNApuzzler.h</label>
-        <link refid="RNApuzzler_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
       <node id="5">
         <label>ViennaRNA/plotting/structures.h</label>
         <link refid="plotting_2structures_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
-        <label>ViennaRNA/plot_layouts.h</label>
-        <link refid="plot__layouts_8h"/>
       </node>
     </invincdepgraph>
     <innerclass refid="structvrna__plot__options__puzzler__t" prot="public">vrna_plot_options_puzzler_t</innerclass>
       <sectiondef kind="func">
-      <memberdef kind="function" id="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int vrna_plot_coords_puzzler</definition>
-        <argsstring>(const char *structure, float **x, float **y, double **arc_coords, vrna_plot_options_puzzler_t *options)</argsstring>
-        <name>vrna_plot_coords_puzzler</name>
-        <param>
-          <type>const char *</type>
-          <declname>structure</declname>
-        </param>
-        <param>
-          <type>float **</type>
-          <declname>x</declname>
-        </param>
-        <param>
-          <type>float **</type>
-          <declname>y</declname>
-        </param>
-        <param>
-          <type>double **</type>
-          <declname>arc_coords</declname>
-        </param>
-        <param>
-          <type><ref refid="structvrna__plot__options__puzzler__t" kindref="compound">vrna_plot_options_puzzler_t</ref> *</type>
-          <declname>options</declname>
-        </param>
-        <briefdescription>
-<para>Compute nucleotide coordinates for secondary structure plot using the <emphasis>RNApuzzler</emphasis> algorithm <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
-        </briefdescription>
-        <detaileddescription>
-<para>This function basically is a wrapper to <ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref> that passes the <computeroutput>plot_type</computeroutput> <ref refid="group__plot__layout__utils_1ga64ec68055e241d11f659edb50f27ecae" kindref="member">VRNA_PLOT_TYPE_PUZZLER</ref>.</para>
-<para>Here is a simple example how to use this function, assuming variable <computeroutput>structure</computeroutput> contains a valid dot-bracket string and using the default options (<computeroutput>options</computeroutput> = NULL): <programlisting filename=".c"><codeline><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/>*x,<sp/>*y;</highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*arcs;</highlight></codeline>
-<codeline><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler</ref>(structure,<sp/>&amp;x,<sp/>&amp;y,<sp/>&amp;arcs,<sp/>NULL))<sp/>{</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;all<sp/>fine&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;some<sp/>failure<sp/>occured!&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline><highlight class="normal">}</highlight></codeline>
-<codeline><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal">free(x);</highlight></codeline>
-<codeline><highlight class="normal">free(y);</highlight></codeline>
-<codeline><highlight class="normal">free(arcs);</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="note"><para>On success, this function allocates memory for X, Y and arc coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput>, <computeroutput>y</computeroutput> and <computeroutput>arc_coords</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
-</simplesect>
-<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga2e2adbef0283a8ff2dfe5284eb1f4a6a" kindref="member">vrna_plot_coords()</ref>, <ref refid="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" kindref="member">vrna_plot_coords_puzzler_pt()</ref>, <ref refid="group__plot__layout__utils_1ga47ff1fd92e9658361a758fdb03122911" kindref="member">vrna_plot_coords_circular()</ref>, <ref refid="group__plot__layout__utils_1gaea0dada4d0113d16d4890bc0937292e6" kindref="member">vrna_plot_coords_simple()</ref>, <ref refid="group__plot__layout__utils_1ga195139110e2877b92c7f82d05b6dad19" kindref="member">vrna_plot_coords_turtle()</ref>, vrna_plot_coords_naview(), <ref refid="group__plot__layout__utils_1ga838ff131d5430461d0c4c41c4aba45bc" kindref="member">vrna_plot_options_puzzler()</ref></para>
-</simplesect>
-<parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>structure</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The secondary structure in dot-bracket notation </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="inout">x</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="inout">y</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="inout">arc_coords</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The address of a pointer that will hold arc coordinates (pointer will point to memory, or NULL on failure) </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>options</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The options for the RNApuzzler algorithm (or NULL) </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" line="88" column="1" declfile="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" declline="88" declcolumn="1"/>
-      </memberdef>
-      <memberdef kind="function" id="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int vrna_plot_coords_puzzler_pt</definition>
-        <argsstring>(short const *const pair_table, float **x, float **y, double **arc_coords, vrna_plot_options_puzzler_t *puzzler)</argsstring>
-        <name>vrna_plot_coords_puzzler_pt</name>
-        <param>
-          <type>short const *const</type>
-          <declname>pair_table</declname>
-        </param>
-        <param>
-          <type>float **</type>
-          <declname>x</declname>
-        </param>
-        <param>
-          <type>float **</type>
-          <declname>y</declname>
-        </param>
-        <param>
-          <type>double **</type>
-          <declname>arc_coords</declname>
-        </param>
-        <param>
-          <type><ref refid="structvrna__plot__options__puzzler__t" kindref="compound">vrna_plot_options_puzzler_t</ref> *</type>
-          <declname>puzzler</declname>
-        </param>
-        <briefdescription>
-<para>Compute nucleotide coordinates for secondary structure plot using the <emphasis>RNApuzzler</emphasis> algorithm <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
-        </briefdescription>
-        <detaileddescription>
-<para>Same as <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref> but takes a pair table with the structure information as input.</para>
-<para><simplesect kind="note"><para>On success, this function allocates memory for X, Y and arc coordinates and assigns the pointers at addressess <computeroutput>x</computeroutput>, <computeroutput>y</computeroutput> and <computeroutput>arc_coords</computeroutput> to the corresponding memory locations. It&apos;s the users responsibility to cleanup this memory after usage!</para>
-</simplesect>
-<simplesect kind="see"><para><ref refid="group__plot__layout__utils_1gaccd6a87cb324b7d680e5dd93e112738b" kindref="member">vrna_plot_coords_pt()</ref>, <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref>, <ref refid="group__plot__layout__utils_1gaeec80faa235f3ca489bc5e50adc41460" kindref="member">vrna_plot_coords_circular_pt()</ref>, <ref refid="group__plot__layout__utils_1ga76788091848e73cfb24b31536e22b7dd" kindref="member">vrna_plot_coords_simple_pt()</ref>, <ref refid="group__plot__layout__utils_1ga3d3531ebbca9054240c73bff115c4dcf" kindref="member">vrna_plot_coords_turtle_pt()</ref>, vrna_plot_coords_naview_pt()</para>
-</simplesect>
-<parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>pt</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The pair table that holds the secondary structure </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="inout">x</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The address of a pointer of X coordinates (pointer will point to memory, or NULL on failure) </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="inout">y</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The address of a pointer of Y coordinates (pointer will point to memory, or NULL on failure) </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="inout">arc_coords</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The address of a pointer that will hold arc coordinates (pointer will point to memory, or NULL on failure) </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>options</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The options for the RNApuzzler algorithm (or NULL) </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>The length of the structure on success, 0 otherwise </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" line="116" column="1" declfile="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" declline="116" declcolumn="1"/>
-      </memberdef>
-      <memberdef kind="function" id="group__plot__layout__utils_1ga838ff131d5430461d0c4c41c4aba45bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="structvrna__plot__options__puzzler__t" kindref="compound">vrna_plot_options_puzzler_t</ref> *</type>
-        <definition>vrna_plot_options_puzzler_t* vrna_plot_options_puzzler</definition>
-        <argsstring>(void)</argsstring>
-        <name>vrna_plot_options_puzzler</name>
-        <param>
-          <type>void</type>
-        </param>
-        <briefdescription>
-<para>Create an RNApuzzler options data structure. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga551344268c4245f3f75994a51c517a30" kindref="member">vrna_plot_options_puzzler_free()</ref>, <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref>, <ref refid="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" kindref="member">vrna_plot_coords_puzzler_pt()</ref>, <ref refid="group__plot__layout__utils_1ga57f815d56c8c083c016381213f581f1e" kindref="member">vrna_plot_layout_puzzler()</ref></para>
-</simplesect>
-<simplesect kind="return"><para>An RNApuzzler options data structure with default settings </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" line="132" column="1" declfile="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" declline="132" declcolumn="1"/>
-      </memberdef>
-      <memberdef kind="function" id="group__plot__layout__utils_1ga551344268c4245f3f75994a51c517a30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void vrna_plot_options_puzzler_free</definition>
-        <argsstring>(vrna_plot_options_puzzler_t *options)</argsstring>
-        <name>vrna_plot_options_puzzler_free</name>
-        <param>
-          <type><ref refid="structvrna__plot__options__puzzler__t" kindref="compound">vrna_plot_options_puzzler_t</ref> *</type>
-          <declname>options</declname>
-        </param>
-        <briefdescription>
-<para>Free memory occupied by an RNApuzzler options data structure. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__plot__layout__utils_1ga838ff131d5430461d0c4c41c4aba45bc" kindref="member">vrna_plot_options_puzzler()</ref>, <ref refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kindref="member">vrna_plot_coords_puzzler()</ref>, <ref refid="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" kindref="member">vrna_plot_coords_puzzler_pt()</ref>, <ref refid="group__plot__layout__utils_1ga57f815d56c8c083c016381213f581f1e" kindref="member">vrna_plot_layout_puzzler()</ref></para>
-</simplesect>
-<parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>options</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>A pointer to the options data structure to free </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" line="144" column="1" declfile="ViennaRNA/plotting/RNApuzzler/RNApuzzler.h" declline="144" declcolumn="1"/>
-      </memberdef>
+      <member refid="group__plot__layout__utils_1gafd49896df8780c9669125429bc0da9b3" kind="function"><name>vrna_plot_coords_puzzler</name></member>
+      <member refid="group__plot__layout__utils_1gab50a90dd6000a1920d741537af7e0b24" kind="function"><name>vrna_plot_coords_puzzler_pt</name></member>
+      <member refid="group__plot__layout__utils_1ga375ca7af7028a447d457748c4c138a8a" kind="function"><name>vrna_plot_options_puzzler</name></member>
+      <member refid="group__plot__layout__utils_1ga551344268c4245f3f75994a51c517a30" kind="function"><name>vrna_plot_options_puzzler_free</name></member>
       </sectiondef>
     <briefdescription>
-<para>Implementation of the RNApuzzler RNA secondary structure layout algorithm <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
+<para>Implementation of the RNApuzzler RNA secondary structure layout algorithm  <verbatim>embed:rst:inline :cite:p:`wiegreffe:2018` </verbatim>. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
@@ -334,7 +107,7 @@
 <codeline lineno="121"><highlight class="normal"></highlight></codeline>
 <codeline lineno="122"><highlight class="normal"></highlight></codeline>
 <codeline lineno="131"><highlight class="normal"><ref refid="structvrna__plot__options__puzzler__t" kindref="compound">vrna_plot_options_puzzler_t</ref><sp/>*</highlight></codeline>
-<codeline lineno="132" refid="group__plot__layout__utils_1ga838ff131d5430461d0c4c41c4aba45bc" refkind="member"><highlight class="normal"><ref refid="group__plot__layout__utils_1ga838ff131d5430461d0c4c41c4aba45bc" kindref="member">vrna_plot_options_puzzler</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132" refid="group__plot__layout__utils_1ga375ca7af7028a447d457748c4c138a8a" refkind="member"><highlight class="normal"><ref refid="group__plot__layout__utils_1ga375ca7af7028a447d457748c4c138a8a" kindref="member">vrna_plot_options_puzzler</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="133"><highlight class="normal"></highlight></codeline>
 <codeline lineno="134"><highlight class="normal"></highlight></codeline>
 <codeline lineno="143"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>

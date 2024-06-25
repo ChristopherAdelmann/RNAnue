@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__SHAPE__reactivities" kind="group">
     <compoundname>SHAPE_reactivities</compoundname>
     <title>SHAPE Reactivity Data</title>
@@ -109,9 +109,9 @@
         </briefdescription>
         <detaileddescription>
 <para>This approach of SHAPE directed RNA folding uses the simple linear ansatz</para>
-<para><formula id="109">\[ \Delta G_{\text{SHAPE}}(i) = m \ln(\text{SHAPE reactivity}(i)+1)+ b \]</formula></para>
-<para>to convert SHAPE reactivity values to pseudo energies whenever a nucleotide <formula id="110">$ i $</formula> contributes to a stacked pair. A positive slope <formula id="111">$ m $</formula> penalizes high reactivities in paired regions, while a negative intercept <formula id="112">$ b $</formula> results in a confirmatory `<lsquo/>bonus<rsquo/>&apos; free energy for correctly predicted base pairs. Since the energy evaluation of a base pair stack involves two pairs, the pseudo energies are added for all four contributing nucleotides. Consequently, the energy term is applied twice for pairs inside a helix and only once for pairs adjacent to other structures. For all other loop types the energy model remains unchanged even when the experimental data highly disagrees with a certain motif.</para>
-<para><simplesect kind="note"><para>For further details, we refer to <verbatim>embed:rst:inline :cite:t:`deigan:2009` </verbatim>.</para>
+<para><formula id="111">\[ \Delta G_{\text{SHAPE}}(i) = m \ln(\text{SHAPE reactivity}(i)+1)+ b \]</formula></para>
+<para>to convert SHAPE reactivity values to pseudo energies whenever a nucleotide <formula id="112">$ i $</formula> contributes to a stacked pair. A positive slope <formula id="113">$ m $</formula> penalizes high reactivities in paired regions, while a negative intercept <formula id="114">$ b $</formula> results in a confirmatory `<lsquo/>bonus<rsquo/>&apos; free energy for correctly predicted base pairs. Since the energy evaluation of a base pair stack involves two pairs, the pseudo energies are added for all four contributing nucleotides. Consequently, the energy term is applied twice for pairs inside a helix and only once for pairs adjacent to other structures. For all other loop types the energy model remains unchanged even when the experimental data highly disagrees with a certain motif.</para>
+<para><simplesect kind="note"><para>For further details, we refer to  <verbatim>embed:rst:inline :cite:t:`deigan:2009` </verbatim>.</para>
 </simplesect>
 <simplesect kind="see"><para><ref refid="group__soft__constraints_1gac81478a33880029ca9975bd89cc26fa9" kindref="member">vrna_sc_remove()</ref>, <ref refid="group__SHAPE__reactivities_1ga5a673837ebe42d790bdf3ccf8982d3dc" kindref="member">vrna_sc_add_SHAPE_zarringhalam()</ref>, <ref refid="group__perturbation_1ga64d7137ab57964928e7cd1be96d2e1ea" kindref="member">vrna_sc_minimize_pertubation()</ref></para>
 </simplesect>
@@ -291,10 +291,10 @@
 <para>Add SHAPE reactivity data as soft constraints (Zarringhalam et al. method) </para>
         </briefdescription>
         <detaileddescription>
-<para>This method first converts the observed SHAPE reactivity of nucleotide <formula id="110">$ i $</formula> into a probability <formula id="113">$ q_i $</formula> that position <formula id="110">$ i $</formula> is unpaired by means of a non-linear map. Then pseudo-energies of the form</para>
-<para><formula id="114">\[ \Delta G_{\text{SHAPE}}(x,i) = \beta\ |x_i - q_i| \]</formula></para>
-<para>are computed, where <formula id="115">$ x_i=0 $</formula> if position <formula id="110">$ i $</formula> is unpaired and <formula id="116">$ x_i=1 $</formula> if <formula id="110">$ i $</formula> is paired in a given secondary structure. The parameter <formula id="117">$ \beta $</formula> serves as scaling factor. The magnitude of discrepancy between prediction and experimental observation is represented by <formula id="118">$ |x_i - q_i| $</formula>.</para>
-<para><simplesect kind="note"><para>For further details, we refer to <verbatim>embed:rst:inline :cite:t:`zarringhalam:2012` </verbatim></para>
+<para>This method first converts the observed SHAPE reactivity of nucleotide <formula id="112">$ i $</formula> into a probability <formula id="115">$ q_i $</formula> that position <formula id="112">$ i $</formula> is unpaired by means of a non-linear map. Then pseudo-energies of the form</para>
+<para><formula id="116">\[ \Delta G_{\text{SHAPE}}(x,i) = \beta\ |x_i - q_i| \]</formula></para>
+<para>are computed, where <formula id="117">$ x_i=0 $</formula> if position <formula id="112">$ i $</formula> is unpaired and <formula id="118">$ x_i=1 $</formula> if <formula id="112">$ i $</formula> is paired in a given secondary structure. The parameter <formula id="119">$ \beta $</formula> serves as scaling factor. The magnitude of discrepancy between prediction and experimental observation is represented by <formula id="120">$ |x_i - q_i| $</formula>.</para>
+<para><simplesect kind="note"><para>For further details, we refer to  <verbatim>embed:rst:inline :cite:t:`zarringhalam:2012` </verbatim></para>
 </simplesect>
 <simplesect kind="see"><para><ref refid="group__soft__constraints_1gac81478a33880029ca9975bd89cc26fa9" kindref="member">vrna_sc_remove()</ref>, <ref refid="group__SHAPE__reactivities_1gad609895467d59ea53faac4f98b71c099" kindref="member">vrna_sc_add_SHAPE_deigan()</ref>, <ref refid="group__perturbation_1ga64d7137ab57964928e7cd1be96d2e1ea" kindref="member">vrna_sc_minimize_pertubation()</ref></para>
 </simplesect>
@@ -319,7 +319,7 @@
 <parametername>b</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The scaling factor <formula id="117">$ \beta $</formula> of the conversion function </para>
+<para>The scaling factor <formula id="119">$ \beta $</formula> of the conversion function </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>

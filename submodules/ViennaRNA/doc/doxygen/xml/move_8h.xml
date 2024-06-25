@@ -1,31 +1,31 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="move_8h" kind="file" language="C++">
     <compoundname>move.h</compoundname>
     <includedby refid="eval_8h" local="no">ViennaRNA/eval.h</includedby>
-    <includedby refid="neighbor_8h" local="no">ViennaRNA/neighbor.h</includedby>
     <includedby refid="landscape_2neighbor_8h" local="no">ViennaRNA/landscape/neighbor.h</includedby>
     <includedby refid="paths_8h" local="no">ViennaRNA/landscape/paths.h</includedby>
     <includedby refid="landscape_2walk_8h" local="no">ViennaRNA/landscape/walk.h</includedby>
+    <includedby refid="neighbor_8h" local="no">ViennaRNA/neighbor.h</includedby>
     <invincdepgraph>
-      <node id="3">
-        <label>ViennaRNA/fold.h</label>
-        <link refid="fold_8h"/>
+      <node id="2">
+        <label>ViennaRNA/eval.h</label>
+        <link refid="eval_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="9">
         <label>ViennaRNA/findpath.h</label>
         <link refid="findpath_8h"/>
       </node>
-      <node id="4">
-        <label>ViennaRNA/neighbor.h</label>
-        <link refid="neighbor_8h"/>
+      <node id="3">
+        <label>ViennaRNA/fold.h</label>
+        <link refid="fold_8h"/>
       </node>
-      <node id="5">
-        <label>ViennaRNA/landscape/neighbor.h</label>
-        <link refid="landscape_2neighbor_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+      <node id="8">
+        <label>ViennaRNA/landscape/findpath.h</label>
+        <link refid="landscape_2findpath_8h"/>
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -35,33 +35,19 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
-      <node id="10">
-        <label>ViennaRNA/landscape/walk.h</label>
-        <link refid="landscape_2walk_8h"/>
+      <node id="4">
+        <label>ViennaRNA/landscape/neighbor.h</label>
+        <link refid="landscape_2neighbor_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="8">
-        <label>ViennaRNA/landscape/findpath.h</label>
-        <link refid="landscape_2findpath_8h"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>ViennaRNA/walk.h</label>
-        <link refid="walk_8h"/>
-      </node>
-      <node id="2">
-        <label>ViennaRNA/eval.h</label>
-        <link refid="eval_8h"/>
-        <childnode refid="3" relation="include">
         </childnode>
       </node>
       <node id="7">
@@ -70,390 +56,42 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
+      <node id="10">
+        <label>ViennaRNA/landscape/walk.h</label>
+        <link refid="landscape_2walk_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>ViennaRNA/neighbor.h</label>
+        <link refid="neighbor_8h"/>
+      </node>
+      <node id="6">
+        <label>ViennaRNA/walk.h</label>
+        <link refid="walk_8h"/>
+      </node>
     </invincdepgraph>
     <innerclass refid="structvrna__move__s" prot="public">vrna_move_s</innerclass>
       <sectiondef kind="define">
-      <memberdef kind="define" id="group__neighbors_1gaf39028db9c70d3be528929182a3f2d5a" prot="public" static="no">
-        <name>VRNA_MOVESET_INSERTION</name>
-        <initializer>4</initializer>
-        <briefdescription>
-<para>Option flag indicating insertion move. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="27" column="9" bodyfile="ViennaRNA/landscape/move.h" bodystart="27" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="define" id="group__neighbors_1gac05db9392c6647e3e9a6982096c5b384" prot="public" static="no">
-        <name>VRNA_MOVESET_DELETION</name>
-        <initializer>8</initializer>
-        <briefdescription>
-<para>Option flag indicating deletion move. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="34" column="9" bodyfile="ViennaRNA/landscape/move.h" bodystart="34" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="define" id="group__neighbors_1ga68ea27c81de4b74e48b775c04052590b" prot="public" static="no">
-        <name>VRNA_MOVESET_SHIFT</name>
-        <initializer>16</initializer>
-        <briefdescription>
-<para>Option flag indicating shift move. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="41" column="9" bodyfile="ViennaRNA/landscape/move.h" bodystart="41" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="define" id="group__neighbors_1ga258084b251b218fba9398826435a4393" prot="public" static="no">
-        <name>VRNA_MOVESET_NO_LP</name>
-        <initializer>32</initializer>
-        <briefdescription>
-<para>Option flag indicating moves without lonely base pairs. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="47" column="9" bodyfile="ViennaRNA/landscape/move.h" bodystart="47" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="define" id="group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1" prot="public" static="no">
-        <name>VRNA_MOVESET_DEFAULT</name>
-        <initializer>(<ref refid="group__neighbors_1gaf39028db9c70d3be528929182a3f2d5a" kindref="member">VRNA_MOVESET_INSERTION</ref> | <ref refid="group__neighbors_1gac05db9392c6647e3e9a6982096c5b384" kindref="member">VRNA_MOVESET_DELETION</ref>)</initializer>
-        <briefdescription>
-<para>Option flag indicating default move set, i.e. insertions/deletion of a base pair. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__neighbors_1gab4a00163bbf8e8592284a6e82a81de87" kindref="member">vrna_neighbors()</ref>, <ref refid="group__neighbors_1ga21ddb18cb132f0a9096a4ba6776f5f0d" kindref="member">vrna_neighbors_successive</ref>, <ref refid="group__paths__walk_1ga41a4fdfc4b5366ffb6afede85709c70a" kindref="member">vrna_path()</ref> </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="54" column="9" bodyfile="ViennaRNA/landscape/move.h" bodystart="54" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="define" id="group__neighbors_1ga555087dc5cc35a93f71d952220d83388" prot="public" static="no">
-        <name>VRNA_MOVE_NO_APPLY</name>
-        <initializer>64</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="56" column="9" bodyfile="ViennaRNA/landscape/move.h" bodystart="56" bodyend="-1"/>
-      </memberdef>
+      <member refid="group__neighbors_1gaf39028db9c70d3be528929182a3f2d5a" kind="define"><name>VRNA_MOVESET_INSERTION</name></member>
+      <member refid="group__neighbors_1gac05db9392c6647e3e9a6982096c5b384" kind="define"><name>VRNA_MOVESET_DELETION</name></member>
+      <member refid="group__neighbors_1ga68ea27c81de4b74e48b775c04052590b" kind="define"><name>VRNA_MOVESET_SHIFT</name></member>
+      <member refid="group__neighbors_1ga258084b251b218fba9398826435a4393" kind="define"><name>VRNA_MOVESET_NO_LP</name></member>
+      <member refid="group__neighbors_1gaa5ffec4dd0d02df320f123e6888154d1" kind="define"><name>VRNA_MOVESET_DEFAULT</name></member>
+      <member refid="group__neighbors_1ga555087dc5cc35a93f71d952220d83388" kind="define"><name>VRNA_MOVE_NO_APPLY</name></member>
       </sectiondef>
       <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" prot="public" static="no">
-        <type>struct <ref refid="structvrna__move__s" kindref="compound">vrna_move_s</ref></type>
-        <definition>typedef struct vrna_move_s vrna_move_t</definition>
-        <argsstring></argsstring>
-        <name>vrna_move_t</name>
-        <briefdescription>
-<para>A single move that transforms a secondary structure into one of its neighbors. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="1" column="0" bodyfile="ViennaRNA/landscape/move.h" bodystart="20" bodyend="-1"/>
-      </memberdef>
+      <member refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kind="typedef"><name>vrna_move_t</name></member>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="group__neighbors_1gaeff6157398a2073f587416fa9ec94789" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref></type>
-        <definition>vrna_move_t vrna_move_init</definition>
-        <argsstring>(int pos_5, int pos_3)</argsstring>
-        <name>vrna_move_init</name>
-        <param>
-          <type>int</type>
-          <declname>pos_5</declname>
-        </param>
-        <param>
-          <type>int</type>
-          <declname>pos_3</declname>
-        </param>
-        <briefdescription>
-<para>Create an atomic move. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="structvrna__move__s" kindref="compound">vrna_move_s</ref></para>
-</simplesect>
-<parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>pos_5</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The 5&apos; position of the move (positive for insertions, negative for removal, any value for shift moves) </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>pos_3</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The 3&apos; position of the move (positive for insertions, negative for removal, any value for shift moves) </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>An atomic move as specified by <computeroutput>pos_5</computeroutput> and <computeroutput>pos_3</computeroutput> </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="98" column="1" declfile="ViennaRNA/landscape/move.h" declline="98" declcolumn="1"/>
-      </memberdef>
-      <memberdef kind="function" id="group__neighbors_1gad085062ae3aa7ee20783debe4a906fad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void vrna_move_list_free</definition>
-        <argsstring>(vrna_move_t *moves)</argsstring>
-        <name>vrna_move_list_free</name>
-        <param>
-          <type><ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
-          <declname>moves</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para>delete all moves in a zero terminated list. </para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="106" column="1" declfile="ViennaRNA/landscape/move.h" declline="106" declcolumn="1"/>
-      </memberdef>
-      <memberdef kind="function" id="group__neighbors_1gacdbc5f609b46aeb07d2c7e015677a1e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void vrna_move_apply</definition>
-        <argsstring>(short *pt, const vrna_move_t *m)</argsstring>
-        <name>vrna_move_apply</name>
-        <param>
-          <type>short *</type>
-          <declname>pt</declname>
-        </param>
-        <param>
-          <type>const <ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
-          <declname>m</declname>
-        </param>
-        <briefdescription>
-<para>Apply a particular move / transition to a secondary structure, i.e. transform a structure. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="inout">pt</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The pair table representation of the secondary structure </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="in">m</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The move to apply </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="116" column="1" declfile="ViennaRNA/landscape/move.h" declline="116" declcolumn="1"/>
-      </memberdef>
-      <memberdef kind="function" id="group__neighbors_1gab791a8a0623af5693d99618d41e51bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void vrna_move_apply_db</definition>
-        <argsstring>(char *structure, const short *pt, const vrna_move_t *m)</argsstring>
-        <name>vrna_move_apply_db</name>
-        <param>
-          <type>char *</type>
-          <declname>structure</declname>
-        </param>
-        <param>
-          <type>const short *</type>
-          <declname>pt</declname>
-        </param>
-        <param>
-          <type>const <ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
-          <declname>m</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="121" column="1" declfile="ViennaRNA/landscape/move.h" declline="121" declcolumn="1"/>
-      </memberdef>
-      <memberdef kind="function" id="group__neighbors_1ga9cf75e9c6551f46ea568abf4f7fd11cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int vrna_move_is_removal</definition>
-        <argsstring>(const vrna_move_t *m)</argsstring>
-        <name>vrna_move_is_removal</name>
-        <param>
-          <type>const <ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
-          <declname>m</declname>
-        </param>
-        <briefdescription>
-<para>Test whether a move is a base pair removal. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>m</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The move to test against </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Non-zero if the move is a base pair removal, 0 otherwise </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="133" column="1" declfile="ViennaRNA/landscape/move.h" declline="133" declcolumn="1"/>
-      </memberdef>
-      <memberdef kind="function" id="group__neighbors_1ga613d33e6fa8e784d76b34bb07458f398" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int vrna_move_is_insertion</definition>
-        <argsstring>(const vrna_move_t *m)</argsstring>
-        <name>vrna_move_is_insertion</name>
-        <param>
-          <type>const <ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
-          <declname>m</declname>
-        </param>
-        <briefdescription>
-<para>Test whether a move is a base pair insertion. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>m</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The move to test against </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Non-zero if the move is a base pair insertion, 0 otherwise </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="143" column="1" declfile="ViennaRNA/landscape/move.h" declline="143" declcolumn="1"/>
-      </memberdef>
-      <memberdef kind="function" id="group__neighbors_1ga31a8c4c2db9f54cb8f2d2cdf3b725d4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int vrna_move_is_shift</definition>
-        <argsstring>(const vrna_move_t *m)</argsstring>
-        <name>vrna_move_is_shift</name>
-        <param>
-          <type>const <ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
-          <declname>m</declname>
-        </param>
-        <briefdescription>
-<para>Test whether a move is a base pair shift. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>m</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The move to test against </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Non-zero if the move is a base pair shift, 0 otherwise </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="153" column="1" declfile="ViennaRNA/landscape/move.h" declline="153" declcolumn="1"/>
-      </memberdef>
-      <memberdef kind="function" id="group__neighbors_1gad0d2065cfa00151d9e8f79459d98173d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int vrna_move_compare</definition>
-        <argsstring>(const vrna_move_t *m, const vrna_move_t *b, const short *pt)</argsstring>
-        <name>vrna_move_compare</name>
-        <param>
-          <type>const <ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
-          <declname>m</declname>
-        </param>
-        <param>
-          <type>const <ref refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" kindref="member">vrna_move_t</ref> *</type>
-          <declname>b</declname>
-        </param>
-        <param>
-          <type>const short *</type>
-          <declname>pt</declname>
-        </param>
-        <briefdescription>
-<para>Compare two moves. </para>
-        </briefdescription>
-        <detaileddescription>
-<para>The function compares two moves <computeroutput>m</computeroutput> and <computeroutput>b</computeroutput> and returns whether move <computeroutput>m</computeroutput> is lexicographically smaller (-1), larger (1) or equal to move <computeroutput>b</computeroutput>.</para>
-<para>If any of the moves <computeroutput>m</computeroutput> or <computeroutput>b</computeroutput> is a shift move, this comparison only makes sense in a structure context. Thus, the third argument with the current structure must be provided.</para>
-<para><simplesect kind="note"><para>This function returns 0 (equality) upon any error, e.g. missing input</para>
-</simplesect>
-<simplesect kind="warning"><para>Currently, shift moves are not supported!</para>
-</simplesect>
-<parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>m</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The first move of the comparison </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>b</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The second move of the comparison </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>pt</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The pair table of the current structure that is compatible with both moves (maybe NULL if moves are guaranteed to be no shifts) </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>-1 if <computeroutput>m</computeroutput> &lt; <computeroutput>b</computeroutput>, 1 if <computeroutput>m</computeroutput> &gt; <computeroutput>b</computeroutput>, 0 otherwise </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="ViennaRNA/landscape/move.h" line="177" column="1" declfile="ViennaRNA/landscape/move.h" declline="177" declcolumn="1"/>
-      </memberdef>
+      <member refid="group__neighbors_1gaeff6157398a2073f587416fa9ec94789" kind="function"><name>vrna_move_init</name></member>
+      <member refid="group__neighbors_1gad085062ae3aa7ee20783debe4a906fad" kind="function"><name>vrna_move_list_free</name></member>
+      <member refid="group__neighbors_1gacdbc5f609b46aeb07d2c7e015677a1e0" kind="function"><name>vrna_move_apply</name></member>
+      <member refid="group__neighbors_1gab791a8a0623af5693d99618d41e51bf1" kind="function"><name>vrna_move_apply_db</name></member>
+      <member refid="group__neighbors_1ga9cf75e9c6551f46ea568abf4f7fd11cd" kind="function"><name>vrna_move_is_removal</name></member>
+      <member refid="group__neighbors_1ga613d33e6fa8e784d76b34bb07458f398" kind="function"><name>vrna_move_is_insertion</name></member>
+      <member refid="group__neighbors_1ga31a8c4c2db9f54cb8f2d2cdf3b725d4d" kind="function"><name>vrna_move_is_shift</name></member>
+      <member refid="group__neighbors_1gad0d2065cfa00151d9e8f79459d98173d" kind="function"><name>vrna_move_compare</name></member>
       </sectiondef>
     <briefdescription>
 <para>Methods to operate with structural neighbors of RNA secondary structures. </para>
@@ -461,11 +99,11 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1" refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" refkind="member"><highlight class="preprocessor">#ifndef<sp/>VIENNA_RNA_PACKAGE_MOVE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>VIENNA_RNA_PACKAGE_MOVE_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>VIENNA_RNA_PACKAGE_MOVE_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structvrna__move__s" kindref="compound">vrna_move_s</ref><sp/><ref refid="structvrna__move__s" kindref="compound">vrna_move_t</ref>;</highlight></codeline>
+<codeline lineno="20" refid="group__neighbors_1ga08630e00206cd163ea29c462bf5f4755" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structvrna__move__s" kindref="compound">vrna_move_s</ref><sp/><ref refid="structvrna__move__s" kindref="compound">vrna_move_t</ref>;</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight></codeline>
 <codeline lineno="27" refid="group__neighbors_1gaf39028db9c70d3be528929182a3f2d5a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>VRNA_MOVESET_INSERTION<sp/><sp/><sp/>4</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight></codeline>

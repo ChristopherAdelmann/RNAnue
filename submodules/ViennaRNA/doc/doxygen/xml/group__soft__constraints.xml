@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__soft__constraints" kind="group">
     <compoundname>soft_constraints</compoundname>
     <title>Soft Constraints</title>
@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ViennaRNA/constraints/soft.h" line="1" column="0" bodyfile="ViennaRNA/constraints/soft.h" bodystart="20" bodyend="-1"/>
+        <location file="ViennaRNA/constraints/soft.h" line="20" column="24" bodyfile="ViennaRNA/constraints/soft.h" bodystart="20" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="group__soft__constraints_1gae2f7ded586b09b12ddaa627eee355a32" prot="public" static="no">
         <type>int(*</type>
@@ -165,9 +165,9 @@
         </inbodydescription>
         <location file="ViennaRNA/constraints/soft.h" line="115" column="9" bodyfile="ViennaRNA/constraints/soft.h" bodystart="115" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="group__soft__constraints_1ga687c49c1b3681373d2843c3e287591f7" prot="public" static="no">
+      <memberdef kind="typedef" id="group__soft__constraints_1gaaa010a245ab273cd5c265929ff0b8bbd" prot="public" static="no">
         <type><ref refid="group__data__structures_1gac8c5669d3fb813cacf506489689305ce" kindref="member">vrna_basepair_t</ref> *(*</type>
-        <definition>typedef vrna_basepair_t*(* vrna_sc_bt_f) (int i, int j, int k, int l, unsigned char d, void *data)</definition>
+        <definition>typedef vrna_basepair_t *(* vrna_sc_bt_f) (int i, int j, int k, int l, unsigned char d, void *data)</definition>
         <argsstring>)(int i, int j, int k, int l, unsigned char d, void *data)</argsstring>
         <name>vrna_sc_bt_f</name>
         <briefdescription>
@@ -311,7 +311,7 @@
 <parametername>constraints</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A two-dimensional array of pseudo free energies in <formula id="119">$ kcal / mol $</formula> </para>
+<para>A two-dimensional array of pseudo free energies in <formula id="121">$ kcal / mol $</formula> </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -393,7 +393,7 @@
 <parametername>energy</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The free energy (soft-constraint) in <formula id="119">$ kcal / mol $</formula> </para>
+<para>The free energy (soft-constraint) in <formula id="121">$ kcal / mol $</formula> </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -410,7 +410,7 @@
 <xrefsect id="wrappers_1_wrappers000048"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>sc_add_bp()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The method either takes arguments for a single base pair (i,j) with the corresponding energy value: </para>
 </parblock></para>
 </xrefdescription></xrefsect><programlisting><codeline><highlight class="normal">fold_compound.sc_add_bp(i,<sp/>j,<sp/>energy,<sp/>options)</highlight></codeline>
-</programlisting> or an entire 2-dimensional matrix with dimensions n x n that stores free energy contributions for any base pair (i,j) with <formula id="160">$ 1 \leq i &lt; j \leq n $</formula>: <programlisting><codeline><highlight class="normal">fold_compound.sc_add_bp(matrix,<sp/>options)</highlight></codeline>
+</programlisting> or an entire 2-dimensional matrix with dimensions n x n that stores free energy contributions for any base pair (i,j) with <formula id="162">$ 1 \leq i &lt; j \leq n $</formula>: <programlisting><codeline><highlight class="normal">fold_compound.sc_add_bp(matrix,<sp/>options)</highlight></codeline>
 </programlisting> In both variants, the optional argument <computeroutput>options</computeroutput> defaults to <ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_add_bp()` in the :doc:`/api_python` </verbatim>. </para>
         </detaileddescription>
         <inbodydescription>
@@ -455,7 +455,7 @@
 <parametername>constraints</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A vector of pseudo free energies in <formula id="119">$ kcal / mol $</formula> </para>
+<para>A vector of pseudo free energies in <formula id="121">$ kcal / mol $</formula> </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -525,7 +525,7 @@
 <parametername>energy</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The free energy (soft-constraint) in <formula id="119">$ kcal / mol $</formula> </para>
+<para>The free energy (soft-constraint) in <formula id="121">$ kcal / mol $</formula> </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -539,10 +539,10 @@
 </parameterlist>
 <simplesect kind="return"><para>Non-zero on successful application of the constraint, 0 otherwise.</para>
 </simplesect>
-<xrefsect id="wrappers_1_wrappers000050"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>sc_add_up()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The method either takes arguments for a single nucleotide <formula id="161">$i $</formula> with the corresponding energy value: </para>
+<xrefsect id="wrappers_1_wrappers000050"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as an overloaded method <computeroutput>sc_add_up()</computeroutput> to objects of type <computeroutput>fold_compound</computeroutput>. The method either takes arguments for a single nucleotide <formula id="163">$i $</formula> with the corresponding energy value: </para>
 </parblock></para>
 </xrefdescription></xrefsect><programlisting><codeline><highlight class="normal">fold_compound.sc_add_up(i,<sp/>energy,<sp/>options)</highlight></codeline>
-</programlisting> or an entire vector that stores free energy contributions for each nucleotide <formula id="161">$i $</formula> with <formula id="162">$ 1 \leq i \leq n $</formula>: <programlisting><codeline><highlight class="normal">fold_compound.sc_add_bp(vector,<sp/>options)</highlight></codeline>
+</programlisting> or an entire vector that stores free energy contributions for each nucleotide <formula id="163">$i $</formula> with <formula id="164">$ 1 \leq i \leq n $</formula>: <programlisting><codeline><highlight class="normal">fold_compound.sc_add_bp(vector,<sp/>options)</highlight></codeline>
 </programlisting> In both variants, the optional argument <computeroutput>options</computeroutput> defaults to <ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref>. See, e.g.  <verbatim>embed:rst:inline :py:meth:`RNA.fold_compound.sc_add_up()` in the :doc:`/api_python` </verbatim>. </para>
         </detaileddescription>
         <inbodydescription>
@@ -684,7 +684,7 @@
 <para>Bind a function pointer for generic soft constraint feature (MFE version) </para>
         </briefdescription>
         <detaileddescription>
-<para>This function allows one to easily bind a function pointer and corresponding data structure to the soft constraint part <ref refid="group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6" kindref="member">vrna_sc_t</ref> of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. The function for evaluating the generic soft constraint feature has to return a pseudo free energy <formula id="120">$ \hat{E} $</formula> in <formula id="121">$ dacal/mol $</formula>, where <formula id="122">$ 1 dacal/mol = 10 cal/mol $</formula>.</para>
+<para>This function allows one to easily bind a function pointer and corresponding data structure to the soft constraint part <ref refid="group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6" kindref="member">vrna_sc_t</ref> of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. The function for evaluating the generic soft constraint feature has to return a pseudo free energy <formula id="122">$ \hat{E} $</formula> in <formula id="123">$ dacal/mol $</formula>, where <formula id="124">$ 1 dacal/mol = 10 cal/mol $</formula>.</para>
 <para><simplesect kind="see"><para><ref refid="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e" kindref="member">vrna_sc_add_data()</ref>, <ref refid="group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd" kindref="member">vrna_sc_add_bt()</ref>, <ref refid="group__soft__constraints_1ga42ae58b56fb10e75a6ee3e131a6ae30e" kindref="member">vrna_sc_add_exp_f()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
@@ -724,7 +724,7 @@
           <declname>fc</declname>
         </param>
         <param>
-          <type><ref refid="group__soft__constraints_1ga687c49c1b3681373d2843c3e287591f7" kindref="member">vrna_sc_bt_f</ref></type>
+          <type><ref refid="group__soft__constraints_1gaaa010a245ab273cd5c265929ff0b8bbd" kindref="member">vrna_sc_bt_f</ref></type>
           <declname>f</declname>
         </param>
         <briefdescription>
@@ -778,7 +778,7 @@
 <para>Bind a function pointer for generic soft constraint feature (PF version) </para>
         </briefdescription>
         <detaileddescription>
-<para>This function allows one to easily bind a function pointer and corresponding data structure to the soft constraint part <ref refid="group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6" kindref="member">vrna_sc_t</ref> of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. The function for evaluating the generic soft constraint feature has to return a pseudo free energy <formula id="120">$ \hat{E} $</formula> as Boltzmann factor, i.e. <formula id="123">$ exp(- \hat{E} / kT) $</formula>. The required unit for <formula id="80">$ E $</formula> is <formula id="124">$ cal/mol $</formula>.</para>
+<para>This function allows one to easily bind a function pointer and corresponding data structure to the soft constraint part <ref refid="group__soft__constraints_1ga75401ce219ef8dbcceb672db82d434c6" kindref="member">vrna_sc_t</ref> of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. The function for evaluating the generic soft constraint feature has to return a pseudo free energy <formula id="122">$ \hat{E} $</formula> as Boltzmann factor, i.e. <formula id="125">$ exp(- \hat{E} / kT) $</formula>. The required unit for <formula id="82">$ E $</formula> is <formula id="126">$ cal/mol $</formula>.</para>
 <para><simplesect kind="see"><para><ref refid="group__soft__constraints_1gab0a2cbb121e1589f38144341ba4852bd" kindref="member">vrna_sc_add_bt()</ref>, <ref refid="group__soft__constraints_1ga4fdbb3b492d2343d827715a7a7a0f689" kindref="member">vrna_sc_add_f()</ref>, <ref refid="group__soft__constraints_1ga0bab36ee5f9934b729778ec6f53cec3e" kindref="member">vrna_sc_add_data()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>

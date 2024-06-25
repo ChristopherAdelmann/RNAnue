@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__string__utils" kind="group">
     <compoundname>string_utils</compoundname>
     <title>(Nucleic Acid Sequence) String Utilitites</title>
     <innerfile refid="strings_8h">strings.h</innerfile>
       <sectiondef kind="func">
-      <memberdef kind="function" id="group__string__utils_1ga33cc0190a326ec368277caa777b8bf18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__string__utils_1ga8429d7d84d7b0c7d77cda7c4ceff0947" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
-        <definition>char* vrna_strdup_printf</definition>
+        <definition>char * vrna_strdup_printf</definition>
         <argsstring>(const char *format,...)</argsstring>
         <name>vrna_strdup_printf</name>
         <param>
@@ -24,7 +24,7 @@
 <para>This function is a safe implementation for creating a formatted character array, similar to <emphasis>sprintf</emphasis>. Internally, it uses the <emphasis>asprintf</emphasis> function if available to dynamically allocate a large enough character array to store the supplied content. If <emphasis>asprintf</emphasis> is not available, mimic it&apos;s behavior using <emphasis>vsnprintf</emphasis>.</para>
 <para><simplesect kind="note"><para>The returned pointer of this function should always be passed to <emphasis>free()</emphasis> to release the allocated memory</para>
 </simplesect>
-<simplesect kind="see"><para><ref refid="group__string__utils_1ga459fdee190ed81bb7773cbaf671748a9" kindref="member">vrna_strdup_vprintf()</ref>, <ref refid="group__string__utils_1gac0771ec71316023067f2aae61a5aa0fb" kindref="member">vrna_strcat_printf()</ref></para>
+<simplesect kind="see"><para><ref refid="group__string__utils_1ga84a3a0400df93050b650a0d31afd1e54" kindref="member">vrna_strdup_vprintf()</ref>, <ref refid="group__string__utils_1gac0771ec71316023067f2aae61a5aa0fb" kindref="member">vrna_strcat_printf()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -51,9 +51,9 @@
         </inbodydescription>
         <location file="ViennaRNA/utils/strings.h" line="89" column="1" declfile="ViennaRNA/utils/strings.h" declline="89" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__string__utils_1ga459fdee190ed81bb7773cbaf671748a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__string__utils_1ga84a3a0400df93050b650a0d31afd1e54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
-        <definition>char* vrna_strdup_vprintf</definition>
+        <definition>char * vrna_strdup_vprintf</definition>
         <argsstring>(const char *format, va_list argp)</argsstring>
         <name>vrna_strdup_vprintf</name>
         <param>
@@ -68,10 +68,10 @@
 <para>Safely create a formatted string. </para>
         </briefdescription>
         <detaileddescription>
-<para>This function is the <emphasis>va_list</emphasis> version of <ref refid="group__string__utils_1ga33cc0190a326ec368277caa777b8bf18" kindref="member">vrna_strdup_printf()</ref></para>
+<para>This function is the <emphasis>va_list</emphasis> version of <ref refid="group__string__utils_1ga8429d7d84d7b0c7d77cda7c4ceff0947" kindref="member">vrna_strdup_printf()</ref></para>
 <para><simplesect kind="note"><para>The returned pointer of this function should always be passed to <emphasis>free()</emphasis> to release the allocated memory</para>
 </simplesect>
-<simplesect kind="see"><para><ref refid="group__string__utils_1ga33cc0190a326ec368277caa777b8bf18" kindref="member">vrna_strdup_printf()</ref>, <ref refid="group__string__utils_1gac0771ec71316023067f2aae61a5aa0fb" kindref="member">vrna_strcat_printf()</ref>, <ref refid="group__string__utils_1ga122df216996ba62fd5056b7743e3131a" kindref="member">vrna_strcat_vprintf()</ref></para>
+<simplesect kind="see"><para><ref refid="group__string__utils_1ga8429d7d84d7b0c7d77cda7c4ceff0947" kindref="member">vrna_strdup_printf()</ref>, <ref refid="group__string__utils_1gac0771ec71316023067f2aae61a5aa0fb" kindref="member">vrna_strcat_printf()</ref>, <ref refid="group__string__utils_1ga122df216996ba62fd5056b7743e3131a" kindref="member">vrna_strcat_vprintf()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -119,7 +119,7 @@
         </briefdescription>
         <detaileddescription>
 <para>This function is a safe implementation for appending a formatted character array, similar to a cobination of <emphasis>strcat</emphasis> and <emphasis>sprintf</emphasis>. The function automatically allocates enough memory to store both, the previous content stored at <computeroutput>dest</computeroutput> and the appended format string. If the <computeroutput>dest</computeroutput> pointer is NULL, the function allocate memory only for the format string. The function returns the number of characters in the resulting string or -1 in case of an error.</para>
-<para><simplesect kind="see"><para><ref refid="group__string__utils_1ga122df216996ba62fd5056b7743e3131a" kindref="member">vrna_strcat_vprintf()</ref>, <ref refid="group__string__utils_1ga33cc0190a326ec368277caa777b8bf18" kindref="member">vrna_strdup_printf()</ref>, <ref refid="group__string__utils_1ga459fdee190ed81bb7773cbaf671748a9" kindref="member">vrna_strdup_vprintf()</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__string__utils_1ga122df216996ba62fd5056b7743e3131a" kindref="member">vrna_strcat_vprintf()</ref>, <ref refid="group__string__utils_1ga8429d7d84d7b0c7d77cda7c4ceff0947" kindref="member">vrna_strdup_printf()</ref>, <ref refid="group__string__utils_1ga84a3a0400df93050b650a0d31afd1e54" kindref="member">vrna_strdup_vprintf()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -176,7 +176,7 @@
         </briefdescription>
         <detaileddescription>
 <para>This function is the <emphasis>va_list</emphasis> version of <ref refid="group__string__utils_1gac0771ec71316023067f2aae61a5aa0fb" kindref="member">vrna_strcat_printf()</ref></para>
-<para><simplesect kind="see"><para><ref refid="group__string__utils_1gac0771ec71316023067f2aae61a5aa0fb" kindref="member">vrna_strcat_printf()</ref>, <ref refid="group__string__utils_1ga33cc0190a326ec368277caa777b8bf18" kindref="member">vrna_strdup_printf()</ref>, <ref refid="group__string__utils_1ga459fdee190ed81bb7773cbaf671748a9" kindref="member">vrna_strdup_vprintf()</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__string__utils_1gac0771ec71316023067f2aae61a5aa0fb" kindref="member">vrna_strcat_printf()</ref>, <ref refid="group__string__utils_1ga8429d7d84d7b0c7d77cda7c4ceff0947" kindref="member">vrna_strdup_printf()</ref>, <ref refid="group__string__utils_1ga84a3a0400df93050b650a0d31afd1e54" kindref="member">vrna_strdup_vprintf()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -292,9 +292,9 @@
         </inbodydescription>
         <location file="ViennaRNA/utils/strings.h" line="237" column="1" declfile="ViennaRNA/utils/strings.h" declline="237" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__string__utils_1gac632775617f4b2df096bfe8efb53d07f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__string__utils_1gaf1bdff12ea8383c5d8eef5f9ef9fcefe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char **</type>
-        <definition>char** vrna_strsplit</definition>
+        <definition>char ** vrna_strsplit</definition>
         <argsstring>(const char *string, const char *delimiter)</argsstring>
         <name>vrna_strsplit</name>
         <param>
@@ -311,7 +311,7 @@
         <detaileddescription>
 <para>This function splits a string into an array of strings using a single character that delimits the elements within the string. The default delimiter is the ampersand <computeroutput>&apos;&amp;&apos;</computeroutput> and will be used when <computeroutput>NULL</computeroutput> is passed as a second argument. The returned list is NULL terminated, i.e. the last element is <computeroutput>NULL</computeroutput>. If the delimiter is not found, the returned list contains exactly one element: the input string.</para>
 <para>For instance, the following code:</para>
-<para><programlisting filename=".c"><codeline><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**tok<sp/>=<sp/><ref refid="group__string__utils_1gac632775617f4b2df096bfe8efb53d07f" kindref="member">vrna_strsplit</ref>(</highlight><highlight class="stringliteral">&quot;GGGG&amp;CCCC&amp;AAAAA&quot;</highlight><highlight class="normal">,<sp/>NULL);</highlight></codeline>
+<para><programlisting filename=".c"><codeline><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**tok<sp/>=<sp/><ref refid="group__string__utils_1gaf1bdff12ea8383c5d8eef5f9ef9fcefe" kindref="member">vrna_strsplit</ref>(</highlight><highlight class="stringliteral">&quot;GGGG&amp;CCCC&amp;AAAAA&quot;</highlight><highlight class="normal">,<sp/>NULL);</highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**ptr<sp/>=<sp/>tok;<sp/>*ptr;<sp/>ptr++)<sp/>{</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;%s\n&quot;</highlight><highlight class="normal">,<sp/>*ptr);</highlight></codeline>
@@ -353,9 +353,9 @@
         </inbodydescription>
         <location file="ViennaRNA/utils/strings.h" line="289" column="1" declfile="ViennaRNA/utils/strings.h" declline="289" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__string__utils_1ga1af8a38ac6f15da64bdfb566aa14914c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__string__utils_1ga1dabf4436772a90f050a21e128b7c7fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
-        <definition>char* vrna_strjoin</definition>
+        <definition>char * vrna_strjoin</definition>
         <argsstring>(const char **strings, const char *delimiter)</argsstring>
         <name>vrna_strjoin</name>
         <param>
@@ -374,9 +374,9 @@
         </inbodydescription>
         <location file="ViennaRNA/utils/strings.h" line="294" column="1" declfile="ViennaRNA/utils/strings.h" declline="294" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__string__utils_1ga4eeb3750dcf860b9f3158249f95dbd7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__string__utils_1gab4714ab789de302ee19e0e7ea0766a3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
-        <definition>char* vrna_random_string</definition>
+        <definition>char * vrna_random_string</definition>
         <argsstring>(int l, const char symbols[])</argsstring>
         <name>vrna_random_string</name>
         <param>
@@ -586,7 +586,7 @@
 <para>This function reverses a character string in the form of an array of characters in-place, i.e. it changes the input parameter.</para>
 <para><simplesect kind="post"><para>After execution, the input <computeroutput>sequence</computeroutput> consists of the reverse string prior to the execution.</para>
 </simplesect>
-<simplesect kind="see"><para><ref refid="group__string__utils_1gad4adadba9618ad090a3f49f2da46a6a8" kindref="member">vrna_DNA_complement()</ref></para>
+<simplesect kind="see"><para><ref refid="group__string__utils_1ga561e1c63199adbd7de38ed394e098d95" kindref="member">vrna_DNA_complement()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -603,9 +603,9 @@
         </inbodydescription>
         <location file="ViennaRNA/utils/strings.h" line="373" column="1" declfile="ViennaRNA/utils/strings.h" declline="373" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__string__utils_1gad4adadba9618ad090a3f49f2da46a6a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__string__utils_1ga561e1c63199adbd7de38ed394e098d95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
-        <definition>char* vrna_DNA_complement</definition>
+        <definition>char * vrna_DNA_complement</definition>
         <argsstring>(const char *sequence)</argsstring>
         <name>vrna_DNA_complement</name>
         <param>
@@ -639,9 +639,9 @@
         </inbodydescription>
         <location file="ViennaRNA/utils/strings.h" line="395" column="1" declfile="ViennaRNA/utils/strings.h" declline="395" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__string__utils_1ga88abbd373840ec90ff5d876f72cf4f18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__string__utils_1ga593320caa8245a446efdd391215bdfc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
-        <definition>char* vrna_seq_ungapped</definition>
+        <definition>char * vrna_seq_ungapped</definition>
         <argsstring>(const char *sequence)</argsstring>
         <name>vrna_seq_ungapped</name>
         <param>
@@ -669,9 +669,9 @@
         </inbodydescription>
         <location file="ViennaRNA/utils/strings.h" line="405" column="1" declfile="ViennaRNA/utils/strings.h" declline="405" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__string__utils_1ga74f05ece32ea73b59f84a7452afd5fae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__string__utils_1ga458d5a8cbec709665426372e3aee93b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
-        <definition>char* vrna_cut_point_insert</definition>
+        <definition>char * vrna_cut_point_insert</definition>
         <argsstring>(const char *string, int cp)</argsstring>
         <name>vrna_cut_point_insert</name>
         <param>
@@ -712,9 +712,9 @@
         </inbodydescription>
         <location file="ViennaRNA/utils/strings.h" line="420" column="1" declfile="ViennaRNA/utils/strings.h" declline="420" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__string__utils_1ga1fbd821d4408cc5f1dd9d12c15e092cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__string__utils_1gaea2daba17812f6581f559afda27fcbf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
-        <definition>char* vrna_cut_point_remove</definition>
+        <definition>char * vrna_cut_point_remove</definition>
         <argsstring>(const char *string, int *cp)</argsstring>
         <name>vrna_cut_point_remove</name>
         <param>
@@ -755,9 +755,9 @@
         </inbodydescription>
         <location file="ViennaRNA/utils/strings.h" line="437" column="1" declfile="ViennaRNA/utils/strings.h" declline="437" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__string__utils_1gad59b4d5c69fcf96a44d4e3b05f1cc608" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__string__utils_1gac90f8463f175ad2f289a89e2fdc6a956" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t *</type>
-        <definition>size_t* vrna_strchr</definition>
+        <definition>size_t * vrna_strchr</definition>
         <argsstring>(const char *string, int c, size_t n)</argsstring>
         <name>vrna_strchr</name>
         <param>

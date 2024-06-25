@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__fold__compound" kind="group">
     <compoundname>fold_compound</compoundname>
     <title>The Fold Compound</title>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ViennaRNA/fold_compound.h" line="1" column="0" bodyfile="ViennaRNA/fold_compound.h" bodystart="30" bodyend="-1"/>
+        <location file="ViennaRNA/fold_compound.h" line="30" column="24" bodyfile="ViennaRNA/fold_compound.h" bodystart="30" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="group__fold__compound_1gab4e75b7511179095ef41dc1a8656433a" prot="public" static="no">
         <type>void(*</type>
@@ -161,9 +161,9 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="group__fold__compound_1ga283cf113a37614a75c1388c4ec6d7b2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
-        <definition>vrna_fold_compound_t* vrna_fold_compound</definition>
+        <definition>vrna_fold_compound_t * vrna_fold_compound</definition>
         <argsstring>(const char *sequence, const vrna_md_t *md_p, unsigned int options)</argsstring>
         <name>vrna_fold_compound</name>
         <param>
@@ -182,22 +182,22 @@
 <para>Retrieve a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> data structure for single sequences and hybridizing sequences. </para>
         </briefdescription>
         <detaileddescription>
-<para>This function provides an easy interface to obtain a prefilled <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> by passing a single sequence, or two contatenated sequences as input. For the latter, sequences need to be seperated by an &apos;&amp;&apos; character like this:<verbatim>char *sequence = &quot;GGGG&amp;CCCC&quot;; </verbatim></para>
+<para>This function provides an easy interface to obtain a prefilled <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> by passing a single sequence, or two contatenated sequences as input. For the latter, sequences need to be seperated by an &apos;&amp;&apos; character like this: <verbatim>char *sequence = &quot;GGGG&amp;CCCC&quot;; </verbatim></para>
 <para>The optional parameter <computeroutput>md_p</computeroutput> can be used to specify the model details for successive computations based on the content of the generated <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. Passing NULL will instruct the function to use default model details. The third parameter <computeroutput>options</computeroutput> may be used to specify dynamic programming (DP) matrix requirements.</para>
 <para><heading level="4">Options</heading>
 </para>
 <para><itemizedlist>
-<listitem><para><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref> - Option flag to specify default settings/requirements.</para>
-</listitem><listitem><para><ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref> - Option flag to specify requirement of Minimum Free Energy (MFE) DP matrices and corresponding set of energy parameters.</para>
-</listitem><listitem><para><ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref> - Option flag to specify requirement of Partition Function (PF) DP matrices and corresponding set of Boltzmann factors.</para>
-</listitem><listitem><para><ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref> - Option flag to specify requirement of DP matrices for local folding approaches.</para>
+<listitem><para><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref> -  Option flag to specify default settings/requirements.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref> -  Option flag to specify requirement of Minimum Free Energy (MFE) DP matrices and corresponding set of energy parameters.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref> -  Option flag to specify requirement of Partition Function (PF) DP matrices and corresponding set of Boltzmann factors.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref> -  Option flag to specify requirement of DP matrices for local folding approaches.  </para>
 </listitem></itemizedlist>
 </para>
 <para>The above options may be OR-ed together.</para>
 <para>If you just need the folding compound serving as a container for your data, you can simply pass <ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref> to the <computeroutput>option</computeroutput> parameter. This creates a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> without DP matrices, thus saving memory. Subsequent calls of any structure prediction function will then take care of allocating the memory required for the DP matrices. If you only intend to evaluate structures instead of actually predicting them, you may use the <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref> macro. This will seriously speedup the creation of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>.</para>
 <para><simplesect kind="note"><para>The sequence string must be uppercase, and should contain only RNA (resp. DNA) alphabet depending on what energy parameter set is used</para>
 </simplesect>
-<simplesect kind="see"><para><ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__fold__compound_1gad6bacc816af274922b13d947f708aa0c" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref></para>
+<simplesect kind="see"><para><ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -232,9 +232,9 @@
         </inbodydescription>
         <location file="ViennaRNA/fold_compound.h" line="470" column="1" declfile="ViennaRNA/fold_compound.h" declline="470" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__fold__compound_1gad6bacc816af274922b13d947f708aa0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
-        <definition>vrna_fold_compound_t* vrna_fold_compound_comparative</definition>
+        <definition>vrna_fold_compound_t * vrna_fold_compound_comparative</definition>
         <argsstring>(const char **sequences, vrna_md_t *md_p, unsigned int options)</argsstring>
         <name>vrna_fold_compound_comparative</name>
         <param>
@@ -258,17 +258,17 @@
 <para><heading level="4">Options</heading>
 </para>
 <para><itemizedlist>
-<listitem><para><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref> - Option flag to specify default settings/requirements.</para>
-</listitem><listitem><para><ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref> - Option flag to specify requirement of Minimum Free Energy (MFE) DP matrices and corresponding set of energy parameters.</para>
-</listitem><listitem><para><ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref> - Option flag to specify requirement of Partition Function (PF) DP matrices and corresponding set of Boltzmann factors.</para>
-</listitem><listitem><para><ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref> - Option flag to specify requirement of DP matrices for local folding approaches.</para>
+<listitem><para><ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref> -  Option flag to specify default settings/requirements.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref> -  Option flag to specify requirement of Minimum Free Energy (MFE) DP matrices and corresponding set of energy parameters.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref> -  Option flag to specify requirement of Partition Function (PF) DP matrices and corresponding set of Boltzmann factors.  </para>
+</listitem><listitem><para><ref refid="group__fold__compound_1ga2b2a8009ccdccc3eb1571556261aee8e" kindref="member">VRNA_OPTION_WINDOW</ref> -  Option flag to specify requirement of DP matrices for local folding approaches.  </para>
 </listitem></itemizedlist>
 </para>
 <para>The above options may be OR-ed together.</para>
 <para>If you just need the folding compound serving as a container for your data, you can simply pass <ref refid="group__fold__compound_1gacea5b7ee6181c485f36e2afa0e9089e4" kindref="member">VRNA_OPTION_DEFAULT</ref> to the <computeroutput>option</computeroutput> parameter. This creates a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> without DP matrices, thus saving memory. Subsequent calls of any structure prediction function will then take care of allocating the memory required for the DP matrices. If you only intend to evaluate structures instead of actually predicting them, you may use the <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref> macro. This will seriously speedup the creation of the <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>.</para>
 <para><simplesect kind="note"><para>The sequence strings must be uppercase, and should contain only RNA (resp. DNA) alphabet including gap characters depending on what energy parameter set is used.</para>
 </simplesect>
-<simplesect kind="see"><para><ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__fold__compound_1ga283cf113a37614a75c1388c4ec6d7b2f" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref>, <ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref>, <ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref>, <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref>, read_clustal()</para>
+<simplesect kind="see"><para><ref refid="group__fold__compound_1ga576a077b418a9c3650e06f8e5d296fc2" kindref="member">vrna_fold_compound_free()</ref>, <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref>, <ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref>, <ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref>, <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref>, read_clustal()</para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -303,9 +303,9 @@
         </inbodydescription>
         <location file="ViennaRNA/fold_compound.h" line="513" column="1" declfile="ViennaRNA/fold_compound.h" declline="513" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__fold__compound_1ga9cab9d468e130c43d33806d28ddccd87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__fold__compound_1ga249143e997e79cec842a2bad2b8bd02e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
-        <definition>vrna_fold_compound_t* vrna_fold_compound_comparative2</definition>
+        <definition>vrna_fold_compound_t * vrna_fold_compound_comparative2</definition>
         <argsstring>(const char **sequences, const char **names, const unsigned char *orientation, const unsigned long long *start, const unsigned long long *genome_size, vrna_md_t *md_p, unsigned int options)</argsstring>
         <name>vrna_fold_compound_comparative2</name>
         <param>
@@ -344,9 +344,9 @@
         </inbodydescription>
         <location file="ViennaRNA/fold_compound.h" line="519" column="1" declfile="ViennaRNA/fold_compound.h" declline="519" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__fold__compound_1ga9d24b196753b4f9f03774f11661510f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__fold__compound_1ga5186f53af9c11edab6e0269c2c6f6231" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> *</type>
-        <definition>vrna_fold_compound_t* vrna_fold_compound_TwoD</definition>
+        <definition>vrna_fold_compound_t * vrna_fold_compound_TwoD</definition>
         <argsstring>(const char *sequence, const char *s1, const char *s2, vrna_md_t *md_p, unsigned int options)</argsstring>
         <name>vrna_fold_compound_TwoD</name>
         <param>
@@ -411,7 +411,7 @@
 <para>Free memory occupied by a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__fold__compound_1ga283cf113a37614a75c1388c4ec6d7b2f" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gad6bacc816af274922b13d947f708aa0c" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__dp__matrices_1gaf429b1838e68cb677db6aef7e8f0ffc8" kindref="member">vrna_mx_mfe_free()</ref>, <ref refid="group__dp__matrices_1gab9d4eaceb36345b71d349b12787c5e0a" kindref="member">vrna_mx_pf_free()</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__dp__matrices_1gaf429b1838e68cb677db6aef7e8f0ffc8" kindref="member">vrna_mx_mfe_free()</ref>, <ref refid="group__dp__matrices_1gab9d4eaceb36345b71d349b12787c5e0a" kindref="member">vrna_mx_pf_free()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -609,7 +609,7 @@
 <para>Option flag to specify requirement of Minimum Free Energy (MFE) DP matrices and corresponding set of energy parameters. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__fold__compound_1ga283cf113a37614a75c1388c4ec6d7b2f" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gad6bacc816af274922b13d947f708aa0c" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref> </para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -624,7 +624,7 @@
 <para>Option flag to specify requirement of Partition Function (PF) DP matrices and corresponding set of Boltzmann factors. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para><ref refid="group__fold__compound_1ga283cf113a37614a75c1388c4ec6d7b2f" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gad6bacc816af274922b13d947f708aa0c" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref> </para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__fold__compound_1ga61469c423131552c8483229f8b6c7e0e" kindref="member">VRNA_OPTION_EVAL_ONLY</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -651,8 +651,8 @@
 <para>Option flag to specify that neither MFE, nor PF DP matrices are required. </para>
         </briefdescription>
         <detaileddescription>
-<para>Use this flag in conjuntion with <ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref>, and <ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref> to save memory for a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> obtained from <ref refid="group__fold__compound_1ga283cf113a37614a75c1388c4ec6d7b2f" kindref="member">vrna_fold_compound()</ref>, or <ref refid="group__fold__compound_1gad6bacc816af274922b13d947f708aa0c" kindref="member">vrna_fold_compound_comparative()</ref> in cases where only energy evaluation but no structure prediction is required.</para>
-<para><simplesect kind="see"><para><ref refid="group__fold__compound_1ga283cf113a37614a75c1388c4ec6d7b2f" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gad6bacc816af274922b13d947f708aa0c" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref> </para>
+<para>Use this flag in conjuntion with <ref refid="group__fold__compound_1gae63be9127fe7dcc1f9bb14f5bb1064ee" kindref="member">VRNA_OPTION_MFE</ref>, and <ref refid="group__fold__compound_1gabfbadcddda3e74ce7f49035ef8f058f7" kindref="member">VRNA_OPTION_PF</ref> to save memory for a <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> obtained from <ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, or <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref> in cases where only energy evaluation but no structure prediction is required.</para>
+<para><simplesect kind="see"><para><ref refid="group__fold__compound_1gab89fe9844031711d42c70d1b9277c0d5" kindref="member">vrna_fold_compound()</ref>, <ref refid="group__fold__compound_1gabbaffe56b1a37f6ed1a31e9e4f5613f1" kindref="member">vrna_fold_compound_comparative()</ref>, <ref refid="group__eval_1ga06985672a4c73f0e56e1c5722e0aa88e" kindref="member">vrna_eval_structure()</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>

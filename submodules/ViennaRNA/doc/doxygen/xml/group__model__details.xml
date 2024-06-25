@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__model__details" kind="group">
     <compoundname>model_details</compoundname>
     <title>Fine-tuning of the Implemented Models</title>
@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ViennaRNA/model.h" line="1" column="0" bodyfile="ViennaRNA/model.h" bodystart="20" bodyend="-1"/>
+        <location file="ViennaRNA/model.h" line="20" column="24" bodyfile="ViennaRNA/model.h" bodystart="20" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -51,7 +51,7 @@
 <para>A scaling factor used by <ref refid="group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2" kindref="member">pf_fold()</ref> to avoid overflows. </para>
         </briefdescription>
         <detaileddescription>
-<para>Should be set to approximately <formula id="59">$exp{((-F/kT)/length)}$</formula>, where <formula id="60">$F$</formula> is an estimate for the ensemble free energy, for example the minimum free energy. You must call <ref refid="group__part__func__global__deprecated_1ga384e927890f9c034ff09fa66da102d28" kindref="member">update_pf_params()</ref> after changing this parameter.<linebreak/>
+<para>Should be set to approximately <formula id="61">$exp{((-F/kT)/length)}$</formula>, where <formula id="62">$F$</formula> is an estimate for the ensemble free energy, for example the minimum free energy. You must call <ref refid="group__part__func__global__deprecated_1ga384e927890f9c034ff09fa66da102d28" kindref="member">update_pf_params()</ref> after changing this parameter.<linebreak/>
 If pf_scale is -1 (the default) , an estimate will be provided automatically when computing partition functions, e.g. <ref refid="group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2" kindref="member">pf_fold()</ref> The automatic estimate is usually insufficient for sequences more than a few hundred bases long. </para>
         </detaileddescription>
         <inbodydescription>
@@ -68,7 +68,7 @@ If pf_scale is -1 (the default) , an estimate will be provided automatically whe
         </briefdescription>
         <detaileddescription>
 <para>If set to 0 no stabilizing energies are assigned to bases adjacent to helices in free ends and multiloops (so called dangling ends). Normally (dangles = 1) dangling end energies are assigned only to unpaired bases and a base cannot participate simultaneously in two dangling ends. In the partition function algorithm <ref refid="group__part__func__global__deprecated_1gadc3db3d98742427e7001a7fd36ef28c2" kindref="member">pf_fold()</ref> these checks are neglected. If <ref refid="group__model__details_1ga72b511ed1201f7e23ec437e468790d74" kindref="member">dangles</ref> is set to 2, all folding routines will follow this convention. This treatment of dangling ends gives more favorable energies to helices directly adjacent to one another, which can be beneficial since such helices often do engage in stabilizing interactions through co-axial stacking.<linebreak/>
-If dangles = 3 co-axial stacking is explicitly included for adjacent helices in multiloops. The option affects only mfe folding and energy evaluation (<ref refid="group__mfe__global__deprecated_1gaadafcb0f140795ae62e5ca027e335a9b" kindref="member">fold()</ref> and <ref refid="group__eval__deprecated_1gaf93986cb3cb29770ec9cca69c9fab8cf" kindref="member">energy_of_structure()</ref>), as well as suboptimal folding (<ref refid="group__subopt__wuchty_1ga700f662506a233e42dd7fda74fafd40e" kindref="member">subopt()</ref>) via re-evaluation of energies. Co-axial stacking with one intervening mismatch is not considered so far.</para>
+If dangles = 3 co-axial stacking is explicitly included for adjacent helices in multiloops. The option affects only mfe folding and energy evaluation (<ref refid="group__mfe__global__deprecated_1gaadafcb0f140795ae62e5ca027e335a9b" kindref="member">fold()</ref> and <ref refid="group__eval__deprecated_1gaf93986cb3cb29770ec9cca69c9fab8cf" kindref="member">energy_of_structure()</ref>), as well as suboptimal folding (<ref refid="group__subopt__wuchty_1ga9913b3a58b8d315be3f4f7f4dbe3c481" kindref="member">subopt()</ref>) via re-evaluation of energies. Co-axial stacking with one intervening mismatch is not considered so far.</para>
 <para>Default is 2 in most algorithms, partition function algorithms can only handle 0 and 2 </para>
         </detaileddescription>
         <inbodydescription>
@@ -426,9 +426,9 @@ If dangles = 3 co-axial stacking is explicitly included for adjacent helices in 
         </inbodydescription>
         <location file="ViennaRNA/model.h" line="339" column="1" declfile="ViennaRNA/model.h" declline="339" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__model__details_1ga619057a740918b5fb01808362bb67aea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__model__details_1gaa7c753fefc98866d5dc0dae3e6bd4486" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref> *</type>
-        <definition>vrna_md_t* vrna_md_copy</definition>
+        <definition>vrna_md_t * vrna_md_copy</definition>
         <argsstring>(vrna_md_t *md_to, const vrna_md_t *md_from)</argsstring>
         <name>vrna_md_copy</name>
         <param>
@@ -469,9 +469,9 @@ If dangles = 3 co-axial stacking is explicitly included for adjacent helices in 
         </inbodydescription>
         <location file="ViennaRNA/model.h" line="353" column="1" declfile="ViennaRNA/model.h" declline="353" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__model__details_1ga3a7469f0725a849af6ba61a57dfd60ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__model__details_1ga2207e3b40295825655c629421fe8f349" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
-        <definition>char* vrna_md_option_string</definition>
+        <definition>char * vrna_md_option_string</definition>
         <argsstring>(vrna_md_t *md)</argsstring>
         <name>vrna_md_option_string</name>
         <param>
@@ -611,7 +611,7 @@ If dangles = 3 co-axial stacking is explicitly included for adjacent helices in 
 <para>Set default scaling factor of thermodynamic temperature in Boltzmann factors. </para>
         </briefdescription>
         <detaileddescription>
-<para>Bolzmann factors are then computed as <formula id="58">$ exp(-E / (b \cdot kT))$</formula>.</para>
+<para>Bolzmann factors are then computed as <formula id="60">$ exp(-E / (b \cdot kT))$</formula>.</para>
 <para><simplesect kind="see"><para><ref refid="group__model__details_1ga70834424cf804d149937de89f80ceb45" kindref="member">vrna_md_defaults_reset()</ref>, <ref refid="group__model__details_1ga8ac6ff84936282436f822644bf841f66" kindref="member">vrna_md_set_default()</ref>, <ref refid="group__model__details_1ga1f8a10e12a0a1915f2a4eff0b28ea17c" kindref="member">vrna_md_t</ref>, <ref refid="group__model__details_1ga383d3ac8d08c3b6221754b50871c1200" kindref="member">VRNA_MODEL_DEFAULT_BETA_SCALE</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
@@ -2100,9 +2100,9 @@ If dangles = 3 co-axial stacking is explicitly included for adjacent helices in 
         </inbodydescription>
         <location file="ViennaRNA/model.h" line="1190" column="1" declfile="ViennaRNA/model.h" declline="1190" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__model__details_1ga0ca65d37c515d6d36b06d3db1abb69d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__model__details_1gaff4caf2154e6f189a7c09008cefa67a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
-        <definition>char* option_string</definition>
+        <definition>char * option_string</definition>
         <argsstring>(void)</argsstring>
         <name>option_string</name>
         <param>

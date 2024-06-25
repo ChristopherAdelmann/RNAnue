@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__domains__up" kind="group">
     <compoundname>domains_up</compoundname>
     <title>Unstructured Domains</title>
@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ViennaRNA/unstructured_domains.h" line="1" column="0" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="28" bodyend="-1"/>
+        <location file="ViennaRNA/unstructured_domains.h" line="28" column="41" bodyfile="ViennaRNA/unstructured_domains.h" bodystart="28" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="group__domains__up_1gaec7ac7d3800d3ddd42eced89b43038ea" prot="public" static="no">
         <type>int(*</type>
@@ -212,9 +212,9 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="group__domains__up_1ga2039caedf194c5edec794866986d95ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__domains__up_1ga89440fa4f7b951ad9dcd6da567f37ea2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structvrna__unstructured__domain__motif__s" kindref="compound">vrna_ud_motif_t</ref> *</type>
-        <definition>vrna_ud_motif_t* vrna_ud_motifs_centroid</definition>
+        <definition>vrna_ud_motif_t * vrna_ud_motifs_centroid</definition>
         <argsstring>(vrna_fold_compound_t *fc, const char *structure)</argsstring>
         <name>vrna_ud_motifs_centroid</name>
         <param>
@@ -230,7 +230,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Given a centroid structure and a set of unstructured domains compute the list of unstructured domain motifs present in the centroid. Since we do not explicitly annotate unstructured domain motifs in dot-bracket strings, this function can be used to check for the presence and location of unstructured domain motifs under the assumption that the dot-bracket string is the centroid structure of the equiibrium ensemble.</para>
-<para><simplesect kind="see"><para><ref refid="group__centroid__fold_1gaa49ce4fe924f80afbcd2474bf9a86408" kindref="member">vrna_centroid()</ref></para>
+<para><simplesect kind="see"><para><ref refid="group__centroid__fold_1gac39e7be7392b2c72bd3a6a14612be5e2" kindref="member">vrna_centroid()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -257,9 +257,9 @@
         </inbodydescription>
         <location file="ViennaRNA/unstructured_domains.h" line="288" column="1" declfile="ViennaRNA/unstructured_domains.h" declline="288" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__domains__up_1ga980126e9f350b64474b35f20fce2782c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__domains__up_1ga3694cf090ccb64f8398e0f4c786aad50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structvrna__unstructured__domain__motif__s" kindref="compound">vrna_ud_motif_t</ref> *</type>
-        <definition>vrna_ud_motif_t* vrna_ud_motifs_MEA</definition>
+        <definition>vrna_ud_motif_t * vrna_ud_motifs_MEA</definition>
         <argsstring>(vrna_fold_compound_t *fc, const char *structure, vrna_ep_t *probability_list)</argsstring>
         <name>vrna_ud_motifs_MEA</name>
         <param>
@@ -314,9 +314,9 @@
         </inbodydescription>
         <location file="ViennaRNA/unstructured_domains.h" line="314" column="1" declfile="ViennaRNA/unstructured_domains.h" declline="314" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__domains__up_1ga464d086264dd6f45089a65acec4e8c21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__domains__up_1ga46d6cfffebf89032019004a026c8f63c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structvrna__unstructured__domain__motif__s" kindref="compound">vrna_ud_motif_t</ref> *</type>
-        <definition>vrna_ud_motif_t* vrna_ud_motifs_MFE</definition>
+        <definition>vrna_ud_motif_t * vrna_ud_motifs_MFE</definition>
         <argsstring>(vrna_fold_compound_t *fc, const char *structure)</argsstring>
         <name>vrna_ud_motifs_MFE</name>
         <param>
@@ -548,10 +548,12 @@
         </briefdescription>
         <detaileddescription>
 <para>Use this function to bind a user-implemented grammar extension for unstructured domains.</para>
-<para>The callback <computeroutput>e_cb</computeroutput> needs to evaluate the free energy contribution <formula id="75">$f(i,j)$</formula> of the unpaired segment <formula id="76">$[i,j]$</formula>. It will be executed in each of the regular secondary structure production rules. Whenever the callback is passed the <ref refid="group__domains__up_1gaab12b58d59be76446a9f76fad2fe624c" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_MOTIF</ref> flag via its <computeroutput>loop_type</computeroutput> parameter the contribution of any ligand that consecutively binds from position <formula id="30">$i$</formula> to <formula id="77">$j$</formula> (the white box) is requested. Otherwise, the callback usually performs a lookup in the precomputed <computeroutput>B</computeroutput> matrices. Which <computeroutput>B</computeroutput> matrix is addressed will be indicated by the flags <ref refid="group__domains__up_1gaac911374e86236a51bfd42e1f098eaba" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_EXT_LOOP</ref>, <ref refid="group__domains__up_1ga23b610ea9564346c45cc1e2bbb62adf7" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_HP_LOOP</ref> <ref refid="group__domains__up_1gac4a0feccd9654c149203200248c2716b" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_INT_LOOP</ref>, and <ref refid="group__domains__up_1ga67b80796655e5227a4ed662bfbe398b0" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_MB_LOOP</ref>. As their names already imply, they specify exterior loops (<computeroutput>F</computeroutput> production rule), hairpin loops and interior loops (<computeroutput>C</computeroutput> production rule), and multibranch loops (<computeroutput>M</computeroutput> and <computeroutput>M1</computeroutput> production rule).</para>
-<para>ligands_up_callback.svg</para>
+<para>The callback <computeroutput>e_cb</computeroutput> needs to evaluate the free energy contribution <formula id="77">$f(i,j)$</formula> of the unpaired segment <formula id="78">$[i,j]$</formula>. It will be executed in each of the regular secondary structure production rules. Whenever the callback is passed the <ref refid="group__domains__up_1gaab12b58d59be76446a9f76fad2fe624c" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_MOTIF</ref> flag via its <computeroutput>loop_type</computeroutput> parameter the contribution of any ligand that consecutively binds from position <formula id="31">$i$</formula> to <formula id="79">$j$</formula> (the white box) is requested. Otherwise, the callback usually performs a lookup in the precomputed <computeroutput>B</computeroutput> matrices. Which <computeroutput>B</computeroutput> matrix is addressed will be indicated by the flags <ref refid="group__domains__up_1gaac911374e86236a51bfd42e1f098eaba" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_EXT_LOOP</ref>, <ref refid="group__domains__up_1ga23b610ea9564346c45cc1e2bbb62adf7" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_HP_LOOP</ref> <ref refid="group__domains__up_1gac4a0feccd9654c149203200248c2716b" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_INT_LOOP</ref>, and <ref refid="group__domains__up_1ga67b80796655e5227a4ed662bfbe398b0" kindref="member">VRNA_UNSTRUCTURED_DOMAIN_MB_LOOP</ref>. As their names already imply, they specify exterior loops (<computeroutput>F</computeroutput> production rule), hairpin loops and interior loops (<computeroutput>C</computeroutput> production rule), and multibranch loops (<computeroutput>M</computeroutput> and <computeroutput>M1</computeroutput> production rule).</para>
+<para><image type="xml" name="ligands_up_callback.svg"></image>
+</para>
 <para>The <computeroutput>pre_cb</computeroutput> callback will be executed as a pre-processing step right before the regular secondary structure rules. Usually one would use this callback to fill the dynamic programming matrices <computeroutput>U</computeroutput> and preparations of the auxiliary data structure <ref refid="structvrna__unstructured__domain__s_1a8802b1b0512999a9f35202031811ce17" kindref="member">vrna_unstructured_domain_s.data</ref></para>
-<para>B_prod_rule.svg</para>
+<para><image type="xml" name="B_prod_rule.svg"></image>
+</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>fc</parametername>
@@ -607,9 +609,11 @@
         </briefdescription>
         <detaileddescription>
 <para>This function is the partition function companion of <ref refid="group__domains__up_1gaeaa09aa8b60bc87d3ad92d446cb1b8c0" kindref="member">vrna_ud_set_prod_rule_cb()</ref>.</para>
-<para>Use it to bind callbacks to (i) fill the <computeroutput>U</computeroutput> production rule dynamic programming matrices and/or prepare the <ref refid="structvrna__unstructured__domain__s_1a8802b1b0512999a9f35202031811ce17" kindref="member">vrna_unstructured_domain_s.data</ref>, and (ii) provide a callback to retrieve partition functions for subsegments <formula id="78">$ [i,j] $</formula>.</para>
-<para>B_prod_rule.svg</para>
-<para>ligands_up_callback.svg</para>
+<para>Use it to bind callbacks to (i) fill the <computeroutput>U</computeroutput> production rule dynamic programming matrices and/or prepare the <ref refid="structvrna__unstructured__domain__s_1a8802b1b0512999a9f35202031811ce17" kindref="member">vrna_unstructured_domain_s.data</ref>, and (ii) provide a callback to retrieve partition functions for subsegments <formula id="80">$ [i,j] $</formula>.</para>
+<para><image type="xml" name="B_prod_rule.svg"></image>
+</para>
+<para><image type="xml" name="ligands_up_callback.svg"></image>
+</para>
 <para><simplesect kind="see"><para><ref refid="group__domains__up_1gaeaa09aa8b60bc87d3ad92d446cb1b8c0" kindref="member">vrna_ud_set_prod_rule_cb()</ref></para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
@@ -633,7 +637,7 @@
 <parametername>exp_e_cb</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A pointer to a callback function that retrieves the partition function for a segment <formula id="76">$[i,j]$</formula> that may be bound by one or more ligands.</para>
+<para>A pointer to a callback function that retrieves the partition function for a segment <formula id="78">$[i,j]$</formula> that may be bound by one or more ligands.</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Heaps &mdash; ViennaRNA Package</title>
@@ -10,13 +10,17 @@
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/vrna_32.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5248d183"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -29,11 +33,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> ViennaRNA
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ViennaRNA
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -146,11 +154,11 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../api.html">Concepts and Algorithms</a> &raquo;</li>
-          <li><a href="../../utils.html">Utilities</a> &raquo;</li>
-          <li><a href="../data_structures.html">(Abstract) Data Structures</a> &raquo;</li>
-      <li>Heaps</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">Concepts and Algorithms</a></li>
+          <li class="breadcrumb-item"><a href="../../utils.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="../data_structures.html">(Abstract) Data Structures</a></li>
+      <li class="breadcrumb-item active">Heaps</li>
 
   </ul>
   <hr/>
@@ -159,7 +167,7 @@
            <div itemprop="articleBody">
              
   <section id="heaps">
-<h1>Heaps<a class="headerlink" href="#heaps" title="Permalink to this headline"></a></h1>
+<h1>Heaps<a class="headerlink" href="#heaps" title="Link to this heading"></a></h1>
 <p>Interface for an abstract implementation of a heap data structure.</p>
 <dl>
 <dt class="sig sig-object cpp">
@@ -168,18 +176,18 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
 <dl class="c type">
 <dt class="sig sig-object c" id="c.vrna_heap_t">
-<span class="target" id="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_heap_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_t</span></span></span><a class="headerlink" href="#c.vrna_heap_t" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_heap_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_t</span></span></span><a class="headerlink" href="#c.vrna_heap_t" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>An abstract heap data structure. </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8"><span class="std std-ref">vrna_heap_insert()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga534a8483824371019241e340c026111b"><span class="std std-ref">vrna_heap_top()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga5e181d5ef8557d502943b938620c7174"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b"><span class="std std-ref">vrna_heap_update()</span></a></p>
+<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8"><span class="std std-ref">vrna_heap_insert()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8"><span class="std std-ref">vrna_heap_top()</span></a>, <a class="reference internal" href="#group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830"><span class="std std-ref">vrna_heap_update()</span></a></p>
 </div>
 </p>
 </dd></dl>
 
 <dl class="c type">
 <dt class="sig sig-object c" id="c.vrna_heap_cmp_f">
-<span class="target" id="group__heap__utils_1ga7e091ad5eab4e27f7dc47a2c122afea9"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_cmp_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_heap_cmp_f" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1ga7e091ad5eab4e27f7dc47a2c122afea9"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_cmp_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_heap_cmp_f" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>Heap compare function prototype. </p>
 <p>Use this prototype to design the compare function for the heap implementation. The arbitrary data pointer <code class="docutils literal notranslate"><span class="pre">data</span></code> may be used to get access to further information required to actually compare the two values <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>.</p>
 <div class="admonition note">
@@ -187,16 +195,16 @@
 <p>The heap implementation acts as a <em>min-heap</em>, therefore, the minimum element will be present at the heap’s root. In case a <em>max-heap</em> is required, simply reverse the logic of this compare function.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Param a</dt>
+<dt class="field-odd">Param a<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The first object to compare </p>
 </dd>
-<dt class="field-even">Param b</dt>
+<dt class="field-even">Param b<span class="colon">:</span></dt>
 <dd class="field-even"><p>The second object to compare </p>
 </dd>
-<dt class="field-odd">Param data</dt>
+<dt class="field-odd">Param data<span class="colon">:</span></dt>
 <dd class="field-odd"><p>An arbitrary data pointer passed through from the heap implementation </p>
 </dd>
-<dt class="field-even">Return</dt>
+<dt class="field-even">Return<span class="colon">:</span></dt>
 <dd class="field-even"><p>A value less than zero if <code class="docutils literal notranslate"><span class="pre">a</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">b</span></code>, a value greater than zero if <code class="docutils literal notranslate"><span class="pre">a</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">b</span></code>, and 0 otherwise </p>
 </dd>
 </dl>
@@ -209,16 +217,16 @@
 
 <dl class="c type">
 <dt class="sig sig-object c" id="c.vrna_heap_get_pos_f">
-<span class="target" id="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_get_pos_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_heap_get_pos_f" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_get_pos_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_heap_get_pos_f" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>Retrieve the position of a particular heap entry within the heap. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Param a</dt>
+<dt class="field-odd">Param a<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The object to look-up within the heap </p>
 </dd>
-<dt class="field-even">Param data</dt>
+<dt class="field-even">Param data<span class="colon">:</span></dt>
 <dd class="field-even"><p>An arbitrary data pointer passed through from the heap implementation </p>
 </dd>
-<dt class="field-odd">Return</dt>
+<dt class="field-odd">Return<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The position of the element <code class="docutils literal notranslate"><span class="pre">a</span></code> within the heap, or 0 if it is not in the heap </p>
 </dd>
 </dl>
@@ -231,16 +239,16 @@
 
 <dl class="c type">
 <dt class="sig sig-object c" id="c.vrna_heap_set_pos_f">
-<span class="target" id="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_set_pos_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_heap_set_pos_f" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1ga399faec12dbb22acea63af8dbce91345"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_set_pos_f</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.vrna_heap_set_pos_f" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>Store the position of a particular heap entry within the heap. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Param a</dt>
+<dt class="field-odd">Param a<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The object whose position shall be stored </p>
 </dd>
-<dt class="field-even">Param pos</dt>
+<dt class="field-even">Param pos<span class="colon">:</span></dt>
 <dd class="field-even"><p>The current position of <code class="docutils literal notranslate"><span class="pre">a</span></code> within the heap, or 0 if a was deleted </p>
 </dd>
-<dt class="field-odd">Param data</dt>
+<dt class="field-odd">Param data<span class="colon">:</span></dt>
 <dd class="field-odd"><p>An arbitrary data pointer passed through from the heap implementation </p>
 </dd>
 </dl>
@@ -256,22 +264,22 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_heap_init">
-<span class="target" id="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"></span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_init</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">n</span></span>, <a class="reference internal" href="#c.vrna_heap_cmp_f" title="vrna_heap_cmp_f"><span class="n"><span class="pre">vrna_heap_cmp_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cmp</span></span>, <a class="reference internal" href="#c.vrna_heap_get_pos_f" title="vrna_heap_get_pos_f"><span class="n"><span class="pre">vrna_heap_get_pos_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">get_entry_pos</span></span>, <a class="reference internal" href="#c.vrna_heap_set_pos_f" title="vrna_heap_set_pos_f"><span class="n"><span class="pre">vrna_heap_set_pos_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">set_entry_pos</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_init" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"></span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_init</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">n</span></span>, <a class="reference internal" href="#c.vrna_heap_cmp_f" title="vrna_heap_cmp_f"><span class="n"><span class="pre">vrna_heap_cmp_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">cmp</span></span>, <a class="reference internal" href="#c.vrna_heap_get_pos_f" title="vrna_heap_get_pos_f"><span class="n"><span class="pre">vrna_heap_get_pos_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">get_entry_pos</span></span>, <a class="reference internal" href="#c.vrna_heap_set_pos_f" title="vrna_heap_set_pos_f"><span class="n"><span class="pre">vrna_heap_set_pos_f</span></span></a><span class="w"> </span><span class="n"><span class="pre">set_entry_pos</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_init" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>Initialize a heap data structure. </p>
 <p>This function initializes a heap data structure. The implementation is based on a <em>min-heap</em>, i.e. the minimal element is located at the root of the heap. However, by reversing the logic of the compare function, one can easily transform this into a <em>max-heap</em> implementation.</p>
 <p>Beside the regular operations on a heap data structure, we implement removal and update of arbitrary elements within the heap. For that purpose, however, one requires a reverse-index lookup system that, (i) for a given element stores the current position in the heap, and (ii) allows for fast lookup of an elements current position within the heap. The corresponding getter- and setter- functions may be provided through the arguments <code class="docutils literal notranslate"><span class="pre">get_entry_pos</span></code> and <code class="docutils literal notranslate"><span class="pre">set_entry_pos</span></code>, respectively.</p>
 <p>Sometimes, it is difficult to simply compare two data structures without any context. Therefore, the compare function is provided with a user-defined data pointer that can hold any context required.</p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8"><span class="std std-ref">vrna_heap_insert()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga534a8483824371019241e340c026111b"><span class="std std-ref">vrna_heap_top()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga5e181d5ef8557d502943b938620c7174"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b"><span class="std std-ref">vrna_heap_update()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3"><span class="std std-ref">vrna_heap_t</span></a>, <a class="reference internal" href="#group__heap__utils_1ga7e091ad5eab4e27f7dc47a2c122afea9"><span class="std std-ref">vrna_heap_cmp_f</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19"><span class="std std-ref">vrna_heap_get_pos_f</span></a>, <a class="reference internal" href="#group__heap__utils_1ga399faec12dbb22acea63af8dbce91345"><span class="std std-ref">vrna_heap_set_pos_f</span></a></p>
+<p><a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8"><span class="std std-ref">vrna_heap_insert()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8"><span class="std std-ref">vrna_heap_top()</span></a>, <a class="reference internal" href="#group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830"><span class="std std-ref">vrna_heap_update()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga341ea87a651145b986792f6eb3e679c3"><span class="std std-ref">vrna_heap_t</span></a>, <a class="reference internal" href="#group__heap__utils_1ga7e091ad5eab4e27f7dc47a2c122afea9"><span class="std std-ref">vrna_heap_cmp_f</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19"><span class="std std-ref">vrna_heap_get_pos_f</span></a>, <a class="reference internal" href="#group__heap__utils_1ga399faec12dbb22acea63af8dbce91345"><span class="std std-ref">vrna_heap_set_pos_f</span></a></p>
 </div>
 </p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>If any of the arguments <code class="docutils literal notranslate"><span class="pre">get_entry_pos</span></code> or <code class="docutils literal notranslate"><span class="pre">set_entry_pos</span></code> is NULL, the operations <a class="reference internal" href="#group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b"><span class="std std-ref">vrna_heap_update()</span></a> and <a class="reference internal" href="#group__heap__utils_1ga5e181d5ef8557d502943b938620c7174"><span class="std std-ref">vrna_heap_remove()</span></a> won’t work.</p>
+<p>If any of the arguments <code class="docutils literal notranslate"><span class="pre">get_entry_pos</span></code> or <code class="docutils literal notranslate"><span class="pre">set_entry_pos</span></code> is NULL, the operations <a class="reference internal" href="#group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830"><span class="std std-ref">vrna_heap_update()</span></a> and <a class="reference internal" href="#group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41"><span class="std std-ref">vrna_heap_remove()</span></a> won’t work.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n</strong> – The initial size of the heap, i.e. the number of elements to store </p></li>
 <li><p><strong>cmp</strong> – The address of a compare function that will be used to fullfill the partial order requirement </p></li>
@@ -280,7 +288,7 @@
 <li><p><strong>data</strong> – An arbitrary data pointer passed through to the compare function <code class="docutils literal notranslate"><span class="pre">cmp</span></code>, and the set/get functions <code class="docutils literal notranslate"><span class="pre">get_entry_pos</span></code> / <code class="docutils literal notranslate"><span class="pre">set_entry_pos</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An initialized heap data structure, or NULL on error </p>
 </dd>
 </dl>
@@ -288,7 +296,7 @@
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_heap_free">
-<span class="target" id="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_free" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_free" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>Free memory occupied by a heap data structure. </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -296,7 +304,7 @@
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>h</strong> – The heap that should be free’d </p></li>
 </ul>
@@ -306,15 +314,15 @@
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_heap_size">
-<span class="target" id="group__heap__utils_1ga5d84774d7d7f000ab05724d54984c2ed"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_size</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_heap_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">h</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_size" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1ga5d84774d7d7f000ab05724d54984c2ed"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_size</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vrna_heap_s</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">h</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_size" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>Get the size of a heap data structure, i.e. the number of stored elements. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>h</strong> – The heap data structure </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The number of elements currently stored in the heap, or 0 upon any error </p>
 </dd>
 </dl>
@@ -322,15 +330,15 @@
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_heap_insert">
-<span class="target" id="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_insert</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_insert" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_insert</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_insert" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>Insert an element into the heap. </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga534a8483824371019241e340c026111b"><span class="std std-ref">vrna_heap_top()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga5e181d5ef8557d502943b938620c7174"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b"><span class="std std-ref">vrna_heap_update()</span></a></p>
+<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8"><span class="std std-ref">vrna_heap_top()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a>, <a class="reference internal" href="#group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830"><span class="std std-ref">vrna_heap_update()</span></a></p>
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>h</strong> – The heap data structure </p></li>
 <li><p><strong>v</strong> – A pointer to the object that is about to be inserted into the heap </p></li>
@@ -341,21 +349,21 @@
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_heap_pop">
-<span class="target" id="group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_pop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_pop" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_pop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_pop" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>Pop (remove and return) the object at the root of the heap. </p>
 <p>This function removes the root from the heap and returns it to the caller.</p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga534a8483824371019241e340c026111b"><span class="std std-ref">vrna_heap_top()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8"><span class="std std-ref">vrna_heap_insert()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a> <a class="reference internal" href="#group__heap__utils_1ga5e181d5ef8557d502943b938620c7174"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b"><span class="std std-ref">vrna_heap_update()</span></a></p>
+<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8"><span class="std std-ref">vrna_heap_top()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8"><span class="std std-ref">vrna_heap_insert()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a> <a class="reference internal" href="#group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830"><span class="std std-ref">vrna_heap_update()</span></a></p>
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>h</strong> – The heap data structure </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The object at the root of the heap, i.e. the minimal element (or NULL if (a) the heap is empty or (b) any error occurred) </p>
 </dd>
 </dl>
@@ -363,20 +371,20 @@
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_heap_top">
-<span class="target" id="group__heap__utils_1ga534a8483824371019241e340c026111b"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_top</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_top" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1ga2f436eb3365af1a0a17fc764b44c92b8"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_top</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_top" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>Get the object at the root of the heap. </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8"><span class="std std-ref">vrna_heap_insert()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a> <a class="reference internal" href="#group__heap__utils_1ga5e181d5ef8557d502943b938620c7174"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b"><span class="std std-ref">vrna_heap_update()</span></a></p>
+<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga91cf0042c894de44c4eb7b47707260a8"><span class="std std-ref">vrna_heap_insert()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a> <a class="reference internal" href="#group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830"><span class="std std-ref">vrna_heap_update()</span></a></p>
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>h</strong> – The heap data structure </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The object at the root of the heap, i.e. the minimal element (or NULL if (a) the heap is empty or (b) any error occurred) </p>
 </dd>
 </dl>
@@ -384,11 +392,11 @@
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_heap_remove">
-<span class="target" id="group__heap__utils_1ga5e181d5ef8557d502943b938620c7174"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_remove</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_remove" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_remove</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_remove" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>Remove an arbitrary element within the heap. </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19"><span class="std std-ref">vrna_heap_get_pos_f</span></a>, <a class="reference internal" href="#group__heap__utils_1ga399faec12dbb22acea63af8dbce91345"><span class="std std-ref">vrna_heap_set_pos_f</span></a>, <a class="reference internal" href="#group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a></p>
+<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19"><span class="std std-ref">vrna_heap_get_pos_f</span></a>, <a class="reference internal" href="#group__heap__utils_1ga399faec12dbb22acea63af8dbce91345"><span class="std std-ref">vrna_heap_set_pos_f</span></a>, <a class="reference internal" href="#group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a></p>
 </div>
 </p>
 <div class="admonition warning">
@@ -396,13 +404,13 @@
 <p>This function won’t work if the heap was not properly initialized with callback functions for fast reverse-index mapping!</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>h</strong> – The heap data structure </p></li>
 <li><p><strong>v</strong> – The object to remove from the heap </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The object that was removed from the heap (or NULL if (a) it wasn’t found or (b) any error occurred) </p>
 </dd>
 </dl>
@@ -410,11 +418,11 @@
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.vrna_heap_update">
-<span class="target" id="group__heap__utils_1gabdd04b8719b3d85c5ad53ed7dec9700b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_update" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="group__heap__utils_1ga7a924ee5b2c2af93cf80b6e1b1f8b830"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">vrna_heap_update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.vrna_heap_t" title="vrna_heap_t"><span class="n"><span class="pre">vrna_heap_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">h</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.vrna_heap_update" title="Link to this definition"></a><br /></dt>
 <dd><em>#include &lt;ViennaRNA/datastructures/heap.h&gt;</em><p>Update an arbitrary element within the heap. </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19"><span class="std std-ref">vrna_heap_get_pos_f</span></a>, <a class="reference internal" href="#group__heap__utils_1ga399faec12dbb22acea63af8dbce91345"><span class="std std-ref">vrna_heap_set_pos_f</span></a> <a class="reference internal" href="#group__heap__utils_1ga3b6242f3a1194eb1df2d1fb40d630610"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga5e181d5ef8557d502943b938620c7174"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a></p>
+<p><a class="reference internal" href="#group__heap__utils_1ga1fdc31a1d0e15bcbf2a9122983bee001"><span class="std std-ref">vrna_heap_init()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2f39bc991252c2d250d30547b909ef19"><span class="std std-ref">vrna_heap_get_pos_f</span></a>, <a class="reference internal" href="#group__heap__utils_1ga399faec12dbb22acea63af8dbce91345"><span class="std std-ref">vrna_heap_set_pos_f</span></a> <a class="reference internal" href="#group__heap__utils_1ga42cc55c50cff314b8ea91a6d98314aea"><span class="std std-ref">vrna_heap_pop()</span></a>, <a class="reference internal" href="#group__heap__utils_1gabd08ad0cb1b5e2781bc9c2eb6e355b41"><span class="std std-ref">vrna_heap_remove()</span></a>, <a class="reference internal" href="#group__heap__utils_1ga2a4915c6e66b8831644857df0715c3ce"><span class="std std-ref">vrna_heap_free()</span></a></p>
 </div>
 </p>
 <div class="admonition note">
@@ -426,13 +434,13 @@
 <p>This function won’t work if the heap was not properly initialized with callback functions for fast reverse-index mapping!</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>h</strong> – The heap data structure </p></li>
 <li><p><strong>v</strong> – The object to update </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The ‘previous’ object within the heap that now got replaced by <code class="docutils literal notranslate"><span class="pre">v</span></code> (or NULL if (a) it wasn’t found or (b) any error occurred) </p>
 </dd>
 </dl>

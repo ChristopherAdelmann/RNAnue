@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__part__func__window__deprecated" kind="group">
     <compoundname>part_func_window_deprecated</compoundname>
     <title>Deprecated Interface for Local (Sliding Window) Partition Function Computation</title>
@@ -53,9 +53,9 @@
         </inbodydescription>
         <location file="ViennaRNA/LPfold.h" line="53" column="7" declfile="ViennaRNA/LPfold.h" declline="53" declcolumn="7"/>
       </memberdef>
-      <memberdef kind="function" id="group__part__func__window__deprecated_1ga7cdf690583871f9c158a0f91d4785cb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__part__func__window__deprecated_1gaf6d77f10775c1d58c8199d5ec95d4228" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
-        <definition>vrna_ep_t* pfl_fold</definition>
+        <definition>vrna_ep_t * pfl_fold</definition>
         <argsstring>(char *sequence, int winSize, int pairSize, float cutoffb, double **pU, vrna_ep_t **dpp2, FILE *pUfp, FILE *spup)</argsstring>
         <name>pfl_fold</name>
         <param>
@@ -95,7 +95,7 @@
         </briefdescription>
         <detaileddescription>
 <para>pfl_fold computes partition functions for every window of size &apos;winSize&apos; possible in a RNA molecule, allowing only pairs with a span smaller than &apos;pairSize&apos;. It returns the mean pair probabilities averaged over all windows containing the pair in &apos;pl&apos;. &apos;winSize&apos; should always be &gt;= &apos;pairSize&apos;. Note that in contrast to <ref refid="group__mfe__window__deprecated_1gafdd1e11b5c7ad443b9f86b818e67bab4" kindref="member">Lfold()</ref>, bases outside of the window do not influence the structure at all. Only probabilities higher than &apos;cutoffb&apos; are kept.</para>
-<para>If &apos;pU&apos; is supplied (i.e is not the NULL pointer), <ref refid="group__part__func__window__deprecated_1ga7cdf690583871f9c158a0f91d4785cb6" kindref="member">pfl_fold()</ref> will also compute the mean probability that regions of length &apos;u&apos; and smaller are unpaired. The parameter &apos;u&apos; is supplied in &apos;pup[0][0]&apos;. On return the &apos;pup&apos; array will contain these probabilities, with the entry on &apos;pup[x][y]&apos; containing the mean probability that x and the y-1 preceding bases are unpaired. The &apos;pU&apos; array needs to be large enough to hold n+1 float* entries, where n is the sequence length.</para>
+<para>If &apos;pU&apos; is supplied (i.e is not the NULL pointer), <ref refid="group__part__func__window__deprecated_1gaf6d77f10775c1d58c8199d5ec95d4228" kindref="member">pfl_fold()</ref> will also compute the mean probability that regions of length &apos;u&apos; and smaller are unpaired. The parameter &apos;u&apos; is supplied in &apos;pup[0][0]&apos;. On return the &apos;pup&apos; array will contain these probabilities, with the entry on &apos;pup[x][y]&apos; containing the mean probability that x and the y-1 preceding bases are unpaired. The &apos;pU&apos; array needs to be large enough to hold n+1 float* entries, where n is the sequence length.</para>
 <para>If an array dpp2 is supplied, the probability of base pair (i,j) given that there already exists a base pair (i+1,j-1) is also computed and saved in this array. If pUfp is given (i.e. not NULL), pU is not saved but put out imediately. If spup is given (i.e. is not NULL), the pair probabilities in pl are not saved but put out imediately.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -170,9 +170,9 @@
         </inbodydescription>
         <location file="ViennaRNA/LPfold.h" line="101" column="12" declfile="ViennaRNA/LPfold.h" declline="101" declcolumn="12"/>
       </memberdef>
-      <memberdef kind="function" id="group__part__func__window__deprecated_1gaedf355f07b3d83bc93f98712132571b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__part__func__window__deprecated_1gab34f3add76cd5b99441bcd983ff9db83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="group__struct__utils__plist_1gab9ac98ab55ded9fb90043b024b915aca" kindref="member">vrna_ep_t</ref> *</type>
-        <definition>vrna_ep_t* pfl_fold_par</definition>
+        <definition>vrna_ep_t * pfl_fold_par</definition>
         <argsstring>(char *sequence, int winSize, int pairSize, float cutoffb, double **pU, vrna_ep_t **dpp2, FILE *pUfp, FILE *spup, vrna_exp_param_t *parameters)</argsstring>
         <name>pfl_fold_par</name>
         <param>

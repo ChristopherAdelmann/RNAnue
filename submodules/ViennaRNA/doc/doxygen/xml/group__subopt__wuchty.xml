@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.7" xml:lang="en-US">
   <compounddef id="group__subopt__wuchty" kind="group">
     <compoundname>subopt_wuchty</compoundname>
     <title>Suboptimal Structures within an Energy Band around the MFE</title>
@@ -106,7 +106,7 @@
 <para>Returns list of subopt structures or writes to fp. </para>
         </briefdescription>
         <detaileddescription>
-<para>This function produces <bold>all</bold> suboptimal secondary structures within &apos;delta&apos; * 0.01 kcal/mol of the optimum, see <verbatim>embed:rst:inline :cite:t:`wuchty:1999` </verbatim>. The results are either directly written to a &apos;fp&apos; (if &apos;fp&apos; is not NULL), or (fp==NULL) returned in a <ref refid="subopt_8h_1a01ae9a0f27d245d89f705afd843fc457" kindref="member">vrna_subopt_solution_t</ref> * list terminated by an entry were the &apos;structure&apos; member is NULL.</para>
+<para>This function produces <bold>all</bold> suboptimal secondary structures within &apos;delta&apos; * 0.01 kcal/mol of the optimum, see  <verbatim>embed:rst:inline :cite:t:`wuchty:1999` </verbatim>. The results are either directly written to a &apos;fp&apos; (if &apos;fp&apos; is not NULL), or (fp==NULL) returned in a <ref refid="subopt_8h_1a01ae9a0f27d245d89f705afd843fc457" kindref="member">vrna_subopt_solution_t</ref> * list terminated by an entry were the &apos;structure&apos; member is NULL.</para>
 <para><simplesect kind="note"><para>This function requires all multibranch loop DP matrices for unique multibranch loop backtracing. Therefore, the supplied <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> <computeroutput>fc</computeroutput> (argument 1) must be initialized with <ref refid="structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2" kindref="member">vrna_md_t.uniq_ML</ref> = 1, for instance like this: <programlisting><codeline><highlight class="normal">vrna_md_t<sp/>md;</highlight></codeline>
 <codeline><highlight class="normal">vrna_md_set_default(&amp;md);</highlight></codeline>
 <codeline><highlight class="normal">md.uniq_ML<sp/>=<sp/>1;</highlight></codeline>
@@ -151,7 +151,7 @@
 </parameterlist>
 <simplesect kind="return"><para></para>
 </simplesect>
-<xrefsect id="wrappers_1_wrappers000177"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <bold><ref refid="group__subopt__wuchty_1ga700f662506a233e42dd7fda74fafd40e" kindref="member">subopt()</ref></bold> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.subopt()` in the :doc:`/api_python`</verbatim>. </para>
+<xrefsect id="wrappers_1_wrappers000177"><xreftitle>SWIG Wrapper Notes</xreftitle><xrefdescription><para><parblock><para>This function is attached as method <bold><ref refid="group__subopt__wuchty_1ga9913b3a58b8d315be3f4f7f4dbe3c481" kindref="member">subopt()</ref></bold> to objects of type <computeroutput>fold_compound</computeroutput>. See, e.g.  <verbatim>embed:rst:inline:py:meth:`RNA.fold_compound.subopt()` in the :doc:`/api_python`</verbatim>. </para>
 </parblock></para>
 </xrefdescription></xrefsect></para>
         </detaileddescription>
@@ -184,7 +184,7 @@
 <para>Generate suboptimal structures within an energy band arround the MFE. </para>
         </briefdescription>
         <detaileddescription>
-<para>This is the most generic implementation of the suboptimal structure generator according to <verbatim>embed:rst:inline :cite:t:`wuchty:1999` </verbatim>. Identical to <ref refid="group__subopt__wuchty_1gad0cce16455fda0737873d8e1c5846480" kindref="member">vrna_subopt()</ref>, it computes all secondary structures within an energy band <computeroutput>delta</computeroutput> arround the MFE. However, this function does not print the resulting structures and their corresponding free energies to a file pointer, or returns them as a list. Instead, it calls a user-provided callback function which it passes the structure in dot-bracket format, the corresponding free energy in kcal/mol, and a user-provided data structure each time a structure was backtracked successfully. This function indicates the final output, i.e. the end of the backtracking procedure by passing NULL instead of an actual dot-bracket string to the callback.</para>
+<para>This is the most generic implementation of the suboptimal structure generator according to  <verbatim>embed:rst:inline :cite:t:`wuchty:1999` </verbatim>. Identical to <ref refid="group__subopt__wuchty_1gad0cce16455fda0737873d8e1c5846480" kindref="member">vrna_subopt()</ref>, it computes all secondary structures within an energy band <computeroutput>delta</computeroutput> arround the MFE. However, this function does not print the resulting structures and their corresponding free energies to a file pointer, or returns them as a list. Instead, it calls a user-provided callback function which it passes the structure in dot-bracket format, the corresponding free energy in kcal/mol, and a user-provided data structure each time a structure was backtracked successfully. This function indicates the final output, i.e. the end of the backtracking procedure by passing NULL instead of an actual dot-bracket string to the callback.</para>
 <para><simplesect kind="note"><para>This function requires all multibranch loop DP matrices for unique multibranch loop backtracing. Therefore, the supplied <ref refid="group__fold__compound_1ga1b0cef17fd40466cef5968eaeeff6166" kindref="member">vrna_fold_compound_t</ref> <computeroutput>fc</computeroutput> (argument 1) must be initialized with <ref refid="structvrna__md__s_1ade065b814a4e2e72ead93ab502613ed2" kindref="member">vrna_md_t.uniq_ML</ref> = 1, for instance like this: <programlisting><codeline><highlight class="normal">vrna_md_t<sp/>md;</highlight></codeline>
 <codeline><highlight class="normal">vrna_md_set_default(&amp;md);</highlight></codeline>
 <codeline><highlight class="normal">md.uniq_ML<sp/>=<sp/>1;</highlight></codeline>
@@ -235,9 +235,9 @@
         </inbodydescription>
         <location file="ViennaRNA/subopt.h" line="167" column="1" declfile="ViennaRNA/subopt.h" declline="167" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="group__subopt__wuchty_1ga700f662506a233e42dd7fda74fafd40e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__subopt__wuchty_1ga9913b3a58b8d315be3f4f7f4dbe3c481" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="subopt_8h_1aa0f46ff02e1017469cf902d02ecd7f9a" kindref="member">SOLUTION</ref> *</type>
-        <definition>SOLUTION* subopt</definition>
+        <definition>SOLUTION * subopt</definition>
         <argsstring>(char *seq, char *structure, int delta, FILE *fp)</argsstring>
         <name>subopt</name>
         <param>
@@ -302,9 +302,9 @@
         </inbodydescription>
         <location file="ViennaRNA/subopt.h" line="230" column="12" declfile="ViennaRNA/subopt.h" declline="230" declcolumn="12"/>
       </memberdef>
-      <memberdef kind="function" id="group__subopt__wuchty_1gaa1e1e7031a948ebcb39a9d58d1e9842c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__subopt__wuchty_1gaf3597f13ed0e7dba00185f3336312f7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="subopt_8h_1aa0f46ff02e1017469cf902d02ecd7f9a" kindref="member">SOLUTION</ref> *</type>
-        <definition>SOLUTION* subopt_par</definition>
+        <definition>SOLUTION * subopt_par</definition>
         <argsstring>(char *seq, char *structure, vrna_param_t *parameters, int delta, int is_constrained, int is_circular, FILE *fp)</argsstring>
         <name>subopt_par</name>
         <param>
@@ -344,9 +344,9 @@
         </inbodydescription>
         <location file="ViennaRNA/subopt.h" line="241" column="23" declfile="ViennaRNA/subopt.h" declline="241" declcolumn="23"/>
       </memberdef>
-      <memberdef kind="function" id="group__subopt__wuchty_1ga8634516e4740e0b6c9a46d2bae940340" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__subopt__wuchty_1ga72ed97775f3e2ce2159fdcb994da383e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="subopt_8h_1aa0f46ff02e1017469cf902d02ecd7f9a" kindref="member">SOLUTION</ref> *</type>
-        <definition>SOLUTION* subopt_circ</definition>
+        <definition>SOLUTION * subopt_circ</definition>
         <argsstring>(char *seq, char *sequence, int delta, FILE *fp)</argsstring>
         <name>subopt_circ</name>
         <param>
@@ -369,7 +369,7 @@
 <para>Returns list of circular subopt structures or writes to fp. </para>
         </briefdescription>
         <detaileddescription>
-<para>This function is similar to <ref refid="group__subopt__wuchty_1ga700f662506a233e42dd7fda74fafd40e" kindref="member">subopt()</ref> but calculates secondary structures assuming the RNA sequence to be circular instead of linear</para>
+<para>This function is similar to <ref refid="group__subopt__wuchty_1ga9913b3a58b8d315be3f4f7f4dbe3c481" kindref="member">subopt()</ref> but calculates secondary structures assuming the RNA sequence to be circular instead of linear</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>seq</parametername>

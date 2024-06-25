@@ -39,7 +39,7 @@ Detect::Results Detect::iterateSortedMappingsFile(
     TranscriptCounts singletonTranscriptCounts;
 
     auto assignSingletonTranscriptCount = [&](SamRecord &record) {
-        if (!record.reference_id().has_value() || !record.reference_position().has_value()) {
+        if (!record.reference_id() || !record.reference_position()) {
             return;
         }
 
@@ -53,13 +53,13 @@ Detect::Results Detect::iterateSortedMappingsFile(
 
         const auto region = GenomicRegion::fromSamRecord(record, refIDs);
 
-        if (!region.has_value()) {
+        if (!region) {
             return;
         }
 
         const auto bestFeature = featureAnnotator.getBestOverlappingFeature(region.value());
 
-        if (bestFeature.has_value()) {
+        if (bestFeature) {
             singletonTranscriptCounts[bestFeature->id]++;
         } else {
             unassignedSingletonRecordsOut.push_back(record);

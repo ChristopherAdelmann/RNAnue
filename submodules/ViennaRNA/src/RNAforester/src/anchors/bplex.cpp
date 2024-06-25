@@ -1,5 +1,5 @@
 
-#line 3 "anchors/bplex.cpp"
+#line 2 "anchors/bplex.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -457,8 +457,8 @@ class Pair;
     }
 
 
+#line 460 "anchors/bplex.cpp"
 #line 461 "anchors/bplex.cpp"
-#line 462 "anchors/bplex.cpp"
 
 #define INITIAL 0
 
@@ -676,7 +676,7 @@ YY_DECL
 #line 21 "anchors/bplex.lpp"
 
 
-#line 680 "anchors/bplex.cpp"
+#line 679 "anchors/bplex.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -764,7 +764,7 @@ YY_RULE_SETUP
 #line 30 "anchors/bplex.lpp"
 ECHO;
 	YY_BREAK
-#line 768 "anchors/bplex.cpp"
+#line 767 "anchors/bplex.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

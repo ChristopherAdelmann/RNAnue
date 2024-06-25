@@ -129,12 +129,13 @@ Cluster::Cluster(po::variables_map params)
       featureAnnotator(params["features"].as<std::string>(),
                        params["featuretypes"].as<std::vector<std::string>>()) {}
 
-void Cluster::iterate(const std::string &splitsInPath, const fs::path &unassignedSingletonsInPath,
-                      const fs::path &fragmentCountsInPath, const fs::path &clusterOutPath,
-                      const fs::path &supplementaryFeaturesOutPath,
-                      const fs::path &clusterTranscriptCountsOutPath) {
-    // input .sam file of sngl splits
-    seqan3::sam_file_input splitsIn{splitsInPath, sam_field_ids{}};
+void Cluster::iterateSplitsFile(const fs::path &splitsInPath,
+                                const fs::path &unassignedSingletonsInPath,
+                                const fs::path &fragmentCountsInPath,
+                                const fs::path &clusterOutPath,
+                                const fs::path &supplementaryFeaturesOutPath,
+                                const fs::path &clusterTranscriptCountsOutPath) {
+    seqan3::sam_file_input splitsIn{splitsInPath.string(), sam_field_ids{}};
 
     auto &header = splitsIn.header();
     std::vector<size_t> ref_lengths{};
@@ -143,47 +144,51 @@ void Cluster::iterate(const std::string &splitsInPath, const fs::path &unassigne
 
     const std::deque<std::string> &referenceIDs = header.ref_ids();
 
-    int subsetChunkSize = 5;
+    int subsetChunkSize = 10;
     std::vector<ReadCluster> subset;
     subset.reserve(subsetChunkSize);
+
+    std::vector<ReadCluster> mergedClusters;
 
     for (auto &&records : splitsIn | seqan3::views::chunk(2)) {
         std::optional<Segment> segment1 = Segment::fromSamRecord(*records.begin());
         std::optional<Segment> segment2 = Segment::fromSamRecord(*(++records.begin()));
 
-        if (!segment1.has_value() || !segment2.has_value()) {
+        if (!segment1 || !segment2) {
             continue;
         }
 
-        auto cluster = ReadCluster::fromSegments(segment1.value(), segment2.value());
+        auto cluster = ReadCluster::fromSegments(*segment1, *segment2);
 
-        if (!cluster.has_value()) {
+        if (!cluster) {
             continue;
         }
 
-        subset.push_back(std::move(cluster.value()));
+        subset.push_back(std::move(*cluster));
 
         if (subset.size() == subsetChunkSize) {
             mergeOverlappingClusters(subset);
-            result.insert(result.end(), std::make_move_iterator(subset.begin()),
-                          std::make_move_iterator(subset.end()));
+
+            mergedClusters.reserve(mergedClusters.size() + subset.size());
+            std::move(subset.begin(), subset.end(), std::back_inserter(mergedClusters));
             subset.clear();
         }
     }
 
     if (!subset.empty()) {
         mergeOverlappingClusters(subset);
-        result.insert(result.end(), std::make_move_iterator(subset.begin()),
-                      std::make_move_iterator(subset.end()));
+
+        mergedClusters.reserve(mergedClusters.size() + subset.size());
+        std::move(subset.begin(), subset.end(), std::back_inserter(mergedClusters));
     }
 
-    mergeOverlappingClusters(result);
+    mergeOverlappingClusters(mergedClusters);
 
-    assignClustersToTranscripts(result, referenceIDs, unassignedSingletonsInPath,
+    assignClustersToTranscripts(mergedClusters, referenceIDs, unassignedSingletonsInPath,
                                 fragmentCountsInPath, supplementaryFeaturesOutPath,
                                 clusterTranscriptCountsOutPath);
 
-    writeClustersToFile(clusterOutPath, referenceIDs);
+    writeClustersToFile(mergedClusters, clusterOutPath, referenceIDs);
 }
 
 void Cluster::assignClustersToTranscripts(std::vector<ReadCluster> &clusters,
@@ -197,89 +202,76 @@ void Cluster::assignClustersToTranscripts(std::vector<ReadCluster> &clusters,
     if (!supplementaryFeaturesOut.is_open()) {
         Logger::log(LogLevel::ERROR,
                     "Could not open file: ", supplementaryFeaturesOutPath.string());
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     supplementaryFeaturesOut << "##gff-version 3\n";
 
     size_t supplementaryFeatureCount = 0;
-    auto writeSupplementaryFeature = [&](const Segment &segment) -> std::string {
+    auto writeSupplementaryFeature = [&](const Segment &segment,
+                                         std::stringstream &stream) -> std::string {
         const std::string transcriptID =
             "supplementary_" + std::to_string(supplementaryFeatureCount++);
-        supplementaryFeaturesOut << referenceIDs[segment.referenceIDIndex] << "\t";
-        supplementaryFeaturesOut << "RNAnue"
-                                 << "\t";
-        supplementaryFeaturesOut << "partial_transcript"
-                                 << "\t";
-        supplementaryFeaturesOut << segment.start << "\t";
-        supplementaryFeaturesOut << segment.end << "\t";
-        supplementaryFeaturesOut << "."
-                                 << "\t";
-        supplementaryFeaturesOut << static_cast<char>(segment.strand) << "\t";
-        supplementaryFeaturesOut << "."
-                                 << "\t";
-        supplementaryFeaturesOut << "ID=" << transcriptID << ";"
-                                 << "\n";
+        stream << referenceIDs[segment.referenceIDIndex] << "\t"
+               << "RNAnue"
+               << "\t"
+               << "partial_transcript"
+               << "\t" << segment.start << "\t" << segment.end << "\t"
+               << "."
+               << "\t" << static_cast<char>(segment.strand) << "\t"
+               << "."
+               << "\t"
+               << "ID=" << transcriptID << ";"
+               << "\n";
         return transcriptID;
     };
 
     std::unordered_map<std::string, size_t> transcriptCounts;
     dtp::FeatureMap supplementaryFeatureMap;
 
-    auto addSegmentToSupplementaryFeatures = [&](const Segment &segment, const size_t count) {
-        const std::string transcriptID = writeSupplementaryFeature(segment);
-        const dtp::Feature feature = segment.toFeature(referenceIDs, transcriptID);
-        supplementaryFeatureMap[feature.referenceID].push_back(feature);
-        transcriptCounts[transcriptID] = count;
-        return transcriptID;
-    };
+    std::stringstream supplementaryFeaturesStream;
+    supplementaryFeaturesStream << "##gff-version 3\n";
 
     for (auto &cluster : clusters) {
         const auto &firstSegment = cluster.segments.first;
         const auto &secondSegment = cluster.segments.second;
 
-        const auto firstSegmentFeature =
-            featureAnnotator.getBestOverlappingFeature(firstSegment.toGenomicRegion(referenceIDs));
-        const auto secondSegmentFeature =
-            featureAnnotator.getBestOverlappingFeature(secondSegment.toGenomicRegion(referenceIDs));
+        auto processSegment = [&](const Segment &segment) -> std::string {
+            const auto segmentFeature =
+                featureAnnotator.getBestOverlappingFeature(segment.toGenomicRegion(referenceIDs));
+            if (!segmentFeature) {
+                const std::string transcriptID =
+                    writeSupplementaryFeature(segment, supplementaryFeaturesStream);
+                transcriptCounts[transcriptID] = cluster.count;
+                return transcriptID;
+            } else {
+                transcriptCounts[segmentFeature.value().id] += cluster.count;
+                return segmentFeature.value().id;
+            }
+        };
 
-        // TODO Segments from different clusters that overlap should be merged to one supplementary
-        // feature
-        std::string firstSegmentTranscriptID;
-        if (!firstSegmentFeature.has_value()) {
-            firstSegmentTranscriptID =
-                addSegmentToSupplementaryFeatures(firstSegment, cluster.count);
-        } else {
-            transcriptCounts[firstSegmentFeature.value().id] += cluster.count;
-            firstSegmentTranscriptID = firstSegmentFeature.value().id;
-        }
-
-        std::string secondSegmentTranscriptID;
-        if (!secondSegmentFeature.has_value()) {
-            secondSegmentTranscriptID =
-                addSegmentToSupplementaryFeatures(secondSegment, cluster.count);
-        } else {
-            transcriptCounts[secondSegmentFeature.value().id] += cluster.count;
-            secondSegmentTranscriptID = secondSegmentFeature.value().id;
-        }
+        const std::string firstSegmentTranscriptID = processSegment(firstSegment);
+        const std::string secondSegmentTranscriptID = processSegment(secondSegment);
 
         cluster.transcriptIDs = std::make_pair(firstSegmentTranscriptID, secondSegmentTranscriptID);
     }
 
+    // Write supplementary features to file
+    supplementaryFeaturesOut << supplementaryFeaturesStream.str();
+
     Annotation::FeatureAnnotator supplementaryFeatureAnnotator(supplementaryFeatureMap);
 
-    assignUnassignedSingletonsToSupplementaryFeatures(
+    assignNonAnnotatedSingletonsToSupplementaryFeatures(
         unassignedSingletonsInPath, supplementaryFeatureAnnotator, transcriptCounts);
 
     const size_t totalFragmentCount = parseSampleFragmentCount(fragmentCountsInPath);
-
     assignPValuesToClusters(clusters, transcriptCounts, totalFragmentCount);
 
     std::ofstream transcriptCountsOut(transcriptCountsOutPath.string());
 
     if (!transcriptCountsOut.is_open()) {
         Logger::log(LogLevel::ERROR, "Could not open file: ", transcriptCountsOutPath.string());
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     for (const auto &[transcriptID, count] : transcriptCounts) {
@@ -308,6 +300,8 @@ std::unordered_map<std::string, double> Cluster::getTranscriptProbabilities(
 
 void Cluster::assignPAdjustedValuesToClusters(std::vector<ReadCluster> &clusters) {
     std::vector<std::pair<double, size_t>> pValuesWithIndex;
+    pValuesWithIndex.reserve(clusters.size());  // Reserve capacity to avoid reallocations
+
     for (size_t i = 0; i < clusters.size(); ++i) {
         if (clusters[i].pValue.has_value()) {
             pValuesWithIndex.emplace_back(clusters[i].pValue.value(), i);
@@ -316,13 +310,13 @@ void Cluster::assignPAdjustedValuesToClusters(std::vector<ReadCluster> &clusters
 
     std::sort(pValuesWithIndex.begin(), pValuesWithIndex.end());
 
+    const size_t numPValues = pValuesWithIndex.size();
     double minAdjPValue = 1.0;
-    for (int i = pValuesWithIndex.size() - 1; i >= 0; --i) {
-        double rank = i + 1;
+    for (size_t i = numPValues; i-- > 0;) {
+        double rank = static_cast<double>(i + 1);
         double adjustedPValue =
-            std::min(minAdjPValue, (pValuesWithIndex[i].first * pValuesWithIndex.size() / rank));
+            std::min(minAdjPValue, (pValuesWithIndex[i].first * numPValues / rank));
         minAdjPValue = adjustedPValue;
-        // Assign adjusted p-value back to the cluster using the original index
         clusters[pValuesWithIndex[i].second].pAdj = adjustedPValue;
     }
 }
@@ -343,31 +337,27 @@ void Cluster::assignPValuesToClusters(
         const auto &firstTranscriptID = cluster.transcriptIDs->first;
         const auto &secondTranscriptID = cluster.transcriptIDs->second;
 
-        std::optional<double> firstTranscriptProbability;
-        std::optional<double> secondTranscriptProbability;
+        auto findProbability = [&](const std::string &transcriptID) -> std::optional<double> {
+            auto it = transcriptProbabilities.find(transcriptID);
+            if (it != transcriptProbabilities.end()) {
+                return it->second;
+            }
+            return std::nullopt;
+        };
 
-        if (transcriptProbabilities.contains(firstTranscriptID)) {
-            firstTranscriptProbability = transcriptProbabilities.at(firstTranscriptID);
-        }
+        auto firstTranscriptProbability = findProbability(firstTranscriptID);
+        auto secondTranscriptProbability = findProbability(secondTranscriptID);
 
-        if (transcriptProbabilities.contains(secondTranscriptID)) {
-            secondTranscriptProbability = transcriptProbabilities.at(secondTranscriptID);
-        }
-
-        if (!firstTranscriptProbability.has_value() || !secondTranscriptProbability.has_value()) {
+        if (!firstTranscriptProbability || !secondTranscriptProbability) {
             Logger::log(LogLevel::WARNING, "Could not find transcript probabilities for cluster.");
             continue;
         }
 
-        auto getLigationByChanceProbability = [&]() -> double {
-            if (firstTranscriptID == secondTranscriptID) {
-                return firstTranscriptProbability.value() * secondTranscriptProbability.value();
-            } else {
-                return 2 * firstTranscriptProbability.value() * secondTranscriptProbability.value();
-            }
-        };
-
-        const double ligationByChanceProbability = getLigationByChanceProbability();
+        const double ligationByChanceProbability =
+            (firstTranscriptID == secondTranscriptID)
+                ? firstTranscriptProbability.value() * secondTranscriptProbability.value()
+                : 2 * firstTranscriptProbability.value() * secondTranscriptProbability.value();
+        ;
 
         const auto binomialDistribution =
             math::binomial_distribution((double)totalFragmentCount, ligationByChanceProbability);
@@ -380,7 +370,7 @@ void Cluster::assignPValuesToClusters(
     assignPAdjustedValuesToClusters(clusters);
 }
 
-void Cluster::assignUnassignedSingletonsToSupplementaryFeatures(
+void Cluster::assignNonAnnotatedSingletonsToSupplementaryFeatures(
     const fs::path &unassignedSingletonsInPath, Annotation::FeatureAnnotator &featureAnnotator,
     std::unordered_map<std::string, size_t> &transcriptCounts) {
     seqan3::sam_file_input unassignedSingletonsIn{unassignedSingletonsInPath.string(),
@@ -390,23 +380,24 @@ void Cluster::assignUnassignedSingletonsToSupplementaryFeatures(
         const auto region =
             dtp::GenomicRegion::fromSamRecord(records, unassignedSingletonsIn.header().ref_ids());
 
-        if (!region.has_value()) {
+        if (!region) {
             continue;
         }
 
         const auto bestFeature = featureAnnotator.getBestOverlappingFeature(region.value());
 
-        if (!bestFeature.has_value()) {
+        if (!bestFeature) {
             continue;
         }
 
-        const std::string &transcriptID = bestFeature.value().id;
+        const std::string &transcriptID = bestFeature->id;
         assert(transcriptCounts.contains(transcriptID));
         ++transcriptCounts[transcriptID];
     }
 }
 
-void Cluster::writeClustersToFile(const fs::path &clusterOutPath,
+void Cluster::writeClustersToFile(const std::vector<ReadCluster> &mergedClusters,
+                                  const fs::path &clusterOutPath,
                                   const std::deque<std::string> &referenceIDs) {
     Logger::log(LogLevel::INFO, "Writing clusters to file: ", clusterOutPath.string());
 
@@ -417,7 +408,7 @@ void Cluster::writeClustersToFile(const fs::path &clusterOutPath,
     std::ofstream outputFile(clusterOutPath.string());
     if (!outputFile.is_open()) {
         Logger::log(LogLevel::ERROR, "Could not open file: ", clusterOutPath.string());
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     outputFile << "cluster_ID\tfst_seg_chr\tfst_seg_strd\tfst_seg_strt\tfst_seg_end\t"
@@ -425,7 +416,7 @@ void Cluster::writeClustersToFile(const fs::path &clusterOutPath,
                   "fst_seg_len\tsec_seg_len\tgcs\tghs\tp_value\tpadj_value\n";
 
     size_t clusterID = 1;
-    for (const auto &cluster : result) {
+    for (const auto &cluster : mergedClusters) {
         if (cluster.count < 4) {
             continue;
         }
@@ -477,7 +468,7 @@ size_t Cluster::parseSampleFragmentCount(const fs::path &sampleCountsInPath) {
 
     if (!sampleCountsIn.is_open()) {
         Logger::log(LogLevel::ERROR, "Could not open file: ", sampleCountsInPath.string());
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     sampleCountsIn.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // skip header
@@ -494,6 +485,8 @@ size_t Cluster::parseSampleFragmentCount(const fs::path &sampleCountsInPath) {
             }
             ++column;
         }
+
+        break;  // Should only be one line
     }
 
     return totalTranscriptCount;
@@ -503,7 +496,7 @@ void Cluster::start(pt::ptree sample) {
     pt::ptree input = sample.get_child("input");
     pt::ptree output = sample.get_child("output");
 
-    std::string splitsInPath = input.get<std::string>("splits");
+    fs::path splitsInPath = input.get<std::string>("splits");
     fs::path unassignedSingletonsInPath = input.get<std::string>("singletonunassigned");
     fs::path fragmentCountsInPath = input.get<std::string>("samplecounts");
 
@@ -511,6 +504,6 @@ void Cluster::start(pt::ptree sample) {
     fs::path supplementaryFeaturesOutPath = output.get<std::string>("supplementaryfeatures");
     fs::path clusterTranscriptCountsOutPath = output.get<std::string>("clustertranscriptcounts");
 
-    iterate(splitsInPath, unassignedSingletonsInPath, fragmentCountsInPath, clusterOutPath,
-            supplementaryFeaturesOutPath, clusterTranscriptCountsOutPath);
+    iterateSplitsFile(splitsInPath, unassignedSingletonsInPath, fragmentCountsInPath,
+                      clusterOutPath, supplementaryFeaturesOutPath, clusterTranscriptCountsOutPath);
 }

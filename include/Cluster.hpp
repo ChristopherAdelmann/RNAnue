@@ -95,13 +95,12 @@ class Cluster {
 
    private:
     po::variables_map params;
-    std::vector<ReadCluster> result;
     Annotation::FeatureAnnotator featureAnnotator;
 
-    void iterate(const std::string &splitsInPath, const fs::path &unassignedSingletonsInPath,
-                 const fs::path &fragmentCountsInPath, const fs::path &clusterOutPath,
-                 const fs::path &supplementaryFeaturesOutPath,
-                 const fs::path &clusterTranscriptCountsOutPath);
+    void iterateSplitsFile(const fs::path &splitsInPath, const fs::path &unassignedSingletonsInPath,
+                           const fs::path &fragmentCountsInPath, const fs::path &clusterOutPath,
+                           const fs::path &supplementaryFeaturesOutPath,
+                           const fs::path &clusterTranscriptCountsOutPath);
     void mergeOverlappingClusters(std::vector<ReadCluster> &clusters);
     void assignClustersToTranscripts(std::vector<ReadCluster> &clusters,
                                      const std::deque<std::string> &referenceIDs,
@@ -117,9 +116,10 @@ class Cluster {
                                  const std::unordered_map<std::string, size_t> &transcriptCounts,
                                  const size_t totalTranscriptCount);
     void assignPAdjustedValuesToClusters(std::vector<ReadCluster> &clusters);
-    void writeClustersToFile(const fs::path &clusterOutPath,
+    void writeClustersToFile(const std::vector<ReadCluster> &mergedClusters,
+                             const fs::path &clusterOutPath,
                              const std::deque<std::string> &referenceIDs);
-    void assignUnassignedSingletonsToSupplementaryFeatures(
+    void assignNonAnnotatedSingletonsToSupplementaryFeatures(
         const fs::path &unassignedSingletonsInPath, Annotation::FeatureAnnotator &featureAnnotator,
         std::unordered_map<std::string, size_t> &transcriptCounts);
     size_t parseSampleFragmentCount(const fs::path &sampleCountsInPath);

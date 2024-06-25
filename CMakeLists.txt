@@ -65,7 +65,15 @@ add_custom_target(
         --without-tutorial
         --without-tutorial-html
         --without-tutorial-pdf
-        --enable-universal-binary
+        --without-svm
+        --without-swig
+        --without-rnaxplorer
+        --without-rnalocmin
+        --disable-unittests
+        --disable-check-executables
+        --disable-check-perl
+        --disable-check-python
+        --disable-check-python2
     COMMAND make CXX=$ENV{CXX} CC=$ENV{CC}
     COMMAND make install
     WORKING_DIRECTORY ${VIENNA_BUILD_DIR}

@@ -49,9 +49,14 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/src/ViennaRNA/static/
 
 add_custom_target(
     ViennaRNA ALL
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/configure --prefix=${VIENNA_BUILD_DIR}
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/configure
+        CXX=$ENV{CXX}
+        CC=$ENV{CC}
+        --prefix=${VIENNA_BUILD_DIR}
         --enable-lto
         --without-gsl
+        --without-perl
+        --without-python
         --without-doc
         --without-kinfold
         --without-forester
@@ -66,6 +71,13 @@ add_custom_target(
         --without-svm
         --without-swig
         --without-rnaxplorer
+        --without-rnalocmin
+        --disable-unittests
+        --disable-check-executables
+        --disable-check-perl
+        --disable-check-python
+        --disable-check-python2
+    COMMAND CXX=$ENV{CXX} CC=$ENV{CC} make
     COMMAND CXX=$ENV{CXX} CC=$ENV{CC} make install
     WORKING_DIRECTORY ${VIENNA_BUILD_DIR}
 )

@@ -411,7 +411,8 @@ void Cluster::writeClustersToFile(const std::vector<ReadCluster> &mergedClusters
         exit(EXIT_FAILURE);
     }
 
-    outputFile << "cluster_ID\tfst_seg_chr\tfst_seg_strd\tfst_seg_strt\tfst_seg_end\t"
+    outputFile << "cluster_ID\tfst_feat_id\tfst_seg_chr\tfst_seg_strd\tfst_seg_strt\tfst_seg_"
+                  "end\tsec_feat_id\t"
                   "sec_seg_chr\tsec_seg_strd\tsec_seg_strt\tsec_seg_end\tno_splits\t"
                   "fst_seg_len\tsec_seg_len\tgcs\tghs\tp_value\tpadj_value\n";
 
@@ -423,11 +424,13 @@ void Cluster::writeClustersToFile(const std::vector<ReadCluster> &mergedClusters
 
         outputFile << "cluster" << clusterID++ << "\t";
 
+        outputFile << cluster.transcriptIDs->first << "\t";
         outputFile << getReferenceID(cluster.segments.first.referenceIDIndex) << "\t";
         outputFile << static_cast<char>(cluster.segments.first.strand) << "\t";
         outputFile << cluster.segments.first.start << "\t";
         outputFile << cluster.segments.first.end << "\t";
 
+        outputFile << cluster.transcriptIDs->second << "\t";
         outputFile << getReferenceID(cluster.segments.second.referenceIDIndex) << "\t";
         outputFile << static_cast<char>(cluster.segments.second.strand) << "\t";
         outputFile << cluster.segments.second.start << "\t";

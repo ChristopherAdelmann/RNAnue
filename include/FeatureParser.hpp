@@ -24,7 +24,7 @@ class FileType {
 
     constexpr char attrDelim() const { return ';'; }
 
-    constexpr std::string featureIDFlag() const {
+    const std::string featureIDFlag() const {
         switch (value) {
             case GFF:
                 return "ID";

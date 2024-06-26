@@ -5,12 +5,12 @@
 
 namespace constants {
 namespace pipelines {
-constexpr std::string PREPROCESS = "preprocess";
-constexpr std::string ALIGN = "align";
-constexpr std::string DETECT = "detect";
-constexpr std::string CLUSTER = "cluster";
-constexpr std::string ANALYZE = "analyze";
-constexpr std::string COMPLETE = "complete";
+const std::string PREPROCESS = "preprocess";
+const std::string ALIGN = "align";
+const std::string DETECT = "detect";
+const std::string CLUSTER = "cluster";
+const std::string ANALYZE = "analyze";
+const std::string COMPLETE = "complete";
 
 const std::string SUBCALL_DESCRIPTION =
     "The subcall to execute. The following subcalls are available: preprocess, align, detect, "

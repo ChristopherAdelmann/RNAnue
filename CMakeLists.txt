@@ -43,17 +43,15 @@ add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
 ### ViennaRNA
 set(VIENNA_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/submodules/ViennaRNA/build)
 file(MAKE_DIRECTORY ${VIENNA_BUILD_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/src/ViennaRNA/static/postscript DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/submodules/ViennaRNA/build/src/ViennaRNA/static/postscript)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/src/ViennaRNA/static/svg DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/submodules/ViennaRNA/build/src/ViennaRNA/static/svg)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/src/ViennaRNA/static/misc DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/submodules/ViennaRNA/build/src/ViennaRNA/static/misc)
 
 add_custom_target(
     ViennaRNA ALL
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/configure
-        CXX=$ENV{CXX}
-        CC=$ENV{CC}
-        --prefix=${VIENNA_BUILD_DIR}
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/configure --prefix=${VIENNA_BUILD_DIR}
         --enable-lto
         --without-gsl
-        --without-perl
-        --without-python
         --without-doc
         --without-kinfold
         --without-forester
@@ -68,13 +66,7 @@ add_custom_target(
         --without-svm
         --without-swig
         --without-rnaxplorer
-        --without-rnalocmin
-        --disable-unittests
-        --disable-check-executables
-        --disable-check-perl
-        --disable-check-python
-        --disable-check-python2
-    COMMAND make install CXX=$ENV{CXX} CC=$ENV{CC} || true
+    COMMAND CXX=$ENV{CXX} CC=$ENV{CC} make install
     WORKING_DIRECTORY ${VIENNA_BUILD_DIR}
 )
 
@@ -134,7 +126,16 @@ endif()
 # ----------------------------------------------------------------------------
 # Installation
 # ----------------------------------------------------------------------------
-install(TARGETS RNAnue RUNTIME DESTINATION bin)
+install(TARGETS RNAnue
+    RUNTIME_DEPENDENCY_SET appDeps
+)
+install(RUNTIME_DEPENDENCY_SET appDeps
+    PRE_EXCLUDE_REGEXES
+        [[libc\.so\..*]]
+        [[libgcc_s\.so\..*]]
+        [[libm\.so\..*]]
+        [[libstdc\+\+\.so\..*]]
+)
 
 # ----------------------------------------------------------------------------
 # Packaging

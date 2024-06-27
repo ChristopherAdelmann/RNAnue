@@ -43,7 +43,7 @@ void Segment::merge(const Segment &other) {
     start = std::min(start, other.start);
     end = std::max(end, other.end);
     complementarityScore = std::max(complementarityScore, other.complementarityScore);
-    hybridizationEnergy = std::min(hybridizationEnergy, other.hybridizationEnergy);
+    hybridizationEnergy = std::max(hybridizationEnergy, other.hybridizationEnergy);
 }
 
 // ReadCluster
@@ -61,8 +61,13 @@ std::optional<std::pair<Segment, Segment>> ReadCluster::getSortedElements(const 
                     segment2.recordID, ". Make sure reads are sorted by name.");
         return std::nullopt;
     }
-    return segment1.start < segment2.start ? std::make_pair(segment1, segment2)
-                                           : std::make_pair(segment2, segment1);
+
+    // Optimized version
+    return segment1.referenceIDIndex < segment2.referenceIDIndex ||
+                   (segment1.referenceIDIndex == segment2.referenceIDIndex &&
+                    segment1.start < segment2.start)
+               ? std::make_pair(segment1, segment2)
+               : std::make_pair(segment2, segment1);
 }
 
 std::optional<ReadCluster> ReadCluster::fromSegments(const Segment &segment1,
@@ -71,10 +76,12 @@ std::optional<ReadCluster> ReadCluster::fromSegments(const Segment &segment1,
     if (!sortedElements.has_value()) {
         return std::nullopt;
     }
+
     assert(sortedElements.value().first.complementarityScore ==
            sortedElements.value().second.complementarityScore);
     assert(sortedElements.value().first.hybridizationEnergy ==
            sortedElements.value().second.hybridizationEnergy);
+
     return ReadCluster{sortedElements.value(),
                        {sortedElements->first.complementarityScore},
                        {sortedElements->first.hybridizationEnergy}};
@@ -86,40 +93,59 @@ bool ReadCluster::operator<(const ReadCluster &a) const {
 }
 
 bool ReadCluster::overlaps(const ReadCluster &other, const int graceDistance) const {
+    bool isSameReferenceAndStrand =
+        segments.first.referenceIDIndex == other.segments.first.referenceIDIndex &&
+        segments.second.referenceIDIndex == other.segments.second.referenceIDIndex &&
+        segments.first.strand == other.segments.first.strand &&
+        segments.second.strand == other.segments.second.strand;
+
+    if (!isSameReferenceAndStrand) {
+        return false;
+    }
+
     const bool firstOverlaps = segments.first.end + graceDistance >= other.segments.first.start &&
                                segments.first.start <= other.segments.first.end + graceDistance;
-
     const bool secondOverlaps =
         segments.second.end + graceDistance >= other.segments.second.start &&
         segments.second.start <= other.segments.second.end + graceDistance;
 
-    return segments.first.referenceIDIndex == other.segments.first.referenceIDIndex &&
-           segments.second.referenceIDIndex == other.segments.second.referenceIDIndex &&
-           firstOverlaps && secondOverlaps &&
-           segments.first.strand == other.segments.first.strand &&
-           segments.second.strand == other.segments.second.strand;
+    return firstOverlaps && secondOverlaps;
 }
 
 void ReadCluster::merge(const ReadCluster &other) {
+    assert(segments.first.referenceIDIndex == other.segments.first.referenceIDIndex);
+    assert(segments.second.referenceIDIndex == other.segments.second.referenceIDIndex);
+    assert(segments.first.strand == other.segments.first.strand);
+    assert(segments.second.strand == other.segments.second.strand);
+
     segments.first.merge(other.segments.first);
     segments.second.merge(other.segments.second);
-    complementarityScores.insert(complementarityScores.end(), other.complementarityScores.begin(),
-                                 other.complementarityScores.end());
-    hybridizationEnergies.insert(hybridizationEnergies.end(), other.hybridizationEnergies.begin(),
-                                 other.hybridizationEnergies.end());
+
+    complementarityScores.reserve(complementarityScores.size() +
+                                  other.complementarityScores.size());
+    hybridizationEnergies.reserve(hybridizationEnergies.size() +
+                                  other.hybridizationEnergies.size());
+
+    complementarityScores.insert(complementarityScores.end(),
+                                 std::make_move_iterator(other.complementarityScores.begin()),
+                                 std::make_move_iterator(other.complementarityScores.end()));
+    hybridizationEnergies.insert(hybridizationEnergies.end(),
+                                 std::make_move_iterator(other.hybridizationEnergies.begin()),
+                                 std::make_move_iterator(other.hybridizationEnergies.end()));
+
     count += other.count;
 }
 
 double ReadCluster::complementarityStatistics() const {
     assert(!complementarityScores.empty());
     assert(segments.first.complementarityScore == segments.second.complementarityScore);
-    return helper::calculateMedian(complementarityScores) / segments.first.complementarityScore;
+    return helper::calculateMedian(complementarityScores) * segments.first.complementarityScore;
 }
 
 double ReadCluster::hybridizationEnergyStatistics() const {
     assert(!hybridizationEnergies.empty());
     assert(segments.first.hybridizationEnergy == segments.second.hybridizationEnergy);
-    return std::sqrt(helper::calculateMedian(hybridizationEnergies) /
+    return std::sqrt(helper::calculateMedian(hybridizationEnergies) *
                      segments.first.hybridizationEnergy);
 }
 

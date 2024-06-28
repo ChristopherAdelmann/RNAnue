@@ -45,7 +45,7 @@ fs::path Data::replaceParentDirPath(fs::path replacement, fs::path original) {
     return replacement / original.filename();
 }
 
-bool Data::withControlData() { return params["ctrls"].as<std::string>() != ""; }
+bool Data::withControlData() { return !params["ctrls"].as<std::string>().empty(); }
 
 pt::ptree Data::getDataStructure() { return this->dataStructure; }
 

@@ -213,6 +213,7 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readR
         clipping at the end of the read it is just ignored */
         if (currentCigar.empty()) {
             const auto cigarValue = get<0>(cigar);
+            referencePosition -= cigarValue;
             startPosRead += cigarValue;
             endPosRead += cigarValue;
             startPosSplit += cigarValue;

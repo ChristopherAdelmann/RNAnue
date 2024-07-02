@@ -15,7 +15,6 @@
 // Classes
 #include "Align.hpp"
 #include "Analyze.hpp"
-#include "Cluster.hpp"
 #include "Constants.hpp"
 #include "Detect.hpp"
 #include "Logger.hpp"
@@ -62,7 +61,6 @@ class Data {
     void preprocDataPrep();
     void alignDataPrep();
     void detectDataPrep();
-    void clusteringDataPrep();
     void analysisDataPrep();
 
     //
@@ -82,6 +80,5 @@ class Data {
     void preproc();
     void align();
     void splitReadCalling();
-    void clustering();
     void analysis();
 };

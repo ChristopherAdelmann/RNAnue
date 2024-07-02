@@ -25,7 +25,6 @@ void Preprocess::start(pt::ptree sample) {
         processPairedEnd(sample);
     } else {
         Logger::log(LogLevel::ERROR, "Invalid read type specified: " + readType);
-        exit(1);
     }
 }
 

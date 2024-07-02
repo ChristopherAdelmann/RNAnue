@@ -65,40 +65,37 @@ int main(int argc, char* argv[]) {
         std::string readType;
         std::string configFile;
 
-        po::options_description general("General");
+        po::options_description general(GENERAL_DESCRIPTION.c_str());
         general.add_options()("readtype,r", po::value<std::string>(&readType)->default_value("SE"),
-                              "single-end (=SE) or paired-end (=PE) reads");
+                              "single-end (=SE) or paired-end (=PE) reads (default: SE)");
         general.add_options()(
             "trtms,t", po::value<std::string>(),
             "folder containing the raw reads of the treatments including replicates "
-            "located within subfolders (condition)");
+            "located within sub-folders (condition) (required)");
         general.add_options()("ctrls,s", po::value<std::string>(),
                               "folder containing the the raw reads of the controls including "
-                              "replicates located within subfolders (condition)");
+                              "replicates located within sub-folders (condition)");
         general.add_options()("outdir,o", po::value<std::string>(),
-                              "(output) folder in which the results are stored");
+                              "(output) folder in which the results are stored (required)");
         general.add_options()("loglevel", po::value<std::string>()->default_value("info"),
-                              "log level (info, warning, error)");
+                              "log level [info, warning, error] (default: info)");
         general.add_options()("threads,p", po::value<int>()->default_value(1),
-                              "max number of threads");
-        general.add_options()("features", po::value<std::string>(),
-                              "annotation/features in .GFF3 format");
+                              "max number of threads to be used (default: 1)");
+        general.add_options()("features,f", po::value<std::string>(),
+                              "annotation/features in .GFF3 format (required)");
         general.add_options()("featuretypes",
                               po::value<std::vector<std::string>>()->multitoken()->default_value(
-                                  std::vector<std::string>{"gene"}),
+                                  std::vector<std::string>{"transcript"}),
                               "feature types to be considered for the analysis, can be specified "
-                              "as --featuretypes gene rRNA ... (default: gene)");
-        general.add_options()(
-            "mapqmin", po::value<int>()->default_value(20),
-            "lower limit for the quality (Phred Quality Score) of the alignments");
+                              "as --featuretypes gene rRNA ... (default: transcript)");
         // general.add_options()("splicing", po::bool_switch->default_value(false),
         //                       "splicing events are considered in the detection of split
         //                       reads");
 
-        po::options_description preprocess("Preprocessing");
-        preprocess.add_options()(
-            pi::PREPROCESS.c_str(), po::bool_switch()->default_value(true),
-            "include preprocessing of the raw reads in the workflow of RNAnue");
+        po::options_description preprocess("Preprocess Pipeline");
+        preprocess.add_options()(pi::PREPROCESS.c_str(), po::bool_switch()->default_value(true),
+                                 "whether to include preprocessing of the raw reads in the "
+                                 "workflow of RNAnue (default: true)");
         preprocess.add_options()("chunksize", po::value<int>()->default_value(100000),
                                  "number of reads to be processed in parallel (default: 100000)");
         preprocess.add_options()(
@@ -130,7 +127,7 @@ int main(int argc, char* argv[]) {
             "minqual,q", po::value<int>()->default_value(20),
             "lower limit for the mean quality (Phred Quality Score) of the reads (default: 20)");
         preprocess.add_options()("minlen,l", po::value<std::size_t>()->default_value(15),
-                                 "minimum length of the reads");
+                                 "minimum length of the reads (default: 15)");
         preprocess.add_options()(
             "wqual", po::value<std::size_t>()->default_value(20),
             "minimum mean quality for each window (Phred Quality Score) (default: 20)");
@@ -144,53 +141,49 @@ int main(int argc, char* argv[]) {
             "mmerge", po::value<double>()->default_value(0.05),
             "rate of mismatches allowed when merging paired end reads (default: 0.05)");
 
-        po::options_description align("Alignment");
-        align.add_options()("dbref", po::value<std::string>(), "reference genome (.fasta)")(
-            "accuracy", po::value<int>()->default_value(90), "minimum percentage of read matches")(
-            "minfragsco", po::value<int>()->default_value(18),
-            "minimum score of a spliced fragment")("minfraglen",
-                                                   po::value<int>()->default_value(20),
-                                                   "minimum length of a spliced fragment")(
-            "minsplicecov", po::value<int>()->default_value(80),
-            "minimum coverage for spliced transcripts")(
-            "exclclipping", po::bool_switch()->default_value(false),
-            "exclude soft clipping from the alignments");  //(
-        // "unprd", po::bool_switch()->default_value(false),
-        // "only for paired-end reads: include unpaired reads")(
-        // "unmrg", po::bool_switch()->default_value(false),
-        // "only for paired-end reads: include unmerged reads");
+        po::options_description align("Align Pipeline");
+        align.add_options()("dbref", po::value<std::string>(),
+                            "reference genome (.fasta) (required)");
+        align.add_options()("accuracy", po::value<int>()->default_value(90),
+                            "minimum percentage of read matches (default: 90, range: 0-100)");
+        align.add_options()("minfragsco", po::value<int>()->default_value(18),
+                            "minimum score of a spliced fragment (default: 18)");
+        align.add_options()("minfraglen", po::value<int>()->default_value(20),
+                            "minimum length of a spliced fragment (default: 20)");
+        align.add_options()("minsplicecov", po::value<int>()->default_value(80),
+                            "minimum coverage for spliced transcripts (default: 80, range:0-100)");
 
-        po::options_description detect("Split Read Calling");
-        detect.add_options()("cmplmin", po::value<double>()->default_value(0.0),
-                             "complementarity cutoff for split reads")(
-            "sitelenratio", po::value<double>()->default_value(0.1),
-            "aligned portion of the read (complementarity)")(
-            "nrgmax", po::value<double>()->default_value(0),
-            "hybridization energy cutoff for split reads");
+        po::options_description detect("Detect Pipeline");
+        detect.add_options()(
+            "mapqmin", po::value<int>()->default_value(10),
+            "cut off for the quality (Phred Quality Score) of the alignments (default: 10)");
+        detect.add_options()(
+            "cmplmin", po::value<double>()->default_value(0.0),
+            "complementarity cutoff for split reads (default: 0.0; range: 0.0-1.0)");
+        detect.add_options()("sitelenratio", po::value<double>()->default_value(0.1),
+                             "aligned portion of the read (default: 0.1, range: 0.0-1.0)");
+        detect.add_options()(
+            "nrgmax", po::value<double>()->default_value(0.0),
+            "hybridization energy cutoff for split reads (default: 0.0, range: >=0.0)");
+        detect.add_options()("exclclipping", po::bool_switch()->default_value(false),
+                             "exclude soft clipping from the alignments (default: false)");
 
-        po::options_description clustering("Clustering");
-        clustering.add_options()
-            // ("clust", po::bool_switch()->default_value(true),
-            //                          "include clustering of the split reads in the workflow of
-            //                          RNAnue")
-            ("clustdist", po::value<int>()->default_value(0), "minimum distance between clusters");
-
-        po::options_description analysis("Analysis");
+        po::options_description analysis("Analyze Pipeline");
+        analysis.add_options()("clustdist", po::value<int>()->default_value(0),
+                               "threshold distance at which two clusters are merged into a single "
+                               "combined cluster, default is to only merge overlapping or blunt "
+                               "ended clusters (default: 0)");
 
         po::options_description output("Output");
-        output.add_options()(
-            "stats", po::bool_switch()->default_value(false),
-            "whether (=1) or not (=0) to (additionally) create statistics of the libraries")(
-            "outcnt", po::bool_switch()->default_value(false),
-            "whether (=1) or not (=0) to (additionally) save results as count table for DEA");
-        //(
-        // "outjgf", po::bool_switch()->default_value(false),
-        // "whether (=1) or not (=0) to (additionally) save results as JSON Graph FILE (JGF)");
+        output.add_options()("stats", po::bool_switch()->default_value(false),
+                             "whether to create statistics of the libraries (default: false)");
+        output.add_options()("outcnt", po::bool_switch()->default_value(false),
+                             "whether to save results as count table for DEA (default: false)");
 
         po::options_description other("Other");
         other.add_options()("version,v", "display the version number")("help,h",
                                                                        "display this help message")(
-            "config,c", po::value<std::string>(&configFile)->default_value("params.cfg"),
+            "config,c", po::value<std::string>(&configFile),
             "configuration file that contains the parameters");
 
         po::options_description subcall("Subcall");
@@ -201,7 +194,6 @@ int main(int argc, char* argv[]) {
             .add(preprocess)
             .add(align)
             .add(detect)
-            .add(clustering)
             .add(analysis)
             .add(other)
             .add(subcall);
@@ -211,7 +203,6 @@ int main(int argc, char* argv[]) {
             .add(preprocess)
             .add(align)
             .add(detect)
-            .add(clustering)
             .add(analysis)
             .add(output);
 
@@ -243,7 +234,6 @@ int main(int argc, char* argv[]) {
 
         if (!ifs) {
             Logger::log(LogLevel::ERROR, "Configuration file could not be opened!");
-            return 1;
         } else {
             po::store(po::parse_config_file(ifs, configFileOptions), vm);
             notify(vm);
@@ -251,7 +241,6 @@ int main(int argc, char* argv[]) {
 
         if (!vm.count("subcall")) {
             Logger::log(LogLevel::ERROR, "Please provide a subcall.");
-            return 1;
         }
 
         // start execution

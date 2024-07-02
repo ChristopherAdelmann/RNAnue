@@ -67,10 +67,6 @@ void Data::prepareSubcall(std::string subcall) {
         detectDataPrep();
     }
 
-    if (subcall == pi::CLUSTER) {
-        clusteringDataPrep();
-    }
-
     if (subcall == pi::ANALYZE) {
         analysisDataPrep();
     }
@@ -125,8 +121,8 @@ void Data::detectDataPrep() {
     retrieveDataStructure(group);
 }
 
-void Data::clusteringDataPrep() {
-    Logger::log(LogLevel::INFO, "Retrieving the data for clustering.");
+void Data::analysisDataPrep() {
+    Logger::log(LogLevel::INFO, "Retrieving the data for analysis.");
 
     std::optional<fs::path> ctrlsPath = std::nullopt;
 
@@ -139,27 +135,11 @@ void Data::clusteringDataPrep() {
     retrieveDataStructure(group);
 }
 
-void Data::analysisDataPrep() {
-    Logger::log(LogLevel::INFO, "Retrieving the data for analysis.");
-
-    std::optional<fs::path> ctrlsPath = std::nullopt;
-
-    if (withControlData()) {
-        fs::path ctrlsPath = fs::path(params["outdir"].as<std::string>()) / "detect/ctrls";
-    }
-
-    fs::path trtmsPath = fs::path(params["outdir"].as<std::string>()) / "detect/trtms";
-
-    GroupsPath group = retrieveGroupsPath(ctrlsPath, trtmsPath);
-    retrieveDataStructure(group);
-}
-
 GroupsPath Data::retrieveGroupsPath(std::optional<fs::path> ctrls, fs::path trtms) {
     GroupsPath groups;
 
     if (!fs::is_directory(trtms)) {
         Logger::log(LogLevel::ERROR, "Not a directory: ", trtms.string());
-        exit(EXIT_FAILURE);
     }
 
     groups.insert(std::make_pair("trtms", trtms));
@@ -172,7 +152,6 @@ GroupsPath Data::retrieveGroupsPath(std::optional<fs::path> ctrls, fs::path trtm
 
     if (!fs::is_directory(ctrls.value())) {
         Logger::log(LogLevel::ERROR, "Not a directory: ", ctrls.value().string());
-        exit(EXIT_FAILURE);
     }
 
     groups.insert(std::make_pair("ctrls", ctrls.value()));
@@ -246,7 +225,7 @@ pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath)
         expectedElementCount = 1;
         sampleKeys = {"matched"};
         dataFiles = filterDirContent(dataFiles, "matched.sam");
-    } else if (subcall == pi::CLUSTER || subcall == pi::ANALYZE) {
+    } else if (subcall == pi::ANALYZE) {
         expectedElementCount = 3;
         sampleKeys = {"splits", "singletonunassigned", "samplecounts"};
         dataFiles = filterDirContent(dataFiles, "_splits.sam", "singletonUnassigned.sam",
@@ -256,7 +235,6 @@ pt::ptree Data::retrieveConditionTree(std::string group, fs::path conditionPath)
     if (expectedElementCount != dataFiles.size()) {
         Logger::log(LogLevel::ERROR, "Expected ", expectedElementCount, " files, but found ",
                     dataFiles.size(), " files in ", conditionPath.string());
-        exit(EXIT_FAILURE);
     }
 
     fs::path outConditionDir = fs::path(params["outdir"].as<std::string>()) /
@@ -349,7 +327,7 @@ pt::ptree Data::retrieveSampleOutputTree(fs::path outConditionDir, pt::ptree inp
         output.put("stats", statsOutPath);
         output.put("singleton", singletonTranscriptCountsOutPath.string());
         output.put("singletonUnassigned", singletonUnassignedOutPath);
-    } else if (params["subcall"].as<std::string>() == pi::CLUSTER) {
+    } else if (params["subcall"].as<std::string>() == pi::ANALYZE) {
         fs::path splits = fs::path(inputTree.get<std::string>("input.splits"));
         splits.replace_extension(".tab");
         std::string clu = replaceParentDirPath(outConditionDir, splits).string();
@@ -361,13 +339,8 @@ pt::ptree Data::retrieveSampleOutputTree(fs::path outConditionDir, pt::ptree inp
         output.put("clusters", clusters);
         output.put("clustertranscriptcounts", clusterTranscriptCounts);
         output.put("supplementaryfeatures", supplementaryFeatures.string());
-    } else if (params["subcall"].as<std::string>() == pi::ANALYZE) {
-        fs::path splits = fs::path(inputTree.get<std::string>("input.splits"));
-        splits.replace_extension(".txt");
-        std::string its = replaceParentDirPath(outConditionDir, splits).string();
-        std::string ints = addSuffix(its, "_interactions", {"_splits"});
-        output.put("interactions", ints);
     }
+
     return output;
 }
 
@@ -392,7 +365,6 @@ void Data::callInAndOut(Callable f) {
         subcall = dataStructure.get_child(subcallStr);
     } catch (pt::ptree_error &e) {
         Logger::log(LogLevel::ERROR, subcallStr, " has not been found in the data structure");
-        exit(EXIT_FAILURE);
     }
 
     std::deque<std::string> groups = {"trtms"};
@@ -448,19 +420,9 @@ void Data::splitReadCalling() {
     callInAndOut(std::bind(&Detect::start, src, std::placeholders::_1));
 }
 
-void Data::clustering() {
-    // create Object of CLustering
-    Cluster clu(params);
-    callInAndOut(std::bind(&Cluster::start, &clu, std::placeholders::_1));
-}
-
 void Data::analysis() {
-    Analyze anl(params);
-    callInAndOut(std::bind(&Analyze::start, &anl, std::placeholders::_1));
-
-    if (params["outcnt"].as<bool>()) {
-        // anl.createCountTable();
-    }
+    Analyze clu(params);
+    callInAndOut(std::bind(&Analyze::start, &clu, std::placeholders::_1));
 }
 
 /*

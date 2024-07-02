@@ -7,7 +7,6 @@ Base::Base(po::variables_map _params) : params(_params), data(_params) {
         {pi::PREPROCESS, &Data::preproc},
         {pi::ALIGN, &Data::align},
         {pi::DETECT, &Data::splitReadCalling},
-        {pi::CLUSTER, &Data::clustering},
         {pi::ANALYZE, &Data::analysis}};
 
     // Check if the subcall is valid
@@ -15,7 +14,6 @@ Base::Base(po::variables_map _params) : params(_params), data(_params) {
         std::ranges::find_if(subcallMap, [&](const auto &pair) { return pair.first == subcall; });
     if (it == subcallMap.end() && subcall != pi::COMPLETE) {
         Logger::log(LogLevel::ERROR, "subcall: ", subcall, " invalid!");
-        exit(EXIT_FAILURE);
     }
 
     // Call the appropriate function(s)

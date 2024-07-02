@@ -27,8 +27,7 @@ class Logger {
 
         auto it = stringToLogLevelMap.find(logLevelString);
         if (it == stringToLogLevelMap.end()) {
-            Logger::log(LogLevel::ERROR, "Invalid log level: " + logLevelString);
-            exit(1);
+            Logger::log(LogLevel::ERROR, "Invalid log level: ", logLevelString);
         }
         getInstance().logLevel = it->second;
     }
@@ -56,6 +55,10 @@ class Logger {
             }
             seqan3::debug_stream << "[" << levelStr << "] " << getTime() << " ";
             (seqan3::debug_stream << ... << std::forward<Args>(args)) << "\n";
+
+            if (level == LogLevel::ERROR) {
+                exit(EXIT_FAILURE);
+            }
         }
     }
 

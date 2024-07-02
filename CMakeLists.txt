@@ -9,8 +9,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-set(CMAKE_CXX_FLAGS "-fopenmp")
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-interference-size")
+set(CMAKE_CXX_FLAGS "-fopenmp -flto -Wall -Wextra -Wno-interference-size")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
@@ -185,34 +184,6 @@ cpack_add_component(RNAnue
 # ----------------------------------------------------------------------------
 # Testing
 # ----------------------------------------------------------------------------
-include(FetchContent)
-FetchContent_Declare(
-    googletest
-    DOWNLOAD_EXTRACT_TIMESTAMP true
-    URL https://github.com/google/googletest/archive/1d17ea141d2c11b8917d2c7d029f1c4e2b9769b2.zip
-)
-
-FetchContent_MakeAvailable(googletest)
-
-enable_testing()
-
-add_executable(tests    tests/ReadClusterTest.cpp
-                        src/Cluster.cpp 
-                        src/DataTypes.cpp 
-                        src/FeatureAnnotator.cpp 
-                        src/Utility.cpp
-                        src/FeatureParser.cpp)
-
-target_link_libraries(tests     PRIVATE 
-                                GTest::gtest_main
-                                seqan3::seqan3
-                                Boost::program_options 
-                                Boost::filesystem 
-                                Boost::property_tree 
-                                Boost::foreach 
-                                Boost::dynamic_bitset
-                                Boost::math)
-
-
-include(GoogleTest)
-gtest_discover_tests(tests)
+if(${CMAKE_BUILD_TYPE} STREQUAL Debug)
+    add_subdirectory(tests)
+endif()

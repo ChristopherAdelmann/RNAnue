@@ -12,6 +12,8 @@
 #include <chrono>
 #include <iomanip>
 #include <iostream>
+#include <random>
+#include <sstream>
 #include <unordered_set>
 
 // Classes
@@ -45,6 +47,8 @@ T calculateMedian(std::vector<T> values) {
         return values[size / 2];
     }
 };
+
+std::string generateRandomHexColor();
 
 std::string getTime();  // reports the current time
 class Timer {

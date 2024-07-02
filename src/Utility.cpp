@@ -86,6 +86,20 @@ size_t helper::countSamEntries(fs::path path) {
     return count;
 }
 
+std::string helper::generateRandomHexColor() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(0, 255);
+
+    std::stringstream ss;
+    ss << "#";
+    for (int i = 0; i < 3; ++i) {
+        ss << std::setfill('0') << std::setw(2) << std::hex << distr(gen);
+    }
+
+    return ss.str();  // Return the hex color code as a string
+}
+
 void helper::printTree(const boost::property_tree::ptree& pt, int level = 0) {
     for (const auto& node : pt) {
         std::cout << std::string(level * 2, ' ') << node.first << ": "

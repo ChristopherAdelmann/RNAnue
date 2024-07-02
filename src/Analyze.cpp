@@ -1,434 +1,576 @@
 #include "Analyze.hpp"
 
-//
-Analyze::Analyze(po::variables_map _params) : params(_params), repcount{0}, readcount{0} {
-    // int k = 3;  // can be later extracted from config file
-    // // extract features (e.g., IBPTree)
-    // this->features = IBPTree(params, k);  // create IBPT w/ annotations
-    // if (params["clust"].as<std::bitset<1>>() == std::bitset<1>("1")) {
-    //     std::cout << helper::getTime() << "Add clusters to IBPTree\n";
-    //     fs::path outDir = params["outdir"].as<std::string>();
-    //     fs::path clusterFile = outDir / fs::path("clustering") / fs::path("clusters.tab");
-    //     this->features.iterateClusters(clusterFile.string());
-    // }
-    // this->freq = std::map<std::pair<std::string, std::string>, double>();
-    // this->suppreads = std::map<dtp::IntKey, std::vector<double>>();
-    // this->complementarities = std::map<dtp::IntKey, std::vector<std::vector<double>>>();
-    // this->hybenergies = std::map<dtp::IntKey, std::vector<std::vector<double>>>();
+// Segment
+std::optional<Segment> Segment::fromSamRecord(const dtp::SamRecord &record) {
+    if (!record.reference_position().has_value() || !record.reference_id().has_value()) {
+        return std::nullopt;
+    }
+
+    const auto isReverseStrand =
+        static_cast<bool>(record.flag() & seqan3::sam_flag::on_reverse_strand);
+    const dtp::Strand strand{isReverseStrand ? dtp::Strand::REVERSE : dtp::Strand::FORWARD};
+
+    const auto start = record.reference_position();
+    const std::optional<int32_t> end = recordEndPosition(record);
+
+    if (!start.has_value() || !end.has_value()) {
+        return std::nullopt;
+    }
+
+    const double hybridizationEnergy = record.tags().get<"XE"_tag>();
+    const double complementarityScore = record.tags().get<"XC"_tag>();
+
+    return Segment{record.id(),
+                   record.reference_id().value(),
+                   strand,
+                   start.value(),
+                   end.value(),
+                   complementarityScore,
+                   hybridizationEnergy};
+}
+
+dtp::GenomicRegion Segment::toGenomicRegion(const std::deque<std::string> &referenceIDs) const {
+    return dtp::GenomicRegion{referenceIDs[referenceIDIndex], start, end};
+}
+
+dtp::Feature Segment::toFeature(const std::deque<std::string> &referenceIDs,
+                                const std::string &featureID,
+                                const std::string &featureType) const {
+    return dtp::Feature{referenceIDs[referenceIDIndex], featureType, start, end, strand, featureID};
+}
+
+void Segment::merge(const Segment &other) {
+    start = std::min(start, other.start);
+    end = std::max(end, other.end);
+    maxComplementarityScore = std::max(maxComplementarityScore, other.maxComplementarityScore);
+    minHybridizationEnergy = std::min(minHybridizationEnergy, other.minHybridizationEnergy);
+}
+
+// ReadCluster
+InteractionCluster::InteractionCluster(std::pair<Segment, Segment> segments,
+                                       std::vector<double> complementarityScores,
+                                       std::vector<double> hybridizationEnergies)
+    : segments(segments),
+      complementarityScores(complementarityScores),
+      hybridizationEnergies(hybridizationEnergies) {}
+
+std::optional<std::pair<Segment, Segment>> InteractionCluster::getSortedElements(
+    const Segment &segment1, const Segment &segment2) {
+    if (segment1.recordID != segment2.recordID) {
+        Logger::log(LogLevel::WARNING, "Record IDs do not match: ", segment1.recordID, " vs. ",
+                    segment2.recordID, ". Make sure reads are sorted by name.");
+        return std::nullopt;
+    }
+
+    // Optimized version
+    return segment1.referenceIDIndex < segment2.referenceIDIndex ||
+                   (segment1.referenceIDIndex == segment2.referenceIDIndex &&
+                    segment1.start < segment2.start)
+               ? std::make_pair(segment1, segment2)
+               : std::make_pair(segment2, segment1);
+}
+
+std::optional<InteractionCluster> InteractionCluster::fromSegments(const Segment &segment1,
+                                                                   const Segment &segment2) {
+    const auto sortedElements = getSortedElements(segment1, segment2);
+    if (!sortedElements.has_value()) {
+        return std::nullopt;
+    }
+
+    assert(sortedElements.value().first.maxComplementarityScore ==
+           sortedElements.value().second.maxComplementarityScore);
+    assert(sortedElements.value().first.minHybridizationEnergy ==
+           sortedElements.value().second.minHybridizationEnergy);
+
+    return InteractionCluster{sortedElements.value(),
+                              {sortedElements->first.maxComplementarityScore},
+                              {sortedElements->first.minHybridizationEnergy}};
+}
+
+bool InteractionCluster::operator<(const InteractionCluster &a) const {
+    return std::tie(segments.first.start, segments.second.start) <
+           std::tie(a.segments.first.start, a.segments.second.start);
+}
+
+bool InteractionCluster::overlaps(const InteractionCluster &other, const int graceDistance) const {
+    bool isSameReferenceAndStrand =
+        segments.first.referenceIDIndex == other.segments.first.referenceIDIndex &&
+        segments.second.referenceIDIndex == other.segments.second.referenceIDIndex &&
+        segments.first.strand == other.segments.first.strand &&
+        segments.second.strand == other.segments.second.strand;
+
+    if (!isSameReferenceAndStrand) {
+        return false;
+    }
+
+    const bool firstOverlaps = segments.first.end + graceDistance >= other.segments.first.start &&
+                               segments.first.start <= other.segments.first.end + graceDistance;
+    const bool secondOverlaps =
+        segments.second.end + graceDistance >= other.segments.second.start &&
+        segments.second.start <= other.segments.second.end + graceDistance;
+
+    return firstOverlaps && secondOverlaps;
+}
+
+void InteractionCluster::merge(const InteractionCluster &other) {
+    assert(segments.first.referenceIDIndex == other.segments.first.referenceIDIndex);
+    assert(segments.second.referenceIDIndex == other.segments.second.referenceIDIndex);
+    assert(segments.first.strand == other.segments.first.strand);
+    assert(segments.second.strand == other.segments.second.strand);
+
+    segments.first.merge(other.segments.first);
+    segments.second.merge(other.segments.second);
+
+    complementarityScores.reserve(complementarityScores.size() +
+                                  other.complementarityScores.size());
+    hybridizationEnergies.reserve(hybridizationEnergies.size() +
+                                  other.hybridizationEnergies.size());
+
+    complementarityScores.insert(complementarityScores.end(),
+                                 std::make_move_iterator(other.complementarityScores.begin()),
+                                 std::make_move_iterator(other.complementarityScores.end()));
+    hybridizationEnergies.insert(hybridizationEnergies.end(),
+                                 std::make_move_iterator(other.hybridizationEnergies.begin()),
+                                 std::make_move_iterator(other.hybridizationEnergies.end()));
+
+    count += other.count;
+}
+
+double InteractionCluster::complementarityStatistics() const {
+    assert(!complementarityScores.empty());
+    assert(segments.first.maxComplementarityScore == segments.second.maxComplementarityScore);
+    return helper::calculateMedian(complementarityScores) * segments.first.maxComplementarityScore;
+}
+
+double InteractionCluster::hybridizationEnergyStatistics() const {
+    assert(!hybridizationEnergies.empty());
+    assert(segments.first.minHybridizationEnergy == segments.second.minHybridizationEnergy);
+    return std::sqrt(helper::calculateMedian(hybridizationEnergies) *
+                     segments.first.minHybridizationEnergy);
+}
+
+// Cluster
+Analyze::Analyze(po::variables_map params)
+    : params(params),
+      featureAnnotator(params["features"].as<std::string>(),
+                       params["featuretypes"].as<std::vector<std::string>>()) {}
+
+void Analyze::iterateSplitsFile(const fs::path &splitsInPath,
+                                const fs::path &unassignedSingletonsInPath,
+                                const fs::path &fragmentCountsInPath,
+                                const fs::path &clusterOutPath,
+                                const fs::path &supplementaryFeaturesOutPath,
+                                const fs::path &clusterTranscriptCountsOutPath) {
+    seqan3::sam_file_input splitsIn{splitsInPath.string(), sam_field_ids{}};
+
+    auto &header = splitsIn.header();
+    std::vector<size_t> ref_lengths{};
+    std::ranges::transform(header.ref_id_info, std::back_inserter(ref_lengths),
+                           [](auto const &info) { return std::get<0>(info); });
+
+    const std::deque<std::string> &referenceIDs = header.ref_ids();
+
+    size_t subsetChunkSize = 10;
+    std::vector<InteractionCluster> subset;
+    subset.reserve(subsetChunkSize);
+
+    std::vector<InteractionCluster> mergedClusters;
+
+    for (auto &&records : splitsIn | seqan3::views::chunk(2)) {
+        std::optional<Segment> segment1 = Segment::fromSamRecord(*records.begin());
+        std::optional<Segment> segment2 = Segment::fromSamRecord(*(++records.begin()));
+
+        if (!segment1 || !segment2) {
+            continue;
+        }
+
+        auto cluster = InteractionCluster::fromSegments(*segment1, *segment2);
+
+        if (!cluster) {
+            continue;
+        }
+
+        subset.push_back(std::move(*cluster));
+
+        if (subset.size() == subsetChunkSize) {
+            mergeOverlappingClusters(subset);
+
+            mergedClusters.reserve(mergedClusters.size() + subset.size());
+            std::move(subset.begin(), subset.end(), std::back_inserter(mergedClusters));
+            subset.clear();
+        }
+    }
+
+    if (!subset.empty()) {
+        mergeOverlappingClusters(subset);
+
+        mergedClusters.reserve(mergedClusters.size() + subset.size());
+        std::move(subset.begin(), subset.end(), std::back_inserter(mergedClusters));
+    }
+
+    mergeOverlappingClusters(mergedClusters);
+
+    assignClustersToTranscripts(mergedClusters, referenceIDs, unassignedSingletonsInPath,
+                                fragmentCountsInPath, supplementaryFeaturesOutPath,
+                                clusterTranscriptCountsOutPath);
+
+    writeInteractionsToFile(mergedClusters, clusterOutPath, referenceIDs);
+}
+
+void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clusters,
+                                          const std::deque<std::string> &referenceIDs,
+                                          const fs::path &unassignedSingletonsInPath,
+                                          const fs::path &fragmentCountsInPath,
+                                          const fs::path &supplementaryFeaturesOutPath,
+                                          const fs::path &transcriptCountsOutPath) {
+    std::ofstream supplementaryFeaturesOut(supplementaryFeaturesOutPath.string());
+
+    if (!supplementaryFeaturesOut.is_open()) {
+        Logger::log(LogLevel::ERROR,
+                    "Could not open file: ", supplementaryFeaturesOutPath.string());
+    }
+
+    supplementaryFeaturesOut << "##gff-version 3\n";
+
+    size_t supplementaryFeatureCount = 0;
+    auto writeSupplementaryFeature = [&](const Segment &segment,
+                                         std::stringstream &stream) -> std::string {
+        const std::string transcriptID =
+            "supplementary_" + std::to_string(supplementaryFeatureCount++);
+        stream << referenceIDs[segment.referenceIDIndex] << "\t"
+               << "RNAnue"
+               << "\t"
+               << "partial_transcript"
+               << "\t" << segment.start << "\t" << segment.end << "\t"
+               << "."
+               << "\t" << static_cast<char>(segment.strand) << "\t"
+               << "."
+               << "\t"
+               << "ID=" << transcriptID << ";"
+               << "\n";
+        return transcriptID;
+    };
+
+    std::unordered_map<std::string, size_t> transcriptCounts;
+    dtp::FeatureMap supplementaryFeatureMap;
+
+    std::stringstream supplementaryFeaturesStream;
+    supplementaryFeaturesStream << "##gff-version 3\n";
+
+    for (auto &cluster : clusters) {
+        const auto &firstSegment = cluster.segments.first;
+        const auto &secondSegment = cluster.segments.second;
+
+        auto processSegment = [&](const Segment &segment) -> std::string {
+            const auto segmentFeature =
+                featureAnnotator.getBestOverlappingFeature(segment.toGenomicRegion(referenceIDs));
+            if (!segmentFeature) {
+                const std::string transcriptID =
+                    writeSupplementaryFeature(segment, supplementaryFeaturesStream);
+                transcriptCounts[transcriptID] = cluster.count;
+                return transcriptID;
+            } else {
+                transcriptCounts[segmentFeature.value().id] += cluster.count;
+                return segmentFeature.value().id;
+            }
+        };
+
+        const std::string firstSegmentTranscriptID = processSegment(firstSegment);
+        const std::string secondSegmentTranscriptID = processSegment(secondSegment);
+
+        cluster.transcriptIDs = std::make_pair(firstSegmentTranscriptID, secondSegmentTranscriptID);
+    }
+
+    // Write supplementary features to file
+    supplementaryFeaturesOut << supplementaryFeaturesStream.str();
+
+    Annotation::FeatureAnnotator supplementaryFeatureAnnotator(supplementaryFeatureMap);
+
+    assignNonAnnotatedSingletonsToSupplementaryFeatures(
+        unassignedSingletonsInPath, supplementaryFeatureAnnotator, transcriptCounts);
+
+    const size_t totalFragmentCount = parseSampleFragmentCount(fragmentCountsInPath);
+    assignPValuesToClusters(clusters, transcriptCounts, totalFragmentCount);
+
+    std::ofstream transcriptCountsOut(transcriptCountsOutPath.string());
+
+    if (!transcriptCountsOut.is_open()) {
+        Logger::log(LogLevel::ERROR, "Could not open file: ", transcriptCountsOutPath.string());
+    }
+
+    for (const auto &[transcriptID, count] : transcriptCounts) {
+        transcriptCountsOut << transcriptID << "\t" << count << "\n";
+    }
+}
+
+std::unordered_map<std::string, double> Analyze::getTranscriptProbabilities(
+    const std::unordered_map<std::string, size_t> &transcriptCounts,
+    const size_t totalFragmentCount) {
+    std::unordered_map<std::string, double> transcriptProbabilities;
+
+    double cumulativeProbability = 0;
+    for (const auto &[transcriptID, count] : transcriptCounts) {
+        transcriptProbabilities[transcriptID] = static_cast<double>(count) / totalFragmentCount;
+        cumulativeProbability += transcriptProbabilities[transcriptID];
+    }
+
+    // Normalize probabilities to sum to 1
+    for (auto &[transcriptID, probability] : transcriptProbabilities) {
+        probability /= cumulativeProbability;
+    }
+
+    return transcriptProbabilities;
+}
+
+void Analyze::assignPAdjustedValuesToClusters(std::vector<InteractionCluster> &clusters) {
+    std::vector<std::pair<double, size_t>> pValuesWithIndex;
+    pValuesWithIndex.reserve(clusters.size());  // Reserve capacity to avoid reallocations
+
+    for (size_t i = 0; i < clusters.size(); ++i) {
+        if (clusters[i].pValue.has_value()) {
+            pValuesWithIndex.emplace_back(clusters[i].pValue.value(), i);
+        }
+    }
+
+    std::sort(pValuesWithIndex.begin(), pValuesWithIndex.end());
+
+    const size_t numPValues = pValuesWithIndex.size();
+    double minAdjPValue = 1.0;
+    for (size_t i = numPValues; i-- > 0;) {
+        double rank = static_cast<double>(i + 1);
+        double adjustedPValue =
+            std::min(minAdjPValue, (pValuesWithIndex[i].first * numPValues / rank));
+        minAdjPValue = adjustedPValue;
+        clusters[pValuesWithIndex[i].second].pAdj = adjustedPValue;
+    }
+}
+
+void Analyze::assignPValuesToClusters(
+    std::vector<InteractionCluster> &clusters,
+    const std::unordered_map<std::string, size_t> &transcriptCounts,
+    const size_t totalFragmentCount) {
+    const auto transcriptProbabilities =
+        getTranscriptProbabilities(transcriptCounts, totalFragmentCount);
+
+    for (auto &cluster : clusters) {
+        if (!cluster.transcriptIDs.has_value()) {
+            Logger::log(LogLevel::WARNING, "Some cluster is missing transcript IDs.");
+            continue;
+        }
+
+        const auto &firstTranscriptID = cluster.transcriptIDs->first;
+        const auto &secondTranscriptID = cluster.transcriptIDs->second;
+
+        auto findProbability = [&](const std::string &transcriptID) -> std::optional<double> {
+            auto it = transcriptProbabilities.find(transcriptID);
+            if (it != transcriptProbabilities.end()) {
+                return it->second;
+            }
+            return std::nullopt;
+        };
+
+        auto firstTranscriptProbability = findProbability(firstTranscriptID);
+        auto secondTranscriptProbability = findProbability(secondTranscriptID);
+
+        if (!firstTranscriptProbability || !secondTranscriptProbability) {
+            Logger::log(LogLevel::WARNING, "Could not find transcript probabilities for cluster.");
+            continue;
+        }
+
+        const double ligationByChanceProbability =
+            (firstTranscriptID == secondTranscriptID)
+                ? firstTranscriptProbability.value() * secondTranscriptProbability.value()
+                : 2 * firstTranscriptProbability.value() * secondTranscriptProbability.value();
+        ;
+
+        const auto binomialDistribution =
+            math::binomial_distribution((double)totalFragmentCount, ligationByChanceProbability);
+
+        const double pValue = 1 - math::cdf(binomialDistribution, cluster.count);
+
+        cluster.pValue = pValue;
+    }
+
+    assignPAdjustedValuesToClusters(clusters);
+}
+
+void Analyze::assignNonAnnotatedSingletonsToSupplementaryFeatures(
+    const fs::path &unassignedSingletonsInPath, Annotation::FeatureAnnotator &featureAnnotator,
+    std::unordered_map<std::string, size_t> &transcriptCounts) {
+    seqan3::sam_file_input unassignedSingletonsIn{unassignedSingletonsInPath.string(),
+                                                  sam_field_ids{}};
+
+    for (auto &&records : unassignedSingletonsIn) {
+        const auto region =
+            dtp::GenomicRegion::fromSamRecord(records, unassignedSingletonsIn.header().ref_ids());
+
+        if (!region) {
+            continue;
+        }
+
+        const auto bestFeature = featureAnnotator.getBestOverlappingFeature(region.value());
+
+        if (!bestFeature) {
+            continue;
+        }
+
+        const std::string &transcriptID = bestFeature->id;
+        assert(transcriptCounts.contains(transcriptID));
+        ++transcriptCounts[transcriptID];
+    }
+}
+
+void Analyze::writeBEDLineToFile(const InteractionCluster &cluster, const std::string &clusterID,
+                                 const std::deque<std::string> &referenceIDs,
+                                 std::ofstream &bedOut) {
+    const std::string randomColor = helper::generateRandomHexColor();
+    bedOut << getReferenceID(cluster.segments.first.referenceIDIndex, referenceIDs) << "\t";
+    bedOut << cluster.segments.first.start << "\t";
+    bedOut << cluster.segments.first.end << "\t";
+    bedOut << "cluster" << clusterID << "_segment1"
+           << "\t";
+    bedOut << "0\t";
+    bedOut << static_cast<char>(cluster.segments.first.strand) << "\t";
+    bedOut << cluster.segments.first.start << "\t";
+    bedOut << cluster.segments.first.end << "\t";
+    bedOut << randomColor << "\n";
+
+    bedOut << getReferenceID(cluster.segments.second.referenceIDIndex, referenceIDs) << "\t";
+    bedOut << cluster.segments.second.start << "\t";
+    bedOut << cluster.segments.second.end << "\t";
+    bedOut << "cluster" << clusterID << "_segment2"
+           << "\t";
+    bedOut << "0\t";
+    bedOut << static_cast<char>(cluster.segments.second.strand) << "\t";
+    bedOut << cluster.segments.second.start << "\t";
+    bedOut << cluster.segments.second.end << "\t";
+    bedOut << randomColor << "\n";
+}
+
+void Analyze::writeInteractionLineToFile(const InteractionCluster &cluster,
+                                         const std::string &clusterID,
+                                         const std::deque<std::string> &referenceIDs,
+                                         std::ofstream &interactionOut) {
+    interactionOut << "cluster" << clusterID << "\t";
+
+    interactionOut << cluster.transcriptIDs->first << "\t";
+    interactionOut << getReferenceID(cluster.segments.first.referenceIDIndex, referenceIDs) << "\t";
+    interactionOut << static_cast<char>(cluster.segments.first.strand) << "\t";
+    interactionOut << cluster.segments.first.start << "\t";
+    interactionOut << cluster.segments.first.end << "\t";
+
+    interactionOut << cluster.transcriptIDs->second << "\t";
+    interactionOut << getReferenceID(cluster.segments.second.referenceIDIndex, referenceIDs)
+                   << "\t";
+    interactionOut << static_cast<char>(cluster.segments.second.strand) << "\t";
+    interactionOut << cluster.segments.second.start << "\t";
+    interactionOut << cluster.segments.second.end << "\t";
+
+    interactionOut << cluster.count << "\t";
+    interactionOut << cluster.complementarityStatistics() << "\t";
+    interactionOut << cluster.hybridizationEnergyStatistics() << "\t";
+    interactionOut << cluster.pValue.value_or(1.0) << "\t";
+    interactionOut << cluster.pAdj.value_or(1.0);
+    interactionOut << "\n";
+}
+
+void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mergedClusters,
+                                      const fs::path &clusterOutPath,
+                                      const std::deque<std::string> &referenceIDs) {
+    Logger::log(LogLevel::INFO, "Writing interactions to file: ", clusterOutPath.string());
+
+    std::ofstream interactionOut(clusterOutPath.string());
+    if (!interactionOut.is_open()) {
+        Logger::log(LogLevel::ERROR, "Could not open file: ", clusterOutPath.string());
+    }
+
+    interactionOut << "cluster_ID\tfst_feat_id\tfst_seg_chr\tfst_seg_strd\tfst_seg_strt\tfst_seg_"
+                      "end\tsec_feat_id\t"
+                      "sec_seg_chr\tsec_seg_strd\tsec_seg_strt\tsec_seg_end\tno_splits\t"
+                      "gcs\tghs\tp_value\tpadj_value\n";
+
+    fs::path bedOutPath = clusterOutPath;
+    bedOutPath.replace_extension(".bed");
+
+    std::ofstream bedOut(bedOutPath.string());
+
+    if (!bedOut.is_open()) {
+        Logger::log(LogLevel::ERROR, "Could not open file: ", bedOutPath.string());
+    }
+
+    const std::string sampleName = clusterOutPath.stem().string();
+    bedOut << "track name=\"" << sampleName
+           << " RNA-RNA interactions\" description=\"Segments of interacting RNA "
+              "clusters derived from DDD-Experiment\" itemRgb=\"On\"\n";
+
+    size_t clusterID = 0;
+    for (const auto &cluster : mergedClusters) {
+        writeBEDLineToFile(cluster, std::to_string(clusterID), referenceIDs, bedOut);
+        writeInteractionLineToFile(cluster, std::to_string(clusterID), referenceIDs,
+                                   interactionOut);
+        ++clusterID;
+    }
+}
+
+void Analyze::mergeOverlappingClusters(std::vector<InteractionCluster> &clusters) {
+    // sort by first segment (and the second)
+    std::ranges::sort(clusters, std::less{});
+
+    int clusterDistance = params["clustdist"].as<int>();
+
+    for (size_t i = 0; i < clusters.size(); ++i) {
+        for (size_t j = i + 1; j < clusters.size(); ++j) {
+            // checks if the first overlaps
+            if (clusters[i].overlaps(clusters[j], clusterDistance)) {
+                clusters[j].merge(clusters[i]);
+                clusters.erase(clusters.begin() + i);  // remove cluster
+                --i;
+                break;
+            }
+        }
+    }
+}
+
+size_t Analyze::parseSampleFragmentCount(const fs::path &sampleCountsInPath) {
+    std::ifstream sampleCountsIn(sampleCountsInPath);
+
+    if (!sampleCountsIn.is_open()) {
+        Logger::log(LogLevel::ERROR, "Could not open file: ", sampleCountsInPath.string());
+    }
+
+    sampleCountsIn.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // skip header
+
+    size_t totalTranscriptCount = 0;
+    std::string line;
+    while (std::getline(sampleCountsIn, line)) {
+        std::istringstream iss(line);
+
+        size_t column = 0;
+        for (std::string token; std::getline(iss, token, '\t');) {
+            if (column != 0) {
+                totalTranscriptCount += std::stoul(token);
+            }
+            ++column;
+        }
+
+        break;  // Should only be one line
+    }
+
+    return totalTranscriptCount;
 }
 
 void Analyze::start(pt::ptree sample) {
-    // this->freq.clear();  // reset freq
-    // // retrieve input and output files
-    // pt::ptree input = sample.get_child("input");
-    // std::string single = input.get<std::string>("single");
-    // std::string splits = input.get<std::string>("splits");
+    pt::ptree input = sample.get_child("input");
+    pt::ptree output = sample.get_child("output");
 
-    // pt::ptree output = sample.get_child("output");
-    // std::string interactions = output.get<std::string>("interactions");
+    fs::path splitsInPath = input.get<std::string>("splits");
+    fs::path unassignedSingletonsInPath = input.get<std::string>("singletonunassigned");
+    fs::path fragmentCountsInPath = input.get<std::string>("samplecounts");
 
-    // //
-    // this->freq = std::map<std::pair<std::string, std::string>, double>();
-    // this->condition = condition.get<std::string>("condition");  // store current condition
+    fs::path clusterOutPath = output.get<std::string>("clusters");
+    fs::path supplementaryFeaturesOutPath = output.get<std::string>("supplementaryfeatures");
+    fs::path clusterTranscriptCountsOutPath = output.get<std::string>("clustertranscriptcounts");
 
-    // this->readcount = 0;
-
-    // processSingle(single);
-    // processSplits(splits, interactions);
-
-    // this->repcount++;  // increase replicate count
-
-    // normalize();
+    iterateSplitsFile(splitsInPath, unassignedSingletonsInPath, fragmentCountsInPath,
+                      clusterOutPath, supplementaryFeaturesOutPath, clusterTranscriptCountsOutPath);
 }
-
-// void Analysis::processSingle(std::string& single) {
-//     seqan3::sam_file_input inputSingle{single};  // match reads
-//     std::vector<size_t> ref_lengths{};           // header
-//     for (auto& info : inputSingle.header().ref_id_info) {
-//         ref_lengths.push_back(std::get<0>(info));
-//     }
-//     std::deque<std::string> refIds = inputSingle.header().ref_ids();
-//     std::optional<int32_t> refOffset = std::nullopt;
-//     std::string orient = "";  // e.g., sense (ss) or antisense (as)
-//     char strand = ' ';
-//     uint32_t start = 0, end = 0;
-//     for (auto& rec : inputSingle) {
-//         refOffset = rec.reference_position();
-//         start = rec.reference_position().value();
-//         end = rec.reference_position().value() + rec.sequence().size();
-//         if (static_cast<bool>(rec.flag() & seqan3::sam_flag::on_reverse_strand)) {
-//             strand = '-';
-//         } else {
-//             strand = '+';
-//         }
-
-//         std::vector<std::pair<Node*, IntervalData*>> ovlps =
-//             features.search(refIds[rec.reference_id().value()], {start, end});
-//         if (ovlps.size() > 0) {
-//             for (auto& ovl : ovlps) {
-//                 if (strand == ovl.second->getStrand()) {
-//                     orient = "sense";
-//                 } else {
-//                     orient = "antisense";
-//                 }
-//                 addToFreqMap(std::make_pair(orient, ovl.second->getName()),
-//                              1.0 / (double)ovlps.size());  // add to freq
-//             }
-//         }
-//         readcount++;
-//     }
-// }
-
-// void Analysis::processSplits(std::string& splits, std::string& output) {
-//     seqan3::sam_file_input inputSplits{splits};    // match reads
-//     std::ofstream outInts(output, std::ios::out);  // output interactions
-//     writeInteractionsHeader(outInts);              // write header in output file
-
-//     std::vector<size_t> ref_lengths{};  // header
-//     for (auto& info : inputSplits.header().ref_id_info) {
-//         ref_lengths.push_back(std::get<0>(info));
-//     }
-//     std::deque<std::string> refIds = inputSplits.header().ref_ids();
-
-//     // variables
-//     std::string outLine = "";     // buffers the output file for interaction entry
-//     std::bitset<1> skip = 0;      // skip if no match
-//     char strand = ' ';            // strand of segment
-//     std::string orient = "";      // orientation of segment (ss or as)
-//     uint32_t start = 0, end = 0;  // start and end of segment
-//     std::string refName = "";     // reference name
-
-//     // information from the tags
-//     seqan3::sam_tag_dictionary tags;
-//     std::pair<float, float> filters;  // complementarity and hybridization energy
-//     std::vector<std::string> aligns;  // alignment of complementarity
-
-//     // segment information (e.g., gene name, product, etc.) - keys are the as or ss
-//     std::map<std::string, std::vector<IntervalData*>> segmentInfo = {};
-
-//     for (auto&& rec : inputSplits | seqan3::views::chunk(2)) {
-//         outLine = (*rec.begin()).id();  // QNAME
-//         // reset
-//         skip = 0;                            // reset skip
-//         segmentInfo.clear();                 // reset segment info
-//         filters = std::make_pair(0.0, 0.0);  // reset filters
-//         aligns.clear();
-
-//         // retrieve complementarity and energy
-//         tags = (*rec.begin()).tags();
-//         filters = std::make_pair(std::get<float>(tags["XC"_tag]),
-//         std::get<float>(tags["XE"_tag]));
-
-//         dtp::IntKey intKey =
-//             {};  // key to store the interaction (partner1, orientation1, partner2, orientation2)
-
-//         for (auto& split : rec) {
-//             if (static_cast<bool>(split.flag() & seqan3::sam_flag::on_reverse_strand)) {
-//                 strand = '-';
-//             } else {
-//                 strand = '+';
-//             }
-//             outLine += "\t" + std::string(1, strand);  // strand
-//             start = split.reference_position().value();
-//             end = split.reference_position().value() + split.sequence().size();
-//             outLine += "\t" + std::to_string(start) + "\t" + std::to_string(end);  // start & end
-//             refName = refIds[split.reference_id().value()];
-//             outLine += "\t" + refName;  // reference name
-
-//             tags = split.tags();  // retrieve the alignment information
-//             aligns.push_back(std::get<std::string>(tags["XA"_tag]));
-
-//             // match with features
-//             std::vector<std::pair<Node*, IntervalData*>> ovlps =
-//                 features.search(refIds[split.reference_id().value()], {start, end});
-//             segmentInfo = {};  // reset segmentInfo
-//             if (ovlps.size() > 0) {
-//                 segmentInfo.insert({"sense", {}});
-//                 segmentInfo.insert({"antisense", {}});
-//                 for (auto& ovl : ovlps) {
-//                     if (strand == ovl.second->getStrand()) {
-//                         orient = "sense";
-//                     } else {
-//                         orient = "antisense";
-//                     }
-//                     segmentInfo[orient].push_back(ovl.second);  // add to segmentInfo
-//                     addToFreqMap(std::make_pair(orient, ovl.second->getName()),
-//                                  1.0 / (double)ovlps.size());  // add to freq
-
-//                     /*
-//                     std::string info = ovl.second->getName() + "\t" + ovl.second->getBiotype() +
-//                     "\t" + ovl.second->getStrand() + "\t" + "." + "\t" + orient;
-//                     segmentInfo[orient].push_back(info);*/
-//                 }
-//                 // check which one to select
-//                 if (segmentInfo["sense"].size() == 1) {
-//                     IntervalData* data = segmentInfo["sense"][0];
-//                     outLine += "\t" + data->getName() + "\t" + data->getBiotype() + "\t" +
-//                                data->getStrand();
-//                     outLine += "\t.\tsense";
-//                     intKey.push_back(dtp::IntPartner(data->getName(), "sense"));
-//                 } else {
-//                     if (segmentInfo["antisense"].size() == 1) {
-//                         IntervalData* data = segmentInfo["antisense"][0];
-//                         outLine += "\t" + data->getName() + "\t" + data->getBiotype() + "\t" +
-//                                    data->getStrand();
-//                         outLine += "\t.\tsense";
-//                         intKey.push_back(dtp::IntPartner(data->getName(), "antisense"));
-//                     } else {
-//                         skip = 1;  // skip if not unique
-//                     }
-//                 }
-//             } else {
-//                 skip = 1;
-//             }  // skip if no match
-//         }
-//         outLine += "\t" + std::to_string(filters.first);          // complementarity
-//         outLine += "\t" + aligns[0] + "\t" + aligns[1];           // alignment
-//         outLine += "\t" + std::to_string(filters.second) + "\n";  // energy
-//         if (skip == 0) {
-//             outInts << outLine;
-//             addToSuppReads(intKey[0], intKey[1]);
-//             addToCompl(intKey[0], intKey[1], filters.first);
-//             addToHybEnergies(intKey[0], intKey[1], filters.second);
-//         }  // write to file (if not skipped)
-//         readcount++;
-//     }
-//     outInts.close();
-// }
-
-// void Analysis::writeInteractionsHeader(std::ofstream& fout) {
-//     fout <<
-//     "qname\tfst_seg_strd\tfst_seg_strt\tfst_seg_end\tfst_seg_ref\tfst_seg_name\tfirst_seg_"
-//             "bt\t";
-//     fout << "fst_seg_anno_strd\tfst_seg_prod\tfst_seg_ori\tsec_seg_strd\tsec_seg_strt\tsec_seg_"
-//             "end\t";
-//     fout <<
-//     "sec_seg_ref\tsec_seg_name\tsec_seg_bt\tsec_seg_anno_strd\tsec_seg_prod\tsec_seg_ori\t"; fout
-//     << "cmpl\tfst_seg_compl_aln\tsec_seg_cmpl_aln\tmfe\n";
-// }
-
-// void Analysis::writeAllIntsHeader(std::ofstream& fout) {
-//     fout << "fst_rna\tsec_rna\tfst_rna_ori\tsec_rna_ori";
-// }
-// void Analysis::addToAllIntsHeader(std::ofstream& fout, std::string key) { fout << "\t" << key; }
-
-// void Analysis::normalize() {
-//     // sum up all frequencies
-//     double sum = 0.0;
-//     for (auto& f : this->freq) {
-//         sum += f.second;
-//     }
-
-//     // normalize
-//     for (auto& f : this->freq) {
-//         f.second = f.second / sum;
-//     }
-
-//     // print
-//     /*
-//     for(auto& f : freq) {
-//         std::cout << f.first.first << " " << f.first.second << " " << f.second << std::endl;
-//     }*/
-// }
-
-// void Analysis::addToFreqMap(std::pair<std::string, std::string> key, double value) {
-//     if (freq.count(key) == 0) {
-//         freq.insert(std::make_pair(key, value));
-//     } else {
-//         freq[key] += value;
-//     }
-// }
-
-// bool operator<(const dtp::IntKey& lhs, const dtp::IntKey& rhs) {
-//     return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-// }
-
-// void Analysis::addToSuppReads(dtp::IntPartner p1, dtp::IntPartner p2) {
-//     dtp::IntKey key;
-//     if (p1 < p2) {
-//         key = {p1, p2};
-//     } else {
-//         key = {p2, p1};
-//     }
-//     // check if key in map
-//     if (suppreads.find(key) == suppreads.end()) {
-//         std::vector<double> suppReadsRepl =
-//             {};  // new list for all replicates (up to the current one)
-//         for (int i = 0; i < repcount; ++i) {
-//             suppReadsRepl.push_back(0.0);
-//         }
-//         suppReadsRepl.push_back(1.0);  // add 1.0 for the last (current) replicate
-//         suppreads.insert({key, suppReadsRepl});
-//     } else {  // key found in map
-//         std::vector<double>& suppReadsRepl = this->suppreads[key];
-//         if (suppReadsRepl.size() <
-//             repcount) {  // not yet at the current replicate (probably skipped a few)
-//             for (int i = suppReadsRepl.size(); i < repcount; ++i) {
-//                 suppReadsRepl.push_back(0.0);
-//             }
-//             suppReadsRepl.push_back(1.0);
-//         } else {
-//             if (suppReadsRepl.size() > repcount) {
-//                 suppReadsRepl[repcount] += 1.0;
-//             } else {
-//                 suppReadsRepl.push_back(1.0);
-//             }
-//         }
-//     }
-// }
-
-// void Analysis::addToCompl(dtp::IntPartner p1, dtp::IntPartner p2, double complementarity) {
-//     dtp::IntKey key;
-//     if (p1 < p2) {
-//         key = {p1, p2};
-//     } else {
-//         key = {p2, p1};
-//     }
-//     // check if key in map
-//     if (complementarities.find(key) == complementarities.end()) {
-//         std::vector<std::vector<double>> CmplsRepl =
-//             {};  // new list for all replicates (up to the current one)
-//         for (int i = 0; i < repcount; ++i) {
-//             CmplsRepl.push_back({});
-//         }
-//         CmplsRepl.push_back({complementarity});  // add 1.0 for the last (current) replicate
-//         complementarities.insert({key, CmplsRepl});
-//     } else {
-//         std::vector<std::vector<double>>& cmplsRepl = this->complementarities[key];
-//         if (cmplsRepl.size() <
-//             repcount) {  // not yet at the current replicate (probably skipped a few)
-//             for (int i = cmplsRepl.size(); i < repcount; ++i) {
-//                 cmplsRepl.push_back({});
-//             }
-//             cmplsRepl.push_back({complementarity});
-//         } else {
-//             if (cmplsRepl.size() > repcount) {
-//                 cmplsRepl[repcount].push_back(complementarity);
-//             } else {
-//                 cmplsRepl.push_back({complementarity});
-//             }
-//         }
-//     }
-// }
-
-// void Analysis::addToHybEnergies(dtp::IntPartner p1, dtp::IntPartner p2, double hybenergy) {
-//     dtp::IntKey key;
-//     if (p1 < p2) {
-//         key = {p1, p2};
-//     } else {
-//         key = {p2, p1};
-//     }
-//     // check if key in map
-//     if (hybenergies.find(key) == hybenergies.end()) {
-//         std::vector<std::vector<double>> hybRepl =
-//             {};  // new list for all replicates (up to the current one)
-//         for (int i = 0; i < repcount; ++i) {
-//             hybRepl.push_back({});
-//         }
-//         hybRepl.push_back({hybenergy});  // add 1.0 for the last (current) replicate
-//         hybenergies.insert({key, hybRepl});
-//     } else {
-//         std::vector<std::vector<double>>& hybRepl = this->hybenergies[key];
-//         if (hybRepl.size() <
-//             repcount) {  // not yet at the current replicate (probably skipped a few)
-//             for (int i = hybRepl.size(); i < repcount; ++i) {
-//                 hybRepl.push_back({});
-//             }
-//             hybRepl.push_back({hybenergy});
-//         } else {
-//             if (hybRepl.size() > repcount) {
-//                 hybRepl[repcount].push_back(hybenergy);
-//             } else {
-//                 hybRepl.push_back({hybenergy});
-//             }
-//         }
-//     }
-// }
-
-// double Analysis::calcGCS(std::vector<double>& complementarities) {
-//     if (complementarities.size() == 0) {
-//         return 0.0;
-//     }
-//     double median = stats::median(complementarities);
-//     double maximum = *std::max_element(complementarities.begin(), complementarities.end());
-//     return median * maximum;
-// }
-
-// double Analysis::calcGHS(std::vector<double>& hybenergies) {
-//     if (hybenergies.size() == 0) {
-//         return 1000.0;
-//     }
-//     double median = stats::median(hybenergies);
-//     double minimum = *std::min_element(hybenergies.begin(), hybenergies.end());
-//     if (median < 0 && minimum < 0) {
-//         return -sqrt(median * minimum);
-//     } else {
-//         if (median > 0 && minimum > 0) {
-//             return sqrt(median * minimum);
-//         } else {
-//             return sqrt(abs(median * minimum));
-//         }
-//     }
-// }
-
-// double Analysis::calcStat(dtp::IntKey key, int x) {
-//     std::pair<std::string, std::string> p1 = {key[0].orientation, key[0].partner};
-//     std::pair<std::string, std::string> p2 = {key[1].orientation, key[1].partner};
-//     double p;
-//     if (freq.find(p1) == freq.end() || freq.find(p2) == freq.end()) {
-//         p = 0.0;
-//     } else {
-//         if (p1 == p2) {
-//             p = freq[p1] * freq[p2];
-//         } else {
-//             p = 2 * freq[p1] * freq[p2];
-//         }
-//     }
-//     ma::binomial_distribution<double> binomial(this->readcount, p);
-//     double pval = 1.0 - ma::cdf(binomial, x);
-//     return pval;
-// }
-
-// void Analysis::writeAllInts() {
-//     std::string outDirPath = params["outdir"].as<std::string>();
-//     fs::path outDirDetectPath = fs::path(outDirPath) / fs::path("analysis");
-//     fs::path allIntsPath = fs::path(outDirDetectPath) / fs::path("allints.txt");
-//     std::ofstream fout(allIntsPath.string(), std::ios::out);
-
-//     if (fout.is_open()) {
-//         for (auto& entry : suppreads) {
-//             fout << entry.first[0].partner << "\t" << entry.first[1].partner;
-//             fout << "\t" << entry.first[0].orientation << "\t" << entry.first[1].orientation;
-//             for (int i = 0; i < entry.second.size(); ++i) {
-//                 fout << "\t" << entry.second[i];  // counts
-//                 double gcs =
-//                     calcGCS(complementarities[entry.first][i]);  // complementarity score (GCS)
-//                 if (gcs != 0.0) {
-//                     fout << "\t" << gcs;
-//                 } else {
-//                     fout << "\t.";
-//                 }
-//                 double ghs = calcGHS(hybenergies[entry.first][i]);  // Hybridization score (GHS)
-//                 if (ghs != 1000.0) {
-//                     fout << "\t" << ghs;
-//                 } else {
-//                     fout << "\t.";
-//                 }
-//                 // statistical
-//                 // call with key(RNA1/2 and orient) and counts
-//                 double stat = calcStat(entry.first, entry.second[i]);
-//                 fout << "\t" << stat;
-//             }
-//             if (entry.second.size() < repcount) {
-//                 for (int i = entry.second.size(); i < repcount; ++i) {
-//                     fout << "\t0\t.\t.\t.";
-//                 }
-//             }
-//             fout << "\n";
-//         }
-//         fout.close();
-//         std::cout << helper::getTime() << "Interactions written to file: " <<
-//         allIntsPath.string()
-//                   << "\n";
-//     }
-// }

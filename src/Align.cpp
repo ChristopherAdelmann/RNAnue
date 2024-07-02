@@ -41,7 +41,6 @@ void Align::alignReads(const std::string &query, const std::string &mate,
 
     if (result != 0) {
         Logger::log(LogLevel::ERROR, "Could not align reads");
-        throw std::runtime_error("Could not align reads");
     }
 }
 
@@ -71,7 +70,6 @@ void Align::buildIndex() {
 
     if (result != 0) {
         Logger::log(LogLevel::ERROR, "Could not create index for: ", referencePath);
-        exit(1);
     }
 }
 
@@ -95,7 +93,6 @@ void Align::sortAlignmentsByQueryName(const std::string &alignmentsPath,
 
     if (ret != 0) {
         Logger::log(LogLevel::ERROR, "Could not sort alignments");
-        exit(1);
     }
 
     Logger::log(LogLevel::INFO, "Sorting alignments done");

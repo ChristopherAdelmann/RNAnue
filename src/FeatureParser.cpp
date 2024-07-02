@@ -90,8 +90,8 @@ dtp::FeatureMap Annotation::FeatureParser::iterateFeatureFile(
         dtp::Feature feature{
             .referenceID = seqid,
             .type = tokens_v[2],
-            .startPosition = std::stoul(tokens_v[3]),
-            .endPosition = std::stoul(tokens_v[4]),
+            .startPosition = std::stoi(tokens_v[3]),
+            .endPosition = std::stoi(tokens_v[4]),
             .strand = tokens_v[6][0] == '+' ? dtp::Strand::FORWARD : dtp::Strand::REVERSE,
             .id = identifier.value()};
 

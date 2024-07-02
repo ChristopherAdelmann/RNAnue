@@ -43,14 +43,6 @@ Detect::Results Detect::iterateSortedMappingsFile(
             return;
         }
 
-        const std::string referenceID = refIDs[record.reference_id().value()];
-        const auto referenceBeginPosition = record.reference_position().value();
-        const auto referenceEndPosition = dtp::recordEndPosition(record).value();
-
-        // TODO Implement if annotation should be strand specific
-        // const char strand =
-        //     static_cast<bool>(record.flag() & seqan3::sam_flag::on_reverse_strand) ? '-' : '+';
-
         const auto region = GenomicRegion::fromSamRecord(record, refIDs);
 
         if (!region) {

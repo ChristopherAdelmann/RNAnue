@@ -28,7 +28,7 @@ Detect::Results Detect::iterateSortedMappingsFile(
     seqan3::sam_file_output unassignedSingletonRecordsOut{
         unassignedSingletonRecordsOutPath.string(), refIDs, referenceLengths};
 
-    std::string currentRecordId;
+    std::string currentRecordID;
     std::vector<SamRecord> currentRecordList;
     std::unordered_set<size_t> invalidRecordHitGroups;
 
@@ -39,7 +39,7 @@ Detect::Results Detect::iterateSortedMappingsFile(
     TranscriptCounts singletonTranscriptCounts;
 
     auto assignSingletonTranscriptCount = [&](SamRecord &record) {
-        if (!record.reference_id() || !record.reference_position()) {
+        if (!record.reference_id() || !record.reference_position()) [[unlikely]] {
             return;
         }
 
@@ -62,7 +62,7 @@ Detect::Results Detect::iterateSortedMappingsFile(
         recordsCount++;
 
         // This depends on the SAM file being sorted by read ID
-        bool isNewRecordID = !currentRecordId.empty() && (currentRecordId != record.id());
+        bool isNewRecordID = !currentRecordID.empty() && (currentRecordID != record.id());
 
         if (isNewRecordID) {
             // Remove current records that belong to invalid hit groups
@@ -78,7 +78,7 @@ Detect::Results Detect::iterateSortedMappingsFile(
             invalidRecordHitGroups.clear();
         }
 
-        currentRecordId = record.id();
+        currentRecordID = record.id();
 
         // Read is completely invalid and does not meet minimum requirements -> Not counted
         if (static_cast<bool>(record.flag() & seqan3::sam_flag::unmapped) ||

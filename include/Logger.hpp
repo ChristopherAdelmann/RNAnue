@@ -26,10 +26,11 @@ class Logger {
             {"info", LogLevel::INFO}, {"warning", LogLevel::WARNING}, {"error", LogLevel::ERROR}};
 
         auto it = stringToLogLevelMap.find(logLevelString);
-        if (it == stringToLogLevelMap.end()) {
-            Logger::log(LogLevel::ERROR, "Invalid log level: ", logLevelString);
+        if (it != stringToLogLevelMap.end()) {
+            getInstance().logLevel = it->second;
+        } else {
+            log(LogLevel::ERROR, "Invalid log level: ", logLevelString);
         }
-        getInstance().logLevel = it->second;
     }
 
     static void setLogLevel(LogLevel level) { getInstance().logLevel = level; }
@@ -63,9 +64,9 @@ class Logger {
     }
 
    private:
-    Logger() : logLevel(LogLevel::INFO) {}       // Private constructor to prevent instantiation
-    Logger(const Logger &) = delete;             // Delete copy constructor
-    Logger &operator=(const Logger &) = delete;  // Delete assignment operator
+    Logger() : logLevel(LogLevel::INFO) {}
+    Logger(const Logger &) = delete;
+    Logger &operator=(const Logger &) = delete;
 
     LogLevel logLevel;
     std::mutex logMutex;

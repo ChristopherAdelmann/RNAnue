@@ -46,10 +46,10 @@ void Segment::merge(const Segment &other) {
     minHybridizationEnergy = std::min(minHybridizationEnergy, other.minHybridizationEnergy);
 }
 
-// ReadCluster
+// InteractionCluster
 InteractionCluster::InteractionCluster(std::pair<Segment, Segment> segments,
-                                       std::vector<double> complementarityScores,
-                                       std::vector<double> hybridizationEnergies)
+                                       const std::vector<double> &complementarityScores,
+                                       const std::vector<double> &hybridizationEnergies)
     : segments(segments),
       complementarityScores(complementarityScores),
       hybridizationEnergies(hybridizationEnergies) {}
@@ -149,7 +149,7 @@ double InteractionCluster::hybridizationEnergyStatistics() const {
                      segments.first.minHybridizationEnergy);
 }
 
-// Cluster
+// Analyze
 Analyze::Analyze(po::variables_map params)
     : params(params),
       featureAnnotator(params["features"].as<std::string>(),

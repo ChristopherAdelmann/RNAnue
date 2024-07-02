@@ -6,10 +6,10 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
+    set(CMAKE_BUILD_TYPE RELEASE)
 endif()
 
-set(CMAKE_CXX_FLAGS "-fopenmp -flto -Wall -Wextra -Wno-interference-size")
+set(CMAKE_CXX_FLAGS "-fopenmp -Wall -Wextra -Wno-interference-size")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
@@ -33,9 +33,7 @@ find_package(OpenMP)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)  
 set(Boost_USE_STATIC_RUNTIME ON)
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(Boost_DEBUG ON)
-endif()
+set(Boost_DEBUG OFF)
 
 add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
 
@@ -184,6 +182,7 @@ cpack_add_component(RNAnue
 # ----------------------------------------------------------------------------
 # Testing
 # ----------------------------------------------------------------------------
-if(${CMAKE_BUILD_TYPE} STREQUAL Debug)
+if (CMAKE_BUILD_TYPE STREQUAL DEBUG OR CMAKE_BUILD_TYPE STREQUAL Debug)
+    message(STATUS "Enabling tests")
     add_subdirectory(tests)
 endif()

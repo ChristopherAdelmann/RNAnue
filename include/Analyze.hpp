@@ -80,8 +80,8 @@ struct InteractionCluster {
 
    private:
     InteractionCluster(std::pair<Segment, Segment> segments,
-                       std::vector<double> complementarityScores,
-                       std::vector<double> hybridizationEnergies);
+                       const std::vector<double> &complementarityScores,
+                       const std::vector<double> &hybridizationEnergies);
 
     static std::optional<std::pair<Segment, Segment>> getSortedElements(const Segment &segment1,
                                                                         const Segment &segment2);

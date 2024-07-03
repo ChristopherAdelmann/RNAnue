@@ -20,7 +20,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/Config.hpp.in ${CMAKE_CURRENT
 # Dependencies
 # ----------------------------------------------------------------------------
 ### CMake Modules
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 ### SeqAn3
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/submodules/seqan3/build_system)
@@ -90,7 +90,7 @@ add_subdirectory(submodules/segemehl)
 # Build Setup
 # ----------------------------------------------------------------------------
 ### Source Files
-file(GLOB SOURCES CONFIGURE_DEPENDS "./src/*.cpp")
+file(GLOB SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 list(APPEND SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort/bam_sort.c
                     ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort/sam_opts.c
                     ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort/bedidx.c
@@ -125,6 +125,7 @@ target_link_libraries (RNAnue PRIVATE   seqan3::seqan3
                                         Boost::foreach 
                                         Boost::dynamic_bitset
                                         Boost::math
+                                        Boost::uuid
                                         segemehl)
 
 if(OpenMP_CXX_FOUND)

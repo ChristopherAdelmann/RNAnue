@@ -37,6 +37,11 @@ template <typename S, typename T>  // "S" is a scalar type; "T" is the type of d
 class IITree {
    public:
     void add(const S& s, const S& e, const T& d) { a.push_back(Interval(s, e, d)); }
+    void remove(size_t i) { a.erase(a.begin() + i); }
+    void remove(const std::vector<size_t>& indices) {
+        std::sort(indices.begin(), indices.end(), std::greater<size_t>());
+        for (size_t i : indices) a.erase(a.begin() + i);
+    }
     void index() {
         std::sort(a.begin(), a.end(), IntervalLess());
         max_level = index_core(a);
@@ -69,6 +74,7 @@ class IITree {
     const S& start(size_t i) const { return a[i].st; }
     const S& end(size_t i) const { return a[i].en; }
     const T& data(size_t i) const { return a[i].data; }
+    T& data(size_t i) { return a[i].data; }
 
    private:
     struct StackCell {

@@ -15,6 +15,7 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(tests    ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/FeatureAnnotatorTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/Analyze.cpp 
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/DataTypes.cpp 
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/FeatureAnnotator.cpp 

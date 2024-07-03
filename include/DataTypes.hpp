@@ -60,19 +60,35 @@ using State = std::tuple<std::string, int, std::pair<int, int>, std::size_t>;
 using Bases = std::map<std::pair<std::string, DNAVector>, DNAVector>;
 using STTEntry = std::tuple<int, int, int, int>;
 
-enum class Strand { FORWARD = '+', REVERSE = '-' };
+enum Strand : char { FORWARD = '+', REVERSE = '-' };
 
 std::optional<int32_t> recordEndPosition(const SamRecord &record);
 
+/**
+ * @brief Represents a genomic region.
+ */
 struct GenomicRegion {
     std::string referenceID;
     int32_t startPosition;
     int32_t endPosition;
     std::optional<Strand> strand;
 
+    /**
+     * @brief Constructs a GenomicRegion object.
+     * @param referenceID The reference ID of the genomic region.
+     * @param startPosition The start position of the genomic region.
+     * @param endPosition The end position of the genomic region (exclusive).
+     * @param strand The strand of the genomic region (optional).
+     */
     GenomicRegion(const std::string &referenceID, int32_t startPosition, int32_t endPosition,
                   std::optional<Strand> strand = std::nullopt);
 
+    /**
+     * @brief Creates a GenomicRegion object from a SamRecord.
+     * @param record The SamRecord object.
+     * @param referenceIDs The deque of reference IDs.
+     * @return An optional GenomicRegion object.
+     */
     static std::optional<GenomicRegion> fromSamRecord(const SamRecord &record,
                                                       const std::deque<std::string> &referenceIDs);
 };

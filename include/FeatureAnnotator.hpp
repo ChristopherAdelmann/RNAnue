@@ -2,6 +2,9 @@
 
 // Boost
 #include <boost/filesystem.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 // Standard
 #include <algorithm>
@@ -15,8 +18,9 @@
 
 namespace Annotation {
 
-using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dtp::Feature>>;
+namespace uuids = boost::uuids;
 
+using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dtp::Feature>>;
 class FeatureAnnotator {
    public:
     FeatureAnnotator(fs::path featureFilePath, const std::vector<std::string>& includedFeatures,
@@ -27,6 +31,10 @@ class FeatureAnnotator {
     ~FeatureAnnotator() = default;
 
     class Results;
+
+    size_t featureCount() const;
+    std::string insert(const dtp::GenomicRegion& region);
+    std::string mergeInsert(const dtp::GenomicRegion& region);
 
     std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region);
     Results overlappingFeatureIterator(const dtp::GenomicRegion& region);
@@ -43,7 +51,8 @@ class FeatureAnnotator {
 
 class FeatureAnnotator::Results {
    public:
-    Results(const IITree<int, dtp::Feature>& tree, const std::vector<size_t>& indices);
+    Results(const IITree<int, dtp::Feature>& tree, const std::vector<size_t>& indices,
+            const std::optional<dtp::Strand>& strand);
 
     struct Iterator;
 
@@ -53,6 +62,7 @@ class FeatureAnnotator::Results {
    private:
     const IITree<int, dtp::Feature>& tree;
     std::vector<size_t> indices;
+    std::optional<dtp::Strand> strand;
 };
 
 struct FeatureAnnotator::Results::Iterator {
@@ -63,7 +73,7 @@ struct FeatureAnnotator::Results::Iterator {
     using iterator_category = std::forward_iterator_tag;
 
     explicit Iterator(const IITree<int, dtp::Feature>* tree, const std::vector<size_t>& indices,
-                      size_t index);
+                      size_t index, const std::optional<dtp::Strand>& strand);
 
     [[nodiscard]] reference operator*() const;
     [[nodiscard]] pointer operator->() const;
@@ -83,6 +93,7 @@ struct FeatureAnnotator::Results::Iterator {
     const IITree<int, dtp::Feature>* tree;
     std::vector<size_t> indices;
     size_t current_index;
+    std::optional<dtp::Strand> strand;
 };
 
 }  // namespace Annotation

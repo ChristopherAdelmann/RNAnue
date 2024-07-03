@@ -41,8 +41,8 @@ std::optional<GenomicRegion> GenomicRegion::fromSamRecord(
         static_cast<bool>(record.flag() & seqan3::sam_flag::on_reverse_strand);
     const Strand strand{isReverseStrand ? Strand::REVERSE : Strand::FORWARD};
 
-    return GenomicRegion{referenceIDs[record.reference_id().value()], start.value(), end.value(),
-                         strand};
+    return GenomicRegion{referenceIDs[record.reference_id().value()], start.value(),
+                         end.value() + 1, strand};
 }
 
 }  // namespace dtp

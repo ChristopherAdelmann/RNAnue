@@ -81,14 +81,16 @@ std::string FeatureAnnotator::insert(const dtp::GenomicRegion &region) {
     return uuid;
 }
 
-FeatureAnnotator::MergeInsertResult FeatureAnnotator::mergeInsert(
-    const dtp::GenomicRegion &region) {
+FeatureAnnotator::MergeInsertResult FeatureAnnotator::mergeInsert(const dtp::GenomicRegion &region,
+                                                                  const int graceDistance) {
     assert(region.strand.has_value() && "Strand must be specified for insertion");
 
     auto &tree = featureTreeMap[region.referenceID];
 
     std::vector<size_t> indices;
-    tree.overlap(region.startPosition, region.endPosition, indices);
+    // Overlap with grace distance and blunt ends (+/- 1)
+    tree.overlap(region.startPosition - graceDistance - 1, region.endPosition + graceDistance + 1,
+                 indices);
 
     std::erase_if(indices, [&region, &tree](size_t index) {
         return tree.data(index).strand != *region.strand;
@@ -106,16 +108,18 @@ FeatureAnnotator::MergeInsertResult FeatureAnnotator::mergeInsert(
         return tree.data(lhs).endPosition < tree.data(rhs).endPosition;
     });
 
-    auto &minStartFeature = tree.data(minStartIndex);
+    dtp::Feature &minStartFeature = tree.data(minStartIndex);
     minStartFeature.startPosition = std::min(minStartFeature.startPosition, region.startPosition);
     minStartFeature.endPosition = std::max(tree.data(maxEndIndex).endPosition, region.endPosition);
+    tree.setStart(minStartIndex, minStartFeature.startPosition);
+    tree.setEnd(minStartIndex, minStartFeature.endPosition);
 
     std::vector<std::string> mergedFeatureIDs;
 
-    for (size_t i = indices.size() - 1; i > 0; --i) {
-        if (i != minStartIndex) {
-            mergedFeatureIDs.push_back(tree.data(i).id);
-            tree.remove(indices[i]);
+    for (auto it = indices.rbegin(); it != indices.rend(); ++it) {
+        if (*it != minStartIndex) {
+            mergedFeatureIDs.push_back(tree.data(*it).id);
+            tree.remove(*it);
         }
     }
 
@@ -221,6 +225,6 @@ FeatureAnnotator::Results::Iterator &FeatureAnnotator::Results::Iterator::operat
 
 FeatureAnnotator::Results::Iterator FeatureAnnotator::Results::Iterator::operator++(int) {
     Iterator tmp = *this;
-    ++(*this);  // Use pre-increment to simplify
+    ++(*this);
     return tmp;
 }

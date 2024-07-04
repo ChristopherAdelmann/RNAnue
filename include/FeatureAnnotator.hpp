@@ -39,7 +39,7 @@ class FeatureAnnotator {
 
     size_t featureCount() const;
     std::string insert(const dtp::GenomicRegion& region);
-    MergeInsertResult mergeInsert(const dtp::GenomicRegion& region);
+    MergeInsertResult mergeInsert(const dtp::GenomicRegion& region, const int graceDistance);
 
     std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region);
     Results overlappingFeatureIterator(const dtp::GenomicRegion& region);

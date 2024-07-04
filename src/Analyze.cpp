@@ -73,7 +73,7 @@ std::optional<std::pair<Segment, Segment>> InteractionCluster::getSortedElements
 std::optional<InteractionCluster> InteractionCluster::fromSegments(const Segment &segment1,
                                                                    const Segment &segment2) {
     const auto sortedElements = getSortedElements(segment1, segment2);
-    if (!sortedElements.has_value()) {
+    if (!sortedElements.has_value()) [[unlikely]] {
         return std::nullopt;
     }
 
@@ -180,13 +180,13 @@ void Analyze::iterateSplitsFile(const fs::path &splitsInPath,
         std::optional<Segment> segment1 = Segment::fromSamRecord(*records.begin());
         std::optional<Segment> segment2 = Segment::fromSamRecord(*(++records.begin()));
 
-        if (!segment1 || !segment2) {
+        if (!segment1 || !segment2) [[unlikely]] {
             continue;
         }
 
         auto cluster = InteractionCluster::fromSegments(*segment1, *segment2);
 
-        if (!cluster) {
+        if (!cluster) [[unlikely]] {
             continue;
         }
 
@@ -240,7 +240,7 @@ void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clust
         stream << referenceIDs[segment.referenceIDIndex] << "\t"
                << "RNAnue"
                << "\t"
-               << "partial_transcript"
+               << "supplementary_feature"
                << "\t" << segment.start << "\t" << segment.end << "\t"
                << "."
                << "\t" << static_cast<char>(segment.strand) << "\t"
@@ -264,14 +264,15 @@ void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clust
         auto processSegment = [&](const Segment &segment) -> std::string {
             const auto segmentFeature =
                 featureAnnotator.getBestOverlappingFeature(segment.toGenomicRegion(referenceIDs));
-            if (!segmentFeature) {
+
+            if (segmentFeature.has_value()) {
+                transcriptCounts[segmentFeature.value().id] += cluster.count;
+                return segmentFeature.value().id;
+            } else {
                 const std::string transcriptID =
                     writeSupplementaryFeature(segment, supplementaryFeaturesStream);
                 transcriptCounts[transcriptID] = cluster.count;
                 return transcriptID;
-            } else {
-                transcriptCounts[segmentFeature.value().id] += cluster.count;
-                return segmentFeature.value().id;
             }
         };
 

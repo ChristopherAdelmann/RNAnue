@@ -72,7 +72,9 @@ class IITree {
     }
     size_t size() const { return a.size(); }
     const S& start(size_t i) const { return a[i].st; }
+    void setStart(size_t i, const S& s) { a[i].st = s; }
     const S& end(size_t i) const { return a[i].en; }
+    void setEnd(size_t i, const S& e) { a[i].en = e; }
     const T& data(size_t i) const { return a[i].data; }
     T& data(size_t i) { return a[i].data; }
 

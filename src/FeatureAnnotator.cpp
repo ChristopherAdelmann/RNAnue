@@ -80,6 +80,8 @@ size_t FeatureAnnotator::featureCount() const {
     return count;
 }
 
+const FeatureTreeMap &FeatureAnnotator::getFeatureTreeMap() const { return featureTreeMap; }
+
 std::string FeatureAnnotator::insert(const dtp::GenomicRegion &region) {
     assert(region.strand.has_value() && "Strand must be specified for insertion");
 

@@ -9,7 +9,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE RELEASE)
 endif()
 
-set(CMAKE_CXX_FLAGS "-fopenmp -Wall -Wextra -Wno-interference-size")
+set(CMAKE_CXX_FLAGS "-fopenmp -Wall -Wextra -Wno-psabi -Wno-interference-size")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 

@@ -20,7 +20,8 @@ add_executable(tests    ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/DataTypes.cpp 
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/FeatureAnnotator.cpp 
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/Utility.cpp
-                        ${CMAKE_CURRENT_SOURCE_DIR}/../src/FeatureParser.cpp)
+                        ${CMAKE_CURRENT_SOURCE_DIR}/../src/FeatureParser.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/../src/FeatureWriter.cpp)
 
 target_link_libraries(tests     PRIVATE 
                                 GTest::gtest_main

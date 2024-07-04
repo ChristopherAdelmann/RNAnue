@@ -117,4 +117,7 @@ class IITree {
         }
         return k - 1;
     }
+
+   public:
+    const std::vector<Interval>& intervals() const { return a; }
 };

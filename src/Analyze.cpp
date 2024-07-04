@@ -223,34 +223,6 @@ void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clust
                                           const fs::path &fragmentCountsInPath,
                                           const fs::path &supplementaryFeaturesOutPath,
                                           const fs::path &transcriptCountsOutPath) {
-    // std::ofstream supplementaryFeaturesOut(supplementaryFeaturesOutPath.string());
-
-    // if (!supplementaryFeaturesOut.is_open()) {
-    //     Logger::log(LogLevel::ERROR,
-    //                 "Could not open file: ", supplementaryFeaturesOutPath.string());
-    // }
-
-    // supplementaryFeaturesOut << "##gff-version 3\n";
-
-    // size_t supplementaryFeatureCount = 0;
-    // auto writeSupplementaryFeature = [&](const Segment &segment,
-    //                                      std::stringstream &stream) -> std::string {
-    //     const std::string transcriptID =
-    //         "supplementary_" + std::to_string(supplementaryFeatureCount++);
-    //     stream << referenceIDs[segment.referenceIDIndex] << "\t"
-    //            << "RNAnue"
-    //            << "\t"
-    //            << "supplementary_feature"
-    //            << "\t" << segment.start << "\t" << segment.end << "\t"
-    //            << "."
-    //            << "\t" << static_cast<char>(segment.strand) << "\t"
-    //            << "."
-    //            << "\t"
-    //            << "ID=" << transcriptID << ";"
-    //            << "\n";
-    //     return transcriptID;
-    // };
-
     std::unordered_map<std::string, size_t> transcriptCounts;
     std::unordered_map<std::string, std::string> mergedTranscriptIDsIntoTranscriptIDs;
 
@@ -320,6 +292,9 @@ void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clust
             }
         }
     }
+
+    FeatureWriter::write(supplementaryFeatureAnnotator.getFeatureTreeMap(),
+                         supplementaryFeaturesOutPath.string(), Annotation::FileType::GFF);
 
     assignNonAnnotatedSingletonsToSupplementaryFeatures(
         unassignedSingletonsInPath, supplementaryFeatureAnnotator, transcriptCounts);
@@ -465,24 +440,24 @@ void Analyze::writeBEDLineToFile(const InteractionCluster &cluster, const std::s
     const std::string randomColor = helper::generateRandomHexColor();
     bedOut << getReferenceID(cluster.segments.first.referenceIDIndex, referenceIDs) << "\t";
     bedOut << cluster.segments.first.start << "\t";
-    bedOut << cluster.segments.first.end << "\t";
+    bedOut << cluster.segments.first.end + 1 << "\t";
     bedOut << "cluster" << clusterID << "_segment1"
            << "\t";
     bedOut << "0\t";
     bedOut << static_cast<char>(cluster.segments.first.strand) << "\t";
     bedOut << cluster.segments.first.start << "\t";
-    bedOut << cluster.segments.first.end << "\t";
+    bedOut << cluster.segments.first.end + 1 << "\t";
     bedOut << randomColor << "\n";
 
     bedOut << getReferenceID(cluster.segments.second.referenceIDIndex, referenceIDs) << "\t";
     bedOut << cluster.segments.second.start << "\t";
-    bedOut << cluster.segments.second.end << "\t";
+    bedOut << cluster.segments.second.end + 1 << "\t";
     bedOut << "cluster" << clusterID << "_segment2"
            << "\t";
     bedOut << "0\t";
     bedOut << static_cast<char>(cluster.segments.second.strand) << "\t";
     bedOut << cluster.segments.second.start << "\t";
-    bedOut << cluster.segments.second.end << "\t";
+    bedOut << cluster.segments.second.end + 1 << "\t";
     bedOut << randomColor << "\n";
 }
 

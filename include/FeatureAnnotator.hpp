@@ -51,6 +51,7 @@ class FeatureAnnotator {
                                        const Orientation orientation);
     std::optional<dtp::Feature> getBestOverlappingFeature(const dtp::GenomicRegion& region,
                                                           const Orientation orientation);
+    const FeatureTreeMap& getFeatureTreeMap() const;
 
    private:
     FeatureTreeMap featureTreeMap;

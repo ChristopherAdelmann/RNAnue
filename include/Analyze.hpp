@@ -25,6 +25,7 @@
 #include "CustomSamTags.hpp"
 #include "DataTypes.hpp"
 #include "FeatureAnnotator.hpp"
+#include "FeatureWriter.hpp"
 #include "Logger.hpp"
 #include "Utility.hpp"
 

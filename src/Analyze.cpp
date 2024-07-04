@@ -30,7 +30,7 @@ std::optional<Segment> Segment::fromSamRecord(const dtp::SamRecord &record) {
 }
 
 dtp::GenomicRegion Segment::toGenomicRegion(const std::deque<std::string> &referenceIDs) const {
-    return dtp::GenomicRegion{referenceIDs[referenceIDIndex], start, end};
+    return dtp::GenomicRegion{referenceIDs[referenceIDIndex], start, end, strand};
 }
 
 dtp::Feature Segment::toFeature(const std::deque<std::string> &referenceIDs,
@@ -223,57 +223,79 @@ void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clust
                                           const fs::path &fragmentCountsInPath,
                                           const fs::path &supplementaryFeaturesOutPath,
                                           const fs::path &transcriptCountsOutPath) {
-    std::ofstream supplementaryFeaturesOut(supplementaryFeaturesOutPath.string());
+    // std::ofstream supplementaryFeaturesOut(supplementaryFeaturesOutPath.string());
 
-    if (!supplementaryFeaturesOut.is_open()) {
-        Logger::log(LogLevel::ERROR,
-                    "Could not open file: ", supplementaryFeaturesOutPath.string());
-    }
+    // if (!supplementaryFeaturesOut.is_open()) {
+    //     Logger::log(LogLevel::ERROR,
+    //                 "Could not open file: ", supplementaryFeaturesOutPath.string());
+    // }
 
-    supplementaryFeaturesOut << "##gff-version 3\n";
+    // supplementaryFeaturesOut << "##gff-version 3\n";
 
-    size_t supplementaryFeatureCount = 0;
-    auto writeSupplementaryFeature = [&](const Segment &segment,
-                                         std::stringstream &stream) -> std::string {
-        const std::string transcriptID =
-            "supplementary_" + std::to_string(supplementaryFeatureCount++);
-        stream << referenceIDs[segment.referenceIDIndex] << "\t"
-               << "RNAnue"
-               << "\t"
-               << "supplementary_feature"
-               << "\t" << segment.start << "\t" << segment.end << "\t"
-               << "."
-               << "\t" << static_cast<char>(segment.strand) << "\t"
-               << "."
-               << "\t"
-               << "ID=" << transcriptID << ";"
-               << "\n";
-        return transcriptID;
-    };
+    // size_t supplementaryFeatureCount = 0;
+    // auto writeSupplementaryFeature = [&](const Segment &segment,
+    //                                      std::stringstream &stream) -> std::string {
+    //     const std::string transcriptID =
+    //         "supplementary_" + std::to_string(supplementaryFeatureCount++);
+    //     stream << referenceIDs[segment.referenceIDIndex] << "\t"
+    //            << "RNAnue"
+    //            << "\t"
+    //            << "supplementary_feature"
+    //            << "\t" << segment.start << "\t" << segment.end << "\t"
+    //            << "."
+    //            << "\t" << static_cast<char>(segment.strand) << "\t"
+    //            << "."
+    //            << "\t"
+    //            << "ID=" << transcriptID << ";"
+    //            << "\n";
+    //     return transcriptID;
+    // };
 
     std::unordered_map<std::string, size_t> transcriptCounts;
-    dtp::FeatureMap supplementaryFeatureMap;
+    std::unordered_map<std::string, std::string> mergedTranscriptIDsIntoTranscriptIDs;
 
-    std::stringstream supplementaryFeaturesStream;
-    supplementaryFeaturesStream << "##gff-version 3\n";
+    Annotation::FeatureAnnotator supplementaryFeatureAnnotator;
+
+    const int mergeGraceDistance = params["clustdist"].as<int>();
+    const auto annotationOrientation =
+        params["annotationorientation"].as<Annotation::Orientation>();
 
     for (auto &cluster : clusters) {
         const auto &firstSegment = cluster.segments.first;
         const auto &secondSegment = cluster.segments.second;
 
         auto processSegment = [&](const Segment &segment) -> std::string {
+            const auto region = segment.toGenomicRegion(referenceIDs);
+
             const auto segmentFeature =
-                featureAnnotator.getBestOverlappingFeature(segment.toGenomicRegion(referenceIDs));
+                featureAnnotator.getBestOverlappingFeature(region, annotationOrientation);
 
             if (segmentFeature.has_value()) {
                 transcriptCounts[segmentFeature.value().id] += cluster.count;
                 return segmentFeature.value().id;
-            } else {
-                const std::string transcriptID =
-                    writeSupplementaryFeature(segment, supplementaryFeaturesStream);
-                transcriptCounts[transcriptID] = cluster.count;
-                return transcriptID;
             }
+
+            const auto supplementarySegmentFeature =
+                supplementaryFeatureAnnotator.getBestOverlappingFeature(
+                    segment.toGenomicRegion(referenceIDs), annotationOrientation);
+
+            if (supplementarySegmentFeature.has_value()) {
+                transcriptCounts[supplementarySegmentFeature.value().id] += cluster.count;
+                return supplementarySegmentFeature.value().id;
+            }
+
+            const auto mergeResult = supplementaryFeatureAnnotator.mergeInsert(
+                segment.toGenomicRegion(referenceIDs), mergeGraceDistance);
+
+            transcriptCounts[mergeResult.featureID] += cluster.count;
+
+            for (const auto &mergedFeatureID : mergeResult.mergedFeatureIDs) {
+                mergedTranscriptIDsIntoTranscriptIDs[mergedFeatureID] = mergeResult.featureID;
+                transcriptCounts[mergeResult.featureID] += transcriptCounts[mergedFeatureID];
+                transcriptCounts.erase(mergedFeatureID);
+            }
+
+            return mergeResult.featureID;
         };
 
         const std::string firstSegmentTranscriptID = processSegment(firstSegment);
@@ -282,10 +304,22 @@ void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clust
         cluster.transcriptIDs = std::make_pair(firstSegmentTranscriptID, secondSegmentTranscriptID);
     }
 
-    // Write supplementary features to file
-    supplementaryFeaturesOut << supplementaryFeaturesStream.str();
+    for (auto &cluster : clusters) {
+        if (cluster.transcriptIDs.has_value()) {
+            const auto &firstTranscriptID = cluster.transcriptIDs->first;
+            const auto &secondTranscriptID = cluster.transcriptIDs->second;
 
-    Annotation::FeatureAnnotator supplementaryFeatureAnnotator(supplementaryFeatureMap);
+            if (mergedTranscriptIDsIntoTranscriptIDs.contains(firstTranscriptID)) {
+                cluster.transcriptIDs->first =
+                    mergedTranscriptIDsIntoTranscriptIDs[firstTranscriptID];
+            }
+
+            if (mergedTranscriptIDsIntoTranscriptIDs.contains(secondTranscriptID)) {
+                cluster.transcriptIDs->second =
+                    mergedTranscriptIDsIntoTranscriptIDs[secondTranscriptID];
+            }
+        }
+    }
 
     assignNonAnnotatedSingletonsToSupplementaryFeatures(
         unassignedSingletonsInPath, supplementaryFeatureAnnotator, transcriptCounts);
@@ -401,6 +435,9 @@ void Analyze::assignNonAnnotatedSingletonsToSupplementaryFeatures(
     seqan3::sam_file_input unassignedSingletonsIn{unassignedSingletonsInPath.string(),
                                                   sam_field_ids{}};
 
+    const auto annotationOrientation =
+        params["annotationorientation"].as<Annotation::Orientation>();
+
     for (auto &&records : unassignedSingletonsIn) {
         const auto region =
             dtp::GenomicRegion::fromSamRecord(records, unassignedSingletonsIn.header().ref_ids());
@@ -409,7 +446,8 @@ void Analyze::assignNonAnnotatedSingletonsToSupplementaryFeatures(
             continue;
         }
 
-        const auto bestFeature = featureAnnotator.getBestOverlappingFeature(region.value());
+        const auto bestFeature =
+            featureAnnotator.getBestOverlappingFeature(region.value(), annotationOrientation);
 
         if (!bestFeature) {
             continue;

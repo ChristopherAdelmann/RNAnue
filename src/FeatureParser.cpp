@@ -21,7 +21,7 @@ dtp::FeatureMap Annotation::FeatureParser::parse(const fs::path featureFilePath)
 }
 
 Annotation::FileType Annotation::FeatureParser::getFileType(const fs::path &featureFilePath) const {
-    std::ifstream file(featureFilePath);
+    std::ifstream file(featureFilePath.string());
     if (!file) {
         throw std::runtime_error("Could not open file: " + featureFilePath.string());
     }
@@ -44,7 +44,7 @@ dtp::FeatureMap Annotation::FeatureParser::iterateFeatureFile(
     const fs::path &featureFilePath, const Annotation::FileType fileType) const {
     dtp::FeatureMap featureMap;
 
-    std::ifstream file(featureFilePath);
+    std::ifstream file(featureFilePath.string());
 
     if (!file.is_open()) {
         throw std::runtime_error("Could not open file: " + featureFilePath.string());

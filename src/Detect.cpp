@@ -7,6 +7,7 @@ Detect::Detect(po::variables_map params)
       minFraction(params["sitelenratio"].as<double>()),
       minMapQuality(params["mapqmin"].as<int>()),
       excludeSoftClipping(params["exclclipping"].as<bool>()),
+      annotationOrientation(params["annotationorientation"].as<Annotation::Orientation>()),
       featureAnnotator(params["features"].as<std::string>(),
                        params["featuretypes"].as<std::vector<std::string>>()) {}
 
@@ -49,7 +50,8 @@ Detect::Results Detect::iterateSortedMappingsFile(
             return;
         }
 
-        const auto bestFeature = featureAnnotator.getBestOverlappingFeature(region.value());
+        const auto bestFeature =
+            featureAnnotator.getBestOverlappingFeature(region.value(), annotationOrientation);
 
         if (bestFeature) {
             singletonTranscriptCounts[bestFeature->id]++;

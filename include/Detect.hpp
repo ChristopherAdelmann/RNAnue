@@ -63,6 +63,7 @@ class Detect {
     double minFraction;
     int minMapQuality;
     bool excludeSoftClipping;
+    Annotation::Orientation annotationOrientation;
 
     Annotation::FeatureAnnotator featureAnnotator;
 

@@ -1,7 +1,23 @@
 #include "FeatureAnnotator.hpp"
 
-using namespace Annotation;
+// Orientation
+std::istream &Annotation::operator>>(std::istream &in, Orientation &orientation) {
+    std::string token;
+    in >> token;
+    if (token == "both") {
+        orientation = Orientation::BOTH;
+    } else if (token == "opposite") {
+        orientation = Orientation::OPPOSITE;
+    } else if (token == "same") {
+        orientation = Orientation::SAME;
+    } else {
+        in.setstate(std::ios_base::failbit);
+    }
+    return in;
+}
 
+// Feature Annotator
+using namespace Annotation;
 FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
                                    const std::vector<std::string> &includedFeatures,
                                    const std::string &featureIDFlag)
@@ -127,38 +143,67 @@ FeatureAnnotator::MergeInsertResult FeatureAnnotator::mergeInsert(const dtp::Gen
     return {.featureID = minStartFeature.id, .mergedFeatureIDs = mergedFeatureIDs};
 }
 
-std::vector<dtp::Feature> FeatureAnnotator::overlappingFeatures(const dtp::GenomicRegion &region) {
+std::vector<dtp::Feature> FeatureAnnotator::overlappingFeatures(const dtp::GenomicRegion &region,
+                                                                const Orientation orientation) {
     std::vector<dtp::Feature> features;
-    if (auto it = featureTreeMap.find(region.referenceID); it != featureTreeMap.end()) {
+    auto it = featureTreeMap.find(region.referenceID);
+    if (it != featureTreeMap.end()) {
         std::vector<size_t> indices;
         it->second.overlap(region.startPosition, region.endPosition, indices);
+
+        features.reserve(indices.size());
+
         for (const auto &index : indices) {
-            if (region.strand == std::nullopt || it->second.data(index).strand == *region.strand) {
-                features.push_back(it->second.data(index));
+            const auto &feature = it->second.data(index);
+            bool shouldAddFeature = false;
+
+            if (region.strand == std::nullopt) {
+                shouldAddFeature = true;
+            } else if ((orientation == Orientation::BOTH) ||
+                       (orientation == Orientation::OPPOSITE && feature.strand != *region.strand) ||
+                       (orientation == Orientation::SAME && feature.strand == *region.strand)) {
+                shouldAddFeature = true;
+            }
+
+            if (shouldAddFeature) {
+                features.push_back(feature);
             }
         }
     }
+
     return features;
 }
 
 FeatureAnnotator::Results FeatureAnnotator::overlappingFeatureIterator(
-    const dtp::GenomicRegion &region) {
+    const dtp::GenomicRegion &region, const Orientation orientation) {
     std::vector<size_t> indices;
+
     auto it = featureTreeMap.find(region.referenceID);
-    if (it != featureTreeMap.end()) {
-        it->second.overlap(region.startPosition, region.endPosition, indices);
+
+    if (it == featureTreeMap.end()) [[unlikely]] {
+        return Results(it->second, std::move(indices), std::nullopt);
     }
-    return Results(it->second, std::move(indices), region.strand);
+
+    it->second.overlap(region.startPosition, region.endPosition, indices);
+
+    std::optional<dtp::Strand> strand = std::nullopt;
+    if (orientation == Orientation::SAME) {
+        strand = region.strand;
+    } else if (orientation == Orientation::OPPOSITE && region.strand.has_value()) {
+        strand = !*region.strand;
+    }
+
+    return Results(it->second, std::move(indices), strand);
 }
 
 std::optional<dtp::Feature> FeatureAnnotator::getBestOverlappingFeature(
-    const dtp::GenomicRegion &region) {
+    const dtp::GenomicRegion &region, const Orientation orientation) {
     auto overlapSizeWithRegion = [region](const dtp::Feature &feature) -> size_t {
         return std::min(region.endPosition, feature.endPosition) -
                std::max(region.startPosition, feature.startPosition);
     };
 
-    auto featureIterator = overlappingFeatureIterator(region);
+    auto featureIterator = overlappingFeatureIterator(region, orientation);
 
     auto maxOverlapSizeElement = std::max_element(
         featureIterator.begin(), featureIterator.end(),
@@ -181,12 +226,11 @@ FeatureAnnotator::Results::Results(const IITree<int, dtp::Feature> &tree,
     : tree(tree), indices(indices), strand(strand) {}
 
 [[nodiscard]] FeatureAnnotator::Results::Iterator FeatureAnnotator::Results::begin() const {
-    auto matchStrand = [&](size_t index) {
-        return !strand.has_value() || tree.data(indices[index]).strand == strand;
-    };
     size_t startIndex = 0;
-    if (strand) {
-        auto it = std::find_if(indices.begin(), indices.end(), matchStrand);
+    if (strand.has_value()) {
+        // Find the first index with the specified strand
+        auto it = std::find_if(indices.begin(), indices.end(),
+                               [&](size_t index) { return tree.data(index).strand == *strand; });
         startIndex = it != indices.end() ? std::distance(indices.begin(), it) : indices.size();
     }
     return Iterator(&tree, indices, startIndex, strand);
@@ -215,7 +259,10 @@ FeatureAnnotator::Results::Iterator::operator->() const {
 
 FeatureAnnotator::Results::Iterator &FeatureAnnotator::Results::Iterator::operator++() {
     auto matchStrand = [&](size_t index) {
-        return !strand.has_value() || tree->data(indices[index]).strand == strand;
+        if (strand.has_value()) {
+            return tree->data(indices[index]).strand == *strand;
+        }
+        return true;
     };
     do {
         ++current_index;

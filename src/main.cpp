@@ -17,6 +17,7 @@
 #include "Closing.hpp"
 #include "Config.hpp"
 #include "Constants.hpp"
+#include "FeatureAnnotator.hpp"
 
 namespace po = boost::program_options;
 
@@ -87,6 +88,11 @@ int main(int argc, char* argv[]) {
                                   std::vector<std::string>{"transcript"}),
                               "feature types to be considered for the analysis, can be specified "
                               "as --featuretypes gene rRNA ... (default: transcript)");
+        general.add_options()(
+            "annotationorientation",
+            po::value<Annotation::Orientation>()->default_value(Annotation::Orientation::BOTH),
+            "orientation of the annotations to consider in relation to reads [both, same, "
+            "opposite] (default: both)");
         // general.add_options()("splicing", po::bool_switch->default_value(false),
         //                       "splicing events are considered in the detection of split
         //                       reads");

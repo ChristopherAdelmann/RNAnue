@@ -17,16 +17,20 @@
 #include "IITree.hpp"
 
 namespace Annotation {
-
 namespace uuids = boost::uuids;
 
 using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dtp::Feature>>;
+
+enum Orientation { SAME, OPPOSITE, BOTH };
+std::istream& operator>>(std::istream& in, Orientation& orientation);
+
 class FeatureAnnotator {
    public:
     FeatureAnnotator(fs::path featureFilePath, const std::vector<std::string>& includedFeatures,
                      const std::string& featureIDFlag);
     FeatureAnnotator(fs::path featureFilePath, const std::vector<std::string>& includedFeatures);
     explicit FeatureAnnotator(const dtp::FeatureMap& featureMap);
+    explicit FeatureAnnotator() = default;
 
     ~FeatureAnnotator() = default;
 
@@ -41,9 +45,12 @@ class FeatureAnnotator {
     std::string insert(const dtp::GenomicRegion& region);
     MergeInsertResult mergeInsert(const dtp::GenomicRegion& region, const int graceDistance);
 
-    std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region);
-    Results overlappingFeatureIterator(const dtp::GenomicRegion& region);
-    std::optional<dtp::Feature> getBestOverlappingFeature(const dtp::GenomicRegion& region);
+    std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region,
+                                                  const Orientation orientation);
+    Results overlappingFeatureIterator(const dtp::GenomicRegion& region,
+                                       const Orientation orientation);
+    std::optional<dtp::Feature> getBestOverlappingFeature(const dtp::GenomicRegion& region,
+                                                          const Orientation orientation);
 
    private:
     FeatureTreeMap featureTreeMap;
@@ -58,6 +65,8 @@ class FeatureAnnotator::Results {
    public:
     Results(const IITree<int, dtp::Feature>& tree, const std::vector<size_t>& indices,
             const std::optional<dtp::Strand>& strand);
+
+    Results() = delete;
 
     struct Iterator;
 

@@ -105,3 +105,5 @@ struct Feature {
 
 using FeatureMap = std::unordered_map<std::string, std::vector<Feature>>;
 }  // namespace dtp
+
+dtp::Strand operator!(dtp::Strand strand);

@@ -1,5 +1,4 @@
 #include "DataTypes.hpp"
-
 namespace dtp {
 
 std::optional<int32_t> recordEndPosition(const SamRecord &record) {
@@ -46,3 +45,7 @@ std::optional<GenomicRegion> GenomicRegion::fromSamRecord(
 }
 
 }  // namespace dtp
+
+dtp::Strand operator!(dtp::Strand strand) {
+    return strand == dtp::Strand::FORWARD ? dtp::Strand::REVERSE : dtp::Strand::FORWARD;
+}

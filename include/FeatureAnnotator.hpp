@@ -32,9 +32,14 @@ class FeatureAnnotator {
 
     class Results;
 
+    struct MergeInsertResult {
+        std::string featureID;
+        std::vector<std::string> mergedFeatureIDs;
+    };
+
     size_t featureCount() const;
     std::string insert(const dtp::GenomicRegion& region);
-    std::string mergeInsert(const dtp::GenomicRegion& region);
+    MergeInsertResult mergeInsert(const dtp::GenomicRegion& region);
 
     std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region);
     Results overlappingFeatureIterator(const dtp::GenomicRegion& region);

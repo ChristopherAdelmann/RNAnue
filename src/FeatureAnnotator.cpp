@@ -81,7 +81,8 @@ std::string FeatureAnnotator::insert(const dtp::GenomicRegion &region) {
     return uuid;
 }
 
-std::string FeatureAnnotator::mergeInsert(const dtp::GenomicRegion &region) {
+FeatureAnnotator::MergeInsertResult FeatureAnnotator::mergeInsert(
+    const dtp::GenomicRegion &region) {
     assert(region.strand.has_value() && "Strand must be specified for insertion");
 
     auto &tree = featureTreeMap[region.referenceID];
@@ -94,29 +95,32 @@ std::string FeatureAnnotator::mergeInsert(const dtp::GenomicRegion &region) {
     });
 
     if (indices.empty()) {
-        return insert(region);
+        return {insert(region), {}};
     }
 
-    auto minStart = std::ranges::min_element(indices, [&tree](size_t lhs, size_t rhs) {
+    auto minStartIndex = *std::ranges::min_element(indices, [&tree](size_t lhs, size_t rhs) {
         return tree.data(lhs).startPosition < tree.data(rhs).startPosition;
     });
 
-    auto maxEnd = std::ranges::max_element(indices, [&tree](size_t lhs, size_t rhs) {
+    auto maxEndIndex = *std::ranges::max_element(indices, [&tree](size_t lhs, size_t rhs) {
         return tree.data(lhs).endPosition < tree.data(rhs).endPosition;
     });
 
-    tree.data(*minStart).startPosition =
-        std::min(tree.data(*minStart).startPosition, region.startPosition);
-    tree.data(*minStart).endPosition = std::max(tree.data(*maxEnd).endPosition, region.endPosition);
+    auto &minStartFeature = tree.data(minStartIndex);
+    minStartFeature.startPosition = std::min(minStartFeature.startPosition, region.startPosition);
+    minStartFeature.endPosition = std::max(tree.data(maxEndIndex).endPosition, region.endPosition);
+
+    std::vector<std::string> mergedFeatureIDs;
 
     for (size_t i = indices.size() - 1; i > 0; --i) {
-        if (i != *minStart) {
+        if (i != minStartIndex) {
+            mergedFeatureIDs.push_back(tree.data(i).id);
             tree.remove(indices[i]);
         }
     }
 
     tree.index();
-    return tree.data(*minStart).id;
+    return {.featureID = minStartFeature.id, .mergedFeatureIDs = mergedFeatureIDs};
 }
 
 std::vector<dtp::Feature> FeatureAnnotator::overlappingFeatures(const dtp::GenomicRegion &region) {

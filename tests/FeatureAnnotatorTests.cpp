@@ -5,10 +5,21 @@
 using namespace Annotation;
 
 struct TestParam {
+    TestParam(dtp::GenomicRegion region, Annotation::Orientation orientation,
+              std::vector<std::string> expectedFeatureIds)
+        : region(region),
+          expectedFeatureIds(std::move(expectedFeatureIds)),
+          orientation(orientation) {}
+
+    TestParam(dtp::GenomicRegion region, std::vector<std::string> expectedFeatureIds)
+        : region(region), expectedFeatureIds(std::move(expectedFeatureIds)) {}
+
     dtp::GenomicRegion region;
     std::vector<std::string> expectedFeatureIds;
+    Annotation::Orientation orientation = Annotation::Orientation::SAME;
 };
 
+// Tests for FeatureAnnotator::overlappingFeatures and FeatureAnnotator::overlappingFeatureIterator
 class FeatureAnnotatorTest : public testing::TestWithParam<TestParam> {
    protected:
     FeatureAnnotatorTest() : annotator(featureMap) {}
@@ -38,8 +49,7 @@ void PrintTo(const TestParam& param, std::ostream* os) {
 
 TEST_P(FeatureAnnotatorTest, OverlappingFeatures) {
     const auto& param = GetParam();
-    const auto features =
-        annotator.overlappingFeatures(param.region, Annotation::Orientation::SAME);
+    const auto features = annotator.overlappingFeatures(param.region, param.orientation);
 
     ASSERT_EQ(features.size(), param.expectedFeatureIds.size());
     for (size_t i = 0; i < features.size(); ++i) {
@@ -49,8 +59,7 @@ TEST_P(FeatureAnnotatorTest, OverlappingFeatures) {
 
 TEST_P(FeatureAnnotatorTest, OverlappingFeatureIterator) {
     const auto& param = GetParam();
-    const auto results =
-        annotator.overlappingFeatureIterator(param.region, Annotation::Orientation::SAME);
+    const auto results = annotator.overlappingFeatureIterator(param.region, param.orientation);
 
     size_t i = 0;
     for (const auto& feature : results) {
@@ -67,8 +76,12 @@ INSTANTIATE_TEST_SUITE_P(
                     TestParam{{"chromosome1", 5, 15, std::nullopt}, {"feature1", "feature4"}},
                     TestParam{{"chromosome1", 31, 39, std::nullopt}, {}},
                     TestParam{{"chromosome2", 5, 15, std::nullopt}, {"feature3"}},
-                    TestParam{{"chromosome3", 5, 25, std::nullopt}, {}}));
+                    TestParam{{"chromosome3", 5, 25, std::nullopt}, {}},
+                    TestParam{{"chromosome1", 5, 15, dtp::Strand::FORWARD},
+                              Annotation::Orientation::OPPOSITE,
+                              {"feature4"}}));
 
+// Tests for FeatureAnnotator::getBestOverlappingFeature
 class BestFeatureAnnotatorTest : public testing::TestWithParam<TestParam> {
    protected:
     BestFeatureAnnotatorTest() : annotator(featureMap) {}
@@ -109,6 +122,7 @@ INSTANTIATE_TEST_SUITE_P(
                     TestParam{{"chromosome2", 5, 15, std::nullopt}, {"feature3"}},
                     TestParam{{"chromosome3", 5, 25, std::nullopt}, {}}));
 
+// Tests for FeatureAnnotator::insert and FeatureAnnotator::mergeInsert
 class InsertFeatureAnnotatorTest : public testing::Test {
    protected:
     InsertFeatureAnnotatorTest() : annotator(featureMap) {}

@@ -165,13 +165,7 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readR
     size_t endPosSplit{};  // position in split read (e.g., XX:i to XY:i / 14 to 20)
 
     bool isValid = true;
-
-    auto const addOtherCigar = [&](const auto &cigar) {
-        const auto cigarValue = get<0>(cigar);
-        endPosRead += cigarValue;
-        endPosSplit += cigarValue;
-        currentCigar.push_back(cigar);
-    };
+    int nextSplitReferenceShift = 0;
 
     auto const addSplitRecord = [&]() {
         const auto splitSeq =
@@ -196,18 +190,34 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readR
                                   std::move(tags));
     };
 
-    auto const addDeletionCigar = [&](const auto &cigar) { currentCigar.push_back(cigar); };
+    auto const addOtherCigar = [&](const auto &cigar) {
+        const auto cigarValue = get<0>(cigar);
+        endPosRead += cigarValue;
+        endPosSplit += cigarValue;
+        currentCigar.push_back(cigar);
+    };
+
+    auto const addInsertionCigar = [&](const auto &cigar) {
+        const auto cigarValue = get<0>(cigar);
+        endPosRead += cigarValue;
+        endPosSplit += cigarValue;
+        nextSplitReferenceShift -= cigarValue;
+        currentCigar.push_back(cigar);
+    };
+
+    auto const addDeletionCigar = [&](const auto &cigar) {
+        currentCigar.push_back(cigar);
+        nextSplitReferenceShift += get<0>(cigar);
+    };
 
     auto const addSoftClipCigar = [&](const auto &cigar) {
-        if (!excludeSoftClipping) {
-            addOtherCigar(cigar);
-        }
+        if (!excludeSoftClipping) return addOtherCigar(cigar);
 
         /* If current cigar is empty, we are at the beginning of the read in case of soft
         clipping at the end of the read it is just ignored */
         if (currentCigar.empty()) {
             const auto cigarValue = get<0>(cigar);
-            referencePosition -= cigarValue;
+            nextSplitReferenceShift -= cigarValue;
             startPosRead += cigarValue;
             endPosRead += cigarValue;
             startPosSplit += cigarValue;
@@ -224,16 +234,20 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord &readR
 
         // Set up positions for the next split
         const auto cigarValue = get<0>(cigar);
-        referencePosition += cigarValue + endPosRead;
+        assert((cigarValue + endPosRead + nextSplitReferenceShift) >= 0);
+        referencePosition += cigarValue + endPosRead + nextSplitReferenceShift;
         startPosSplit = endPosSplit;
         startPosRead = endPosRead;
+        nextSplitReferenceShift = 0;
         currentCigar.clear();
     };
 
     for (const auto &cigar : readRecord.cigar_sequence()) {
         if (cigar == 'M'_cigar_operation || cigar == '='_cigar_operation ||
-            cigar == 'X'_cigar_operation || cigar == 'I'_cigar_operation) {
+            cigar == 'X'_cigar_operation) {
             addOtherCigar(cigar);
+        } else if (cigar == 'I'_cigar_operation) {
+            addInsertionCigar(cigar);
         } else if (cigar == 'D'_cigar_operation) {
             addDeletionCigar(cigar);
         } else if (cigar == 'S'_cigar_operation) {

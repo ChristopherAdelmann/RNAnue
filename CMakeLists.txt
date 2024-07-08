@@ -68,6 +68,7 @@ add_custom_target(
         --without-svm
         --without-swig
         --without-rnaxplorer
+        --without-man
         --without-rnalocmin
         --disable-unittests
         --disable-check-executables

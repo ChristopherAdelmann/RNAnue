@@ -21,13 +21,13 @@
 
 namespace po = boost::program_options;
 
-void showVersion(std::ostream& _str) {
-    _str << "RNAnue v" << RNAnue_VERSION_MAJOR;
-    _str << "." << RNAnue_VERSION_MINOR << ".";
-    _str << RNAnue_VERSION_PATCH << " - ";
-    _str << "Detect RNA-RNA interactions ";
-    _str << "from Direct-Duplex-Detection (DDD) data.";
-    _str << std::endl;
+void showVersion() {
+    const std::string versionString =
+        "RNAnue v" + std::to_string(RNAnue_VERSION_MAJOR) + "." +
+        std::to_string(RNAnue_VERSION_MINOR) + "." + std::to_string(RNAnue_VERSION_PATCH) + " - " +
+        "Detect RNA-RNA interactions from Direct-Duplex-Detection (DDD) data.";
+
+    Logger::log(LogLevel::INFO, versionString);
 }
 
 // A helper function to simplify the main part.
@@ -39,7 +39,7 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
 
 namespace std {
 std::ostream& operator<<(std::ostream& os, const std::vector<std::string>& vec) {
-    for (auto item : vec) {
+    for (const auto& item : vec) {
         os << item << " ";
     }
     return os;
@@ -57,7 +57,7 @@ void handler(int sig) {
 }
 
 int main(int argc, char* argv[]) {
-    signal(SIGSEGV, handler);  // register handler to catch segmentation faults
+    signal(SIGSEGV, handler);
 
     try {
         using namespace constants::pipelines;
@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
                               "feature types to be considered for the analysis, can be specified "
                               "as --featuretypes gene rRNA ... (default: transcript)");
         general.add_options()(
-            "annotationorientation",
+            "orientation",
             po::value<Annotation::Orientation>()->default_value(Annotation::Orientation::BOTH),
             "orientation of the annotations to consider in relation to reads [both, same, "
             "opposite] (default: both)");
@@ -178,12 +178,10 @@ int main(int argc, char* argv[]) {
                                "threshold distance at which two clusters are merged into a single "
                                "combined cluster, default is to only merge overlapping or blunt "
                                "ended clusters (default: 0)");
-
-        po::options_description output("Output");
-        output.add_options()("stats", po::bool_switch()->default_value(false),
-                             "whether to create statistics of the libraries (default: false)");
-        output.add_options()("outcnt", po::bool_switch()->default_value(false),
-                             "whether to save results as count table for DEA (default: false)");
+        analysis.add_options()("padj", po::value<double>()->default_value(1.0),
+                               "p-value threshold for outputting an interaction (default: 1.0)");
+        analysis.add_options()("mincount", po::value<int>()->default_value(1),
+                               "minimum number of reads assigned to an interaction (default: 1)");
 
         po::options_description other("Other");
         other.add_options()("version,v", "display the version number")("help,h",
@@ -204,14 +202,8 @@ int main(int argc, char* argv[]) {
             .add(subcall);
 
         po::options_description configFileOptions;
-        configFileOptions.add(general)
-            .add(preprocess)
-            .add(align)
-            .add(detect)
-            .add(analysis)
-            .add(output);
+        configFileOptions.add(general).add(preprocess).add(align).add(detect).add(analysis);
 
-        // translate all positional options into subcall options
         po::positional_options_description p;
         p.add("subcall", 1);
 
@@ -219,21 +211,18 @@ int main(int argc, char* argv[]) {
         store(po::command_line_parser(argc, argv).options(cmdlineOptions).positional(p).run(), vm);
         notify(vm);
 
-        Logger::setLogLevel(vm["loglevel"].as<std::string>());
-
         // include parameters from the configfile if available
         std::ifstream ifs(configFile.c_str());
 
-        Closing cl{};  // class that handles the closing remarks
         if (vm.count("help")) {
             std::cout << cmdlineOptions << std::endl;
-            cl.printQuote(std::cout);
+            Closing::printQuote();
             return 0;
         }
 
         if (vm.count("version")) {
-            showVersion(std::cout);
-            cl.printQuote(std::cout);
+            showVersion();
+            Closing::printQuote();
             return 0;
         }
 
@@ -244,18 +233,20 @@ int main(int argc, char* argv[]) {
             notify(vm);
         }
 
+        Logger::setLogLevel(vm["loglevel"].as<std::string>());
+
         if (!vm.count("subcall")) {
             Logger::log(LogLevel::ERROR, "Please provide a subcall.");
         }
 
         // start execution
-        showVersion(std::cout);
+        showVersion();
         Base bs(vm);  // controls all downstream processing
 
-        cl.printQuote(std::cout);
+        Closing::printQuote();
     } catch (po::error& e) {
         std::cout << "please provide a correct function call" << std::endl;
         std::cerr << e.what() << " at line " << __LINE__ << std::endl;
-        return 0;
+        return EXIT_FAILURE;
     }
 }

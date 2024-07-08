@@ -229,8 +229,7 @@ void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clust
     Annotation::FeatureAnnotator supplementaryFeatureAnnotator;
 
     const int mergeGraceDistance = params["clustdist"].as<int>();
-    const auto annotationOrientation =
-        params["annotationorientation"].as<Annotation::Orientation>();
+    const auto annotationOrientation = params["orientation"].as<Annotation::Orientation>();
 
     for (auto &cluster : clusters) {
         const auto &firstSegment = cluster.segments.first;
@@ -410,8 +409,7 @@ void Analyze::assignNonAnnotatedSingletonsToSupplementaryFeatures(
     seqan3::sam_file_input unassignedSingletonsIn{unassignedSingletonsInPath.string(),
                                                   sam_field_ids{}};
 
-    const auto annotationOrientation =
-        params["annotationorientation"].as<Annotation::Orientation>();
+    const auto annotationOrientation = params["orientation"].as<Annotation::Orientation>();
 
     for (auto &&records : unassignedSingletonsIn) {
         const auto region =
@@ -507,7 +505,6 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
     bedOutPath.replace_extension(".bed");
 
     std::ofstream bedOut(bedOutPath.string());
-
     if (!bedOut.is_open()) {
         Logger::log(LogLevel::ERROR, "Could not open file: ", bedOutPath.string());
     }
@@ -517,8 +514,19 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
            << " RNA-RNA interactions\" description=\"Segments of interacting RNA "
               "clusters derived from DDD-Experiment\" itemRgb=\"On\"\n";
 
+    const double pValueThreshold = params["padj"].as<double>();
+    const size_t clusterCountThreshold = params["mincount"].as<int>();
+
+    auto isClusterValid = [&](const InteractionCluster &cluster) {
+        return cluster.pAdj.has_value() && cluster.pAdj.value() <= pValueThreshold &&
+               cluster.count >= clusterCountThreshold;
+    };
+
     size_t clusterID = 0;
     for (const auto &cluster : mergedClusters) {
+        if (!isClusterValid(cluster)) {
+            continue;
+        }
         writeBEDLineToFile(cluster, std::to_string(clusterID), referenceIDs, bedOut);
         writeInteractionLineToFile(cluster, std::to_string(clusterID), referenceIDs,
                                    interactionOut);

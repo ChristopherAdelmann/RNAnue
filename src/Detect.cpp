@@ -7,7 +7,7 @@ Detect::Detect(po::variables_map params)
       minFraction(params["sitelenratio"].as<double>()),
       minMapQuality(params["mapqmin"].as<int>()),
       excludeSoftClipping(params["exclclipping"].as<bool>()),
-      annotationOrientation(params["annotationorientation"].as<Annotation::Orientation>()),
+      annotationOrientation(params["orientation"].as<Annotation::Orientation>()),
       featureAnnotator(params["features"].as<std::string>(),
                        params["featuretypes"].as<std::vector<std::string>>()) {}
 

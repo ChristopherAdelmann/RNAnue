@@ -30,9 +30,9 @@ FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
 FeatureAnnotator::FeatureAnnotator(const dtp::FeatureMap &featureMap)
     : featureTreeMap(buildFeatureTreeMap(featureMap)) {}
 
-Annotation::FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
+FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
     const dtp::FeatureMap &featureMap) {
-    Annotation::FeatureTreeMap newFeatureTreeMap;
+    FeatureTreeMap newFeatureTreeMap;
     newFeatureTreeMap.reserve(featureMap.size());
 
     for (const auto &[referenceID, features] : featureMap) {
@@ -47,10 +47,10 @@ Annotation::FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
     return newFeatureTreeMap;
 }
 
-Annotation::FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
+FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
     const fs::path &featureFilePath, const std::vector<std::string> &includedFeatures,
     const std::optional<std::string> &featureIDFlag) {
-    Annotation::FeatureTreeMap newFeatureTreeMap;
+    FeatureTreeMap newFeatureTreeMap;
 
     const std::unordered_set<std::string> includedFeaturesSet(includedFeatures.begin(),
                                                               includedFeatures.end());

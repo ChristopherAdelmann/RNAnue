@@ -1,17 +1,18 @@
 #include "FeatureWriter.hpp"
 
-void FeatureWriter::write(const Annotation::FeatureTreeMap &featureTreeMap,
-                          const std::string &outputPath,
-                          const Annotation::FileType::Value fileType) {
+using namespace Annotation;
+
+void FeatureWriter::write(const FeatureTreeMap &featureTreeMap, const std::string &outputPath,
+                          const FileType::Value fileType) {
     std::ofstream outputFile(outputPath);
     if (!outputFile.is_open()) {
         throw std::runtime_error("Could not open file for writing: " + outputPath);
     }
 
     // Write the file header based on the fileType
-    if (fileType == Annotation::FileType::GFF) {
+    if (fileType == FileType::GFF) {
         outputFile << "##gff-version 3\n";
-    } else if (fileType == Annotation::FileType::GTF) {
+    } else if (fileType == FileType::GTF) {
         outputFile << "##gtf-version 2.2\n";
     }
 
@@ -24,9 +25,9 @@ void FeatureWriter::write(const Annotation::FeatureTreeMap &featureTreeMap,
                        << '\t' << "." << '\t';
 
             // Attributes field
-            if (fileType == Annotation::FileType::GFF) {
+            if (fileType == FileType::GFF) {
                 outputFile << "ID=" << feature.id;
-            } else if (fileType == Annotation::FileType::GTF) {
+            } else if (fileType == FileType::GTF) {
                 outputFile << "gene_id \"" << feature.id << "\"; ";
             }
             outputFile << '\n';

@@ -292,8 +292,9 @@ void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clust
         }
     }
 
-    FeatureWriter::write(supplementaryFeatureAnnotator.getFeatureTreeMap(),
-                         supplementaryFeaturesOutPath.string(), Annotation::FileType::GFF);
+    Annotation::FeatureWriter::write(supplementaryFeatureAnnotator.getFeatureTreeMap(),
+                                     supplementaryFeaturesOutPath.string(),
+                                     Annotation::FileType::GFF);
 
     assignNonAnnotatedSingletonsToSupplementaryFeatures(
         unassignedSingletonsInPath, supplementaryFeatureAnnotator, transcriptCounts);

@@ -91,8 +91,8 @@ int main(int argc, char* argv[]) {
         general.add_options()(
             "orientation",
             po::value<Annotation::Orientation>()->default_value(Annotation::Orientation::BOTH),
-            "orientation of the annotations to consider in relation to reads [both, same, "
-            "opposite] (default: both)");
+            "orientation of the annotations to consider in relation to reads [same, "
+            "opposite, both] (default: both)");
         // general.add_options()("splicing", po::bool_switch->default_value(false),
         //                       "splicing events are considered in the detection of split
         //                       reads");

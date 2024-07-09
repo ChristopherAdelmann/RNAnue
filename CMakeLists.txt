@@ -75,8 +75,8 @@ add_custom_target(
         --disable-check-perl
         --disable-check-python
         --disable-check-python2
-    COMMAND CXX=$ENV{CXX} CC=$ENV{CC} make
-    COMMAND CXX=$ENV{CXX} CC=$ENV{CC} make install
+    COMMAND CXX=$ENV{CXX} CC=$ENV{CC} make -j 2
+    COMMAND CXX=$ENV{CXX} CC=$ENV{CC} make install -j 2
     WORKING_DIRECTORY ${VIENNA_BUILD_DIR}
 )
 
@@ -84,26 +84,44 @@ add_custom_target(
 set(HTSlib_USE_STATIC_LIBS ON)
 include(htslib)
 
+### bam_sort
+set(BAM_SORT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort)
+
 ### segemehl
 add_subdirectory(submodules/segemehl)
 
 # ----------------------------------------------------------------------------
 # Build Setup
 # ----------------------------------------------------------------------------
-### Source Files
-file(GLOB SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
-list(APPEND SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort/bam_sort.c
-                    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort/sam_opts.c
-                    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort/bedidx.c
-                    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort/bam.c
-                    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort/sam_utils.c)
 
-
-### Include Directories
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
+                    ${CMAKE_CURRENT_SOURCE_DIR}/include/annotation
                     ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort) 
 
-add_executable (RNAnue  ${SOURCES})
+add_executable (RNAnue  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureAnnotator.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureParser.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureWriter.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Align.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Analyze.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Base.cpp 
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Closing.cpp 
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/CooptimalPairwiseAligner.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Data.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/DataTypes.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Detect.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/EvaluatedSplitRecords.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocess.cpp 
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Utility.cpp
+)
+
+target_sources(RNAnue PRIVATE
+    ${BAM_SORT_DIR}/bam_sort.c
+    ${BAM_SORT_DIR}/sam_opts.c
+    ${BAM_SORT_DIR}/bedidx.c
+    ${BAM_SORT_DIR}/bam.c
+    ${BAM_SORT_DIR}/sam_utils.c
+)
 
 ### htslib
 if(NOT HTSlib_FOUND)
@@ -116,7 +134,7 @@ target_include_directories(RNAnue PRIVATE ${HTSlib_INCLUDE_DIRS} ${HTSlib_INCLUD
 ### ViennaRNA
 add_dependencies(RNAnue ViennaRNA)
 target_include_directories (RNAnue PRIVATE ${VIENNA_BUILD_DIR}/include)
-target_link_libraries (RNAnue PRIVATE ${VIENNA_BUILD_DIR}/lib/libRNA.a)
+target_link_libraries (RNAnue PRIVATE ${VIENNA_BUILD_DIR}/src/ViennaRNA/libRNA.a)
 
 ### Link Libraries
 target_link_libraries (RNAnue PRIVATE   seqan3::seqan3

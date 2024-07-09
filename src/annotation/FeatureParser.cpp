@@ -1,5 +1,7 @@
 #include "FeatureParser.hpp"
 
+using namespace Annotation;
+
 /** @brief Constructs a FeatureParser object.
  *
  * This constructor initializes a FeatureParser object with the specified included features and
@@ -10,17 +12,17 @@
  * @param featureIDFlag The optional feature ID flag. Default is empty.
  *       Default is ID for GFF files and gene_id for GTF files.
  */
-Annotation::FeatureParser::FeatureParser(const std::unordered_set<std::string> &includedFeatures,
-                                         const std::optional<std::string> &featureIDFlag)
+FeatureParser::FeatureParser(const std::unordered_set<std::string> &includedFeatures,
+                             const std::optional<std::string> &featureIDFlag)
     : includedFeatures(includedFeatures), featureIDFlag(featureIDFlag) {}
 
-dtp::FeatureMap Annotation::FeatureParser::parse(const fs::path featureFilePath) const {
-    Annotation::FileType fileType = getFileType(featureFilePath);
+dtp::FeatureMap FeatureParser::parse(const fs::path featureFilePath) const {
+    FileType fileType = getFileType(featureFilePath);
 
     return iterateFeatureFile(featureFilePath, fileType);
 }
 
-Annotation::FileType Annotation::FeatureParser::getFileType(const fs::path &featureFilePath) const {
+FileType FeatureParser::getFileType(const fs::path &featureFilePath) const {
     std::ifstream file(featureFilePath.string());
     if (!file) {
         throw std::runtime_error("Could not open file: " + featureFilePath.string());
@@ -40,8 +42,8 @@ Annotation::FileType Annotation::FeatureParser::getFileType(const fs::path &feat
         "##gff-version or ##gtf-version");
 }
 
-dtp::FeatureMap Annotation::FeatureParser::iterateFeatureFile(
-    const fs::path &featureFilePath, const Annotation::FileType fileType) const {
+dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePath,
+                                                  const FileType fileType) const {
     dtp::FeatureMap featureMap;
 
     std::ifstream file(featureFilePath.string());
@@ -109,9 +111,9 @@ dtp::FeatureMap Annotation::FeatureParser::iterateFeatureFile(
     return featureMap;
 }
 
-std::optional<std::string> Annotation::FeatureParser::getIdentifier(
-    const Annotation::FileType fileType, const std::string &attributes,
-    const std::string &query) const {
+std::optional<std::string> FeatureParser::getIdentifier(const FileType fileType,
+                                                        const std::string &attributes,
+                                                        const std::string &query) const {
     const char delim = fileType.attrDelim();
     std::istringstream issAttr(attributes);
     for (std::string attr; std::getline(issAttr, attr, delim);) {
@@ -132,7 +134,7 @@ std::optional<std::string> Annotation::FeatureParser::getIdentifier(
     return std::nullopt;
 }
 
-constexpr bool Annotation::FeatureParser::isValidFeature(
+constexpr bool FeatureParser::isValidFeature(
     const std::optional<std::vector<std::string>> &tokens) const {
     const std::array<char, 3> allowedStrand = {'+', '-', '.'};
     return tokens.has_value() && tokens.value().size() == 9 &&

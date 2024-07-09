@@ -42,8 +42,8 @@ class Data {
     po::variables_map params;
     pt::ptree dataStructure;
 
-    void createDirectories(fs::path& path);
-    void createOutDir(fs::path& path, std::string& subcall);
+    void createDirectories(const fs::path& path);
+    void createOutDir(const fs::path& path, const std::string& subcall);
     bool withControlData();
 
     GroupsPath retrieveGroupsPath(std::optional<fs::path> ctrls, fs::path trtms);

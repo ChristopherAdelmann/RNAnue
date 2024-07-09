@@ -9,7 +9,7 @@ Data::Data(po::variables_map _params) : params(_params) {}
  *
  * @param path The path for which directories need to be created.
  */
-void Data::createDirectories(fs::path &path) {
+void Data::createDirectories(const fs::path &path) {
     if (fs::exists(path)) {
         Logger::log(LogLevel::INFO, "The directory ", path.string(), " already exists");
     } else {
@@ -28,7 +28,7 @@ void Data::createDirectories(fs::path &path) {
  * @param path The path where the output directory should be created.
  * @param subcall Additional information about the subcall being made.
  */
-void Data::createOutDir(fs::path &path, std::string &subcall) {
+void Data::createOutDir(const fs::path &path, const std::string &subcall) {
     createDirectories(path);
     fs::path pathSub = path / subcall;
     createDirectories(pathSub);

@@ -30,8 +30,7 @@ FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
 FeatureAnnotator::FeatureAnnotator(const dtp::FeatureMap &featureMap)
     : featureTreeMap(buildFeatureTreeMap(featureMap)) {}
 
-FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
-    const dtp::FeatureMap &featureMap) {
+FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(const dtp::FeatureMap &featureMap) {
     FeatureTreeMap newFeatureTreeMap;
     newFeatureTreeMap.reserve(featureMap.size());
 
@@ -93,7 +92,8 @@ std::string FeatureAnnotator::insert(const dtp::GenomicRegion &region) {
                           .startPosition = region.startPosition,
                           .endPosition = region.endPosition,
                           .strand = *region.strand,
-                          .id = uuid});
+                          .id = uuid,
+                          .groupID = std::nullopt});
     tree.index();
 
     return uuid;

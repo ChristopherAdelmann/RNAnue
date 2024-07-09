@@ -4,6 +4,7 @@
 #include <boost/filesystem.hpp>
 
 // Standard
+#include <algorithm>
 #include <fstream>
 #include <numeric>
 #include <sstream>
@@ -24,7 +25,18 @@ class FileType {
 
     constexpr char attrDelim() const { return ';'; }
 
-    const std::string featureIDFlag() const {
+    constexpr char attributeAssignment() const {
+        switch (value) {
+            case GFF:
+                return '=';
+            case GTF:
+                return ' ';
+            default:
+                return ' ';
+        }
+    }
+
+    constexpr std::string defaultIDKey() const {
         switch (value) {
             case GFF:
                 return "ID";
@@ -32,6 +44,17 @@ class FileType {
                 return "gene_id";
             default:
                 return "gene_id";
+        }
+    }
+
+    constexpr std::string defaultGroupKey() const {
+        switch (value) {
+            case GFF:
+                return "Parent";
+            case GTF:
+                return "transcript_id";
+            default:
+                return "transcript_id";
         }
     }
 
@@ -57,9 +80,10 @@ class FeatureParser {
     Annotation::FileType getFileType(const fs::path &featureFilePath) const;
     dtp::FeatureMap iterateFeatureFile(const fs::path &featureFilePath,
                                        const Annotation::FileType fileType) const;
-    std::optional<std::string> getIdentifier(const Annotation::FileType fileType,
-                                             const std::string &attributes,
-                                             const std::string &query) const;
+
+    const std::unordered_map<std::string, std::string> getAttributes(
+        const Annotation::FileType fileType, const std::string &attributes) const;
+
     constexpr bool isValidFeature(const std::optional<std::vector<std::string>> &tokens) const;
 };
 

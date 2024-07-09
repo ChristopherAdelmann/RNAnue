@@ -49,7 +49,7 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
     std::ifstream file(featureFilePath.string());
 
     if (!file.is_open()) {
-        throw std::runtime_error("Could not open file: " + featureFilePath.string());
+        Logger::log(LogLevel::ERROR, "Could not open file: ", featureFilePath.string());
     }
 
     size_t parsedFeatures = 0;
@@ -64,6 +64,7 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
             std::vector<std::string> tokens;
             std::istringstream issLine(line);
             for (std::string token; std::getline(issLine, token, '\t');) {
+                // Checks at the third token if the feature is included
                 if (tokens.size() == 2 && !includedFeatures.contains(token)) {
                     return std::nullopt;
                 }
@@ -78,26 +79,40 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
         if (!isValidFeature(tokens)) continue;
 
         const auto &tokens_v = tokens.value();
+        const auto attributes = getAttributes(fileType, tokens_v[8]);
 
-        const std::string featureIDFlag = this->featureIDFlag.value_or(fileType.featureIDFlag());
-        const auto identifier = getIdentifier(fileType, tokens_v[8], featureIDFlag);
+        auto getAttribute = [&attributes](const std::string &key) -> std::optional<std::string> {
+            const auto it = attributes.find(key);
+            if (it == attributes.end()) {
+                return std::nullopt;
+            }
+            return it->second;
+        };
+
+        const std::string featureIDFlag = this->featureIDFlag.value_or(fileType.defaultIDKey());
+        const auto identifier = getAttribute(featureIDFlag);
 
         if (!identifier.has_value()) {
             Logger::log(LogLevel::WARNING, "Could not find identifier in GFF file");
             continue;
         }
 
-        const std::string seqid = tokens.value()[0];
+        const std::string &referenceID = tokens_v[0];
+        const std::string &featureType = tokens_v[2];
+        int startPosition = std::stoi(tokens_v[3]);
+        int endPosition = std::stoi(tokens_v[4]);
 
-        dtp::Feature feature{
-            .referenceID = seqid,
-            .type = tokens_v[2],
-            .startPosition = std::stoi(tokens_v[3]),
-            .endPosition = std::stoi(tokens_v[4]),
+        featureMap[referenceID].emplace_back(
+        dtp::Feature{
+            .referenceID = referenceID,
+            .type = featureType,
+            .startPosition = startPosition,
+            .endPosition = endPosition,
             .strand = tokens_v[6][0] == '+' ? dtp::Strand::FORWARD : dtp::Strand::REVERSE,
-            .id = identifier.value()};
-
-        featureMap[seqid].push_back(feature);
+            .id = identifier.value(),
+            .groupID = getAttribute(fileType.defaultGroupKey())
+            }
+        );
 
         ++parsedFeatures;
     }
@@ -105,33 +120,39 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
     const std::string includedFeatureTypes =
         std::accumulate(includedFeatures.begin(), includedFeatures.end(), std::string(),
                         [](const std::string &a, const std::string &b) { return a + b + ", "; });
-    Logger::log(LogLevel::INFO, "Parsed " + std::to_string(parsedFeatures) +
-                                    " features of type:" + includedFeatureTypes);
+    Logger::log(LogLevel::INFO, "Parsed ", std::to_string(parsedFeatures),
+                                    " features of type: ", includedFeatureTypes);
 
     return featureMap;
 }
 
-std::optional<std::string> FeatureParser::getIdentifier(const FileType fileType,
-                                                        const std::string &attributes,
-                                                        const std::string &query) const {
-    const char delim = fileType.attrDelim();
+std::unordered_map<std::string, std::string> const FeatureParser::getAttributes(
+    const Annotation::FileType fileType, const std::string &attributes) const {
+    std::unordered_map<std::string, std::string> attributeMap;
     std::istringstream issAttr(attributes);
-    for (std::string attr; std::getline(issAttr, attr, delim);) {
-        const size_t matchPos = attr.find(query);
-        if (matchPos == std::string::npos) continue;
 
-        std::string id = attr.substr(matchPos + query.size() + 1);
+    const char delim = fileType.attrDelim();
 
-        switch (fileType) {
-            case FileType::GFF:
-                return id;
-            case FileType::GTF:
-                const auto ret = std::ranges::remove(id, '\"');
-                id.erase(ret.begin(), ret.end());
-                return id;
+    for (std::string attribute; std::getline(issAttr, attribute, delim);) {
+        const auto keyPosition = attribute.find(fileType.attributeAssignment());
+        if (keyPosition == std::string::npos) continue;
+
+        std::string key = attribute.substr(0, keyPosition);
+        std::string value = attribute.substr(keyPosition + 1);
+
+        if (key.empty() || value.empty()) continue;
+
+        if (fileType == FileType::GTF) {
+            const auto keyRet = std::ranges::remove(key, ' ');
+            key.erase(keyRet.begin(), keyRet.end());
+            const auto attributeRet = std::ranges::remove(value, '\"');
+            attribute.erase(attributeRet.begin(), attributeRet.end());
         }
+
+        attributeMap[key] = value;
     }
-    return std::nullopt;
+
+    return attributeMap;
 }
 
 constexpr bool FeatureParser::isValidFeature(

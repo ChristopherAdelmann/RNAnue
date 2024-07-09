@@ -47,8 +47,6 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/src/ViennaRNA/static/
 add_custom_target(
     ViennaRNA ALL
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/configure
-        CXX=$ENV{CXX}
-        CC=$ENV{CC}
         --prefix=${VIENNA_BUILD_DIR}
         --enable-lto
         --without-gsl
@@ -75,6 +73,8 @@ add_custom_target(
         --disable-check-perl
         --disable-check-python
         --disable-check-python2
+        CXX=$ENV{CXX}
+        CC=$ENV{CC}
     COMMAND CXX=$ENV{CXX} CC=$ENV{CC} make -j 2
     COMMAND CXX=$ENV{CXX} CC=$ENV{CC} make install -j 2
     WORKING_DIRECTORY ${VIENNA_BUILD_DIR}

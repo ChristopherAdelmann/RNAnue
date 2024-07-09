@@ -101,6 +101,7 @@ struct Feature {
     int32_t endPosition;
     Strand strand;
     std::string id;
+    std::optional<std::string> groupID;
 };
 
 using FeatureMap = std::unordered_map<std::string, std::vector<Feature>>;

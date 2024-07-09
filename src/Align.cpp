@@ -34,7 +34,7 @@ void Align::alignReads(const std::string &query, const std::string &mate,
 
     std::vector<char *> c_args(args.size() + 1);
     std::transform(args.begin(), args.end(), c_args.begin(),
-                   [](std::string &arg) { return const_cast<char *>(arg.c_str()); });
+                   [](const std::string &arg) { return const_cast<char *>(arg.c_str()); });
     c_args.back() = nullptr;  // argv must be null terminated
 
     int result = segemehl(c_args.size() - 1, c_args.data());

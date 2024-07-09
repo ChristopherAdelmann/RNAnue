@@ -36,7 +36,8 @@ dtp::GenomicRegion Segment::toGenomicRegion(const std::deque<std::string> &refer
 dtp::Feature Segment::toFeature(const std::deque<std::string> &referenceIDs,
                                 const std::string &featureID,
                                 const std::string &featureType) const {
-    return dtp::Feature{referenceIDs[referenceIDIndex], featureType, start, end, strand, featureID};
+    return dtp::Feature{
+        referenceIDs[referenceIDIndex], featureType, start, end, strand, featureID, std::nullopt};
 }
 
 void Segment::merge(const Segment &other) {
@@ -516,7 +517,7 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
               "clusters derived from DDD-Experiment\" itemRgb=\"On\"\n";
 
     const double pValueThreshold = params["padj"].as<double>();
-    const size_t clusterCountThreshold = params["mincount"].as<int>();
+    const int clusterCountThreshold = params["mincount"].as<int>();
 
     auto isClusterValid = [&](const InteractionCluster &cluster) {
         return cluster.pAdj.has_value() && cluster.pAdj.value() <= pValueThreshold &&

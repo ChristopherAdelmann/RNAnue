@@ -462,7 +462,7 @@ void Analyze::writeBEDLineToFile(const InteractionCluster &cluster, const std::s
 
 void Analyze::writeBEDArcLineToFile(const InteractionCluster &cluster, const std::string &clusterID,
                                     const std::deque<std::string> &referenceIDs,
-                                    const std::string &color, std::ofstream &bedOut) {
+                                    std::ofstream &bedOut) {
     bedOut << getReferenceID(cluster.segments.first.referenceIDIndex, referenceIDs) << "\t";
     bedOut << cluster.segments.first.start << "\t";
     bedOut << cluster.segments.second.start << "\t";
@@ -553,8 +553,7 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
         }
         const std::string randomColor = helper::generateRandomHexColor();
         writeBEDLineToFile(cluster, std::to_string(clusterID), referenceIDs, randomColor, bedOut);
-        writeBEDArcLineToFile(cluster, std::to_string(clusterID), referenceIDs, randomColor,
-                              arcOut);
+        writeBEDArcLineToFile(cluster, std::to_string(clusterID), referenceIDs, arcOut);
         writeInteractionLineToFile(cluster, std::to_string(clusterID), referenceIDs,
                                    interactionOut);
         ++clusterID;

@@ -35,6 +35,15 @@ std::size_t countUniqueSamEntries(fs::path path);
 std::size_t countSamEntries(fs::path path);
 std::size_t countSamEntriesSeqAn(fs::path path);
 
+/** Checks if a value is contained within a specified range, with a given tolerance.
+ *
+ * @param value The value to check.
+ * @param comparisonValue The value to compare against.
+ * @param tolerance The tolerance within which the values are considered equal.
+ * @return true if the value is contained within the range, false otherwise.
+ **/
+bool isContained(const int32_t value, const int32_t comparisonValue, const int32_t tolerance);
+
 void printTree(const boost::property_tree::ptree& pt, int level);
 
 template <typename T>

@@ -131,8 +131,7 @@ class Analyze {
                             std::ofstream &bedOut);
 
     void writeBEDArcLineToFile(const InteractionCluster &cluster, const std::string &clusterID,
-                               const std::deque<std::string> &referenceIDs,
-                               const std::string &color, std::ofstream &bedOut);
+                               const std::deque<std::string> &referenceIDs, std::ofstream &bedOut);
 
     void writeInteractionLineToFile(const InteractionCluster &cluster, const std::string &clusterID,
                                     const std::deque<std::string> &referenceIDs,

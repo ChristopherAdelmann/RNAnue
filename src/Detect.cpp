@@ -331,9 +331,14 @@ std::optional<EvaluatedSplitRecords> Detect::getSplitRecords(
 
     std::optional<EvaluatedSplitRecords> bestSplitRecords{};
 
+    const EvaluatedSplitRecords::BaseParameters parameters{
+        .minComplementarity = minComplementarity,
+        .minComplementarityFraction = minFraction,
+        .mfeThreshold = params["mfe"].as<double>()};
+
     const auto insertBestSplitRecords = [&](SplitRecords &splitRecords) {
-        const auto evaluatedSplitRecords = EvaluatedSplitRecords::calculateEvaluatedSplitRecords(
-            splitRecords, minComplementarity, minFraction, params["nrgmax"].as<double>());
+        const auto evaluatedSplitRecords =
+            EvaluatedSplitRecords::calculateEvaluatedSplitRecords(splitRecords, parameters);
 
         if (!evaluatedSplitRecords.has_value()) {
             return;

@@ -2,8 +2,7 @@
 
 // TODO Needs optimization and implementation for multiple splits
 std::optional<EvaluatedSplitRecords> EvaluatedSplitRecords::calculateEvaluatedSplitRecords(
-    SplitRecords &splitRecords, const double minComplementarity,
-    const double minComplementarityFraction, const double mfeThreshold) {
+    SplitRecords &splitRecords, const BaseParameters &parameters) {
     if (splitRecords.size() != 2) {
         Logger::log(LogLevel::DEBUG, "Currently only two split records are supported!");
         return std::nullopt;
@@ -13,14 +12,15 @@ std::optional<EvaluatedSplitRecords> EvaluatedSplitRecords::calculateEvaluatedSp
     const seqan3::dna5_vector &seq2 = splitRecords[1].sequence();
 
     std::optional<CoOptimalPairwiseAligner::AlignmentResult> complementarity =
-        calculateComplementarity(seq1, seq2, minComplementarity, minComplementarityFraction);
+        calculateComplementarity(seq1, seq2, parameters.minComplementarity,
+                                 parameters.minComplementarityFraction);
 
     if (!complementarity.has_value()) {
         return std::nullopt;
     }
 
     std::optional<HybridizationResult> hybridization =
-        calculateHybridization(seq1, seq2, mfeThreshold);
+        calculateHybridization(seq1, seq2, parameters.mfeThreshold);
 
     if (!hybridization.has_value()) {
         return std::nullopt;
@@ -29,6 +29,90 @@ std::optional<EvaluatedSplitRecords> EvaluatedSplitRecords::calculateEvaluatedSp
     addTagsToRecords(splitRecords, complementarity.value(), hybridization.value());
 
     return EvaluatedSplitRecords{splitRecords, complementarity.value(), hybridization.value()};
+}
+
+std::optional<EvaluatedSplitRecords> EvaluatedSplitRecords::calculateEvaluatedSplitRecords(
+    SplitRecords &splitRecords, const SplicingParameters &parameters,
+    const Annotation::FeatureAnnotator &featureAnnotator) {
+    if (splitRecords.size() != 2) {
+        Logger::log(LogLevel::DEBUG, "Currently only two split records are supported!");
+        return std::nullopt;
+    }
+
+    if (!splitRecords[0].reference_position().has_value() ||
+        !splitRecords[1].reference_position().has_value()) [[unlikely]] {
+        Logger::log(LogLevel::WARNING, "Could not determine reference position of split records: ",
+                    splitRecords[0].id(), " or ", splitRecords[1].id());
+        return std::nullopt;
+    }
+
+    if (splitRecords[0].reference_id() != splitRecords[1].reference_id()) {
+        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+    }
+
+    const auto &record1 =
+        splitRecords[0].reference_position().value() < splitRecords[1].reference_position().value()
+            ? splitRecords[0]
+            : splitRecords[1];
+    const auto &record2 =
+        splitRecords[0].reference_position().value() < splitRecords[1].reference_position().value()
+            ? splitRecords[1]
+            : splitRecords[0];
+
+    const auto featureRecord1 = featureAnnotator.getBestOverlappingFeature(
+        record1, parameters.referenceIDs, parameters.orientation);
+
+    if (!featureRecord1.has_value() || !featureRecord1.value().groupID.has_value()) {
+        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+    }
+
+    const auto featureRecord2 = featureAnnotator.getBestOverlappingFeature(
+        record2, parameters.referenceIDs, parameters.orientation);
+
+    if (!featureRecord2.has_value() || !featureRecord2.value().groupID.has_value()) {
+        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+    }
+
+    if (featureRecord1.value().groupID != featureRecord2.value().groupID) {
+        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+    }
+
+    // Check if record1 is at splice junction start
+    const auto record1EndPosition = dtp::recordEndPosition(record1).value();
+
+    bool record1AtSpliceJunctionStart = helper::isContained(
+        record1EndPosition, featureRecord1.value().endPosition - 1, parameters.splicingTolerance);
+
+    if (!record1AtSpliceJunctionStart) {
+        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+    }
+
+    const auto record2StartPosition = record2.reference_position().value();
+    bool record2AtSpliceJunctionEnd = helper::isContained(
+        record2StartPosition, featureRecord2.value().startPosition, parameters.splicingTolerance);
+
+    if (!record2AtSpliceJunctionEnd) {
+        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+    }
+
+    const std::string &referenceID = parameters.referenceIDs[record1.reference_id().value()];
+
+    const auto inBetweenRegion =
+        dtp::GenomicRegion{referenceID, record1EndPosition, record2StartPosition};
+
+    auto it = featureAnnotator.overlappingFeatureIterator(inBetweenRegion, parameters.orientation);
+
+    const bool hasInBetweenExon =
+        std::any_of(it.begin(), it.end(), [&featureRecord1](const auto &feature) {
+            return feature.groupID.has_value() &&
+                   feature.groupID.value() == featureRecord1.value().groupID;
+        });
+
+    if (!hasInBetweenExon) {
+        return std::nullopt;
+    }
+
+    return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
 }
 
 // TODO Implement overall score calculation instead of comparing individual scores

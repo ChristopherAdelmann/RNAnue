@@ -48,9 +48,12 @@ class FeatureAnnotator {
     std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region,
                                                   const Orientation orientation);
     Results overlappingFeatureIterator(const dtp::GenomicRegion& region,
-                                       const Orientation orientation);
+                                       const Orientation orientation) const;
     std::optional<dtp::Feature> getBestOverlappingFeature(const dtp::GenomicRegion& region,
-                                                          const Orientation orientation);
+                                                          const Orientation orientation) const;
+    std::optional<dtp::Feature> getBestOverlappingFeature(
+        const dtp::SamRecord& record, const std::deque<std::string>& referenceIDs,
+        const Orientation orientation) const;
     const FeatureTreeMap& getFeatureTreeMap() const;
 
    private:

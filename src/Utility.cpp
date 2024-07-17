@@ -46,6 +46,11 @@ void helper::mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath
     }
 }
 
+bool helper::isContained(const int32_t value, const int32_t comparisonValue,
+                         const int32_t tolerance) {
+    return value >= comparisonValue - tolerance && value <= comparisonValue + tolerance;
+}
+
 std::size_t helper::countUniqueSamEntries(fs::path path) {
     std::ifstream infile(path);
     if (!infile.is_open()) {

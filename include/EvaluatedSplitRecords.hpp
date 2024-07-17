@@ -1,6 +1,7 @@
 #pragma once
 
 // Standard
+#include <algorithm>
 #include <ranges>
 
 // seqan3
@@ -21,7 +22,9 @@ extern "C" {
 #include "CooptimalPairwiseAligner.hpp"
 #include "CustomSamTags.hpp"
 #include "DataTypes.hpp"
+#include "FeatureAnnotator.hpp"
 #include "Logger.hpp"
+#include "Utility.hpp"
 
 using namespace dtp;
 using namespace seqan3::literals;
@@ -68,9 +71,24 @@ struct HybridizationResult {
 
 class EvaluatedSplitRecords {
    public:
+    struct BaseParameters {
+        double minComplementarity;
+        double minComplementarityFraction;
+        double mfeThreshold;
+    };
+
+    struct SplicingParameters {
+        BaseParameters baseParameters;
+        Annotation::Orientation orientation;
+        int32_t splicingTolerance;
+        std::deque<std::string> &referenceIDs;
+    };
+
     static std::optional<EvaluatedSplitRecords> calculateEvaluatedSplitRecords(
-        SplitRecords &splitRecords, const double minComplementarity,
-        const double minComplementarityFraction, const double mfeThreshold);
+        SplitRecords &splitRecords, const BaseParameters &parameters);
+    static std::optional<EvaluatedSplitRecords> calculateEvaluatedSplitRecords(
+        SplitRecords &splitRecords, const SplicingParameters &parameters,
+        const Annotation::FeatureAnnotator &featureAnnotator);
 
     const SplitRecords splitRecords;
     const CoOptimalPairwiseAligner::AlignmentResult complementarityResult;

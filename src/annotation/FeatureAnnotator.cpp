@@ -177,7 +177,7 @@ std::vector<dtp::Feature> FeatureAnnotator::overlappingFeatures(const dtp::Genom
 }
 
 FeatureAnnotator::Results FeatureAnnotator::overlappingFeatureIterator(
-    const dtp::GenomicRegion &region, const Orientation orientation) {
+    const dtp::GenomicRegion &region, const Orientation orientation) const {
     std::vector<size_t> indices;
 
     auto it = featureTreeMap.find(region.referenceID);
@@ -199,7 +199,7 @@ FeatureAnnotator::Results FeatureAnnotator::overlappingFeatureIterator(
 }
 
 std::optional<dtp::Feature> FeatureAnnotator::getBestOverlappingFeature(
-    const dtp::GenomicRegion &region, const Orientation orientation) {
+    const dtp::GenomicRegion &region, const Orientation orientation) const {
     auto overlapSizeWithRegion = [region](const dtp::Feature &feature) -> size_t {
         return std::min(region.endPosition, feature.endPosition) -
                std::max(region.startPosition, feature.startPosition);
@@ -219,6 +219,17 @@ std::optional<dtp::Feature> FeatureAnnotator::getBestOverlappingFeature(
     }
 
     return std::nullopt;
+}
+
+std::optional<dtp::Feature> FeatureAnnotator::getBestOverlappingFeature(
+    const dtp::SamRecord &record, const std::deque<std::string> &referenceIDs,
+    const Orientation orientation) const {
+    auto region = dtp::GenomicRegion::fromSamRecord(record, referenceIDs);
+    if (!region.has_value()) {
+        return std::nullopt;
+    }
+
+    return getBestOverlappingFeature(region.value(), orientation);
 }
 
 // Results and Iterator implementation

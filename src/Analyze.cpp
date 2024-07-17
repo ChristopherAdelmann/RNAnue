@@ -436,8 +436,7 @@ void Analyze::assignNonAnnotatedSingletonsToSupplementaryFeatures(
 
 void Analyze::writeBEDLineToFile(const InteractionCluster &cluster, const std::string &clusterID,
                                  const std::deque<std::string> &referenceIDs,
-                                 std::ofstream &bedOut) {
-    const std::string randomColor = helper::generateRandomHexColor();
+                                 const std::string &color, std::ofstream &bedOut) {
     bedOut << getReferenceID(cluster.segments.first.referenceIDIndex, referenceIDs) << "\t";
     bedOut << cluster.segments.first.start << "\t";
     bedOut << cluster.segments.first.end + 1 << "\t";
@@ -447,7 +446,7 @@ void Analyze::writeBEDLineToFile(const InteractionCluster &cluster, const std::s
     bedOut << static_cast<char>(cluster.segments.first.strand) << "\t";
     bedOut << cluster.segments.first.start << "\t";
     bedOut << cluster.segments.first.end + 1 << "\t";
-    bedOut << randomColor << "\n";
+    bedOut << color << "\n";
 
     bedOut << getReferenceID(cluster.segments.second.referenceIDIndex, referenceIDs) << "\t";
     bedOut << cluster.segments.second.start << "\t";
@@ -458,7 +457,16 @@ void Analyze::writeBEDLineToFile(const InteractionCluster &cluster, const std::s
     bedOut << static_cast<char>(cluster.segments.second.strand) << "\t";
     bedOut << cluster.segments.second.start << "\t";
     bedOut << cluster.segments.second.end + 1 << "\t";
-    bedOut << randomColor << "\n";
+    bedOut << color << "\n";
+}
+
+void Analyze::writeBEDArcLineToFile(const InteractionCluster &cluster, const std::string &clusterID,
+                                    const std::deque<std::string> &referenceIDs,
+                                    const std::string &color, std::ofstream &bedOut) {
+    bedOut << getReferenceID(cluster.segments.first.referenceIDIndex, referenceIDs) << "\t";
+    bedOut << cluster.segments.first.start << "\t";
+    bedOut << cluster.segments.second.start << "\t";
+    bedOut << "cluster" << clusterID << "\n";
 }
 
 void Analyze::writeInteractionLineToFile(const InteractionCluster &cluster,
@@ -516,6 +524,20 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
            << " RNA-RNA interactions\" description=\"Segments of interacting RNA "
               "clusters derived from DDD-Experiment\" itemRgb=\"On\"\n";
 
+    fs::path arcOutBase = clusterOutPath.stem();
+    arcOutBase += "_arc";
+    fs::path arcOutPath = clusterOutPath.parent_path() / arcOutBase;
+    arcOutPath.replace_extension(".bed");
+
+    std::ofstream arcOut(arcOutPath.string());
+    if (!arcOut.is_open()) {
+        Logger::log(LogLevel::ERROR, "Could not open file: ", arcOutPath.string());
+    }
+
+    arcOut << "track graphType=arc name=\"" << sampleName
+           << " RNA-RNA interactions arcs\" description=\"Segments of interacting RNA "
+              "clusters derived from DDD-Experiment\" itemRgb=\"On\"\n";
+
     const double pValueThreshold = params["padj"].as<double>();
     const int clusterCountThreshold = params["mincount"].as<int>();
 
@@ -529,7 +551,10 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
         if (!isClusterValid(cluster)) {
             continue;
         }
-        writeBEDLineToFile(cluster, std::to_string(clusterID), referenceIDs, bedOut);
+        const std::string randomColor = helper::generateRandomHexColor();
+        writeBEDLineToFile(cluster, std::to_string(clusterID), referenceIDs, randomColor, bedOut);
+        writeBEDArcLineToFile(cluster, std::to_string(clusterID), referenceIDs, randomColor,
+                              arcOut);
         writeInteractionLineToFile(cluster, std::to_string(clusterID), referenceIDs,
                                    interactionOut);
         ++clusterID;

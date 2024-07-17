@@ -102,17 +102,14 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
         int startPosition = std::stoi(tokens_v[3]);
         int endPosition = std::stoi(tokens_v[4]);
 
-        featureMap[referenceID].emplace_back(
-        dtp::Feature{
+        featureMap[referenceID].emplace_back(dtp::Feature{
             .referenceID = referenceID,
             .type = featureType,
             .startPosition = startPosition,
             .endPosition = endPosition,
             .strand = tokens_v[6][0] == '+' ? dtp::Strand::FORWARD : dtp::Strand::REVERSE,
             .id = identifier.value(),
-            .groupID = getAttribute(fileType.defaultGroupKey())
-            }
-        );
+            .groupID = getAttribute(fileType.defaultGroupKey())});
 
         ++parsedFeatures;
     }
@@ -121,7 +118,7 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
         std::accumulate(includedFeatures.begin(), includedFeatures.end(), std::string(),
                         [](const std::string &a, const std::string &b) { return a + b + ", "; });
     Logger::log(LogLevel::INFO, "Parsed ", std::to_string(parsedFeatures),
-                                    " features of type: ", includedFeatureTypes);
+                " features of type: ", includedFeatureTypes);
 
     return featureMap;
 }

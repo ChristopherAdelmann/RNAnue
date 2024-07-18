@@ -63,20 +63,23 @@ class Detect {
     double minFraction;
     int minMapQuality;
     bool excludeSoftClipping;
+    bool filterSplicedReads;
+    int spliceFilterTolerance;
     Annotation::Orientation annotationOrientation;
-
     Annotation::FeatureAnnotator featureAnnotator;
 
     Results iterateSortedMappingsFile(const std::string &mappingsInPath,
                                       const std::string &splitsPath,
                                       const std::string &multSplitsPath,
                                       const fs::path &unassignedSingletonRecordsOutPath);
-    size_t processReadRecords(const std::vector<SamRecord> &readRecords, auto &splitsOut,
+    size_t processReadRecords(const std::vector<SamRecord> &readRecords,
+                              const std::deque<std::string> &referenceIDs, auto &splitsOut,
                               [[maybe_unused]] auto &multiSplitsOut);
 
     std::optional<SplitRecords> constructSplitRecords(const SamRecord &readRecord);
     std::optional<SplitRecords> constructSplitRecords(const std::vector<SamRecord> &readRecords);
-    std::optional<EvaluatedSplitRecords> getSplitRecords(const std::vector<SamRecord> &readRecords);
+    std::optional<EvaluatedSplitRecords> getSplitRecords(
+        const std::vector<SamRecord> &readRecords, const std::deque<std::string> &referenceIDs);
 
     void mergeResults(Results &transcriptCounts, const Results &newTranscriptCounts) const;
     void writeSamFile(auto &samOut, const std::vector<SamRecord> &splitRecords);

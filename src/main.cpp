@@ -93,9 +93,6 @@ int main(int argc, char* argv[]) {
             po::value<Annotation::Orientation>()->default_value(Annotation::Orientation::BOTH),
             "orientation of the annotations to consider in relation to reads [same, "
             "opposite, both] (default: both)");
-        // general.add_options()("splicing", po::bool_switch->default_value(false),
-        //                       "splicing events are considered in the detection of split
-        //                       reads");
 
         po::options_description preprocess("Preprocess Pipeline");
         preprocess.add_options()(pi::PREPROCESS.c_str(), po::bool_switch()->default_value(true),
@@ -158,6 +155,7 @@ int main(int argc, char* argv[]) {
         align.add_options()("minsplicecov", po::value<int>()->default_value(80),
                             "minimum coverage for spliced transcripts (default: 80, range:0-100)");
 
+        // Detect Pipeline
         po::options_description detect("Detect Pipeline");
         detect.add_options()(
             "mapqmin", po::value<int>()->default_value(10),
@@ -172,7 +170,12 @@ int main(int argc, char* argv[]) {
             "hybridization energy cutoff for split reads (default: 0.0, range: >=0.0)");
         detect.add_options()("exclclipping", po::bool_switch()->default_value(false),
                              "exclude soft clipping from the alignments (default: false)");
+        detect.add_options()("splicing", po::bool_switch()->default_value(false),
+                             "splicing events are considered in the detection of split reads");
+        detect.add_options()("splicingtolerance", po::value<int>()->default_value(5),
+                             "tolerance for splicing events (default: 5)");
 
+        // Analyze Pipeline
         po::options_description analysis("Analyze Pipeline");
         analysis.add_options()("clustdist", po::value<int>()->default_value(0),
                                "threshold distance at which two clusters are merged into a single "

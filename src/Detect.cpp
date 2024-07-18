@@ -7,6 +7,8 @@ Detect::Detect(po::variables_map params)
       minFraction(params["sitelenratio"].as<double>()),
       minMapQuality(params["mapqmin"].as<int>()),
       excludeSoftClipping(params["exclclipping"].as<bool>()),
+      filterSplicedReads(params["splicing"].as<bool>()),
+      spliceFilterTolerance(params["splicingtolerance"].as<int>()),
       annotationOrientation(params["orientation"].as<Annotation::Orientation>()),
       featureAnnotator(params["features"].as<std::string>(),
                        params["featuretypes"].as<std::vector<std::string>>()) {}
@@ -73,7 +75,7 @@ Detect::Results Detect::iterateSortedMappingsFile(
             });
 
             size_t fragmentsCount =
-                processReadRecords(currentRecordList, splitsOut, multiSplitsOut);
+                processReadRecords(currentRecordList, refIDs, splitsOut, multiSplitsOut);
             totalSplitFragmentsCount += fragmentsCount;
 
             currentRecordList.clear();
@@ -111,7 +113,8 @@ Detect::Results Detect::iterateSortedMappingsFile(
         currentRecordList.push_back(std::move(record));
     }
 
-    size_t fragmentsCount = processReadRecords(currentRecordList, splitsOut, multiSplitsOut);
+    size_t fragmentsCount =
+        processReadRecords(currentRecordList, refIDs, splitsOut, multiSplitsOut);
     totalSplitFragmentsCount += fragmentsCount;
 
     Logger::log(LogLevel::INFO, "Processed ", recordsCount, " reads. Found ",
@@ -130,13 +133,14 @@ Detect::Results Detect::iterateSortedMappingsFile(
  * @param multiSplitsOut The output stream for multi split records.
  * @return The count of fragments for a specific record id.
  */
-size_t Detect::processReadRecords(const std::vector<SamRecord> &readRecords, auto &splitsOut,
+size_t Detect::processReadRecords(const std::vector<SamRecord> &readRecords,
+                                  const std::deque<std::string> &referenceIDs, auto &splitsOut,
                                   auto &multiSplitsOut) {
     if (readRecords.empty()) {
         return 0;
     }
 
-    const auto splitRecords = getSplitRecords(readRecords);
+    const auto splitRecords = getSplitRecords(readRecords, referenceIDs);
 
     if (!splitRecords.has_value()) {
         return 0;
@@ -323,7 +327,7 @@ std::optional<SplitRecords> Detect::constructSplitRecords(
  *         split records were found.
  */
 std::optional<EvaluatedSplitRecords> Detect::getSplitRecords(
-    const std::vector<SamRecord> &readRecords) {
+    const std::vector<SamRecord> &readRecords, const std::deque<std::string> &referenceIDs) {
     std::unordered_map<size_t, std::vector<SamRecord>> recordHitGroups{};
     for (const auto &record : readRecords) {
         recordHitGroups[record.tags().get<"HI"_tag>()].push_back(record);
@@ -337,8 +341,20 @@ std::optional<EvaluatedSplitRecords> Detect::getSplitRecords(
         .mfeThreshold = params["mfe"].as<double>()};
 
     const auto insertBestSplitRecords = [&](SplitRecords &splitRecords) {
-        const auto evaluatedSplitRecords =
-            EvaluatedSplitRecords::calculateEvaluatedSplitRecords(splitRecords, parameters);
+        std::optional<EvaluatedSplitRecords> evaluatedSplitRecords = std::nullopt;
+
+        if (filterSplicedReads) {
+            const EvaluatedSplitRecords::SplicingParameters splicingParameters{
+                .baseParameters = parameters,
+                .orientation = annotationOrientation,
+                .splicingTolerance = spliceFilterTolerance,
+                .referenceIDs = referenceIDs};
+            evaluatedSplitRecords = EvaluatedSplitRecords::calculateEvaluatedSplitRecords(
+                splitRecords, splicingParameters, featureAnnotator);
+        } else {
+            evaluatedSplitRecords =
+                EvaluatedSplitRecords::calculateEvaluatedSplitRecords(splitRecords, parameters);
+        }
 
         if (!evaluatedSplitRecords.has_value()) {
             return;

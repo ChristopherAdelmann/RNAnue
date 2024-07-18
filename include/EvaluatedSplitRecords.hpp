@@ -81,7 +81,7 @@ class EvaluatedSplitRecords {
         BaseParameters baseParameters;
         Annotation::Orientation orientation;
         int32_t splicingTolerance;
-        std::deque<std::string> &referenceIDs;
+        const std::deque<std::string> &referenceIDs;
     };
 
     static std::optional<EvaluatedSplitRecords> calculateEvaluatedSplitRecords(
@@ -90,9 +90,9 @@ class EvaluatedSplitRecords {
         SplitRecords &splitRecords, const SplicingParameters &parameters,
         const Annotation::FeatureAnnotator &featureAnnotator);
 
-    const SplitRecords splitRecords;
-    const CoOptimalPairwiseAligner::AlignmentResult complementarityResult;
-    const HybridizationResult hybridizationResult;
+    SplitRecords splitRecords;
+    CoOptimalPairwiseAligner::AlignmentResult complementarityResult;
+    HybridizationResult hybridizationResult;
 
     bool operator<(const EvaluatedSplitRecords &other) const;
     bool operator>(const EvaluatedSplitRecords &other) const;

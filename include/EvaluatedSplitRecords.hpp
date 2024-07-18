@@ -18,6 +18,8 @@ extern "C" {
 #include <ViennaRNA/utils/strings.h>
 }
 
+#include <gtest/gtest.h>
+
 // Classes
 #include "CooptimalPairwiseAligner.hpp"
 #include "CustomSamTags.hpp"
@@ -70,6 +72,9 @@ struct HybridizationResult {
 };
 
 class EvaluatedSplitRecords {
+    friend class EvaluatedSplitRecordsTests;
+    FRIEND_TEST(EvaluatedSplitRecordsTests, IsSplicedSplitRecord);
+
    public:
     struct BaseParameters {
         double minComplementarity;
@@ -104,6 +109,10 @@ class EvaluatedSplitRecords {
         : splitRecords(splitRecords),
           complementarityResult(complementarity),
           hybridizationResult(hybridization) {}
+
+    static bool isSplicedSplitRecord(const SplitRecords &splitRecords,
+                                     const SplicingParameters &parameters,
+                                     const Annotation::FeatureAnnotator &featureAnnotator);
 
     // Add the complementarity and hybridization results to the split records tags
     static void addTagsToRecords(SplitRecords &splitRecords,

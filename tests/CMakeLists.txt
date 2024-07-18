@@ -17,14 +17,16 @@ enable_testing()
 add_executable(tests    ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/FeatureAnnotatorTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/DetectTests.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/EvaluatedSplitRecordsTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/Analyze.cpp 
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/DataTypes.cpp 
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/annotation/FeatureAnnotator.cpp
-                        ${CMAKE_CURRENT_SOURCE_DIR}/../src/annotationFeatureParser.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/../src/annotation/FeatureParser.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/annotation/FeatureWriter.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/Utility.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/Detect.cpp
-                        ${CMAKE_CURRENT_SOURCE_DIR}/../src/EvaluatedSplitRecords.cpp)
+                        ${CMAKE_CURRENT_SOURCE_DIR}/../src/EvaluatedSplitRecords.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/../src/CooptimalPairwiseAligner.cpp)
 
                         
 add_dependencies(tests ViennaRNA)

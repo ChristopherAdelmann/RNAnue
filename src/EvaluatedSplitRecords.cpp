@@ -8,6 +8,13 @@ std::optional<EvaluatedSplitRecords> EvaluatedSplitRecords::calculateEvaluatedSp
         return std::nullopt;
     }
 
+    if (!splitRecords[0].reference_position().has_value() ||
+        !splitRecords[1].reference_position().has_value()) [[unlikely]] {
+        Logger::log(LogLevel::WARNING, "Could not determine reference position of split records: ",
+                    splitRecords[0].id(), " or ", splitRecords[1].id());
+        return std::nullopt;
+    }
+
     const seqan3::dna5_vector &seq1 = splitRecords[0].sequence();
     const seqan3::dna5_vector &seq2 = splitRecords[1].sequence();
 
@@ -46,8 +53,18 @@ std::optional<EvaluatedSplitRecords> EvaluatedSplitRecords::calculateEvaluatedSp
         return std::nullopt;
     }
 
+    if (isSplicedSplitRecord(splitRecords, parameters, featureAnnotator)) {
+        return std::nullopt;
+    }
+
+    return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+}
+
+bool EvaluatedSplitRecords::isSplicedSplitRecord(
+    const SplitRecords &splitRecords, const SplicingParameters &parameters,
+    const Annotation::FeatureAnnotator &featureAnnotator) {
     if (splitRecords[0].reference_id() != splitRecords[1].reference_id()) {
-        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+        return false;
     }
 
     const auto &record1 =
@@ -63,18 +80,18 @@ std::optional<EvaluatedSplitRecords> EvaluatedSplitRecords::calculateEvaluatedSp
         record1, parameters.referenceIDs, parameters.orientation);
 
     if (!featureRecord1.has_value() || !featureRecord1.value().groupID.has_value()) {
-        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+        return false;
     }
 
     const auto featureRecord2 = featureAnnotator.getBestOverlappingFeature(
         record2, parameters.referenceIDs, parameters.orientation);
 
     if (!featureRecord2.has_value() || !featureRecord2.value().groupID.has_value()) {
-        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+        return false;
     }
 
     if (featureRecord1.value().groupID != featureRecord2.value().groupID) {
-        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+        return false;
     }
 
     // Check if record1 is at splice junction start
@@ -84,7 +101,7 @@ std::optional<EvaluatedSplitRecords> EvaluatedSplitRecords::calculateEvaluatedSp
         record1EndPosition, featureRecord1.value().endPosition - 1, parameters.splicingTolerance);
 
     if (!record1AtSpliceJunctionStart) {
-        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+        return false;
     }
 
     const auto record2StartPosition = record2.reference_position().value();
@@ -92,7 +109,7 @@ std::optional<EvaluatedSplitRecords> EvaluatedSplitRecords::calculateEvaluatedSp
         record2StartPosition, featureRecord2.value().startPosition, parameters.splicingTolerance);
 
     if (!record2AtSpliceJunctionEnd) {
-        return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
+        return false;
     }
 
     const std::string &referenceID = parameters.referenceIDs[record1.reference_id().value()];
@@ -109,11 +126,11 @@ std::optional<EvaluatedSplitRecords> EvaluatedSplitRecords::calculateEvaluatedSp
         });
 
     if (!hasInBetweenExon) {
-        return std::nullopt;
+        return false;
     }
 
-    return calculateEvaluatedSplitRecords(splitRecords, parameters.baseParameters);
-}
+    return true;
+};
 
 // TODO Implement overall score calculation instead of comparing individual scores
 bool EvaluatedSplitRecords::operator<(const EvaluatedSplitRecords &other) const {

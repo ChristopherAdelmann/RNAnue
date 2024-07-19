@@ -21,12 +21,12 @@
 #include <boost/property_tree/ptree.hpp>
 
 // Classes
-#include "CooptimalPairwiseAligner.hpp"
 #include "CustomSamTags.hpp"
 #include "DataTypes.hpp"
-#include "EvaluatedSplitRecords.hpp"
 #include "FeatureAnnotator.hpp"
 #include "Logger.hpp"
+#include "SplitRecordsEvaluationParameters.hpp"
+#include "SplitRecordsEvaluator.hpp"
 #include "Utility.hpp"
 
 namespace po = boost::program_options;
@@ -59,14 +59,17 @@ class Detect {
     po::variables_map params;
 
     size_t minReadLength;
-    double minComplementarity;
-    double minFraction;
     int minMapQuality;
     bool excludeSoftClipping;
-    bool filterSplicedReads;
-    int spliceFilterTolerance;
     Annotation::Orientation annotationOrientation;
     Annotation::FeatureAnnotator featureAnnotator;
+    SplitRecordsEvaluator splitRecordsEvaluator;
+
+    const std::variant<SplitRecordsEvaluationParameters::BaseParameters,
+                       SplitRecordsEvaluationParameters::SplicingParameters>
+    getSplitRecordsEvaluatorParameters(const po::variables_map &params) const;
+
+    const std::deque<std::string> &getReferenceIDs(const fs::path &mappingsInPath) const;
 
     Results iterateSortedMappingsFile(const std::string &mappingsInPath,
                                       const std::string &splitsPath,
@@ -78,7 +81,7 @@ class Detect {
 
     std::optional<SplitRecords> constructSplitRecords(const SamRecord &readRecord);
     std::optional<SplitRecords> constructSplitRecords(const std::vector<SamRecord> &readRecords);
-    std::optional<EvaluatedSplitRecords> getSplitRecords(
+    std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords> getSplitRecords(
         const std::vector<SamRecord> &readRecords, const std::deque<std::string> &referenceIDs);
 
     void mergeResults(Results &transcriptCounts, const Results &newTranscriptCounts) const;

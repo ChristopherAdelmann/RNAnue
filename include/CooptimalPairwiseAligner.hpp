@@ -23,7 +23,7 @@ class CoOptimalPairwiseAligner {
         : cfg(getAlignmentConfig(scoringScheme)) {}
     ~CoOptimalPairwiseAligner() = default;
 
-    struct AlignmentResult {
+    struct Result {
         int score;
         double complementarity;
         double fraction;
@@ -32,7 +32,7 @@ class CoOptimalPairwiseAligner {
     };
 
     template <typename sequence_pair_t>
-    std::vector<AlignmentResult> getLocalAlignments(const sequence_pair_t &sequencePair) const {
+    std::vector<Result> getLocalAlignments(const sequence_pair_t &sequencePair) const {
         auto alignResults = seqan3::align_pairwise(sequencePair, cfg);
 
         if (alignResults.begin() == alignResults.end()) {
@@ -41,7 +41,7 @@ class CoOptimalPairwiseAligner {
 
         const auto &alignResult = *alignResults.begin();
 
-        std::vector<AlignmentResult> results;
+        std::vector<Result> results;
         results.reserve(5);
 
         using TraceMatrix =
@@ -108,9 +108,8 @@ class CoOptimalPairwiseAligner {
     };
 
     template <typename sequence_pair_t, typename score_t, typename matrix_coordinate_t>
-    AlignmentResult makeResult(const sequence_pair_t &sequencePair, score_t score,
-                               matrix_coordinate_t endPositions,
-                               auto const &alignmentMatrix) const {
+    Result makeResult(const sequence_pair_t &sequencePair, score_t score,
+                      matrix_coordinate_t endPositions, auto const &alignmentMatrix) const {
         const size_t elementsN = alignmentMatrix.rows() * alignmentMatrix.cols();
         std::vector<seqan3::detail::trace_directions> traceDirections;
         traceDirections.reserve(elementsN);

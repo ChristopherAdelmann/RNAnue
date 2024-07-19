@@ -3,15 +3,36 @@
 Detect::Detect(po::variables_map params)
     : params(params),
       minReadLength(params["minlen"].as<std::size_t>()),
-      minComplementarity(params["cmplmin"].as<double>()),
-      minFraction(params["sitelenratio"].as<double>()),
       minMapQuality(params["mapqmin"].as<int>()),
       excludeSoftClipping(params["exclclipping"].as<bool>()),
-      filterSplicedReads(params["splicing"].as<bool>()),
-      spliceFilterTolerance(params["splicingtolerance"].as<int>()),
       annotationOrientation(params["orientation"].as<Annotation::Orientation>()),
       featureAnnotator(params["features"].as<std::string>(),
-                       params["featuretypes"].as<std::vector<std::string>>()) {}
+                       params["featuretypes"].as<std::vector<std::string>>()),
+      splitRecordsEvaluator(SplitRecordsEvaluator(getSplitRecordsEvaluatorParameters(params))) {}
+
+const std::variant<SplitRecordsEvaluationParameters::BaseParameters,
+                   SplitRecordsEvaluationParameters::SplicingParameters>
+Detect::getSplitRecordsEvaluatorParameters(const po::variables_map &params) const {
+    if (params["splicing"].as<bool>()) {
+        return SplitRecordsEvaluationParameters::SplicingParameters{
+            .baseParameters = {.minComplementarity = params["cmplmin"].as<double>(),
+                               .minComplementarityFraction = params["sitelenratio"].as<double>(),
+                               .mfeThreshold = params["mfe"].as<double>()},
+            .orientation = params["orientation"].as<Annotation::Orientation>(),
+            .splicingTolerance = params["splicingtolerance"].as<int>(),
+            .featureAnnotator = featureAnnotator};
+    } else {
+        return SplitRecordsEvaluationParameters::BaseParameters{
+            .minComplementarity = params["cmplmin"].as<double>(),
+            .minComplementarityFraction = params["sitelenratio"].as<double>(),
+            .mfeThreshold = params["mfe"].as<double>()};
+    }
+}
+
+std::deque<std::string> const &Detect::getReferenceIDs(const fs::path &mappingsInPath) const {
+    seqan3::sam_file_input alignmentsIn{mappingsInPath.string(), sam_field_ids{}};
+    return alignmentsIn.header().ref_ids();
+}
 
 Detect::Results Detect::iterateSortedMappingsFile(
     const std::string &mappingsInPath, const std::string &splitsPath,
@@ -326,43 +347,30 @@ std::optional<SplitRecords> Detect::constructSplitRecords(
  * @return An optional containing the best evaluated split records, or an empty optional if no
  *         split records were found.
  */
-std::optional<EvaluatedSplitRecords> Detect::getSplitRecords(
+std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords> Detect::getSplitRecords(
     const std::vector<SamRecord> &readRecords, const std::deque<std::string> &referenceIDs) {
     std::unordered_map<size_t, std::vector<SamRecord>> recordHitGroups{};
     for (const auto &record : readRecords) {
         recordHitGroups[record.tags().get<"HI"_tag>()].push_back(record);
     }
 
-    std::optional<EvaluatedSplitRecords> bestSplitRecords{};
-
-    const EvaluatedSplitRecords::BaseParameters parameters{
-        .minComplementarity = minComplementarity,
-        .minComplementarityFraction = minFraction,
-        .mfeThreshold = params["mfe"].as<double>()};
+    std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords> bestSplitRecords{};
 
     const auto insertBestSplitRecords = [&](SplitRecords &splitRecords) {
-        std::optional<EvaluatedSplitRecords> evaluatedSplitRecords = std::nullopt;
+        const auto evaluationResult = splitRecordsEvaluator.evaluate(splitRecords, referenceIDs);
 
-        if (filterSplicedReads) {
-            const EvaluatedSplitRecords::SplicingParameters splicingParameters{
-                .baseParameters = parameters,
-                .orientation = annotationOrientation,
-                .splicingTolerance = spliceFilterTolerance,
-                .referenceIDs = referenceIDs};
-            evaluatedSplitRecords = EvaluatedSplitRecords::calculateEvaluatedSplitRecords(
-                splitRecords, splicingParameters, featureAnnotator);
+        if (std::holds_alternative<SplitRecordsEvaluator::EvaluatedSplitRecords>(
+                evaluationResult)) {
+            const auto &evaluatedSplitRecords =
+                std::get<SplitRecordsEvaluator::EvaluatedSplitRecords>(evaluationResult);
+
+            if (!bestSplitRecords.has_value() || evaluatedSplitRecords > bestSplitRecords.value()) {
+                bestSplitRecords.emplace(
+                    std::get<SplitRecordsEvaluator::EvaluatedSplitRecords>(evaluationResult));
+            }
         } else {
-            evaluatedSplitRecords =
-                EvaluatedSplitRecords::calculateEvaluatedSplitRecords(splitRecords, parameters);
-        }
-
-        if (!evaluatedSplitRecords.has_value()) {
-            return;
-        }
-
-        if (!bestSplitRecords.has_value() ||
-            evaluatedSplitRecords.value() > bestSplitRecords.value()) {
-            bestSplitRecords.emplace(evaluatedSplitRecords.value());
+            Logger::log(LogLevel::DEBUG, "Split records failed evaluation. Reason: ",
+                        std::get<SplitRecordsEvaluator::FilterReason>(evaluationResult));
         }
     };
 

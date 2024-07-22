@@ -17,7 +17,7 @@ enable_testing()
 add_executable(tests    ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/FeatureAnnotatorTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/DetectTests.cpp
-                        ${CMAKE_CURRENT_SOURCE_DIR}/EvaluatedSplitRecordsTests.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/SplitRecordsSplicingEvaluatorTests.cpp
 
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/Analyze.cpp 
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/DataTypes.cpp 
@@ -32,10 +32,15 @@ add_executable(tests    ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/Utility.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CooptimalPairwiseAligner.cpp)
 
-                        
-add_dependencies(tests ViennaRNA)
-target_include_directories (tests PRIVATE ${VIENNA_BUILD_DIR}/include)
-target_link_libraries (tests PRIVATE ${VIENNA_BUILD_DIR}/lib/libRNA.a)
+if(NOT HTSlib_FOUND)
+    add_dependencies(RNAnue htslib)
+endif()
+
+target_link_libraries(RNAnue PRIVATE ${HTSlib_LIBRARIES})
+target_include_directories(RNAnue PRIVATE ${HTSlib_INCLUDE_DIRS} ${HTSlib_INCLUDE_DIRS}/htslib)
+
+target_link_libraries (tests PRIVATE ${VIENNA_RNA_LIBRARY})
+target_include_directories (tests PRIVATE ${VIENNA_RNA_INCLUDE_DIR} ${VIENNA_RNA_INCLUDE_DIR}/ViennaRNA)
 
 target_link_libraries(tests     PRIVATE 
                                 GTest::gtest_main

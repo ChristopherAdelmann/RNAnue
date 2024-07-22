@@ -17,7 +17,7 @@ Detect::getSplitRecordsEvaluatorParameters(const po::variables_map &params) cons
         return SplitRecordsEvaluationParameters::SplicingParameters{
             .baseParameters = {.minComplementarity = params["cmplmin"].as<double>(),
                                .minComplementarityFraction = params["sitelenratio"].as<double>(),
-                               .mfeThreshold = params["mfe"].as<double>()},
+                               .mfeThreshold = params["nrgmax"].as<double>()},
             .orientation = params["orientation"].as<Annotation::Orientation>(),
             .splicingTolerance = params["splicingtolerance"].as<int>(),
             .featureAnnotator = featureAnnotator};
@@ -25,7 +25,7 @@ Detect::getSplitRecordsEvaluatorParameters(const po::variables_map &params) cons
         return SplitRecordsEvaluationParameters::BaseParameters{
             .minComplementarity = params["cmplmin"].as<double>(),
             .minComplementarityFraction = params["sitelenratio"].as<double>(),
-            .mfeThreshold = params["mfe"].as<double>()};
+            .mfeThreshold = params["nrgmax"].as<double>()};
     }
 }
 

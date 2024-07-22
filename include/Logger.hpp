@@ -23,7 +23,10 @@ class Logger {
 
     static void setLogLevel(const std::string &logLevelString) {
         static const std::map<std::string, LogLevel> stringToLogLevelMap{
-            {"info", LogLevel::INFO}, {"warning", LogLevel::WARNING}, {"error", LogLevel::ERROR}};
+            {"debug", LogLevel::DEBUG},
+            {"info", LogLevel::INFO},
+            {"warning", LogLevel::WARNING},
+            {"error", LogLevel::ERROR}};
 
         auto it = stringToLogLevelMap.find(logLevelString);
         if (it != stringToLogLevelMap.end()) {

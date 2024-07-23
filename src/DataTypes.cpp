@@ -14,7 +14,7 @@ std::optional<int32_t> recordEndPosition(const SamRecord &record) {
         if (cigar == 'M'_cigar_operation || cigar == '='_cigar_operation ||
             cigar == 'D'_cigar_operation || cigar == 'N'_cigar_operation ||
             cigar == 'X'_cigar_operation) {
-            end += get<0>(cigar) - 1;
+            end += get<0>(cigar);
         }
     }
     return end;

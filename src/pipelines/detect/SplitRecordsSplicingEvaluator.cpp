@@ -40,7 +40,7 @@ bool SplitRecordsSplicingEvaluator::isSplicedSplitRecord(
             return feature.groupID.has_value() && feature.groupID.value() == featureRecord1.groupID;
         });
 
-    if (!hasInBetweenExon) {
+    if (hasInBetweenExon) {
         return false;
     }
 
@@ -52,10 +52,6 @@ SplitRecordsSplicingEvaluator::getGroupedFeatures(
     const dtp::SamRecord &record1, const dtp::SamRecord &record2,
     const std::deque<std::string> &referenceIDs,
     const SplitRecordsEvaluationParameters::SplicingParameters &parameters) {
-    if (record1.reference_id() != record2.reference_id()) {
-        return std::nullopt;
-    }
-
     const auto featureRecord1 = parameters.featureAnnotator.getBestOverlappingFeature(
         record1, referenceIDs, parameters.orientation);
 
@@ -92,11 +88,12 @@ std::optional<dtp::GenomicRegion> SplitRecordsSplicingEvaluator::getSpliceJuncti
 
     const auto record2StartPosition = record2.reference_position().value();
     bool record2AtSpliceJunctionEnd = helper::isContained(
-        record2StartPosition, featureRecord2.startPosition, parameters.splicingTolerance);
+        record2StartPosition, featureRecord2.startPosition - 1, parameters.splicingTolerance);
 
     if (!record2AtSpliceJunctionEnd) {
         return std::nullopt;
     }
 
-    return dtp::GenomicRegion{featureRecord1.referenceID, record1EndPosition, record2StartPosition};
+    return dtp::GenomicRegion{featureRecord1.referenceID, record1EndPosition + 1,
+                              record2StartPosition};
 }

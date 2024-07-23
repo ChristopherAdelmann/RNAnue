@@ -39,48 +39,7 @@ add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
 
 ### ViennaRNA
 find_package(ViennaRNA)
-# set(VIENNA_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/submodules/ViennaRNA/build)
-# file(MAKE_DIRECTORY ${VIENNA_BUILD_DIR})
-# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/src/ViennaRNA/static/postscript DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/submodules/ViennaRNA/build/src/ViennaRNA/static/postscript)
-# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/src/ViennaRNA/static/svg DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/submodules/ViennaRNA/build/src/ViennaRNA/static/svg)
-# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/src/ViennaRNA/static/misc DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/submodules/ViennaRNA/build/src/ViennaRNA/static/misc)
-
-# add_custom_target(
-#     ViennaRNA ALL
-#     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/submodules/ViennaRNA/configure
-#         --prefix=${VIENNA_BUILD_DIR}
-#         --enable-universal-binary
-#         --enable-lto
-#         --without-gsl
-#         --without-perl
-#         --without-python
-#         --without-doc
-#         --without-kinfold
-#         --without-forester
-#         --without-kinwalker
-#         --without-cla
-#         --without-cla-pdf
-#         --without-doc-html
-#         --without-doc-pdf
-#         --without-tutorial
-#         --without-tutorial-html
-#         --without-tutorial-pdf
-#         --without-svm
-#         --without-swig
-#         --without-rnaxplorer
-#         --without-man
-#         --without-rnalocmin
-#         --disable-unittests
-#         --disable-check-executables
-#         --disable-check-perl
-#         --disable-check-python
-#         --disable-check-python2
-#         CXX=$ENV{CXX}
-#         CC=$ENV{CC}
-#     COMMAND CXX=$ENV{CXX} CC=$ENV{CC} make -j 2
-#     COMMAND CXX=$ENV{CXX} CC=$ENV{CC} make install -j 2
-#     WORKING_DIRECTORY ${VIENNA_BUILD_DIR}
-# )
+include(viennaRNA)
 
 ### htslib
 set(HTSlib_USE_STATIC_LIBS ON)
@@ -139,6 +98,10 @@ target_link_libraries(RNAnue PRIVATE ${HTSlib_LIBRARIES})
 target_include_directories(RNAnue PRIVATE ${HTSlib_INCLUDE_DIRS} ${HTSlib_INCLUDE_DIRS}/htslib)
 
 ### ViennaRNA
+if (NOT VIENNA_RNA_FOUND)
+    add_dependencies(RNAnue viennaRNA)
+endif()
+
 target_link_libraries (RNAnue PRIVATE ${VIENNA_RNA_LIBRARY})
 target_include_directories (RNAnue PRIVATE ${VIENNA_RNA_INCLUDE_DIR} ${VIENNA_RNA_INCLUDE_DIR}/ViennaRNA)
 

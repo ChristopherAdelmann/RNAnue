@@ -1,11 +1,50 @@
 include(ExternalProject)
 
-message(STATUS "ViennaRNA build dir: ${VIENNA_BUILD_DIR}")
+set (VIENNA_RNA_PREFIX ${CMAKE_BINARY_DIR}/submodules/viennaRNA-prefix)
+set (VIENNA_RNA_INSTALL ${CMAKE_BINARY_DIR}/submodules/viennaRNA-install)
 
-find_library(VIENNA_RNA_LIBRARY NAMES RNA)
 
-if(NOT VIENNA_RNA_LIBRARY)
-  message(FATAL_ERROR "ViennaRNA library not found")
-else()
-  message(STATUS "ViennaRNA library found: ${VIENNA_RNA_LIBRARY}")
-endif()
+ExternalProject_Add(
+    viennaRNA
+    PREFIX ${VIENNA_RNA_PREFIX}
+    DOWNLOAD_EXTRACT_TIMESTAMP true
+    URL "https://github.com/ViennaRNA/ViennaRNA/releases/download/v2.6.4/ViennaRNA-2.6.4.tar.gz"
+    BUILD_IN_SOURCE 1
+    UPDATE_COMMAND ""
+    CONFIGURE_COMMAND ./configure CXX=$ENV{CXX} CC=$ENV{CC}
+        --prefix=${VIENNA_BUILD_DIR}
+        --includedir=${VIENNA_RNA_INSTALL}/include
+        --libdir=${VIENNA_RNA_INSTALL}/lib
+        --enable-universal-binary
+        --enable-lto
+        --without-gsl
+        --without-perl
+        --without-python
+        --without-doc
+        --without-kinfold
+        --without-forester
+        --without-kinwalker
+        --without-cla
+        --without-cla-pdf
+        --without-doc-html
+        --without-doc-pdf
+        --without-tutorial
+        --without-tutorial-html
+        --without-tutorial-pdf
+        --without-svm
+        --without-swig
+        --without-rnaxplorer
+        --without-man
+        --without-rnalocmin
+        --disable-unittests
+        --disable-check-executables
+        --disable-check-perl
+        --disable-check-python
+        --disable-check-python2
+        BUILD_COMMAND make -j 2 CXX=$ENV{CXX} CC=$ENV{CC}
+        INSTALL_COMMAND make -j 2 install prefix=${VIENNA_RNA_INSTALL}
+)
+
+set(VIENNA_RNA_LIBRARY ${VIENNA_RNA_INSTALL}/lib/libRNA.a)
+set(VIENNA_RNA_INCLUDE_DIR ${VIENNA_RNA_INSTALL}/include)
+    

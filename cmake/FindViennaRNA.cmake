@@ -7,9 +7,9 @@ message(STATUS "Finding ViennaRNA")
 
 find_path(
   VIENNA_RNA_INCLUDE_DIR
-  NAMES ViennaRNA
+  NAMES ViennaRNA/cofold.h
+  PATH_SUFFIXES include
 )
-
 
 find_library(
   VIENNA_RNA_LIBRARY

@@ -38,13 +38,11 @@ set(Boost_DEBUG OFF)
 add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
 
 ### ViennaRNA
-find_package(ViennaRNA)
-include(viennaRNA)
+find_package(ViennaRNA REQUIRED)
 
 ### htslib
 set(HTSlib_USE_STATIC_LIBS ON)
-find_package(htslib)
-include(htslib)
+find_package(htslib REQUIRED)
 
 ### bam_sort
 set(BAM_SORT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort)
@@ -91,15 +89,25 @@ target_sources(RNAnue PRIVATE
 
 ### htslib
 if(NOT HTSlib_FOUND)
+    message(STATUS "Building static htslib from source")
+    include(htslib)
     add_dependencies(RNAnue htslib)
+    add_dependencies(segemehl htslib)
+else()
+    message(STATUS "Using htslib from system")
 endif()
 
 target_link_libraries(RNAnue PRIVATE ${HTSlib_LIBRARIES})
 target_include_directories(RNAnue PRIVATE ${HTSlib_INCLUDE_DIRS} ${HTSlib_INCLUDE_DIRS}/htslib)
 
 ### ViennaRNA
+message(STATUS "Finding ViennaRNA status: ${VIENNA_RNA_FOUND}")
 if (NOT VIENNA_RNA_FOUND)
-    add_dependencies(RNAnue viennaRNA)
+    message(STATUS "Building static ViennaRNA from source")
+    include(ViennaRNA)
+    add_dependencies(RNAnue ViennaRNA)
+else()
+    message(STATUS "Using ViennaRNA from system")
 endif()
 
 target_link_libraries (RNAnue PRIVATE ${VIENNA_RNA_LIBRARY})

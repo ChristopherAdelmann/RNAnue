@@ -5,7 +5,7 @@ set (VIENNA_RNA_INSTALL ${CMAKE_BINARY_DIR}/submodules/viennaRNA-install)
 
 
 ExternalProject_Add(
-    viennaRNA
+    ViennaRNA
     PREFIX ${VIENNA_RNA_PREFIX}
     DOWNLOAD_EXTRACT_TIMESTAMP true
     URL "https://github.com/ViennaRNA/ViennaRNA/releases/download/v2.6.4/ViennaRNA-2.6.4.tar.gz"

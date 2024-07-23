@@ -12,4 +12,5 @@ include_directories(include)
 file(GLOB sources "libs/*.c")
 
 add_library(segemehl STATIC ${sources})
-target_include_directories(segemehl PUBLIC include)
+target_link_libraries(segemehl PRIVATE ${HTSlib_LIBRARIES})
+target_include_directories(segemehl PUBLIC include ${HTSlib_INCLUDE_DIRS})

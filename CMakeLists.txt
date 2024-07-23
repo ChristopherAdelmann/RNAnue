@@ -51,6 +51,15 @@ set(BAM_SORT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort)
 add_subdirectory(submodules/segemehl)
 
 # ----------------------------------------------------------------------------
+# Testing
+# ----------------------------------------------------------------------------
+if (CMAKE_BUILD_TYPE STREQUAL DEBUG OR CMAKE_BUILD_TYPE STREQUAL Debug)
+    set(BUILD_TESTS ON)
+    message(STATUS "Enabling tests")
+    add_subdirectory(tests)
+endif()
+
+# ----------------------------------------------------------------------------
 # Build Setup
 # ----------------------------------------------------------------------------
 
@@ -93,6 +102,9 @@ if(NOT HTSlib_FOUND)
     include(htslib)
     add_dependencies(RNAnue htslib)
     add_dependencies(segemehl htslib)
+    if (BUILD_TESTS)
+        add_dependencies(tests htslib)
+    endif()
 else()
     message(STATUS "Using htslib from system")
 endif()
@@ -106,6 +118,10 @@ if (NOT VIENNA_RNA_FOUND)
     message(STATUS "Building static ViennaRNA from source")
     include(ViennaRNA)
     add_dependencies(RNAnue ViennaRNA)
+
+    if (BUILD_TESTS)
+        add_dependencies(tests ViennaRNA)
+    endif()
 else()
     message(STATUS "Using ViennaRNA from system")
 endif()
@@ -175,11 +191,3 @@ cpack_add_component(RNAnue
     DESCRIPTION "RNAnue: efficient data analysis for RNA-RNA interactomics"
     REQUIRED
 )
-
-# ----------------------------------------------------------------------------
-# Testing
-# ----------------------------------------------------------------------------
-if (CMAKE_BUILD_TYPE STREQUAL DEBUG OR CMAKE_BUILD_TYPE STREQUAL Debug)
-    message(STATUS "Enabling tests")
-    add_subdirectory(tests)
-endif()

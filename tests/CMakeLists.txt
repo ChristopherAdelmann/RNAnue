@@ -1,8 +1,6 @@
 # ----------------------------------------------------------------------------
 # Testing
 # ----------------------------------------------------------------------------
-message(STATUS "Building tests")
-
 include(FetchContent)
 FetchContent_Declare(
     googletest
@@ -12,9 +10,9 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-enable_testing()
+enable_testing ()
 
-add_executable(tests    ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
+add_executable (tests    ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/FeatureAnnotatorTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/DetectTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/SplitRecordsSplicingEvaluatorTests.cpp
@@ -32,15 +30,19 @@ add_executable(tests    ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/Utility.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CooptimalPairwiseAligner.cpp)
 
-if(NOT HTSlib_FOUND)
-    add_dependencies(RNAnue htslib)
-endif()
+### htslib
+target_link_libraries (tests PRIVATE ${HTSlib_LIBRARIES})
 
-target_link_libraries(RNAnue PRIVATE ${HTSlib_LIBRARIES})
-target_include_directories(RNAnue PRIVATE ${HTSlib_INCLUDE_DIRS} ${HTSlib_INCLUDE_DIRS}/htslib)
-
+### ViennaRNA
 target_link_libraries (tests PRIVATE ${VIENNA_RNA_LIBRARY})
-target_include_directories (tests PRIVATE ${VIENNA_RNA_INCLUDE_DIR} ${VIENNA_RNA_INCLUDE_DIR}/ViennaRNA)
+
+target_include_directories (tests PRIVATE   ${CMAKE_CURRENT_SOURCE_DIR}/../include
+                                            ${CMAKE_CURRENT_SOURCE_DIR}/../include/annotation
+                                            ${CMAKE_CURRENT_SOURCE_DIR}/../include/pipelines/detect
+                                            ${VIENNA_RNA_INCLUDE_DIR} 
+                                            ${VIENNA_RNA_INCLUDE_DIR}/ViennaRNA 
+                                            ${HTSlib_INCLUDE_DIRS} 
+                                            ${HTSlib_INCLUDE_DIRS}/htslib)
 
 target_link_libraries(tests     PRIVATE 
                                 GTest::gtest_main

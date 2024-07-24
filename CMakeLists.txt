@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.24)
 
 project(RNAnue VERSION 2.0.0)
 
@@ -38,26 +38,17 @@ set(Boost_DEBUG OFF)
 add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
 
 ### ViennaRNA
-find_package(ViennaRNA REQUIRED)
+find_package(ViennaRNA)
 
 ### htslib
 set(HTSlib_USE_STATIC_LIBS ON)
-find_package(htslib REQUIRED)
+find_package(HTSlib)
 
 ### bam_sort
 set(BAM_SORT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort)
 
 ### segemehl
 add_subdirectory(submodules/segemehl)
-
-# ----------------------------------------------------------------------------
-# Testing
-# ----------------------------------------------------------------------------
-if (CMAKE_BUILD_TYPE STREQUAL DEBUG OR CMAKE_BUILD_TYPE STREQUAL Debug)
-    set(BUILD_TESTS ON)
-    message(STATUS "Enabling tests")
-    add_subdirectory(tests)
-endif()
 
 # ----------------------------------------------------------------------------
 # Build Setup
@@ -102,9 +93,6 @@ if(NOT HTSlib_FOUND)
     include(htslib)
     add_dependencies(RNAnue htslib)
     add_dependencies(segemehl htslib)
-    if (BUILD_TESTS)
-        add_dependencies(tests htslib)
-    endif()
 else()
     message(STATUS "Using htslib from system")
 endif()
@@ -116,15 +104,12 @@ target_include_directories(RNAnue PRIVATE ${HTSlib_INCLUDE_DIRS} ${HTSlib_INCLUD
 message(STATUS "Finding ViennaRNA status: ${VIENNA_RNA_FOUND}")
 if (NOT VIENNA_RNA_FOUND)
     message(STATUS "Building static ViennaRNA from source")
-    include(ViennaRNA)
-    add_dependencies(RNAnue ViennaRNA)
-
-    if (BUILD_TESTS)
-        add_dependencies(tests ViennaRNA)
-    endif()
+    include(viennaRNA)
+    add_dependencies(RNAnue viennaRNA)
 else()
     message(STATUS "Using ViennaRNA from system")
 endif()
+
 
 target_link_libraries (RNAnue PRIVATE ${VIENNA_RNA_LIBRARY})
 target_include_directories (RNAnue PRIVATE ${VIENNA_RNA_INCLUDE_DIR} ${VIENNA_RNA_INCLUDE_DIR}/ViennaRNA)
@@ -142,6 +127,25 @@ target_link_libraries (RNAnue PRIVATE   seqan3::seqan3
 
 if(OpenMP_CXX_FOUND)
     target_link_libraries (RNAnue PRIVATE OpenMP::OpenMP_CXX)
+endif()
+
+# ----------------------------------------------------------------------------
+# Testing
+# ----------------------------------------------------------------------------
+if (CMAKE_BUILD_TYPE STREQUAL DEBUG OR CMAKE_BUILD_TYPE STREQUAL Debug)
+    set(BUILD_TESTS ON)
+    message(STATUS "Enabling tests")
+    add_subdirectory(tests)
+
+    if (NOT VIENNA_RNA_FOUND)
+    message(STATUS "Adding ViennaRNA as dependency for tests")
+        add_dependencies(tests viennaRNA)
+    endif()
+
+    if(NOT HTSlib_FOUND)
+        message(STATUS "Adding htslib as dependency for tests")
+        add_dependencies(tests htslib)
+    endif()
 endif()
 
 # ----------------------------------------------------------------------------

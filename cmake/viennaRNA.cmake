@@ -3,20 +3,18 @@ include(ExternalProject)
 set (VIENNA_RNA_PREFIX ${CMAKE_BINARY_DIR}/submodules/viennaRNA-prefix)
 set (VIENNA_RNA_INSTALL ${CMAKE_BINARY_DIR}/submodules/viennaRNA-install)
 
-
 ExternalProject_Add(
-    ViennaRNA
+    viennaRNA
     PREFIX ${VIENNA_RNA_PREFIX}
     DOWNLOAD_EXTRACT_TIMESTAMP true
     URL "https://github.com/ViennaRNA/ViennaRNA/releases/download/v2.6.4/ViennaRNA-2.6.4.tar.gz"
     BUILD_IN_SOURCE 1
     UPDATE_COMMAND ""
-    CONFIGURE_COMMAND ./configure CXX=$ENV{CXX} CC=$ENV{CC}
+    CONFIGURE_COMMAND ./configure CXX=${CMAKE_CXX_COMPILER} CC=${CMAKE_C_COMPILER}
         --prefix=${VIENNA_BUILD_DIR}
         --includedir=${VIENNA_RNA_INSTALL}/include
         --libdir=${VIENNA_RNA_INSTALL}/lib
-        --enable-universal-binary
-        --enable-lto
+        --without-lto
         --without-gsl
         --without-perl
         --without-python
@@ -41,7 +39,7 @@ ExternalProject_Add(
         --disable-check-perl
         --disable-check-python
         --disable-check-python2
-        BUILD_COMMAND make -j 2 CXX=$ENV{CXX} CC=$ENV{CC}
+        BUILD_COMMAND make -j 2 CXX=${CMAKE_CXX_COMPILER} CC=${CMAKE_C_COMPILER}
         INSTALL_COMMAND make -j 2 install prefix=${VIENNA_RNA_INSTALL}
 )
 

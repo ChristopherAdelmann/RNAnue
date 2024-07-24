@@ -12,7 +12,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing ()
 
-add_executable (tests    ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
+add_executable (tests   ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/FeatureAnnotatorTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/DetectTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/SplitRecordsSplicingEvaluatorTests.cpp

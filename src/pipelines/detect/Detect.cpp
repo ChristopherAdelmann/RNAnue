@@ -5,22 +5,18 @@ Detect::Detect(po::variables_map params)
       minReadLength(params["minlen"].as<std::size_t>()),
       minMapQuality(params["mapqmin"].as<int>()),
       excludeSoftClipping(params["exclclipping"].as<bool>()),
-      annotationOrientation(
-          params["orientation"].as<Annotation::Orientation>()),
+      annotationOrientation(params["orientation"].as<Annotation::Orientation>()),
       featureAnnotator(params["features"].as<std::string>(),
                        params["featuretypes"].as<std::vector<std::string>>()),
-      splitRecordsEvaluator(
-          SplitRecordsEvaluator(getSplitRecordsEvaluatorParameters(params))) {}
+      splitRecordsEvaluator(SplitRecordsEvaluator(getSplitRecordsEvaluatorParameters(params))) {}
 
 const std::variant<SplitRecordsEvaluationParameters::BaseParameters,
                    SplitRecordsEvaluationParameters::SplicingParameters>
-Detect::getSplitRecordsEvaluatorParameters(
-    const po::variables_map& params) const {
+Detect::getSplitRecordsEvaluatorParameters(const po::variables_map& params) const {
   if (params["splicing"].as<bool>()) {
     return SplitRecordsEvaluationParameters::SplicingParameters{
         .baseParameters = {.minComplementarity = params["cmplmin"].as<double>(),
-                           .minComplementarityFraction =
-                               params["sitelenratio"].as<double>(),
+                           .minComplementarityFraction = params["sitelenratio"].as<double>(),
                            .mfeThreshold = params["nrgmax"].as<double>()},
         .orientation = params["orientation"].as<Annotation::Orientation>(),
         .splicingTolerance = params["splicingtolerance"].as<int>(),
@@ -33,33 +29,27 @@ Detect::getSplitRecordsEvaluatorParameters(
   }
 }
 
-std::deque<std::string> const& Detect::getReferenceIDs(
-    const fs::path& mappingsInPath) const {
+std::deque<std::string> const& Detect::getReferenceIDs(const fs::path& mappingsInPath) const {
   seqan3::sam_file_input alignmentsIn{mappingsInPath.string(), sam_field_ids{}};
   return alignmentsIn.header().ref_ids();
 }
 
 Detect::Results Detect::iterateSortedMappingsFile(
-    const std::string& mappingsInPath,
-    const std::string& splitsPath,
-    const std::string& multSplitsPath,
-    const fs::path& unassignedSingletonRecordsOutPath) {
+    const std::string& mappingsInPath, const std::string& splitsPath,
+    const std::string& multSplitsPath, const fs::path& unassignedSingletonRecordsOutPath) {
   seqan3::sam_file_input alignmentsIn{mappingsInPath, sam_field_ids{}};
 
   auto& header = alignmentsIn.header();
   std::vector<size_t> referenceLengths{};
-  std::ranges::transform(header.ref_id_info,
-                         std::back_inserter(referenceLengths),
+  std::ranges::transform(header.ref_id_info, std::back_inserter(referenceLengths),
                          [](auto const& info) { return std::get<0>(info); });
   const std::deque<std::string>& refIDs = header.ref_ids();
 
-  seqan3::sam_file_output splitsOut{splitsPath, refIDs, referenceLengths,
-                                    sam_field_ids{}};
-  seqan3::sam_file_output multiSplitsOut{multSplitsPath, refIDs,
-                                         referenceLengths, sam_field_ids{}};
+  seqan3::sam_file_output splitsOut{splitsPath, refIDs, referenceLengths, sam_field_ids{}};
+  seqan3::sam_file_output multiSplitsOut{multSplitsPath, refIDs, referenceLengths, sam_field_ids{}};
 
-  seqan3::sam_file_output unassignedSingletonRecordsOut{
-      unassignedSingletonRecordsOutPath.string(), refIDs, referenceLengths};
+  seqan3::sam_file_output unassignedSingletonRecordsOut{unassignedSingletonRecordsOutPath.string(),
+                                                        refIDs, referenceLengths};
 
   std::string currentRecordID;
   std::vector<SamRecord> currentRecordList;
@@ -82,8 +72,8 @@ Detect::Results Detect::iterateSortedMappingsFile(
       return;
     }
 
-    const auto bestFeature = featureAnnotator.getBestOverlappingFeature(
-        region.value(), annotationOrientation);
+    const auto bestFeature =
+        featureAnnotator.getBestOverlappingFeature(region.value(), annotationOrientation);
 
     if (bestFeature) {
       singletonTranscriptCounts[bestFeature->id]++;
@@ -96,8 +86,7 @@ Detect::Results Detect::iterateSortedMappingsFile(
     recordsCount++;
 
     // This depends on the SAM file being sorted by read ID
-    bool isNewRecordID =
-        !currentRecordID.empty() && (currentRecordID != record.id());
+    bool isNewRecordID = !currentRecordID.empty() && (currentRecordID != record.id());
 
     if (isNewRecordID) {
       // Remove current records that belong to invalid hit groups
@@ -105,8 +94,8 @@ Detect::Results Detect::iterateSortedMappingsFile(
         return invalidRecordHitGroups.contains(record.tags().get<"HI"_tag>());
       });
 
-      size_t fragmentsCount = processReadRecords(currentRecordList, refIDs,
-                                                 splitsOut, multiSplitsOut);
+      size_t fragmentsCount =
+          processReadRecords(currentRecordList, refIDs, splitsOut, multiSplitsOut);
       totalSplitFragmentsCount += fragmentsCount;
 
       currentRecordList.clear();
@@ -118,18 +107,15 @@ Detect::Results Detect::iterateSortedMappingsFile(
     // Read is completely invalid and does not meet minimum requirements ->
     // Not counted
     if (static_cast<bool>(record.flag() & seqan3::sam_flag::unmapped) ||
-        record.mapping_quality() < minMapQuality ||
-        record.sequence().size() < minReadLength) {
+        record.mapping_quality() < minMapQuality || record.sequence().size() < minReadLength) {
       invalidRecordHitGroups.insert(record.tags().get<"HI"_tag>());
       continue;
     }
 
     // Read is singleton and does not contain any split information ->
     // Counted for total fragments
-    if (!record.tags().contains("XJ"_tag) ||
-        record.tags().get<"XJ"_tag>() < 2) {
-      if (static_cast<bool>(record.flag() &
-                            seqan3::sam_flag::secondary_alignment)) {
+    if (!record.tags().contains("XJ"_tag) || record.tags().get<"XJ"_tag>() < 2) {
+      if (static_cast<bool>(record.flag() & seqan3::sam_flag::secondary_alignment)) {
         continue;
       }
 
@@ -148,16 +134,14 @@ Detect::Results Detect::iterateSortedMappingsFile(
     currentRecordList.push_back(std::move(record));
   }
 
-  size_t fragmentsCount =
-      processReadRecords(currentRecordList, refIDs, splitsOut, multiSplitsOut);
+  size_t fragmentsCount = processReadRecords(currentRecordList, refIDs, splitsOut, multiSplitsOut);
   totalSplitFragmentsCount += fragmentsCount;
 
   Logger::log(LogLevel::INFO, "Processed ", recordsCount, " reads. Found ",
-              totalSplitFragmentsCount, " split fragments and ",
-              totalSingletonFragmentsCount, " singleton fragments.");
+              totalSplitFragmentsCount, " split fragments and ", totalSingletonFragmentsCount,
+              " singleton fragments.");
 
-  return {singletonTranscriptCounts, totalSplitFragmentsCount,
-          totalSingletonFragmentsCount};
+  return {singletonTranscriptCounts, totalSplitFragmentsCount, totalSingletonFragmentsCount};
 }
 
 /**
@@ -172,8 +156,7 @@ Detect::Results Detect::iterateSortedMappingsFile(
  * @return The count of fragments for a specific record id.
  */
 size_t Detect::processReadRecords(const std::vector<SamRecord>& readRecords,
-                                  const std::deque<std::string>& referenceIDs,
-                                  auto& splitsOut,
+                                  const std::deque<std::string>& referenceIDs, auto& splitsOut,
                                   auto& multiSplitsOut) {
   if (readRecords.empty()) {
     return 0;
@@ -191,8 +174,7 @@ size_t Detect::processReadRecords(const std::vector<SamRecord>& readRecords,
   return splitRecords.value().splitRecords.size();
 }
 
-std::optional<SplitRecords> Detect::constructSplitRecords(
-    const SamRecord& readRecord) {
+std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord& readRecord) {
   // Number of expected split records for within the record
   const size_t expectedSplitRecords = readRecord.tags().get<"XH"_tag>();
 
@@ -206,17 +188,15 @@ std::optional<SplitRecords> Detect::constructSplitRecords(
   size_t startPosRead{};
   size_t endPosRead{};  // absolute position in read/alignment (e.g., 1 to end)
   size_t startPosSplit{};
-  size_t
-      endPosSplit{};  // position in split read (e.g., XX:i to XY:i / 14 to 20)
+  size_t endPosSplit{};  // position in split read (e.g., XX:i to XY:i / 14 to 20)
 
   bool isValid = true;
   int nextSplitReferenceShift = 0;
 
   auto const addSplitRecord = [&]() {
-    const auto splitSeq =
-        readRecord.sequence() | seqan3::views::slice(startPosRead, endPosRead);
-    const auto splitQual = readRecord.base_qualities() |
-                           seqan3::views::slice(startPosRead, endPosRead);
+    const auto splitSeq = readRecord.sequence() | seqan3::views::slice(startPosRead, endPosRead);
+    const auto splitQual =
+        readRecord.base_qualities() | seqan3::views::slice(startPosRead, endPosRead);
 
     if (splitSeq.size() < minReadLength) {
       isValid = false;
@@ -228,12 +208,11 @@ std::optional<SplitRecords> Detect::constructSplitRecords(
     tags.get<"XY"_tag>() = endPosSplit;
     tags.get<"XN"_tag>() = splitRecords.size();
 
-    splitRecords.emplace_back(
-        readRecord.id(), readRecord.flag(), readRecord.reference_id(),
-        referencePosition, readRecord.mapping_quality(), currentCigar,
-        seqan3::dna5_vector(splitSeq.begin(), splitSeq.end()),
-        std::vector<seqan3::phred42>(splitQual.begin(), splitQual.end()),
-        std::move(tags));
+    splitRecords.emplace_back(readRecord.id(), readRecord.flag(), readRecord.reference_id(),
+                              referencePosition, readRecord.mapping_quality(), currentCigar,
+                              seqan3::dna5_vector(splitSeq.begin(), splitSeq.end()),
+                              std::vector<seqan3::phred42>(splitQual.begin(), splitQual.end()),
+                              std::move(tags));
   };
 
   auto const addOtherCigar = [&](const auto& cigar) {
@@ -257,8 +236,7 @@ std::optional<SplitRecords> Detect::constructSplitRecords(
   };
 
   auto const addSoftClipCigar = [&](const auto& cigar) {
-    if (!excludeSoftClipping)
-      return addOtherCigar(cigar);
+    if (!excludeSoftClipping) return addOtherCigar(cigar);
 
     /* If current cigar is empty, we are at the beginning of the read in case
     of soft clipping at the end of the read it is just ignored */
@@ -311,9 +289,8 @@ std::optional<SplitRecords> Detect::constructSplitRecords(
   }
 
   if (splitRecords.size() != expectedSplitRecords) {
-    Logger::log(LogLevel::WARNING, "Expected ", expectedSplitRecords,
-                " split records, but got ", splitRecords.size(),
-                ". Record ID: ", readRecord.id());
+    Logger::log(LogLevel::WARNING, "Expected ", expectedSplitRecords, " split records, but got ",
+                splitRecords.size(), ". Record ID: ", readRecord.id());
 
     return std::nullopt;
   }
@@ -332,8 +309,7 @@ std::optional<SplitRecords> Detect::constructSplitRecords(
 std::optional<SplitRecords> Detect::constructSplitRecords(
     const std::vector<SamRecord>& readRecords) {
   // Number of expected split records for whole read
-  const size_t expectedSplitRecords =
-      readRecords.front().tags().get<"XJ"_tag>();
+  const size_t expectedSplitRecords = readRecords.front().tags().get<"XJ"_tag>();
 
   SplitRecords splitRecords{};
   splitRecords.reserve(expectedSplitRecords);
@@ -345,14 +321,12 @@ std::optional<SplitRecords> Detect::constructSplitRecords(
       return std::nullopt;
     }
 
-    splitRecords.insert(splitRecords.end(), splitRecord->begin(),
-                        splitRecord->end());
+    splitRecords.insert(splitRecords.end(), splitRecord->begin(), splitRecord->end());
   }
 
   if (splitRecords.size() != expectedSplitRecords) {
-    Logger::log(LogLevel::WARNING, "Expected ", expectedSplitRecords,
-                " split records, but got ", splitRecords.size(),
-                ". Record ID: ", readRecords.front().id());
+    Logger::log(LogLevel::WARNING, "Expected ", expectedSplitRecords, " split records, but got ",
+                splitRecords.size(), ". Record ID: ", readRecords.front().id());
 
     return std::nullopt;
   }
@@ -371,37 +345,29 @@ std::optional<SplitRecords> Detect::constructSplitRecords(
  * @return An optional containing the best evaluated split records, or an empty
  * optional if no split records were found.
  */
-std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords>
-Detect::getSplitRecords(const std::vector<SamRecord>& readRecords,
-                        const std::deque<std::string>& referenceIDs) {
+std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords> Detect::getSplitRecords(
+    const std::vector<SamRecord>& readRecords, const std::deque<std::string>& referenceIDs) {
   std::unordered_map<size_t, std::vector<SamRecord>> recordHitGroups{};
   for (const auto& record : readRecords) {
     recordHitGroups[record.tags().get<"HI"_tag>()].push_back(record);
   }
 
-  std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords>
-      bestSplitRecords{};
+  std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords> bestSplitRecords{};
 
   const auto insertBestSplitRecords = [&](SplitRecords& splitRecords) {
-    const auto evaluationResult =
-        splitRecordsEvaluator.evaluate(splitRecords, referenceIDs);
+    const auto evaluationResult = splitRecordsEvaluator.evaluate(splitRecords, referenceIDs);
 
-    if (std::holds_alternative<SplitRecordsEvaluator::EvaluatedSplitRecords>(
-            evaluationResult)) {
+    if (std::holds_alternative<SplitRecordsEvaluator::EvaluatedSplitRecords>(evaluationResult)) {
       const auto& evaluatedSplitRecords =
-          std::get<SplitRecordsEvaluator::EvaluatedSplitRecords>(
-              evaluationResult);
+          std::get<SplitRecordsEvaluator::EvaluatedSplitRecords>(evaluationResult);
 
-      if (!bestSplitRecords.has_value() ||
-          evaluatedSplitRecords > bestSplitRecords.value()) {
+      if (!bestSplitRecords.has_value() || evaluatedSplitRecords > bestSplitRecords.value()) {
         bestSplitRecords.emplace(
-            std::get<SplitRecordsEvaluator::EvaluatedSplitRecords>(
-                evaluationResult));
+            std::get<SplitRecordsEvaluator::EvaluatedSplitRecords>(evaluationResult));
       }
     } else {
-      Logger::log(
-          LogLevel::DEBUG, "Split records failed evaluation. Reason: ",
-          std::get<SplitRecordsEvaluator::FilterReason>(evaluationResult));
+      Logger::log(LogLevel::DEBUG, "Split records failed evaluation. Reason: ",
+                  std::get<SplitRecordsEvaluator::FilterReason>(evaluationResult));
     }
   };
 
@@ -416,18 +382,15 @@ Detect::getSplitRecords(const std::vector<SamRecord>& readRecords,
   return bestSplitRecords;
 }
 
-void Detect::writeSamFile(auto& samOut,
-                          const std::vector<SamRecord>& splitRecords) {
+void Detect::writeSamFile(auto& samOut, const std::vector<SamRecord>& splitRecords) {
   for (auto&& record : splitRecords) {
-    auto [id, flag, ref_id, ref_offset, mapq, cigar, seq, qual, tags] = record;
-    samOut.emplace_back(id, flag, ref_id, ref_offset, mapq, cigar, seq, qual,
-                        tags);
+    auto& [id, flag, ref_id, ref_offset, mapq, cigar, seq, qual, tags] = record;
+    samOut.emplace_back(id, flag, ref_id, ref_offset, mapq, cigar, seq, qual, tags);
   }
 }
 
 std::vector<Detect::ChunkedInOutFilePaths> Detect::prepareInputOutputFiles(
-    const fs::path& mappingsFilePath,
-    const fs::path& splitsFilePath,
+    const fs::path& mappingsFilePath, const fs::path& splitsFilePath,
     const int mappingRecordsCount) {
   // create tmp folder (for inputs)
   fs::path tmpInDir = mappingsFilePath.parent_path() / "tmpIn";
@@ -452,17 +415,15 @@ std::vector<Detect::ChunkedInOutFilePaths> Detect::prepareInputOutputFiles(
     fs::path tmpMultiSplitsOutPath = tmpMultiSplitsOutDir / file.filename();
     fs::path tmpUnassignedSingletonRecordsOutPath =
         tmpUnassignedSingletonRecordsOutDirPath / file.filename();
-    subFiles.push_back({file, tmpSplitsOutPath, tmpMultiSplitsOutPath,
-                        tmpUnassignedSingletonRecordsOutPath});
+    subFiles.push_back(
+        {file, tmpSplitsOutPath, tmpMultiSplitsOutPath, tmpUnassignedSingletonRecordsOutPath});
   }
 
   return subFiles;
 }
 
-std::vector<fs::path> Detect::splitMappingsFile(
-    const fs::path& mappingsFilePath,
-    const fs::path& tmpInPath,
-    const int entries) {
+std::vector<fs::path> Detect::splitMappingsFile(const fs::path& mappingsFilePath,
+                                                const fs::path& tmpInPath, const int entries) {
   std::ifstream inputFile(mappingsFilePath, std::ios::in);
   if (!inputFile.is_open()) {
     throw std::runtime_error("Could not open the input file.");
@@ -490,8 +451,7 @@ std::vector<fs::path> Detect::splitMappingsFile(
         if (outputFile.is_open()) {
           outputFile.close();
         }
-        std::string outFileName =
-            outPathPrefix + std::to_string(++numBlocks) + ".sam";
+        std::string outFileName = outPathPrefix + std::to_string(++numBlocks) + ".sam";
         tmpOutFiles.push_back(outFileName);
         outputFile.open(outFileName, std::ios::out);
         if (!outputFile.is_open()) {
@@ -514,8 +474,7 @@ std::vector<fs::path> Detect::splitMappingsFile(
   return tmpOutFiles;
 }
 
-void Detect::writeStatisticsFile(const Results& results,
-                                 const std::string& sampleName,
+void Detect::writeStatisticsFile(const Results& results, const std::string& sampleName,
                                  const fs::path& statsFilePath) const {
   std::ofstream statsFileStream(statsFilePath, std::ios::app);
 
@@ -528,8 +487,7 @@ void Detect::writeStatisticsFile(const Results& results,
                   << results.singletonFragmentsCount << "\n";
 }
 
-void Detect::mergeResults(Detect::Results& results,
-                          const Detect::Results& newResults) const {
+void Detect::mergeResults(Detect::Results& results, const Detect::Results& newResults) const {
   results.splitFragmentsCount += newResults.splitFragmentsCount;
   results.singletonFragmentsCount += newResults.singletonFragmentsCount;
 
@@ -538,9 +496,8 @@ void Detect::mergeResults(Detect::Results& results,
   }
 }
 
-void Detect::writeTranscriptCountsFile(
-    const fs::path& transcriptCountsFilePath,
-    const TranscriptCounts& transcriptCounts) const {
+void Detect::writeTranscriptCountsFile(const fs::path& transcriptCountsFilePath,
+                                       const TranscriptCounts& transcriptCounts) const {
   std::ofstream transcriptCountsFileStream(transcriptCountsFilePath);
 
   if (!transcriptCountsFileStream.is_open()) {
@@ -562,37 +519,31 @@ void Detect::start(pt::ptree sample) {
     throw std::runtime_error("Number of threads must be at least 1.");
   }
 
-  size_t entries =
-      std::round(helper::countSamEntries(mappingRecordsInPath) / threads);
+  size_t entries = std::round(helper::countSamEntries(mappingRecordsInPath) / threads);
 
   // output
   pt::ptree output = sample.get_child("output");
   fs::path mergedSplitsOutPath = output.get<std::string>("splits");
   fs::path mergedMultiSplitsOutPath = output.get<std::string>("multsplits");
-  fs::path unassignedSingletonRecordsOutPath =
-      output.get<std::string>("singletonUnassigned");
-  fs::path singletonTranscriptCountsOutPath =
-      output.get<std::string>("singleton");
+  fs::path unassignedSingletonRecordsOutPath = output.get<std::string>("singletonUnassigned");
+  fs::path singletonTranscriptCountsOutPath = output.get<std::string>("singleton");
 
-  std::vector<ChunkedInOutFilePaths> subFiles = prepareInputOutputFiles(
-      mappingRecordsInPath, mergedSplitsOutPath, entries);
+  std::vector<ChunkedInOutFilePaths> subFiles =
+      prepareInputOutputFiles(mappingRecordsInPath, mergedSplitsOutPath, entries);
 
   Detect::Results detectResults;
 
 #pragma omp parallel for num_threads(threads)
   for (const auto& subFileChunk : subFiles) {
     const auto newResults = iterateSortedMappingsFile(
-        subFileChunk.mappingsInPath.string(),
-        subFileChunk.splitsOutPath.string(),
-        subFileChunk.multSplitsOutPath.string(),
-        subFileChunk.unassignedSingletonRecordsOutPath);
+        subFileChunk.mappingsInPath.string(), subFileChunk.splitsOutPath.string(),
+        subFileChunk.multSplitsOutPath.string(), subFileChunk.unassignedSingletonRecordsOutPath);
 
 #pragma omp critical
     { mergeResults(detectResults, newResults); }
   }
 
-  writeTranscriptCountsFile(singletonTranscriptCountsOutPath,
-                            detectResults.transcriptCounts);
+  writeTranscriptCountsFile(singletonTranscriptCountsOutPath, detectResults.transcriptCounts);
 
   // Merge results from all processing chunks
   std::vector<fs::path> splitsChunkPaths;
@@ -602,23 +553,19 @@ void Detect::start(pt::ptree sample) {
   for (const auto& subFileChunk : subFiles) {
     splitsChunkPaths.push_back(subFileChunk.splitsOutPath);
     multiSplitsChunkPaths.push_back(subFileChunk.multSplitsOutPath);
-    unassignedSingletonRecordsChunkPaths.push_back(
-        subFileChunk.unassignedSingletonRecordsOutPath);
+    unassignedSingletonRecordsChunkPaths.push_back(subFileChunk.unassignedSingletonRecordsOutPath);
   }
 
   helper::mergeSamFiles(splitsChunkPaths, mergedSplitsOutPath);
   helper::mergeSamFiles(multiSplitsChunkPaths, mergedMultiSplitsOutPath);
-  helper::mergeSamFiles(unassignedSingletonRecordsChunkPaths,
-                        unassignedSingletonRecordsOutPath);
+  helper::mergeSamFiles(unassignedSingletonRecordsChunkPaths, unassignedSingletonRecordsOutPath);
 
   // Remove temporary files
   fs::remove_all(subFiles.front().mappingsInPath.parent_path());
   fs::remove_all(subFiles.front().splitsOutPath.parent_path());
   fs::remove_all(subFiles.front().multSplitsOutPath.parent_path());
-  fs::remove_all(
-      subFiles.front().unassignedSingletonRecordsOutPath.parent_path());
+  fs::remove_all(subFiles.front().unassignedSingletonRecordsOutPath.parent_path());
 
   fs::path statsFilePath = output.get<std::string>("stats");
-  writeStatisticsFile(detectResults, mergedSplitsOutPath.stem().string(),
-                      statsFilePath);
+  writeStatisticsFile(detectResults, mergedSplitsOutPath.stem().string(), statsFilePath);
 }

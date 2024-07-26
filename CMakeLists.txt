@@ -56,26 +56,35 @@ add_subdirectory(submodules/segemehl)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/annotation
+                    ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/preprocess
+                    ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/align
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/detect
+                    ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/analyze
                     ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort) 
 
 add_executable (RNAnue  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureAnnotator.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureParser.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureWriter.cpp
+
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/preprocess/Preprocess.cpp
+
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/detect/Detect.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/detect/SplitRecordsComplementarityEvaluator.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/detect/SplitRecordsEvaluator.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/detect/SplitRecordsHybridizationEvaluator.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/detect/SplitRecordsSplicingEvaluator.cpp
-                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Align.cpp
-                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Analyze.cpp
+
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/align/Align.cpp
+
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/analyze/Analyze.cpp
+
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/Base.cpp 
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/Closing.cpp 
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/CooptimalPairwiseAligner.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/Data.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/DataTypes.cpp
-                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocess.cpp 
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/Utility.cpp
 )
 

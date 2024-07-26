@@ -384,7 +384,7 @@ std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords> Detect::getSplitReco
 
 void Detect::writeSamFile(auto& samOut, const std::vector<SamRecord>& splitRecords) {
   for (auto&& record : splitRecords) {
-    auto& [id, flag, ref_id, ref_offset, mapq, cigar, seq, qual, tags] = record;
+    auto [id, flag, ref_id, ref_offset, mapq, cigar, seq, qual, tags] = record;
     samOut.emplace_back(id, flag, ref_id, ref_offset, mapq, cigar, seq, qual, tags);
   }
 }

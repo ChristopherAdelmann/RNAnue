@@ -1,4 +1,4 @@
-#include "Detect.hpp"
+#include "pipelines/detect/Detect.hpp"
 
 Detect::Detect(po::variables_map params)
     : params(params),
@@ -36,7 +36,7 @@ std::deque<std::string> const& Detect::getReferenceIDs(const fs::path& mappingsI
 
 Detect::Results Detect::iterateSortedMappingsFile(
     const std::string& mappingsInPath, const std::string& splitsPath,
-    const std::string& multSplitsPath, const fs::path& unassignedSingletonRecordsOutPath) {
+    const std::string& multiSplitsPath, const fs::path& unassignedSingletonRecordsOutPath) {
   seqan3::sam_file_input alignmentsIn{mappingsInPath, sam_field_ids{}};
 
   auto& header = alignmentsIn.header();
@@ -46,7 +46,8 @@ Detect::Results Detect::iterateSortedMappingsFile(
   const std::deque<std::string>& refIDs = header.ref_ids();
 
   seqan3::sam_file_output splitsOut{splitsPath, refIDs, referenceLengths, sam_field_ids{}};
-  seqan3::sam_file_output multiSplitsOut{multSplitsPath, refIDs, referenceLengths, sam_field_ids{}};
+  seqan3::sam_file_output multiSplitsOut{multiSplitsPath, refIDs, referenceLengths,
+                                         sam_field_ids{}};
 
   seqan3::sam_file_output unassignedSingletonRecordsOut{unassignedSingletonRecordsOutPath.string(),
                                                         refIDs, referenceLengths};

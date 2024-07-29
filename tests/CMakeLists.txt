@@ -31,7 +31,8 @@ add_executable (tests   ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pipelines/analyze/Analyze.cpp 
                         
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/Utility.cpp
-                        ${CMAKE_CURRENT_SOURCE_DIR}/../src/CooptimalPairwiseAligner.cpp)
+                        ${CMAKE_CURRENT_SOURCE_DIR}/../src/CooptimalPairwiseAligner.cpp
+)
 
 ### htslib
 target_link_libraries (tests PRIVATE ${HTSlib_LIBRARIES})

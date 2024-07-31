@@ -51,11 +51,11 @@ FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
     const std::optional<std::string> &featureIDFlag) {
     FeatureTreeMap newFeatureTreeMap;
 
-    const std::unordered_set<std::string> includedFeaturesSet(includedFeatures.begin(),
+    const std::unordered_set<std::string> uniqueIncludedFeatures(includedFeatures.begin(),
                                                               includedFeatures.end());
 
     dtp::FeatureMap featureMap =
-        FeatureParser(includedFeaturesSet, featureIDFlag).parse(featureFilePath);
+        FeatureParser(uniqueIncludedFeatures, featureIDFlag).parse(featureFilePath);
 
     newFeatureTreeMap.reserve(featureMap.size());
 
@@ -83,6 +83,7 @@ const FeatureTreeMap &FeatureAnnotator::getFeatureTreeMap() const { return featu
 
 std::string FeatureAnnotator::insert(const dtp::GenomicRegion &region) {
     assert(region.strand.has_value() && "Strand must be specified for insertion");
+    namespace uuids = boost::uuids;
 
     auto &tree = featureTreeMap[region.referenceID];
     const std::string uuid = uuids::to_string(uuids::random_generator()());

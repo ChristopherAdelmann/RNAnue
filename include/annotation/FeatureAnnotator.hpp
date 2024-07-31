@@ -1,15 +1,18 @@
 #pragma once
 
 // Boost
-#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
 // Standard
-#include <algorithm>
+#include <deque>
+#include <istream>
 #include <optional>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 // Classes
 #include "DataTypes.hpp"
@@ -17,9 +20,8 @@
 #include "IITree.hpp"
 
 namespace Annotation {
-namespace uuids = boost::uuids;
-
 using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dtp::Feature>>;
+namespace fs = boost::filesystem;
 
 enum Orientation { SAME, OPPOSITE, BOTH };
 std::istream& operator>>(std::istream& in, Orientation& orientation);
@@ -29,6 +31,7 @@ class FeatureAnnotator {
     FeatureAnnotator(fs::path featureFilePath, const std::vector<std::string>& includedFeatures,
                      const std::string& featureIDFlag);
     FeatureAnnotator(fs::path featureFilePath, const std::vector<std::string>& includedFeatures);
+
     explicit FeatureAnnotator(const dtp::FeatureMap& featureMap);
     explicit FeatureAnnotator() = default;
 

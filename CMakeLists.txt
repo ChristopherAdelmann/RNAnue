@@ -9,7 +9,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE RELEASE)
 endif()
 
-set(CMAKE_CXX_FLAGS "-fopenmp -Wall -Wextra -Wno-psabi -Wno-interference-size")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -fopenmp -Wno-psabi -Wno-interference-size")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
@@ -27,11 +27,11 @@ list(APPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/submodules/seqan3/buil
 find_package(seqan3 3.3.0 REQUIRED)
 
 ### OpenMP
-find_package(OpenMP) 
+find_package(OpenMP)
 
 ### Boost
 set(Boost_USE_STATIC_LIBS ON)
-set(Boost_USE_MULTITHREADED ON)  
+set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME ON)
 set(Boost_DEBUG OFF)
 
@@ -60,7 +60,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/align
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/detect
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/analyze
-                    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort) 
+                    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort)
 
 add_executable (RNAnue  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 
@@ -80,8 +80,8 @@ add_executable (RNAnue  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/analyze/Analyze.cpp
 
-                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Base.cpp 
-                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Closing.cpp 
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Base.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Closing.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/CooptimalPairwiseAligner.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/Data.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/DataTypes.cpp
@@ -125,10 +125,10 @@ target_include_directories (RNAnue PRIVATE ${VIENNA_RNA_INCLUDE_DIR} ${VIENNA_RN
 
 ### Link Libraries
 target_link_libraries (RNAnue PRIVATE   seqan3::seqan3
-                                        Boost::program_options 
-                                        Boost::filesystem 
-                                        Boost::property_tree 
-                                        Boost::foreach 
+                                        Boost::program_options
+                                        Boost::filesystem
+                                        Boost::property_tree
+                                        Boost::foreach
                                         Boost::dynamic_bitset
                                         Boost::math
                                         Boost::uuid

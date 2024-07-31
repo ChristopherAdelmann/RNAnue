@@ -96,8 +96,7 @@ std::vector<dtp::SamRecord> parseSamRecords(const char* samFileRaw) {
     std::istringstream samStream(samFileRaw);
 
     using sam_file_input_t =
-        seqan3::sam_file_input<seqan3::sam_file_input_default_traits<>, dtp::sam_field_ids,
-                               seqan3::type_list<seqan3::format_sam>>;
+        seqan3::sam_file_input<seqan3::sam_file_input_default_traits<>, dtp::sam_field_ids>;
     sam_file_input_t samFile(std::istringstream{samFileRaw}, seqan3::format_sam{});
 
     std::vector<dtp::SamRecord> samRecordsVector;

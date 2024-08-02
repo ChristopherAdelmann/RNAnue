@@ -55,6 +55,7 @@ add_subdirectory(submodules/segemehl)
 # ----------------------------------------------------------------------------
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
+                    ${CMAKE_CURRENT_SOURCE_DIR}/include/parameters
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/annotation
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/preprocess
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/align
@@ -67,6 +68,7 @@ add_executable (RNAnue  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureAnnotator.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureParser.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureWriter.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/Orientation.cpp
 
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/preprocess/Preprocess.cpp
 

@@ -13,11 +13,16 @@
 #include <string>
 
 // Classes
+#include "AlignParameters.hpp"
+#include "AnalyzeParameters.hpp"
 #include "Base.hpp"
 #include "Closing.hpp"
 #include "Config.hpp"
 #include "Constants.hpp"
+#include "DetectParameters.hpp"
 #include "FeatureAnnotator.hpp"
+#include "GeneralParameters.hpp"
+#include "PreprocessParameters.hpp"
 
 namespace po = boost::program_options;
 
@@ -91,15 +96,15 @@ int main(int argc, char* argv[]) {
         general.add_options()(
             "orientation",
             po::value<Annotation::Orientation>()->default_value(Annotation::Orientation::BOTH),
-            "orientation of the annotations to consider in relation to reads [same, "
+            "orientation of the features to consider in relation to reads [same, "
             "opposite, both] (default: both)");
+        general.add_options()("chunksize", po::value<int>()->default_value(100000),
+                              "number of reads to be processed in parallel (default: 100000)");
 
         po::options_description preprocess("Preprocess Pipeline");
         preprocess.add_options()(pi::PREPROCESS.c_str(), po::bool_switch()->default_value(true),
                                  "whether to include preprocessing of the raw reads in the "
                                  "workflow of RNAnue (default: true)");
-        preprocess.add_options()("chunksize", po::value<int>()->default_value(100000),
-                                 "number of reads to be processed in parallel (default: 100000)");
         preprocess.add_options()(
             "trimpolyg", po::bool_switch()->default_value(false),
             "trim high quality polyG tails from the reads. Applicable for Illumina "
@@ -123,7 +128,7 @@ int main(int argc, char* argv[]) {
         preprocess.add_options()(
             "mtrim", po::value<double>()->default_value(0.05),
             "rate of mismatches allowed when aligning adapters to sequences (default: 0.05)");
-        preprocess.add_options()("mintrim", po::value<int>()->default_value(5),
+        preprocess.add_options()("minovltrim", po::value<int>()->default_value(5),
                                  "minimum length of overlap between adapter and read (default: 5)");
         preprocess.add_options()(
             "minqual,q", po::value<int>()->default_value(20),
@@ -157,9 +162,8 @@ int main(int argc, char* argv[]) {
 
         // Detect Pipeline
         po::options_description detect("Detect Pipeline");
-        detect.add_options()(
-            "mapqmin", po::value<int>()->default_value(10),
-            "cut off for the quality (Phred Quality Score) of the alignments (default: 10)");
+        detect.add_options()("mapqmin", po::value<int>()->default_value(10),
+                             "minimum quality of the alignments (default: 10)");
         detect.add_options()(
             "cmplmin", po::value<double>()->default_value(0.0),
             "complementarity cutoff for split reads (default: 0.0; range: 0.0-1.0)");
@@ -171,7 +175,7 @@ int main(int argc, char* argv[]) {
         detect.add_options()("exclclipping", po::bool_switch()->default_value(false),
                              "exclude soft clipping from the alignments (default: false)");
         detect.add_options()("splicing", po::bool_switch()->default_value(false),
-                             "splicing events are considered in the detection of split reads");
+                             "splicing events are removed in the detection of split reads");
         detect.add_options()("splicingtolerance", po::value<int>()->default_value(5),
                              "tolerance for splicing events (default: 5)");
 
@@ -187,10 +191,10 @@ int main(int argc, char* argv[]) {
                                "minimum number of reads assigned to an interaction (default: 1)");
 
         po::options_description other("Other");
-        other.add_options()("version,v", "display the version number")("help,h",
-                                                                       "display this help message")(
-            "config,c", po::value<std::string>(&configFile),
-            "configuration file that contains the parameters");
+        other.add_options()("version,v", "display the version number");
+        other.add_options()("help,h", "display this help message");
+        other.add_options()("config,c", po::value<std::string>(&configFile),
+                            "configuration file that contains the parameters");
 
         po::options_description subcall("Subcall");
         subcall.add_options()("subcall", po::value<std::string>(), SUBCALL_DESCRIPTION.c_str());
@@ -228,6 +232,11 @@ int main(int argc, char* argv[]) {
             Closing::printQuote();
             return 0;
         }
+
+        const PreprocessParameters preParam{vm};
+        const AlignParameters alignParam{vm};
+        const DetectParameters detectParam{vm};
+        const AnalyzeParameters analParam{vm};
 
         if (!ifs) {
             Logger::log(LogLevel::ERROR, "Configuration file could not be opened!");

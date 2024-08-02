@@ -18,13 +18,11 @@
 #include "DataTypes.hpp"
 #include "FeatureParser.hpp"
 #include "IITree.hpp"
+#include "Orientation.hpp"
 
 namespace Annotation {
 using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dtp::Feature>>;
 namespace fs = boost::filesystem;
-
-enum Orientation { SAME, OPPOSITE, BOTH };
-std::istream& operator>>(std::istream& in, Orientation& orientation);
 
 class FeatureAnnotator {
    public:

@@ -28,7 +28,6 @@
 #include "Utility.hpp"
 
 namespace pt = boost::property_tree;
-namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 
 using seqan3::operator""_dna5;

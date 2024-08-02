@@ -47,7 +47,11 @@ using sam_field_ids =
                    seqan3::field::seq, seqan3::field::qual, seqan3::field::tags>;
 
 using SamRecord = seqan3::sam_record<sam_field_types, sam_field_ids>;
+
+// Represents a single chimeric read which is split up into its blocks
 using SplitRecords = std::vector<SamRecord>;
+// Represents a single chimeric read with multiple alternative mapping results
+using SplitRecordsVariantGroups = std::vector<SplitRecords>;
 
 // data types used in preprocessing (state transition table)
 using Left = std::size_t;                           // left matching block

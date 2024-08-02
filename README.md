@@ -8,7 +8,7 @@ RNAnue is a comprehensive tool for detecting RNA-RNA interactions from Direct-Du
 
 ## Installation
 
-We recommend using the provided installer to set up RNAnue.  
+We recommend using the provided installer to set up RNAnue.
 If your operating system is not supported, you can use RNAnue via Docker or build it from source.
 
 ### Installer
@@ -37,7 +37,7 @@ singularity exec --bind /path/to/data:/data rnanue_latest.sif RNAnue <subcall> -
 
 #### Prerequisites
 
-To build RNAnue, you need `cmake (>=v2.24.0)`.  
+To build RNAnue, you need `cmake (>=v2.24.0)`.
 If you need to compile ViennaRNA, you also need `autoconf`, `automake`, and `libtool` (see [Dependencies](#dependencies)).
 
 #### Downloading
@@ -60,25 +60,25 @@ cmake --build . --parallel <num-threds-here>
 cmake --install .
 ```
 
-> **IMPORTANT**  
-> RNAnue can only be compiled with [gcc](https://gcc.gnu.org) (tested with v13.2.0)  
+> **IMPORTANT**
+> RNAnue can only be compiled with [gcc](https://gcc.gnu.org) (tested with v13.2.0)
 
-> **IMPORTANT – MacOS**  
-> When building on macOS, you need to specify the GCC compiler to avoid using AppleClang:  
-> ```cmake -DCMAKE_CXX_COMPILER=<path-to-g++> -DCMAKE_CC_COMPILER=<path-to-gcc> ..```
+> **IMPORTANT – MacOS**
+> When building on macOS, you need to specify the GCC compiler to avoid using AppleClang:
+> `CMAKE_CXX_COMPILER=<path-to-g++> CMAKE_CC_COMPILER=<path-to-gcc> cmake ..`
 
 #### Dependencies
 
 RNAnue includes the following dependencies:
 
-* [Boost](https://github.com/boostorg/boost) (v1.85.0)
-* [Segemehl](http://www.bioinf.uni-leipzig.de/Software/segemehl/) (v0.3.4)
-* [SeqAn](https://github.com/seqan/seqan3) (v3.3.0)
+- [Boost](https://github.com/boostorg/boost) (v1.85.0)
+- [Segemehl](http://www.bioinf.uni-leipzig.de/Software/segemehl/) (v0.3.4)
+- [SeqAn](https://github.com/seqan/seqan3) (v3.3.0)
 
 The following dependencies will be used if present on the system, otherwise they will be fetched (internet connection required):
 
-* [htslib](https://github.com/samtools/htslib.git) (v1.20)
-* [Vienna Package](https://www.tbi.univie.ac.at/RNA/#binary_packages) (v2.6.4)
+- [htslib](https://github.com/samtools/htslib.git) (v1.20)
+- [Vienna Package](https://www.tbi.univie.ac.at/RNA/#binary_packages) (v2.6.4)
 
 ## Overview
 
@@ -93,7 +93,7 @@ RNAnue provides different sub-calls for individual pipeline steps. These include
 
 ## Input
 
-> **IMPORTANT** RNAnue requires the sequencing files to be in a specific folder structure.  
+> **IMPORTANT** RNAnue requires the sequencing files to be in a specific folder structure.
 
 The root folders of the treatments (`--trtms`; required) and controls (`--ctrls`; optional) are specified accordingly. These folders contain sub-folders
 with arbitrary conditions (e.g., treatment, cell lines,...) that in turn contain the read files.
@@ -115,7 +115,7 @@ with arbitrary conditions (e.g., treatment, cell lines,...) that in turn contain
 
 ### Paired-End folder structure
 
-> **IMPORTANT**  In order to process paired-end files `--readtype = PE` must be set and files must end with "forward.fastq" and "reverse.fastq".
+> **IMPORTANT** In order to process paired-end files `--readtype = PE` must be set and files must end with "forward.fastq" and "reverse.fastq".
 
 ```text
 ./trtms/
@@ -142,7 +142,7 @@ allows to set the parameters in a more convenient fashion. This means that the c
 is reduced to the following call.
 
 ```bash
-RNAnue <sub-call-here> --config /path/to/params.cfg
+RNAnue <sub-call-here> --config <params.cfg-here>
 ```
 
 In any case, the specifying parameters over the command lines has precedence over the config file.
@@ -170,14 +170,14 @@ In the following the tags are listed that are reported in the detected split rea
 segment the alignment is in reverse as done in the calculation of the complementarity to represent the 3'-5' and 5'-3'
 duplex.
 
-| tag | description |
-| --- | ----------- |
-| XC:f | complementarity |
-| XL:f | length of alignment |
-| XR:f | site length ratio |
-| XM:i | matches in alignment |
+| tag  | description           |
+| ---- | --------------------- |
+| XC:f | complementarity       |
+| XL:f | length of alignment   |
+| XR:f | site length ratio     |
+| XM:i | matches in alignment  |
 | XA:Z | alignment of sequence |
-| XE:f | hybridization energy |
+| XE:f | hybridization energy  |
 
 ### Clustering results
 

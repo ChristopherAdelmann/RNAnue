@@ -170,14 +170,14 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertTwoOverlapping) {
     const dtp::GenomicRegion region{"chromosome1", 5, 25, dtp::Strand::FORWARD};
     const auto result = annotator.mergeInsert(region, 0);
 
-    ASSERT_EQ(annotator.featureCount(), 1);
+    ASSERT_EQ(annotator.featureCount(), 1ul);
 
     EXPECT_EQ(result.featureID, "feature1");
-    ASSERT_EQ(result.mergedFeatureIDs.size(), 1);
+    ASSERT_EQ(result.mergedFeatureIDs.size(), 1ul);
     EXPECT_EQ(result.mergedFeatureIDs[0], "feature2");
 
     const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
-    ASSERT_EQ(features.size(), 1);
+    ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, "feature1");
     EXPECT_EQ(features[0].startPosition, 1);
     EXPECT_EQ(features[0].endPosition, 30);
@@ -187,10 +187,10 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertWithReverseStrand) {
     const dtp::GenomicRegion region{"chromosome1", 5, 15, dtp::Strand::REVERSE};
     const auto result = annotator.mergeInsert(region, 0);
 
-    ASSERT_EQ(annotator.featureCount(), 3);
+    ASSERT_EQ(annotator.featureCount(), 3ul);
 
     const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
-    ASSERT_EQ(features.size(), 1);
+    ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_TRUE(result.mergedFeatureIDs.empty());
     EXPECT_EQ(features[0].startPosition, 5);
@@ -206,10 +206,10 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertNotExistingReferenceID) {
     const dtp::GenomicRegion region{"chromosome2", 5, 25, dtp::FORWARD};
     const auto result = annotator.mergeInsert(region, 0);
 
-    ASSERT_EQ(annotator.featureCount(), 3);
+    ASSERT_EQ(annotator.featureCount(), 3ul);
 
     const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
-    ASSERT_EQ(features.size(), 1);
+    ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_TRUE(result.mergedFeatureIDs.empty());
     EXPECT_EQ(features[0].startPosition, 5);
@@ -220,10 +220,10 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistance) {
     const dtp::GenomicRegion region{"chromosome1", 5, 15, dtp::FORWARD};
     const auto result = annotator.mergeInsert(region, 5);
 
-    ASSERT_EQ(annotator.featureCount(), 1);
+    ASSERT_EQ(annotator.featureCount(), 1ul);
 
     const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
-    ASSERT_EQ(features.size(), 1);
+    ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_EQ(result.mergedFeatureIDs, std::vector<std::string>{"feature2"});
     EXPECT_EQ(features[0].startPosition, 1);
@@ -234,10 +234,10 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceNotSecondOverlapping)
     const dtp::GenomicRegion region{"chromosome1", 1, 14, dtp::FORWARD};
     const auto result = annotator.mergeInsert(region, 5);
 
-    ASSERT_EQ(annotator.featureCount(), 2);
+    ASSERT_EQ(annotator.featureCount(), 2ul);
 
     const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
-    ASSERT_EQ(features.size(), 1);
+    ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_TRUE(result.mergedFeatureIDs.empty());
     EXPECT_EQ(features[0].startPosition, 1);
@@ -248,10 +248,10 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceOneSpace) {
     const dtp::GenomicRegion region{"chromosome1", 11, 15, dtp::FORWARD};
     const auto result = annotator.mergeInsert(region, 0);
 
-    ASSERT_EQ(annotator.featureCount(), 3);
+    ASSERT_EQ(annotator.featureCount(), 3ul);
 
     const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
-    ASSERT_EQ(features.size(), 1);
+    ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_TRUE(result.mergedFeatureIDs.empty());
     EXPECT_EQ(features[0].startPosition, 11);
@@ -262,10 +262,10 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceBluntEnds) {
     const dtp::GenomicRegion region{"chromosome1", 10, 15, dtp::FORWARD};
     const auto result = annotator.mergeInsert(region, 0);
 
-    ASSERT_EQ(annotator.featureCount(), 2);
+    ASSERT_EQ(annotator.featureCount(), 2ul);
 
     const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
-    ASSERT_EQ(features.size(), 1);
+    ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_TRUE(result.mergedFeatureIDs.empty());
     EXPECT_EQ(features[0].startPosition, 1);

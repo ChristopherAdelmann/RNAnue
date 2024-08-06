@@ -7,11 +7,13 @@
 // Boost
 #include <boost/program_options.hpp>
 #include <boost/program_options/variables_map.hpp>
+#include <cstdlib>
 #include <filesystem>
 #include <string>
 
 // Classes
 #include "Logger.hpp"
+#include "boost/program_options/errors.hpp"
 
 namespace po = boost::program_options;
 
@@ -23,7 +25,22 @@ struct ParameterValidator {
         requires arithmetic<T>
     static T validateArithmetic(const po::variables_map& params, const std::string& paramName,
                                 const T lowerLimit, const T upperLimit) {
-        const int value = params[paramName].as<T>();
+        T value;
+
+        try {
+            value = params[paramName].as<T>();
+        } catch (const po::required_option& e) {
+            Logger::log(LogLevel::ERROR, paramName, " is a required parameter.");
+            exit(EXIT_FAILURE);
+        } catch (const po::invalid_option_value& e) {
+            Logger::log(LogLevel::ERROR, paramName, " must be an integer between ",
+                        std::to_string(lowerLimit), " and ", std::to_string(upperLimit));
+            exit(EXIT_FAILURE);
+        } catch (const po::error& e) {
+            Logger::log(LogLevel::ERROR, "Unknown error occurred while parsing ", paramName, ". ",
+                        std::string(e.what()));
+            exit(EXIT_FAILURE);
+        }
 
         if (value <= lowerLimit && value >= upperLimit) {
             Logger::log(LogLevel::ERROR, paramName + " must be an integer between " +
@@ -40,7 +57,8 @@ struct ParameterValidator {
         std::filesystem::path filePath = std::filesystem::path(filePathStr);
 
         if (!std::filesystem::exists(filePath) || std::filesystem::is_directory(filePath)) {
-            Logger::log(LogLevel::ERROR, paramName + " is not a valid file path.");
+            Logger::log(LogLevel::ERROR, "Check parameter '", paramName, "': ", filePath,
+                        " is not a valid file path.");
         }
 
         return filePath;
@@ -52,7 +70,8 @@ struct ParameterValidator {
         std::filesystem::path dirPath = std::filesystem::path(dirPathStr);
 
         if (!std::filesystem::is_directory(dirPath)) {
-            Logger::log(LogLevel::ERROR, paramName + " is not a valid directory.");
+            Logger::log(LogLevel::ERROR, "Check parameter '", paramName, "': ", dirPath,
+                        " is not a valid directory.");
         }
 
         return dirPath;

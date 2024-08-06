@@ -19,6 +19,7 @@
 #include <seqan3/utility/range/to.hpp>
 
 // Classes
+#include "Constants.hpp"
 #include "GeneralParameters.hpp"
 #include "Logger.hpp"
 #include "ParameterValidator.hpp"
@@ -36,14 +37,14 @@ class PreprocessParameters : public GeneralParameters {
     std::optional<Adapter> adapter5Reverse;
     std::optional<Adapter> adapter3Reverse;
 
-    double maxMissmatchFractionTrimming;
+    double maxMissMatchFractionTrimming;
     size_t minOverlapTrimming;
     size_t minQualityThreshold;
     size_t minLengthThreshold;
     size_t minMeanWindowQuality;
     size_t windowTrimmingSize;
     size_t minOverlapMerging;
-    double maxMissmatchFractionMerging;
+    double maxMissMatchFractionMerging;
 
     PreprocessParameters(const po::variables_map& params)
         : GeneralParameters(params),
@@ -53,26 +54,30 @@ class PreprocessParameters : public GeneralParameters {
           adapter3Forward(validateAdapter(params, "adapter3Forward")),
           adapter5Reverse(validateAdapter(params, "adapter5Reverse")),
           adapter3Reverse(validateAdapter(params, "adapter3Reverse")),
-          maxMissmatchFractionTrimming(
+          maxMissMatchFractionTrimming(
               ParameterValidator::validateArithmetic(params, "mtrim", 0.0, 1.0)),
           minOverlapTrimming(
-              ParameterValidator::validateArithmetic(params, "minovltrim", 0, INT_MAX)),
+              ParameterValidator::validateArithmetic(params, "minovltrim", size_t{0}, SIZE_T_MAX)),
           minQualityThreshold(
-              ParameterValidator::validateArithmetic(params, "minqual", 0, INT_MAX)),
-          minLengthThreshold(ParameterValidator::validateArithmetic(params, "minlen", 0, INT_MAX)),
-          minMeanWindowQuality(ParameterValidator::validateArithmetic(params, "wqual", 0, INT_MAX)),
-          windowTrimmingSize(ParameterValidator::validateArithmetic(params, "wtrim", 0, INT_MAX)),
-          minOverlapMerging(ParameterValidator::validateArithmetic(params, "minovl", 0, INT_MAX)),
-          maxMissmatchFractionMerging(
+              ParameterValidator::validateArithmetic(params, "minqual", size_t{0}, SIZE_T_MAX)),
+          minLengthThreshold(
+              ParameterValidator::validateArithmetic(params, "minlen", size_t{0}, SIZE_T_MAX)),
+          minMeanWindowQuality(
+              ParameterValidator::validateArithmetic(params, "wqual", size_t{0}, SIZE_T_MAX)),
+          windowTrimmingSize(
+              ParameterValidator::validateArithmetic(params, "wtrim", size_t{0}, SIZE_T_MAX)),
+          minOverlapMerging(
+              ParameterValidator::validateArithmetic(params, "minovl", size_t{0}, SIZE_T_MAX)),
+          maxMissMatchFractionMerging(
               ParameterValidator::validateArithmetic(params, "mmerge", 0.0, 1.0)) {}
 
    private:
     static bool validateTrimPolyG(const po::variables_map& params) {
-        return params["trimPolyG"].as<bool>();
+        return params["trimpolyg"].as<bool>();
     }
 
     static bool validatePreprocessEnabled(const po::variables_map& params) {
-        return params["preprocessEnabled"].as<bool>();
+        return params[constants::pipelines::PREPROCESS.c_str()].as<bool>();
     }
 
     static std::optional<Adapter> validateAdapter(const po::variables_map& params,

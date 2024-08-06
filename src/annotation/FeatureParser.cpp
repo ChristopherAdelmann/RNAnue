@@ -1,5 +1,10 @@
 #include "FeatureParser.hpp"
 
+#include <execution>
+#include <unordered_set>
+
+#include "Logger.hpp"
+
 using namespace Annotation;
 
 /** @brief Constructs a FeatureParser object.
@@ -25,7 +30,7 @@ dtp::FeatureMap FeatureParser::parse(const fs::path featureFilePath) const {
 FileType FeatureParser::getFileType(const fs::path &featureFilePath) const {
     std::ifstream file(featureFilePath.string());
     if (!file) {
-        throw std::runtime_error("Could not open file: " + featureFilePath.string());
+        Logger::log(LogLevel::ERROR, "Could not open file: " + featureFilePath.string());
     }
 
     std::string line;
@@ -53,6 +58,8 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
     }
 
     size_t parsedFeatures = 0;
+    std::unordered_set<std::string> featureGroups;
+
     for (std::string line; std::getline(file, line);) {
         if (line[0] == '#') {
             continue;
@@ -112,13 +119,23 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
             .groupID = getAttribute(fileType.defaultGroupKey())});
 
         ++parsedFeatures;
+
+        if (featureMap[referenceID].back().groupID.has_value()) {
+            featureGroups.insert(featureMap[referenceID].back().groupID.value());
+        }
     }
 
-    const std::string includedFeatureTypes =
-        std::accumulate(includedFeatures.begin(), includedFeatures.end(), std::string(),
-                        [](const std::string &a, const std::string &b) { return a + b + ", "; });
+    const std::string includedFeatureTypes = std::accumulate(
+        includedFeatures.begin(), includedFeatures.end(), std::string(),
+        [](const std::string &a, const std::string &b) { return a.empty() ? b : a + ", " + b; });
+
+    const std::string featureGroupLog =
+        featureGroups.empty()
+            ? ""
+            : " Found " + std::to_string(featureGroups.size()) + " feature groups.";
+
     Logger::log(LogLevel::INFO, "Parsed ", std::to_string(parsedFeatures),
-                " features of type: ", includedFeatureTypes);
+                " features of type: ", includedFeatureTypes, ".", featureGroupLog);
 
     return featureMap;
 }

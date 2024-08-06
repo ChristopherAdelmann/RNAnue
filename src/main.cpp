@@ -13,16 +13,13 @@
 #include <string>
 
 // Classes
-#include "AlignParameters.hpp"
-#include "AnalyzeParameters.hpp"
+
 #include "Base.hpp"
 #include "Closing.hpp"
 #include "Config.hpp"
 #include "Constants.hpp"
-#include "DetectParameters.hpp"
 #include "FeatureAnnotator.hpp"
-#include "GeneralParameters.hpp"
-#include "PreprocessParameters.hpp"
+#include "ParameterParser.hpp"
 
 namespace po = boost::program_options;
 
@@ -233,11 +230,6 @@ int main(int argc, char* argv[]) {
             return 0;
         }
 
-        const PreprocessParameters preParam{vm};
-        const AlignParameters alignParam{vm};
-        const DetectParameters detectParam{vm};
-        const AnalyzeParameters analParam{vm};
-
         if (!ifs) {
             Logger::log(LogLevel::ERROR, "Configuration file could not be opened!");
         } else {
@@ -257,8 +249,8 @@ int main(int argc, char* argv[]) {
 
         Closing::printQuote();
     } catch (po::error& e) {
-        std::cout << "please provide a correct function call" << std::endl;
-        std::cerr << e.what() << " at line " << __LINE__ << std::endl;
+        std::cout << "Please provide a correct function call" << std::endl;
+        std::cerr << e.what() << std::endl;
         return EXIT_FAILURE;
     }
 }

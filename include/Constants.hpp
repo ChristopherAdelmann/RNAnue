@@ -1,5 +1,4 @@
 #pragma once
-
 // Standard
 #include <string>
 

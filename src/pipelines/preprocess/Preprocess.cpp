@@ -8,7 +8,7 @@ Preprocess::Preprocess(const po::variables_map &params)
       adpt3f(params["adpt3f"].as<std::string>()),
       adpt3r(params["adpt3r"].as<std::string>()),
       missMatchRateTrim(params["mtrim"].as<double>()),
-      minOverlapTrim(params["mintrim"].as<int>()),
+      minOverlapTrim(params["minovltrim"].as<int>()),
       minMeanPhread(params["minqual"].as<int>()),
       minLen(params["minlen"].as<std::size_t>()),
       minWindowPhread(params["wqual"].as<std::size_t>()),

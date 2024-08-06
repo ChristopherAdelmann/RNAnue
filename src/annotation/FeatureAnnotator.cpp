@@ -1,5 +1,8 @@
 #include "FeatureAnnotator.hpp"
 
+#include <ios>
+#include <iostream>
+
 // Feature Annotator
 using namespace Annotation;
 FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
@@ -35,8 +38,15 @@ FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
     const std::optional<std::string> &featureIDFlag) {
     FeatureTreeMap newFeatureTreeMap;
 
-    const std::unordered_set<std::string> uniqueIncludedFeatures(includedFeatures.begin(),
-                                                                 includedFeatures.end());
+    std::unordered_set<std::string> uniqueIncludedFeatures;
+
+    for (const std::string &feature : includedFeatures) {
+        std::stringstream ss(feature);
+        std::string str;
+        while (getline(ss, str, ',')) {
+            uniqueIncludedFeatures.insert(str);
+        }
+    }
 
     dtp::FeatureMap featureMap =
         FeatureParser(uniqueIncludedFeatures, featureIDFlag).parse(featureFilePath);

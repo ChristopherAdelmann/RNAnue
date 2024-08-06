@@ -34,7 +34,7 @@ class Data {
    public:
     explicit Data(po::variables_map params);
     ~Data() = default;
-    //
+
     template <typename Callable>
     void callInAndOut(Callable f);
 

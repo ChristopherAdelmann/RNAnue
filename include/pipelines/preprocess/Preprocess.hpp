@@ -8,6 +8,7 @@
 #include <optional>
 #include <ranges>
 #include <thread>
+#include <variant>
 #include <vector>
 
 // boost
@@ -16,29 +17,40 @@
 #include <boost/property_tree/ptree.hpp>
 
 // seqan3
-#include <seqan3/alignment/pairwise/align_pairwise.hpp>
-#include <seqan3/alignment/scoring/all.hpp>
-#include <seqan3/alphabet/nucleotide/dna5.hpp>
-#include <seqan3/alphabet/views/char_to.hpp>
-#include <seqan3/alphabet/views/complement.hpp>
 #include <seqan3/io/sequence_file/all.hpp>
 
 // Class
+#include "Adapter.hpp"
 #include "Logger.hpp"
+#include "PairedRecordMerger.hpp"
+#include "PreprocessData.hpp"
+#include "PreprocessParameters.hpp"
+#include "PreprocessSample.hpp"
+#include "RecordTrimmer.hpp"
+#include "TrimConfig.hpp"
 #include "Utility.hpp"
 
 namespace pt = boost::property_tree;
-namespace po = boost::program_options;
 
 using seqan3::operator""_dna5;
+
+template <class... Ts>
+struct overloaded : Ts... {
+    using Ts::operator()...;
+};
+
+namespace pipelines {
+namespace preprocess {
 class Preprocess {
    public:
-    explicit Preprocess(const po::variables_map &params);
+    explicit Preprocess(const PreprocessParameters &params);
     ~Preprocess() = default;
 
     void start(pt::ptree sample);
+    void start(const PreprocessData &data);
 
    private:
+    PreprocessParameters parameters;
     std::string readType;
 
     bool trimPolyG;
@@ -74,43 +86,12 @@ class Preprocess {
         std::vector<seqan3::sequence_file_input<>::record_type> recordsSnglRevRes;
     };
 
-    struct TrimConfig {
-       public:
-        enum Mode { FIVE_PRIME, THREE_PRIME };
-
-        static seqan3::align_cfg::method_global alignmentConfigFor(Mode mode);
-    };
-
-    struct Adapter {
-        const seqan3::dna5_vector sequence;
-        const double maxMissMatchFraction;
-        const TrimConfig::Mode trimmingMode;
-    };
-
-    std::vector<Adapter> loadAdapters(const std::string &filenameOrSequence,
-                                      const TrimConfig::Mode trimmingMode);
-
     bool passesFilters(const auto &record);
 
-    template <typename record_type>
-    void trimWindowedQuality(record_type &record);
+    void processSample(const PreprocessSampleType &sample);
 
-    template <typename record_type>
-    void trimAdapter(const Adapter &adapter, record_type &record);
-
-    template <typename record_type>
-    void trim3PolyG(record_type &record);
-
-    template <typename record_type>
-    std::optional<record_type> mergeRecordPair(const record_type &record1,
-                                               const record_type &record2);
-
-    template <typename record_type, typename result_type>
-    record_type constructMergedRecord(const record_type &record1, const record_type &record2,
-                                      const seqan3::alignment_result<result_type> &alignmentResult);
-
-    void processSingleEnd(pt::ptree sample);
-    void processPairedEnd(pt::ptree sample);
+    void processSingleEnd(const PreprocessSampleSingle &sample);
+    void processPairedEnd(const PreprocessSamplePaired &sample);
 
     void processSingleEndRecordChunk(SingleEndFastqChunk &chunk,
                                      const std::vector<Adapter> &adapters5,
@@ -132,3 +113,5 @@ class Preprocess {
         const std::vector<Adapter> &adapters3f, const std::vector<Adapter> &adapters5r,
         const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads);
 };
+}  // namespace preprocess
+}  // namespace pipelines

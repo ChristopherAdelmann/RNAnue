@@ -16,7 +16,7 @@ void Runner::runPipeline(int argc, const char *const argv[]) {
     std::visit(Pipeline(), parameters);
 }
 
-void Runner::runPreprocessPipeline(const PreprocessParameters &parameters) {
+void Runner::runPreprocessPipeline(const preprocess::PreprocessParameters &parameters) {
     Logger::log(LogLevel::INFO, "Running preprocess pipeline");
 
     if (!parameters.preprocessEnabled) {
@@ -53,7 +53,7 @@ void Runner::runCompletePipeline(const CompleteParameters &parameters) {
 }
 // TODO: Implement the rest of the pipeline functions
 
-void Runner::Pipeline::operator()(const PreprocessParameters &params) {
+void Runner::Pipeline::operator()(const preprocess::PreprocessParameters &params) {
     Runner::runPreprocessPipeline(params);
 };
 void Runner::Pipeline::operator()(const AlignParameters &params) {

@@ -1,31 +1,44 @@
 #include "Preprocess.hpp"
 
-Preprocess::Preprocess(const po::variables_map &params)
-    : readType(params["readtype"].as<std::string>()),
-      trimPolyG(params["trimpolyg"].as<bool>()),
-      adpt5f(params["adpt5f"].as<std::string>()),
-      adpt5r(params["adpt5r"].as<std::string>()),
-      adpt3f(params["adpt3f"].as<std::string>()),
-      adpt3r(params["adpt3r"].as<std::string>()),
-      missMatchRateTrim(params["mtrim"].as<double>()),
-      minOverlapTrim(params["minovltrim"].as<int>()),
-      minMeanPhread(params["minqual"].as<int>()),
-      minLen(params["minlen"].as<std::size_t>()),
-      minWindowPhread(params["wqual"].as<std::size_t>()),
-      windowTrimSize(params["wtrim"].as<std::size_t>()),
-      minOverlapMerge(params["minovl"].as<int>()),
-      missMatchRateMerge(params["mmerge"].as<double>()),
-      threadCount(params["threads"].as<int>()),
-      chunkSize(params["chunksize"].as<int>()) {}
+#include <variant>
 
-void Preprocess::start(pt::ptree sample) {
-    if (readType == "SE") {
-        processSingleEnd(sample);
-    } else if (readType == "PE") {
-        processPairedEnd(sample);
-    } else {
-        Logger::log(LogLevel::ERROR, "Invalid read type specified: " + readType);
+#include "Logger.hpp"
+#include "PairedRecordMerger.hpp"
+#include "PreprocessParameters.hpp"
+#include "PreprocessSample.hpp"
+#include "RecordTrimmer.hpp"
+#include "boost/filesystem/path.hpp"
+#include "seqan3/alphabet/nucleotide/dna5.hpp"
+#include "seqan3/io/sequence_file/input.hpp"
+
+namespace pipelines {
+namespace preprocess {
+Preprocess::Preprocess(const PreprocessParameters &params) : parameters(params) {}
+
+void Preprocess::start(const PreprocessData &data) {
+    Logger::log(LogLevel::INFO, "Processing treatment data");
+
+    for (const auto &sample : data.treatmentSamples) {
+        processSample(sample);
     }
+
+    if (!data.controlSamples.has_value()) {
+        Logger::log(LogLevel::INFO, "No control samples provided");
+        return;
+    }
+
+    Logger::log(LogLevel::INFO, "Processing control data");
+
+    for (const auto &sample : data.controlSamples.value()) {
+        processSample(sample);
+    }
+}
+
+void Preprocess::processSample(const PreprocessSampleType &sample) {
+    std::visit(
+        overloaded{[this](const PreprocessSampleSingle &sample) { processSingleEnd(sample); },
+                   [this](const PreprocessSamplePaired &sample) { processPairedEnd(sample); }},
+        sample);
 }
 
 /**
@@ -33,298 +46,50 @@ void Preprocess::start(pt::ptree sample) {
  *
  * @param sample The sample to be processed.
  */
-void Preprocess::processSingleEnd(pt::ptree sample) {
-    const pt::ptree input = sample.get_child("input");
-    const pt::ptree output = sample.get_child("output");
+void Preprocess::processSingleEnd(const PreprocessSampleSingle &sample) {
+    Logger::log(LogLevel::INFO, "Processing sample (single-end): ", sample.input.sampleName);
 
-    const std::string recInPath = input.get<std::string>("forward");
-    seqan3::sequence_file_input recIn{recInPath};
+    const std::vector<Adapter> adapters5 =
+        Adapter::loadAdapters(parameters.adapter5Forward, parameters.maxMissMatchFractionTrimming,
+                              TrimConfig::Mode::FIVE_PRIME);
+    const std::vector<Adapter> adapters3 =
+        Adapter::loadAdapters(parameters.adapter3Forward, parameters.maxMissMatchFractionTrimming,
+                              TrimConfig::Mode::THREE_PRIME);
 
-    std::string recOutPath = output.get<std::string>("forward");
-    seqan3::sequence_file_output recOut{recOutPath};
+    processSingleEndFileInChunks(sample.input.inputFastqPath, sample.output.outputFastqPath,
+                                 adapters5, adapters3, chunkSize, threadCount);
 
-    const std::string sampleName = std::filesystem::path(recInPath).stem().string();
-    Logger::log(LogLevel::INFO, "Started pre-processing " + sampleName + " in single-end mode ...");
-
-    const std::vector<Preprocess::Adapter> adapters5 =
-        loadAdapters(adpt5f, Preprocess::TrimConfig::Mode::FIVE_PRIME);
-    const std::vector<Preprocess::Adapter> adapters3 =
-        loadAdapters(adpt3f, Preprocess::TrimConfig::Mode::THREE_PRIME);
-
-    processSingleEndFileInChunks(recInPath, recOutPath, adapters5, adapters3, chunkSize,
-                                 threadCount);
-
-    Logger::log(LogLevel::INFO,
-                "Finished pre-processing " + sampleName + " in single-end mode ...");
+    Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName);
 }
 
 /**
- * Process the paired-end sample.
+ * Process a paired-end sample.
  *
  * @param sample The sample to be processed.
  */
-void Preprocess::processPairedEnd(pt::ptree sample) {
-    const pt::ptree input = sample.get_child("input");
-    const pt::ptree output = sample.get_child("output");
+void Preprocess::processPairedEnd(const PreprocessSamplePaired &sample) {
+    Logger::log(LogLevel::INFO, "Processing sample (paired-end): ", sample.input.sampleName);
 
-    const std::string forwardRecInPath = input.get<std::string>("forward");
-    const std::string reverseRecInPath = input.get<std::string>("reverse");
+    std::vector<Adapter> adapters5f =
+        Adapter::loadAdapters(parameters.adapter5Forward, parameters.maxMissMatchFractionTrimming,
+                              TrimConfig::Mode::FIVE_PRIME);
+    std::vector<Adapter> adapters3f =
+        Adapter::loadAdapters(parameters.adapter3Forward, parameters.maxMissMatchFractionTrimming,
+                              TrimConfig::Mode::THREE_PRIME);
+    std::vector<Adapter> adapters5r =
+        Adapter::loadAdapters(parameters.adapter5Reverse, parameters.maxMissMatchFractionTrimming,
+                              TrimConfig::Mode::FIVE_PRIME);
+    std::vector<Adapter> adapters3r =
+        Adapter::loadAdapters(parameters.adapter3Reverse, parameters.maxMissMatchFractionTrimming,
+                              TrimConfig::Mode::THREE_PRIME);
 
-    seqan3::sequence_file_input forwardRecIn{forwardRecInPath};
-    seqan3::sequence_file_input reverseRecIn{reverseRecInPath};
+    processPairedEndFileInChunks(
+        sample.input.inputForwardFastqPath, sample.input.inputReverseFastqPath,
+        sample.output.outputMergedFastqPath, sample.output.outputSingletonForwardFastqPath,
+        sample.output.outputSingletonReverseFastqPath, adapters5f, adapters3f, adapters5r,
+        adapters3r, chunkSize, threadCount);
 
-    // TODO Implement async input buffer for paired-end reads
-    std::string snglFwdOutPath = output.get<std::string>("R1only");
-    std::string snglRevOutPath = output.get<std::string>("R2only");
-
-    seqan3::sequence_file_output snglFwdOut{snglFwdOutPath};
-    seqan3::sequence_file_output snglRevOut{snglRevOutPath};
-
-    std::string mergeRecOutPath = output.get<std::string>("forward");
-    seqan3::sequence_file_output mergeRecOut{mergeRecOutPath};
-
-    const std::string sampleName = std::filesystem::path(forwardRecInPath).stem().string();
-    Logger::log(LogLevel::INFO, "Started pre-processing " + sampleName + " in paired-end mode ...");
-
-    std::vector<Preprocess::Adapter> adapters5f =
-        loadAdapters(adpt5f, Preprocess::TrimConfig::Mode::FIVE_PRIME);
-    std::vector<Preprocess::Adapter> adapters3f =
-        loadAdapters(adpt3f, Preprocess::TrimConfig::Mode::THREE_PRIME);
-    std::vector<Preprocess::Adapter> adapters5r =
-        loadAdapters(adpt5r, Preprocess::TrimConfig::Mode::FIVE_PRIME);
-    std::vector<Preprocess::Adapter> adapters3r =
-        loadAdapters(adpt3r, Preprocess::TrimConfig::Mode::THREE_PRIME);
-
-    processPairedEndFileInChunks(forwardRecInPath, reverseRecInPath, mergeRecOutPath,
-                                 snglFwdOutPath, snglRevOutPath, adapters5f, adapters3f, adapters5r,
-                                 adapters3r, chunkSize, threadCount);
-
-    Logger::log(LogLevel::INFO,
-                "Finished pre-processing " + sampleName + " in paired-end mode ...");
-}
-
-/**
- * @brief Loads adapters from a file or a sequence.
- *
- * This function loads adapters from either a file or a sequence and returns them as a vector of
- * Preprocess::Adapter objects.
- *
- * @param filenameOrSequence The filename or sequence from which to load the adapters.
- * @param trimmingMode The trimming mode to be used for the adapters.
- * @return A vector of Preprocess::Adapter objects containing the loaded adapters.
- */
-std::vector<Preprocess::Adapter> Preprocess::loadAdapters(
-    const std::string &filenameOrSequence, const Preprocess::TrimConfig::Mode trimmingMode) {
-    std::vector<Preprocess::Adapter> adapters;
-
-    if (filenameOrSequence.empty()) return adapters;
-
-    if (std::filesystem::exists(filenameOrSequence)) {
-        seqan3::sequence_file_input adapterFile{filenameOrSequence};
-        for (const auto &record : adapterFile) {
-            adapters.push_back(
-                Preprocess::Adapter{record.sequence(), missMatchRateTrim, trimmingMode});
-        }
-    } else {
-        const seqan3::dna5_vector adapterSequence = filenameOrSequence |
-                                                    seqan3::views::char_to<seqan3::dna5> |
-                                                    seqan3::ranges::to<std::vector>();
-        adapters.push_back(Preprocess::Adapter{adapterSequence, missMatchRateTrim, trimmingMode});
-    }
-
-    for (const auto &adapter : adapters) {
-        Logger::log(LogLevel::INFO, "Loaded adapter: " + filenameOrSequence + " with " +
-                                        std::to_string(adapter.maxMissMatchFraction) +
-                                        " allowed miss-match fraction.");
-    }
-
-    return adapters;
-}
-
-/**
- * Trims the windowed quality of a given record.
- *
- * @tparam record_type The type of the record.
- * @param record The record to trim.
- */
-template <typename record_type>
-void Preprocess::trimWindowedQuality(record_type &record) {
-    std::size_t trimmingEnd = record.sequence().size();
-
-    while ((trimmingEnd - windowTrimSize) >= windowTrimSize) {
-        auto windowQual = record.base_qualities() |
-                          seqan3::views::slice(trimmingEnd - windowTrimSize, trimmingEnd);
-
-        auto windowPhred = windowQual | std::views::transform(
-                                            [](auto quality) { return seqan3::to_phred(quality); });
-
-        auto windowPhredSum = std::accumulate(windowPhred.begin(), windowPhred.end(), 0);
-        auto windowMeanPhred = windowPhredSum / std::ranges::size(windowPhred);
-
-        if (windowMeanPhred >= minWindowPhread) {
-            break;
-        }
-        trimmingEnd--;
-    }
-
-    record.sequence().erase(record.sequence().begin() + trimmingEnd, record.sequence().end());
-    record.base_qualities().erase(record.base_qualities().begin() + trimmingEnd,
-                                  record.base_qualities().end());
-}
-
-/**
- * @brief Merges two records if they have a sufficient overlap.
- *
- * This function takes two records and checks if they have a sufficient overlap based on the
- * specified minimum overlap value. If the overlap is sufficient, the records are merged into a new
- * record and returned as an optional. Otherwise, std::nullopt is returned.
- *
- * @tparam record_type The type of the records.
- * @param record1 The first record to be merged.
- * @param record2 The second record to be merged.
- * @param minOverlap The minimum required overlap between the records.
- * @return An optional containing the merged record if the overlap is sufficient, otherwise
- * std::nullopt.
- */
-template <typename record_type>
-std::optional<record_type> Preprocess::mergeRecordPair(const record_type &record1,
-                                                       const record_type &record2) {
-    const seqan3::align_cfg::method_global endGapConfig{
-        seqan3::align_cfg::free_end_gaps_sequence1_leading{true},
-        seqan3::align_cfg::free_end_gaps_sequence2_leading{true},
-        seqan3::align_cfg::free_end_gaps_sequence1_trailing{true},
-        seqan3::align_cfg::free_end_gaps_sequence2_trailing{true}};
-
-    const seqan3::align_cfg::scoring_scheme scoringSchemeConfig{
-        seqan3::nucleotide_scoring_scheme{seqan3::match_score{1}, seqan3::mismatch_score{-1}}};
-
-    const seqan3::align_cfg::gap_cost_affine gapSchemeConfig{
-        seqan3::align_cfg::open_score{-2}, seqan3::align_cfg::extension_score{-4}};
-
-    const auto outputConfig =
-        seqan3::align_cfg::output_score{} | seqan3::align_cfg::output_begin_position{} |
-        seqan3::align_cfg::output_end_position{} | seqan3::align_cfg::output_alignment{};
-
-    const auto alignmentConfig =
-        endGapConfig | scoringSchemeConfig | gapSchemeConfig | outputConfig;
-
-    const auto &seq1 = record1.sequence();
-    const auto &seq2ReverseComplement =
-        record2.sequence() | std::views::reverse | seqan3::views::complement;
-
-    std::optional<record_type> mergedRecord{std::nullopt};
-
-    for (auto const &result :
-         seqan3::align_pairwise(std::tie(seq1, seq2ReverseComplement), alignmentConfig)) {
-        const int overlap = result.sequence1_end_position() - result.sequence1_begin_position();
-        if (overlap < minOverlapMerge) continue;
-
-        const int minScore = overlap - (overlap * missMatchRateMerge) * 2;
-        if (result.score() >= minScore) {
-            mergedRecord = constructMergedRecord(record1, record2, result);
-        }
-    }
-
-    return mergedRecord;
-}
-
-/**
- * Constructs a merged record by combining two input records with a specified overlap.
- *
- * @tparam record_type The type of the input records.
- * @param record1 The first input record.
- * @param record2 The second input record.
- * @param overlap The length of the overlap between the two records.
- * @return The merged record.
- */
-template <typename record_type, typename result_type>
-record_type Preprocess::constructMergedRecord(
-    const record_type &record1, const record_type &record2,
-    const seqan3::alignment_result<result_type> &alignmentResult) {
-    const auto &record1Qualities = record1.base_qualities();
-    const auto &record2Qualities = record2.base_qualities();
-
-    seqan3::dna5_vector mergedSequence{};
-    std::vector<seqan3::phred42> mergedQualities{};
-
-    mergedSequence.reserve(record1.sequence().size() + record2.sequence().size());
-    mergedQualities.reserve(record1Qualities.size() + record2Qualities.size());
-
-    const auto &record2RevCompSequence =
-        record2.sequence() | seqan3::views::complement | std::views::reverse;
-    const auto &record2RevCompQualities = record2Qualities | std::views::reverse;
-
-    // 5' overhang of read one that is not in overlap region
-    mergedSequence.insert(mergedSequence.end(), record1.sequence().begin(),
-                          record1.sequence().begin() + alignmentResult.sequence1_begin_position());
-    mergedQualities.insert(
-        mergedQualities.end(), record1.base_qualities().begin(),
-        record1.base_qualities().begin() + alignmentResult.sequence1_begin_position());
-
-    size_t posRecord1 = alignmentResult.sequence1_begin_position();
-    size_t posRecord2 = alignmentResult.sequence2_begin_position();
-
-    const auto &[alignmentSeq1, alignmentSeq2] = alignmentResult.alignment();
-
-    for (const auto &[el1, el2] : seqan3::views::zip(alignmentSeq1, alignmentSeq2)) {
-        const seqan3::phred42 qual1 = record1Qualities[posRecord1];
-        const seqan3::phred42 qual2 = record2RevCompQualities[posRecord2];
-
-        if (el1 == el2) {
-            const seqan3::dna5 base1 = el1.template convert_to<seqan3::dna5>();
-            mergedSequence.insert(mergedSequence.end(), base1);
-            mergedQualities.insert(mergedQualities.end(), std::max(qual1, qual2));
-
-            posRecord1++;
-            posRecord2++;
-            continue;
-        }
-
-        if (el1 != seqan3::gap{} && el2 != seqan3::gap{}) {
-            if (qual1 < qual2) {
-                const seqan3::dna5 base2 = el2.template convert_to<seqan3::dna5>();
-                mergedSequence.insert(mergedSequence.end(), base2);
-                mergedQualities.insert(mergedQualities.end(), qual2);
-            } else {
-                const seqan3::dna5 base1 = el1.template convert_to<seqan3::dna5>();
-                mergedSequence.insert(mergedSequence.end(), base1);
-                mergedQualities.insert(mergedQualities.end(), qual1);
-            }
-
-            posRecord1++;
-            posRecord2++;
-            continue;
-        }
-
-        if (el1 == seqan3::gap{}) {
-            const seqan3::dna5 base2 = el2.template convert_to<seqan3::dna5>();
-            mergedSequence.insert(mergedSequence.end(), base2);
-            mergedQualities.insert(mergedQualities.end(), qual2);
-
-            posRecord2++;
-            continue;
-        }
-
-        if (el2 == seqan3::gap{}) {
-            const seqan3::dna5 base1 = el1.template convert_to<seqan3::dna5>();
-            mergedSequence.insert(mergedSequence.end(), base1);
-            mergedQualities.insert(mergedQualities.end(), qual1);
-
-            posRecord1++;
-            continue;
-        }
-    }
-
-    // 5' overhang of read two that is not in overlap region
-    mergedSequence.insert(mergedSequence.end(),
-                          record2RevCompSequence.begin() + alignmentResult.sequence2_end_position(),
-                          record2RevCompSequence.end());
-    mergedQualities.insert(
-        mergedQualities.end(),
-        record2RevCompQualities.begin() + alignmentResult.sequence2_end_position(),
-        record2RevCompQualities.end());
-
-    return record_type{std::move(mergedSequence), record1.id(), std::move(mergedQualities)};
+    Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName);
 }
 
 /**
@@ -347,139 +112,21 @@ bool Preprocess::passesFilters(const auto &record) {
     return passesQual && passesLen;
 }
 
-/**
- * Trims adapter sequences from the given record.
- *
- * @param adapterSequence The adapter sequence to be trimmed.
- * @param record The record from which the adapter sequence will be trimmed.
- * @param trimmingMode The trimming mode to be applied.
- */
-template <typename record_type>
-void Preprocess::trimAdapter(const Preprocess::Adapter &adapter, record_type &record) {
-    const seqan3::align_cfg::scoring_scheme scoringSchemeConfig{
-        seqan3::nucleotide_scoring_scheme{seqan3::match_score{1}, seqan3::mismatch_score{-1}}};
-    const seqan3::align_cfg::gap_cost_affine gapSchemeConfig{
-        seqan3::align_cfg::open_score{-2}, seqan3::align_cfg::extension_score{-4}};
-    const auto outputConfig = seqan3::align_cfg::output_score{} |
-                              seqan3::align_cfg::output_end_position{} |
-                              seqan3::align_cfg::output_begin_position{};
-
-    const auto alignment_config = Preprocess::TrimConfig::alignmentConfigFor(adapter.trimmingMode) |
-                                  scoringSchemeConfig | gapSchemeConfig | outputConfig;
-
-    auto &seq = record.sequence();
-    auto &qual = record.base_qualities();
-
-    for (auto const &result :
-         seqan3::align_pairwise(std::tie(adapter.sequence, seq), alignment_config)) {
-        const int overlap = result.sequence2_end_position() - result.sequence2_begin_position();
-
-        if (overlap < minOverlapTrim) continue;
-
-        const int minScore = overlap - (overlap * adapter.maxMissMatchFraction) * 2;
-
-        if (result.score() >= minScore) {
-            if (adapter.trimmingMode == Preprocess::TrimConfig::Mode::FIVE_PRIME) {
-                seq.erase(seq.begin(), seq.begin() + result.sequence2_end_position());
-                qual.erase(qual.begin(), qual.begin() + result.sequence2_end_position());
-            } else {
-                seq.erase(seq.begin() + result.sequence2_begin_position(), seq.end());
-                qual.erase(qual.begin() + result.sequence2_begin_position(), qual.end());
-            }
-        }
-    }
-}
-
-/**
- * @brief Trims trailing polyG bases from the 3' end of a sequence record.
- *
- * This function removes any consecutive 'G' bases from the end of the sequence
- * if they meet the quality threshold. The mean quality threshold is set to a rank of 20
- * using the phred42 scale. If the number of consecutive polyG bases is greater than
- * or equal to 5, they are removed from both the sequence and the base qualities.
- *
- * @tparam record_type The type of the sequence record.
- * @param record The sequence record to trim.
- */
-template <typename record_type>
-void Preprocess::trim3PolyG(record_type &record) {
-    // TODO Optimize this function
-
-    auto &seq = record.sequence();
-    auto &qual = record.base_qualities();
-
-    std::vector<seqan3::phred42> qualitiesPhread;
-    qualitiesPhread.reserve(qual.size());
-
-    seqan3::phred42 qualityThreshold;
-    qualityThreshold.assign_rank(30);
-
-    auto seqIt = seq.rbegin();
-    auto qualIt = qual.rbegin();
-
-    auto sufficientMeanQuality = [&]() {
-        const auto qualities = qualitiesPhread | std::views::transform([](auto quality) {
-                                   return seqan3::to_phred(quality);
-                               });
-
-        const auto sum = std::accumulate(qualities.begin(), qualities.end(), 0);
-        return std::ranges::size(qualities) == 0 || sum / std::ranges::size(qualities) >= 20;
-    };
-
-    while (seqIt != seq.rend() && (*seqIt == 'G'_dna5 && sufficientMeanQuality())) {
-        qualitiesPhread.push_back(*qualIt);
-        ++seqIt;
-        ++qualIt;
-    }
-
-    const std::size_t polyGCount = qualitiesPhread.size();
-
-    if (polyGCount >= 5) {
-        seq.erase(seq.end() - polyGCount, seq.end());
-        qual.erase(qual.end() - polyGCount, qual.end());
-    }
-}
-
-/**
- * @brief Returns the semi-global alignment configuration for the given mode, assumes adapter as
- * sequence1.
- *
- * @param mode The mode to use for trimming.
- * @return seqan3::align_cfg::method_global The semi-global alignment configuration.
- */
-seqan3::align_cfg::method_global Preprocess::TrimConfig::alignmentConfigFor(
-    Preprocess::TrimConfig::Mode mode) {
-    seqan3::align_cfg::method_global config;
-
-    switch (mode) {
-        case Preprocess::TrimConfig::Mode::FIVE_PRIME:
-            config.free_end_gaps_sequence1_leading = true;
-            config.free_end_gaps_sequence2_leading = true;
-            config.free_end_gaps_sequence1_trailing = false;
-            config.free_end_gaps_sequence2_trailing = true;
-            break;
-        case Preprocess::TrimConfig::Mode::THREE_PRIME:
-            config.free_end_gaps_sequence1_leading = false;
-            config.free_end_gaps_sequence2_leading = true;
-            config.free_end_gaps_sequence1_trailing = true;
-            config.free_end_gaps_sequence2_trailing = true;
-            break;
-    }
-
-    return config;
-}
-
 void Preprocess::processSingleEndRecordChunk(Preprocess::SingleEndFastqChunk &chunk,
-                                             const std::vector<Preprocess::Adapter> &adapters5,
-                                             const std::vector<Preprocess::Adapter> &adapters3) {
+                                             const std::vector<Adapter> &adapters5,
+                                             const std::vector<Adapter> &adapters3) {
     auto it = std::remove_if(chunk.records.begin(), chunk.records.end(), [&](auto &record) {
-        if (trimPolyG) trim3PolyG(record);
+        if (trimPolyG) RecordTrimmer::trim3PolyG(record);
 
-        if (windowTrimSize > 0) trimWindowedQuality(record);
+        if (windowTrimSize > 0)
+            RecordTrimmer::trimWindowedQuality(record, parameters.windowTrimmingSize,
+                                               parameters.minMeanWindowQuality);
 
-        for (auto const &adapter : adapters5) trimAdapter(adapter, record);
+        for (auto const &adapter : adapters5)
+            RecordTrimmer::trimAdapter(adapter, record, parameters.minOverlapTrimming);
 
-        for (auto const &adapter : adapters3) trimAdapter(adapter, record);
+        for (auto const &adapter : adapters3)
+            RecordTrimmer::trimAdapter(adapter, record, parameters.minOverlapTrimming);
 
         return !passesFilters(record);
     });
@@ -489,8 +136,8 @@ void Preprocess::processSingleEndRecordChunk(Preprocess::SingleEndFastqChunk &ch
 
 // Function to read a FASTQ file in chunks and process each chunk.
 void Preprocess::processSingleEndFileInChunks(std::string const &recInPath, std::string recOutPath,
-                                              const std::vector<Preprocess::Adapter> &adapters5,
-                                              const std::vector<Preprocess::Adapter> &adapters3,
+                                              const std::vector<Adapter> &adapters5,
+                                              const std::vector<Adapter> &adapters3,
                                               size_t chunkSize, size_t numThreads) {
     seqan3::sequence_file_input recIn{recInPath};
     seqan3::sequence_file_output recOut{recOutPath};
@@ -556,10 +203,9 @@ void Preprocess::processSingleEndFileInChunks(std::string const &recInPath, std:
 void Preprocess::processPairedEndFileInChunks(
     const std::string &recFwdInPath, std::string const &recRevInPath,
     const std::string &mergedOutPath, std::string const &snglFwdOutPath,
-    const std::string &snglRevOutPath, const std::vector<Preprocess::Adapter> &adapters5f,
-    const std::vector<Preprocess::Adapter> &adapters3f,
-    const std::vector<Preprocess::Adapter> &adapters5r,
-    const std::vector<Preprocess::Adapter> &adapters3r, size_t chunkSize, size_t numThreads) {
+    const std::string &snglRevOutPath, const std::vector<Adapter> &adapters5f,
+    const std::vector<Adapter> &adapters3f, const std::vector<Adapter> &adapters5r,
+    const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads) {
     seqan3::sequence_file_input recFwdIn{recFwdInPath};
     seqan3::sequence_file_input recRevIn{recRevInPath};
 
@@ -636,34 +282,42 @@ void Preprocess::processPairedEndFileInChunks(
 }
 
 void Preprocess::processPairedEndRecordChunk(Preprocess::PairedEndFastqChunk &chunk,
-                                             const std::vector<Preprocess::Adapter> &adapters5f,
-                                             const std::vector<Preprocess::Adapter> &adapters3f,
-                                             const std::vector<Preprocess::Adapter> &adapters5r,
-                                             const std::vector<Preprocess::Adapter> &adapters3r) {
+                                             const std::vector<Adapter> &adapters5f,
+                                             const std::vector<Adapter> &adapters3f,
+                                             const std::vector<Adapter> &adapters5r,
+                                             const std::vector<Adapter> &adapters3r) {
     for (auto &&[record1, record2] : seqan3::views::zip(chunk.recordsFwd, chunk.recordsRev)) {
         if (trimPolyG) {
-            trim3PolyG(record1);
-            trim3PolyG(record2);
+            RecordTrimmer::trim3PolyG(record1);
+            RecordTrimmer::trim3PolyG(record2);
         }
 
         if (windowTrimSize > 0) {
-            trimWindowedQuality(record1);
-            trimWindowedQuality(record2);
+            RecordTrimmer::trimWindowedQuality(record1, parameters.windowTrimmingSize,
+                                               parameters.minMeanWindowQuality);
+            RecordTrimmer::trimWindowedQuality(record2, parameters.windowTrimmingSize,
+                                               parameters.minMeanWindowQuality);
         }
 
-        for (auto const &adapter : adapters5f) trimAdapter(adapter, record1);
+        for (auto const &adapter : adapters5f)
+            RecordTrimmer::trimAdapter(adapter, record1, parameters.minOverlapTrimming);
 
-        for (auto const &adapter : adapters3f) trimAdapter(adapter, record1);
+        for (auto const &adapter : adapters3f)
+            RecordTrimmer::trimAdapter(adapter, record1, parameters.minOverlapTrimming);
 
-        for (auto const &adapter : adapters5r) trimAdapter(adapter, record2);
+        for (auto const &adapter : adapters5r)
+            RecordTrimmer::trimAdapter(adapter, record2, parameters.minOverlapTrimming);
 
-        for (auto const &adapter : adapters3r) trimAdapter(adapter, record2);
+        for (auto const &adapter : adapters3r)
+            RecordTrimmer::trimAdapter(adapter, record2, parameters.minOverlapTrimming);
 
         const bool filtFwd = passesFilters(record1);
         const bool filtRev = passesFilters(record2);
 
         if (filtFwd && filtRev) {
-            const auto mergedRecord = mergeRecordPair(record1, record2);
+            const auto mergedRecord =
+                PairedRecordMerger::mergeRecordPair(record1, record2, parameters.minOverlapMerging,
+                                                    parameters.maxMissMatchFractionMerging);
 
             if (!mergedRecord.has_value()) {
                 chunk.recordsSnglFwdRes.push_back(std::move(record1));
@@ -689,3 +343,6 @@ void Preprocess::processPairedEndRecordChunk(Preprocess::PairedEndFastqChunk &ch
         }
     }
 }
+
+}  // namespace preprocess
+}  // namespace pipelines

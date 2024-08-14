@@ -24,18 +24,22 @@
 #include "Logger.hpp"
 #include "ParameterValidator.hpp"
 
+namespace pipelines {
+namespace preprocess {
+
 namespace po = boost::program_options;
+
+using AdapterInput = std::variant<std::monostate, std::filesystem::path, seqan3::dna5_vector>;
 
 class PreprocessParameters : public GeneralParameters {
    public:
     bool trimPolyG;
     bool preprocessEnabled;
 
-    using Adapter = std::variant<std::filesystem::path, seqan3::dna5_vector>;
-    std::optional<Adapter> adapter5Forward;
-    std::optional<Adapter> adapter3Forward;
-    std::optional<Adapter> adapter5Reverse;
-    std::optional<Adapter> adapter3Reverse;
+    AdapterInput adapter5Forward;
+    AdapterInput adapter3Forward;
+    AdapterInput adapter5Reverse;
+    AdapterInput adapter3Reverse;
 
     double maxMissMatchFractionTrimming;
     size_t minOverlapTrimming;
@@ -80,8 +84,8 @@ class PreprocessParameters : public GeneralParameters {
         return params[constants::pipelines::PREPROCESS.c_str()].as<bool>();
     }
 
-    static std::optional<Adapter> validateAdapter(const po::variables_map& params,
-                                                  const std::string& paramName) {
+    static AdapterInput validateAdapter(const po::variables_map& params,
+                                        const std::string& paramName) {
         if (params.count(paramName)) {
             const std::string adapterStr = params[paramName].as<std::string>();
             if (std::filesystem::exists(adapterStr)) {
@@ -91,6 +95,9 @@ class PreprocessParameters : public GeneralParameters {
                        seqan3::ranges::to<std::vector>();
             }
         }
-        return std::nullopt;
+        return std::monostate{};
     }
 };
+
+}  // namespace preprocess
+}  // namespace pipelines

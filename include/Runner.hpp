@@ -25,14 +25,14 @@ class Runner {
 
    private:
     struct Pipeline {
-        void operator()(const PreprocessParameters& params);
+        void operator()(const preprocess::PreprocessParameters& params);
         void operator()(const AlignParameters& params);
         void operator()(const DetectParameters& params);
         void operator()(const AnalyzeParameters& params);
         void operator()(const CompleteParameters params);
     };
 
-    static void runPreprocessPipeline(const PreprocessParameters& preprocessParams);
+    static void runPreprocessPipeline(const preprocess::PreprocessParameters& preprocessParams);
     static void runAlignPipeline(const AlignParameters& alignParams);
     static void runDetectPipeline(const DetectParameters& detectParams);
     static void runAnalyzePipeline(const AnalyzeParameters& alignParams);

@@ -14,9 +14,9 @@
 // Classes
 #include "Logger.hpp"
 
-namespace fs = std::filesystem;
-
 namespace pipelines {
+
+namespace fs = std::filesystem;
 
 template <typename Container>
 concept StringContainer = std::ranges::range<Container> &&
@@ -24,6 +24,11 @@ concept StringContainer = std::ranges::range<Container> &&
 
 struct PipelineData {
    protected:
+    static bool isHidden(const std::filesystem::path &path) {
+        std::string filename = path.filename().string();
+        return !filename.empty() && filename[0] == '.';
+    }
+
     static std::string getSampleName(const fs::path &filePath) {
         std::string fileName = filePath.stem().string();
         size_t underscorePos = fileName.find("_");
@@ -90,7 +95,7 @@ struct PipelineData {
         for (const auto &entry : fs::directory_iterator(parentDir)) {
             if (entry.is_directory()) {
                 directories.push_back(entry.path());
-            } else {
+            } else if (entry.is_regular_file() && !isHidden(entry)) {
                 Logger::log(LogLevel::WARNING,
                             "Found file in directory, which is not allowed: ", entry.path());
             }

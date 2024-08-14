@@ -21,6 +21,9 @@ std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const fs::path
 
             samples.push_back(PreprocessSampleSingle{*inputSampleSingle, {outputSampleFastqPath}});
 
+            const auto message = "Single-end sample " + inputSampleSingle->sampleName + " found";
+            Logger::log(LogLevel::INFO, message);
+
             continue;
 
         } else if (const auto* inputSamplePaired =
@@ -42,6 +45,10 @@ std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const fs::path
                 *inputSamplePaired,
                 {outputSampleFastqPathMerged, outputSampleFastqPathForwardSingleton,
                  outputSampleFastqPathReverseSingleton}});
+
+            const auto message = "Paired-end sample " + inputSamplePaired->sampleName + " found";
+            Logger::log(LogLevel::INFO, message);
+
             continue;
         }
     }

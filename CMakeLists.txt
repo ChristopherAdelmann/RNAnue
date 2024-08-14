@@ -65,6 +65,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
 
 add_executable (RNAnue  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Runner.cpp
+
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureAnnotator.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureParser.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/annotation/FeatureWriter.cpp

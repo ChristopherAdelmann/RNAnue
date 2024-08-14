@@ -3,7 +3,7 @@
 #include "ParameterOptions.hpp"
 
 ParameterParser::ParametersVariant ParameterParser::getParameters(int argc,
-                                                                  const char *const *argv) {
+                                                                  const char *const argv[]) {
     const auto params = parseParameters(argc, argv);
 
     const std::string subcall = params["subcall"].as<std::string>();

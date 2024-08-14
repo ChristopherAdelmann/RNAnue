@@ -7,20 +7,64 @@
 #include "CompleteParameters.hpp"
 #include "DetectParameters.hpp"
 #include "Logger.hpp"
+#include "PreprocessData.hpp"
 #include "PreprocessParameters.hpp"
 
-void Runner::runPipeline(int argc, const char *const *argv) {
+void Runner::runPipeline(int argc, const char *const argv[]) {
     const auto parameters = ParameterParser::getParameters(argc, argv);
 
-    std::visit(overloaded{[](auto) {
-                              const auto message = "Invalid input";
-                              Logger::log(LogLevel::ERROR, message);
-                              throw std::runtime_error(message);
-                          },
-                          [](PreprocessParameters &params) { runPreprocessPipeline(params); },
-                          [](AlignParameters &params) { runAlignPipeline(params); },
-                          [](DetectParameters &params) { runDetectPipeline(params); },
-                          [](AnalyzeParameters &params) { runAnalyzePipeline(params); },
-                          [](CompleteParameters &params) { runCompletePipeline(params); }},
-               parameters);
+    std::visit(Pipeline(), parameters);
 }
+
+void Runner::runPreprocessPipeline(const PreprocessParameters &parameters) {
+    Logger::log(LogLevel::INFO, "Running preprocess pipeline");
+
+    if (!parameters.preprocessEnabled) {
+        Logger::log(LogLevel::INFO, "Preprocess pipeline is disabled in the parameters");
+        return;
+    }
+
+    const auto data = preprocess::PreprocessData(parameters.outputDir, parameters.treatmentsDir,
+                                                 parameters.controlDir);
+}
+
+void Runner::runAlignPipeline(const AlignParameters &parameters) {
+    Logger::log(LogLevel::INFO, "Running align pipeline");
+
+    Logger::log(LogLevel::ERROR, "Align pipeline is not implemented yet");
+}
+
+void Runner::runDetectPipeline(const DetectParameters &parameters) {
+    Logger::log(LogLevel::INFO, "Running detect pipeline");
+
+    Logger::log(LogLevel::ERROR, "Detect pipeline is not implemented yet");
+}
+
+void Runner::runAnalyzePipeline(const AnalyzeParameters &parameters) {
+    Logger::log(LogLevel::INFO, "Running analyze pipeline");
+
+    Logger::log(LogLevel::ERROR, "Analyze pipeline is not implemented yet");
+}
+
+void Runner::runCompletePipeline(const CompleteParameters &parameters) {
+    Logger::log(LogLevel::INFO, "Running complete pipeline");
+
+    Logger::log(LogLevel::ERROR, "Complete pipeline is not implemented yet");
+}
+// TODO: Implement the rest of the pipeline functions
+
+void Runner::Pipeline::operator()(const PreprocessParameters &params) {
+    Runner::runPreprocessPipeline(params);
+};
+void Runner::Pipeline::operator()(const AlignParameters &params) {
+    Runner::runAlignPipeline(params);
+};
+void Runner::Pipeline::operator()(const DetectParameters &params) {
+    Runner::runDetectPipeline(params);
+};
+void Runner::Pipeline::operator()(const AnalyzeParameters &params) {
+    Runner::runAnalyzePipeline(params);
+};
+void Runner::Pipeline::operator()(const CompleteParameters params) {
+    Runner::runCompletePipeline(params);
+};

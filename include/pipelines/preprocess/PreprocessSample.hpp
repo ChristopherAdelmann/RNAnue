@@ -4,9 +4,9 @@
 #include <filesystem>
 #include <variant>
 
+namespace pipelines {
 namespace fs = std::filesystem;
 
-namespace pipelines {
 namespace preprocess {
 struct PreprocessInput {
     std::string sampleName;

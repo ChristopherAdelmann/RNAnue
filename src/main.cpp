@@ -20,6 +20,7 @@
 #include "Constants.hpp"
 #include "FeatureAnnotator.hpp"
 #include "ParameterParser.hpp"
+#include "Runner.hpp"
 
 namespace po = boost::program_options;
 
@@ -58,10 +59,14 @@ void handler(int sig) {
     exit(1);
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, const char* const argv[]) {
     signal(SIGSEGV, handler);
 
     try {
+        Runner::runPipeline(argc, argv);
+
+        exit(0);
+
         using namespace constants::pipelines;
 
         std::string readType;

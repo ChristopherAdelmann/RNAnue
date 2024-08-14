@@ -17,8 +17,10 @@
 #include <seqan3/io/sam_file/all.hpp>
 #include <seqan3/utility/type_list/type_list.hpp>
 
-namespace fs = boost::filesystem;
 namespace dtp {
+
+namespace fs = boost::filesystem;
+
 using namespace seqan3::literals;
 
 using PathVector = std::vector<fs::path>;

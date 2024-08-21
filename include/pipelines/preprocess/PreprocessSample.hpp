@@ -5,9 +5,10 @@
 #include <variant>
 
 namespace pipelines {
+namespace preprocess {
+
 namespace fs = std::filesystem;
 
-namespace preprocess {
 struct PreprocessInput {
     std::string sampleName;
 };

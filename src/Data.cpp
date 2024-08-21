@@ -406,8 +406,9 @@ void Data::callInAndOut(Callable f) {
 }
 
 void Data::preproc() {
-    Preprocess srs(params);
-    callInAndOut(std::bind(&Preprocess::start, srs, std::placeholders::_1));
+    // pipelines::preprocess::Preprocess srs(params);
+    // callInAndOut(std::bind(&pipelines::preprocess::Preprocess::start, srs,
+    // std::placeholders::_1));
 }
 
 void Data::align() {

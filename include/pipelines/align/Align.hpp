@@ -25,18 +25,19 @@ extern "C" {
 #include <utility>
 
 // Class
+#include "AlignData.hpp"
 #include "Logger.hpp"
 #include "Utility.hpp"
 
 // Samtools derived elements
 extern "C" {
 typedef enum {
-  Coordinate,
-  QueryName,
-  TagCoordinate,
-  TagQueryName,
-  MinHash,
-  TemplateCoordinate
+    Coordinate,
+    QueryName,
+    TagCoordinate,
+    TagQueryName,
+    MinHash,
+    TemplateCoordinate
 } SamOrder;
 int bam_sort_core_ext(SamOrder sam_order, char *sort_tag, int minimiser_kmer, bool try_rev,
                       bool no_squash, const char *fn, const char *prefix, const char *fnout,
@@ -46,21 +47,26 @@ int bam_sort_core_ext(SamOrder sam_order, char *sort_tag, int minimiser_kmer, bo
 
 namespace pt = boost::property_tree;
 namespace po = boost::program_options;
-namespace fs = boost::filesystem;
+
+namespace pipelines {
+namespace align {
 
 class Align {
- public:
-  explicit Align(po::variables_map params);
-  ~Align() = default;
+   public:
+    explicit Align(po::variables_map params);
+    ~Align() = default;
 
-  void start(pt::ptree sample);
+    void process(pt::ptree sample);
 
- private:
-  po::variables_map params;
-  fs::path indexPath;
+   private:
+    po::variables_map params;
+    fs::path indexPath;
 
-  void buildIndex();
-  void alignReads(const std::string &query, const std::string &mate, const std::string &matched);
-  void sortAlignmentsByQueryName(const std::string &alignmentsPath,
-                                 const std::string &sortedAlignmentsPath);
+    void buildIndex();
+    void alignReads(const std::string &query, const std::string &mate, const std::string &matched);
+    void sortAlignmentsByQueryName(const std::string &alignmentsPath,
+                                   const std::string &sortedAlignmentsPath);
 };
+
+}  // namespace align
+}  // namespace pipelines

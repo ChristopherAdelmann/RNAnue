@@ -17,9 +17,19 @@ namespace preprocess {
 
 namespace fs = std::filesystem;
 
-static constexpr std::array<std::string, 4> validSuffixes{".fastq", ".fastq.gz", ".fq", ".fq.gz"};
+static constexpr std::array<std::string, 4> validInputSuffixes{".fastq", ".fastq.gz", ".fq",
+                                                               ".fq.gz"};
 static constexpr std::array<std::string, 3> validForwardTags{"_R1", "_1", "_forward"};
 static constexpr std::array<std::string, 3> validReverseTags{"_R2", "_2", "_reverse"};
+
+static const std::string outSampleFastqSuffix = "_passed.fastq.gz";
+
+static const std::string outSampleFastqPairedMergeSuffix = "_merged_passed.fastq.gz";
+static const std::string outSampleFastqPairedForwardSingletonSuffix =
+    "_singleton_passed_R1.fastq.gz";
+static const std::string outSampleFastqPairedReverseSingletonSuffix =
+    "_singleton_passed_R2.fastq.gz";
+
 static constexpr std::string pipelinePrefix = "01_preprocess";
 
 struct PreprocessData : public pipelines::PipelineData {
@@ -28,12 +38,14 @@ struct PreprocessData : public pipelines::PipelineData {
 
     PreprocessData(const fs::path& outputDir, const fs::path& treatmentDir,
                    const std::optional<fs::path> controlDir)
-        : treatmentSamples(retrieveSamples(treatmentDir, outputDir)),
-          controlSamples(controlDir ? std::optional(retrieveSamples(controlDir.value(), outputDir))
+        : treatmentSamples(retrieveSamples(treatmentSampleGroup, treatmentDir, outputDir)),
+          controlSamples(controlDir ? std::optional(retrieveSamples(controlSampleGroup,
+                                                                    controlDir.value(), outputDir))
                                     : std::nullopt) {};
 
    private:
-    static std::vector<PreprocessSampleType> retrieveSamples(const fs::path& parentDir,
+    static std::vector<PreprocessSampleType> retrieveSamples(const std::string& sampleGroup,
+                                                             const fs::path& parentDir,
                                                              const fs::path& outputDir);
     static std::vector<InputSampleType> retrieveInputSamples(const fs::path& parentDir);
     static InputSampleType retrieveInputSample(const fs::path& sampleDir);

@@ -11,6 +11,7 @@
 #include "DetectParameters.hpp"
 #include "Logger.hpp"
 #include "ParameterParser.hpp"
+#include "Preprocess.hpp"
 #include "PreprocessData.hpp"
 #include "PreprocessParameters.hpp"
 

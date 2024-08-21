@@ -28,9 +28,10 @@
 
 namespace po = boost::program_options;
 
+namespace pipelines {
 class ParameterParser {
    public:
-    using ParametersVariant = std::variant<CompleteParameters, PreprocessParameters,
+    using ParametersVariant = std::variant<CompleteParameters, preprocess::PreprocessParameters,
                                            AlignParameters, DetectParameters, AnalyzeParameters>;
 
     static ParametersVariant getParameters(int argc, const char* const argv[]);
@@ -49,3 +50,5 @@ class ParameterParser {
 
     static void printVersion();
 };
+
+}  // namespace pipelines

@@ -30,8 +30,6 @@
 #include "TrimConfig.hpp"
 #include "Utility.hpp"
 
-namespace pt = boost::property_tree;
-
 using seqan3::operator""_dna5;
 
 template <class... Ts>
@@ -46,33 +44,10 @@ class Preprocess {
     explicit Preprocess(const PreprocessParameters &params);
     ~Preprocess() = default;
 
-    void start(pt::ptree sample);
-    void start(const PreprocessData &data);
+    void process(const PreprocessData &data) const;
 
    private:
     PreprocessParameters parameters;
-    std::string readType;
-
-    bool trimPolyG;
-
-    std::string adpt5f;
-    std::string adpt5r;
-    std::string adpt3f;
-    std::string adpt3r;
-    double missMatchRateTrim;
-    int minOverlapTrim;
-
-    int minMeanPhread;
-    std::size_t minLen;
-
-    std::size_t minWindowPhread;
-    std::size_t windowTrimSize;
-
-    int minOverlapMerge;
-    double missMatchRateMerge;
-
-    size_t threadCount;
-    size_t chunkSize;
 
     struct SingleEndFastqChunk {
         std::vector<seqan3::sequence_file_input<>::record_type> records;
@@ -86,32 +61,33 @@ class Preprocess {
         std::vector<seqan3::sequence_file_input<>::record_type> recordsSnglRevRes;
     };
 
-    bool passesFilters(const auto &record);
+    bool passesFilters(const auto &record) const;
 
-    void processSample(const PreprocessSampleType &sample);
+    void processSample(const PreprocessSampleType &sample) const;
 
-    void processSingleEnd(const PreprocessSampleSingle &sample);
-    void processPairedEnd(const PreprocessSamplePaired &sample);
+    void processSingleEnd(const PreprocessSampleSingle &sample) const;
+    void processPairedEnd(const PreprocessSamplePaired &sample) const;
 
     void processSingleEndRecordChunk(SingleEndFastqChunk &chunk,
                                      const std::vector<Adapter> &adapters5,
-                                     const std::vector<Adapter> &adapters3);
+                                     const std::vector<Adapter> &adapters3) const;
     void processSingleEndFileInChunks(std::string const &recInPath, std::string recOutPath,
                                       const std::vector<Adapter> &adapters5,
                                       const std::vector<Adapter> &adapters3, size_t chunkSize,
-                                      size_t numThreads);
+                                      size_t numThreads) const;
 
     void processPairedEndRecordChunk(PairedEndFastqChunk &chunk,
                                      const std::vector<Adapter> &adapters5f,
                                      const std::vector<Adapter> &adapters3f,
                                      const std::vector<Adapter> &adapters5r,
-                                     const std::vector<Adapter> &adapters3r);
+                                     const std::vector<Adapter> &adapters3r) const;
     void processPairedEndFileInChunks(
         std::string const &recFwdInPath, std::string const &recRevInPath,
         std::string const &mergedOutPath, std::string const &snglFwdOutPath,
         std::string const &snglRevOutPath, const std::vector<Adapter> &adapters5f,
         const std::vector<Adapter> &adapters3f, const std::vector<Adapter> &adapters5r,
-        const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads);
+        const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads) const;
 };
+
 }  // namespace preprocess
 }  // namespace pipelines

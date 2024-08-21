@@ -1,23 +1,23 @@
-#include "pipelines/preprocess/PreprocessData.hpp"
-
-#include "Logger.hpp"
-#include "PreprocessSample.hpp"
+#include "PreprocessData.hpp"
 
 namespace pipelines {
 namespace preprocess {
-std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const fs::path& parentDir,
+std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const std::string& sampleGroup,
+                                                                  const fs::path& parentDir,
                                                                   const fs::path& outputDir) {
     const std::vector<InputSampleType> inputSamples = retrieveInputSamples(parentDir);
 
     std::vector<PreprocessSampleType> samples;
     samples.reserve(inputSamples.size());
 
+    const fs::path outputDirPipeline = outputDir / sampleGroup / pipelinePrefix;
+
     for (const InputSampleType& inputSample : inputSamples) {
         if (const auto* inputSampleSingle =
                 std::get_if<PreprocessSampleInputSingle>(&inputSample)) {
-            const std::string parentName = inputSampleSingle->inputFastqPath.parent_path().stem();
+            const std::string parentName = inputSampleSingle->sampleName;
             const fs::path outputSampleFastqPath =
-                outputDir / parentName / (inputSampleSingle->sampleName + "_passed.fastq.gz");
+                outputDirPipeline / parentName / (parentName + outSampleFastqSuffix);
 
             samples.push_back(PreprocessSampleSingle{*inputSampleSingle, {outputSampleFastqPath}});
 
@@ -28,25 +28,22 @@ std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const fs::path
 
         } else if (const auto* inputSamplePaired =
                        std::get_if<PreprocessSampleInputPaired>(&inputSample)) {
-            const std::string parentName =
-                inputSamplePaired->inputForwardFastqPath.parent_path().stem();
-            const fs::path outputDirSample = outputDir / parentName;
+            const std::string parentName = inputSampleSingle->sampleName;
+            const fs::path outputDirSample = outputDirPipeline / parentName;
 
             const fs::path outputSampleFastqPathMerged =
-                outputDirSample / (inputSamplePaired->sampleName + "_merged_passed.fastq.gz");
+                outputDirSample / (parentName + outSampleFastqPairedMergeSuffix);
             const fs::path outputSampleFastqPathForwardSingleton =
-                outputDirSample /
-                (inputSamplePaired->sampleName + "_forward_singleton_passed_R2.fastq.gz");
+                outputDirSample / (parentName + outSampleFastqPairedForwardSingletonSuffix);
             const fs::path outputSampleFastqPathReverseSingleton =
-                outputDirSample /
-                (inputSamplePaired->sampleName + "_reverse_singleton_passed_R1.fastq.gz");
+                outputDirSample / (parentName + outSampleFastqPairedReverseSingletonSuffix);
 
             samples.push_back(PreprocessSamplePaired{
                 *inputSamplePaired,
                 {outputSampleFastqPathMerged, outputSampleFastqPathForwardSingleton,
                  outputSampleFastqPathReverseSingleton}});
 
-            const auto message = "Paired-end sample " + inputSamplePaired->sampleName + " found";
+            const auto message = "Paired-end sample " + parentName + " found";
             Logger::log(LogLevel::INFO, message);
 
             continue;
@@ -57,7 +54,7 @@ std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const fs::path
 }
 
 std::vector<InputSampleType> PreprocessData::retrieveInputSamples(const fs::path& parentDir) {
-    const std::vector<fs::path> sampleDirs = getDirectories(parentDir);
+    const std::vector<fs::path> sampleDirs = getSubDirectories(parentDir);
 
     std::vector<InputSampleType> samples;
 
@@ -69,7 +66,7 @@ std::vector<InputSampleType> PreprocessData::retrieveInputSamples(const fs::path
 }
 
 InputSampleType PreprocessData::retrieveInputSample(const fs::path& sampleDir) {
-    const std::vector<fs::path> sampleFiles = getValidFilePaths(sampleDir, validSuffixes);
+    const std::vector<fs::path> sampleFiles = getValidFilePaths(sampleDir, validInputSuffixes);
     const auto numSamples = sampleFiles.size();
 
     using namespace std::string_literals;

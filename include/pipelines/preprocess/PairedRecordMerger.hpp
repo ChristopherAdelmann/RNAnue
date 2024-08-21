@@ -55,14 +55,14 @@ struct PairedRecordMerger {
 
         const auto &seq1 = record1.sequence();
         const auto &seq2ReverseComplement =
-            record2.sequence() | std::ranges::reverse | seqan3::views::complement;
+            record2.sequence() | std::views::reverse | seqan3::views::complement;
 
         std::optional<record_type> mergedRecord{std::nullopt};
 
         for (auto const &result :
              seqan3::align_pairwise(std::tie(seq1, seq2ReverseComplement), alignmentConfig)) {
             const int overlap = result.sequence1_end_position() - result.sequence1_begin_position();
-            if (overlap < minOverlapMerge) continue;
+            if (overlap < int(minOverlapMerge)) continue;
 
             const int minScore = overlap - (overlap * maxMissMatchRateMerge) * 2;
             if (result.score() >= minScore) {

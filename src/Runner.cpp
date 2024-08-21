@@ -7,6 +7,7 @@
 #include "CompleteParameters.hpp"
 #include "DetectParameters.hpp"
 #include "Logger.hpp"
+#include "Preprocess.hpp"
 #include "PreprocessData.hpp"
 #include "PreprocessParameters.hpp"
 
@@ -26,10 +27,15 @@ void Runner::runPreprocessPipeline(const preprocess::PreprocessParameters &param
 
     const auto data = preprocess::PreprocessData(parameters.outputDir, parameters.treatmentsDir,
                                                  parameters.controlDir);
+
+    const auto pipeline = preprocess::Preprocess(parameters);
+    pipeline.process(data);
 }
 
 void Runner::runAlignPipeline(const AlignParameters &parameters) {
     Logger::log(LogLevel::INFO, "Running align pipeline");
+
+    const auto data = align::AlignData(parameters.outputDir, parameters.referenceDir);
 
     Logger::log(LogLevel::ERROR, "Align pipeline is not implemented yet");
 }
@@ -48,6 +54,11 @@ void Runner::runAnalyzePipeline(const AnalyzeParameters &parameters) {
 
 void Runner::runCompletePipeline(const CompleteParameters &parameters) {
     Logger::log(LogLevel::INFO, "Running complete pipeline");
+
+    runPreprocessPipeline(parameters.preprocessParameters);
+    runAlignPipeline(parameters.alignParameters);
+    runDetectPipeline(parameters.detectParameters);
+    runAnalyzePipeline(parameters.analyzeParameters);
 
     Logger::log(LogLevel::ERROR, "Complete pipeline is not implemented yet");
 }

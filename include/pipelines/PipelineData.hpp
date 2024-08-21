@@ -24,6 +24,9 @@ concept StringContainer = std::ranges::range<Container> &&
 
 struct PipelineData {
    protected:
+    static constexpr std::string treatmentSampleGroup = "treatment";
+    static constexpr std::string controlSampleGroup = "control";
+
     static bool isHidden(const std::filesystem::path &path) {
         std::string filename = path.filename().string();
         return !filename.empty() && filename[0] == '.';
@@ -90,7 +93,7 @@ struct PipelineData {
         return false;
     };
 
-    static std::vector<fs::path> getDirectories(const fs::path &parentDir) {
+    static std::vector<fs::path> getSubDirectories(const fs::path &parentDir) {
         std::vector<fs::path> directories;
         for (const auto &entry : fs::directory_iterator(parentDir)) {
             if (entry.is_directory()) {

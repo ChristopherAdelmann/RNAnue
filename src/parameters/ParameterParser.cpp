@@ -2,6 +2,7 @@
 
 #include "ParameterOptions.hpp"
 
+namespace pipelines {
 ParameterParser::ParametersVariant ParameterParser::getParameters(int argc,
                                                                   const char *const argv[]) {
     const auto params = parseParameters(argc, argv);
@@ -11,7 +12,7 @@ ParameterParser::ParametersVariant ParameterParser::getParameters(int argc,
     if (subcall == constants::pipelines::COMPLETE) {
         return CompleteParameters{params};
     } else if (subcall == constants::pipelines::PREPROCESS) {
-        return PreprocessParameters{params};
+        return preprocess::PreprocessParameters{params};
     } else if (subcall == constants::pipelines::ALIGN) {
         return AlignParameters{params};
     } else if (subcall == constants::pipelines::DETECT) {
@@ -134,3 +135,5 @@ void ParameterParser::printVersion() {
 
     Logger::log(LogLevel::INFO, versionString);
 }
+
+}  // namespace pipelines

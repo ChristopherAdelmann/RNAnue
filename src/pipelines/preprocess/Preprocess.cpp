@@ -15,7 +15,7 @@ namespace pipelines {
 namespace preprocess {
 Preprocess::Preprocess(const PreprocessParameters &params) : parameters(params) {}
 
-void Preprocess::start(const PreprocessData &data) {
+void Preprocess::process(const PreprocessData &data) const {
     Logger::log(LogLevel::INFO, "Processing treatment data");
 
     for (const auto &sample : data.treatmentSamples) {
@@ -34,7 +34,7 @@ void Preprocess::start(const PreprocessData &data) {
     }
 }
 
-void Preprocess::processSample(const PreprocessSampleType &sample) {
+void Preprocess::processSample(const PreprocessSampleType &sample) const {
     std::visit(
         overloaded{[this](const PreprocessSampleSingle &sample) { processSingleEnd(sample); },
                    [this](const PreprocessSamplePaired &sample) { processPairedEnd(sample); }},
@@ -46,7 +46,7 @@ void Preprocess::processSample(const PreprocessSampleType &sample) {
  *
  * @param sample The sample to be processed.
  */
-void Preprocess::processSingleEnd(const PreprocessSampleSingle &sample) {
+void Preprocess::processSingleEnd(const PreprocessSampleSingle &sample) const {
     Logger::log(LogLevel::INFO, "Processing sample (single-end): ", sample.input.sampleName);
 
     const std::vector<Adapter> adapters5 =
@@ -57,7 +57,8 @@ void Preprocess::processSingleEnd(const PreprocessSampleSingle &sample) {
                               TrimConfig::Mode::THREE_PRIME);
 
     processSingleEndFileInChunks(sample.input.inputFastqPath, sample.output.outputFastqPath,
-                                 adapters5, adapters3, chunkSize, threadCount);
+                                 adapters5, adapters3, parameters.chunkSize,
+                                 parameters.threadCount);
 
     Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName);
 }
@@ -67,7 +68,7 @@ void Preprocess::processSingleEnd(const PreprocessSampleSingle &sample) {
  *
  * @param sample The sample to be processed.
  */
-void Preprocess::processPairedEnd(const PreprocessSamplePaired &sample) {
+void Preprocess::processPairedEnd(const PreprocessSamplePaired &sample) const {
     Logger::log(LogLevel::INFO, "Processing sample (paired-end): ", sample.input.sampleName);
 
     std::vector<Adapter> adapters5f =
@@ -87,7 +88,7 @@ void Preprocess::processPairedEnd(const PreprocessSamplePaired &sample) {
         sample.input.inputForwardFastqPath, sample.input.inputReverseFastqPath,
         sample.output.outputMergedFastqPath, sample.output.outputSingletonForwardFastqPath,
         sample.output.outputSingletonReverseFastqPath, adapters5f, adapters3f, adapters5r,
-        adapters3r, chunkSize, threadCount);
+        adapters3r, parameters.chunkSize, parameters.threadCount);
 
     Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName);
 }
@@ -98,27 +99,27 @@ void Preprocess::processPairedEnd(const PreprocessSamplePaired &sample) {
  * @param record The record to be checked.
  * @return True if the record passes all the filters, false otherwise.
  */
-bool Preprocess::passesFilters(const auto &record) {
+bool Preprocess::passesFilters(const auto &record) const {
     // Filter for mean quality
     const auto phredQual =
         record.base_qualities() | std::views::transform([](auto q) { return q.to_phred(); });
     const double sum = std::accumulate(phredQual.begin(), phredQual.end(), 0);
     const double meanPhred = sum / std::ranges::size(phredQual);
-    const bool passesQual = meanPhred >= minMeanPhread;
+    const bool passesQual = meanPhred >= double(parameters.minQualityThreshold);
 
     // Filter for length
-    const bool passesLen = record.sequence().size() >= minLen;
+    const bool passesLen = record.sequence().size() >= parameters.minLengthThreshold;
 
     return passesQual && passesLen;
 }
 
 void Preprocess::processSingleEndRecordChunk(Preprocess::SingleEndFastqChunk &chunk,
                                              const std::vector<Adapter> &adapters5,
-                                             const std::vector<Adapter> &adapters3) {
+                                             const std::vector<Adapter> &adapters3) const {
     auto it = std::remove_if(chunk.records.begin(), chunk.records.end(), [&](auto &record) {
-        if (trimPolyG) RecordTrimmer::trim3PolyG(record);
+        if (parameters.trimPolyG) RecordTrimmer::trim3PolyG(record);
 
-        if (windowTrimSize > 0)
+        if (parameters.windowTrimmingSize > 0)
             RecordTrimmer::trimWindowedQuality(record, parameters.windowTrimmingSize,
                                                parameters.minMeanWindowQuality);
 
@@ -138,7 +139,7 @@ void Preprocess::processSingleEndRecordChunk(Preprocess::SingleEndFastqChunk &ch
 void Preprocess::processSingleEndFileInChunks(std::string const &recInPath, std::string recOutPath,
                                               const std::vector<Adapter> &adapters5,
                                               const std::vector<Adapter> &adapters3,
-                                              size_t chunkSize, size_t numThreads) {
+                                              size_t chunkSize, size_t numThreads) const {
     seqan3::sequence_file_input recIn{recInPath};
     seqan3::sequence_file_output recOut{recOutPath};
 
@@ -205,7 +206,7 @@ void Preprocess::processPairedEndFileInChunks(
     const std::string &mergedOutPath, std::string const &snglFwdOutPath,
     const std::string &snglRevOutPath, const std::vector<Adapter> &adapters5f,
     const std::vector<Adapter> &adapters3f, const std::vector<Adapter> &adapters5r,
-    const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads) {
+    const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads) const {
     seqan3::sequence_file_input recFwdIn{recFwdInPath};
     seqan3::sequence_file_input recRevIn{recRevInPath};
 
@@ -285,14 +286,14 @@ void Preprocess::processPairedEndRecordChunk(Preprocess::PairedEndFastqChunk &ch
                                              const std::vector<Adapter> &adapters5f,
                                              const std::vector<Adapter> &adapters3f,
                                              const std::vector<Adapter> &adapters5r,
-                                             const std::vector<Adapter> &adapters3r) {
+                                             const std::vector<Adapter> &adapters3r) const {
     for (auto &&[record1, record2] : seqan3::views::zip(chunk.recordsFwd, chunk.recordsRev)) {
-        if (trimPolyG) {
+        if (parameters.trimPolyG) {
             RecordTrimmer::trim3PolyG(record1);
             RecordTrimmer::trim3PolyG(record2);
         }
 
-        if (windowTrimSize > 0) {
+        if (parameters.windowTrimmingSize > 0) {
             RecordTrimmer::trimWindowedQuality(record1, parameters.windowTrimmingSize,
                                                parameters.minMeanWindowQuality);
             RecordTrimmer::trimWindowedQuality(record2, parameters.windowTrimmingSize,

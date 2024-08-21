@@ -1,12 +1,15 @@
 #pragma once
 
 // Standard
+#include <ostream>
 #include <string>
 #include <vector>
 
 // seqan3
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
+#include <seqan3/alphabet/views/to_char.hpp>
 #include <seqan3/io/sequence_file/input.hpp>
+#include <seqan3/utility/range/to.hpp>
 
 // Classes
 #include "PreprocessParameters.hpp"
@@ -56,5 +59,11 @@ struct Adapter {
         return adapters;
     }
 };
+
+inline std::ostream &operator<<(std::ostream &os, const Adapter &v) {
+    os << (v.sequence | seqan3::views::to_char | seqan3::ranges::to<std::string>()) << " ";
+    return os;
+};
+
 }  // namespace preprocess
 }  // namespace pipelines

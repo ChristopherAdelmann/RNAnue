@@ -55,7 +55,7 @@ struct RecordTrimmer {
              seqan3::align_pairwise(std::tie(adapter.sequence, seq), alignment_config)) {
             const int overlap = result.sequence2_end_position() - result.sequence2_begin_position();
 
-            if (overlap < minOverlapTrimming) continue;
+            if (overlap < int(minOverlapTrimming)) continue;
 
             const int minScore = overlap - (overlap * adapter.maxMissMatchFraction) * 2;
 

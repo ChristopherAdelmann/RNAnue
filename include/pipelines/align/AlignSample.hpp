@@ -14,10 +14,10 @@ struct AlignInput {
 };
 
 struct AlignInputSingle : public AlignInput {
-    fs::path inputFastq;
+    fs::path inputFastqPath;
 
     AlignInputSingle(const std::string& sampleName, const fs::path& inputFastq)
-        : AlignInput{sampleName}, inputFastq{inputFastq} {}
+        : AlignInput{sampleName}, inputFastqPath{inputFastq} {}
 };
 
 struct AlignInputPaired : public AlignInput {
@@ -54,12 +54,12 @@ struct AlignSampleSingle {
     AlignOutputSingle output;
 };
 
-struct AlignSamplePaired {
+struct AlignSampleMergedPaired {
     AlignInputPaired input;
     AlignOutputPaired output;
 };
 
-using AlignSampleType = std::variant<AlignSampleSingle, AlignSamplePaired>;
+using AlignSampleType = std::variant<AlignSampleSingle, AlignSampleMergedPaired>;
 
 }  // namespace align
 }  // namespace pipelines

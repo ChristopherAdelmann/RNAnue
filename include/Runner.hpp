@@ -1,6 +1,7 @@
 #pragma once
 
 // Standard
+#include <optional>
 #include <type_traits>
 #include <variant>
 
@@ -14,6 +15,8 @@
 #include "Preprocess.hpp"
 #include "PreprocessData.hpp"
 #include "PreprocessParameters.hpp"
+#include "Utility.hpp"
+#include "pipelines/PipelineData.hpp"
 
 using namespace pipelines;
 
@@ -25,6 +28,16 @@ class Runner {
     static void runPipeline(int argc, const char* const argv[]);
 
    private:
+    struct InputDirectories {
+        InputDirectories(const fs::path parentDir, const std::string pipelinePrefix)
+            : treatmentInputDir(parentDir / treatmentSampleGroup / pipelinePrefix),
+              controlInputDir(
+                  helper::getDirIfExists(parentDir / controlSampleGroup / pipelinePrefix)) {};
+
+        fs::path treatmentInputDir;
+        std::optional<fs::path> controlInputDir;
+    };
+
     struct Pipeline {
         void operator()(const preprocess::PreprocessParameters& params);
         void operator()(const AlignParameters& params);

@@ -22,11 +22,11 @@ template <typename Container>
 concept StringContainer = std::ranges::range<Container> &&
                           std::same_as<std::ranges::range_value_t<Container>, std::string>;
 
+static constexpr std::string treatmentSampleGroup = "treatment";
+static constexpr std::string controlSampleGroup = "control";
+
 struct PipelineData {
    protected:
-    static constexpr std::string treatmentSampleGroup = "treatment";
-    static constexpr std::string controlSampleGroup = "control";
-
     static bool isHidden(const std::filesystem::path &path) {
         std::string filename = path.filename().string();
         return !filename.empty() && filename[0] == '.';

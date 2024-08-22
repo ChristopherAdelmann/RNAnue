@@ -1,13 +1,13 @@
 #pragma once
 
 // Boost
-#include <boost/filesystem/path.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
 // Standard
 #include <deque>
+#include <filesystem>
 #include <istream>
 #include <optional>
 #include <string>
@@ -22,7 +22,7 @@
 
 namespace Annotation {
 using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dtp::Feature>>;
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 class FeatureAnnotator {
    public:

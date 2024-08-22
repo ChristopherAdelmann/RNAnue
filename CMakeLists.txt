@@ -19,17 +19,17 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/Config.hpp.in ${CMAKE_CURRENT
 # ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
-### CMake Modules
+# ## CMake Modules
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-### SeqAn3
+# ## SeqAn3
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/submodules/seqan3/build_system)
 find_package(seqan3 3.3.0 REQUIRED)
 
-### OpenMP
+# ## OpenMP
 find_package(OpenMP)
 
-### Boost
+# ## Boost
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME ON)
@@ -37,17 +37,17 @@ set(Boost_DEBUG OFF)
 
 add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
 
-### ViennaRNA
+# ## ViennaRNA
 find_package(ViennaRNA)
 
-### htslib
+# ## htslib
 set(HTSlib_USE_STATIC_LIBS ON)
 find_package(HTSlib)
 
-### bam_sort
+# ## bam_sort
 set(BAM_SORT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort)
 
-### segemehl
+# ## segemehl
 add_subdirectory(submodules/segemehl)
 
 # ----------------------------------------------------------------------------
@@ -78,13 +78,14 @@ add_executable (RNAnue  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/preprocess/Preprocess.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/preprocess/PreprocessData.cpp
 
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/align/Align.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/align/AlignData.cpp
+
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/detect/Detect.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/detect/SplitRecordsComplementarityEvaluator.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/detect/SplitRecordsEvaluator.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/detect/SplitRecordsHybridizationEvaluator.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/detect/SplitRecordsSplicingEvaluator.cpp
-
-                        ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/align/Align.cpp
 
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/analyze/Analyze.cpp
 
@@ -104,7 +105,7 @@ target_sources(RNAnue PRIVATE
     ${BAM_SORT_DIR}/sam_utils.c
 )
 
-### htslib
+# ## htslib
 if(NOT HTSlib_FOUND)
     message(STATUS "Building static htslib from source")
     include(htslib)
@@ -117,7 +118,7 @@ endif()
 target_link_libraries(RNAnue PRIVATE ${HTSlib_LIBRARIES})
 target_include_directories(RNAnue PRIVATE ${HTSlib_INCLUDE_DIRS} ${HTSlib_INCLUDE_DIRS}/htslib)
 
-### ViennaRNA
+# ## ViennaRNA
 message(STATUS "Finding ViennaRNA status: ${VIENNA_RNA_FOUND}")
 if (NOT VIENNA_RNA_FOUND)
     message(STATUS "Building static ViennaRNA from source")
@@ -131,7 +132,7 @@ endif()
 target_link_libraries (RNAnue PRIVATE ${VIENNA_RNA_LIBRARY})
 target_include_directories (RNAnue PRIVATE ${VIENNA_RNA_INCLUDE_DIR} ${VIENNA_RNA_INCLUDE_DIR}/ViennaRNA)
 
-### Link Libraries
+# ## Link Libraries
 target_link_libraries (RNAnue PRIVATE   seqan3::seqan3
                                         Boost::program_options
                                         Boost::filesystem
@@ -155,7 +156,7 @@ if (CMAKE_BUILD_TYPE STREQUAL DEBUG OR CMAKE_BUILD_TYPE STREQUAL Debug)
     add_subdirectory(tests)
 
     if (NOT VIENNA_RNA_FOUND)
-    message(STATUS "Adding ViennaRNA as dependency for tests")
+        message(STATUS "Adding ViennaRNA as dependency for tests")
         add_dependencies(tests viennaRNA)
     endif()
 

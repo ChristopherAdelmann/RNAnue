@@ -1,7 +1,6 @@
 #pragma once
 
 // Boost
-#include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include <boost/program_options.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -9,6 +8,7 @@
 
 // Standard
 #include <deque>
+#include <filesystem>
 #include <iostream>
 #include <optional>
 
@@ -21,7 +21,7 @@
 #include "Preprocess.hpp"
 
 namespace po = boost::program_options;
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 namespace pt = boost::property_tree;
 namespace jp = boost::property_tree::json_parser;
 namespace pi = constants::pipelines;

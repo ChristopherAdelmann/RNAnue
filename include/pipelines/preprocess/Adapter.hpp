@@ -14,14 +14,10 @@
 // Classes
 #include "PreprocessParameters.hpp"
 #include "TrimConfig.hpp"
+#include "VariantOverload.hpp"
 
 namespace pipelines {
 namespace preprocess {
-
-template <class... Ts>
-struct overloaded : Ts... {
-    using Ts::operator()...;
-};
 
 struct Adapter {
     const seqan3::dna5_vector sequence;

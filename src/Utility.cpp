@@ -1,19 +1,48 @@
 #include "Utility.hpp"
 
-void helper::createTmpDir(fs::path path) {
+#include <filesystem>
+#include <fstream>
+
+namespace helper {
+void createTmpDir(fs::path path) {
     Logger::log(LogLevel::INFO, "Create temporary directory " + path.string());
     deleteDir(path);
     fs::create_directory(path);
 }
 
 // delete folder
-void helper::deleteDir(fs::path path) {
+void deleteDir(fs::path path) {
     if (fs::exists(path)) {
         fs::remove_all(path);
     }
 }
 
-void helper::mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
+std::optional<fs::path> getDirIfExists(const fs::path& path) {
+    if (fs::is_directory(path)) {
+        return path;
+    }
+
+    return std::nullopt;
+}
+
+void mergeFiles(const fs::path& outputPath, const std::vector<fs::path>& paths) {
+    std::ofstream outfile(outputPath, std::ios::binary);
+    if (!outfile.is_open()) {
+        throw std::runtime_error("Could not open file");
+    }
+
+    for (const auto& path : paths) {
+        std::ifstream inputFilestream(path, std::ios::binary);
+
+        if (!inputFilestream.is_open()) {
+            throw std::runtime_error("Could not open file");
+        }
+
+        outfile << inputFilestream.rdbuf();
+    }
+}
+
+void mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
     if (inputPaths.empty()) {
         return;
     }
@@ -46,12 +75,11 @@ void helper::mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath
     }
 }
 
-bool helper::isContained(const int32_t value, const int32_t comparisonValue,
-                         const int32_t tolerance) {
+bool isContained(const int32_t value, const int32_t comparisonValue, const int32_t tolerance) {
     return value >= comparisonValue - tolerance && value <= comparisonValue + tolerance;
 }
 
-std::size_t helper::countUniqueSamEntries(fs::path path) {
+std::size_t countUniqueSamEntries(fs::path path) {
     std::ifstream infile(path);
     if (!infile.is_open()) {
         throw std::runtime_error("Could not open file");
@@ -69,12 +97,12 @@ std::size_t helper::countUniqueSamEntries(fs::path path) {
     return uniqueIDs.size();
 }
 
-std::size_t helper::countSamEntriesSeqAn(fs::path path) {
+std::size_t countSamEntriesSeqAn(fs::path path) {
     seqan3::sam_file_input fin{path.string(), seqan3::fields<>{}};
     return std::ranges::distance(fin.begin(), fin.end());
 }
 
-size_t helper::countSamEntries(fs::path path) {
+size_t countSamEntries(fs::path path) {
     std::ifstream infile(path);
     if (!infile.is_open()) {
         throw std::runtime_error("Could not open file");
@@ -91,7 +119,7 @@ size_t helper::countSamEntries(fs::path path) {
     return count;
 }
 
-std::string helper::generateRandomHexColor() {
+std::string generateRandomHexColor() {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distr(0, 255);
@@ -105,7 +133,7 @@ std::string helper::generateRandomHexColor() {
     return ss.str();  // Return the hex color code as a string
 }
 
-void helper::printTree(const boost::property_tree::ptree& pt, int level = 0) {
+void printTree(const boost::property_tree::ptree& pt, int level = 0) {
     for (const auto& node : pt) {
         std::cout << std::string(level * 2, ' ') << node.first << ": "
                   << node.second.get_value<std::string>() << "\n";
@@ -113,7 +141,7 @@ void helper::printTree(const boost::property_tree::ptree& pt, int level = 0) {
     }
 }
 
-std::string helper::getTime() {
+std::string getTime() {
     const auto now = std::chrono::system_clock::now();
     const std::time_t current_time = std::chrono::system_clock::to_time_t(now);
 
@@ -123,10 +151,12 @@ std::string helper::getTime() {
     return time_stream.str();
 }
 
-helper::Timer::Timer() : start(std::chrono::high_resolution_clock::now()) {}
-helper::Timer::~Timer() { stop(); }
-void helper::Timer::stop() {
+Timer::Timer() : start(std::chrono::high_resolution_clock::now()) {}
+Timer::~Timer() { stop(); }
+void Timer::stop() {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
     std::cout << "Elapsed time: " << elapsed.count() << " s\n";
 }
+
+}  // namespace helper

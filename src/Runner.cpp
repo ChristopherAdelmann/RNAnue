@@ -1,7 +1,11 @@
 #include "Runner.hpp"
 
+#include <filesystem>
+#include <optional>
 #include <variant>
 
+#include "Align.hpp"
+#include "AlignData.hpp"
 #include "AlignParameters.hpp"
 #include "AnalyzeParameters.hpp"
 #include "CompleteParameters.hpp"
@@ -10,6 +14,7 @@
 #include "Preprocess.hpp"
 #include "PreprocessData.hpp"
 #include "PreprocessParameters.hpp"
+#include "pipelines/PipelineData.hpp"
 
 void Runner::runPipeline(int argc, const char *const argv[]) {
     const auto parameters = ParameterParser::getParameters(argc, argv);
@@ -35,9 +40,13 @@ void Runner::runPreprocessPipeline(const preprocess::PreprocessParameters &param
 void Runner::runAlignPipeline(const AlignParameters &parameters) {
     Logger::log(LogLevel::INFO, "Running align pipeline");
 
-    const auto data = align::AlignData(parameters.outputDir, parameters.referenceDir);
+    const auto inputDirs = InputDirectories(parameters.outputDir, preprocess::pipelinePrefix);
 
-    Logger::log(LogLevel::ERROR, "Align pipeline is not implemented yet");
+    const auto data = align::AlignData(parameters.outputDir, inputDirs.treatmentInputDir,
+                                       inputDirs.controlInputDir);
+
+    auto pipeline = align::Align(parameters);
+    pipeline.process(data);
 }
 
 void Runner::runDetectPipeline(const DetectParameters &parameters) {

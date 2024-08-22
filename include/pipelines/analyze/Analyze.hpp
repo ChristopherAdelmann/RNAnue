@@ -31,7 +31,7 @@
 
 namespace po = boost::program_options;
 namespace pt = boost::property_tree;
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 namespace math = boost::math;
 
 using namespace dtp;

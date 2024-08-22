@@ -1,22 +1,11 @@
 #include "Preprocess.hpp"
 
-#include <variant>
-
-#include "Logger.hpp"
-#include "PairedRecordMerger.hpp"
-#include "PreprocessParameters.hpp"
-#include "PreprocessSample.hpp"
-#include "RecordTrimmer.hpp"
-#include "boost/filesystem/path.hpp"
-#include "seqan3/alphabet/nucleotide/dna5.hpp"
-#include "seqan3/io/sequence_file/input.hpp"
-
 namespace pipelines {
 namespace preprocess {
 Preprocess::Preprocess(const PreprocessParameters &params) : parameters(params) {}
 
 void Preprocess::process(const PreprocessData &data) const {
-    Logger::log(LogLevel::INFO, "Processing treatment data");
+    Logger::log(LogLevel::INFO, constants::pipelines::PROCESSING_TREATMENT_MESSAGE);
 
     for (const auto &sample : data.treatmentSamples) {
         processSample(sample);
@@ -27,7 +16,7 @@ void Preprocess::process(const PreprocessData &data) const {
         return;
     }
 
-    Logger::log(LogLevel::INFO, "Processing control data");
+    Logger::log(LogLevel::INFO, constants::pipelines::PROCESSING_CONTROL_MESSAGE);
 
     for (const auto &sample : data.controlSamples.value()) {
         processSample(sample);

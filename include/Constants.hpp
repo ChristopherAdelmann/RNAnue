@@ -21,5 +21,8 @@ const std::string GENERAL_DESCRIPTION =
 const std::string SUBCALL_DESCRIPTION =
     "The subcall to execute. The following subcalls are available: preprocess, align, detect, "
     "analyze, complete.";
+
+const std::string PROCESSING_TREATMENT_MESSAGE = "Processing treatment data";
+const std::string PROCESSING_CONTROL_MESSAGE = "Processing control data";
 }  // namespace pipelines
 }  // namespace constants

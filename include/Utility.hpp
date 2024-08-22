@@ -3,6 +3,7 @@
 // Standard
 #include <algorithm>
 #include <chrono>
+#include <filesystem>
 #include <iomanip>
 #include <iostream>
 #include <random>
@@ -12,7 +13,6 @@
 #include <vector>
 
 // Boost
-#include <boost/filesystem.hpp>
 #include <boost/property_tree/ptree.hpp>
 
 // seqan3
@@ -24,13 +24,16 @@
 #include "DataTypes.hpp"
 #include "Logger.hpp"
 
-namespace pi = constants::pipelines;
-namespace fs = boost::filesystem;
-
-// filesystem manipulation
 namespace helper {
+
+namespace fs = std::filesystem;
+
 void createTmpDir(fs::path subpath);
 void deleteDir(fs::path path);
+
+std::optional<fs::path> getDirIfExists(const fs::path& path);
+
+void mergeFiles(const fs::path& outputPath, const std::vector<fs::path>& inputPaths);
 
 void mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath);
 
@@ -51,25 +54,25 @@ void printTree(const boost::property_tree::ptree& pt, int level);
 
 template <typename T>
 T calculateMedian(std::vector<T> values) {
-  std::sort(values.begin(), values.end());
-  const auto size = values.size();
-  if (size % 2 == 0) {
-    return (values[size / 2 - 1] + values[size / 2]) / 2;
-  } else {
-    return values[size / 2];
-  }
+    std::sort(values.begin(), values.end());
+    const auto size = values.size();
+    if (size % 2 == 0) {
+        return (values[size / 2 - 1] + values[size / 2]) / 2;
+    } else {
+        return values[size / 2];
+    }
 }
 
 std::string generateRandomHexColor();
 
 std::string getTime();  // reports the current time
 class Timer {
- public:
-  Timer();
-  ~Timer();
-  void stop();
+   public:
+    Timer();
+    ~Timer();
+    void stop();
 
- private:
-  std::chrono::time_point<std::chrono::high_resolution_clock> start;
+   private:
+    std::chrono::time_point<std::chrono::high_resolution_clock> start;
 };
 }  // namespace helper

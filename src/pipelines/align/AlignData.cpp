@@ -44,7 +44,7 @@ std::vector<AlignSampleType> AlignData::retrieveSamples(const std::string& sampl
             const fs::path outputAlignmentsSingletonReversePath =
                 outputDirSample / (parentName + outSampleSingletonReverseAlignedSuffix);
 
-            samples.push_back(AlignSamplePaired{
+            samples.push_back(AlignSampleMergedPaired{
                 *inputSamplePaired,
                 {outputAlignmentsPath, outputAlignmentsMergedReadsPath,
                  outputAlignmentsSingletonForwardPath, outputAlignmentsSingletonReversePath}});

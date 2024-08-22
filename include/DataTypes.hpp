@@ -1,6 +1,7 @@
 #pragma once
 
 // Standard
+#include <filesystem>
 #include <map>
 #include <optional>
 #include <span>
@@ -19,7 +20,7 @@
 
 namespace dtp {
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 using namespace seqan3::literals;
 

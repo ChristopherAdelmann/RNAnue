@@ -5,8 +5,12 @@
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>
 
+#include "AlignSample.hpp"
+
 // htslib
 #include <htslib/hts.h>
+
+#include <vector>
 
 // segemehl
 extern "C" {
@@ -26,8 +30,11 @@ extern "C" {
 
 // Class
 #include "AlignData.hpp"
+#include "AlignParameters.hpp"
+#include "Constants.hpp"
 #include "Logger.hpp"
 #include "Utility.hpp"
+#include "VariantOverload.hpp"
 
 // Samtools derived elements
 extern "C" {
@@ -45,27 +52,40 @@ int bam_sort_core_ext(SamOrder sam_order, char *sort_tag, int minimiser_kmer, bo
                       const htsFormat *out_fmt, char *arg_list, int no_pg, int write_index);
 }
 
-namespace pt = boost::property_tree;
-namespace po = boost::program_options;
-
 namespace pipelines {
 namespace align {
 
 class Align {
    public:
-    explicit Align(po::variables_map params);
+    explicit Align(AlignParameters params) : parameters(params) {};
     ~Align() = default;
 
-    void process(pt::ptree sample);
+    void process(const AlignData &data);
 
    private:
-    po::variables_map params;
+    AlignParameters parameters;
     fs::path indexPath;
 
+    void processSample(const AlignSampleType &sample);
+
+    void processSingleEnd(const AlignSampleSingle &sample);
+    void processMergedPairedEnd(const AlignSampleMergedPaired &sample);
+
     void buildIndex();
-    void alignReads(const std::string &query, const std::string &mate, const std::string &matched);
-    void sortAlignmentsByQueryName(const std::string &alignmentsPath,
-                                   const std::string &sortedAlignmentsPath);
+
+    std::vector<std::string> getGeneralAlignmentArgs() const;
+    void alignReads(const std::string &query, const std::string &mate,
+                    const std::string &matched) const;
+    void alignSingleReads(const fs::path &queryFastqInPath,
+                          const fs::path &alignmentsFastqOutPath) const;
+    void alignPairedReads(const fs::path &queryForwardFastqInPath,
+                          const fs::path &queryReverseFastqInPath,
+                          const fs::path &alignmentsFastqOutPath) const;
+
+    void sortAlignmentsByQueryName(const fs::path &alignmentsPath,
+                                   const fs::path &sortedAlignmentsPath) const;
+
+    std::vector<char *> convertToCStrings(std::vector<std::string> &args) const;
 };
 
 }  // namespace align

@@ -5,6 +5,7 @@
 
 // Standard
 #include <algorithm>
+#include <filesystem>
 #include <fstream>
 #include <numeric>
 #include <sstream>
@@ -17,7 +18,7 @@
 #include "Logger.hpp"
 
 namespace Annotation {
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 class FileType {
    public:

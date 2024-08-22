@@ -412,8 +412,8 @@ void Data::preproc() {
 }
 
 void Data::align() {
-    Align aln(params);
-    callInAndOut(std::bind(&Align::start, aln, std::placeholders::_1));
+    // Align aln(params);
+    // callInAndOut(std::bind(&Align::start, aln, std::placeholders::_1));
 }
 
 void Data::splitReadCalling() {

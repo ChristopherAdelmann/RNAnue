@@ -21,6 +21,7 @@
 
 // Class
 #include "Adapter.hpp"
+#include "Constants.hpp"
 #include "Logger.hpp"
 #include "PairedRecordMerger.hpp"
 #include "PreprocessData.hpp"
@@ -29,13 +30,12 @@
 #include "RecordTrimmer.hpp"
 #include "TrimConfig.hpp"
 #include "Utility.hpp"
+#include "VariantOverload.hpp"
+#include "boost/filesystem/path.hpp"
+#include "seqan3/alphabet/nucleotide/dna5.hpp"
+#include "seqan3/io/sequence_file/input.hpp"
 
 using seqan3::operator""_dna5;
-
-template <class... Ts>
-struct overloaded : Ts... {
-    using Ts::operator()...;
-};
 
 namespace pipelines {
 namespace preprocess {

@@ -18,6 +18,7 @@ namespace po = boost::program_options;
 class AlignParameters : public GeneralParameters {
    public:
     std::filesystem::path referenceGenome;
+    size_t minLengthThreshold;
     size_t accuracy;
     size_t minimumFragmentScore;
     size_t minimumFragmentLength;
@@ -26,6 +27,7 @@ class AlignParameters : public GeneralParameters {
     AlignParameters(const po::variables_map& params)
         : GeneralParameters(params),
           referenceGenome(ParameterValidator::validateFilePath(params, "dbref")),
+          minLengthThreshold(ParameterValidator::validateArithmetic(params, "minlen", 0, 1000)),
           accuracy(ParameterValidator::validateArithmetic(params, "accuracy", 0, 100)),
           minimumFragmentScore(
               ParameterValidator::validateArithmetic(params, "minfragsco", 0, INT_MAX)),

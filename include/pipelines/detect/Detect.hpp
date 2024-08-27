@@ -24,24 +24,31 @@
 // Classes
 #include "CustomSamTags.hpp"
 #include "DataTypes.hpp"
+#include "DetectData.hpp"
+#include "DetectParameters.hpp"
+#include "DetectSample.hpp"
 #include "FeatureAnnotator.hpp"
 #include "Logger.hpp"
 #include "SplitRecordsEvaluationParameters.hpp"
 #include "SplitRecordsEvaluator.hpp"
 #include "Utility.hpp"
 
-namespace po = boost::program_options;
-namespace pt = boost::property_tree;
-
 using namespace dtp;
 
+namespace pipelines {
+namespace detect {
 namespace fs = std::filesystem;
+
 class Detect {
    public:
-    explicit Detect(po::variables_map params);
+    explicit Detect(DetectParameters params)
+        : params(params),
+          featureAnnotator(params.featuresInPath, params.featureTypes),
+          splitRecordsEvaluator(SplitRecordsEvaluator(getSplitRecordsEvaluatorParameters(params))) {
+          };
     ~Detect() = default;
 
-    void start(pt::ptree sample);
+    void process(const DetectData &data);
 
    private:
     struct ChunkedInOutFilePaths {
@@ -58,47 +65,47 @@ class Detect {
         size_t singletonFragmentsCount{0};
     };
 
-    po::variables_map params;
+    DetectParameters params;
 
-    size_t minReadLength;
-    int minMapQuality;
-    bool excludeSoftClipping;
-    Annotation::Orientation annotationOrientation;
     Annotation::FeatureAnnotator featureAnnotator;
     SplitRecordsEvaluator splitRecordsEvaluator;
 
-    using ParameterVariant = std::variant<SplitRecordsEvaluationParameters::BaseParameters,
-                                          SplitRecordsEvaluationParameters::SplicingParameters>;
-
-    const ParameterVariant getSplitRecordsEvaluatorParameters(
-        const po::variables_map &params) const;
+    const SplitRecordsEvaluationParameters::ParameterVariant getSplitRecordsEvaluatorParameters(
+        const DetectParameters &params) const;
 
     const std::deque<std::string> &getReferenceIDs(const fs::path &mappingsInPath) const;
+
+    void processSample(const DetectSample &sample) const;
 
     Results iterateSortedMappingsFile(const std::string &mappingsInPath,
                                       const std::string &splitsPath,
                                       const std::string &multiSplitsPath,
-                                      const fs::path &unassignedSingletonRecordsOutPath);
+                                      const fs::path &unassignedSingletonRecordsOutPath) const;
     size_t processReadRecords(const std::vector<SamRecord> &readRecords,
                               const std::deque<std::string> &referenceIDs, auto &splitsOut,
-                              [[maybe_unused]] auto &multiSplitsOut);
+                              [[maybe_unused]] auto &multiSplitsOut) const;
 
-    std::optional<SplitRecords> constructSplitRecords(const SamRecord &readRecord);
-    std::optional<SplitRecords> constructSplitRecords(const std::vector<SamRecord> &readRecords);
+    std::optional<SplitRecords> constructSplitRecords(const SamRecord &readRecord) const;
+    std::optional<SplitRecords> constructSplitRecords(
+        const std::vector<SamRecord> &readRecords) const;
     std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords> getSplitRecords(
-        const std::vector<SamRecord> &readRecords, const std::deque<std::string> &referenceIDs);
+        const std::vector<SamRecord> &readRecords,
+        const std::deque<std::string> &referenceIDs) const;
 
     void mergeResults(Results &transcriptCounts, const Results &newTranscriptCounts) const;
-    void writeSamFile(auto &samOut, const std::vector<SamRecord> &splitRecords);
+    void writeSamFile(auto &samOut, const std::vector<SamRecord> &splitRecords) const;
 
     void writeTranscriptCountsFile(const fs::path &transcriptCountsFilePath,
                                    const TranscriptCounts &transcriptCounts) const;
     void writeStatisticsFile(const Results &results, const std::string &sampleName,
                              const fs::path &statsFilePath) const;
 
-    std::vector<ChunkedInOutFilePaths> prepareInputOutputFiles(const fs::path &mappingsFilePath,
-                                                               const fs::path &splitsFilePath,
-                                                               const int mappingRecordsCount);
+    std::vector<ChunkedInOutFilePaths> prepareInputOutputFiles(const fs::path &mappingsFileInPath,
+                                                               const fs::path &splitsFileOutPath,
+                                                               const int mappingRecordsCount) const;
     std::vector<fs::path> splitMappingsFile(const fs::path &mappingsFilePath,
-                                            const fs::path &tmpInPath, const int entries);
+                                            const fs::path &tmpInPath, const int entries) const;
 };
+
+}  // namespace detect
+}  // namespace pipelines

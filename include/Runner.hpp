@@ -1,14 +1,19 @@
 #pragma once
 
 // Standard
+#include <filesystem>
 #include <optional>
 #include <type_traits>
 #include <variant>
 
 // Classes
+#include "Align.hpp"
+#include "AlignData.hpp"
 #include "AlignParameters.hpp"
 #include "AnalyzeParameters.hpp"
 #include "CompleteParameters.hpp"
+#include "Detect.hpp"
+#include "DetectData.hpp"
 #include "DetectParameters.hpp"
 #include "Logger.hpp"
 #include "ParameterParser.hpp"

@@ -12,6 +12,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 // Classes
@@ -29,6 +30,8 @@ class FeatureAnnotator {
     FeatureAnnotator(fs::path featureFilePath, const std::vector<std::string>& includedFeatures,
                      const std::string& featureIDFlag);
     FeatureAnnotator(fs::path featureFilePath, const std::vector<std::string>& includedFeatures);
+    FeatureAnnotator(fs::path featureFilePath,
+                     const std::unordered_set<std::string>& includedFeatures);
 
     explicit FeatureAnnotator(const dtp::FeatureMap& featureMap);
     explicit FeatureAnnotator() = default;
@@ -62,6 +65,9 @@ class FeatureAnnotator {
 
     FeatureTreeMap buildFeatureTreeMap(const fs::path& featureFilePath,
                                        const std::vector<std::string>& includedFeatures,
+                                       const std::optional<std::string>& featureIDFlag);
+    FeatureTreeMap buildFeatureTreeMap(const fs::path& featureFilePath,
+                                       const std::unordered_set<std::string>& includedFeatures,
                                        const std::optional<std::string>& featureIDFlag);
     FeatureTreeMap buildFeatureTreeMap(const dtp::FeatureMap& featureMap);
 };

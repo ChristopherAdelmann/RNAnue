@@ -17,6 +17,7 @@ namespace po = boost::program_options;
 
 class DetectParameters : public GeneralParameters {
    public:
+    size_t minimumReadLength;
     size_t minimumMapQuality;
     double minimumComplementarity;
     double minimumSiteLengthRatio;
@@ -27,6 +28,7 @@ class DetectParameters : public GeneralParameters {
 
     DetectParameters(const po::variables_map& params)
         : GeneralParameters(params),
+          minimumReadLength(ParameterValidator::validateArithmetic(params, "minlen", 0, INT_MAX)),
           minimumMapQuality(ParameterValidator::validateArithmetic(params, "mapqmin", 0, INT_MAX)),
           minimumComplementarity(
               ParameterValidator::validateArithmetic(params, "cmplmin", 0.0, 1.0)),

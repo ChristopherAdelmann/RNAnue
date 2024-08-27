@@ -26,7 +26,7 @@ static const std::array<std::string, 4> validInputSuffixes{
     preprocess::outSampleFastqPairedForwardSingletonSuffix,
     preprocess::outSampleFastqPairedReverseSingletonSuffix};
 
-static const std::string outSampleAlignedSuffix = "_aligned.bam";
+static const std::string outSampleAlignedSuffix = "_complete_aligned.bam";
 static const std::string outSampleMergedAlignedSuffix = "_merged_aligned.bam";
 static const std::string outSampleSingletonForwardAlignedSuffix = "_singleton_forward_aligned.bam";
 static const std::string outSampleSingletonReverseAlignedSuffix = "_singleton_reverse_aligned.bam";

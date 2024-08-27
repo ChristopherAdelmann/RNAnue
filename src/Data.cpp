@@ -417,8 +417,8 @@ void Data::align() {
 }
 
 void Data::splitReadCalling() {
-    Detect src(params);
-    callInAndOut(std::bind(&Detect::start, src, std::placeholders::_1));
+    // Detect src(params);
+    // callInAndOut(std::bind(&Detect::start, src, std::placeholders::_1));
 }
 
 void Data::analysis() {

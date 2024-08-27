@@ -1,21 +1,5 @@
 #include "Runner.hpp"
 
-#include <filesystem>
-#include <optional>
-#include <variant>
-
-#include "Align.hpp"
-#include "AlignData.hpp"
-#include "AlignParameters.hpp"
-#include "AnalyzeParameters.hpp"
-#include "CompleteParameters.hpp"
-#include "DetectParameters.hpp"
-#include "Logger.hpp"
-#include "Preprocess.hpp"
-#include "PreprocessData.hpp"
-#include "PreprocessParameters.hpp"
-#include "pipelines/PipelineData.hpp"
-
 void Runner::runPipeline(int argc, const char *const argv[]) {
     const auto parameters = ParameterParser::getParameters(argc, argv);
 
@@ -52,7 +36,13 @@ void Runner::runAlignPipeline(const AlignParameters &parameters) {
 void Runner::runDetectPipeline(const DetectParameters &parameters) {
     Logger::log(LogLevel::INFO, "Running detect pipeline");
 
-    Logger::log(LogLevel::ERROR, "Detect pipeline is not implemented yet");
+    const auto inputDirs = InputDirectories(parameters.outputDir, align::pipelinePrefix);
+
+    const auto data = detect::DetectData(parameters.outputDir, inputDirs.treatmentInputDir,
+                                         inputDirs.controlInputDir);
+
+    auto pipeline = detect::Detect(parameters);
+    pipeline.process(data);
 }
 
 void Runner::runAnalyzePipeline(const AnalyzeParameters &parameters) {

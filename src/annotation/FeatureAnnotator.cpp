@@ -2,6 +2,7 @@
 
 #include <ios>
 #include <iostream>
+#include <unordered_set>
 
 // Feature Annotator
 using namespace Annotation;
@@ -12,6 +13,10 @@ FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
 
 FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
                                    const std::vector<std::string> &includedFeatures)
+    : featureTreeMap(buildFeatureTreeMap(featureFilePath, includedFeatures, std::nullopt)) {}
+
+FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
+                                   const std::unordered_set<std::string> &includedFeatures)
     : featureTreeMap(buildFeatureTreeMap(featureFilePath, includedFeatures, std::nullopt)) {}
 
 FeatureAnnotator::FeatureAnnotator(const dtp::FeatureMap &featureMap)
@@ -50,6 +55,28 @@ FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
 
     dtp::FeatureMap featureMap =
         FeatureParser(uniqueIncludedFeatures, featureIDFlag).parse(featureFilePath);
+
+    newFeatureTreeMap.reserve(featureMap.size());
+
+    for (const auto &[seqid, features] : featureMap) {
+        IITree<int, dtp::Feature> tree;
+        for (const auto &feature : features) {
+            tree.add(feature.startPosition, feature.endPosition, feature);
+        }
+        tree.index();
+        newFeatureTreeMap.emplace(seqid, std::move(tree));
+    }
+
+    return newFeatureTreeMap;
+}
+
+FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
+    const fs::path &featureFilePath, const std::unordered_set<std::string> &includedFeatures,
+    const std::optional<std::string> &featureIDFlag) {
+    FeatureTreeMap newFeatureTreeMap;
+
+    dtp::FeatureMap featureMap =
+        FeatureParser(includedFeatures, featureIDFlag).parse(featureFilePath);
 
     newFeatureTreeMap.reserve(featureMap.size());
 

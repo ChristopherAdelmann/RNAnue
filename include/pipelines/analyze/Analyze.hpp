@@ -21,6 +21,9 @@
 #include <seqan3/utility/views/chunk.hpp>
 
 // Classes
+#include "AnalyzeData.hpp"
+#include "AnalyzeParameters.hpp"
+#include "AnalyzeSample.hpp"
 #include "Constants.hpp"
 #include "CustomSamTags.hpp"
 #include "DataTypes.hpp"
@@ -32,10 +35,13 @@
 namespace po = boost::program_options;
 namespace pt = boost::property_tree;
 namespace fs = std::filesystem;
-namespace math = boost::math;
+namespace math = boost::math;  // NOLINT
 
 using namespace dtp;
 using seqan3::operator""_tag;
+
+namespace pipelines {
+namespace analyze {
 
 struct Segment {
     std::string recordID;
@@ -90,13 +96,17 @@ struct InteractionCluster {
 
 class Analyze {
    public:
-    explicit Analyze(po::variables_map params);
+    explicit Analyze(AnalyzeParameters params)
+        : parameters(params), featureAnnotator(params.featuresInPath, params.featureTypes) {};
     ~Analyze() = default;
-    void start(pt::ptree sample);
+
+    void process(const AnalyzeData &data);
 
    private:
-    po::variables_map params;
+    AnalyzeParameters parameters;
     Annotation::FeatureAnnotator featureAnnotator;
+
+    void processSample(AnalyzeSample sample);
 
     void iterateSplitsFile(const fs::path &splitsInPath, const fs::path &unassignedSingletonsInPath,
                            const fs::path &fragmentCountsInPath, const fs::path &clusterOutPath,
@@ -142,3 +152,6 @@ class Analyze {
         std::unordered_map<std::string, size_t> &transcriptCounts);
     size_t parseSampleFragmentCount(const fs::path &sampleCountsInPath);
 };
+
+}  // namespace analyze
+}  // namespace pipelines

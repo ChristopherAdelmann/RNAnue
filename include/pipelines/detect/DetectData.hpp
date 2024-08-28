@@ -25,7 +25,7 @@ static const std::string outSampleUnassignedContiguousAlignmentsSuffix =
 static const std::string outSampleContiguousAlignmentsTranscriptCountsSuffix =
     "_contiguous_counts.tsv";
 
-static const std::string outSharedStatsSuffix = "stats_summary.tsv";
+static const std::string outSharedReadCountsSuffix = "stats_summary.tsv";
 
 static constexpr std::string pipelinePrefix = "03_detect";
 
@@ -45,7 +45,7 @@ struct DetectData : public PipelineData {
                                                            const fs::path& parentDir,
                                                            const fs::path& outputDir);
 
-    static const std::vector<InputSample> retrieveInputSamples(const fs::path& parentDir);
+    static const std::vector<DetectInput> retrieveInputSamples(const fs::path& parentDir);
 };
 
 }  // namespace detect

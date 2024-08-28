@@ -22,6 +22,7 @@
 #include <boost/property_tree/ptree.hpp>
 
 // Classes
+#include "Constants.hpp"
 #include "CustomSamTags.hpp"
 #include "DataTypes.hpp"
 #include "DetectData.hpp"

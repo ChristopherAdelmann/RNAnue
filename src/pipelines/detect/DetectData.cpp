@@ -6,14 +6,14 @@ namespace detect {
 const std::vector<DetectSample> DetectData::retrieveSamples(const std::string& sampleGroup,
                                                             const fs::path& parentDir,
                                                             const fs::path& outputDir) {
-    const std::vector<InputSample> inputSamples = retrieveInputSamples(parentDir);
+    const std::vector<DetectInput> inputSamples = retrieveInputSamples(parentDir);
 
     std::vector<DetectSample> samples;
     samples.reserve(inputSamples.size());
 
     const fs::path outputDirPipeline = outputDir / sampleGroup / pipelinePrefix;
 
-    for (const InputSample& inputSample : inputSamples) {
+    for (const DetectInput& inputSample : inputSamples) {
         const fs::path outputDirSample = outputDirPipeline / inputSample.sampleName;
 
         const fs::path outputSplitAlignmentsPath =
@@ -27,11 +27,11 @@ const std::vector<DetectSample> DetectData::retrieveSamples(const std::string& s
             outputDirSample /
             (inputSample.sampleName + outSampleContiguousAlignmentsTranscriptCountsSuffix);
 
-        const fs::path outputSharedStatsPath = outputDirPipeline / outSharedStatsSuffix;
+        const fs::path outputSharedStatsPath = outputDirPipeline / outSharedReadCountsSuffix;
 
         samples.push_back(DetectSample(
             inputSample,
-            OutputSample{outputSplitAlignmentsPath, outputMultisplitAlignmentsPath,
+            DetectOutput{outputSplitAlignmentsPath, outputMultisplitAlignmentsPath,
                          outputUnassignedContiguousAlignmentsPath,
                          outputContiguousAlignmentsTranscriptCountsPath, outputSharedStatsPath}));
     }
@@ -39,17 +39,18 @@ const std::vector<DetectSample> DetectData::retrieveSamples(const std::string& s
     return samples;
 }
 
-const std::vector<InputSample> DetectData::retrieveInputSamples(const fs::path& parentDir) {
+const std::vector<DetectInput> DetectData::retrieveInputSamples(const fs::path& parentDir) {
     const std::vector<fs::path> sampleDirs = getSubDirectories(parentDir);
 
-    std::vector<InputSample> samples;
+    std::vector<DetectInput> samples;
 
     for (const fs::path& sampleDir : sampleDirs) {
         const std::vector<fs::path> sampleFiles = getValidFilePaths(sampleDir, {validInputSuffix});
 
         if (sampleFiles.size() != 1) {
             const std::string message = "Expected 1 input file in " + sampleDir.string() +
-                                        " but found " + std::to_string(sampleFiles.size());
+                                        " but found " + std::to_string(sampleFiles.size()) +
+                                        " valid files";
             Logger::log(LogLevel::ERROR, message);
             throw std::runtime_error(message);
         }
@@ -62,6 +63,10 @@ const std::vector<InputSample> DetectData::retrieveInputSamples(const fs::path& 
                                         " . Expected: " + validInputSuffix;
             Logger::log(LogLevel::ERROR, message);
             throw std::runtime_error(message);
+        } else {
+            const std::string message =
+                "Unexpected file " + sampleFile.string() + " found in " + sampleDir.string();
+            Logger::log(LogLevel::WARNING, message);
         }
 
         samples.emplace_back(sampleName, sampleFile);

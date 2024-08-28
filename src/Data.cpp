@@ -422,8 +422,8 @@ void Data::splitReadCalling() {
 }
 
 void Data::analysis() {
-    Analyze clu(params);
-    callInAndOut(std::bind(&Analyze::start, &clu, std::placeholders::_1));
+    // Analyze clu(params);
+    // callInAndOut(std::bind(&Analyze::start, &clu, std::placeholders::_1));
 }
 
 /*

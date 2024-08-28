@@ -1,13 +1,5 @@
 #include "Detect.hpp"
 
-#include "Constants.hpp"
-#include "DataTypes.hpp"
-#include "DetectData.hpp"
-#include "DetectParameters.hpp"
-#include "DetectSample.hpp"
-#include "Logger.hpp"
-#include "seqan3/io/sam_file/input.hpp"
-
 namespace pipelines {
 namespace detect {
 
@@ -594,7 +586,7 @@ void Detect::processSample(const DetectSample& sample) const {
     fs::remove_all(subFiles.front().unassignedSingletonRecordsOutPath.parent_path());
 
     writeStatisticsFile(detectResults, sample.input.sampleName,
-                        sample.output.outputSharedStatsPath);
+                        sample.output.outputSharedReadCountsPath);
 }
 
 }  // namespace detect

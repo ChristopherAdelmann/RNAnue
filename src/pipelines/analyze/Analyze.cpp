@@ -1,5 +1,12 @@
 #include "Analyze.hpp"
 
+#include "AnalyzeData.hpp"
+#include "AnalyzeSample.hpp"
+#include "Constants.hpp"
+#include "Logger.hpp"
+
+namespace pipelines {
+namespace analyze {
 // Segment
 std::optional<Segment> Segment::fromSamRecord(const dtp::SamRecord &record) {
     if (!record.reference_position().has_value() || !record.reference_id().has_value()) {
@@ -151,10 +158,29 @@ double InteractionCluster::hybridizationEnergyStatistics() const {
 }
 
 // Analyze
-Analyze::Analyze(po::variables_map params)
-    : params(params),
-      featureAnnotator(params["features"].as<std::string>(),
-                       params["featuretypes"].as<std::vector<std::string>>()) {}
+void Analyze::process(const AnalyzeData &data) {
+    Logger::log(LogLevel::INFO, constants::pipelines::PROCESSING_TREATMENT_MESSAGE);
+
+    for (const auto &sample : data.treatmentSamples) {
+        processSample(sample);
+    }
+
+    if (!data.controlSamples.has_value()) {
+        Logger::log(LogLevel::INFO, "No control samples provided");
+        return;
+    }
+
+    for (const auto &sample : data.controlSamples.value()) {
+        processSample(sample);
+    }
+}
+
+void Analyze::processSample(AnalyzeSample sample) {
+    iterateSplitsFile(
+        sample.input.splitAlignmentsPath, sample.input.unassignedContiguousAlignmentsPath,
+        sample.input.sharedSampleCountsPath, sample.output.interactionsPath,
+        sample.output.supplementaryFeaturesPath, sample.output.interactionsTranscriptCountsPath);
+}
 
 void Analyze::iterateSplitsFile(const fs::path &splitsInPath,
                                 const fs::path &unassignedSingletonsInPath,
@@ -229,8 +255,8 @@ void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clust
 
     Annotation::FeatureAnnotator supplementaryFeatureAnnotator;
 
-    const int mergeGraceDistance = params["clustdist"].as<int>();
-    const auto annotationOrientation = params["orientation"].as<Annotation::Orientation>();
+    const int mergeGraceDistance = parameters.clusterDistanceThreshold;
+    const auto annotationOrientation = parameters.featureOrientation;
 
     for (auto &cluster : clusters) {
         const auto &firstSegment = cluster.segments.first;
@@ -411,7 +437,7 @@ void Analyze::assignNonAnnotatedSingletonsToSupplementaryFeatures(
     seqan3::sam_file_input unassignedSingletonsIn{unassignedSingletonsInPath.string(),
                                                   sam_field_ids{}};
 
-    const auto annotationOrientation = params["orientation"].as<Annotation::Orientation>();
+    const auto annotationOrientation = parameters.featureOrientation;
 
     for (auto &&records : unassignedSingletonsIn) {
         const auto region =
@@ -538,8 +564,8 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
            << " RNA-RNA interactions arcs\" description=\"Segments of interacting RNA "
               "clusters derived from DDD-Experiment\" itemRgb=\"On\"\n";
 
-    const double pValueThreshold = params["padj"].as<double>();
-    const int clusterCountThreshold = params["mincount"].as<int>();
+    const double pValueThreshold = parameters.padjThreshold;
+    const int clusterCountThreshold = parameters.minimumClusterReadCount;
 
     auto isClusterValid = [&](const InteractionCluster &cluster) {
         return cluster.pAdj.has_value() && cluster.pAdj.value() <= pValueThreshold &&
@@ -564,7 +590,7 @@ void Analyze::mergeOverlappingClusters(std::vector<InteractionCluster> &clusters
     // sort by first segment (and the second)
     std::ranges::sort(clusters, std::less{});
 
-    int clusterDistance = params["clustdist"].as<int>();
+    int clusterDistance = parameters.clusterDistanceThreshold;
 
     for (size_t i = 0; i < clusters.size(); ++i) {
         for (size_t j = i + 1; j < clusters.size(); ++j) {
@@ -607,18 +633,5 @@ size_t Analyze::parseSampleFragmentCount(const fs::path &sampleCountsInPath) {
     return totalTranscriptCount;
 }
 
-void Analyze::start(pt::ptree sample) {
-    pt::ptree input = sample.get_child("input");
-    pt::ptree output = sample.get_child("output");
-
-    fs::path splitsInPath = input.get<std::string>("splits");
-    fs::path unassignedSingletonsInPath = input.get<std::string>("singletonunassigned");
-    fs::path fragmentCountsInPath = input.get<std::string>("samplecounts");
-
-    fs::path clusterOutPath = output.get<std::string>("clusters");
-    fs::path supplementaryFeaturesOutPath = output.get<std::string>("supplementaryfeatures");
-    fs::path clusterTranscriptCountsOutPath = output.get<std::string>("clustertranscriptcounts");
-
-    iterateSplitsFile(splitsInPath, unassignedSingletonsInPath, fragmentCountsInPath,
-                      clusterOutPath, supplementaryFeaturesOutPath, clusterTranscriptCountsOutPath);
-}
+}  // namespace analyze
+}  // namespace pipelines

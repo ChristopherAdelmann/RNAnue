@@ -110,6 +110,10 @@ AlignInputPaired AlignData::retrieveInputPaired(const std::string sampleName,
             singletonForwardFastqPath = path;
         } else if (hasSuffix(path, preprocess::outSampleFastqPairedReverseSingletonSuffix)) {
             singletonReverseFastqPath = path;
+        } else {
+            const std::string message =
+                "Unexpected file " + path.string() + " found in " + path.parent_path().string();
+            Logger::log(LogLevel::WARNING, message);
         }
     }
 

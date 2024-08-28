@@ -1,5 +1,8 @@
 #include "Runner.hpp"
 
+#include "Analyze.hpp"
+#include "AnalyzeData.hpp"
+
 void Runner::runPipeline(int argc, const char *const argv[]) {
     const auto parameters = ParameterParser::getParameters(argc, argv);
 
@@ -48,7 +51,13 @@ void Runner::runDetectPipeline(const DetectParameters &parameters) {
 void Runner::runAnalyzePipeline(const AnalyzeParameters &parameters) {
     Logger::log(LogLevel::INFO, "Running analyze pipeline");
 
-    Logger::log(LogLevel::ERROR, "Analyze pipeline is not implemented yet");
+    const auto inputDirs = InputDirectories(parameters.outputDir, analyze::pipelinePrefix);
+
+    const auto data = analyze::AnalyzeData(parameters.outputDir, inputDirs.treatmentInputDir,
+                                           inputDirs.controlInputDir);
+
+    auto pipeline = analyze::Analyze(parameters);
+    pipeline.process(data);
 }
 
 void Runner::runCompletePipeline(const CompleteParameters &parameters) {

@@ -9,23 +9,23 @@ namespace pipelines {
 namespace detect {
 namespace fs = std::filesystem;
 
-struct InputSample {
+struct DetectInput {
     std::string sampleName;
     fs::path inputAlignmentsPath;
 };
 
-struct OutputSample {
+struct DetectOutput {
     fs::path outputSplitAlignmentsPath;
     fs::path outputMultisplitAlignmentsPath;
     fs::path outputUnassignedContiguousAlignmentsPath;
     fs::path outputContiguousAlignmentsTranscriptCountsPath;
 
-    fs::path outputSharedStatsPath;
+    fs::path outputSharedReadCountsPath;
 };
 
 struct DetectSample {
-    InputSample input;
-    OutputSample output;
+    DetectInput input;
+    DetectOutput output;
 };
 
 }  // namespace detect

@@ -15,10 +15,14 @@ std::vector<AlignSampleType> AlignData::retrieveSamples(const std::string& sampl
     std::vector<AlignSampleType> samples;
     samples.reserve(inputSamples.size());
 
-    const fs::path outputDirPipeline = outputDir / sampleGroup / pipelinePrefix;
+    const fs::path outputDirPipeline = outputDir / pipelinePrefix / sampleGroup;
 
     for (const InputSampleType& inputSample : inputSamples) {
         if (const auto* inputSampleSingle = std::get_if<AlignInputSingle>(&inputSample)) {
+            const fs::path outputDirSample = outputDirPipeline / inputSampleSingle->sampleName;
+
+            fs::create_directories(outputDirSample);
+
             const fs::path outputAlignmentsPath =
                 outputDirPipeline / inputSampleSingle->sampleName /
                 (inputSampleSingle->sampleName + outSampleAlignedSuffix);
@@ -31,8 +35,10 @@ std::vector<AlignSampleType> AlignData::retrieveSamples(const std::string& sampl
             continue;
 
         } else if (const auto* inputSamplePaired = std::get_if<AlignInputPaired>(&inputSample)) {
-            const std::string parentName = inputSampleSingle->sampleName;
+            const std::string parentName = inputSamplePaired->sampleName;
             const fs::path outputDirSample = outputDirPipeline / inputSamplePaired->sampleName;
+
+            fs::create_directories(outputDirSample);
 
             const fs::path outputAlignmentsPath =
                 outputDirSample / (parentName + outSampleAlignedSuffix);

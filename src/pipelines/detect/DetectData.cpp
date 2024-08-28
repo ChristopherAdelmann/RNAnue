@@ -11,10 +11,12 @@ const std::vector<DetectSample> DetectData::retrieveSamples(const std::string& s
     std::vector<DetectSample> samples;
     samples.reserve(inputSamples.size());
 
-    const fs::path outputDirPipeline = outputDir / sampleGroup / pipelinePrefix;
+    const fs::path outputDirPipeline = outputDir / pipelinePrefix / sampleGroup;
 
     for (const DetectInput& inputSample : inputSamples) {
         const fs::path outputDirSample = outputDirPipeline / inputSample.sampleName;
+
+        fs::create_directories(outputDirSample);
 
         const fs::path outputSplitAlignmentsPath =
             outputDirSample / (inputSample.sampleName + outSampleSplitAlignmentsSuffix);

@@ -11,10 +11,12 @@ const std::vector<AnalyzeSample> AnalyzeData::retrieveSamples(const std::string&
     std::vector<AnalyzeSample> samples;
     samples.reserve(inputSamples.size());
 
-    const fs::path outputDirPipeline = outputDir / sampleGroup / pipelinePrefix;
+    const fs::path outputDirPipeline = outputDir / pipelinePrefix / sampleGroup;
 
     for (const AnalyzeInput& inputSample : inputSamples) {
         const fs::path outputDirSample = outputDirPipeline / inputSample.sampleName;
+
+        fs::create_directories(outputDirSample);
 
         const fs::path interactionsPath =
             outputDirSample / (inputSample.sampleName + outInteractionsSuffix);

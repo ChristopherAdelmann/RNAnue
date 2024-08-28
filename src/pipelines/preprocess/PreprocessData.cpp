@@ -1,5 +1,10 @@
 #include "PreprocessData.hpp"
 
+#include <filesystem>
+
+#include "Logger.hpp"
+#include "VariantOverload.hpp"
+
 namespace pipelines {
 namespace preprocess {
 std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const std::string& sampleGroup,
@@ -10,44 +15,51 @@ std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const std::str
     std::vector<PreprocessSampleType> samples;
     samples.reserve(inputSamples.size());
 
-    const fs::path outputDirPipeline = outputDir / sampleGroup / pipelinePrefix;
+    const fs::path outputDirPipeline = outputDir / pipelinePrefix / sampleGroup;
 
     for (const InputSampleType& inputSample : inputSamples) {
-        if (const auto* inputSampleSingle =
-                std::get_if<PreprocessSampleInputSingle>(&inputSample)) {
-            const std::string parentName = inputSampleSingle->sampleName;
-            const fs::path outputSampleFastqPath =
-                outputDirPipeline / parentName / (parentName + outSampleFastqSuffix);
+        std::visit(
+            overloaded{
+                [&outputDirPipeline,
+                 &samples](const PreprocessSampleInputSingle& inputSampleSingle) {
+                    const std::string parentName = inputSampleSingle.sampleName;
+                    const fs::path outputDirSample = outputDirPipeline / parentName;
 
-            samples.push_back(PreprocessSampleSingle{*inputSampleSingle, {outputSampleFastqPath}});
+                    fs::create_directories(outputDirSample);
 
-            const auto message = "Single-end sample " + inputSampleSingle->sampleName + " found";
-            Logger::log(LogLevel::INFO, message);
+                    const fs::path outputSampleFastqPath =
+                        outputDirSample / (parentName + outSampleFastqSuffix);
 
-            continue;
+                    samples.push_back(
+                        PreprocessSampleSingle{inputSampleSingle, {outputSampleFastqPath}});
 
-        } else if (const auto* inputSamplePaired =
-                       std::get_if<PreprocessSampleInputPaired>(&inputSample)) {
-            const std::string parentName = inputSampleSingle->sampleName;
-            const fs::path outputDirSample = outputDirPipeline / parentName;
+                    const auto message =
+                        "Single-end sample " + inputSampleSingle.sampleName + " found";
+                    Logger::log(LogLevel::INFO, message);
+                },
+                [&outputDirPipeline,
+                 &samples](const PreprocessSampleInputPaired& inputSamplePaired) {
+                    const std::string parentName = inputSamplePaired.sampleName;
+                    const fs::path outputDirSample = outputDirPipeline / parentName;
 
-            const fs::path outputSampleFastqPathMerged =
-                outputDirSample / (parentName + outSampleFastqPairedMergeSuffix);
-            const fs::path outputSampleFastqPathForwardSingleton =
-                outputDirSample / (parentName + outSampleFastqPairedForwardSingletonSuffix);
-            const fs::path outputSampleFastqPathReverseSingleton =
-                outputDirSample / (parentName + outSampleFastqPairedReverseSingletonSuffix);
+                    fs::create_directories(outputDirSample);
 
-            samples.push_back(PreprocessSamplePaired{
-                *inputSamplePaired,
-                {outputSampleFastqPathMerged, outputSampleFastqPathForwardSingleton,
-                 outputSampleFastqPathReverseSingleton}});
+                    const fs::path outputSampleFastqPathMerged =
+                        outputDirSample / (parentName + outSampleFastqPairedMergeSuffix);
+                    const fs::path outputSampleFastqPathForwardSingleton =
+                        outputDirSample / (parentName + outSampleFastqPairedForwardSingletonSuffix);
+                    const fs::path outputSampleFastqPathReverseSingleton =
+                        outputDirSample / (parentName + outSampleFastqPairedReverseSingletonSuffix);
 
-            const auto message = "Paired-end sample " + parentName + " found";
-            Logger::log(LogLevel::INFO, message);
+                    samples.push_back(PreprocessSamplePaired{
+                        inputSamplePaired,
+                        {outputSampleFastqPathMerged, outputSampleFastqPathForwardSingleton,
+                         outputSampleFastqPathReverseSingleton}});
 
-            continue;
-        }
+                    const auto message = "Paired-end sample " + parentName + " found";
+                    Logger::log(LogLevel::INFO, message);
+                }},
+            inputSample);
     }
 
     return samples;

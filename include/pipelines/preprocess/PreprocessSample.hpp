@@ -16,7 +16,7 @@ struct PreprocessInput {
 struct PreprocessSampleInputSingle : public PreprocessInput {
     fs::path inputFastqPath;
 
-    PreprocessSampleInputSingle(const std::string& sampleName, const fs::path& samplePath)
+    PreprocessSampleInputSingle(const std::string sampleName, const fs::path& samplePath)
         : PreprocessInput{sampleName}, inputFastqPath{samplePath} {};
 };
 
@@ -24,7 +24,7 @@ struct PreprocessSampleInputPaired : public PreprocessInput {
     fs::path inputForwardFastqPath;
     fs::path inputReverseFastqPath;
 
-    PreprocessSampleInputPaired(const std::string& sampleName, const fs::path& forwardPath,
+    PreprocessSampleInputPaired(const std::string sampleName, const fs::path& forwardPath,
                                 const fs::path& reversePath)
         : PreprocessInput{sampleName},
           inputForwardFastqPath{forwardPath},

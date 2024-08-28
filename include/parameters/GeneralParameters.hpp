@@ -22,11 +22,6 @@
 namespace po = boost::program_options;
 class GeneralParameters {
    public:
-    enum class ReadType { SINGLE_END, PAIRED_END };
-
-    // Parameters
-    ReadType readType;
-
     std::filesystem::path treatmentsDir;
     std::optional<std::filesystem::path> controlDir;
     std::filesystem::path outputDir;
@@ -41,8 +36,7 @@ class GeneralParameters {
     size_t chunkSize;
 
     GeneralParameters(const po::variables_map& params)
-        : readType(validateReadType(params)),
-          treatmentsDir(ParameterValidator::validateDirectory(params, "trtms")),
+        : treatmentsDir(ParameterValidator::validateDirectory(params, "trtms")),
           controlDir(validateControlDir(params)),
           outputDir(ParameterValidator::validateDirectory(params, "outdir")),
           featuresInPath(ParameterValidator::validateFilePath(params, "features")),
@@ -53,18 +47,6 @@ class GeneralParameters {
           chunkSize(ParameterValidator::validateArithmetic(params, "chunksize", 1, INT_MAX)) {};
 
    private:
-    static ReadType validateReadType(const po::variables_map& params) {
-        const std::string readType = params["readtype"].as<std::string>();
-        const std::set<std::string> availableReadTypes{"SE", "PE"};
-
-        if (!availableReadTypes.contains(readType)) {
-            Logger::log(LogLevel::ERROR,
-                        "Parameter readtype is none of the expected values [SE, PE].");
-        }
-
-        return readType == "SE" ? ReadType::SINGLE_END : ReadType::PAIRED_END;
-    }
-
     static std::optional<std::filesystem::path> validateControlDir(
         const po::variables_map& params) {
         if (params.count("ctrls") && !params["ctrls"].as<std::string>().empty()) {

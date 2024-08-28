@@ -10,6 +10,7 @@
 
 #include "Logger.hpp"
 #include "PreprocessSample.hpp"
+#include "VariantOverload.hpp"
 #include "pipelines/PipelineData.hpp"
 
 namespace pipelines {

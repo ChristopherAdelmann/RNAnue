@@ -18,7 +18,7 @@ struct AnalyzeInput {
 
     fs::path contiguousAlignmentsTranscriptCountsPath;
 
-    fs::path sharedSampleCountsPath;
+    fs::path sampleFragmentCountsPath;
 };
 
 struct AnalyzeOutput {

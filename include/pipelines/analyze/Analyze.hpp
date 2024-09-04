@@ -108,17 +108,15 @@ class Analyze {
 
     void processSample(AnalyzeSample sample);
 
-    void iterateSplitsFile(const fs::path &splitsInPath, const fs::path &unassignedSingletonsInPath,
-                           const fs::path &fragmentCountsInPath, const fs::path &clusterOutPath,
-                           const fs::path &supplementaryFeaturesOutPath,
-                           const fs::path &clusterTranscriptCountsOutPath);
     void mergeOverlappingClusters(std::vector<InteractionCluster> &clusters);
+
     void assignClustersToTranscripts(std::vector<InteractionCluster> &clusters,
                                      const std::deque<std::string> &referenceIDs,
-                                     const fs::path &unassignedSingletonsInPath,
-                                     const fs::path &fragmentCountsInPath,
-                                     const fs::path &supplementaryFeaturesOutPath,
-                                     const fs::path &transcriptCountsOutPath);
+                                     const AnalyzeSample &sample);
+    void assignAnnotatedContiguousFragmentCountsToTranscripts(
+        const fs::path &contiguousTranscriptCountsInPath,
+        std::unordered_map<std::string, size_t> &transcriptCounts);
+
     std::unordered_map<std::string, double> getTranscriptProbabilities(
         const std::unordered_map<std::string, size_t> &transcriptCounts,
         const size_t totalTranscriptCount);
@@ -147,7 +145,7 @@ class Analyze {
                                     const std::deque<std::string> &referenceIDs,
                                     std::ofstream &interactionOut);
 
-    void assignNonAnnotatedSingletonsToSupplementaryFeatures(
+    void assignNonAnnotatedContiguousToSupplementaryFeatures(
         const fs::path &unassignedSingletonsInPath, Annotation::FeatureAnnotator &featureAnnotator,
         std::unordered_map<std::string, size_t> &transcriptCounts);
     size_t parseSampleFragmentCount(const fs::path &sampleCountsInPath);

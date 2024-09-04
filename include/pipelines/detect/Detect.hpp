@@ -67,7 +67,7 @@ class Detect {
 
     using TranscriptCounts = std::unordered_map<std::string, size_t>;
 
-    struct Results {
+    struct Result {
         TranscriptCounts transcriptCounts;
         size_t splitFragmentsCount{0};
         size_t singletonFragmentsCount{0};
@@ -85,10 +85,10 @@ class Detect {
 
     void processSample(const DetectSample &sample) const;
 
-    Results processRecordChunk(const ChunkedOutTmpDirs &outTmpDirs,
-                               AsyncGroupBufferType &recordInputBuffer,
-                               const std::deque<std::string> refIDs,
-                               const std::vector<size_t> refLengths) const;
+    Result processRecordChunk(const ChunkedOutTmpDirs &outTmpDirs,
+                              AsyncGroupBufferType &recordInputBuffer,
+                              const std::deque<std::string> refIDs,
+                              const std::vector<size_t> refLengths) const;
     size_t processReadRecords(const std::vector<SamRecord> &readRecords,
                               const std::deque<std::string> &referenceIDs, auto &splitsOut,
                               [[maybe_unused]] auto &multiSplitsOut) const;
@@ -100,18 +100,16 @@ class Detect {
         const std::vector<SamRecord> &readRecords,
         const std::deque<std::string> &referenceIDs) const;
 
-    void mergeResults(Results &transcriptCounts, const Results &newTranscriptCounts) const;
+    void mergeResults(Result &transcriptCounts, const Result &newTranscriptCounts) const;
     void mergeOutputFiles(const ChunkedOutTmpDirs &tmpDirs, const DetectOutput &output) const;
     void writeSamFile(auto &samOut, const std::vector<SamRecord> &splitRecords) const;
 
     void writeTranscriptCountsFile(const fs::path &transcriptCountsFilePath,
                                    const TranscriptCounts &transcriptCounts) const;
-    void writeReadCountsSummaryFile(const Results &results, const std::string &sampleName,
+    void writeReadCountsSummaryFile(const Result &results, const std::string &sampleName,
                                     const fs::path &statsFilePath) const;
 
     ChunkedOutTmpDirs prepareTmpOutputDirs(const fs::path &tmpOutDir) const;
-    std::vector<fs::path> splitMappingsFile(const fs::path &mappingsFilePath,
-                                            const fs::path &tmpInPath, const int entries) const;
 };
 
 }  // namespace detect

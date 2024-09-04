@@ -59,7 +59,7 @@ void Detect::processSample(const DetectSample& sample) const {
     AsyncGroupBufferType recordInputBuffer =
         alignmentsIn | AsyncSplitRecordGroupBuffer(params.threadCount + 1);
 
-    std::vector<std::future<Results>> processResults;
+    std::vector<std::future<Result>> processResults;
 
     for (size_t i = 0; i < params.threadCount; ++i) {
         processResults.emplace_back(std::async(
@@ -67,7 +67,7 @@ void Detect::processSample(const DetectSample& sample) const {
             std::ref(recordInputBuffer), std::ref(referenceIDs), std::ref(referenceLengths)));
     }
 
-    Detect::Results mergedResults;
+    Detect::Result mergedResults;
 
     for (auto& resultFuture : processResults) {
         const auto result = resultFuture.get();
@@ -86,10 +86,10 @@ void Detect::processSample(const DetectSample& sample) const {
     fs::remove_all(outputTmpDir);
 }
 
-Detect::Results Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
-                                           AsyncGroupBufferType& recordInputBuffer,
-                                           const std::deque<std::string> refIDs,
-                                           const std::vector<size_t> refLengths) const {
+Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
+                                          AsyncGroupBufferType& recordInputBuffer,
+                                          const std::deque<std::string> refIDs,
+                                          const std::vector<size_t> refLengths) const {
     boost::uuids::random_generator uuidGenerator;
     const std::string chunkID = boost::uuids::to_string(uuidGenerator());
 
@@ -468,60 +468,7 @@ Detect::ChunkedOutTmpDirs Detect::prepareTmpOutputDirs(const fs::path& tmpOutDir
     return {outputTmpSplitsDir, outputTmpMultisplitsDir, outputTmpUnassignedContiguousRecordsDir};
 }
 
-std::vector<fs::path> Detect::splitMappingsFile(const fs::path& mappingsFilePath,
-                                                const fs::path& tmpInPath,
-                                                const int entries) const {
-    std::ifstream inputFile(mappingsFilePath, std::ios::in);
-    if (!inputFile.is_open()) {
-        throw std::runtime_error("Could not open the input file.");
-    }
-
-    std::ofstream outputFile;
-    std::string line, prev;
-    std::stringstream hdrStream;
-    int numLines = 0, numBlocks = 0;
-
-    std::string outPathPrefix = tmpInPath.string() + "_";
-    std::vector<fs::path> tmpOutFiles;
-
-    while (std::getline(inputFile, line)) {
-        if (line.starts_with('@')) {
-            hdrStream << line << '\n';
-            continue;
-        }
-
-        ++numLines;
-        if ((numLines % entries) == 1) {
-            if (line == prev) {
-                --numLines;
-            } else {
-                if (outputFile.is_open()) {
-                    outputFile.close();
-                }
-                std::string outFileName = outPathPrefix + std::to_string(++numBlocks) + ".sam";
-                tmpOutFiles.push_back(outFileName);
-                outputFile.open(outFileName, std::ios::out);
-                if (!outputFile.is_open()) {
-                    throw std::runtime_error("Could not open the output file.");
-                }
-                outputFile << hdrStream.str();
-                numLines = 1;
-            }
-        }
-        outputFile << line << '\n';
-        prev = line;
-    }
-
-    if (outputFile.is_open()) {
-        outputFile.close();
-    }
-
-    inputFile.close();
-
-    return tmpOutFiles;
-}
-
-void Detect::writeReadCountsSummaryFile(const Results& results, const std::string& sampleName,
+void Detect::writeReadCountsSummaryFile(const Result& results, const std::string& sampleName,
                                         const fs::path& statsFilePath) const {
     std::ofstream statsFileStream(statsFilePath);
 
@@ -548,7 +495,7 @@ void Detect::mergeOutputFiles(const ChunkedOutTmpDirs& tmpDirs, const DetectOutp
                           output.outputUnassignedContiguousAlignmentsPath);
 }
 
-void Detect::mergeResults(Detect::Results& results, const Detect::Results& newResults) const {
+void Detect::mergeResults(Detect::Result& results, const Detect::Result& newResults) const {
     results.splitFragmentsCount += newResults.splitFragmentsCount;
     results.singletonFragmentsCount += newResults.singletonFragmentsCount;
 

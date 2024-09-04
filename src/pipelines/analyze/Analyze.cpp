@@ -1,5 +1,8 @@
 #include "Analyze.hpp"
 
+#include <cstddef>
+#include <string>
+
 #include "AnalyzeData.hpp"
 #include "AnalyzeSample.hpp"
 #include "Constants.hpp"
@@ -176,19 +179,7 @@ void Analyze::process(const AnalyzeData &data) {
 }
 
 void Analyze::processSample(AnalyzeSample sample) {
-    iterateSplitsFile(
-        sample.input.splitAlignmentsPath, sample.input.unassignedContiguousAlignmentsPath,
-        sample.input.sharedSampleCountsPath, sample.output.interactionsPath,
-        sample.output.supplementaryFeaturesPath, sample.output.interactionsTranscriptCountsPath);
-}
-
-void Analyze::iterateSplitsFile(const fs::path &splitsInPath,
-                                const fs::path &unassignedSingletonsInPath,
-                                const fs::path &fragmentCountsInPath,
-                                const fs::path &clusterOutPath,
-                                const fs::path &supplementaryFeaturesOutPath,
-                                const fs::path &clusterTranscriptCountsOutPath) {
-    seqan3::sam_file_input splitsIn{splitsInPath.string(), sam_field_ids{}};
+    seqan3::sam_file_input splitsIn{sample.input.splitAlignmentsPath, sam_field_ids{}};
 
     auto &header = splitsIn.header();
     std::vector<size_t> ref_lengths{};
@@ -237,19 +228,14 @@ void Analyze::iterateSplitsFile(const fs::path &splitsInPath,
 
     mergeOverlappingClusters(mergedClusters);
 
-    assignClustersToTranscripts(mergedClusters, referenceIDs, unassignedSingletonsInPath,
-                                fragmentCountsInPath, supplementaryFeaturesOutPath,
-                                clusterTranscriptCountsOutPath);
+    assignClustersToTranscripts(mergedClusters, referenceIDs, sample);
 
-    writeInteractionsToFile(mergedClusters, clusterOutPath, referenceIDs);
+    writeInteractionsToFile(mergedClusters, sample.output.interactionsPath, referenceIDs);
 }
 
 void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clusters,
                                           const std::deque<std::string> &referenceIDs,
-                                          const fs::path &unassignedSingletonsInPath,
-                                          const fs::path &fragmentCountsInPath,
-                                          const fs::path &supplementaryFeaturesOutPath,
-                                          const fs::path &transcriptCountsOutPath) {
+                                          const AnalyzeSample &sample) {
     std::unordered_map<std::string, size_t> transcriptCounts;
     std::unordered_map<std::string, std::string> mergedTranscriptIDsIntoTranscriptIDs;
 
@@ -320,23 +306,57 @@ void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clust
     }
 
     Annotation::FeatureWriter::write(supplementaryFeatureAnnotator.getFeatureTreeMap(),
-                                     supplementaryFeaturesOutPath.string(),
+                                     sample.output.supplementaryFeaturesPath,
                                      Annotation::FileType::GFF);
 
-    assignNonAnnotatedSingletonsToSupplementaryFeatures(
-        unassignedSingletonsInPath, supplementaryFeatureAnnotator, transcriptCounts);
+    assignNonAnnotatedContiguousToSupplementaryFeatures(
+        sample.input.unassignedContiguousAlignmentsPath, supplementaryFeatureAnnotator,
+        transcriptCounts);
 
-    const size_t totalFragmentCount = parseSampleFragmentCount(fragmentCountsInPath);
+    assignAnnotatedContiguousFragmentCountsToTranscripts(
+        sample.input.contiguousAlignmentsTranscriptCountsPath, transcriptCounts);
+
+    const size_t totalFragmentCount =
+        parseSampleFragmentCount(sample.input.sampleFragmentCountsPath);
     assignPValuesToClusters(clusters, transcriptCounts, totalFragmentCount);
 
-    std::ofstream transcriptCountsOut(transcriptCountsOutPath.string());
+    std::ofstream transcriptCountsOut(sample.output.interactionsTranscriptCountsPath);
 
     if (!transcriptCountsOut.is_open()) {
-        Logger::log(LogLevel::ERROR, "Could not open file: ", transcriptCountsOutPath.string());
+        Logger::log(LogLevel::ERROR,
+                    "Could not open file: ", sample.output.interactionsTranscriptCountsPath);
     }
 
     for (const auto &[transcriptID, count] : transcriptCounts) {
         transcriptCountsOut << transcriptID << "\t" << count << "\n";
+    }
+}
+
+void Analyze::assignAnnotatedContiguousFragmentCountsToTranscripts(
+    const fs::path &contiguousTranscriptCountsInPath,
+    std::unordered_map<std::string, size_t> &transcriptCounts) {
+    std::ifstream transcriptCountsIn(contiguousTranscriptCountsInPath);
+
+    if (!transcriptCountsIn.is_open()) {
+        Logger::log(LogLevel::ERROR, "Could not open file: ", contiguousTranscriptCountsInPath);
+    }
+
+    std::string line;
+    while (std::getline(transcriptCountsIn, line)) {
+        std::istringstream iss(line);
+
+        size_t column = 0;
+        std::string transcriptID;
+        for (std::string token; std::getline(iss, token, '\t');) {
+            if (column == 0) {
+                transcriptID = token;
+            } else if (column == 1) {
+                transcriptCounts[transcriptID] += std::stoul(token);
+            }
+            ++column;
+        }
+
+        break;
     }
 }
 
@@ -431,7 +451,7 @@ void Analyze::assignPValuesToClusters(
     assignPAdjustedValuesToClusters(clusters);
 }
 
-void Analyze::assignNonAnnotatedSingletonsToSupplementaryFeatures(
+void Analyze::assignNonAnnotatedContiguousToSupplementaryFeatures(
     const fs::path &unassignedSingletonsInPath, Annotation::FeatureAnnotator &featureAnnotator,
     std::unordered_map<std::string, size_t> &transcriptCounts) {
     seqan3::sam_file_input unassignedSingletonsIn{unassignedSingletonsInPath.string(),
@@ -525,8 +545,6 @@ void Analyze::writeInteractionLineToFile(const InteractionCluster &cluster,
 void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mergedClusters,
                                       const fs::path &clusterOutPath,
                                       const std::deque<std::string> &referenceIDs) {
-    Logger::log(LogLevel::INFO, "Writing interactions to file: ", clusterOutPath.string());
-
     std::ofstream interactionOut(clusterOutPath.string());
     if (!interactionOut.is_open()) {
         Logger::log(LogLevel::ERROR, "Could not open file: ", clusterOutPath.string());
@@ -567,23 +585,41 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
     const double pValueThreshold = parameters.padjThreshold;
     const int clusterCountThreshold = parameters.minimumClusterReadCount;
 
-    auto isClusterValid = [&](const InteractionCluster &cluster) {
+    auto isInteractionValid = [&](const InteractionCluster &cluster) {
         return cluster.pAdj.has_value() && cluster.pAdj.value() <= pValueThreshold &&
                cluster.count >= clusterCountThreshold;
     };
 
+    size_t intramolecularCount = 0;
+    size_t intermolecularCount = 0;
+
     size_t clusterID = 0;
-    for (const auto &cluster : mergedClusters) {
-        if (!isClusterValid(cluster)) {
+    for (const auto &interaction : mergedClusters) {
+        if (!isInteractionValid(interaction)) {
             continue;
         }
+
+        if (interaction.transcriptIDs.has_value(),
+            interaction.transcriptIDs.value().first == interaction.transcriptIDs.value().second) {
+            ++intramolecularCount;
+        } else {
+            ++intermolecularCount;
+        }
+
         const std::string randomColor = helper::generateRandomHexColor();
-        writeBEDLineToFile(cluster, std::to_string(clusterID), referenceIDs, randomColor, bedOut);
-        writeBEDArcLineToFile(cluster, std::to_string(clusterID), referenceIDs, arcOut);
-        writeInteractionLineToFile(cluster, std::to_string(clusterID), referenceIDs,
+        writeBEDLineToFile(interaction, std::to_string(clusterID), referenceIDs, randomColor,
+                           bedOut);
+        writeBEDArcLineToFile(interaction, std::to_string(clusterID), referenceIDs, arcOut);
+        writeInteractionLineToFile(interaction, std::to_string(clusterID), referenceIDs,
                                    interactionOut);
         ++clusterID;
     }
+    Logger::log(LogLevel::INFO, "Found ", intramolecularCount + intermolecularCount,
+                " split interactions");
+    Logger::log(LogLevel::INFO, "Of which ", intramolecularCount,
+                " are intramolecular interactions");
+    Logger::log(LogLevel::INFO, "Of which ", intermolecularCount,
+                " are intermolecular interactions");
 }
 
 void Analyze::mergeOverlappingClusters(std::vector<InteractionCluster> &clusters) {

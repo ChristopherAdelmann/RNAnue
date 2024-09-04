@@ -116,19 +116,27 @@ InputSampleType PreprocessData::retrieveInputSample(const fs::path& sampleDir) {
 }
 
 bool PreprocessData::validatePairedFilePaths(std::pair<fs::path, fs::path>& pairedInputPaths) {
-    const bool validForward = hasAnySuffix(pairedInputPaths.first.stem(), validForwardTags);
+    auto withoutExtensions = [](const fs::path& path) -> std::string {
+        const auto stem = path.stem();
+        return stem.string().substr(0, stem.string().find_last_of('.'));
+    };
+
+    const bool validForward =
+        hasAnySuffix(withoutExtensions(pairedInputPaths.first), validForwardTags);
 
     if (!validForward) {
         pairedInputPaths = {pairedInputPaths.second, pairedInputPaths.first};
 
-        const bool validForward = hasAnySuffix(pairedInputPaths.first.stem(), validForwardTags);
+        const bool validForward =
+            hasAnySuffix(withoutExtensions(pairedInputPaths.first), validForwardTags);
 
         if (!validForward) {
             return false;
         }
     }
 
-    const bool validReverse = hasAnySuffix(pairedInputPaths.second.stem(), validReverseTags);
+    const bool validReverse =
+        hasAnySuffix(withoutExtensions(pairedInputPaths.second), validReverseTags);
 
     return validReverse;
 }

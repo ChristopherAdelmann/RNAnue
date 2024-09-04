@@ -1,6 +1,8 @@
 #pragma once
 
 // Standard
+#include <machine/limits.h>
+
 #include <climits>
 #include <cstddef>
 #include <filesystem>
@@ -54,18 +56,18 @@ class PreprocessParameters : public GeneralParameters {
         : GeneralParameters(params),
           trimPolyG(validateTrimPolyG(params)),
           preprocessEnabled(validatePreprocessEnabled(params)),
-          adapter5Forward(validateAdapter(params, "adapter5Forward")),
-          adapter3Forward(validateAdapter(params, "adapter3Forward")),
-          adapter5Reverse(validateAdapter(params, "adapter5Reverse")),
-          adapter3Reverse(validateAdapter(params, "adapter3Reverse")),
+          adapter5Forward(validateAdapter(params, "adpt5f")),
+          adapter3Forward(validateAdapter(params, "adpt3f")),
+          adapter5Reverse(validateAdapter(params, "adpt5r")),
+          adapter3Reverse(validateAdapter(params, "adpt3r")),
           maxMissMatchFractionTrimming(
-              ParameterValidator::validateArithmetic(params, "mtrim", 0.0, 1.0)),
+              ParameterValidator::validateArithmetic(params, "mtrim", double{0.0}, double{1.0})),
           minOverlapTrimming(
               ParameterValidator::validateArithmetic(params, "minovltrim", size_t{0}, SIZE_T_MAX)),
           minQualityThreshold(
               ParameterValidator::validateArithmetic(params, "minqual", size_t{0}, SIZE_T_MAX)),
-          minLengthThreshold(
-              ParameterValidator::validateArithmetic(params, "minlen", size_t{0}, SIZE_T_MAX)),
+          minLengthThreshold(ParameterValidator::validateArithmetic<size_t>(params, "minlen",
+                                                                            size_t{0}, SIZE_T_MAX)),
           minMeanWindowQuality(
               ParameterValidator::validateArithmetic(params, "wqual", size_t{0}, SIZE_T_MAX)),
           windowTrimmingSize(
@@ -73,7 +75,7 @@ class PreprocessParameters : public GeneralParameters {
           minOverlapMerging(
               ParameterValidator::validateArithmetic(params, "minovl", size_t{0}, SIZE_T_MAX)),
           maxMissMatchFractionMerging(
-              ParameterValidator::validateArithmetic(params, "mmerge", 0.0, 1.0)) {}
+              ParameterValidator::validateArithmetic(params, "mmerge", double{0.0}, double{1.0})) {}
 
    private:
     static bool validateTrimPolyG(const po::variables_map& params) {

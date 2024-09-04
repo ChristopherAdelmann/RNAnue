@@ -82,8 +82,8 @@ InputSampleType AlignData::retrieveInputSample(const fs::path& sampleDir) {
     const auto numSamples = sampleFiles.size();
 
     using namespace std::string_literals;
-    if (numSamples != validInputSuffixSingleton.size() ||
-        numSamples != validInputSuffixesPaired.size()) {
+    if (!(numSamples == validInputSuffixSingleton.size() ||
+          numSamples == validInputSuffixesPaired.size())) {
         const std::string message =
             "Found invalid number of sample files (" + std::to_string(numSamples) + ")" +
             ". Expectected either " + std::to_string(validInputSuffixSingleton.size()) + " or " +

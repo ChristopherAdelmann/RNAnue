@@ -1,6 +1,8 @@
 #pragma once
 
 // Standard
+#include <machine/limits.h>
+
 #include <climits>
 #include <cstddef>
 #include <filesystem>
@@ -27,12 +29,13 @@ class AlignParameters : public GeneralParameters {
     AlignParameters(const po::variables_map& params)
         : GeneralParameters(params),
           referenceGenome(ParameterValidator::validateFilePath(params, "dbref")),
-          minLengthThreshold(ParameterValidator::validateArithmetic(params, "minlen", 0, 1000)),
-          accuracy(ParameterValidator::validateArithmetic(params, "accuracy", 0, 100)),
+          minLengthThreshold(
+              ParameterValidator::validateArithmetic<size_t>(params, "minlen", 0, 1000)),
+          accuracy(ParameterValidator::validateArithmetic<size_t>(params, "accuracy", 0, 100)),
           minimumFragmentScore(
-              ParameterValidator::validateArithmetic(params, "minfragsco", 0, INT_MAX)),
+              ParameterValidator::validateArithmetic<size_t>(params, "minfragsco", 0, SIZE_T_MAX)),
           minimumFragmentLength(
-              ParameterValidator::validateArithmetic(params, "minfraglen", 0, INT_MAX)),
+              ParameterValidator::validateArithmetic<size_t>(params, "minfraglen", 0, SIZE_T_MAX)),
           minimumSpliceCoverage(
-              ParameterValidator::validateArithmetic(params, "minsplicecov", 0, 100)) {};
+              ParameterValidator::validateArithmetic<size_t>(params, "minsplicecov", 0, 100)) {};
 };

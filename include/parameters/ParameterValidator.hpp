@@ -25,6 +25,10 @@ struct ParameterValidator {
         requires arithmetic<T>
     static T validateArithmetic(const po::variables_map& params, const std::string& paramName,
                                 const T lowerLimit, const T upperLimit) {
+        Logger::log(LogLevel::DEBUG, "Validating ", paramName,
+                    " parameter. Type: ", typeid(T).name(), ". Lower limit: ", lowerLimit,
+                    ". Upper limit: ", upperLimit, ".");
+
         T value;
 
         try {

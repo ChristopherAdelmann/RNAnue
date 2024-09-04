@@ -28,8 +28,10 @@ class DetectParameters : public GeneralParameters {
 
     DetectParameters(const po::variables_map& params)
         : GeneralParameters(params),
-          minimumReadLength(ParameterValidator::validateArithmetic(params, "minlen", 0, INT_MAX)),
-          minimumMapQuality(ParameterValidator::validateArithmetic(params, "mapqmin", 0, INT_MAX)),
+          minimumReadLength(
+              ParameterValidator::validateArithmetic<size_t>(params, "minlen", 0, SIZE_T_MAX)),
+          minimumMapQuality(
+              ParameterValidator::validateArithmetic<size_t>(params, "mapqmin", 0, SIZE_T_MAX)),
           minimumComplementarity(
               ParameterValidator::validateArithmetic(params, "cmplmin", 0.0, 1.0)),
           minimumSiteLengthRatio(

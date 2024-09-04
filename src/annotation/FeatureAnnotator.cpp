@@ -7,13 +7,9 @@
 // Feature Annotator
 using namespace Annotation;
 FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
-                                   const std::vector<std::string> &includedFeatures,
+                                   const std::unordered_set<std::string> &includedFeatures,
                                    const std::string &featureIDFlag)
     : featureTreeMap(buildFeatureTreeMap(featureFilePath, includedFeatures, featureIDFlag)) {}
-
-FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
-                                   const std::vector<std::string> &includedFeatures)
-    : featureTreeMap(buildFeatureTreeMap(featureFilePath, includedFeatures, std::nullopt)) {}
 
 FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
                                    const std::unordered_set<std::string> &includedFeatures)
@@ -33,38 +29,6 @@ FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(const dtp::FeatureMap &feat
         }
         tree.index();
         newFeatureTreeMap.emplace(referenceID, std::move(tree));
-    }
-
-    return newFeatureTreeMap;
-}
-
-FeatureTreeMap FeatureAnnotator::buildFeatureTreeMap(
-    const fs::path &featureFilePath, const std::vector<std::string> &includedFeatures,
-    const std::optional<std::string> &featureIDFlag) {
-    FeatureTreeMap newFeatureTreeMap;
-
-    std::unordered_set<std::string> uniqueIncludedFeatures;
-
-    for (const std::string &feature : includedFeatures) {
-        std::stringstream ss(feature);
-        std::string str;
-        while (getline(ss, str, ',')) {
-            uniqueIncludedFeatures.insert(str);
-        }
-    }
-
-    dtp::FeatureMap featureMap =
-        FeatureParser(uniqueIncludedFeatures, featureIDFlag).parse(featureFilePath);
-
-    newFeatureTreeMap.reserve(featureMap.size());
-
-    for (const auto &[seqid, features] : featureMap) {
-        IITree<int, dtp::Feature> tree;
-        for (const auto &feature : features) {
-            tree.add(feature.startPosition, feature.endPosition, feature);
-        }
-        tree.index();
-        newFeatureTreeMap.emplace(seqid, std::move(tree));
     }
 
     return newFeatureTreeMap;
@@ -239,7 +203,6 @@ std::optional<dtp::Feature> FeatureAnnotator::getBestOverlappingFeature(
     if (maxOverlapSizeElement != featureIterator.end()) {
         return *maxOverlapSizeElement;
     }
-
     return std::nullopt;
 }
 

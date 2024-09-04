@@ -35,9 +35,9 @@ class Runner {
    private:
     struct InputDirectories {
         InputDirectories(const fs::path parentDir, const std::string pipelinePrefix)
-            : treatmentInputDir(parentDir / treatmentSampleGroup / pipelinePrefix),
+            : treatmentInputDir(parentDir / pipelinePrefix / treatmentSampleGroup),
               controlInputDir(
-                  helper::getDirIfExists(parentDir / controlSampleGroup / pipelinePrefix)) {};
+                  helper::getDirIfExists(parentDir / pipelinePrefix / controlSampleGroup)) {};
 
         fs::path treatmentInputDir;
         std::optional<fs::path> controlInputDir;

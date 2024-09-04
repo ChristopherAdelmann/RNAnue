@@ -21,11 +21,10 @@ static const std::string validInputSuffix = pipelines::align::outSampleAlignedSu
 static const std::string outSampleSplitAlignmentsSuffix = "_splits.bam";
 static const std::string outSampleMultisplitAlignmentsSuffix = "_multisplits.bam";
 static const std::string outSampleUnassignedContiguousAlignmentsSuffix =
-    "_contiguous_unassigned.bam";
+    "_contiguous_unassigned_aligned.bam";
 static const std::string outSampleContiguousAlignmentsTranscriptCountsSuffix =
-    "_contiguous_counts.tsv";
-
-static const std::string outSharedReadCountsSuffix = "stats_summary.tsv";
+    "_contiguous_transcript_counts.tsv";
+static const std::string outSampleReadCountsSummarySuffix = "_read_counts_summary.tsv";
 
 static constexpr std::string pipelinePrefix = "03_detect";
 

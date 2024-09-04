@@ -23,7 +23,7 @@ static const std::string validInputUnassignedContiguousAlignmentsSuffix =
     detect::outSampleUnassignedContiguousAlignmentsSuffix;
 static const std::string validInputContiguousAlignmentsTranscriptCountsSuffix =
     detect::outSampleContiguousAlignmentsTranscriptCountsSuffix;
-static const std::string validSharedReadCountsSuffix = detect::outSharedReadCountsSuffix;
+static const std::string validSharedReadCountsSuffix = detect::outSampleReadCountsSummarySuffix;
 
 static const std::array<std::string, 5> validSuffices = {
     validInputSplitAlignmentsSuffix, validInputMultisplitAlignmentsSuffix,

@@ -3,6 +3,9 @@
 #include <filesystem>
 #include <fstream>
 
+#include "Logger.hpp"
+#include "seqan3/io/sam_file/input.hpp"
+
 namespace helper {
 void createTmpDir(fs::path path) {
     Logger::log(LogLevel::INFO, "Create temporary directory " + path.string());
@@ -25,53 +28,17 @@ std::optional<fs::path> getDirIfExists(const fs::path& path) {
     return std::nullopt;
 }
 
-void mergeFiles(const fs::path& outputPath, const std::vector<fs::path>& paths) {
-    std::ofstream outfile(outputPath, std::ios::binary);
-    if (!outfile.is_open()) {
-        throw std::runtime_error("Could not open file");
-    }
-
-    for (const auto& path : paths) {
-        std::ifstream inputFilestream(path, std::ios::binary);
-
-        if (!inputFilestream.is_open()) {
-            throw std::runtime_error("Could not open file");
-        }
-
-        outfile << inputFilestream.rdbuf();
-    }
-}
-
 void mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
     if (inputPaths.empty()) {
+        Logger::log(LogLevel::WARNING, "No input files to merge");
         return;
     }
 
-    std::ofstream outfile(outputPath);
-    if (!outfile.is_open()) {
-        throw std::runtime_error("Could not open file");
-    }
+    seqan3::sam_file_output outputFile{outputPath};
 
-    // Only add the header from the first file
-    std::ifstream firstFile(inputPaths[0]);
-    std::string line;
-    while (std::getline(firstFile, line)) {
-        if (line.empty() || line[0] == '@') {
-            outfile << line << "\n";
-        } else {
-            break;
-        }
-    }
-
-    // Merge the contents of all the files
-    for (const auto& path : inputPaths) {
-        std::ifstream inputFile(path);
-        while (std::getline(inputFile, line)) {
-            if (line.empty() || line[0] == '@') {
-                continue;  // Skip the header lines
-            }
-            outfile << line << "\n";
-        }
+    for (const auto& inputPath : inputPaths) {
+        seqan3::sam_file_input inputFile{inputPath};
+        inputFile | outputFile;
     }
 }
 

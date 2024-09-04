@@ -41,6 +41,7 @@ std::vector<std::string> Closing::retrieveQuotes() {
     quotes.insert(quotes.end(), ("\"Spinnst du!\" - Randy"));
     quotes.insert(quotes.end(), ("\"Hechtschenkel..?\" - Randy"));
     quotes.insert(quotes.end(), ("\"I am a freaking genius\" - Fikrat - always"));
+    quotes.insert(quotes.end(), ("\"Change da world – my final message – goodbye\" - Marius"));
 
     return quotes;
 }

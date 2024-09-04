@@ -1,5 +1,7 @@
 #include "ParameterOptions.hpp"
 
+#include <cstddef>
+
 #include "boost/program_options/options_description.hpp"
 
 namespace pi = constants::pipelines;
@@ -95,13 +97,13 @@ po::options_description ParameterOptions::getPreprocessOptions() {
 po::options_description ParameterOptions::getAlignOptions() {
     po::options_description align("Align Pipeline");
     align.add_options()("dbref", po::value<std::string>(), "reference genome (.fasta) (required)");
-    align.add_options()("accuracy", po::value<int>()->default_value(90),
+    align.add_options()("accuracy", po::value<size_t>()->default_value(90),
                         "minimum percentage of read matches (default: 90, range: 0-100)");
-    align.add_options()("minfragsco", po::value<int>()->default_value(18),
+    align.add_options()("minfragsco", po::value<size_t>()->default_value(18),
                         "minimum score of a spliced fragment (default: 18)");
-    align.add_options()("minfraglen", po::value<int>()->default_value(20),
+    align.add_options()("minfraglen", po::value<size_t>()->default_value(20),
                         "minimum length of a spliced fragment (default: 20)");
-    align.add_options()("minsplicecov", po::value<int>()->default_value(80),
+    align.add_options()("minsplicecov", po::value<size_t>()->default_value(80),
                         "minimum coverage for spliced transcripts (default: 80, range:0-100)");
 
     return align;
@@ -109,7 +111,7 @@ po::options_description ParameterOptions::getAlignOptions() {
 
 po::options_description ParameterOptions::getDetectOptions() {
     po::options_description detect("Detect Pipeline");
-    detect.add_options()("mapqmin", po::value<int>()->default_value(10),
+    detect.add_options()("mapqmin", po::value<size_t>()->default_value(10),
                          "minimum quality of the alignments (default: 10)");
     detect.add_options()("cmplmin", po::value<double>()->default_value(0.0),
                          "complementarity cutoff for split reads (default: 0.0; range: 0.0-1.0)");
@@ -136,7 +138,7 @@ po::options_description ParameterOptions::getAnalyzeOptions() {
                            "ended clusters (default: 0)");
     analysis.add_options()("padj", po::value<double>()->default_value(1.0),
                            "p-value threshold for outputting an interaction (default: 1.0)");
-    analysis.add_options()("mincount", po::value<int>()->default_value(1),
+    analysis.add_options()("mincount", po::value<size_t>()->default_value(1),
                            "minimum number of reads assigned to an interaction (default: 1)");
 
     return analysis;

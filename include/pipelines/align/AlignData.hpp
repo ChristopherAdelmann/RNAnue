@@ -15,7 +15,8 @@
 namespace pipelines {
 namespace align {
 
-static const std::string validInputSuffixSingleton = preprocess::outSampleFastqSuffix;
+static const std::array<std::string, 1> validInputSuffixSingleton = {
+    preprocess::outSampleFastqSuffix};
 static const std::array<std::string, 3> validInputSuffixesPaired{
     preprocess::outSampleFastqPairedMergeSuffix,
     preprocess::outSampleFastqPairedForwardSingletonSuffix,

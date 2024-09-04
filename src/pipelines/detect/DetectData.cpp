@@ -1,5 +1,7 @@
 #include "DetectData.hpp"
 
+#include "Logger.hpp"
+
 namespace pipelines {
 namespace detect {
 
@@ -29,7 +31,8 @@ const std::vector<DetectSample> DetectData::retrieveSamples(const std::string& s
             outputDirSample /
             (inputSample.sampleName + outSampleContiguousAlignmentsTranscriptCountsSuffix);
 
-        const fs::path outputSharedStatsPath = outputDirPipeline / outSharedReadCountsSuffix;
+        const fs::path outputSharedStatsPath =
+            outputDirSample / (inputSample.sampleName + outSampleReadCountsSummarySuffix);
 
         samples.push_back(DetectSample(
             inputSample,
@@ -65,11 +68,10 @@ const std::vector<DetectInput> DetectData::retrieveInputSamples(const fs::path& 
                                         " . Expected: " + validInputSuffix;
             Logger::log(LogLevel::ERROR, message);
             throw std::runtime_error(message);
-        } else {
-            const std::string message =
-                "Unexpected file " + sampleFile.string() + " found in " + sampleDir.string();
-            Logger::log(LogLevel::WARNING, message);
         }
+
+        Logger::log(LogLevel::DEBUG,
+                    "Found input sample: " + sampleName + " file: " + sampleFile.string());
 
         samples.emplace_back(sampleName, sampleFile);
     }

@@ -2,11 +2,14 @@
 
 #include "Analyze.hpp"
 #include "AnalyzeData.hpp"
+#include "Closing.hpp"
 
 void Runner::runPipeline(int argc, const char *const argv[]) {
     const auto parameters = ParameterParser::getParameters(argc, argv);
 
     std::visit(Pipeline(), parameters);
+
+    Closing::printQuote();
 }
 
 void Runner::runPreprocessPipeline(const preprocess::PreprocessParameters &parameters) {
@@ -51,7 +54,7 @@ void Runner::runDetectPipeline(const DetectParameters &parameters) {
 void Runner::runAnalyzePipeline(const AnalyzeParameters &parameters) {
     Logger::log(LogLevel::INFO, "Running analyze pipeline");
 
-    const auto inputDirs = InputDirectories(parameters.outputDir, analyze::pipelinePrefix);
+    const auto inputDirs = InputDirectories(parameters.outputDir, detect::pipelinePrefix);
 
     const auto data = analyze::AnalyzeData(parameters.outputDir, inputDirs.treatmentInputDir,
                                            inputDirs.controlInputDir);
@@ -67,10 +70,7 @@ void Runner::runCompletePipeline(const CompleteParameters &parameters) {
     runAlignPipeline(parameters.alignParameters);
     runDetectPipeline(parameters.detectParameters);
     runAnalyzePipeline(parameters.analyzeParameters);
-
-    Logger::log(LogLevel::ERROR, "Complete pipeline is not implemented yet");
 }
-// TODO: Implement the rest of the pipeline functions
 
 void Runner::Pipeline::operator()(const preprocess::PreprocessParameters &params) {
     Runner::runPreprocessPipeline(params);

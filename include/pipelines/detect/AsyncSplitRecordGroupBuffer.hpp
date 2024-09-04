@@ -155,16 +155,16 @@ class AsyncSplitRecordGroupBufferView
             std::vector<record_input_t::value_type> recordGroup;
             recordGroup.reserve(10);
 
-            auto recordIter = state.urange.begin();
+            std::string currentRecordGroupID;
 
-            if (recordIter == state.urange.end()) {
-                state.buffer.close();
-                return;
-            }
-
-            std::string currentRecordGroupID = (*recordIter).id();
+            bool firstRecord = true;
 
             for (auto&& record : state.urange) {
+                if (firstRecord) {
+                    firstRecord = false;
+                    currentRecordGroupID = record.id();
+                }
+
                 if (currentRecordGroupID == record.id()) {
                     recordGroup.emplace_back(std::move(record));
                 } else {

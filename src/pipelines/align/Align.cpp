@@ -64,10 +64,10 @@ void Align::processMergedPairedEnd(const AlignSampleMergedPaired &sample) {
     alignSingleReads(sample.input.inputSingletonReverseFastqPath,
                      sample.output.outputAlignmentsSingletonReverseReadsPath);
 
-    helper::mergeFiles(sample.output.outputAlignmentsPath,
-                       {sample.output.outputAlignmentsMergedReadsPath,
-                        sample.output.outputAlignmentsSingletonForwardReadsPath,
-                        sample.output.outputAlignmentsSingletonReverseReadsPath});
+    helper::mergeSamFiles({sample.output.outputAlignmentsMergedReadsPath,
+                           sample.output.outputAlignmentsSingletonForwardReadsPath,
+                           sample.output.outputAlignmentsSingletonReverseReadsPath},
+                          sample.output.outputAlignmentsPath);
 
     sortAlignmentsByQueryName(sample.output.outputAlignmentsPath,
                               sample.output.outputAlignmentsPath);
@@ -99,23 +99,15 @@ void Align::buildIndex() {
 }
 
 std::vector<std::string> Align::getGeneralAlignmentArgs() const {
-    return {"-S",
-            "-A",
-            std::to_string(parameters.accuracy),
-            "-U",
-            std::to_string(parameters.minimumFragmentScore),
-            "-W",
-            std::to_string(parameters.minimumSpliceCoverage),
-            "-Z",
-            std::to_string(parameters.minimumFragmentLength),
-            "-t",
-            std::to_string(parameters.threadCount),
-            "-m",
-            std::to_string(parameters.minLengthThreshold),
-            "-i",
-            indexPath.string(),
-            "-d",
-            parameters.referenceGenome.string()};
+    return {"-b", "-S",
+            "-A", std::to_string(parameters.accuracy),
+            "-U", std::to_string(parameters.minimumFragmentScore),
+            "-W", std::to_string(parameters.minimumSpliceCoverage),
+            "-Z", std::to_string(parameters.minimumFragmentLength),
+            "-t", std::to_string(parameters.threadCount),
+            "-m", std::to_string(parameters.minLengthThreshold),
+            "-i", indexPath.string(),
+            "-d", parameters.referenceGenome.string()};
 }
 
 void Align::alignSingleReads(const fs::path &queryFastqInPath,
@@ -159,8 +151,8 @@ void Align::sortAlignmentsByQueryName(const fs::path &alignmentsPath,
     // TODO Adapt output format to selection from config
     const size_t SORT_DEFAULT_MEGS_PER_THREAD = 768;
     const size_t maxMem = SORT_DEFAULT_MEGS_PER_THREAD << 20;
-    const htsFormat inFmt = {sequence_data, sam, {1, 6}, no_compression, 0, 0};
-    const htsFormat outFmt = {sequence_data, sam, {1, 6}, no_compression, 0, 0};
+    const htsFormat inFmt = {sequence_data, bam, {1, 6}, no_compression, 0, 0};
+    const htsFormat outFmt = {sequence_data, bam, {1, 6}, no_compression, 0, 0};
 
     const fs::path tempDir = fs::path(alignmentsPath).parent_path();
     char emptyStr[] = "";

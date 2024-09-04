@@ -7,6 +7,7 @@
 #include <deque>
 #include <filesystem>
 #include <fstream>
+#include <future>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -20,8 +21,11 @@
 // Boost
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 
 // Classes
+#include "AsyncSplitRecordGroupBuffer.hpp"
 #include "Constants.hpp"
 #include "CustomSamTags.hpp"
 #include "DataTypes.hpp"
@@ -52,12 +56,15 @@ class Detect {
     void process(const DetectData &data);
 
    private:
-    struct ChunkedInOutFilePaths {
-        fs::path mappingsInPath;
-        fs::path splitsOutPath;
-        fs::path multSplitsOutPath;
-        fs::path unassignedSingletonRecordsOutPath;
+    using AsyncGroupBufferType = AsyncSplitRecordGroupBufferView<std::ranges::ref_view<
+        seqan3::sam_file_input<seqan3::sam_file_input_default_traits<>, sam_field_ids>>>;
+
+    struct ChunkedOutTmpDirs {
+        fs::path outputTmpSplitsDir;
+        fs::path outputTmpMultisplitsDir;
+        fs::path outputTmpUnassignedContiguousDir;
     };
+
     using TranscriptCounts = std::unordered_map<std::string, size_t>;
 
     struct Results {
@@ -78,10 +85,10 @@ class Detect {
 
     void processSample(const DetectSample &sample) const;
 
-    Results iterateSortedMappingsFile(const std::string &mappingsInPath,
-                                      const std::string &splitsPath,
-                                      const std::string &multiSplitsPath,
-                                      const fs::path &unassignedSingletonRecordsOutPath) const;
+    Results processRecordChunk(const ChunkedOutTmpDirs &outTmpDirs,
+                               AsyncGroupBufferType &recordInputBuffer,
+                               const std::deque<std::string> refIDs,
+                               const std::vector<size_t> refLengths) const;
     size_t processReadRecords(const std::vector<SamRecord> &readRecords,
                               const std::deque<std::string> &referenceIDs, auto &splitsOut,
                               [[maybe_unused]] auto &multiSplitsOut) const;
@@ -94,16 +101,15 @@ class Detect {
         const std::deque<std::string> &referenceIDs) const;
 
     void mergeResults(Results &transcriptCounts, const Results &newTranscriptCounts) const;
+    void mergeOutputFiles(const ChunkedOutTmpDirs &tmpDirs, const DetectOutput &output) const;
     void writeSamFile(auto &samOut, const std::vector<SamRecord> &splitRecords) const;
 
     void writeTranscriptCountsFile(const fs::path &transcriptCountsFilePath,
                                    const TranscriptCounts &transcriptCounts) const;
-    void writeStatisticsFile(const Results &results, const std::string &sampleName,
-                             const fs::path &statsFilePath) const;
+    void writeReadCountsSummaryFile(const Results &results, const std::string &sampleName,
+                                    const fs::path &statsFilePath) const;
 
-    std::vector<ChunkedInOutFilePaths> prepareInputOutputFiles(const fs::path &mappingsFileInPath,
-                                                               const fs::path &splitsFileOutPath,
-                                                               const int mappingRecordsCount) const;
+    ChunkedOutTmpDirs prepareTmpOutputDirs(const fs::path &tmpOutDir) const;
     std::vector<fs::path> splitMappingsFile(const fs::path &mappingsFilePath,
                                             const fs::path &tmpInPath, const int entries) const;
 };

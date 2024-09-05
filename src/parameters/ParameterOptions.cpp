@@ -113,7 +113,7 @@ po::options_description ParameterOptions::getDetectOptions() {
     po::options_description detect("Detect Pipeline");
     detect.add_options()("mapqmin", po::value<size_t>()->default_value(10),
                          "minimum quality of the alignments (default: 10)");
-    detect.add_options()("cmplmin", po::value<double>()->default_value(0.0),
+    detect.add_options()("cmplmin", po::value<double>()->default_value(0.5),
                          "complementarity cutoff for split reads (default: 0.0; range: 0.0-1.0)");
     detect.add_options()("sitelenratio", po::value<double>()->default_value(0.1),
                          "aligned portion of the read (default: 0.1, range: 0.0-1.0)");
@@ -136,8 +136,9 @@ po::options_description ParameterOptions::getAnalyzeOptions() {
                            "threshold distance at which two clusters are merged into a single "
                            "combined cluster, default is to only merge overlapping or blunt "
                            "ended clusters (default: 0)");
-    analysis.add_options()("padj", po::value<double>()->default_value(1.0),
-                           "p-value threshold for outputting an interaction (default: 1.0)");
+    analysis.add_options()(
+        "padj", po::value<double>()->default_value(1.0),
+        "adjusted p-value threshold for outputting an interaction (default: 1.0)");
     analysis.add_options()("mincount", po::value<size_t>()->default_value(1),
                            "minimum number of reads assigned to an interaction (default: 1)");
 

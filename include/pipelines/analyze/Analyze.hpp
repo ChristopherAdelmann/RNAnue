@@ -3,11 +3,21 @@
 // OpenMP
 #include <omp.h>
 
+#include <cstddef>
+#include <cstdint>
+#include <deque>
+#include <fstream>
+
 // Standard
 #include <algorithm>
 #include <filesystem>
+#include <optional>
 #include <random>
 #include <ranges>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 // Boost
 #include <boost/filesystem.hpp>
@@ -29,12 +39,11 @@
 #include "DataTypes.hpp"
 #include "FeatureAnnotator.hpp"
 #include "FeatureWriter.hpp"
+#include "InteractionCluster.hpp"
 #include "Logger.hpp"
+#include "Segment.hpp"
 #include "Utility.hpp"
 
-namespace po = boost::program_options;
-namespace pt = boost::property_tree;
-namespace fs = std::filesystem;
 namespace math = boost::math;  // NOLINT
 
 using namespace dtp;
@@ -42,57 +51,6 @@ using seqan3::operator""_tag;
 
 namespace pipelines {
 namespace analyze {
-
-struct Segment {
-    std::string recordID;
-    int32_t referenceIDIndex;
-    dtp::Strand strand;
-    int32_t start;
-    int32_t end;
-    double maxComplementarityScore;
-    double minHybridizationEnergy;
-
-    static std::optional<Segment> fromSamRecord(const dtp::SamRecord &record);
-
-    dtp::GenomicRegion toGenomicRegion(const std::deque<std::string> &referenceIDs) const;
-
-    dtp::Feature toFeature(const std::deque<std::string> &referenceIDs,
-                           const std::string &featureID,
-                           const std::string &featureType = "transcript") const;
-
-    void merge(const Segment &other);
-};
-
-struct InteractionCluster {
-    std::pair<Segment, Segment> segments;
-    std::vector<double> complementarityScores;
-    std::vector<double> hybridizationEnergies;
-    std::optional<std::pair<std::string, std::string>> transcriptIDs = std::nullopt;
-    std::optional<double> pValue = std::nullopt;
-    std::optional<double> pAdj = std::nullopt;
-    int count{1};
-
-    static std::optional<InteractionCluster> fromSegments(const Segment &segment1,
-                                                          const Segment &segment2);
-
-    bool operator<(const InteractionCluster &a) const;
-
-    bool overlaps(const InteractionCluster &other, const int graceDistance) const;
-
-    void merge(const InteractionCluster &other);
-
-    double complementarityStatistics() const;
-
-    double hybridizationEnergyStatistics() const;
-
-   private:
-    InteractionCluster(std::pair<Segment, Segment> segments,
-                       const std::vector<double> &complementarityScores,
-                       const std::vector<double> &hybridizationEnergies);
-
-    static std::optional<std::pair<Segment, Segment>> getSortedElements(const Segment &segment1,
-                                                                        const Segment &segment2);
-};
 
 class Analyze {
    public:

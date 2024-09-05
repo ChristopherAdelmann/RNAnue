@@ -1,8 +1,6 @@
 #pragma once
 
 // Standard
-#include <machine/limits.h>
-
 #include <climits>
 #include <cstddef>
 #include <filesystem>

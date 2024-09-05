@@ -12,6 +12,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing ()
 
+
 add_executable (tests   ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/FeatureAnnotatorTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/DetectTests.cpp
@@ -35,10 +36,10 @@ add_executable (tests   ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CooptimalPairwiseAligner.cpp
 )
 
-### htslib
+# # # htslib
 target_link_libraries (tests PRIVATE ${HTSlib_LIBRARIES})
 
-### ViennaRNA
+# # # ViennaRNA
 target_link_libraries (tests PRIVATE ${VIENNA_RNA_LIBRARY})
 
 target_include_directories (tests PRIVATE   ${CMAKE_CURRENT_SOURCE_DIR}/../include

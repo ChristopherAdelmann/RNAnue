@@ -34,8 +34,10 @@ set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME ON)
 set(Boost_DEBUG OFF)
+set(Boost_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/submodules/boost)
 
-add_subdirectory(submodules/boost EXCLUDE_FROM_ALL)
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/boost EXCLUDE_FROM_ALL)
 
 # # # ViennaRNA
 find_package(ViennaRNA)
@@ -137,10 +139,6 @@ target_include_directories (RNAnue PRIVATE ${VIENNA_RNA_INCLUDE_DIR} ${VIENNA_RN
 # # # Link Libraries
 target_link_libraries (RNAnue PRIVATE   seqan3::seqan3
                                         Boost::program_options
-                                        Boost::filesystem
-                                        Boost::property_tree
-                                        Boost::foreach
-                                        Boost::dynamic_bitset
                                         Boost::math
                                         Boost::uuid
                                         segemehl)

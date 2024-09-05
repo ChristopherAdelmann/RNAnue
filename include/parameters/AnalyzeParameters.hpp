@@ -24,5 +24,5 @@ class AnalyzeParameters : public GeneralParameters {
               ParameterValidator::validateArithmetic(params, "clustdist", INT_MIN, INT_MAX)),
           padjThreshold(ParameterValidator::validateArithmetic(params, "padj", 0.0, 1.0)),
           minimumClusterReadCount(
-              ParameterValidator::validateArithmetic<size_t>(params, "mincount", 1, SIZE_T_MAX)) {};
+              ParameterValidator::validateArithmetic<size_t>(params, "mincount", 1, SIZE_MAX)) {};
 };

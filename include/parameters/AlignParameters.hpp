@@ -31,9 +31,9 @@ class AlignParameters : public GeneralParameters {
               ParameterValidator::validateArithmetic<size_t>(params, "minlen", 0, 1000)),
           accuracy(ParameterValidator::validateArithmetic<size_t>(params, "accuracy", 0, 100)),
           minimumFragmentScore(
-              ParameterValidator::validateArithmetic<size_t>(params, "minfragsco", 0, SIZE_T_MAX)),
+              ParameterValidator::validateArithmetic<size_t>(params, "minfragsco", 0, SIZE_MAX)),
           minimumFragmentLength(
-              ParameterValidator::validateArithmetic<size_t>(params, "minfraglen", 0, SIZE_T_MAX)),
+              ParameterValidator::validateArithmetic<size_t>(params, "minfraglen", 0, SIZE_MAX)),
           minimumSpliceCoverage(
               ParameterValidator::validateArithmetic<size_t>(params, "minsplicecov", 0, 100)) {};
 };

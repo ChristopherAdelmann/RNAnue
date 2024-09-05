@@ -61,17 +61,17 @@ class PreprocessParameters : public GeneralParameters {
           maxMissMatchFractionTrimming(
               ParameterValidator::validateArithmetic(params, "mtrim", double{0.0}, double{1.0})),
           minOverlapTrimming(
-              ParameterValidator::validateArithmetic(params, "minovltrim", size_t{0}, SIZE_T_MAX)),
+              ParameterValidator::validateArithmetic(params, "minovltrim", size_t{0}, SIZE_MAX)),
           minQualityThreshold(
-              ParameterValidator::validateArithmetic(params, "minqual", size_t{0}, SIZE_T_MAX)),
+              ParameterValidator::validateArithmetic(params, "minqual", size_t{0}, SIZE_MAX)),
           minLengthThreshold(ParameterValidator::validateArithmetic<size_t>(params, "minlen",
-                                                                            size_t{0}, SIZE_T_MAX)),
+                                                                            size_t{0}, SIZE_MAX)),
           minMeanWindowQuality(
-              ParameterValidator::validateArithmetic(params, "wqual", size_t{0}, SIZE_T_MAX)),
+              ParameterValidator::validateArithmetic(params, "wqual", size_t{0}, SIZE_MAX)),
           windowTrimmingSize(
-              ParameterValidator::validateArithmetic(params, "wtrim", size_t{0}, SIZE_T_MAX)),
+              ParameterValidator::validateArithmetic(params, "wtrim", size_t{0}, SIZE_MAX)),
           minOverlapMerging(
-              ParameterValidator::validateArithmetic(params, "minovl", size_t{0}, SIZE_T_MAX)),
+              ParameterValidator::validateArithmetic(params, "minovl", size_t{0}, SIZE_MAX)),
           maxMissMatchFractionMerging(
               ParameterValidator::validateArithmetic(params, "mmerge", double{0.0}, double{1.0})) {}
 

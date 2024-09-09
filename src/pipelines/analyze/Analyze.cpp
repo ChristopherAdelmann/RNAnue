@@ -22,6 +22,8 @@ void Analyze::process(const AnalyzeData &data) {
 }
 
 void Analyze::processSample(AnalyzeSample sample) {
+    Logger::log(LogLevel::INFO, "Processing sample: ", sample.input.sampleName);
+
     seqan3::sam_file_input splitsIn{sample.input.splitAlignmentsPath, sam_field_ids{}};
 
     auto &header = splitsIn.header();

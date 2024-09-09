@@ -1,8 +1,5 @@
 #pragma once
 
-// OpenMP
-#include <omp.h>
-
 #include <cstddef>
 #include <cstdint>
 #include <deque>

@@ -73,8 +73,7 @@ class Preprocess {
                                      const std::vector<Adapter> &adapters3) const;
     void processSingleEndFileInChunks(std::string const &recInPath, std::string recOutPath,
                                       const std::vector<Adapter> &adapters5,
-                                      const std::vector<Adapter> &adapters3, size_t chunkSize,
-                                      size_t numThreads) const;
+                                      const std::vector<Adapter> &adapters3) const;
 
     void processPairedEndRecordChunk(PairedEndFastqChunk &chunk,
                                      const std::vector<Adapter> &adapters5f,
@@ -86,7 +85,7 @@ class Preprocess {
         std::string const &mergedOutPath, std::string const &snglFwdOutPath,
         std::string const &snglRevOutPath, const std::vector<Adapter> &adapters5f,
         const std::vector<Adapter> &adapters3f, const std::vector<Adapter> &adapters5r,
-        const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads) const;
+        const std::vector<Adapter> &adapters3r) const;
 };
 
 }  // namespace preprocess

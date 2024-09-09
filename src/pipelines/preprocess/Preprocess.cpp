@@ -46,8 +46,7 @@ void Preprocess::processSingleEnd(const PreprocessSampleSingle &sample) const {
                               TrimConfig::Mode::THREE_PRIME);
 
     processSingleEndFileInChunks(sample.input.inputFastqPath, sample.output.outputFastqPath,
-                                 adapters5, adapters3, parameters.chunkSize,
-                                 parameters.threadCount);
+                                 adapters5, adapters3);
 
     Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName);
 }
@@ -77,7 +76,7 @@ void Preprocess::processPairedEnd(const PreprocessSamplePaired &sample) const {
         sample.input.inputForwardFastqPath, sample.input.inputReverseFastqPath,
         sample.output.outputMergedFastqPath, sample.output.outputSingletonForwardFastqPath,
         sample.output.outputSingletonReverseFastqPath, adapters5f, adapters3f, adapters5r,
-        adapters3r, parameters.chunkSize, parameters.threadCount);
+        adapters3r);
 
     Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName);
 }
@@ -127,8 +126,7 @@ void Preprocess::processSingleEndRecordChunk(Preprocess::SingleEndFastqChunk &ch
 // Function to read a FASTQ file in chunks and process each chunk.
 void Preprocess::processSingleEndFileInChunks(std::string const &recInPath, std::string recOutPath,
                                               const std::vector<Adapter> &adapters5,
-                                              const std::vector<Adapter> &adapters3,
-                                              size_t chunkSize, size_t numThreads) const {
+                                              const std::vector<Adapter> &adapters3) const {
     seqan3::sequence_file_input recIn{recInPath};
     seqan3::sequence_file_output recOut{recOutPath};
 
@@ -147,14 +145,14 @@ void Preprocess::processSingleEndFileInChunks(std::string const &recInPath, std:
             {
                 std::lock_guard<std::mutex> lock(mutex);
 
-                chunk.records.reserve(chunkSize);
+                chunk.records.reserve(parameters.chunkSize);
 
                 size_t count = 0;
 
                 for (auto &&record : recIn) {
                     chunk.records.push_back(record);
 
-                    if (++count == chunkSize) break;
+                    if (++count == parameters.chunkSize) break;
                 }
 
                 chunkCount++;
@@ -171,9 +169,10 @@ void Preprocess::processSingleEndFileInChunks(std::string const &recInPath, std:
                 const auto end = std::chrono::high_resolution_clock::now();
                 const std::chrono::duration<double> duration = end - start;
 
-                Logger::log(LogLevel::INFO, "Processed chunk (" + std::to_string(chunkSize) +
-                                                " reads). Elapsed time: " +
-                                                std::to_string(duration.count()) + " seconds.");
+                Logger::log(LogLevel::INFO,
+                            "Processed chunk (" + std::to_string(parameters.chunkSize) +
+                                " reads). Elapsed time: " + std::to_string(duration.count()) +
+                                " seconds.");
             }
 
             // Check if there are no more records in the file.
@@ -183,7 +182,7 @@ void Preprocess::processSingleEndFileInChunks(std::string const &recInPath, std:
 
     // Create and run threads.
     std::vector<std::thread> threads;
-    for (size_t i = 0; i < numThreads; ++i) threads.emplace_back(processChunkFunc);
+    for (size_t i = 0; i < parameters.threadCount; ++i) threads.emplace_back(processChunkFunc);
 
     // Wait for all threads to finish.
     for (auto &thread : threads) thread.join();
@@ -195,7 +194,7 @@ void Preprocess::processPairedEndFileInChunks(
     const std::string &mergedOutPath, std::string const &snglFwdOutPath,
     const std::string &snglRevOutPath, const std::vector<Adapter> &adapters5f,
     const std::vector<Adapter> &adapters3f, const std::vector<Adapter> &adapters5r,
-    const std::vector<Adapter> &adapters3r, size_t chunkSize, size_t numThreads) const {
+    const std::vector<Adapter> &adapters3r) const {
     seqan3::sequence_file_input recFwdIn{recFwdInPath};
     seqan3::sequence_file_input recRevIn{recRevInPath};
 
@@ -219,8 +218,8 @@ void Preprocess::processPairedEndFileInChunks(
             {
                 std::lock_guard<std::mutex> lock(mutex);
 
-                chunk.recordsFwd.reserve(chunkSize);
-                chunk.recordsRev.reserve(chunkSize);
+                chunk.recordsFwd.reserve(parameters.chunkSize);
+                chunk.recordsRev.reserve(parameters.chunkSize);
 
                 std::size_t count = 0;
 
@@ -228,7 +227,7 @@ void Preprocess::processPairedEndFileInChunks(
                     chunk.recordsFwd.push_back(record1);
                     chunk.recordsRev.push_back(record2);
 
-                    if (++count == chunkSize) break;
+                    if (++count == parameters.chunkSize) break;
                 }
 
                 chunkCount++;
@@ -253,9 +252,10 @@ void Preprocess::processPairedEndFileInChunks(
                 const auto end = std::chrono::high_resolution_clock::now();
                 const std::chrono::duration<double> duration = end - start;
 
-                Logger::log(LogLevel::INFO, "Processed chunk (up to " + std::to_string(chunkSize) +
-                                                " read pairs). Elapsed time: " +
-                                                std::to_string(duration.count()) + " seconds.");
+                Logger::log(LogLevel::INFO,
+                            "Processed chunk (up to " + std::to_string(parameters.chunkSize) +
+                                " read pairs). Elapsed time: " + std::to_string(duration.count()) +
+                                " seconds.");
             }
 
             // Check if there are no more records in the file.
@@ -265,7 +265,7 @@ void Preprocess::processPairedEndFileInChunks(
 
     // Create and run threads.
     std::vector<std::thread> threads;
-    for (size_t i = 0; i < numThreads; ++i) threads.emplace_back(processChunkFunc);
+    for (size_t i = 0; i < parameters.threadCount; ++i) threads.emplace_back(processChunkFunc);
 
     // Wait for all threads to finish.
     for (auto &thread : threads) thread.join();

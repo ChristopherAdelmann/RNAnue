@@ -93,7 +93,9 @@ RNAnue provides different sub-calls for individual pipeline steps. These include
 
 ## Input
 
-> **IMPORTANT** RNAnue requires the sequencing files to be in a specific folder structure.
+> **IMPORTANT** RNAnue requires the sequencing files to be in a specific folder structure. Files can also be compressed with gzip.
+
+> **IMPORTANT** In order to process paired-end files, files must end with "\_forward.fastq" and "\_reverse.fastq", "\_R1.fastq" and "\_R2.fastq" or "\_1.fastq" and "\_2.fastq".
 
 The root folders of the treatments (`--trtms`; required) and controls (`--ctrls`; optional) are specified accordingly. These folders contain sub-folders
 with arbitrary conditions (e.g., treatment, cell lines,...) that in turn contain the read files.
@@ -102,36 +104,16 @@ with arbitrary conditions (e.g., treatment, cell lines,...) that in turn contain
 
 ```text
 ./trtms/
-    condition1
+    sample1
         *.fastq
-    condition2
+    sample2
         *.fastq
 ./ctrls/
-    condition1
+    sample3
+        *forward.fastq
+        *reverse.fastq
+    sample4
         *.fastq
-    condition2
-        *.fastq
-```
-
-### Paired-End folder structure
-
-> **IMPORTANT** In order to process paired-end files `--readtype = PE` must be set and files must end with "forward.fastq" and "reverse.fastq".
-
-```text
-./trtms/
-    condition1
-        *forward.fastq
-        *reverse.fastq
-    condition2
-        *forward.fastq
-        *reverse.fastq
-./ctrls/
-    condition1
-        *forward.fastq
-        *reverse.fastq
-    condition2
-        *forward.fastq
-        *reverse.fastq
 ```
 
 ## Parameters

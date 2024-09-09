@@ -14,15 +14,12 @@
 
 // Classes
 
-#include "Base.hpp"
 #include "Closing.hpp"
 #include "Config.hpp"
 #include "Constants.hpp"
 #include "FeatureAnnotator.hpp"
 #include "ParameterParser.hpp"
 #include "Runner.hpp"
-
-namespace po = boost::program_options;
 
 void showVersion() {
     const std::string versionString =

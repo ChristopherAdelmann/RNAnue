@@ -299,12 +299,16 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord& readR
     };
 
     auto const addSoftClipCigar = [&](const auto& cigar) {
-        if (!params.excludeSoftClipping) return addOtherCigar(cigar);
+        const auto cigarValue = get<0>(cigar);
+        if (!params.excludeSoftClipping) {
+            nextSplitReferenceShift -= cigarValue;
+            addOtherCigar(cigar);
+            return;
+        }
 
         /* If current cigar is empty, we are at the beginning of the read in case
         of soft clipping at the end of the read it is just ignored */
         if (currentCigar.empty()) {
-            const auto cigarValue = get<0>(cigar);
             nextSplitReferenceShift -= cigarValue;
             startPosRead += cigarValue;
             endPosRead += cigarValue;

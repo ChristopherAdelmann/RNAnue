@@ -79,7 +79,8 @@ std::string FeatureAnnotator::insert(const dtp::GenomicRegion &region) {
                           .endPosition = region.endPosition,
                           .strand = *region.strand,
                           .id = uuid,
-                          .groupID = std::nullopt});
+                          .groupID = std::nullopt,
+                          .geneName = std::nullopt});
     tree.index();
 
     return uuid;

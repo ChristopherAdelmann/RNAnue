@@ -90,8 +90,7 @@ Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
                                           AsyncGroupBufferType& recordInputBuffer,
                                           const std::deque<std::string> refIDs,
                                           const std::vector<size_t> refLengths) const {
-    boost::uuids::random_generator uuidGenerator;
-    const std::string chunkID = boost::uuids::to_string(uuidGenerator());
+    const std::string chunkID = helper::getUUID();
 
     const fs::path splitsOutPath = outTmpDirs.outputTmpSplitsDir / (chunkID + ".bam");
     const fs::path multiSplitsOutPath = outTmpDirs.outputTmpMultisplitsDir / (chunkID + ".bam");

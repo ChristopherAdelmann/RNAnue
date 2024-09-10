@@ -2,6 +2,7 @@
 
 // Standard
 #include <algorithm>
+#include <cstddef>
 #include <iostream>
 #include <mutex>
 #include <numeric>
@@ -34,6 +35,7 @@
 #include "boost/filesystem/path.hpp"
 #include "seqan3/alphabet/nucleotide/dna5.hpp"
 #include "seqan3/io/sequence_file/input.hpp"
+#include "seqan3/io/views/async_input_buffer.hpp"
 
 using seqan3::operator""_dna5;
 
@@ -47,6 +49,9 @@ class Preprocess {
     void process(const PreprocessData &data) const;
 
    private:
+    using SingleEndAsyncInputBuffer = seqan3::detail::async_input_buffer_view<
+        std::ranges::ref_view<seqan3::sequence_file_input<>>>;
+
     PreprocessParameters parameters;
 
     struct SingleEndFastqChunk {
@@ -61,6 +66,11 @@ class Preprocess {
         std::vector<seqan3::sequence_file_input<>::record_type> recordsSnglRevRes;
     };
 
+    struct SingleEndResult {
+        size_t passedRecords;
+        size_t failedRecords;
+    };
+
     bool passesFilters(const auto &record) const;
 
     void processSample(const PreprocessSampleType &sample) const;
@@ -68,12 +78,10 @@ class Preprocess {
     void processSingleEnd(const PreprocessSampleSingle &sample) const;
     void processPairedEnd(const PreprocessSamplePaired &sample) const;
 
-    void processSingleEndRecordChunk(SingleEndFastqChunk &chunk,
-                                     const std::vector<Adapter> &adapters5,
-                                     const std::vector<Adapter> &adapters3) const;
-    void processSingleEndFileInChunks(std::string const &recInPath, std::string recOutPath,
-                                      const std::vector<Adapter> &adapters5,
-                                      const std::vector<Adapter> &adapters3) const;
+    SingleEndResult processSingleEndRecordChunk(SingleEndAsyncInputBuffer &asyncInputBuffer,
+                                                const std::vector<Adapter> &adapters5,
+                                                const std::vector<Adapter> &adapters3,
+                                                const fs::path &tmpOutDir) const;
 
     void processPairedEndRecordChunk(PairedEndFastqChunk &chunk,
                                      const std::vector<Adapter> &adapters5f,

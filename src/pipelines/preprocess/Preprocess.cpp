@@ -1,5 +1,13 @@
 #include "Preprocess.hpp"
 
+#include <cstddef>
+#include <future>
+#include <vector>
+
+#include "Utility.hpp"
+#include "seqan3/io/sequence_file/output.hpp"
+#include "seqan3/io/views/async_input_buffer.hpp"
+
 namespace pipelines {
 namespace preprocess {
 Preprocess::Preprocess(const PreprocessParameters &params) : parameters(params) {}
@@ -45,10 +53,31 @@ void Preprocess::processSingleEnd(const PreprocessSampleSingle &sample) const {
         Adapter::loadAdapters(parameters.adapter3Forward, parameters.maxMissMatchFractionTrimming,
                               TrimConfig::Mode::THREE_PRIME);
 
-    processSingleEndFileInChunks(sample.input.inputFastqPath, sample.output.outputFastqPath,
-                                 adapters5, adapters3);
+    seqan3::sequence_file_input recIn{sample.input.inputFastqPath};
+    SingleEndAsyncInputBuffer asyncInputBuffer =
+        recIn | seqan3::views::async_input_buffer(parameters.chunkSize);
 
-    Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName);
+    std::vector<std::future<SingleEndResult>> processResults;
+
+    for (size_t i = 0; i < parameters.threadCount; ++i) {
+        processResults.emplace_back(
+            std::async(std::launch::async, &Preprocess::processSingleEndRecordChunk, this,
+                       std::ref(asyncInputBuffer), std::ref(adapters5), std::ref(adapters3),
+                       std::ref(sample.output.tmpFastqDir)));
+    }
+
+    SingleEndResult totalResult{0, 0};
+
+    for (auto &result : processResults) {
+        const auto res = result.get();
+        totalResult.passedRecords += res.passedRecords;
+        totalResult.failedRecords += res.failedRecords;
+    }
+
+    helper::concatAndDeleteFilesInTmpDir(sample.output.tmpFastqDir, sample.output.outputFastqPath);
+
+    Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName, " (",
+                totalResult.passedRecords, " passed, ", totalResult.failedRecords, " failed)");
 }
 
 /**
@@ -101,10 +130,18 @@ bool Preprocess::passesFilters(const auto &record) const {
     return passesQual && passesLen;
 }
 
-void Preprocess::processSingleEndRecordChunk(Preprocess::SingleEndFastqChunk &chunk,
-                                             const std::vector<Adapter> &adapters5,
-                                             const std::vector<Adapter> &adapters3) const {
-    auto it = std::remove_if(chunk.records.begin(), chunk.records.end(), [&](auto &record) {
+Preprocess::SingleEndResult Preprocess::processSingleEndRecordChunk(
+    SingleEndAsyncInputBuffer &asyncInputBuffer, const std::vector<Adapter> &adapters5,
+    const std::vector<Adapter> &adapters3, const fs::path &tmpOutDir) const {
+    const std::string uuid = helper::getUUID();
+    fs::path tmpFastqOutPath = tmpOutDir / (uuid + ".fastq.gz");
+
+    seqan3::sequence_file_output recOut{tmpFastqOutPath};
+
+    size_t failedRecords = 0;
+    size_t passedRecords = 0;
+
+    for (auto &record : asyncInputBuffer) {
         if (parameters.trimPolyG) RecordTrimmer::trim3PolyG(record);
 
         if (parameters.windowTrimmingSize > 0)
@@ -117,75 +154,16 @@ void Preprocess::processSingleEndRecordChunk(Preprocess::SingleEndFastqChunk &ch
         for (auto const &adapter : adapters3)
             RecordTrimmer::trimAdapter(adapter, record, parameters.minOverlapTrimming);
 
-        return !passesFilters(record);
-    });
-
-    chunk.records.erase(it, chunk.records.end());
-}
-
-// Function to read a FASTQ file in chunks and process each chunk.
-void Preprocess::processSingleEndFileInChunks(std::string const &recInPath, std::string recOutPath,
-                                              const std::vector<Adapter> &adapters5,
-                                              const std::vector<Adapter> &adapters3) const {
-    seqan3::sequence_file_input recIn{recInPath};
-    seqan3::sequence_file_output recOut{recOutPath};
-
-    // Mutex to synchronize access to shared data structures.
-    std::mutex mutex;
-
-    size_t chunkCount = 0;
-    // Function to read a chunk from the FASTQ file and process it.
-    auto processChunkFunc = [&]() {
-        while (true) {
-            const std::chrono::high_resolution_clock::time_point start =
-                std::chrono::high_resolution_clock::now();
-
-            // Read a chunk of records from the FASTQ file.
-            SingleEndFastqChunk chunk;
-            {
-                std::lock_guard<std::mutex> lock(mutex);
-
-                chunk.records.reserve(parameters.chunkSize);
-
-                size_t count = 0;
-
-                for (auto &&record : recIn) {
-                    chunk.records.push_back(record);
-
-                    if (++count == parameters.chunkSize) break;
-                }
-
-                chunkCount++;
-            }
-
-            // Process the chunk.
-            processSingleEndRecordChunk(chunk, adapters5, adapters3);
-            {
-                std::lock_guard<std::mutex> lock(mutex);
-                for (auto &&record : chunk.records) {
-                    recOut.push_back(record);
-                }
-
-                const auto end = std::chrono::high_resolution_clock::now();
-                const std::chrono::duration<double> duration = end - start;
-
-                Logger::log(LogLevel::INFO,
-                            "Processed chunk (" + std::to_string(parameters.chunkSize) +
-                                " reads). Elapsed time: " + std::to_string(duration.count()) +
-                                " seconds.");
-            }
-
-            // Check if there are no more records in the file.
-            if (recIn.begin() == recIn.end()) break;
+        if (!passesFilters(record)) {
+            ++failedRecords;
+            continue;
         }
-    };
 
-    // Create and run threads.
-    std::vector<std::thread> threads;
-    for (size_t i = 0; i < parameters.threadCount; ++i) threads.emplace_back(processChunkFunc);
+        recOut.push_back(record);
+        ++passedRecords;
+    }
 
-    // Wait for all threads to finish.
-    for (auto &thread : threads) thread.join();
+    return {.passedRecords = passedRecords, .failedRecords = failedRecords};
 }
 
 // Function to read a FASTQ file in chunks and process each chunk.

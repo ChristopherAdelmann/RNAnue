@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 
+#include <optional>
+
 #include "FeatureAnnotator.hpp"
 
 using namespace annotation;
@@ -27,14 +29,20 @@ class FeatureAnnotatorTest : public testing::TestWithParam<TestParam> {
     const dtp::FeatureMap featureMap = {
         {
             "chromosome1",
-            {{"chromosome1", "transcript", 1, 10, dtp::Strand::FORWARD, "feature1", "group1"},
-             {"chromosome1", "transcript", 20, 30, dtp::Strand::FORWARD, "feature2", "group1"},
-             {"chromosome1", "transcript", 40, 50, dtp::Strand::FORWARD, "feature3", "group2"},
-             {"chromosome1", "transcript", 5, 25, dtp::Strand::REVERSE, "feature4", "group3"}},
+            {{"chromosome1", "transcript", 1, 10, dtp::Strand::FORWARD, "feature1", "group1",
+              std::nullopt},
+             {"chromosome1", "transcript", 20, 30, dtp::Strand::FORWARD, "feature2", "group1",
+              std::nullopt},
+             {"chromosome1", "transcript", 40, 50, dtp::Strand::FORWARD, "feature3", "group2",
+              std::nullopt},
+             {"chromosome1", "transcript", 5, 25, dtp::Strand::REVERSE, "feature4", "group3",
+              std::nullopt}},
         },
         {"chromosome2",
-         {{"chromosome2", "transcript", 1, 10, dtp::Strand::FORWARD, "feature3", "group4"},
-          {"chromosome2", "transcript", 20, 30, dtp::Strand::FORWARD, "feature4", "group4"}}},
+         {{"chromosome2", "transcript", 1, 10, dtp::Strand::FORWARD, "feature3", "group4",
+           std::nullopt},
+          {"chromosome2", "transcript", 20, 30, dtp::Strand::FORWARD, "feature4", "group4",
+           std::nullopt}}},
     };
 
     FeatureAnnotator annotator;
@@ -90,13 +98,19 @@ class BestFeatureAnnotatorTest : public testing::TestWithParam<TestParam> {
 
     const dtp::FeatureMap featureMap = {
         {"chromosome1",
-         {{"chromosome1", "transcript", 1, 10, dtp::Strand::FORWARD, "feature1", "group1"},
-          {"chromosome1", "transcript", 20, 30, dtp::Strand::FORWARD, "feature2", "group1"},
-          {"chromosome1", "transcript", 40, 50, dtp::Strand::FORWARD, "feature3", "group2"},
-          {"chromosome1", "transcript", 5, 25, dtp::Strand::REVERSE, "feature4", "group3"}}},
+         {{"chromosome1", "transcript", 1, 10, dtp::Strand::FORWARD, "feature1", "group1",
+           std::nullopt},
+          {"chromosome1", "transcript", 20, 30, dtp::Strand::FORWARD, "feature2", "group1",
+           std::nullopt},
+          {"chromosome1", "transcript", 40, 50, dtp::Strand::FORWARD, "feature3", "group2",
+           std::nullopt},
+          {"chromosome1", "transcript", 5, 25, dtp::Strand::REVERSE, "feature4", "group3",
+           std::nullopt}}},
         {"chromosome2",
-         {{"chromosome2", "transcript", 1, 10, dtp::Strand::FORWARD, "feature3", "group4"},
-          {"chromosome2", "transcript", 20, 30, dtp::Strand::FORWARD, "feature4", "group4"}}},
+         {{"chromosome2", "transcript", 1, 10, dtp::Strand::FORWARD, "feature3", "group4",
+           std::nullopt},
+          {"chromosome2", "transcript", 20, 30, dtp::Strand::FORWARD, "feature4", "group4",
+           std::nullopt}}},
     };
 
     FeatureAnnotator annotator;
@@ -132,8 +146,10 @@ class InsertFeatureAnnotatorTest : public testing::Test {
     const dtp::FeatureMap featureMap = {
         {"chromosome1",
          {
-             {"chromosome1", "transcript", 1, 10, dtp::Strand::FORWARD, "feature1", "group1"},
-             {"chromosome1", "transcript", 20, 30, dtp::Strand::FORWARD, "feature2", "group1"},
+             {"chromosome1", "transcript", 1, 10, dtp::Strand::FORWARD, "feature1", "group1",
+              std::nullopt},
+             {"chromosome1", "transcript", 20, 30, dtp::Strand::FORWARD, "feature2", "group1",
+              std::nullopt},
          }},
     };
 

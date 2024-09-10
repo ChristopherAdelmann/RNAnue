@@ -34,6 +34,7 @@ struct PreprocessSampleInputPaired : public PreprocessInput {
 using InputSampleType = std::variant<PreprocessSampleInputSingle, PreprocessSampleInputPaired>;
 
 struct PrepocessSampleOutputSingle {
+    fs::path tmpFastqDir;
     fs::path outputFastqPath;
 };
 

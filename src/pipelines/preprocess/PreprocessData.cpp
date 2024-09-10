@@ -30,8 +30,12 @@ std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const std::str
                     const fs::path outputSampleFastqPath =
                         outputDirSample / (parentName + outSampleFastqSuffix);
 
-                    samples.push_back(
-                        PreprocessSampleSingle{inputSampleSingle, {outputSampleFastqPath}});
+                    const fs::path outputSampleTmpFastqDir =
+                        outputDirSample / outSampleTmpFastqDirPrefix;
+                    fs::create_directories(outputSampleTmpFastqDir);
+
+                    samples.push_back(PreprocessSampleSingle{
+                        inputSampleSingle, {outputSampleFastqPath, outputSampleTmpFastqDir}});
 
                     const auto message =
                         "Single-end sample " + inputSampleSingle.sampleName + " found";

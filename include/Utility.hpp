@@ -13,7 +13,9 @@
 #include <vector>
 
 // Boost
-#include <boost/property_tree/ptree.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 // seqan3
 #include <seqan3/alphabet/cigar/cigar.hpp>
@@ -108,7 +110,11 @@ std::vector<fs::path> getValidFilePaths(const fs::path &directory,
 
 std::optional<fs::path> getDirIfExists(const fs::path &path);
 
+std::string getUUID();
+
 void mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath);
+
+void concatAndDeleteFilesInTmpDir(const fs::path &tmpDir, const fs::path &outPath);
 
 std::size_t countUniqueSamEntries(fs::path path);
 std::size_t countSamEntries(fs::path path);
@@ -122,8 +128,6 @@ std::size_t countSamEntriesSeqAn(fs::path path);
  * @return true if the value is contained within the range, false otherwise.
  **/
 bool isContained(const int32_t value, const int32_t comparisonValue, const int32_t tolerance);
-
-void printTree(const boost::property_tree::ptree &pt, int level);
 
 template <typename T>
 T calculateMedian(std::vector<T> values) {

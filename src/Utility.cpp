@@ -28,6 +28,11 @@ std::optional<fs::path> getDirIfExists(const fs::path& path) {
     return std::nullopt;
 }
 
+std::string getUUID() {
+    boost::uuids::random_generator uuidGenerator;
+    return boost::uuids::to_string(uuidGenerator());
+}
+
 void mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
     if (inputPaths.empty()) {
         Logger::log(LogLevel::WARNING, "No input files to merge");
@@ -39,6 +44,16 @@ void mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
     for (const auto& inputPath : inputPaths) {
         seqan3::sam_file_input inputFile{inputPath};
         inputFile | outputFile;
+    }
+}
+
+void concatAndDeleteFilesInTmpDir(const fs::path& tmpDir, const fs::path& outPath) {
+    std::ofstream outStream(outPath, std::ios::binary);
+
+    for (const auto& entry : fs::directory_iterator(tmpDir)) {
+        std::ifstream inStream(entry.path(), std::ios::binary);
+        outStream << inStream.rdbuf();
+        inStream.close();
     }
 }
 
@@ -98,14 +113,6 @@ std::string generateRandomHexColor() {
     }
 
     return ss.str();  // Return the hex color code as a string
-}
-
-void printTree(const boost::property_tree::ptree& pt, int level = 0) {
-    for (const auto& node : pt) {
-        std::cout << std::string(level * 2, ' ') << node.first << ": "
-                  << node.second.get_value<std::string>() << "\n";
-        printTree(node.second, level + 1);
-    }
 }
 
 std::string getTime() {

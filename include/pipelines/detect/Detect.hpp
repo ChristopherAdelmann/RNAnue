@@ -18,12 +18,6 @@
 #include <seqan3/alphabet/cigar/cigar.hpp>
 #include <seqan3/io/sam_file/all.hpp>
 
-// Boost
-#include <boost/program_options.hpp>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-
 // Classes
 #include "AsyncSplitRecordGroupBuffer.hpp"
 #include "Constants.hpp"

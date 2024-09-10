@@ -59,13 +59,13 @@ class Analyze {
 
    private:
     AnalyzeParameters parameters;
-    Annotation::FeatureAnnotator featureAnnotator;
+    annotation::FeatureAnnotator featureAnnotator;
 
     void processSample(AnalyzeSample sample);
 
     void mergeOverlappingClusters(std::vector<InteractionCluster> &clusters);
 
-    void assignClustersToTranscripts(std::vector<InteractionCluster> &clusters,
+    void assignTranscriptsToClusters(std::vector<InteractionCluster> &clusters,
                                      const std::deque<std::string> &referenceIDs,
                                      const AnalyzeSample &sample);
     void assignAnnotatedContiguousFragmentCountsToTranscripts(
@@ -101,7 +101,7 @@ class Analyze {
                                     std::ofstream &interactionOut);
 
     void assignNonAnnotatedContiguousToSupplementaryFeatures(
-        const fs::path &unassignedSingletonsInPath, Annotation::FeatureAnnotator &featureAnnotator,
+        const fs::path &unassignedSingletonsInPath, annotation::FeatureAnnotator &featureAnnotator,
         std::unordered_map<std::string, size_t> &transcriptCounts);
     size_t parseSampleFragmentCount(const fs::path &sampleCountsInPath);
 };

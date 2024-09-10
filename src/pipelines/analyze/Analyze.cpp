@@ -73,18 +73,18 @@ void Analyze::processSample(AnalyzeSample sample) {
 
     mergeOverlappingClusters(mergedClusters);
 
-    assignClustersToTranscripts(mergedClusters, referenceIDs, sample);
+    assignTranscriptsToClusters(mergedClusters, referenceIDs, sample);
 
     writeInteractionsToFile(mergedClusters, sample.output.interactionsPath, referenceIDs);
 }
 
-void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clusters,
+void Analyze::assignTranscriptsToClusters(std::vector<InteractionCluster> &clusters,
                                           const std::deque<std::string> &referenceIDs,
                                           const AnalyzeSample &sample) {
     std::unordered_map<std::string, size_t> transcriptCounts;
     std::unordered_map<std::string, std::string> mergedTranscriptIDsIntoTranscriptIDs;
 
-    Annotation::FeatureAnnotator supplementaryFeatureAnnotator;
+    annotation::FeatureAnnotator supplementaryFeatureAnnotator;
 
     const int mergeGraceDistance = parameters.clusterDistanceThreshold;
     const auto annotationOrientation = parameters.featureOrientation;
@@ -150,9 +150,9 @@ void Analyze::assignClustersToTranscripts(std::vector<InteractionCluster> &clust
         }
     }
 
-    Annotation::FeatureWriter::write(supplementaryFeatureAnnotator.getFeatureTreeMap(),
+    annotation::FeatureWriter::write(supplementaryFeatureAnnotator.getFeatureTreeMap(),
                                      sample.output.supplementaryFeaturesPath,
-                                     Annotation::FileType::GFF);
+                                     annotation::FileType::GFF);
 
     assignNonAnnotatedContiguousToSupplementaryFeatures(
         sample.input.unassignedContiguousAlignmentsPath, supplementaryFeatureAnnotator,
@@ -297,7 +297,7 @@ void Analyze::assignPValuesToClusters(
 }
 
 void Analyze::assignNonAnnotatedContiguousToSupplementaryFeatures(
-    const fs::path &unassignedSingletonsInPath, Annotation::FeatureAnnotator &featureAnnotator,
+    const fs::path &unassignedSingletonsInPath, annotation::FeatureAnnotator &featureAnnotator,
     std::unordered_map<std::string, size_t> &transcriptCounts) {
     seqan3::sam_file_input unassignedSingletonsIn{unassignedSingletonsInPath.string(),
                                                   sam_field_ids{}};

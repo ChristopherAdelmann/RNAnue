@@ -109,6 +109,7 @@ struct Feature {
     Strand strand;
     std::string id;
     std::optional<std::string> groupID;
+    std::optional<std::string> geneName;
 };
 
 using FeatureMap = std::unordered_map<std::string, std::vector<Feature>>;

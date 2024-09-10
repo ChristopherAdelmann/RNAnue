@@ -12,7 +12,7 @@
 //             "sitelenratio" : 0.5,
 //             "mapqmin" : 10,
 //             "exclclipping" : true,
-//             "annotationorientation" : Annotation::Orientation::BOTH,
+//             "annotationorientation" : annotation::Orientation::BOTH,
 //             "features" : "",
 //             "featuretypes" : "gene"
 //         });

@@ -8,7 +8,8 @@
 #include "FeatureAnnotator.hpp"
 #include "FeatureParser.hpp"
 
-namespace Annotation {
+namespace annotation {
+
 class FeatureWriter {
    public:
     FeatureWriter() = delete;
@@ -16,4 +17,5 @@ class FeatureWriter {
     static void write(const FeatureTreeMap &featureTreeMap, const std::string &outputPath,
                       const FileType::Value fileType);
 };
-}  // namespace Annotation
+
+}  // namespace annotation

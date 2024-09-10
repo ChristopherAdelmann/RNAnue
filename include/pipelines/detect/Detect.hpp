@@ -75,7 +75,7 @@ class Detect {
 
     DetectParameters params;
 
-    Annotation::FeatureAnnotator featureAnnotator;
+    annotation::FeatureAnnotator featureAnnotator;
     SplitRecordsEvaluator splitRecordsEvaluator;
 
     const SplitRecordsEvaluationParameters::ParameterVariant getSplitRecordsEvaluatorParameters(

@@ -2,10 +2,10 @@
 
 #include "FeatureAnnotator.hpp"
 
-using namespace Annotation;
+using namespace annotation;
 
 struct TestParam {
-    TestParam(dtp::GenomicRegion region, Annotation::Orientation orientation,
+    TestParam(dtp::GenomicRegion region, annotation::Orientation orientation,
               std::vector<std::string> expectedFeatureIds)
         : region(region),
           expectedFeatureIds(std::move(expectedFeatureIds)),
@@ -16,7 +16,7 @@ struct TestParam {
 
     dtp::GenomicRegion region;
     std::vector<std::string> expectedFeatureIds;
-    Annotation::Orientation orientation = Annotation::Orientation::SAME;
+    annotation::Orientation orientation = annotation::Orientation::SAME;
 };
 
 // Tests for FeatureAnnotator::overlappingFeatures and FeatureAnnotator::overlappingFeatureIterator
@@ -80,7 +80,7 @@ INSTANTIATE_TEST_SUITE_P(
                     TestParam{{"chromosome2", 5, 15, std::nullopt}, {"feature3"}},
                     TestParam{{"chromosome3", 5, 25, std::nullopt}, {}},
                     TestParam{{"chromosome1", 5, 15, dtp::Strand::FORWARD},
-                              Annotation::Orientation::OPPOSITE,
+                              annotation::Orientation::OPPOSITE,
                               {"feature4"}}));
 
 // Tests for FeatureAnnotator::getBestOverlappingFeature
@@ -105,7 +105,7 @@ class BestFeatureAnnotatorTest : public testing::TestWithParam<TestParam> {
 TEST_P(BestFeatureAnnotatorTest, GetBestOverlappingFeature) {
     const auto& param = GetParam();
     const auto feature =
-        annotator.getBestOverlappingFeature(param.region, Annotation::Orientation::BOTH);
+        annotator.getBestOverlappingFeature(param.region, annotation::Orientation::BOTH);
 
     if (param.expectedFeatureIds.empty()) {
         EXPECT_FALSE(feature.has_value());
@@ -144,7 +144,7 @@ TEST_F(InsertFeatureAnnotatorTest, Insert) {
     const dtp::GenomicRegion region{"chromosome1", 5, 20, dtp::Strand::FORWARD};
     const auto featureId = annotator.insert(region);
 
-    const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
+    const auto features = annotator.overlappingFeatures(region, annotation::Orientation::SAME);
     ASSERT_EQ(features.size(), 2ul);
     EXPECT_EQ(features[0].id, "feature1");
     EXPECT_NE(features[1].id, "feature2");
@@ -159,7 +159,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsert) {
     EXPECT_EQ(result.featureID, "feature1");
     EXPECT_TRUE(result.mergedFeatureIDs.empty());
 
-    const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
+    const auto features = annotator.overlappingFeatures(region, annotation::Orientation::SAME);
     ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, "feature1");
     EXPECT_EQ(features[0].startPosition, 1);
@@ -176,7 +176,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertTwoOverlapping) {
     ASSERT_EQ(result.mergedFeatureIDs.size(), 1ul);
     EXPECT_EQ(result.mergedFeatureIDs[0], "feature2");
 
-    const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
+    const auto features = annotator.overlappingFeatures(region, annotation::Orientation::SAME);
     ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, "feature1");
     EXPECT_EQ(features[0].startPosition, 1);
@@ -189,7 +189,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertWithReverseStrand) {
 
     ASSERT_EQ(annotator.featureCount(), 3ul);
 
-    const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
+    const auto features = annotator.overlappingFeatures(region, annotation::Orientation::SAME);
     ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_TRUE(result.mergedFeatureIDs.empty());
@@ -208,7 +208,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertNotExistingReferenceID) {
 
     ASSERT_EQ(annotator.featureCount(), 3ul);
 
-    const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
+    const auto features = annotator.overlappingFeatures(region, annotation::Orientation::SAME);
     ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_TRUE(result.mergedFeatureIDs.empty());
@@ -222,7 +222,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistance) {
 
     ASSERT_EQ(annotator.featureCount(), 1ul);
 
-    const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
+    const auto features = annotator.overlappingFeatures(region, annotation::Orientation::SAME);
     ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_EQ(result.mergedFeatureIDs, std::vector<std::string>{"feature2"});
@@ -236,7 +236,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceNotSecondOverlapping)
 
     ASSERT_EQ(annotator.featureCount(), 2ul);
 
-    const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
+    const auto features = annotator.overlappingFeatures(region, annotation::Orientation::SAME);
     ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_TRUE(result.mergedFeatureIDs.empty());
@@ -250,7 +250,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceOneSpace) {
 
     ASSERT_EQ(annotator.featureCount(), 3ul);
 
-    const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
+    const auto features = annotator.overlappingFeatures(region, annotation::Orientation::SAME);
     ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_TRUE(result.mergedFeatureIDs.empty());
@@ -264,7 +264,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceBluntEnds) {
 
     ASSERT_EQ(annotator.featureCount(), 2ul);
 
-    const auto features = annotator.overlappingFeatures(region, Annotation::Orientation::SAME);
+    const auto features = annotator.overlappingFeatures(region, annotation::Orientation::SAME);
     ASSERT_EQ(features.size(), 1ul);
     EXPECT_EQ(features[0].id, result.featureID);
     EXPECT_TRUE(result.mergedFeatureIDs.empty());

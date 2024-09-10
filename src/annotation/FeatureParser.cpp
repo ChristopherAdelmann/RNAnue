@@ -5,7 +5,7 @@
 
 #include "Logger.hpp"
 
-using namespace Annotation;
+namespace annotation {
 
 /** @brief Constructs a FeatureParser object.
  *
@@ -108,6 +108,7 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
         const std::string &featureType = tokens_v[2];
         int startPosition = std::stoi(tokens_v[3]);
         int endPosition = std::stoi(tokens_v[4]);
+        const std::optional<std::string> geneName = getAttribute(fileType.defaultGeneNameKey());
 
         featureMap[referenceID].emplace_back(dtp::Feature{
             .referenceID = referenceID,
@@ -116,7 +117,8 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
             .endPosition = endPosition,
             .strand = tokens_v[6][0] == '+' ? dtp::Strand::FORWARD : dtp::Strand::REVERSE,
             .id = identifier.value(),
-            .groupID = getAttribute(fileType.defaultGroupKey())});
+            .groupID = getAttribute(fileType.defaultGroupKey()),
+            .geneName = geneName});
 
         ++parsedFeatures;
 
@@ -141,7 +143,7 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
 }
 
 std::unordered_map<std::string, std::string> const FeatureParser::getAttributes(
-    const Annotation::FileType fileType, const std::string &attributes) const {
+    const annotation::FileType fileType, const std::string &attributes) const {
     std::unordered_map<std::string, std::string> attributeMap;
     std::istringstream issAttr(attributes);
 
@@ -175,3 +177,5 @@ constexpr bool FeatureParser::isValidFeature(
     return tokens.has_value() && tokens.value().size() == 9 &&
            std::ranges::find(allowedStrand, tokens.value()[6][0]) != allowedStrand.end();
 }
+
+}  // namespace annotation

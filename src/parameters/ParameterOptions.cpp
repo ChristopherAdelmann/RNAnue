@@ -35,7 +35,7 @@ po::options_description ParameterOptions::getGeneralOptions() {
         "as --featuretypes 'gene,rRNA' comma seperated values (default: transcript)");
     general.add_options()(
         "orientation",
-        po::value<Annotation::Orientation>()->default_value(Annotation::Orientation::BOTH),
+        po::value<annotation::Orientation>()->default_value(annotation::Orientation::BOTH),
         "orientation of the features to consider in relation to reads [same, "
         "opposite, both] (default: both)");
     general.add_options()("chunksize", po::value<int>()->default_value(100000),

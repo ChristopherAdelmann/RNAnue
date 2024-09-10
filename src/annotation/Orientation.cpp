@@ -1,6 +1,8 @@
 #include "Orientation.hpp"
 
-std::istream &Annotation::operator>>(std::istream &in, Orientation &orientation) {
+namespace annotation {
+
+std::istream &operator>>(std::istream &in, Orientation &orientation) {
     std::string token;
     in >> token;
     if (token == "both") {
@@ -14,3 +16,5 @@ std::istream &Annotation::operator>>(std::istream &in, Orientation &orientation)
     }
     return in;
 }
+
+}  // namespace annotation

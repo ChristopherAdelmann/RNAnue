@@ -4,8 +4,8 @@
 #include <iostream>
 #include <unordered_set>
 
-// Feature Annotator
-using namespace Annotation;
+namespace annotation {
+
 FeatureAnnotator::FeatureAnnotator(fs::path featureFilePath,
                                    const std::unordered_set<std::string> &includedFeatures,
                                    const std::string &featureIDFlag)
@@ -273,3 +273,5 @@ FeatureAnnotator::Results::Iterator FeatureAnnotator::Results::Iterator::operato
     ++(*this);
     return tmp;
 }
+
+}  // namespace annotation

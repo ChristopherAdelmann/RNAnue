@@ -1,6 +1,6 @@
 #include "FeatureWriter.hpp"
 
-using namespace Annotation;
+namespace annotation {
 
 void FeatureWriter::write(const FeatureTreeMap &featureTreeMap, const std::string &outputPath,
                           const FileType::Value fileType) {
@@ -36,3 +36,5 @@ void FeatureWriter::write(const FeatureTreeMap &featureTreeMap, const std::strin
 
     outputFile.close();
 }
+
+}  // namespace annotation

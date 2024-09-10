@@ -17,9 +17,9 @@ struct BaseParameters {
 
 struct SplicingParameters {
     BaseParameters baseParameters;
-    Annotation::Orientation orientation;
+    annotation::Orientation orientation;
     int32_t splicingTolerance;
-    const Annotation::FeatureAnnotator& featureAnnotator;
+    const annotation::FeatureAnnotator& featureAnnotator;
 };
 
 using ParameterVariant = std::variant<SplitRecordsEvaluationParameters::BaseParameters,

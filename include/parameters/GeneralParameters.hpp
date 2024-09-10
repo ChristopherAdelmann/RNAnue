@@ -28,7 +28,7 @@ class GeneralParameters {
 
     std::filesystem::path featuresInPath;
     std::unordered_set<std::string> featureTypes;
-    Annotation::Orientation featureOrientation;
+    annotation::Orientation featureOrientation;
 
     LogLevel logLevel;
 
@@ -71,8 +71,8 @@ class GeneralParameters {
         return uniqueIncludedFeatures;
     }
 
-    static Annotation::Orientation validateFeatureOrientation(const po::variables_map& params) {
-        return params["orientation"].as<Annotation::Orientation>();
+    static annotation::Orientation validateFeatureOrientation(const po::variables_map& params) {
+        return params["orientation"].as<annotation::Orientation>();
     }
 
     static LogLevel validateLogLevel(const po::variables_map& params) {

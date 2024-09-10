@@ -17,7 +17,8 @@
 #include "DataTypes.hpp"
 #include "Logger.hpp"
 
-namespace Annotation {
+namespace annotation {
+
 namespace fs = std::filesystem;
 
 class FileType {
@@ -60,6 +61,8 @@ class FileType {
         }
     }
 
+    constexpr std::string defaultGeneNameKey() const { return "gene"; }
+
     constexpr operator Value() const { return value; }
     explicit operator bool() const = delete;
 
@@ -79,14 +82,14 @@ class FeatureParser {
     const std::unordered_set<std::string> includedFeatures;
     const std::optional<std::string> featureIDFlag;
 
-    Annotation::FileType getFileType(const fs::path &featureFilePath) const;
+    annotation::FileType getFileType(const fs::path &featureFilePath) const;
     dtp::FeatureMap iterateFeatureFile(const fs::path &featureFilePath,
-                                       const Annotation::FileType fileType) const;
+                                       const annotation::FileType fileType) const;
 
     const std::unordered_map<std::string, std::string> getAttributes(
-        const Annotation::FileType fileType, const std::string &attributes) const;
+        const annotation::FileType fileType, const std::string &attributes) const;
 
     constexpr bool isValidFeature(const std::optional<std::vector<std::string>> &tokens) const;
 };
 
-}  // namespace Annotation
+}  // namespace annotation

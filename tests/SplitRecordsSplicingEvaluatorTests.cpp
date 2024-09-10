@@ -47,7 +47,7 @@ class EvaluatedSplitRecordsTests : public testing::TestWithParam<IsSplicedTestPa
                                            .id = "exon3",
                                            .groupID = "gene1"}}}};
 
-    Annotation::FeatureAnnotator featureAnnotator;
+    annotation::FeatureAnnotator featureAnnotator;
 };
 
 auto noSpliceRaw = R"(
@@ -82,7 +82,7 @@ TEST_P(EvaluatedSplitRecordsTests, IsSplicedSplitRecord) {
         .baseParameters =
             SplitRecordsEvaluationParameters::BaseParameters{
                 .minComplementarity = 0.9, .minComplementarityFraction = 0.9, .mfeThreshold = 10},
-        .orientation = Annotation::Orientation::BOTH,
+        .orientation = annotation::Orientation::BOTH,
         .splicingTolerance = 0,
         .featureAnnotator = featureAnnotator};
 

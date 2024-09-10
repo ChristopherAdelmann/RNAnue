@@ -330,24 +330,24 @@ void Analyze::writeBEDLineToFile(const InteractionCluster &cluster, const std::s
                                  const std::string &color, std::ofstream &bedOut) {
     bedOut << getReferenceID(cluster.segments.first.referenceIDIndex, referenceIDs) << "\t";
     bedOut << cluster.segments.first.start << "\t";
-    bedOut << cluster.segments.first.end + 1 << "\t";
+    bedOut << cluster.segments.first.end << "\t";
     bedOut << "cluster" << clusterID << "_segment1"
            << "\t";
     bedOut << "0\t";
     bedOut << static_cast<char>(cluster.segments.first.strand) << "\t";
     bedOut << cluster.segments.first.start << "\t";
-    bedOut << cluster.segments.first.end + 1 << "\t";
+    bedOut << cluster.segments.first.end << "\t";
     bedOut << color << "\n";
 
     bedOut << getReferenceID(cluster.segments.second.referenceIDIndex, referenceIDs) << "\t";
     bedOut << cluster.segments.second.start << "\t";
-    bedOut << cluster.segments.second.end + 1 << "\t";
+    bedOut << cluster.segments.second.end << "\t";
     bedOut << "cluster" << clusterID << "_segment2"
            << "\t";
     bedOut << "0\t";
     bedOut << static_cast<char>(cluster.segments.second.strand) << "\t";
     bedOut << cluster.segments.second.start << "\t";
-    bedOut << cluster.segments.second.end + 1 << "\t";
+    bedOut << cluster.segments.second.end << "\t";
     bedOut << color << "\n";
 }
 

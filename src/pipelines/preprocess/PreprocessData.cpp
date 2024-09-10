@@ -1,5 +1,6 @@
 #include "PreprocessData.hpp"
 
+#include <cstdlib>
 #include <filesystem>
 
 #include "Logger.hpp"
@@ -34,8 +35,11 @@ std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const std::str
                         outputDirSample / outSampleTmpFastqDirPrefix;
                     fs::create_directories(outputSampleTmpFastqDir);
 
-                    samples.push_back(PreprocessSampleSingle{
-                        inputSampleSingle, {outputSampleFastqPath, outputSampleTmpFastqDir}});
+                    samples.push_back(PreprocessSampleSingle{inputSampleSingle,
+                                                             {
+                                                                 outputSampleTmpFastqDir,
+                                                                 outputSampleFastqPath,
+                                                             }});
 
                     const auto message =
                         "Single-end sample " + inputSampleSingle.sampleName + " found";

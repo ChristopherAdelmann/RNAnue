@@ -71,6 +71,8 @@ class Align {
     void processSingleEnd(const AlignSampleSingle &sample);
     void processMergedPairedEnd(const AlignSampleMergedPaired &sample);
 
+    std::optional<fs::path> findIndex(const fs::path &referenceGenomePath) const;
+
     void buildIndex();
 
     std::vector<std::string> getGeneralAlignmentArgs() const;

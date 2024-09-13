@@ -61,7 +61,7 @@ void Detect::processSample(const DetectSample& sample) const {
 
     std::vector<std::future<Result>> processResults;
 
-    for (size_t i = 0; i < params.threadCount; ++i) {
+    for (size_t i = 1; i < params.threadCount; ++i) {
         processResults.emplace_back(std::async(
             std::launch::async, &Detect::processRecordChunk, this, std::ref(outTmpDirs),
             std::ref(recordInputBuffer), std::ref(referenceIDs), std::ref(referenceLengths)));

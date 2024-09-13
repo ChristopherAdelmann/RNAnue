@@ -26,9 +26,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/submodules/seqan3/build_system)
 find_package(seqan3 3.3.0 REQUIRED)
 
-# # # OpenMP
-find_package(OpenMP)
-
 # # # Boost
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
@@ -142,10 +139,6 @@ target_link_libraries (RNAnue PRIVATE   seqan3::seqan3
                                         Boost::math
                                         Boost::uuid
                                         segemehl)
-
-if(OpenMP_CXX_FOUND)
-    target_link_libraries (RNAnue PRIVATE OpenMP::OpenMP_CXX)
-endif()
 
 # ----------------------------------------------------------------------------
 # Testing

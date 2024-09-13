@@ -59,7 +59,7 @@ void Preprocess::processSingleEnd(const PreprocessSampleSingle &sample) const {
 
     std::vector<std::future<SingleEndResult>> processResults;
 
-    for (size_t i = 0; i < parameters.threadCount; ++i) {
+    for (size_t i = 1; i < parameters.threadCount; ++i) {
         processResults.emplace_back(
             std::async(std::launch::async, &Preprocess::processSingleEndRecordChunk, this,
                        std::ref(asyncInputBuffer), std::ref(adapters5), std::ref(adapters3),

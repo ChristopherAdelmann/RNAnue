@@ -55,6 +55,10 @@ void concatAndDeleteFilesInTmpDir(const fs::path& tmpDir, const fs::path& outPat
         outStream << inStream.rdbuf();
         inStream.close();
     }
+
+    outStream.close();
+
+    deleteDir(tmpDir);
 }
 
 bool isContained(const int32_t value, const int32_t comparisonValue, const int32_t tolerance) {

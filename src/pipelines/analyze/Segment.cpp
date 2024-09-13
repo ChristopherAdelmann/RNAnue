@@ -1,5 +1,7 @@
 #include "Segment.hpp"
 
+#include <optional>
+
 namespace pipelines {
 namespace analyze {
 
@@ -38,8 +40,14 @@ dtp::GenomicRegion Segment::toGenomicRegion(const std::deque<std::string> &refer
 dtp::Feature Segment::toFeature(const std::deque<std::string> &referenceIDs,
                                 const std::string &featureID,
                                 const std::string &featureType) const {
-    return dtp::Feature{
-        referenceIDs[referenceIDIndex], featureType, start, end, strand, featureID, std::nullopt};
+    return dtp::Feature{referenceIDs[referenceIDIndex],
+                        featureType,
+                        start,
+                        end,
+                        strand,
+                        featureID,
+                        std::nullopt,
+                        std::nullopt};
 }
 
 void Segment::merge(const Segment &other) {

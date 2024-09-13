@@ -1,6 +1,8 @@
 #include "Align.hpp"
 
 #include <algorithm>
+#include <filesystem>
+#include <optional>
 #include <variant>
 #include <vector>
 
@@ -73,15 +75,34 @@ void Align::processMergedPairedEnd(const AlignSampleMergedPaired &sample) {
                               sample.output.outputAlignmentsPath);
 }
 
+std::optional<fs::path> Align::findIndex(const fs::path &referenceGenomePath) const {
+    // Check if index exists in the same directory as the reference genome
+    fs::path indexFileName = referenceGenomePath.filename().replace_extension(".idx");
+    fs::path indexPath = referenceGenomePath.parent_path() / indexFileName;
+
+    if (fs::exists(indexPath)) {
+        return indexPath;
+    }
+
+    // Check if index exists in the output directory
+    indexPath = parameters.outputDir / indexFileName;
+
+    if (fs::exists(indexPath)) {
+        return indexPath;
+    }
+
+    return std::nullopt;
+}
+
 void Align::buildIndex() {
     fs::path referencePath = parameters.referenceGenome;
     int const threads = parameters.threadCount;
 
-    fs::path indexFileName = referencePath.filename().replace_extension(".idx");
-    indexPath = parameters.outputDir / indexFileName;
+    const auto indexFilePath = findIndex(referencePath);
 
-    if (fs::exists(indexPath)) {
+    if (indexFilePath) {
         Logger::log(LogLevel::INFO, "Existing index found: ", indexPath);
+        indexPath = *indexFilePath;
         return;
     }
 

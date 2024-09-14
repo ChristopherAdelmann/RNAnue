@@ -36,6 +36,10 @@ def filter_gff(gff_file_in: str, gff_file_out, mirtar_ids: set):
         included = 0
         for line in file:
             processed += 1
+
+            if processed % 1000 == 0:
+                print(f"Processed {processed} lines, included {included} lines")
+
             if line.startswith("#"):
                 out.write(line)
             else:

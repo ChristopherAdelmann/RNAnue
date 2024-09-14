@@ -1,6 +1,6 @@
 
 def load_mirtar_ids(mirtar_file: str):
-    mirtar_ids = []
+    mirtar_ids = set()
 
     with open(mirtar_file) as file:
         file.readline()
@@ -17,23 +17,55 @@ def load_mirtar_ids(mirtar_file: str):
                 reference,
             ) = line.strip().split("\t")
 
-            mirtar_ids.append(mirtar_id)
-            mirtar_ids.append(mirna_id)
+            mirtar_ids.add(mirtar_id)
+            mirtar_ids.add(mirna_id)
 
     return mirtar_ids
 
+def get_gff_attributes(attributes: str) -> dict:
+    attribute_dict = {}
+    for attribute in attributes.split(";"):
+        key, value = attribute.split("=")
+        attribute_dict[key] = value
+    return attribute_dict
 
-def filter_gff(gff_file_in: str, gff_file_out, mirtar_ids: list):
+def filter_gff(gff_file_in: str, gff_file_out, mirtar_ids: set):
 
     with open(gff_file_in) as file, open(gff_file_out, "w") as out:
+        processed = 0
+        included = 0
         for line in file:
+            processed += 1
             if line.startswith("#"):
                 out.write(line)
             else:
-                for mirtar_id in mirtar_ids:
-                    if mirtar_id in line:
-                        out.write(line)
-                        break
+                (
+                    chromosome,
+                    source,
+                    feature_type,
+                    start,
+                    end,
+                    score,
+                    strand,
+                    phase,
+                    attributes,
+                ) = line.strip().split("\t")
+
+                if feature_type == "gene" or feature_type == "miRNA":
+                    attributes = get_gff_attributes(attributes)
+
+                    if "ID" in attributes:
+                        gene_id = attributes["ID"]
+                        if gene_id in mirtar_ids:
+                            out.write(line)
+                            included += 1
+                            continue
+                    if "product" in attributes:
+                        gene_id = attributes["product"]
+                        if gene_id in mirtar_ids:
+                            out.write(line)
+                            included += 1
+                            continue
 
 
 mirtar_file = "mirtarbase.txt"

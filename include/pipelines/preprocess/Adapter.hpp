@@ -31,6 +31,7 @@ struct Adapter {
 
         auto addAdapterFromSequence = [&adapters, &trimmingMode,
                                        maxMissMatchFraction](const seqan3::dna5_vector &sequence) {
+            if (sequence.size() == 0) return;
             adapters.push_back(Adapter{sequence, maxMissMatchFraction, trimmingMode});
         };
 

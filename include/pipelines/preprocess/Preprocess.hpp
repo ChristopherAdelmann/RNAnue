@@ -13,7 +13,6 @@
 #include <vector>
 
 // boost
-#include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>
 
@@ -32,7 +31,6 @@
 #include "TrimConfig.hpp"
 #include "Utility.hpp"
 #include "VariantOverload.hpp"
-#include "boost/filesystem/path.hpp"
 #include "seqan3/alphabet/nucleotide/dna5.hpp"
 #include "seqan3/io/sequence_file/input.hpp"
 #include "seqan3/io/views/async_input_buffer.hpp"

@@ -8,9 +8,6 @@
 #include <unordered_map>
 #include <vector>
 
-// boost
-#include <boost/filesystem.hpp>
-
 // seqan3
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 #include <seqan3/alphabet/quality/phred42.hpp>

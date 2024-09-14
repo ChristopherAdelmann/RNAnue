@@ -31,21 +31,24 @@ class EvaluatedSplitRecordsTests : public testing::TestWithParam<IsSplicedTestPa
                                            .endPosition = 10,
                                            .strand = dtp::Strand::FORWARD,
                                            .id = "exon1",
-                                           .groupID = "gene1"},
+                                           .groupID = "gene1",
+                                           .geneName = std::nullopt},
                                           {.referenceID = "chromosome1",
                                            .type = "exon",
                                            .startPosition = 20,
                                            .endPosition = 30,
                                            .strand = dtp::Strand::FORWARD,
                                            .id = "exon2",
-                                           .groupID = "gene1"},
+                                           .groupID = "gene1",
+                                           .geneName = std::nullopt},
                                           {.referenceID = "chromosome1",
                                            .type = "exon",
                                            .startPosition = 40,
                                            .endPosition = 50,
                                            .strand = dtp::Strand::FORWARD,
                                            .id = "exon3",
-                                           .groupID = "gene1"}}}};
+                                           .groupID = "gene1",
+                                           .geneName = std::nullopt}}}};
 
     annotation::FeatureAnnotator featureAnnotator;
 };

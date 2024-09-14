@@ -1,8 +1,5 @@
 #pragma once
 
-// Boost
-#include <boost/filesystem.hpp>
-
 // Standard
 #include <algorithm>
 #include <filesystem>

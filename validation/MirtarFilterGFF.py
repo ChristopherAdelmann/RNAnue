@@ -1,3 +1,4 @@
+import sys
 
 def load_mirtar_ids(mirtar_file: str):
     mirtar_ids = set()
@@ -72,9 +73,9 @@ def filter_gff(gff_file_in: str, gff_file_out, mirtar_ids: set):
                             continue
 
 
-mirtar_file = "mirtarbase.txt"
-gff_file_in = "genes.gff"
-gff_file_out = "genes_mirtar.gff"
+mirtar_file = sys.argv[1]
+gff_file_in = sys.argv[2]
+gff_file_out = sys.argv[3]
 
 mirtar_ids = load_mirtar_ids(mirtar_file)
 filter_gff(gff_file_in, gff_file_out, mirtar_ids)

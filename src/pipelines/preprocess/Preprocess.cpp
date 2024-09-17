@@ -1,13 +1,5 @@
 #include "Preprocess.hpp"
 
-#include <cstddef>
-#include <future>
-#include <vector>
-
-#include "Utility.hpp"
-#include "seqan3/io/sequence_file/output.hpp"
-#include "seqan3/io/views/async_input_buffer.hpp"
-
 namespace pipelines {
 namespace preprocess {
 Preprocess::Preprocess(const PreprocessParameters &params) : parameters(params) {}
@@ -74,7 +66,8 @@ void Preprocess::processSingleEnd(const PreprocessSampleSingle &sample) const {
         totalResult.failedRecords += res.failedRecords;
     }
 
-    helper::concatAndDeleteFilesInTmpDir(sample.output.tmpFastqDir, sample.output.outputFastqPath);
+    const auto tmpFilePaths = helper::getFilePathsInDir(sample.output.tmpFastqDir);
+    helper::mergeFastqFiles(tmpFilePaths, sample.output.outputFastqPath);
 
     Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName, " (",
                 totalResult.passedRecords, " passed, ", totalResult.failedRecords, " failed)");

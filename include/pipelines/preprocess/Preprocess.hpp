@@ -3,6 +3,7 @@
 // Standard
 #include <algorithm>
 #include <cstddef>
+#include <future>
 #include <iostream>
 #include <mutex>
 #include <numeric>
@@ -17,7 +18,10 @@
 #include <boost/property_tree/ptree.hpp>
 
 // seqan3
+#include <seqan3/alphabet/nucleotide/dna5.hpp>
 #include <seqan3/io/sequence_file/all.hpp>
+#include <seqan3/io/sequence_file/input.hpp>
+#include <seqan3/io/views/async_input_buffer.hpp>
 
 // Class
 #include "Adapter.hpp"
@@ -31,9 +35,6 @@
 #include "TrimConfig.hpp"
 #include "Utility.hpp"
 #include "VariantOverload.hpp"
-#include "seqan3/alphabet/nucleotide/dna5.hpp"
-#include "seqan3/io/sequence_file/input.hpp"
-#include "seqan3/io/views/async_input_buffer.hpp"
 
 using seqan3::operator""_dna5;
 

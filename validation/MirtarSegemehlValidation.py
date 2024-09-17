@@ -28,27 +28,27 @@ def intersect_bam_file_with_mirtar_annotation(
     out_bam_overlaps_file: Path,
     out_overlaps_count_file: Path,
 ):
-    # command_intersect: list[str] = [
-    #     "bedtools",
-    #     "intersect",
-    #     "-split",
-    #     "-sortout",
-    #     "-u",
-    #     "-a",
-    #     bam_file.as_posix(),
-    #     "-b",
-    #     mirtar_annotation_file.as_posix(),
-    # ]
+    command_intersect: list[str] = [
+        "bedtools",
+        "intersect",
+        "-split",
+        "-sortout",
+        "-u",
+        "-a",
+        bam_file.as_posix(),
+        "-b",
+        mirtar_annotation_file.as_posix(),
+    ]
 
-    # out_bam_overlaps = open(out_bam_overlaps_file, "w")
-    # return_value = subprocess.run(
-    #     command_intersect, check=True, stdout=out_bam_overlaps
-    # )
-    # out_bam_overlaps.close()
+    out_bam_overlaps = open(out_bam_overlaps_file, "w")
+    return_value = subprocess.run(
+        command_intersect, check=True, stdout=out_bam_overlaps
+    )
+    out_bam_overlaps.close()
 
-    # if return_value.returncode != 0:
-    #     print(f"Error: {return_value.stderr}")
-    #     sys.exit(1)
+    if return_value.returncode != 0:
+        print(f"Error: {return_value.stderr}")
+        sys.exit(1)
 
     command_count: list[str] = [
         "bedtools",
@@ -82,13 +82,13 @@ def main():
 
     out_bam_file: Path = out_dir / f"{sample_name}_splits_filtered.bam"
 
-    # filter_sam_for_split_reads(sam_file, out_bam_file)
+    filter_sam_for_split_reads(sam_file, out_bam_file)
 
     out_bam_overlaps_file: Path = (
         out_dir / f"{sample_name}_splits_filtered_overlaps.bam"
     )
     out_overlaps_count_file: Path = (
-        out_dir / f"{sample_name}_splits_filtered_overlaps_count.bed"
+        out_dir / f"{sample_name}_splits_filtered_overlaps_count.tsv"
     )
 
     intersect_bam_file_with_mirtar_annotation(

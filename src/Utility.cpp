@@ -2,9 +2,12 @@
 
 #include <filesystem>
 #include <fstream>
+#include <vector>
 
 #include "Logger.hpp"
 #include "seqan3/io/sam_file/input.hpp"
+#include "seqan3/io/sequence_file/input.hpp"
+#include "seqan3/io/sequence_file/output.hpp"
 
 namespace helper {
 void createTmpDir(fs::path path) {
@@ -45,6 +48,31 @@ void mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
         seqan3::sam_file_input inputFile{inputPath};
         inputFile | outputFile;
     }
+}
+
+void mergeFastqFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
+    if (inputPaths.empty()) {
+        Logger::log(LogLevel::WARNING, "No input files to merge");
+        return;
+    }
+
+    seqan3::sequence_file_output outputFile{outputPath};
+
+    for (const auto& inputPath : inputPaths) {
+        seqan3::sequence_file_input inputFile{inputPath};
+        inputFile | outputFile;
+    }
+}
+
+std::vector<fs::path> getFilePathsInDir(const fs::path& dir) {
+    std::vector<fs::path> filePaths;
+    for (const auto& entry : fs::directory_iterator(dir)) {
+        if (fs::is_regular_file(entry)) {
+            filePaths.push_back(entry.path());
+        }
+    }
+
+    return filePaths;
 }
 
 void concatAndDeleteFilesInTmpDir(const fs::path& tmpDir, const fs::path& outPath) {

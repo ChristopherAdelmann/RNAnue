@@ -20,6 +20,7 @@
 // seqan3
 #include <seqan3/alphabet/cigar/cigar.hpp>
 #include <seqan3/io/sam_file/all.hpp>
+#include <seqan3/io/sequence_file/all.hpp>
 
 // Classes
 #include "Constants.hpp"
@@ -113,6 +114,9 @@ std::optional<fs::path> getDirIfExists(const fs::path &path);
 std::string getUUID();
 
 void mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath);
+void mergeFastqFiles(std::vector<fs::path> inputPaths, fs::path outputPath);
+
+std::vector<fs::path> getFilePathsInDir(const fs::path &dir);
 
 void concatAndDeleteFilesInTmpDir(const fs::path &tmpDir, const fs::path &outPath);
 

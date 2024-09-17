@@ -59,9 +59,23 @@ std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const std::str
                     const fs::path outputSampleFastqPathReverseSingleton =
                         outputDirSample / (parentName + outSampleFastqPairedReverseSingletonSuffix);
 
+                    const fs::path outputSampleTmpFastqMergedDir =
+                        outputDirSample / outSampleTmpMergedFastqDirPrefix;
+                    fs::create_directories(outputSampleTmpFastqMergedDir);
+
+                    const fs::path outputSampleTmpFastqSingletonForwardDir =
+                        outputDirSample / outSampleTmpForwardSingletonFastqDirPrefix;
+                    fs::create_directories(outputSampleTmpFastqSingletonForwardDir);
+
+                    const fs::path outputSampleTmpFastqSingletonReverseDir =
+                        outputDirSample / outSampleTmpReverseSingletonFastqDirPrefix;
+                    fs::create_directories(outputSampleTmpFastqSingletonReverseDir);
+
                     samples.push_back(PreprocessSamplePaired{
                         inputSamplePaired,
-                        {outputSampleFastqPathMerged, outputSampleFastqPathForwardSingleton,
+                        {outputSampleTmpFastqMergedDir, outputSampleTmpFastqSingletonForwardDir,
+                         outputSampleTmpFastqSingletonReverseDir, outputSampleFastqPathMerged,
+                         outputSampleFastqPathForwardSingleton,
                          outputSampleFastqPathReverseSingleton}});
 
                     const auto message = "Paired-end sample " + parentName + " found";

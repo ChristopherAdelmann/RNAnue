@@ -100,7 +100,7 @@ void Align::buildIndex() {
 
     const auto indexFilePath = findIndex(referencePath);
 
-    if (indexFilePath) {
+    if (indexFilePath.has_value() && !indexFilePath.value().empty()) {
         Logger::log(LogLevel::INFO, "Existing index found: ", indexPath);
         indexPath = *indexFilePath;
         return;

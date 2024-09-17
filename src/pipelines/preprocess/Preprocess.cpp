@@ -1,5 +1,9 @@
 #include "Preprocess.hpp"
 
+#include "Utility.hpp"
+#include "seqan3/io/sequence_file/input.hpp"
+#include "seqan3/io/sequence_file/output.hpp"
+
 namespace pipelines {
 namespace preprocess {
 Preprocess::Preprocess(const PreprocessParameters &params) : parameters(params) {}
@@ -58,16 +62,16 @@ void Preprocess::processSingleEnd(const PreprocessSampleSingle &sample) const {
                        std::ref(sample.output.tmpFastqDir)));
     }
 
-    SingleEndResult totalResult{0, 0};
+    SingleEndResult totalResult;
 
     for (auto &result : processResults) {
         const auto res = result.get();
-        totalResult.passedRecords += res.passedRecords;
-        totalResult.failedRecords += res.failedRecords;
+        totalResult += res;
     }
 
     const auto tmpFilePaths = helper::getFilePathsInDir(sample.output.tmpFastqDir);
     helper::mergeFastqFiles(tmpFilePaths, sample.output.outputFastqPath);
+    helper::deleteDir(sample.output.tmpFastqDir);
 
     Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName, " (",
                 totalResult.passedRecords, " passed, ", totalResult.failedRecords, " failed)");
@@ -94,13 +98,51 @@ void Preprocess::processPairedEnd(const PreprocessSamplePaired &sample) const {
         Adapter::loadAdapters(parameters.adapter3Reverse, parameters.maxMissMatchFractionTrimming,
                               TrimConfig::Mode::THREE_PRIME);
 
-    processPairedEndFileInChunks(
-        sample.input.inputForwardFastqPath, sample.input.inputReverseFastqPath,
-        sample.output.outputMergedFastqPath, sample.output.outputSingletonForwardFastqPath,
-        sample.output.outputSingletonReverseFastqPath, adapters5f, adapters3f, adapters5r,
-        adapters3r);
+    seqan3::sequence_file_input recForwardIn{sample.input.inputForwardFastqPath};
+    seqan3::sequence_file_input recReverseIn{sample.input.inputReverseFastqPath};
 
-    Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName);
+    PairedEndAsyncInputBuffer pairedInputBuffer =
+        seqan3::views::zip(recForwardIn, recReverseIn) |
+        seqan3::views::async_input_buffer(parameters.chunkSize / 2);
+
+    std::vector<std::future<PairedEndResult>> processResults;
+
+    for (size_t i = 1; i < parameters.threadCount; ++i) {
+        processResults.emplace_back(
+            std::async(std::launch::async, &Preprocess::processPairedEndRecordChunk, this,
+                       std::ref(pairedInputBuffer), std::ref(adapters5f), std::ref(adapters3f),
+                       std::ref(adapters5r), std::ref(adapters3r), std::ref(sample.output)));
+    }
+
+    PairedEndResult totalResult;
+
+    for (auto &result : processResults) {
+        const auto res = result.get();
+        totalResult += res;
+    }
+
+    const auto tmpMergedFilePaths = helper::getFilePathsInDir(sample.output.tmpMergedFastqDir);
+    helper::mergeFastqFiles(tmpMergedFilePaths, sample.output.outputMergedFastqPath);
+    helper::deleteDir(sample.output.tmpMergedFastqDir);
+
+    const auto tmpSingletonForwardFilePaths =
+        helper::getFilePathsInDir(sample.output.tmpSingletonForwardFastqDir);
+    helper::mergeFastqFiles(tmpSingletonForwardFilePaths,
+                            sample.output.outputSingletonForwardFastqPath);
+    helper::deleteDir(sample.output.tmpSingletonForwardFastqDir);
+
+    const auto tmpSingletonReverseFilePaths =
+        helper::getFilePathsInDir(sample.output.tmpSingletonReverseFastqDir);
+    helper::mergeFastqFiles(tmpSingletonReverseFilePaths,
+                            sample.output.outputSingletonReverseFastqPath);
+    helper::deleteDir(sample.output.tmpSingletonReverseFastqDir);
+
+    Logger::log(LogLevel::INFO, "Finished processing sample: ", sample.input.sampleName, " (",
+                totalResult.mergedRecords, " merged, ", totalResult.singleFwdRecords,
+                " single forward, ", totalResult.singleRevRecords, " single reverse,\n",
+                totalResult.failedMergedRecords, " failed merged, ",
+                totalResult.failedForwardRecords, " failed forward, ",
+                totalResult.failedReverseRecords, " failed reverse)");
 }
 
 /**
@@ -159,95 +201,26 @@ Preprocess::SingleEndResult Preprocess::processSingleEndRecordChunk(
     return {.passedRecords = passedRecords, .failedRecords = failedRecords};
 }
 
-// Function to read a FASTQ file in chunks and process each chunk.
-void Preprocess::processPairedEndFileInChunks(
-    const std::string &recFwdInPath, std::string const &recRevInPath,
-    const std::string &mergedOutPath, std::string const &snglFwdOutPath,
-    const std::string &snglRevOutPath, const std::vector<Adapter> &adapters5f,
-    const std::vector<Adapter> &adapters3f, const std::vector<Adapter> &adapters5r,
-    const std::vector<Adapter> &adapters3r) const {
-    seqan3::sequence_file_input recFwdIn{recFwdInPath};
-    seqan3::sequence_file_input recRevIn{recRevInPath};
+Preprocess::PairedEndResult Preprocess::processPairedEndRecordChunk(
+    Preprocess::PairedEndAsyncInputBuffer &pairedRecordInputBuffer,
+    const std::vector<Adapter> &adapters5f, const std::vector<Adapter> &adapters3f,
+    const std::vector<Adapter> &adapters5r, const std::vector<Adapter> &adapters3r,
+    const PrepocessSampleOutputPaired &sampleOutput) const {
+    PairedEndResult result;
+    const std::string uuid = helper::getUUID();
 
-    seqan3::sequence_file_output mergedOut{mergedOutPath};
-    seqan3::sequence_file_output snglFwdOut{snglFwdOutPath};
-    seqan3::sequence_file_output snglRevOut{snglRevOutPath};
+    fs::path tmpMergedFastqOutPath = sampleOutput.outputMergedFastqPath / (uuid + ".fastq.gz");
+    seqan3::sequence_file_output mergedOut{tmpMergedFastqOutPath};
 
-    // Mutex to synchronize access to shared data structures.
-    std::mutex mutex;
+    fs::path tmpSingletonFwdFastqOutPath =
+        sampleOutput.outputSingletonForwardFastqPath / (uuid + ".fastq.gz");
+    seqan3::sequence_file_output snglFwdOut{tmpSingletonFwdFastqOutPath};
 
-    size_t chunkCount = 0;
+    fs::path tmpSingletonRevFastqOutPath =
+        sampleOutput.outputSingletonReverseFastqPath / (uuid + ".fastq.gz");
+    seqan3::sequence_file_output snglRevOut{tmpSingletonRevFastqOutPath};
 
-    // Function to read a chunk from the FASTQ file and process it.
-    const auto processChunkFunc = [&]() {
-        while (true) {
-            const std::chrono::high_resolution_clock::time_point start =
-                std::chrono::high_resolution_clock::now();
-
-            // Read a chunk of records from the FASTQ file.
-            PairedEndFastqChunk chunk;
-            {
-                std::lock_guard<std::mutex> lock(mutex);
-
-                chunk.recordsFwd.reserve(parameters.chunkSize);
-                chunk.recordsRev.reserve(parameters.chunkSize);
-
-                std::size_t count = 0;
-
-                for (auto &&[record1, record2] : seqan3::views::zip(recFwdIn, recRevIn)) {
-                    chunk.recordsFwd.push_back(record1);
-                    chunk.recordsRev.push_back(record2);
-
-                    if (++count == parameters.chunkSize) break;
-                }
-
-                chunkCount++;
-            }
-
-            // Process the chunk.
-            processPairedEndRecordChunk(chunk, adapters5f, adapters3f, adapters5r, adapters3r);
-
-            {
-                std::lock_guard<std::mutex> lock(mutex);
-
-                for (auto &&record : chunk.recordsMergedRes) {
-                    mergedOut.push_back(record);
-                }
-                for (auto &&record : chunk.recordsSnglFwdRes) {
-                    snglFwdOut.push_back(record);
-                }
-                for (auto &&record : chunk.recordsSnglRevRes) {
-                    snglRevOut.push_back(record);
-                }
-
-                const auto end = std::chrono::high_resolution_clock::now();
-                const std::chrono::duration<double> duration = end - start;
-
-                Logger::log(LogLevel::INFO,
-                            "Processed chunk (up to " + std::to_string(parameters.chunkSize) +
-                                " read pairs). Elapsed time: " + std::to_string(duration.count()) +
-                                " seconds.");
-            }
-
-            // Check if there are no more records in the file.
-            if (recFwdIn.begin() == recFwdIn.end() || recRevIn.begin() == recRevIn.end()) break;
-        }
-    };
-
-    // Create and run threads.
-    std::vector<std::thread> threads;
-    for (size_t i = 0; i < parameters.threadCount; ++i) threads.emplace_back(processChunkFunc);
-
-    // Wait for all threads to finish.
-    for (auto &thread : threads) thread.join();
-}
-
-void Preprocess::processPairedEndRecordChunk(Preprocess::PairedEndFastqChunk &chunk,
-                                             const std::vector<Adapter> &adapters5f,
-                                             const std::vector<Adapter> &adapters3f,
-                                             const std::vector<Adapter> &adapters5r,
-                                             const std::vector<Adapter> &adapters3r) const {
-    for (auto &&[record1, record2] : seqan3::views::zip(chunk.recordsFwd, chunk.recordsRev)) {
+    for (auto &&[record1, record2] : pairedRecordInputBuffer) {
         if (parameters.trimPolyG) {
             RecordTrimmer::trim3PolyG(record1);
             RecordTrimmer::trim3PolyG(record2);
@@ -281,28 +254,45 @@ void Preprocess::processPairedEndRecordChunk(Preprocess::PairedEndFastqChunk &ch
                                                     parameters.maxMissMatchFractionMerging);
 
             if (!mergedRecord.has_value()) {
-                chunk.recordsSnglFwdRes.push_back(std::move(record1));
-                chunk.recordsSnglRevRes.push_back(std::move(record2));
+                snglFwdOut.push_back(std::move(record1));
+                snglRevOut.push_back(std::move(record2));
+
+                result.singleFwdRecords += 1;
+                result.singleRevRecords += 1;
+
                 continue;
             }
 
             const auto &mergedRecordValue = mergedRecord.value();
 
             if (passesFilters(mergedRecordValue)) {
-                chunk.recordsMergedRes.push_back(std::move(mergedRecord.value()));
+                mergedOut.push_back(std::move(mergedRecord.value()));
+
+                result.mergedRecords += 1;
                 continue;
+            } else {
+                result.failedMergedRecords += 1;
             }
 
             continue;
         }
 
         if (filtFwd) {
-            chunk.recordsSnglFwdRes.push_back(std::move(record1));
+            snglFwdOut.push_back(std::move(record1));
+
+            result.singleFwdRecords += 1;
+        } else {
+            result.failedForwardRecords += 1;
         }
+
         if (filtRev) {
-            chunk.recordsSnglRevRes.push_back(std::move(record2));
+            snglRevOut.push_back(std::move(record2));
+        } else {
+            result.failedReverseRecords += 1;
         }
     }
+
+    return result;
 }
 
 }  // namespace preprocess

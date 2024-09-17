@@ -25,6 +25,9 @@ static constexpr std::array<std::string, 3> validReverseTags{"_R2", "_2", "_reve
 
 static const std::string outSampleFastqSuffix = "_passed.fastq.gz";
 static const std::string outSampleTmpFastqDirPrefix = "tmp_fastq";
+static const std::string outSampleTmpMergedFastqDirPrefix = "tmp_merged_fastq";
+static const std::string outSampleTmpForwardSingletonFastqDirPrefix = "tmp_forward_singleton_fastq";
+static const std::string outSampleTmpReverseSingletonFastqDirPrefix = "tmp_reverse_singleton_fastq";
 
 static const std::string outSampleFastqPairedMergeSuffix = "_merged_passed.fastq.gz";
 static const std::string outSampleFastqPairedForwardSingletonSuffix =

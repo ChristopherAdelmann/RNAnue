@@ -50,24 +50,38 @@ class Preprocess {
    private:
     using SingleEndAsyncInputBuffer = seqan3::detail::async_input_buffer_view<
         std::ranges::ref_view<seqan3::sequence_file_input<>>>;
+    using PairedEndAsyncInputBuffer = seqan3::detail::async_input_buffer_view<std::views::all_t<
+        seqan::stl::ranges::zip_view<std::ranges::ref_view<seqan3::sequence_file_input<>>,
+                                     std::ranges::ref_view<seqan3::sequence_file_input<>>>>>;
 
     PreprocessParameters parameters;
 
-    struct SingleEndFastqChunk {
-        std::vector<seqan3::sequence_file_input<>::record_type> records;
-    };
-
-    struct PairedEndFastqChunk {
-        std::vector<seqan3::sequence_file_input<>::record_type> recordsFwd;
-        std::vector<seqan3::sequence_file_input<>::record_type> recordsRev;
-        std::vector<seqan3::sequence_file_input<>::record_type> recordsMergedRes;
-        std::vector<seqan3::sequence_file_input<>::record_type> recordsSnglFwdRes;
-        std::vector<seqan3::sequence_file_input<>::record_type> recordsSnglRevRes;
-    };
-
     struct SingleEndResult {
-        size_t passedRecords;
-        size_t failedRecords;
+        size_t passedRecords{0};
+        size_t failedRecords{0};
+
+        void operator+=(const SingleEndResult &other) {
+            passedRecords += other.passedRecords;
+            failedRecords += other.failedRecords;
+        }
+    };
+
+    struct PairedEndResult {
+        size_t mergedRecords{0};
+        size_t singleFwdRecords{0};
+        size_t singleRevRecords{0};
+        size_t failedMergedRecords{0};
+        size_t failedForwardRecords{0};
+        size_t failedReverseRecords{0};
+
+        void operator+=(const PairedEndResult &other) {
+            mergedRecords += other.mergedRecords;
+            singleFwdRecords += other.singleFwdRecords;
+            singleRevRecords += other.singleRevRecords;
+            failedMergedRecords += other.failedMergedRecords;
+            failedForwardRecords += other.failedForwardRecords;
+            failedReverseRecords += other.failedReverseRecords;
+        }
     };
 
     bool passesFilters(const auto &record) const;
@@ -82,17 +96,11 @@ class Preprocess {
                                                 const std::vector<Adapter> &adapters3,
                                                 const fs::path &tmpOutDir) const;
 
-    void processPairedEndRecordChunk(PairedEndFastqChunk &chunk,
-                                     const std::vector<Adapter> &adapters5f,
-                                     const std::vector<Adapter> &adapters3f,
-                                     const std::vector<Adapter> &adapters5r,
-                                     const std::vector<Adapter> &adapters3r) const;
-    void processPairedEndFileInChunks(
-        std::string const &recFwdInPath, std::string const &recRevInPath,
-        std::string const &mergedOutPath, std::string const &snglFwdOutPath,
-        std::string const &snglRevOutPath, const std::vector<Adapter> &adapters5f,
-        const std::vector<Adapter> &adapters3f, const std::vector<Adapter> &adapters5r,
-        const std::vector<Adapter> &adapters3r) const;
+    PairedEndResult processPairedEndRecordChunk(
+        Preprocess::PairedEndAsyncInputBuffer &pairedRecordInputBuffer,
+        const std::vector<Adapter> &adapters5f, const std::vector<Adapter> &adapters3f,
+        const std::vector<Adapter> &adapters5r, const std::vector<Adapter> &adapters3r,
+        const PrepocessSampleOutputPaired &sampleOutput) const;
 };
 
 }  // namespace preprocess

@@ -39,6 +39,10 @@ struct PrepocessSampleOutputSingle {
 };
 
 struct PrepocessSampleOutputPaired {
+    fs::path tmpMergedFastqDir;
+    fs::path tmpSingletonForwardFastqDir;
+    fs::path tmpSingletonReverseFastqDir;
+
     fs::path outputMergedFastqPath;
     fs::path outputSingletonForwardFastqPath;
     fs::path outputSingletonReverseFastqPath;

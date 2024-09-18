@@ -70,9 +70,12 @@ void Detect::processSample(const DetectSample& sample) const {
     Detect::Result mergedResults;
 
     for (auto& resultFuture : processResults) {
-        const auto result = resultFuture.get();
-        mergeResults(mergedResults, result);
+        mergedResults += resultFuture.get();
     }
+
+    Logger::log(LogLevel::INFO, "Processed ", mergedResults.processedRecordsCount, " reads. Found ",
+                mergedResults.splitFragmentsCount, " split fragments and ",
+                mergedResults.singletonFragmentsCount, " singleton fragments.");
 
     writeTranscriptCountsFile(sample.output.outputContiguousAlignmentsTranscriptCountsPath,
                               mergedResults.transcriptCounts);
@@ -174,11 +177,8 @@ Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
         totalSplitFragmentsCount += fragmentsCount;
     }
 
-    Logger::log(LogLevel::INFO, "Processed ", recordsCount, " reads. Found ",
-                totalSplitFragmentsCount, " split fragments and ", totalSingletonFragmentsCount,
-                " singleton fragments.");
-
-    return {singletonTranscriptCounts, totalSplitFragmentsCount, totalSingletonFragmentsCount};
+    return {recordsCount, singletonTranscriptCounts, totalSplitFragmentsCount,
+            totalSingletonFragmentsCount};
 }
 
 const SplitRecordsEvaluationParameters::ParameterVariant Detect::getSplitRecordsEvaluatorParameters(
@@ -496,15 +496,6 @@ void Detect::mergeOutputFiles(const ChunkedOutTmpDirs& tmpDirs, const DetectOutp
     helper::mergeSamFiles(multisplitsOutFilePaths, output.outputMultisplitAlignmentsPath);
     helper::mergeSamFiles(unassignedContiguousRecordsOutFilePaths,
                           output.outputUnassignedContiguousAlignmentsPath);
-}
-
-void Detect::mergeResults(Detect::Result& results, const Detect::Result& newResults) const {
-    results.splitFragmentsCount += newResults.splitFragmentsCount;
-    results.singletonFragmentsCount += newResults.singletonFragmentsCount;
-
-    for (const auto& [transcript, count] : newResults.transcriptCounts) {
-        results.transcriptCounts[transcript] += count;
-    }
 }
 
 void Detect::writeTranscriptCountsFile(const fs::path& transcriptCountsFilePath,

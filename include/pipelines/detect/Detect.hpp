@@ -62,9 +62,20 @@ class Detect {
     using TranscriptCounts = std::unordered_map<std::string, size_t>;
 
     struct Result {
+        size_t processedRecordsCount{0};
         TranscriptCounts transcriptCounts;
         size_t splitFragmentsCount{0};
         size_t singletonFragmentsCount{0};
+
+        void operator+=(const Result &other) {
+            processedRecordsCount += other.processedRecordsCount;
+            splitFragmentsCount += other.splitFragmentsCount;
+            singletonFragmentsCount += other.singletonFragmentsCount;
+
+            for (const auto &[transcript, count] : other.transcriptCounts) {
+                transcriptCounts[transcript] += count;
+            }
+        }
     };
 
     DetectParameters params;
@@ -94,7 +105,6 @@ class Detect {
         const std::vector<SamRecord> &readRecords,
         const std::deque<std::string> &referenceIDs) const;
 
-    void mergeResults(Result &transcriptCounts, const Result &newTranscriptCounts) const;
     void mergeOutputFiles(const ChunkedOutTmpDirs &tmpDirs, const DetectOutput &output) const;
     void writeSamFile(auto &samOut, const std::vector<SamRecord> &splitRecords) const;
 

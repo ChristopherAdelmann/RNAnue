@@ -56,12 +56,11 @@ target_link_libraries(tests     PRIVATE
                                 GTest::gtest_main
                                 seqan3::seqan3
                                 Boost::program_options
-                                Boost::filesystem
-                                Boost::property_tree
-                                Boost::foreach
-                                Boost::dynamic_bitset
-                                Boost::math)
+                                Boost::math
+                                Boost::uuid
+                                segemehl)
 
 
 include(GoogleTest)
 gtest_discover_tests(tests)
+

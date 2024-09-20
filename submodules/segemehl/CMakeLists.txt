@@ -9,6 +9,9 @@ include_directories(include)
 
 file(GLOB sources "libs/*.c")
 
+find_package(HTSlib)
 add_library(segemehl STATIC ${sources})
+
 target_link_libraries(segemehl PRIVATE ${HTSlib_LIBRARIES})
 target_include_directories(segemehl PUBLIC include ${HTSlib_INCLUDE_DIRS})
+

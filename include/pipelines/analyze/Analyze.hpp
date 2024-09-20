@@ -19,7 +19,6 @@
 // Boost
 #include <boost/math/distributions/binomial.hpp>
 #include <boost/program_options.hpp>
-#include <boost/property_tree/ptree.hpp>
 
 // seqan3
 #include <seqan3/io/sam_file/input.hpp>

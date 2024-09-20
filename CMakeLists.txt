@@ -33,14 +33,12 @@ set(Boost_USE_STATIC_RUNTIME ON)
 set(Boost_DEBUG OFF)
 set(Boost_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/submodules/boost)
 
-
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/boost EXCLUDE_FROM_ALL)
 
 # # # ViennaRNA
 find_package(ViennaRNA)
 
 # # # htslib
-set(HTSlib_USE_STATIC_LIBS ON)
 find_package(HTSlib)
 
 # # # bam_sort
@@ -112,6 +110,8 @@ if(NOT HTSlib_FOUND)
     include(htslib)
     add_dependencies(RNAnue htslib)
     add_dependencies(segemehl htslib)
+
+    target_include_directories(segemehl PUBLIC include ${HTSlib_INCLUDE_DIRS})
 else()
     message(STATUS "Using htslib from system")
 endif()
@@ -144,6 +144,7 @@ target_link_libraries (RNAnue PRIVATE   seqan3::seqan3
 # Testing
 # ----------------------------------------------------------------------------
 if (CMAKE_BUILD_TYPE STREQUAL DEBUG OR CMAKE_BUILD_TYPE STREQUAL Debug)
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
     set(BUILD_TESTS ON)
     message(STATUS "Enabling tests")
     add_subdirectory(tests)
@@ -206,3 +207,4 @@ cpack_add_component(RNAnue
     DESCRIPTION "RNAnue: efficient data analysis for RNA-RNA interactomics"
     REQUIRED
 )
+

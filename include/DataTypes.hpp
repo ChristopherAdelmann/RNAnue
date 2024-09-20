@@ -1,6 +1,7 @@
 #pragma once
 
 // Standard
+#include <cstdint>
 #include <filesystem>
 #include <map>
 #include <optional>

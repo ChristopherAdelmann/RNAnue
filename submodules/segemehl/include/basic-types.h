@@ -16,13 +16,12 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef BASIC_TYPES_H
 #define BASIC_TYPES_H
 
-#include <stdint.h>
+#include "stdint.h"
 
-#ifdef __CYGWIN__ 
+#ifdef __CYGWIN__
 
 #define CRLF '\r'
 
@@ -54,49 +53,31 @@ typedef unsigned char BOOL;
 #endif
 
 typedef struct {
-  int  a, 
-       b;
-} PairSint; 
+    int a, b;
+} PairSint;
 
-typedef struct{
-  Lint a,
-       b;
+typedef struct {
+    Lint a, b;
 } PairLSint;
 
 typedef struct {
-  Uint  a, 
-       b;
-} PairUint; 
-
+    Uint a, b;
+} PairUint;
 
 typedef struct {
-  Uint a,
-      b,
-      c;
+    Uint a, b, c;
 } TripleUint;
 
-
 typedef struct {
-  int a,
-      b,
-      c;
+    int a, b, c;
 } TripleSint;
 
 typedef struct {
-  int a,
-      b,
-      c,
-      d;
+    int a, b, c, d;
 } QuadSint;
 
-
 typedef struct {
-  Uint a,
-      b,
-      c,
-      d;
+    Uint a, b, c, d;
 } QuadUint;
 
-
 #endif
-

@@ -15,7 +15,6 @@
 
 // boost
 #include <boost/program_options.hpp>
-#include <boost/property_tree/ptree.hpp>
 
 // seqan3
 #include <seqan3/alphabet/nucleotide/dna5.hpp>

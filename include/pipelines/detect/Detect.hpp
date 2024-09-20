@@ -1,6 +1,4 @@
 #pragma once
-// openMP
-#include <omp.h>
 
 // Standard
 #include <algorithm>

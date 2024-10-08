@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include "FeatureAnnotator.hpp"
+#include "ParseSamRecords.hpp"
 #include "SplitRecordsEvaluationParameters.hpp"
 #include "SplitRecordsSplicingEvaluator.hpp"
 
@@ -94,21 +95,6 @@ TEST_P(EvaluatedSplitRecordsTests, IsSplicedSplitRecord) {
 
     EXPECT_EQ(isSpliced, param.isSpliced);
 };
-
-std::vector<dtp::SamRecord> parseSamRecords(const char* samFileRaw) {
-    std::istringstream samStream(samFileRaw);
-
-    using sam_file_input_t =
-        seqan3::sam_file_input<seqan3::sam_file_input_default_traits<>, dtp::sam_field_ids>;
-    sam_file_input_t samFile(std::istringstream{samFileRaw}, seqan3::format_sam{});
-
-    std::vector<dtp::SamRecord> samRecordsVector;
-
-    for (auto& record : samFile) {
-        samRecordsVector.push_back(record);
-    }
-    return samRecordsVector;
-}
 
 INSTANTIATE_TEST_SUITE_P(
     Default, EvaluatedSplitRecordsTests,

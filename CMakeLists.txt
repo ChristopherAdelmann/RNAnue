@@ -58,6 +58,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/align
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/detect
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/analyze
+                    ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/dataTypes
                     ${CMAKE_CURRENT_SOURCE_DIR}/submodules/bam_sort)
 
 add_executable (RNAnue  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
@@ -207,4 +208,3 @@ cpack_add_component(RNAnue
     DESCRIPTION "RNAnue: efficient data analysis for RNA-RNA interactomics"
     REQUIRED
 )
-

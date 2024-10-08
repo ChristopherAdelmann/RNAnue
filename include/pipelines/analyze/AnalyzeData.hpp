@@ -37,7 +37,7 @@ static const std::string outInteractionsBEDSuffix = "_interaction_regions.bed";
 static const std::string outInteractionsBEDARCSuffix = "_interaction_regions.arc";
 static const std::string outSupplementaryFeaturesSuffix = "_supplementary_features.gff";
 
-static constexpr std::string pipelinePrefix = "04_analyze";
+static const std::string pipelinePrefix = "04_analyze";
 
 struct AnalyzeData : public PipelineData {
     std::vector<AnalyzeSample> treatmentSamples;

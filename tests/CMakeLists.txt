@@ -14,9 +14,11 @@ enable_testing ()
 
 
 add_executable (tests   ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterGeneratorTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/FeatureAnnotatorTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/DetectTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/SplitRecordsSplicingEvaluatorTests.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/SplitRecordsTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/AsyncSplitRecordGroupBufferTests.cpp
 
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/DataTypes.cpp
@@ -33,6 +35,7 @@ add_executable (tests   ${CMAKE_CURRENT_SOURCE_DIR}/InteractionClusterTests.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pipelines/analyze/Analyze.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pipelines/analyze/Segment.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pipelines/analyze/InteractionCluster.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/../src/pipelines/analyze/InteractionClusterGenerator.cpp
 
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/Utility.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CooptimalPairwiseAligner.cpp
@@ -47,6 +50,7 @@ target_link_libraries (tests PRIVATE ${VIENNA_RNA_LIBRARY})
 target_include_directories (tests PRIVATE   ${CMAKE_CURRENT_SOURCE_DIR}/../include
                                             ${CMAKE_CURRENT_SOURCE_DIR}/../include/annotation
                                             ${CMAKE_CURRENT_SOURCE_DIR}/../include/pipelines/detect
+                                            ${CMAKE_CURRENT_SOURCE_DIR}/../include/pipelines/dataTypes
                                             ${VIENNA_RNA_INCLUDE_DIR}
                                             ${VIENNA_RNA_INCLUDE_DIR}/ViennaRNA
                                             ${HTSlib_INCLUDE_DIRS}
@@ -63,4 +67,3 @@ target_link_libraries(tests     PRIVATE
 
 include(GoogleTest)
 gtest_discover_tests(tests)
-

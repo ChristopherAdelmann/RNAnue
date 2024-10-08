@@ -26,7 +26,7 @@ static const std::string outSampleContiguousAlignmentsTranscriptCountsSuffix =
     "_contiguous_transcript_counts.tsv";
 static const std::string outSampleReadCountsSummarySuffix = "_read_counts_summary.tsv";
 
-static constexpr std::string pipelinePrefix = "03_detect";
+static const std::string pipelinePrefix = "03_detect";
 
 struct DetectData : public PipelineData {
     std::vector<DetectSample> treatmentSamples;

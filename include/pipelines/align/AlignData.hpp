@@ -32,7 +32,7 @@ static const std::string outSampleMergedAlignedSuffix = "_merged_aligned.bam";
 static const std::string outSampleSingletonForwardAlignedSuffix = "_singleton_forward_aligned.bam";
 static const std::string outSampleSingletonReverseAlignedSuffix = "_singleton_reverse_aligned.bam";
 
-static constexpr std::string pipelinePrefix = "02_align";
+static const std::string pipelinePrefix = "02_align";
 
 struct AlignData : public pipelines::PipelineData {
     std::vector<AlignSampleType> treatmentSamples;

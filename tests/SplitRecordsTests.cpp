@@ -11,7 +11,7 @@
 #include "ParseSamRecords.hpp"
 #include "SplitRecords.hpp"
 
-using namespace pipelines::dataTypes;
+using namespace dataTypes;
 
 struct SplitRecordsTestParams {
     const std::vector<SplitRecords> splitRecords;
@@ -25,54 +25,52 @@ TEST_P(SplitRecordsTests, IsSortedFromBackToFront) {
     std::vector<SplitRecords> splitRecordGroups = param.splitRecords;
     const std::vector<std::string>& expectedBackRecordIDOrder = param.expectedBackRecordIDOrder;
 
+    EXPECT_EQ(expectedBackRecordIDOrder.size(), splitRecordGroups.size());
+
     sort(splitRecordGroups.begin(), splitRecordGroups.end(), std::greater());
 
     std::vector<std::string> backRecordIDOrder;
     for (const auto& splitRecords : splitRecordGroups) {
-        backRecordIDOrder.push_back(splitRecords.records.back().id());
+        backRecordIDOrder.push_back(splitRecords.back().id());
     }
 
     EXPECT_EQ(expectedBackRecordIDOrder, backRecordIDOrder);
 }
 
-auto splitRecords1 = R"(
-@HD     VN:1.6
-@SQ     SN:chromosome1 LN:100
-@SQ     SN:chromosome2 LN:100
+auto splitRecords1 = R"(@HD	VN:1.6
+@SQ	SN:chromosome1	LN:100
+@SQ	SN:chromosome2	LN:100
 SRR18331301.231	0	chromosome1	0	20	5M	*	0	0	ATCGC	@@@@@	AS:i:0	XS:i:0
 SRR18331301.232	0	chromosome1	40	20	5M	*	0	0	ATCGC	@@@@@	AS:i:0	XS:i:0
 )";
 
-auto splitRecords2 = R"(
-@HD     VN:1.6
-@SQ     SN:chromosome1 LN:100
-@SQ     SN:chromosome2 LN:100
+auto splitRecords2 = R"(@HD	VN:1.6
+@SQ	SN:chromosome1	LN:100
+@SQ	SN:chromosome2	LN:100
 SRR18331301.233	0	chromosome1	0	20	5M	*	0	0	ATCGC	@@@@@	AS:i:0	XS:i:0
 SRR18331301.234	0	chromosome1	50	20	5M	*	0	0	ATCGC	@@@@@	AS:i:0	XS:i:0
 )";
 
-auto splitRecords3 = R"(
-@HD     VN:1.6
-@SQ     SN:chromosome1 LN:100
-@SQ     SN:chromosome2 LN:100
+auto splitRecords3 = R"(@HD	VN:1.6
+@SQ	SN:chromosome1	LN:100
+@SQ	SN:chromosome2	LN:100
 SRR18331301.235	0	chromosome1	0	20	5M	*	0	0	ATCGC	@@@@@	AS:i:0	XS:i:0
 SRR18331301.236	0	chromosome1	50	20	7M	*	0	0	ATCGCGT	@@@@@@@	AS:i:0	XS:i:0
 )";
 
-auto splitRecords4 = R"(
-@HD     VN:1.6
-@SQ     SN:chromosome1 LN:100
-@SQ     SN:chromosome2 LN:100
-SRR18331301.229	0	chromosome1	0	20	5M	*	0	0	ATCGC	@@@@@	AS:i:0	XS:i:0
+auto splitRecords4 = R"(@HD	VN:1.6
+@SQ	SN:chromosome1	LN:100
+@SQ	SN:chromosome2	LN:100
 SRR18331301.230	0	chromosome2	40	20	7M	*	0	0	ATCGCGT	@@@@@@@	AS:i:0	XS:i:0
+SRR18331301.229	0	chromosome1	0	20	5M	*	0	0	ATCGC	@@@@@	AS:i:0	XS:i:0
 )";
 
 void PrintTo(const SplitRecordsTestParams& param, std::ostream* os) {
     *os << "SplitRecordsTestParams{" << "\n" << "splitRecords back IDs: \n";
 
     for (const auto& splitRecords : param.splitRecords) {
-        *os << "\t" << splitRecords.records.back().id()
-            << " reference id: " << splitRecords.records.back().reference_id().value_or(-1) << "\n";
+        *os << "\t" << splitRecords.back().id()
+            << " reference id: " << splitRecords.back().reference_id().value_or(-1) << "\n";
     }
 
     *os << "expectedBackRecordIDOrder: \n";

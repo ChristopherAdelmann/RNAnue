@@ -15,7 +15,7 @@
 using namespace seqan3::literals;
 
 struct IsSplicedTestParam {
-    dtp::SplitRecords splitRecords;
+    SplitRecords splitRecords;
     bool isSpliced;
 };
 

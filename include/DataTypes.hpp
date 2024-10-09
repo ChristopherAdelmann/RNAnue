@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "SamRecord.hpp"
+
 // seqan3
 #include <seqan3/alphabet/nucleotide/dna5.hpp>
 #include <seqan3/alphabet/quality/phred42.hpp>
@@ -36,24 +38,6 @@ using FASTQFormat = seqan3::type_list<std::string, DNASpan, QualSpan>;
 using FASTQFields = seqan3::fields<seqan3::field::id, seqan3::field::seq, seqan3::field::qual>;
 using FASTQRecord = seqan3::record<FASTQFormat, FASTQFields>;
 
-// SAM
-using sam_field_types =
-    seqan3::type_list<std::string, seqan3::sam_flag, std::optional<int32_t>, std::optional<int32_t>,
-                      uint8_t, std::vector<seqan3::cigar>, seqan3::dna5_vector,
-                      std::vector<seqan3::phred42>, seqan3::sam_tag_dictionary>;
-
-using sam_field_ids =
-    seqan3::fields<seqan3::field::id, seqan3::field::flag, seqan3::field::ref_id,
-                   seqan3::field::ref_offset, seqan3::field::mapq, seqan3::field::cigar,
-                   seqan3::field::seq, seqan3::field::qual, seqan3::field::tags>;
-
-using SamRecord = seqan3::sam_record<sam_field_types, sam_field_ids>;
-
-// Represents a single chimeric read which is split up into its blocks
-using SplitRecords = std::vector<SamRecord>;
-// Represents a single chimeric read with multiple alternative mapping results
-using SplitRecordsVariantGroups = std::vector<SplitRecords>;
-
 // data types used in preprocessing (state transition table)
 using Left = std::size_t;                           // left matching block
 using Right = std::pair<std::size_t, std::size_t>;  // right matching block
@@ -67,7 +51,7 @@ using STTEntry = std::tuple<int, int, int, int>;
 
 enum Strand : char { FORWARD = '+', REVERSE = '-' };
 
-std::optional<int32_t> recordEndPosition(const SamRecord &record);
+std::optional<int32_t> recordEndPosition(const dataTypes::SamRecord &record);
 
 /**
  * @brief Represents a genomic region.
@@ -94,7 +78,7 @@ struct GenomicRegion {
      * @param referenceIDs The deque of reference IDs.
      * @return An optional GenomicRegion object.
      */
-    static std::optional<GenomicRegion> fromSamRecord(const SamRecord &record,
+    static std::optional<GenomicRegion> fromSamRecord(const dataTypes::SamRecord &record,
                                                       const std::deque<std::string> &referenceIDs);
 };
 

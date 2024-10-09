@@ -1,7 +1,7 @@
 #include "SplitRecordsSplicingEvaluator.hpp"
 
 bool SplitRecordsSplicingEvaluator::isSplicedSplitRecord(
-    const dtp::SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs,
+    const SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs,
     const SplitRecordsEvaluationParameters::SplicingParameters &parameters) {
     if (splitRecords[0].reference_id() != splitRecords[1].reference_id()) {
         return false;
@@ -49,8 +49,7 @@ bool SplitRecordsSplicingEvaluator::isSplicedSplitRecord(
 
 std::optional<std::pair<dtp::Feature, dtp::Feature>>
 SplitRecordsSplicingEvaluator::getGroupedFeatures(
-    const dtp::SamRecord &record1, const dtp::SamRecord &record2,
-    const std::deque<std::string> &referenceIDs,
+    const SamRecord &record1, const SamRecord &record2, const std::deque<std::string> &referenceIDs,
     const SplitRecordsEvaluationParameters::SplicingParameters &parameters) {
     const auto featureRecord1 = parameters.featureAnnotator.getBestOverlappingFeature(
         record1, referenceIDs, parameters.orientation);
@@ -74,8 +73,8 @@ SplitRecordsSplicingEvaluator::getGroupedFeatures(
 }
 
 std::optional<dtp::GenomicRegion> SplitRecordsSplicingEvaluator::getSpliceJunctionBoundingRegion(
-    const dtp::SamRecord &record1, const dtp::SamRecord &record2,
-    const dtp::Feature &featureRecord1, const dtp::Feature &featureRecord2,
+    const SamRecord &record1, const SamRecord &record2, const dtp::Feature &featureRecord1,
+    const dtp::Feature &featureRecord2,
     const SplitRecordsEvaluationParameters::SplicingParameters &parameters) {
     const auto record1EndPosition = dtp::recordEndPosition(record1).value();
 

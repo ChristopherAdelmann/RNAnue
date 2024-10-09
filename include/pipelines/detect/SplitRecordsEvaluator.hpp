@@ -20,7 +20,7 @@ using namespace seqan3::literals;
 class SplitRecordsEvaluator {
    public:
     struct EvaluatedSplitRecords {
-        dtp::SplitRecords splitRecords;
+        SplitRecords splitRecords;
         SplitRecordsComplementarityEvaluator::Result complementarityResult;
         SplitRecordsHybridizationEvaluator::Result hybridizationResult;
 
@@ -38,22 +38,21 @@ class SplitRecordsEvaluator {
             parameters);
     ~SplitRecordsEvaluator() = default;
 
-    Result evaluate(dtp::SplitRecords &splitRecords,
-                    const std::deque<std::string> &referenceIDs) const;
+    Result evaluate(SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs) const;
 
    private:
     std::variant<SplitRecordsEvaluationParameters::BaseParameters,
                  SplitRecordsEvaluationParameters::SplicingParameters>
         parameters;
 
-    Result evaluateBase(dtp::SplitRecords &splitRecords,
+    Result evaluateBase(SplitRecords &splitRecords,
                         const SplitRecordsEvaluationParameters::BaseParameters &parameters) const;
 
     Result evaluateSplicing(
-        dtp::SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs,
+        SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs,
         const SplitRecordsEvaluationParameters::SplicingParameters &parameters) const;
 
-    void addTagsToRecords(dtp::SplitRecords &splitRecords,
+    void addTagsToRecords(SplitRecords &splitRecords,
                           const SplitRecordsComplementarityEvaluator::Result &complementarity,
                           const SplitRecordsHybridizationEvaluator::Result &hybridization) const;
 };

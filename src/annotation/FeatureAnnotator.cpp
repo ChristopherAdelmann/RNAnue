@@ -208,7 +208,7 @@ std::optional<dtp::Feature> FeatureAnnotator::getBestOverlappingFeature(
 }
 
 std::optional<dtp::Feature> FeatureAnnotator::getBestOverlappingFeature(
-    const dtp::SamRecord &record, const std::deque<std::string> &referenceIDs,
+    const SamRecord &record, const std::deque<std::string> &referenceIDs,
     const Orientation orientation) const {
     auto region = dtp::GenomicRegion::fromSamRecord(record, referenceIDs);
     if (!region.has_value()) {

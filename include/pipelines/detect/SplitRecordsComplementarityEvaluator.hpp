@@ -9,6 +9,7 @@
 
 // Classes
 #include "CooptimalPairwiseAligner.hpp"
+#include "SplitRecords.hpp"
 #include "SplitRecordsEvaluationParameters.hpp"
 
 class SplitRecordsComplementarityEvaluator {
@@ -25,7 +26,7 @@ class SplitRecordsComplementarityEvaluator {
         delete;
 
     static std::optional<SplitRecordsComplementarityEvaluator::Result> evaluate(
-        const dtp::SplitRecords &splitRecords,
+        const SplitRecords &splitRecords,
         const SplitRecordsEvaluationParameters::BaseParameters &parameters);
 
    private:

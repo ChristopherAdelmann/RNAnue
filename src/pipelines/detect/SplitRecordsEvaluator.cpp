@@ -7,7 +7,7 @@ SplitRecordsEvaluator::SplitRecordsEvaluator(
     : parameters(parameters) {}
 
 SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluate(
-    dtp::SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs) const {
+    SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs) const {
     if (splitRecords.size() != 2) {
         Logger::log(LogLevel::DEBUG, "Currently only two split records are supported!");
         return SplitRecordsEvaluator::FilterReason::NO_SPLIT_READ;
@@ -31,7 +31,7 @@ SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluate(
 }
 
 SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluateBase(
-    dtp::SplitRecords &splitRecords,
+    SplitRecords &splitRecords,
     const SplitRecordsEvaluationParameters::BaseParameters &parameters) const {
     const auto complementarityResult =
         SplitRecordsComplementarityEvaluator::evaluate(splitRecords, parameters);
@@ -54,7 +54,7 @@ SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluateBase(
 }
 
 SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluateSplicing(
-    dtp::SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs,
+    SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs,
     const SplitRecordsEvaluationParameters::SplicingParameters &parameters) const {
     const auto isSplicing =
         SplitRecordsSplicingEvaluator::isSplicedSplitRecord(splitRecords, referenceIDs, parameters);
@@ -67,8 +67,7 @@ SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluateSplicing(
 }
 
 void SplitRecordsEvaluator::addTagsToRecords(
-    dtp::SplitRecords &splitRecords,
-    const SplitRecordsComplementarityEvaluator::Result &complementarity,
+    SplitRecords &splitRecords, const SplitRecordsComplementarityEvaluator::Result &complementarity,
     const SplitRecordsHybridizationEvaluator::Result &hybridization) const {
     for (auto &record : splitRecords) {
         // Complementarity tags

@@ -26,11 +26,12 @@
 #include "DetectSample.hpp"
 #include "FeatureAnnotator.hpp"
 #include "Logger.hpp"
+#include "SplitRecords.hpp"
 #include "SplitRecordsEvaluationParameters.hpp"
 #include "SplitRecordsEvaluator.hpp"
 #include "Utility.hpp"
 
-using namespace dtp;
+using namespace dataTypes;
 
 namespace pipelines {
 namespace detect {

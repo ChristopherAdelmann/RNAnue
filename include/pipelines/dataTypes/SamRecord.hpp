@@ -19,7 +19,6 @@
 
 using namespace seqan3::literals;
 
-namespace pipelines {
 namespace dataTypes {
 
 using sam_field_types =
@@ -65,5 +64,8 @@ inline bool operator<(const SamRecord& lhs, const SamRecord& rhs) {
     return lhs.reference_position() < rhs.reference_position();
 }
 
+inline bool operator>(const SamRecord& lhs, const SamRecord& rhs) {
+    return dataTypes::operator<(rhs, lhs);
+}
+
 }  // namespace dataTypes
-}  // namespace pipelines

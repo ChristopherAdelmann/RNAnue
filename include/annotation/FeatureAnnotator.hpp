@@ -20,6 +20,9 @@
 #include "FeatureParser.hpp"
 #include "IITree.hpp"
 #include "Orientation.hpp"
+#include "SamRecord.hpp"
+
+using namespace dataTypes;
 
 namespace annotation {
 
@@ -57,7 +60,7 @@ class FeatureAnnotator {
     std::optional<dtp::Feature> getBestOverlappingFeature(const dtp::GenomicRegion& region,
                                                           const Orientation orientation) const;
     std::optional<dtp::Feature> getBestOverlappingFeature(
-        const dtp::SamRecord& record, const std::deque<std::string>& referenceIDs,
+        const SamRecord& record, const std::deque<std::string>& referenceIDs,
         const Orientation orientation) const;
     const FeatureTreeMap& getFeatureTreeMap() const;
 

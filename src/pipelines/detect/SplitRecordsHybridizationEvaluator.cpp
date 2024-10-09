@@ -2,7 +2,7 @@
 
 std::optional<SplitRecordsHybridizationEvaluator::Result>
 SplitRecordsHybridizationEvaluator::evaluate(
-    const dtp::SplitRecords &splitRecords,
+    const SplitRecords &splitRecords,
     const SplitRecordsEvaluationParameters::BaseParameters &parameters) {
     const seqan3::dna5_vector &sequence1 = splitRecords[0].sequence();
     const seqan3::dna5_vector &sequence2 = splitRecords[1].sequence();

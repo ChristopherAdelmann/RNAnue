@@ -16,6 +16,9 @@
 #include "hts.h"
 #include "seqan3/io/sequence_file/input.hpp"
 
+using namespace dtp;
+using namespace dataTypes;
+
 namespace pipelines {
 namespace detect {
 
@@ -132,13 +135,13 @@ Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
         }
     };
 
-    for (std::vector<dtp::SamRecord>& recordGroup : recordInputBuffer) {
+    for (std::vector<SamRecord>& recordGroup : recordInputBuffer) {
         recordsCount += recordGroup.size();
 
         std::unordered_set<size_t> invalidRecordHitGroups;
         std::vector<SamRecord> validRecordsGroup;
 
-        for (dtp::SamRecord& record : recordGroup) {
+        for (SamRecord& record : recordGroup) {
             if (static_cast<bool>(record.flag() & seqan3::sam_flag::unmapped) ||
                 record.mapping_quality() < params.minimumMapQuality ||
                 record.sequence().size() < params.minimumReadLength) {

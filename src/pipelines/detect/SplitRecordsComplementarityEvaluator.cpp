@@ -2,7 +2,7 @@
 
 std::optional<SplitRecordsComplementarityEvaluator::Result>
 SplitRecordsComplementarityEvaluator::evaluate(
-    const dtp::SplitRecords &splitRecords,
+    const SplitRecords &splitRecords,
     const SplitRecordsEvaluationParameters::BaseParameters &parameters) {
     const auto &sequence1 = splitRecords[0].sequence();
     const auto &sequence2 = splitRecords[1].sequence();

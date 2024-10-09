@@ -1,7 +1,7 @@
 #include "DataTypes.hpp"
 namespace dtp {
 
-std::optional<int32_t> recordEndPosition(const SamRecord &record) {
+std::optional<int32_t> recordEndPosition(const dataTypes::SamRecord &record) {
     const auto start = record.reference_position();
 
     if (!start.has_value()) {
@@ -28,7 +28,7 @@ GenomicRegion::GenomicRegion(const std::string &referenceID, int32_t startPositi
       strand(strand) {}
 
 std::optional<GenomicRegion> GenomicRegion::fromSamRecord(
-    const SamRecord &record, const std::deque<std::string> &referenceIDs) {
+    const dataTypes::SamRecord &record, const std::deque<std::string> &referenceIDs) {
     const auto start = record.reference_position();
     const auto end = recordEndPosition(record);
 

@@ -4,12 +4,13 @@
 
 #include "DataTypes.hpp"
 #include "InteractionClusterGenerator.hpp"
+#include "SplitRecords.hpp"
 #include "gtest/gtest.h"
 
 using namespace pipelines::analyze;
 
 struct TestParam {
-    const dtp::SplitRecords splitRecords;
+    const SplitRecords splitRecords;
     const std::vector<std::string> expectedSortOrderByID;
 };
 

@@ -11,7 +11,7 @@
 // Classes
 #include "SamRecord.hpp"
 
-using namespace pipelines::dataTypes;
+using namespace dataTypes;
 
 inline std::vector<SamRecord> parseSamRecords(const char* samFileRaw) {
     std::istringstream samStream(samFileRaw);

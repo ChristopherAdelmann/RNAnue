@@ -16,9 +16,11 @@ extern "C" {
 }
 
 // Classes
+#include "SplitRecords.hpp"
 #include "SplitRecordsEvaluationParameters.hpp"
 
 using namespace seqan3::literals;
+using namespace dataTypes;
 
 class SplitRecordsHybridizationEvaluator {
    public:
@@ -43,7 +45,7 @@ class SplitRecordsHybridizationEvaluator {
     SplitRecordsHybridizationEvaluator &operator=(SplitRecordsHybridizationEvaluator &&) = delete;
 
     static std::optional<Result> evaluate(
-        const dtp::SplitRecords &splitRecords,
+        const SplitRecords &splitRecords,
         const SplitRecordsEvaluationParameters::BaseParameters &parameters);
 
    private:

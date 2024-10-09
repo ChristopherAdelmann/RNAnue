@@ -9,11 +9,13 @@
 // Classes
 #include "CustomSamTags.hpp"
 #include "DataTypes.hpp"
+#include "SamRecord.hpp"
+
+using seqan3::operator""_tag;
+using namespace dataTypes;
 
 namespace pipelines {
 namespace analyze {
-
-using seqan3::operator""_tag;
 
 struct Segment {
     std::string recordID;
@@ -24,7 +26,7 @@ struct Segment {
     double maxComplementarityScore;
     double minHybridizationEnergy;
 
-    static std::optional<Segment> fromSamRecord(const dtp::SamRecord &record);
+    static std::optional<Segment> fromSamRecord(const SamRecord &record);
 
     dtp::GenomicRegion toGenomicRegion(const std::deque<std::string> &referenceIDs) const;
 

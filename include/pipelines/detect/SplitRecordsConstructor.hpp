@@ -7,19 +7,21 @@
 // Classes
 #include <vector>
 
-#include "DataTypes.hpp"
+#include "SamRecord.hpp"
+#include "SplitRecords.hpp"
+#include "SplitRecordsVariantGroups.hpp"
+
+using namespace dataTypes;
 
 class SplitRecordsConstructor {
    public:
     SplitRecordsConstructor() = delete;
     ~SplitRecordsConstructor() = delete;
 
-    static dtp::SplitRecordsVariantGroups getSplitRecords(
-        const std::vector<dtp::SamRecord>& recordGroup);
+    static SplitRecordsVariantGroups getSplitRecords(const std::vector<SamRecord>& recordGroup);
 
    private:
-    static dtp::SplitRecords constructSplitRecordsForHitGroup(
-        const std::vector<dtp::SamRecord>& hitGroup);
+    static SplitRecords constructSplitRecordsForHitGroup(const std::vector<SamRecord>& hitGroup);
 
-    static dtp::SplitRecords constructSplitRecords(const dtp::SamRecord& record);
+    static SplitRecords constructSplitRecords(const SamRecord& record);
 };

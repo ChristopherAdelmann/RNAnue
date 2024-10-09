@@ -18,11 +18,11 @@
 #include <vector>
 
 // Classes
-#include "DataTypes.hpp"
+#include "SamRecord.hpp"
 #include "seqan3/core/detail/iterator_traits.hpp"
 
 using record_input_t =
-    seqan3::sam_file_input<seqan3::sam_file_input_default_traits<>, dtp::sam_field_ids>;
+    seqan3::sam_file_input<seqan3::sam_file_input_default_traits<>, dataTypes::sam_field_ids>;
 
 template <std::ranges::range urng_t>
 class AsyncSplitRecordGroupBufferView

@@ -5,7 +5,7 @@
 namespace pipelines {
 namespace analyze {
 
-std::optional<Segment> Segment::fromSamRecord(const dtp::SamRecord &record) {
+std::optional<Segment> Segment::fromSamRecord(const SamRecord &record) {
     if (!record.reference_position().has_value() || !record.reference_id().has_value()) {
         return std::nullopt;
     }

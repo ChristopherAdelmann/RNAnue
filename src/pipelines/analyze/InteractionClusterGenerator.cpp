@@ -19,10 +19,6 @@ InteractionClusterGenerator::InteractionClusters InteractionClusterGenerator::me
     std::sort(std::execution::par_unseq, clusters.begin(), clusters.end(), std::less<>{});
 
     for (auto& cluster : clusters | std::views::reverse) {
-        std::cout << cluster.segments.second.recordID << " "
-                  << cluster.segments.second.referenceIDIndex << " " << cluster.segments.second.end
-                  << std::endl;
-
         if (openClusterQueue.empty()) {
             openClusterQueue.emplace_front(std::move(cluster));
             continue;

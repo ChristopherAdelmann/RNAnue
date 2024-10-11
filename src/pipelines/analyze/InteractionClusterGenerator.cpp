@@ -1,11 +1,5 @@
 #include "InteractionClusterGenerator.hpp"
 
-#include <ranges>
-#include <string>
-#include <utility>
-
-#include "Logger.hpp"
-
 namespace pipelines {
 namespace analyze {
 
@@ -22,7 +16,7 @@ namespace analyze {
 InteractionClusterGenerator::InteractionClusters InteractionClusterGenerator::mergeClusters(
     InteractionClusterGenerator::InteractionClusters& clusters, const int graceDistance) noexcept {
     // Clusters should be sorted from back to front
-    std::sort(clusters.begin(), clusters.end(), std::greater<>{});
+    std::sort(std::execution::par_unseq, clusters.begin(), clusters.end(), std::greater<>{});
 
     for (auto& cluster : clusters | std::views::reverse) {
         if (openClusterQueue.empty()) {

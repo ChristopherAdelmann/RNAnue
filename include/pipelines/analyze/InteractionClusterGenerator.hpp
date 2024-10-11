@@ -5,6 +5,9 @@
 #include <execution>
 #include <forward_list>
 #include <functional>
+#include <ranges>
+#include <string>
+#include <utility>
 #include <vector>
 
 // Classes

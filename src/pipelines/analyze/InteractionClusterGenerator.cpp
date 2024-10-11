@@ -58,7 +58,7 @@ InteractionClusterGenerator::InteractionClusters InteractionClusterGenerator::me
         finalizeCluster(std::move(cluster));
     }
 
-    Logger::log(LogLevel::INFO, "Found ", std::to_string(finishedClusters.size()), " clusters");
+    Logger::log(LogLevel::INFO, "Found ", finishedClusters.size(), " clusters");
 
     return std::move(finishedClusters);
 }
@@ -77,8 +77,8 @@ bool InteractionClusterGenerator::clusterIsBeforeOpenCluster(
 }
 
 void InteractionClusterGenerator::logClusteringStatus() const noexcept {
-    if (finishedClusters.size() % 50 == 0 && finishedClusters.size() != 0) {
-        Logger::log(LogLevel::INFO, "Found ", std::to_string(finishedClusters.size()), " clusters");
+    if (finishedClusters.size() % 100000 == 0 && finishedClusters.size() != 0) {
+        Logger::log(LogLevel::INFO, "Found ", finishedClusters.size(), " clusters");
     }
 }
 

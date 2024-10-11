@@ -18,10 +18,9 @@ namespace preprocess {
 
 namespace fs = std::filesystem;
 
-static constexpr std::array<std::string, 4> validInputSuffixes{".fastq", ".fastq.gz", ".fq",
-                                                               ".fq.gz"};
-static constexpr std::array<std::string, 3> validForwardTags{"_R1", "_1", "_forward"};
-static constexpr std::array<std::string, 3> validReverseTags{"_R2", "_2", "_reverse"};
+static const std::array<std::string, 4> validInputSuffixes{".fastq", ".fastq.gz", ".fq", ".fq.gz"};
+static const std::array<std::string, 3> validForwardTags{"_R1", "_1", "_forward"};
+static const std::array<std::string, 3> validReverseTags{"_R2", "_2", "_reverse"};
 
 static const std::string outSampleFastqSuffix = "_passed.fastq.gz";
 static const std::string outSampleTmpFastqDirPrefix = "tmp_fastq";

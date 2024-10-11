@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "DataTypes.hpp"
 #include "InteractionCluster.hpp"
 #include "InteractionClusterGenerator.hpp"
 #include "SplitRecordsParser.hpp"
@@ -59,63 +60,66 @@ void Analyze::assignTranscriptsToClusters(std::vector<InteractionCluster> &clust
     const int mergeGraceDistance = parameters.clusterDistanceThreshold;
     const auto annotationOrientation = parameters.featureOrientation;
 
-    for (auto &cluster : clusters) {
-        const auto &firstSegment = cluster.segments.first;
-        const auto &secondSegment = cluster.segments.second;
+    transcriptCounts.reserve(clusters.size() * 2);  // Reserve space to avoid multiple reallocations
 
-        auto processSegment = [&](const Segment &segment) -> std::string {
-            const auto region = segment.toGenomicRegion(referenceIDs);
+    auto processSegment = [&](const Segment &segment,
+                              const InteractionCluster &cluster) -> std::string {
+        const auto region = segment.toGenomicRegion(referenceIDs);
 
-            const auto segmentFeature =
-                featureAnnotator.getBestOverlappingFeature(region, annotationOrientation);
-
-            if (segmentFeature.has_value()) {
-                transcriptCounts[segmentFeature.value().id] += cluster.count;
-                return segmentFeature.value().id;
+        auto updateTranscriptCounts =
+            [&](const std::optional<dtp::Feature> &feature) -> std::optional<std::string> {
+            if (feature.has_value()) {
+                transcriptCounts[feature->id] += cluster.count;
+                return feature->id;
             }
-
-            const auto supplementarySegmentFeature =
-                supplementaryFeatureAnnotator.getBestOverlappingFeature(
-                    segment.toGenomicRegion(referenceIDs), annotationOrientation);
-
-            if (supplementarySegmentFeature.has_value()) {
-                transcriptCounts[supplementarySegmentFeature.value().id] += cluster.count;
-                return supplementarySegmentFeature.value().id;
-            }
-
-            const auto mergeResult = supplementaryFeatureAnnotator.mergeInsert(
-                segment.toGenomicRegion(referenceIDs), mergeGraceDistance);
-
-            transcriptCounts[mergeResult.featureID] += cluster.count;
-
-            for (const auto &mergedFeatureID : mergeResult.mergedFeatureIDs) {
-                mergedTranscriptIDsIntoTranscriptIDs[mergedFeatureID] = mergeResult.featureID;
-                transcriptCounts[mergeResult.featureID] += transcriptCounts[mergedFeatureID];
-                transcriptCounts.erase(mergedFeatureID);
-            }
-
-            return mergeResult.featureID;
+            return std::nullopt;
         };
 
-        const std::string firstSegmentTranscriptID = processSegment(firstSegment);
-        const std::string secondSegmentTranscriptID = processSegment(secondSegment);
+        if (auto segmentFeature = updateTranscriptCounts(
+                featureAnnotator.getBestOverlappingFeature(region, annotationOrientation))) {
+            return *segmentFeature;
+        }
+
+        if (auto supplementarySegmentFeature =
+                updateTranscriptCounts(supplementaryFeatureAnnotator.getBestOverlappingFeature(
+                    region, annotationOrientation))) {
+            return *supplementarySegmentFeature;
+        }
+
+        const auto mergeResult =
+            supplementaryFeatureAnnotator.mergeInsert(region, mergeGraceDistance);
+        transcriptCounts[mergeResult.featureID] += cluster.count;
+
+        for (const auto &mergedFeatureID : mergeResult.mergedFeatureIDs) {
+            mergedTranscriptIDsIntoTranscriptIDs[mergedFeatureID] = mergeResult.featureID;
+            transcriptCounts[mergeResult.featureID] += transcriptCounts[mergedFeatureID];
+            transcriptCounts.erase(mergedFeatureID);
+        }
+
+        return mergeResult.featureID;
+    };
+
+    for (auto &cluster : clusters) {
+        const std::string firstSegmentTranscriptID =
+            processSegment(cluster.segments.first, cluster);
+        const std::string secondSegmentTranscriptID =
+            processSegment(cluster.segments.second, cluster);
 
         cluster.transcriptIDs = std::make_pair(firstSegmentTranscriptID, secondSegmentTranscriptID);
     }
 
     for (auto &cluster : clusters) {
         if (cluster.transcriptIDs.has_value()) {
-            const auto &firstTranscriptID = cluster.transcriptIDs->first;
-            const auto &secondTranscriptID = cluster.transcriptIDs->second;
+            auto &[firstTranscriptID, secondTranscriptID] = *cluster.transcriptIDs;
 
-            if (mergedTranscriptIDsIntoTranscriptIDs.contains(firstTranscriptID)) {
-                cluster.transcriptIDs->first =
-                    mergedTranscriptIDsIntoTranscriptIDs[firstTranscriptID];
+            if (auto it = mergedTranscriptIDsIntoTranscriptIDs.find(firstTranscriptID);
+                it != mergedTranscriptIDsIntoTranscriptIDs.end()) {
+                firstTranscriptID = it->second;
             }
 
-            if (mergedTranscriptIDsIntoTranscriptIDs.contains(secondTranscriptID)) {
-                cluster.transcriptIDs->second =
-                    mergedTranscriptIDsIntoTranscriptIDs[secondTranscriptID];
+            if (auto it = mergedTranscriptIDsIntoTranscriptIDs.find(secondTranscriptID);
+                it != mergedTranscriptIDsIntoTranscriptIDs.end()) {
+                secondTranscriptID = it->second;
             }
         }
     }

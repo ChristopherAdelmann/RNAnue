@@ -25,8 +25,8 @@ template <typename Container>
 concept StringContainer = std::ranges::range<Container> &&
                           std::same_as<std::ranges::range_value_t<Container>, std::string>;
 
-static constexpr std::string treatmentSampleGroup = "treatment";
-static constexpr std::string controlSampleGroup = "control";
+static const std::string treatmentSampleGroup = "treatment";
+static const std::string controlSampleGroup = "control";
 
 struct PipelineData {
    protected:

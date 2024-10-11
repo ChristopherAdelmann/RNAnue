@@ -97,21 +97,25 @@ FeatureAnnotator::MergeInsertResult FeatureAnnotator::mergeInsert(const dtp::Gen
     tree.overlap(region.startPosition - graceDistance - 1, region.endPosition + graceDistance + 1,
                  indices);
 
-    std::erase_if(indices, [&region, &tree](size_t index) {
-        return tree.data(index).strand != *region.strand;
-    });
+    indices.erase(std::remove_if(indices.begin(), indices.end(),
+                                 [&region, &tree](size_t index) {
+                                     return tree.data(index).strand != *region.strand;
+                                 }),
+                  indices.end());
 
     if (indices.empty()) {
         return {insert(region), {}};
     }
 
-    auto minStartIndex = *std::ranges::min_element(indices, [&tree](size_t lhs, size_t rhs) {
-        return tree.data(lhs).startPosition < tree.data(rhs).startPosition;
-    });
+    auto minStartIndex =
+        *std::min_element(indices.begin(), indices.end(), [&tree](size_t lhs, size_t rhs) {
+            return tree.data(lhs).startPosition < tree.data(rhs).startPosition;
+        });
 
-    auto maxEndIndex = *std::ranges::max_element(indices, [&tree](size_t lhs, size_t rhs) {
-        return tree.data(lhs).endPosition < tree.data(rhs).endPosition;
-    });
+    auto maxEndIndex =
+        *std::max_element(indices.begin(), indices.end(), [&tree](size_t lhs, size_t rhs) {
+            return tree.data(lhs).endPosition < tree.data(rhs).endPosition;
+        });
 
     dtp::Feature &minStartFeature = tree.data(minStartIndex);
     minStartFeature.startPosition = std::min(minStartFeature.startPosition, region.startPosition);
@@ -120,16 +124,17 @@ FeatureAnnotator::MergeInsertResult FeatureAnnotator::mergeInsert(const dtp::Gen
     tree.setEnd(minStartIndex, minStartFeature.endPosition);
 
     std::vector<std::string> mergedFeatureIDs;
+    mergedFeatureIDs.reserve(indices.size() - 1);
 
     for (auto it = indices.rbegin(); it != indices.rend(); ++it) {
         if (*it != minStartIndex) {
-            mergedFeatureIDs.push_back(tree.data(*it).id);
+            mergedFeatureIDs.push_back(std::move(tree.data(*it).id));
             tree.remove(*it);
         }
     }
 
     tree.index();
-    return {.featureID = minStartFeature.id, .mergedFeatureIDs = mergedFeatureIDs};
+    return {.featureID = minStartFeature.id, .mergedFeatureIDs = std::move(mergedFeatureIDs)};
 }
 
 std::vector<dtp::Feature> FeatureAnnotator::overlappingFeatures(const dtp::GenomicRegion &region,

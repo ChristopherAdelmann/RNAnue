@@ -7,10 +7,12 @@
 #include <deque>
 #include <filesystem>
 #include <fstream>
+#include <future>
 #include <optional>
 #include <random>
 #include <ranges>
 #include <string>
+#include <thread>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -36,6 +38,7 @@
 #include "InteractionClusterGenerator.hpp"
 #include "Logger.hpp"
 #include "Segment.hpp"
+#include "SplitRecordsParser.hpp"
 #include "Utility.hpp"
 
 namespace math = boost::math;  // NOLINT

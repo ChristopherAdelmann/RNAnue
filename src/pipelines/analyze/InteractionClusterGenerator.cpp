@@ -52,7 +52,10 @@ InteractionClusterGenerator::InteractionClusters InteractionClusterGenerator::me
         finalizeCluster(std::move(cluster));
     }
 
-    Logger::log(LogLevel::INFO, "Found ", finishedClusters.size(), " clusters");
+    const size_t totalClusterCount = includedClusterCount + excludedClusterCount;
+    Logger::log(LogLevel::INFO, "(", sampleName, ") Processed ", totalClusterCount,
+                " clusters. Included ", includedClusterCount, " clusters, excluded ",
+                excludedClusterCount, " clusters");
 
     return std::move(finishedClusters);
 }
@@ -80,9 +83,9 @@ bool InteractionClusterGenerator::clusterIsBeforeOpenCluster(
 void InteractionClusterGenerator::logClusteringStatus() const noexcept {
     const size_t totalClusterCount = includedClusterCount + excludedClusterCount;
     if (totalClusterCount % 100000 == 0 && finishedClusters.size() != 0) {
-        Logger::log(LogLevel::INFO, "Processed ", totalClusterCount, " clusters. Included ",
-                    includedClusterCount, " clusters, excluded ", excludedClusterCount,
-                    " clusters");
+        Logger::log(LogLevel::INFO, "(", sampleName, ") Processed ", totalClusterCount,
+                    " clusters. Included ", includedClusterCount, " clusters, excluded ",
+                    excludedClusterCount, " clusters");
     }
 }
 

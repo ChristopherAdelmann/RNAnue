@@ -44,7 +44,7 @@ class IITree {
         for (size_t i : indices) a.erase(a.begin() + i);
     }
     void index() {
-        std::sort(std::execution::par_unseq, a.begin(), a.end(), IntervalLess());
+        std::sort(std::execution::par, a.begin(), a.end(), IntervalLess());
         max_level = index_core(a);
     }
     bool overlap(const S& st, const S& en, std::vector<size_t>& out) const {

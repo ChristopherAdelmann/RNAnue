@@ -1,12 +1,5 @@
 #include "Analyze.hpp"
 
-#include <vector>
-
-#include "DataTypes.hpp"
-#include "InteractionCluster.hpp"
-#include "InteractionClusterGenerator.hpp"
-#include "SplitRecordsParser.hpp"
-
 namespace pipelines {
 namespace analyze {
 
@@ -14,8 +7,9 @@ namespace analyze {
 void Analyze::process(const AnalyzeData &data) {
     Logger::log(LogLevel::INFO, constants::pipelines::PROCESSING_TREATMENT_MESSAGE);
 
+    std::vector<std::future<void>> futures;
     for (const auto &sample : data.treatmentSamples) {
-        processSample(sample);
+        futures.push_back(std::async(std::launch::async, &Analyze::processSample, this, sample));
     }
 
     if (!data.controlSamples.has_value()) {
@@ -24,7 +18,11 @@ void Analyze::process(const AnalyzeData &data) {
     }
 
     for (const auto &sample : data.controlSamples.value()) {
-        processSample(sample);
+        futures.push_back(std::async(std::launch::async, &Analyze::processSample, this, sample));
+    }
+
+    for (auto &fut : futures) {
+        fut.get();
     }
 }
 
@@ -34,7 +32,8 @@ void Analyze::processSample(AnalyzeSample sample) {
     std::vector<InteractionCluster> clusters =
         SplitReadParser::parse(sample.input.splitAlignmentsPath);
 
-    InteractionClusterGenerator clusterGenerator{parameters.minimumClusterReadCount,
+    InteractionClusterGenerator clusterGenerator{sample.input.sampleName,
+                                                 parameters.minimumClusterReadCount,
                                                  parameters.clusterDistanceThreshold};
 
     auto mergedClusters = clusterGenerator.mergeClusters(clusters);
@@ -230,7 +229,7 @@ void Analyze::assignPValuesToClusters(
 
     for (auto &cluster : clusters) {
         if (!cluster.transcriptIDs.has_value()) {
-            Logger::log(LogLevel::WARNING, "Some cluster is missing transcript IDs.");
+            Logger::log(LogLevel::WARNING, "Some cluster is missing transcript IDs");
             continue;
         }
 
@@ -433,11 +432,11 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
                                    interactionOut);
         ++clusterID;
     }
-    Logger::log(LogLevel::INFO, "After filtering kept ", intramolecularCount + intermolecularCount,
-                " split interactions");
-    Logger::log(LogLevel::INFO, "Of which ", intramolecularCount,
+    Logger::log(LogLevel::INFO, "(", sampleName, ") After filtering kept ",
+                intramolecularCount + intermolecularCount, " split interactions");
+    Logger::log(LogLevel::INFO, "(", sampleName, ") Of which ", intramolecularCount,
                 " are intramolecular interactions");
-    Logger::log(LogLevel::INFO, "Of which ", intermolecularCount,
+    Logger::log(LogLevel::INFO, "(", sampleName, ") Of which ", intermolecularCount,
                 " are intermolecular interactions");
 }
 

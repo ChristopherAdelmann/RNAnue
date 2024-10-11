@@ -32,7 +32,7 @@ struct InteractionClusterGeneratorTestParam {
 class InteractionClusterGeneratorTests
     : public testing::TestWithParam<InteractionClusterGeneratorTestParam> {
    protected:
-    InteractionClusterGeneratorTests() : interactionClusterGenerator(0, 1) {}
+    InteractionClusterGeneratorTests() : interactionClusterGenerator("Testing Sample", 0, 1) {}
 
     InteractionClusterGenerator interactionClusterGenerator;
 };

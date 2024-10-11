@@ -20,8 +20,9 @@ namespace analyze {
 
 class InteractionClusterGenerator {
    public:
-    InteractionClusterGenerator(size_t minReadCount, int graceDistance) noexcept
-        : minReadCount(minReadCount), graceDistance(graceDistance) {}
+    InteractionClusterGenerator(const std::string sampleName, size_t minReadCount,
+                                int graceDistance) noexcept
+        : sampleName(sampleName), minReadCount(minReadCount), graceDistance(graceDistance) {}
     ~InteractionClusterGenerator() = default;
 
     using InteractionClusters = std::vector<InteractionCluster>;
@@ -31,6 +32,8 @@ class InteractionClusterGenerator {
    private:
     InteractionClusters finishedClusters;
     std::forward_list<InteractionCluster> openClusterQueue;
+
+    std::string sampleName;
 
     size_t minReadCount;
     int graceDistance;

@@ -90,6 +90,7 @@ add_executable (RNAnue  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/analyze/AnalyzeData.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/analyze/Segment.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/analyze/InteractionCluster.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/analyze/InteractionClusterGenerator.cpp
 
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/Closing.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/CooptimalPairwiseAligner.cpp

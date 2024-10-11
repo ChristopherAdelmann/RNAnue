@@ -1,5 +1,11 @@
 #include "Analyze.hpp"
 
+#include <vector>
+
+#include "InteractionCluster.hpp"
+#include "InteractionClusterGenerator.hpp"
+#include "SplitRecordsParser.hpp"
+
 namespace pipelines {
 namespace analyze {
 
@@ -24,54 +30,18 @@ void Analyze::process(const AnalyzeData &data) {
 void Analyze::processSample(AnalyzeSample sample) {
     Logger::log(LogLevel::INFO, "Processing sample: ", sample.input.sampleName);
 
+    std::vector<InteractionCluster> clusters =
+        SplitReadParser::parse(sample.input.splitAlignmentsPath);
+
+    InteractionClusterGenerator clusterGenerator{};
+
+    auto mergedClusters =
+        clusterGenerator.mergeClusters(clusters, parameters.clusterDistanceThreshold);
+
     seqan3::sam_file_input splitsIn{sample.input.splitAlignmentsPath, sam_field_ids{}};
 
     auto &header = splitsIn.header();
-    std::vector<size_t> ref_lengths{};
-    std::ranges::transform(header.ref_id_info, std::back_inserter(ref_lengths),
-                           [](auto const &info) { return std::get<0>(info); });
-
     const std::deque<std::string> &referenceIDs = header.ref_ids();
-
-    size_t subsetChunkSize = 10;
-    std::vector<InteractionCluster> subset;
-    subset.reserve(subsetChunkSize);
-
-    std::vector<InteractionCluster> mergedClusters;
-
-    for (auto &&records : splitsIn | seqan3::views::chunk(2)) {
-        std::optional<Segment> segment1 = Segment::fromSamRecord(*records.begin());
-        std::optional<Segment> segment2 = Segment::fromSamRecord(*(++records.begin()));
-
-        if (!segment1 || !segment2) [[unlikely]] {
-            continue;
-        }
-
-        auto cluster = InteractionCluster::fromSegments(*segment1, *segment2);
-
-        if (!cluster) [[unlikely]] {
-            continue;
-        }
-
-        subset.push_back(std::move(*cluster));
-
-        if (subset.size() == subsetChunkSize) {
-            mergeOverlappingClusters(subset);
-
-            mergedClusters.reserve(mergedClusters.size() + subset.size());
-            std::move(subset.begin(), subset.end(), std::back_inserter(mergedClusters));
-            subset.clear();
-        }
-    }
-
-    if (!subset.empty()) {
-        mergeOverlappingClusters(subset);
-
-        mergedClusters.reserve(mergedClusters.size() + subset.size());
-        std::move(subset.begin(), subset.end(), std::back_inserter(mergedClusters));
-    }
-
-    mergeOverlappingClusters(mergedClusters);
 
     assignTranscriptsToClusters(mergedClusters, referenceIDs, sample);
 
@@ -459,7 +429,7 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
                                    interactionOut);
         ++clusterID;
     }
-    Logger::log(LogLevel::INFO, "Found ", intramolecularCount + intermolecularCount,
+    Logger::log(LogLevel::INFO, "After filtering kept ", intramolecularCount + intermolecularCount,
                 " split interactions");
     Logger::log(LogLevel::INFO, "Of which ", intramolecularCount,
                 " are intramolecular interactions");

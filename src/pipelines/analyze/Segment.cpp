@@ -1,6 +1,9 @@
 #include "Segment.hpp"
 
 #include <optional>
+#include <ostream>
+
+#include "Utility.hpp"
 
 namespace pipelines {
 namespace analyze {
@@ -55,6 +58,13 @@ void Segment::merge(const Segment &other) {
     end = std::max(end, other.end);
     maxComplementarityScore = std::max(maxComplementarityScore, other.maxComplementarityScore);
     minHybridizationEnergy = std::min(minHybridizationEnergy, other.minHybridizationEnergy);
+}
+
+bool Segment::operator==(const Segment &other) const {
+    return referenceIDIndex == other.referenceIDIndex && strand == other.strand &&
+           start == other.start && end == other.end &&
+           helper::isEqual(maxComplementarityScore, other.maxComplementarityScore, 1e-6) &&
+           helper::isEqual(minHybridizationEnergy, other.minHybridizationEnergy, 1e-6);
 }
 
 }  // namespace analyze

@@ -1,5 +1,9 @@
 #include "InteractionCluster.hpp"
 
+#include <ostream>
+
+#include "Utility.hpp"
+
 namespace pipelines {
 namespace analyze {
 
@@ -12,13 +16,12 @@ InteractionCluster::InteractionCluster(std::pair<Segment, Segment> segments,
 
 std::optional<std::pair<Segment, Segment>> InteractionCluster::getSortedElements(
     const Segment &segment1, const Segment &segment2) {
-    if (segment1.recordID != segment2.recordID) {
+    if (segment1.recordID != segment2.recordID) [[unlikely]] {
         Logger::log(LogLevel::WARNING, "Record IDs do not match: ", segment1.recordID, " vs. ",
                     segment2.recordID, ". Make sure reads are sorted by name.");
         return std::nullopt;
     }
 
-    // Optimized version
     return segment1.referenceIDIndex < segment2.referenceIDIndex ||
                    (segment1.referenceIDIndex == segment2.referenceIDIndex &&
                     segment1.start < segment2.start)
@@ -38,14 +41,33 @@ std::optional<InteractionCluster> InteractionCluster::fromSegments(const Segment
     assert(sortedElements.value().first.minHybridizationEnergy ==
            sortedElements.value().second.minHybridizationEnergy);
 
-    return InteractionCluster{sortedElements.value(),
+    return InteractionCluster(sortedElements.value(),
                               {sortedElements->first.maxComplementarityScore},
-                              {sortedElements->first.minHybridizationEnergy}};
+                              {sortedElements->first.minHybridizationEnergy}, 1);
 }
 
 bool InteractionCluster::operator<(const InteractionCluster &a) const {
     return std::tie(segments.first.start, segments.second.start) <
            std::tie(a.segments.first.start, a.segments.second.start);
+}
+
+bool InteractionCluster::operator>(const InteractionCluster &a) const {
+    return std::tie(segments.first.start, segments.second.start) >
+           std::tie(a.segments.first.start, a.segments.second.start);
+}
+
+bool InteractionCluster::operator==(const InteractionCluster &a) const {
+    auto compareVectors = [](const std::vector<double> &v1, const std::vector<double> &v2) {
+        return std::all_of(v1.begin(), v1.end(), [&v2](double val) {
+            return std::any_of(v2.begin(), v2.end(),
+                               [val](double a_val) { return helper::isEqual(val, a_val, 1e-6); });
+        });
+    };
+
+    return compareVectors(complementarityScores, a.complementarityScores) &&
+           compareVectors(hybridizationEnergies, a.hybridizationEnergies) &&
+           segments.first == a.segments.first && segments.second == a.segments.second &&
+           count == a.count;
 }
 
 bool InteractionCluster::overlaps(const InteractionCluster &other, const int graceDistance) const {

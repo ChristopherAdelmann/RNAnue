@@ -35,6 +35,17 @@ struct Segment {
                            const std::string &featureType = "transcript") const;
 
     void merge(const Segment &other);
+
+    bool operator==(const Segment &other) const;
+};
+
+inline std::ostream &operator<<(std::ostream &os, const Segment &segment) {
+    return os << "Segment{recordID: " << segment.recordID
+              << ", referenceIDIndex: " << segment.referenceIDIndex
+              << ", strand: " << segment.strand << ", start: " << segment.start
+              << ", end: " << segment.end
+              << ", maxComplementarityScore: " << segment.maxComplementarityScore
+              << ", minHybridizationEnergy: " << segment.minHybridizationEnergy << "}";
 };
 
 }  // namespace analyze

@@ -1,13 +1,12 @@
 #pragma once
 
+// Standard
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <deque>
-#include <fstream>
-
-// Standard
-#include <algorithm>
 #include <filesystem>
+#include <fstream>
 #include <optional>
 #include <random>
 #include <ranges>
@@ -18,7 +17,6 @@
 
 // Boost
 #include <boost/math/distributions/binomial.hpp>
-#include <boost/program_options.hpp>
 
 // seqan3
 #include <seqan3/io/sam_file/input.hpp>
@@ -35,6 +33,7 @@
 #include "FeatureAnnotator.hpp"
 #include "FeatureWriter.hpp"
 #include "InteractionCluster.hpp"
+#include "InteractionClusterGenerator.hpp"
 #include "Logger.hpp"
 #include "Segment.hpp"
 #include "Utility.hpp"

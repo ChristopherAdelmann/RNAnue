@@ -3,6 +3,7 @@
 // Standard
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <filesystem>
 #include <iomanip>
 #include <iostream>
@@ -28,6 +29,11 @@
 #include "Logger.hpp"
 
 namespace helper {
+
+inline bool isEqual(double a, double b,
+                    double epsilon = std::numeric_limits<double>::epsilon() * 10) {
+    return fabs(a - b) < epsilon;
+}
 
 template <typename Container>
 concept StringContainer = std::ranges::range<Container> &&

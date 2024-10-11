@@ -36,8 +36,8 @@ void Analyze::processSample(AnalyzeSample sample) {
 
     InteractionClusterGenerator clusterGenerator{};
 
-    auto mergedClusters =
-        clusterGenerator.mergeClusters(clusters, parameters.clusterDistanceThreshold);
+    auto mergedClusters = clusterGenerator.mergeClusters(
+        clusters, parameters.clusterDistanceThreshold, parameters.minimumClusterReadCount);
 
     seqan3::sam_file_input splitsIn{sample.input.splitAlignmentsPath, sam_field_ids{}};
 

@@ -47,7 +47,7 @@ TEST_P(InteractionClusterGeneratorTests, SplitRecordsAreSortedCorrectly) {
     EXPECT_EQ(interactionClusters.size(), 7u);
 
     std::vector<InteractionCluster> mergedInteractionClusters =
-        interactionClusterGenerator.mergeClusters(interactionClusters, 0);
+        interactionClusterGenerator.mergeClusters(interactionClusters, 0, 1);
 
     EXPECT_EQ(mergedInteractionClusters.size(), expectedClusters.size());
 

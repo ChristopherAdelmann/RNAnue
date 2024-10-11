@@ -14,7 +14,8 @@ namespace analyze {
  * @return A list of finalized interaction clusters.
  */
 InteractionClusterGenerator::InteractionClusters InteractionClusterGenerator::mergeClusters(
-    InteractionClusterGenerator::InteractionClusters& clusters, const int graceDistance) noexcept {
+    InteractionClusterGenerator::InteractionClusters& clusters, const int graceDistance,
+    const size_t minReadCount) noexcept {
     // Clusters should be sorted from back to front
     std::sort(std::execution::par_unseq, clusters.begin(), clusters.end(), std::greater<>{});
 
@@ -60,6 +61,13 @@ InteractionClusterGenerator::InteractionClusters InteractionClusterGenerator::me
 void InteractionClusterGenerator::finalizeCluster(InteractionCluster cluster) noexcept {
     logClusteringStatus();
 
+    if (cluster.count < int(minReadCount)) {
+        excludedClusterCount++;
+        return;
+    }
+
+    includedClusterCount++;
+
     finishedClusters.emplace_back(std::move(cluster));
 }
 
@@ -71,8 +79,11 @@ bool InteractionClusterGenerator::clusterIsBeforeOpenCluster(
 }
 
 void InteractionClusterGenerator::logClusteringStatus() const noexcept {
-    if (finishedClusters.size() % 100000 == 0 && finishedClusters.size() != 0) {
-        Logger::log(LogLevel::INFO, "Found ", finishedClusters.size(), " clusters");
+    const size_t totalClusterCount = includedClusterCount + excludedClusterCount;
+    if (totalClusterCount % 100000 == 0 && finishedClusters.size() != 0) {
+        Logger::log(LogLevel::INFO, "Processed ", totalClusterCount, " clusters. Included ",
+                    includedClusterCount, " clusters, excluded ", excludedClusterCount,
+                    " clusters");
     }
 }
 

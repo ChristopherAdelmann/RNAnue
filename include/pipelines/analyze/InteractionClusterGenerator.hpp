@@ -2,6 +2,7 @@
 
 // Standard
 #include <algorithm>
+#include <cstddef>
 #include <execution>
 #include <forward_list>
 #include <functional>
@@ -24,12 +25,17 @@ class InteractionClusterGenerator {
 
     using InteractionClusters = std::vector<InteractionCluster>;
 
-    InteractionClusters mergeClusters(InteractionClusters& clusters,
-                                      const int graceDistance) noexcept;
+    InteractionClusters mergeClusters(InteractionClusters& clusters, const int graceDistance,
+                                      const size_t minReadCount) noexcept;
 
    private:
     InteractionClusters finishedClusters;
     std::forward_list<InteractionCluster> openClusterQueue;
+
+    size_t minReadCount;
+
+    size_t includedClusterCount = 0;
+    size_t excludedClusterCount = 0;
 
     void finalizeCluster(InteractionCluster cluster) noexcept;
     bool clusterIsBeforeOpenCluster(const InteractionCluster& cluster,

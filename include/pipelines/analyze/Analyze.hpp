@@ -81,7 +81,7 @@ class Analyze {
                                  const size_t totalTranscriptCount);
     void assignPAdjustedValuesToClusters(std::vector<InteractionCluster> &clusters);
     void writeInteractionsToFile(const std::vector<InteractionCluster> &mergedClusters,
-                                 const fs::path &clusterOutPath,
+                                 const std::string &sampleName, const fs::path &clusterOutPath,
                                  const std::deque<std::string> &referenceIDs);
 
     inline std::string getReferenceID(const int32_t referenceIDIndex,

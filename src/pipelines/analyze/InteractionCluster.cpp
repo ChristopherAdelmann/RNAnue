@@ -46,14 +46,31 @@ std::optional<InteractionCluster> InteractionCluster::fromSegments(const Segment
                               {sortedElements->first.minHybridizationEnergy}, 1);
 }
 
+/**
+ * @brief Less-than comparison operator for InteractionCluster.
+ *
+ * This operator compares two InteractionCluster objects based on the end position
+ * of the second segment and the referenceIndexID. It returns true if the referenceIndexID is less
+ * in the current object or the end position of the segment in the current object are
+ * lexicographically less than those in the provided object.
+ *
+ * @param a The InteractionCluster object to compare with.
+ * @return true if the current object is less than the provided object, false otherwise.
+ */
 bool InteractionCluster::operator<(const InteractionCluster &a) const {
-    return std::tie(segments.first.start, segments.second.start) <
-           std::tie(a.segments.first.start, a.segments.second.start);
+    if (segments.second.referenceIDIndex == a.segments.second.referenceIDIndex) {
+        return segments.second.end < a.segments.second.end;
+    } else {
+        return segments.second.referenceIDIndex < a.segments.second.referenceIDIndex;
+    }
 }
 
 bool InteractionCluster::operator>(const InteractionCluster &a) const {
-    return std::tie(segments.first.start, segments.second.start) >
-           std::tie(a.segments.first.start, a.segments.second.start);
+    if (segments.second.referenceIDIndex == a.segments.second.referenceIDIndex) {
+        return segments.second.end > a.segments.second.end;
+    } else {
+        return segments.second.referenceIDIndex > a.segments.second.referenceIDIndex;
+    }
 }
 
 bool InteractionCluster::operator==(const InteractionCluster &a) const {

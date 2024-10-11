@@ -1,5 +1,7 @@
 #include "Analyze.hpp"
 
+#include <string>
+
 namespace pipelines {
 namespace analyze {
 
@@ -45,7 +47,8 @@ void Analyze::processSample(AnalyzeSample sample) {
 
     assignTranscriptsToClusters(mergedClusters, referenceIDs, sample);
 
-    writeInteractionsToFile(mergedClusters, sample.output.interactionsPath, referenceIDs);
+    writeInteractionsToFile(mergedClusters, sample.input.sampleName, sample.output.interactionsPath,
+                            referenceIDs);
 }
 
 void Analyze::assignTranscriptsToClusters(std::vector<InteractionCluster> &clusters,
@@ -59,7 +62,7 @@ void Analyze::assignTranscriptsToClusters(std::vector<InteractionCluster> &clust
     const int mergeGraceDistance = parameters.clusterDistanceThreshold;
     const auto annotationOrientation = parameters.featureOrientation;
 
-    transcriptCounts.reserve(clusters.size() * 2);  // Reserve space to avoid multiple reallocations
+    transcriptCounts.reserve(clusters.size());
 
     auto processSegment = [&](const Segment &segment,
                               const InteractionCluster &cluster) -> std::string {
@@ -361,7 +364,7 @@ void Analyze::writeInteractionLineToFile(const InteractionCluster &cluster,
 }
 
 void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mergedClusters,
-                                      const fs::path &clusterOutPath,
+                                      const std::string &sampleName, const fs::path &clusterOutPath,
                                       const std::deque<std::string> &referenceIDs) {
     std::ofstream interactionOut(clusterOutPath.string());
     if (!interactionOut.is_open()) {
@@ -381,7 +384,6 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
         Logger::log(LogLevel::ERROR, "Could not open file: ", bedOutPath.string());
     }
 
-    const std::string sampleName = clusterOutPath.stem().string();
     bedOut << "track name=\"" << sampleName
            << " RNA-RNA interactions\" description=\"Segments of interacting RNA "
               "clusters derived from DDD-Experiment\" itemRgb=\"On\"\n";

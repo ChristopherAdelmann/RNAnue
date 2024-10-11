@@ -32,7 +32,7 @@ struct InteractionClusterGeneratorTestParam {
 class InteractionClusterGeneratorTests
     : public testing::TestWithParam<InteractionClusterGeneratorTestParam> {
    protected:
-    InteractionClusterGeneratorTests() : interactionClusterGenerator() {}
+    InteractionClusterGeneratorTests() : interactionClusterGenerator(0, 1) {}
 
     InteractionClusterGenerator interactionClusterGenerator;
 };
@@ -47,7 +47,7 @@ TEST_P(InteractionClusterGeneratorTests, SplitRecordsAreSortedCorrectly) {
     EXPECT_EQ(interactionClusters.size(), 7u);
 
     std::vector<InteractionCluster> mergedInteractionClusters =
-        interactionClusterGenerator.mergeClusters(interactionClusters, 0, 1);
+        interactionClusterGenerator.mergeClusters(interactionClusters);
 
     EXPECT_EQ(mergedInteractionClusters.size(), expectedClusters.size());
 

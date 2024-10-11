@@ -34,10 +34,10 @@ void Analyze::processSample(AnalyzeSample sample) {
     std::vector<InteractionCluster> clusters =
         SplitReadParser::parse(sample.input.splitAlignmentsPath);
 
-    InteractionClusterGenerator clusterGenerator{};
+    InteractionClusterGenerator clusterGenerator{parameters.minimumClusterReadCount,
+                                                 parameters.clusterDistanceThreshold};
 
-    auto mergedClusters = clusterGenerator.mergeClusters(
-        clusters, parameters.clusterDistanceThreshold, parameters.minimumClusterReadCount);
+    auto mergedClusters = clusterGenerator.mergeClusters(clusters);
 
     seqan3::sam_file_input splitsIn{sample.input.splitAlignmentsPath, sam_field_ids{}};
 

@@ -14,9 +14,7 @@ namespace analyze {
  * @return A list of finalized interaction clusters.
  */
 InteractionClusterGenerator::InteractionClusters InteractionClusterGenerator::mergeClusters(
-    InteractionClusterGenerator::InteractionClusters& clusters, const int graceDistance,
-    const size_t minReadCount) noexcept {
-    this->minReadCount = minReadCount;
+    InteractionClusterGenerator::InteractionClusters& clusters) noexcept {
     // Clusters should be sorted from back to front
     std::sort(std::execution::par_unseq, clusters.begin(), clusters.end(), std::greater<>{});
 

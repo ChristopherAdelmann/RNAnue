@@ -23,17 +23,45 @@ def get_region_from_bed_line(line: str):
 
 def process_bed_file(bed_file: str, gff_db: gffutils.FeatureDB, output_file: str):
     print(f"Processing bed file {bed_file}")
-    with open(bed_file) as file:
+    with open(bed_file) as file, open(output_file, "w") as out:
+
+        file.readline()
+
         for line1, line2 in zip(file, file):
             region1 = get_region_from_bed_line(line1)
             region2 = get_region_from_bed_line(line2)
 
-            for feature in gff_db.region(region1, completely_within=False, featuretype="miRNA"):
-                print(f"Found feature {feature.id} overlapping with {region1}")
+            if len(list(gff_db.region(region1, completely_within=False, featuretype="miRNA"))) != 0 or len(list(gff_db.region(region2, completely_within=False, featuretype="miRNA"))) != 0:
+                features1 = list(gff_db.region(region1, completely_within=False))
+                features2 = list(gff_db.region(region2, completely_within=False))
+
+                features1_ids = []
+                feature1_miRNA = [feature.attributes["product"] for feature in list(gff_db.region(region1, completely_within=False, featuretype="miRNA"))]
+
+                for feature in features1:
+                    if feature.featuretype == "region":
+                        continue
+
+                    if feature.featuretype == "gene" and "ID" in feature.attributes:
+                        features1_ids.append(feature.attributes["ID"])
+
+                features2_ids = []
+                feature2_miRNA = [feature.attributes["product"] for feature in list(gff_db.region(region2, completely_within=False, featuretype="miRNA"))]
+
+                for feature in features2:
+                    if feature.featuretype == "region":
+                        continue
+
+                    if feature.featuretype == "gene" and "ID" in feature.attributes:
+                        features2_ids.append(feature.attributes["ID"])
+
+                out.write(f"Region 1: {region1}, Region 2: {region2}; ")
+                out.write(f"miRNA 1: {feature1_miRNA}, miRNA 2: {feature2_miRNA}; ")
+                out.write(f"Features 1: {features1_ids}; ")
+                out.write(f"Features 2: {features2_ids}\n")
 
 
-            for feature in gff_db.region(region2, completely_within=False, featuretype="miRNA"):
-                print(f"Found feature {feature.id} overlapping with {region2}")
+
 
 if __name__ == "__main__":
     db_file = sys.argv[4]

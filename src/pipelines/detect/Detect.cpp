@@ -150,7 +150,7 @@ Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
         for (SamRecord& record : recordGroup) {
             if (static_cast<bool>(record.flag() & seqan3::sam_flag::unmapped) ||
                 record.mapping_quality() < params.minimumMapQuality ||
-                record.sequence().size() < params.minimumReadLength) {
+                record.sequence().size() < params.minimumFragmentLength) {
                 invalidRecordHitGroups.insert(record.tags().get<"HI"_tag>());
 
                 if (record.mapping_quality() < params.minimumMapQuality) {
@@ -280,7 +280,7 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord& readR
         const auto splitQual =
             readRecord.base_qualities() | seqan3::views::slice(startPosRead, endPosRead);
 
-        if (splitSeq.size() < params.minimumReadLength) {
+        if (splitSeq.size() < params.minimumFragmentLength) {
             isValid = false;
             return;
         }

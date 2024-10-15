@@ -70,7 +70,7 @@ def filter_gff(gff_file_in: str, gff_file_out, mirtar_ids: set):
                             continue
                     if "product" in attributes:
                         gene_id = attributes["product"]
-                        if gene_id in mirtar_ids:
+                        if gene_id.startswith("hsa-miR"):
                             out.write(line)
                             included += 1
                             continue

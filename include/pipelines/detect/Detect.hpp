@@ -65,11 +65,15 @@ class Detect {
         TranscriptCounts transcriptCounts;
         size_t splitFragmentsCount{0};
         size_t singletonFragmentsCount{0};
+        size_t removedDueToLowMappingQuality{0};
+        size_t removedDueToFragmentLength{0};
 
         void operator+=(const Result &other) {
             processedRecordsCount += other.processedRecordsCount;
             splitFragmentsCount += other.splitFragmentsCount;
             singletonFragmentsCount += other.singletonFragmentsCount;
+            removedDueToLowMappingQuality += other.removedDueToLowMappingQuality;
+            removedDueToFragmentLength += other.removedDueToFragmentLength;
 
             for (const auto &[transcript, count] : other.transcriptCounts) {
                 transcriptCounts[transcript] += count;

@@ -77,8 +77,11 @@ void Detect::processSample(const DetectSample& sample) const {
     }
 
     Logger::log(LogLevel::INFO, "Processed ", mergedResults.processedRecordsCount, " reads. Found ",
-                mergedResults.splitFragmentsCount, " split fragments and ",
-                mergedResults.singletonFragmentsCount, " singleton fragments.");
+                mergedResults.splitFragmentsCount, " valid split fragments and ",
+                mergedResults.singletonFragmentsCount, " singleton fragments. Removed ",
+                mergedResults.removedDueToLowMappingQuality,
+                " reads due to low mapping quality and ", mergedResults.removedDueToFragmentLength,
+                " reads due to short read length.");
 
     writeTranscriptCountsFile(sample.output.outputContiguousAlignmentsTranscriptCountsPath,
                               mergedResults.transcriptCounts);
@@ -112,6 +115,9 @@ Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
     size_t totalSplitFragmentsCount = 0;
     size_t totalSingletonFragmentsCount = 0;
 
+    size_t removedDueToLowMapQuality = 0;
+    size_t removedDueToReadLength = 0;
+
     TranscriptCounts singletonTranscriptCounts;
 
     auto assignSingletonTranscriptCount = [&](SamRecord& record) {
@@ -121,7 +127,7 @@ Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
 
         const auto region = GenomicRegion::fromSamRecord(record, refIDs);
 
-        if (!region) {
+        if (!region) [[unlikely]] {
             return;
         }
 
@@ -146,6 +152,13 @@ Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
                 record.mapping_quality() < params.minimumMapQuality ||
                 record.sequence().size() < params.minimumReadLength) {
                 invalidRecordHitGroups.insert(record.tags().get<"HI"_tag>());
+
+                if (record.mapping_quality() < params.minimumMapQuality) {
+                    removedDueToLowMapQuality++;
+                } else {
+                    removedDueToReadLength++;
+                }
+
                 continue;
             }
 
@@ -180,8 +193,12 @@ Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
         totalSplitFragmentsCount += fragmentsCount;
     }
 
-    return {recordsCount, singletonTranscriptCounts, totalSplitFragmentsCount,
-            totalSingletonFragmentsCount};
+    return {recordsCount,
+            singletonTranscriptCounts,
+            totalSplitFragmentsCount,
+            totalSingletonFragmentsCount,
+            removedDueToLowMapQuality,
+            removedDueToReadLength};
 }
 
 const SplitRecordsEvaluationParameters::ParameterVariant Detect::getSplitRecordsEvaluatorParameters(

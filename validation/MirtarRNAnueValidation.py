@@ -134,6 +134,8 @@ def read_feature_gff_file(
                         )
                         continue
 
+                    print("ID: ", attribute_dict["ID"])
+
                     mirna_features_by_id[attribute_dict["ID"]] = MiRNAFeature(
                         attribute_dict["ID"],
                         chromosome,

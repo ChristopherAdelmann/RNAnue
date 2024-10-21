@@ -9,13 +9,13 @@
 #include <boost/program_options.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-// Classes
+// Internal
 #include "GeneralParameters.hpp"
 #include "ParameterValidator.hpp"
 
 namespace po = boost::program_options;
 
-class DetectParameters : public GeneralParameters {
+struct DetectParameters : public GeneralParameters {
    public:
     size_t minimumFragmentLength;
     size_t minimumMapQuality;
@@ -44,11 +44,11 @@ class DetectParameters : public GeneralParameters {
                                                                    INT_MIN, INT_MAX)) {};
 
    private:
-    static bool validateExcludeSoftClipping(const po::variables_map& params) {
+    static auto validateExcludeSoftClipping(const po::variables_map& params) -> bool {
         return params["exclclipping"].as<bool>();
     }
 
-    static bool validateRemoveSplicingEvents(const po::variables_map& params) {
+    static auto validateRemoveSplicingEvents(const po::variables_map& params) -> bool {
         return params["splicing"].as<bool>();
     }
 };

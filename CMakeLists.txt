@@ -54,6 +54,7 @@ add_subdirectory(submodules/segemehl)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/parameters
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/annotation
+                    ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/preprocess
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/align
                     ${CMAKE_CURRENT_SOURCE_DIR}/include/pipelines/detect
@@ -72,6 +73,8 @@ add_executable (RNAnue  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/parameters/ParameterOptions.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/parameters/ParameterParser.cpp
+
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/dataTypes/GenomicRegion.cpp
 
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/preprocess/Preprocess.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/pipelines/preprocess/PreprocessData.cpp
@@ -94,7 +97,6 @@ add_executable (RNAnue  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/Closing.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/CooptimalPairwiseAligner.cpp
-                        ${CMAKE_CURRENT_SOURCE_DIR}/src/DataTypes.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/Utility.cpp
 )
 

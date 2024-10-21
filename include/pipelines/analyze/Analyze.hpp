@@ -1,20 +1,13 @@
 #pragma once
 
 // Standard
-#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <deque>
 #include <filesystem>
 #include <fstream>
-#include <future>
-#include <optional>
-#include <random>
-#include <ranges>
 #include <string>
-#include <thread>
 #include <unordered_map>
-#include <utility>
 #include <vector>
 
 // Boost
@@ -25,35 +18,23 @@
 #include <seqan3/io/sam_file/sam_tag_dictionary.hpp>
 #include <seqan3/utility/views/chunk.hpp>
 
-// Classes
+// Internal
 #include "AnalyzeData.hpp"
 #include "AnalyzeParameters.hpp"
 #include "AnalyzeSample.hpp"
-#include "Constants.hpp"
-#include "CustomSamTags.hpp"
-#include "DataTypes.hpp"
 #include "FeatureAnnotator.hpp"
-#include "FeatureWriter.hpp"
 #include "InteractionCluster.hpp"
-#include "InteractionClusterGenerator.hpp"
-#include "Logger.hpp"
-#include "Segment.hpp"
-#include "SplitRecordsParser.hpp"
-#include "Utility.hpp"
 
 namespace math = boost::math;  // NOLINT
 
-using namespace dtp;
 using seqan3::operator""_tag;
 
-namespace pipelines {
-namespace analyze {
+namespace pipelines::analyze {
 
 class Analyze {
    public:
     explicit Analyze(AnalyzeParameters params)
         : parameters(params), featureAnnotator(params.featuresInPath, params.featureTypes) {};
-    ~Analyze() = default;
 
     void process(const AnalyzeData &data);
 
@@ -63,48 +44,50 @@ class Analyze {
 
     void processSample(AnalyzeSample sample);
 
-    void mergeOverlappingClusters(std::vector<InteractionCluster> &clusters);
-
     void assignTranscriptsToClusters(std::vector<InteractionCluster> &clusters,
                                      const std::deque<std::string> &referenceIDs,
                                      const AnalyzeSample &sample);
-    void assignAnnotatedContiguousFragmentCountsToTranscripts(
+    static void assignAnnotatedContiguousFragmentCountsToTranscripts(
         const fs::path &contiguousTranscriptCountsInPath,
         std::unordered_map<std::string, size_t> &transcriptCounts);
 
-    std::unordered_map<std::string, double> getTranscriptProbabilities(
+    static auto getTranscriptProbabilities(
         const std::unordered_map<std::string, size_t> &transcriptCounts,
-        const size_t totalTranscriptCount);
+        size_t totalTranscriptCount) -> std::unordered_map<std::string, double>;
 
-    void assignPValuesToClusters(std::vector<InteractionCluster> &clusters,
-                                 const std::unordered_map<std::string, size_t> &transcriptCounts,
-                                 const size_t totalTranscriptCount);
-    void assignPAdjustedValuesToClusters(std::vector<InteractionCluster> &clusters);
+    static void assignPValuesToClusters(
+        std::vector<InteractionCluster> &clusters,
+        const std::unordered_map<std::string, size_t> &transcriptCounts,
+        size_t totalTranscriptCount);
+    static void assignPAdjustedValuesToClusters(std::vector<InteractionCluster> &clusters);
     void writeInteractionsToFile(const std::vector<InteractionCluster> &mergedClusters,
                                  const std::string &sampleName, const fs::path &clusterOutPath,
-                                 const std::deque<std::string> &referenceIDs);
+                                 const std::deque<std::string> &referenceIDs) const;
 
-    inline std::string getReferenceID(const int32_t referenceIDIndex,
-                                      const std::deque<std::string> &referenceIDs) const {
+    [[nodiscard]] static inline auto getReferenceID(const int32_t referenceIDIndex,
+                                                    const std::deque<std::string> &referenceIDs)
+        -> std::string {
         return referenceIDs[referenceIDIndex];
     }
 
-    void writeBEDLineToFile(const InteractionCluster &cluster, const std::string &clusterID,
-                            const std::deque<std::string> &referenceIDs, const std::string &color,
-                            std::ofstream &bedOut);
+    static void writeBEDLineToFile(const InteractionCluster &cluster, const std::string &clusterID,
+                                   const std::deque<std::string> &referenceIDs,
+                                   const std::string &color, std::ofstream &bedOut);
 
-    void writeBEDArcLineToFile(const InteractionCluster &cluster, const std::string &clusterID,
-                               const std::deque<std::string> &referenceIDs, std::ofstream &bedOut);
+    static void writeBEDArcLineToFile(const InteractionCluster &cluster,
+                                      const std::string &clusterID,
+                                      const std::deque<std::string> &referenceIDs,
+                                      std::ofstream &bedOut);
 
-    void writeInteractionLineToFile(const InteractionCluster &cluster, const std::string &clusterID,
-                                    const std::deque<std::string> &referenceIDs,
-                                    std::ofstream &interactionOut);
+    static void writeInteractionLineToFile(const InteractionCluster &cluster,
+                                           const std::string &clusterID,
+                                           const std::deque<std::string> &referenceIDs,
+                                           std::ofstream &interactionOut);
 
     void assignNonAnnotatedContiguousToSupplementaryFeatures(
         const fs::path &unassignedSingletonsInPath, annotation::FeatureAnnotator &featureAnnotator,
         std::unordered_map<std::string, size_t> &transcriptCounts);
-    size_t parseSampleFragmentCount(const fs::path &sampleCountsInPath);
+    static auto parseSampleFragmentCount(const fs::path &sampleCountsInPath) -> size_t;
 };
 
-}  // namespace analyze
-}  // namespace pipelines
+}  // namespace pipelines::analyze

@@ -3,21 +3,18 @@
 
 // Standard
 #include <execinfo.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
 
 #include <array>
+#include <csignal>
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 
-// Classes
+// Internal
 
-#include "Closing.hpp"
 #include "Config.hpp"
-#include "Constants.hpp"
-#include "FeatureAnnotator.hpp"
 #include "ParameterParser.hpp"
 #include "Runner.hpp"
 
@@ -32,23 +29,24 @@ void showVersion() {
 
 // A helper function to simplify the main part.
 template <class T>
-std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
-    copy(v.begin(), v.end(), std::ostream_iterator<T>(os, " "));
-    return os;
+auto operator<<(std::ostream& ostream, const std::vector<T>& vec) -> std::ostream& {
+    copy(vec.begin(), vec.end(), std::ostream_iterator<T>(ostream, " "));
+    return ostream;
 }
 
 namespace std {
-std::ostream& operator<<(std::ostream& os, const std::vector<std::string>& vec) {
+auto operator<<(std::ostream& ostream, const std::vector<std::string>& vec) -> std::ostream& {
     for (const auto& item : vec) {
-        os << item << " ";
+        ostream << item << " ";
     }
-    return os;
+    return ostream;
 }
 }  // namespace std
 
 void handler(int sig) {
-    std::array<void*, 10> array;
-    size_t size = backtrace(array.data(), 10);
+    constexpr size_t MAX_FRAMES = 10;
+    std::array<void*, MAX_FRAMES> array{};
+    int size = backtrace(array.data(), MAX_FRAMES);
 
     // print out all the frames to stderr
     std::cerr << "Error: signal " << sig << ":" << std::endl;
@@ -56,7 +54,7 @@ void handler(int sig) {
     exit(1);
 }
 
-int main(int argc, const char* const argv[]) {
+auto main(int argc, const char* const argv[]) -> int {
     signal(SIGSEGV, handler);
 
     Runner::runPipeline(argc, argv);

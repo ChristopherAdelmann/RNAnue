@@ -8,16 +8,15 @@
 // Standard
 #include <deque>
 #include <filesystem>
-#include <istream>
 #include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
-// Classes
-#include "DataTypes.hpp"
-#include "FeatureParser.hpp"
+// Internal
+#include "GenomicFeature.hpp"
+#include "GenomicRegion.hpp"
 #include "IITree.hpp"
 #include "Orientation.hpp"
 #include "SamRecord.hpp"
@@ -26,103 +25,111 @@ using namespace dataTypes;
 
 namespace annotation {
 
-using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dtp::Feature>>;
+using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dataTypes::Feature>>;
 namespace fs = std::filesystem;
 
 class FeatureAnnotator {
    public:
-    FeatureAnnotator(fs::path featureFilePath,
+    FeatureAnnotator(fs::path& featureFilePath,
                      const std::unordered_set<std::string>& includedFeatures,
                      const std::string& featureIDFlag);
-    FeatureAnnotator(fs::path featureFilePath,
+    FeatureAnnotator(fs::path& featureFilePath,
                      const std::unordered_set<std::string>& includedFeatures);
 
-    explicit FeatureAnnotator(const dtp::FeatureMap& featureMap);
+    explicit FeatureAnnotator(const dataTypes::FeatureMap& featureMap);
     explicit FeatureAnnotator() = default;
-
+    FeatureAnnotator(const FeatureAnnotator&) = default;
+    FeatureAnnotator(FeatureAnnotator&&) = delete;
+    auto operator=(const FeatureAnnotator&) -> FeatureAnnotator& = default;
+    auto operator=(FeatureAnnotator&&) -> FeatureAnnotator& = delete;
     ~FeatureAnnotator() = default;
 
     class Results;
+    struct MergeInsertResult;
 
-    struct MergeInsertResult {
-        std::string featureID;
-        std::vector<std::string> mergedFeatureIDs;
-    };
+    [[nodiscard]] auto featureCount() const -> size_t;
+    auto insert(const dataTypes::GenomicRegion& region) -> std::string;
+    auto mergeInsert(const dataTypes::GenomicRegion& region,
+                     int graceDistance) -> MergeInsertResult;
 
-    size_t featureCount() const;
-    std::string insert(const dtp::GenomicRegion& region);
-    MergeInsertResult mergeInsert(const dtp::GenomicRegion& region, const int graceDistance);
-
-    std::vector<dtp::Feature> overlappingFeatures(const dtp::GenomicRegion& region,
-                                                  const Orientation orientation);
-    Results overlappingFeatureIterator(const dtp::GenomicRegion& region,
-                                       const Orientation orientation) const;
-    std::optional<dtp::Feature> getBestOverlappingFeature(const dtp::GenomicRegion& region,
-                                                          const Orientation orientation) const;
-    std::optional<dtp::Feature> getBestOverlappingFeature(
+    auto overlappingFeatures(const dataTypes::GenomicRegion& region,
+                             Orientation orientation) -> std::vector<dataTypes::Feature>;
+    [[nodiscard]] auto overlappingFeatureIterator(const dataTypes::GenomicRegion& region,
+                                                  Orientation orientation) const -> Results;
+    [[nodiscard]] auto getBestOverlappingFeature(const dataTypes::GenomicRegion& region,
+                                                 Orientation orientation) const
+        -> std::optional<dataTypes::Feature>;
+    [[nodiscard]] auto getBestOverlappingFeature(
         const SamRecord& record, const std::deque<std::string>& referenceIDs,
-        const Orientation orientation) const;
-    const FeatureTreeMap& getFeatureTreeMap() const;
+        Orientation orientation) const -> std::optional<dataTypes::Feature>;
+
+    [[nodiscard]] auto getFeatureTreeMap() const -> const FeatureTreeMap&;
 
    private:
     FeatureTreeMap featureTreeMap;
 
-    FeatureTreeMap buildFeatureTreeMap(const fs::path& featureFilePath,
-                                       const std::vector<std::string>& includedFeatures,
-                                       const std::optional<std::string>& featureIDFlag);
-    FeatureTreeMap buildFeatureTreeMap(const fs::path& featureFilePath,
-                                       const std::unordered_set<std::string>& includedFeatures,
-                                       const std::optional<std::string>& featureIDFlag);
-    FeatureTreeMap buildFeatureTreeMap(const dtp::FeatureMap& featureMap);
+    static auto buildFeatureTreeMap(
+        const fs::path& featureFilePath, const std::vector<std::string>& includedFeatures,
+        const std::optional<std::string>& featureIDFlag) -> FeatureTreeMap;
+    static auto buildFeatureTreeMap(
+        const fs::path& featureFilePath, const std::unordered_set<std::string>& includedFeatures,
+        const std::optional<std::string>& featureIDFlag) -> FeatureTreeMap;
+    static auto buildFeatureTreeMap(const dataTypes::FeatureMap& featureMap) -> FeatureTreeMap;
 };
 
 class FeatureAnnotator::Results {
    public:
-    Results(const IITree<int, dtp::Feature>& tree, const std::vector<size_t>& indices,
-            const std::optional<dtp::Strand>& strand);
+    Results(const IITree<int, dataTypes::Feature>* tree, const std::vector<size_t>& indices,
+            std::optional<dataTypes::Strand> strand);
 
     Results() = delete;
 
     struct Iterator;
 
-    [[nodiscard]] Iterator begin() const;
-    [[nodiscard]] Iterator end() const;
+    [[nodiscard]] auto begin() const -> Iterator;
+    [[nodiscard]] auto end() const -> Iterator;
 
    private:
-    const IITree<int, dtp::Feature>& tree;
+    const IITree<int, dataTypes::Feature>* tree;
     std::vector<size_t> indices;
-    std::optional<dtp::Strand> strand;
+    std::optional<dataTypes::Strand> strand;
 };
 
 struct FeatureAnnotator::Results::Iterator {
-    using value_type = dtp::Feature;
+    using value_type = dataTypes::Feature;
     using difference_type = std::ptrdiff_t;
-    using reference = const dtp::Feature&;
-    using pointer = const dtp::Feature*;
+    using reference = const dataTypes::Feature&;
+    using pointer = const dataTypes::Feature*;
     using iterator_category = std::forward_iterator_tag;
 
-    explicit Iterator(const IITree<int, dtp::Feature>* tree, const std::vector<size_t>& indices,
-                      size_t index, const std::optional<dtp::Strand>& strand);
+    explicit Iterator(const IITree<int, dataTypes::Feature>* tree,
+                      const std::vector<size_t>& indices, size_t index,
+                      const std::optional<dataTypes::Strand>& strand);
 
-    [[nodiscard]] reference operator*() const;
-    [[nodiscard]] pointer operator->() const;
+    [[nodiscard]] auto operator*() const -> reference;
+    [[nodiscard]] auto operator->() const -> pointer;
 
-    Iterator& operator++();
-    Iterator operator++(int);
+    auto operator++() -> Iterator&;
+    auto operator++(int) -> Iterator;
 
-    friend bool operator==(const Iterator& a, const Iterator& b) {
-        return a.current_index == b.current_index;
+    friend auto operator==(const Iterator& lhs, const Iterator& rhs) -> bool {
+        return lhs.current_index == rhs.current_index;
     }
 
-    friend bool operator!=(const Iterator& a, const Iterator& b) {
-        return a.current_index != b.current_index;
+    friend auto operator!=(const Iterator& lhs, const Iterator& rhs) -> bool {
+        return lhs.current_index != rhs.current_index;
     }
 
    private:
-    const IITree<int, dtp::Feature>* tree;
+    const IITree<int, dataTypes::Feature>* tree;
     std::vector<size_t> indices;
     size_t current_index;
-    std::optional<dtp::Strand> strand;
+    std::optional<dataTypes::Strand> strand;
+};
+
+struct FeatureAnnotator::MergeInsertResult {
+    std::string featureID;
+    std::vector<std::string> mergedFeatureIDs;
 };
 
 }  // namespace annotation

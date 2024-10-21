@@ -3,22 +3,12 @@
 // Standard
 #include <filesystem>
 #include <optional>
-#include <type_traits>
-#include <variant>
 
-// Classes
-#include "Align.hpp"
-#include "AlignData.hpp"
+// Internal
 #include "AlignParameters.hpp"
 #include "AnalyzeParameters.hpp"
 #include "CompleteParameters.hpp"
-#include "Detect.hpp"
-#include "DetectData.hpp"
 #include "DetectParameters.hpp"
-#include "Logger.hpp"
-#include "ParameterParser.hpp"
-#include "Preprocess.hpp"
-#include "PreprocessData.hpp"
 #include "PreprocessParameters.hpp"
 #include "Utility.hpp"
 #include "pipelines/PipelineData.hpp"
@@ -28,13 +18,17 @@ using namespace pipelines;
 class Runner {
    public:
     Runner() = delete;
+    Runner(const Runner&) = delete;
+    Runner(Runner&&) = delete;
+    auto operator=(const Runner&) -> Runner& = delete;
+    auto operator=(Runner&&) -> Runner& = delete;
     ~Runner() = delete;
 
     static void runPipeline(int argc, const char* const argv[]);
 
    private:
     struct InputDirectories {
-        InputDirectories(const fs::path parentDir, const std::string pipelinePrefix)
+        InputDirectories(const fs::path& parentDir, const std::string& pipelinePrefix)
             : treatmentInputDir(parentDir / pipelinePrefix / treatmentSampleGroup),
               controlInputDir(
                   helper::getDirIfExists(parentDir / pipelinePrefix / controlSampleGroup)) {};
@@ -48,13 +42,13 @@ class Runner {
         void operator()(const AlignParameters& params);
         void operator()(const DetectParameters& params);
         void operator()(const AnalyzeParameters& params);
-        void operator()(const CompleteParameters params);
+        void operator()(const CompleteParameters& params);
     };
 
-    static void runPreprocessPipeline(const preprocess::PreprocessParameters& preprocessParams);
-    static void runAlignPipeline(const AlignParameters& alignParams);
-    static void runDetectPipeline(const DetectParameters& detectParams);
-    static void runAnalyzePipeline(const AnalyzeParameters& alignParams);
+    static void runPreprocessPipeline(const preprocess::PreprocessParameters& parameters);
+    static void runAlignPipeline(const AlignParameters& parameters);
+    static void runDetectPipeline(const DetectParameters& parameters);
+    static void runAnalyzePipeline(const AnalyzeParameters& parameters);
 
-    static void runCompletePipeline(const CompleteParameters& completeParams);
+    static void runCompletePipeline(const CompleteParameters& parameters);
 };

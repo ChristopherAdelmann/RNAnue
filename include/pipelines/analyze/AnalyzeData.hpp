@@ -7,13 +7,12 @@
 #include <string>
 #include <vector>
 
-// Classes
+// Internal
 #include "AnalyzeSample.hpp"
 #include "DetectData.hpp"
 #include "pipelines/PipelineData.hpp"
 
-namespace pipelines {
-namespace analyze {
+namespace pipelines::analyze {
 namespace fs = std::filesystem;
 
 static const std::string validInputSplitAlignmentsSuffix = detect::outSampleSplitAlignmentsSuffix;
@@ -44,19 +43,17 @@ struct AnalyzeData : public PipelineData {
     std::optional<std::vector<AnalyzeSample>> controlSamples;
 
     AnalyzeData(const fs::path& outputDir, const fs::path& treatmentDir,
-                const std::optional<fs::path> controlDir)
+                const std::optional<fs::path>& controlDir)
         : treatmentSamples(retrieveSamples(treatmentSampleGroup, treatmentDir, outputDir)),
           controlSamples(controlDir ? std::optional<std::vector<AnalyzeSample>>(retrieveSamples(
                                           controlSampleGroup, controlDir.value(), outputDir))
                                     : std::nullopt) {}
 
    private:
-    static const std::vector<AnalyzeSample> retrieveSamples(const std::string& sampleGroup,
-                                                            const fs::path& parentDir,
-                                                            const fs::path& outputDir);
+    static auto retrieveSamples(const std::string& sampleGroup, const fs::path& parentDir,
+                                const fs::path& outputDir) -> std::vector<AnalyzeSample>;
 
-    static const std::vector<AnalyzeInput> retrieveInputSamples(const fs::path& parentDir);
+    static auto retrieveInputSamples(const fs::path& parentDir) -> std::vector<AnalyzeInput>;
 };
 
-}  // namespace analyze
-}  // namespace pipelines
+}  // namespace pipelines::analyze

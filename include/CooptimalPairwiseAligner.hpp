@@ -21,7 +21,6 @@ class CoOptimalPairwiseAligner {
    public:
     explicit CoOptimalPairwiseAligner(seqan3::nucleotide_scoring_scheme<int8_t> scoringScheme)
         : cfg(getAlignmentConfig(scoringScheme)) {}
-    ~CoOptimalPairwiseAligner() = default;
 
     struct Result {
         int score;
@@ -32,7 +31,7 @@ class CoOptimalPairwiseAligner {
     };
 
     template <typename sequence_pair_t>
-    std::vector<Result> getLocalAlignments(const sequence_pair_t &sequencePair) const {
+    auto getLocalAlignments(const sequence_pair_t &sequencePair) const -> std::vector<Result> {
         auto alignResults = seqan3::align_pairwise(sequencePair, cfg);
 
         if (alignResults.begin() == alignResults.end()) {
@@ -42,7 +41,8 @@ class CoOptimalPairwiseAligner {
         const auto &alignResult = *alignResults.begin();
 
         std::vector<Result> results;
-        results.reserve(5);
+
+        results.reserve(5);  // NOLINT
 
         using TraceMatrix =
             seqan3::detail::two_dimensional_matrix<std::optional<seqan3::detail::trace_directions>>;
@@ -56,16 +56,16 @@ class CoOptimalPairwiseAligner {
             return {};
         }
 
-        auto it = std::ranges::find(scoreMatrix, score);
-        while (it != scoreMatrix.end()) {
-            size_t row = std::distance(scoreMatrix.begin(), it) / scoreMatrix.cols();
-            size_t col = std::distance(scoreMatrix.begin(), it) % scoreMatrix.cols();
+        auto iterator = std::ranges::find(scoreMatrix, score);
+        while (iterator != scoreMatrix.end()) {
+            size_t row = std::distance(scoreMatrix.begin(), iterator) / scoreMatrix.cols();
+            size_t col = std::distance(scoreMatrix.begin(), iterator) % scoreMatrix.cols();
 
             seqan3::detail::matrix_coordinate traceBegin{seqan3::detail::row_index_type{row},
                                                          seqan3::detail::column_index_type{col}};
             results.push_back(makeResult(sequencePair, score.value(), traceBegin, traceMatrix));
 
-            it = std::ranges::find(it + 1, scoreMatrix.end(), score);
+            iterator = std::ranges::find(iterator + 1, scoreMatrix.end(), score);
         }
 
         return results;
@@ -81,10 +81,10 @@ class CoOptimalPairwiseAligner {
         seqan3::detail::debug_mode<std::integral_constant<seqan3::detail::align_config_id,
                                                           seqan3::detail::align_config_id::debug>>>;
 
-    const Configuration cfg;
+    Configuration cfg;
 
-    constexpr Configuration getAlignmentConfig(
-        const seqan3::nucleotide_scoring_scheme<int8_t> &scoringScheme) const {
+    [[nodiscard]] static constexpr auto getAlignmentConfig(
+        const seqan3::nucleotide_scoring_scheme<int8_t> &scoringScheme) -> Configuration {
         return seqan3::align_cfg::method_local{} |
                seqan3::align_cfg::scoring_scheme{scoringScheme} |
                seqan3::align_cfg::gap_cost_affine{seqan3::align_cfg::open_score{-2},
@@ -94,9 +94,10 @@ class CoOptimalPairwiseAligner {
                seqan3::align_cfg::detail::debug{};
     };
 
-    auto tracePath(const seqan3::detail::matrix_coordinate &trace_begin,
-                   const seqan3::detail::two_dimensional_matrix<seqan3::detail::trace_directions>
-                       &complete_matrix) const {
+    static auto tracePath(
+        const seqan3::detail::matrix_coordinate &trace_begin,
+        const seqan3::detail::two_dimensional_matrix<seqan3::detail::trace_directions>
+            &complete_matrix) {
         using matrix_t = seqan3::detail::two_dimensional_matrix<seqan3::detail::trace_directions>;
         using matrix_iter_t = std::ranges::iterator_t<matrix_t const>;
         using trace_iterator_t = seqan3::detail::trace_iterator<matrix_iter_t>;
@@ -108,8 +109,8 @@ class CoOptimalPairwiseAligner {
     };
 
     template <typename sequence_pair_t, typename score_t, typename matrix_coordinate_t>
-    Result makeResult(const sequence_pair_t &sequencePair, score_t score,
-                      matrix_coordinate_t endPositions, auto const &alignmentMatrix) const {
+    auto makeResult(const sequence_pair_t &sequencePair, score_t score,
+                    matrix_coordinate_t endPositions, auto const &alignmentMatrix) const -> Result {
         const size_t elementsN = alignmentMatrix.rows() * alignmentMatrix.cols();
         std::vector<seqan3::detail::trace_directions> traceDirections;
         traceDirections.reserve(elementsN);

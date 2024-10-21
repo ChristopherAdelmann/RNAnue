@@ -6,47 +6,46 @@
 #include <optional>
 #include <string>
 
-// Classes
-#include "CustomSamTags.hpp"
-#include "DataTypes.hpp"
+// Internal
+#include "GenomicFeature.hpp"
+#include "GenomicRegion.hpp"
 #include "SamRecord.hpp"
 
 using seqan3::operator""_tag;
 using namespace dataTypes;
 
-namespace pipelines {
-namespace analyze {
+namespace pipelines::analyze {
 
 struct Segment {
     std::string recordID;
     int32_t referenceIDIndex;
-    dtp::Strand strand;
+    dataTypes::Strand strand;
     int32_t start;
     int32_t end;
     double maxComplementarityScore;
     double minHybridizationEnergy;
 
-    static std::optional<Segment> fromSamRecord(const SamRecord &record);
+    static auto fromSamRecord(const SamRecord &record) -> std::optional<Segment>;
 
-    dtp::GenomicRegion toGenomicRegion(const std::deque<std::string> &referenceIDs) const;
+    [[nodiscard]] auto toGenomicRegion(const std::deque<std::string> &referenceIDs) const
+        -> dataTypes::GenomicRegion;
 
-    dtp::Feature toFeature(const std::deque<std::string> &referenceIDs,
-                           const std::string &featureID,
-                           const std::string &featureType = "transcript") const;
+    [[nodiscard]] auto toFeature(
+        const std::deque<std::string> &referenceIDs, const std::string &featureID,
+        const std::string &featureType = "transcript") const -> dataTypes::Feature;
 
     void merge(const Segment &other);
 
-    bool operator==(const Segment &other) const;
+    auto operator==(const Segment &other) const -> bool;
 };
 
-inline std::ostream &operator<<(std::ostream &os, const Segment &segment) {
-    return os << "Segment{recordID: " << segment.recordID
-              << ", referenceIDIndex: " << segment.referenceIDIndex
-              << ", strand: " << segment.strand << ", start: " << segment.start
-              << ", end: " << segment.end
-              << ", maxComplementarityScore: " << segment.maxComplementarityScore
-              << ", minHybridizationEnergy: " << segment.minHybridizationEnergy << "}";
+inline auto operator<<(std::ostream &ostream, const Segment &segment) -> std::ostream & {
+    return ostream << "Segment{recordID: " << segment.recordID
+                   << ", referenceIDIndex: " << segment.referenceIDIndex
+                   << ", strand: " << segment.strand << ", start: " << segment.start
+                   << ", end: " << segment.end
+                   << ", maxComplementarityScore: " << segment.maxComplementarityScore
+                   << ", minHybridizationEnergy: " << segment.minHybridizationEnergy << "}";
 };
 
-}  // namespace analyze
-}  // namespace pipelines
+}  // namespace pipelines::analyze

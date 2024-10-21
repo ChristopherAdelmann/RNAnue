@@ -1,6 +1,14 @@
 #include "Closing.hpp"
 
-std::vector<std::string> Closing::retrieveQuotes() {
+// Standard
+#include <algorithm>
+#include <random>
+#include <vector>
+
+// Internal
+#include "Logger.hpp"
+
+auto Closing::retrieveQuotes() -> std::vector<std::string> {
     std::vector<std::string> quotes;
     quotes.insert(quotes.end(), ("\"Hoppala\" - Cristobal"));
     quotes.insert(quotes.end(), ("\"Neeeeinnnnnn\" - Biggi"));

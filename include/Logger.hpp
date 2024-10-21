@@ -3,7 +3,6 @@
 // Standard
 #include <chrono>
 #include <iomanip>
-#include <iostream>
 #include <map>
 #include <mutex>
 #include <string>
@@ -15,7 +14,13 @@ enum class LogLevel { DEBUG, INFO, WARNING, ERROR };
 
 class Logger {
    public:
-    static Logger &getInstance() {
+    Logger(Logger &&) = delete;
+    auto operator=(Logger &&) -> Logger & = delete;
+    Logger(const Logger &) = delete;
+    auto operator=(const Logger &) -> Logger & = delete;
+    ~Logger() = default;
+
+    static auto getInstance() -> Logger & {
         static Logger instance;  // Singleton instance
         return instance;
     }
@@ -27,9 +32,9 @@ class Logger {
             {"warning", LogLevel::WARNING},
             {"error", LogLevel::ERROR}};
 
-        auto it = stringToLogLevelMap.find(logLevelString);
-        if (it != stringToLogLevelMap.end()) {
-            getInstance().logLevel = it->second;
+        auto iterator = stringToLogLevelMap.find(logLevelString);
+        if (iterator != stringToLogLevelMap.end()) {
+            getInstance().logLevel = iterator->second;
         } else {
             log(LogLevel::ERROR, "Invalid log level: ", logLevelString);
         }
@@ -66,14 +71,12 @@ class Logger {
     }
 
    private:
-    Logger() : logLevel(LogLevel::INFO) {}
-    Logger(const Logger &) = delete;
-    Logger &operator=(const Logger &) = delete;
+    Logger() = default;
 
-    LogLevel logLevel;
+    LogLevel logLevel{LogLevel::INFO};
     std::mutex logMutex;
 
-    static std::string getTime() {
+    static auto getTime() -> std::string {
         const auto now = std::chrono::system_clock::now();
         const std::time_t current_time = std::chrono::system_clock::to_time_t(now);
 

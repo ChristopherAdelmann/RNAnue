@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-// Classes
+// Internal
 #include "AlignSample.hpp"
 #include "PreprocessData.hpp"
 #include "pipelines/PipelineData.hpp"
@@ -46,15 +46,15 @@ struct AlignData : public pipelines::PipelineData {
                                     : std::nullopt) {};
 
    private:
-    static std::vector<AlignSampleType> retrieveSamples(const std::string& sampleGroup,
-                                                        const fs::path& parentDir,
-                                                        const fs::path& outputDir);
-    static std::vector<InputSampleType> retrieveInputSamples(const fs::path& parentDir);
-    static InputSampleType retrieveInputSample(const fs::path& sampleDir);
-    static AlignInputPaired retrieveInputPaired(const std::string sampleName,
-                                                const std::vector<fs::path>& inputSamples);
-    static AlignInputSingle retrieveInputSingle(const std::string sampleName,
-                                                const fs::path& inputSample);
+    static auto retrieveSamples(const std::string& sampleGroup, const fs::path& parentDir,
+                                const fs::path& outputDir) -> std::vector<AlignSampleType>;
+    static auto retrieveInputSamples(const fs::path& parentDir) -> std::vector<InputSampleType>;
+    static auto retrieveInputSample(const fs::path& sampleDir) -> InputSampleType;
+    static auto retrieveInputPaired(const std::string& sampleName,
+                                    const std::vector<fs::path>& inputSamples) -> AlignInputPaired;
+    static auto retrieveInputSingle(const std::string& sampleName,
+                                    const fs::path& inputSample) -> AlignInputSingle;
 };
+
 }  // namespace align
 }  // namespace pipelines

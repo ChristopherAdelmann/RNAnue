@@ -5,16 +5,12 @@
 #include <optional>
 #include <string>
 #include <utility>
-#include <variant>
 #include <vector>
 
-#include "Logger.hpp"
 #include "PreprocessSample.hpp"
-#include "VariantOverload.hpp"
 #include "pipelines/PipelineData.hpp"
 
-namespace pipelines {
-namespace preprocess {
+namespace pipelines::preprocess {
 
 namespace fs = std::filesystem;
 
@@ -34,26 +30,25 @@ static const std::string outSampleFastqPairedForwardSingletonSuffix =
 static const std::string outSampleFastqPairedReverseSingletonSuffix =
     "_singleton_passed_R2.fastq.gz";
 
-static constexpr std::string pipelinePrefix = "01_preprocess";
+static const std::string pipelinePrefix = "01_preprocess";
 
 struct PreprocessData : public pipelines::PipelineData {
     std::vector<PreprocessSampleType> treatmentSamples;
     std::optional<std::vector<PreprocessSampleType>> controlSamples;
 
     PreprocessData(const fs::path& outputDir, const fs::path& treatmentDir,
-                   const std::optional<fs::path> controlDir)
+                   const std::optional<fs::path>& controlDir)
         : treatmentSamples(retrieveSamples(treatmentSampleGroup, treatmentDir, outputDir)),
           controlSamples(controlDir ? std::optional(retrieveSamples(controlSampleGroup,
                                                                     controlDir.value(), outputDir))
                                     : std::nullopt) {};
 
    private:
-    static std::vector<PreprocessSampleType> retrieveSamples(const std::string& sampleGroup,
-                                                             const fs::path& parentDir,
-                                                             const fs::path& outputDir);
-    static std::vector<InputSampleType> retrieveInputSamples(const fs::path& parentDir);
-    static InputSampleType retrieveInputSample(const fs::path& sampleDir);
-    static bool validatePairedFilePaths(std::pair<fs::path, fs::path>& pairedInputPaths);
+    static auto retrieveSamples(const std::string& sampleGroup, const fs::path& parentDir,
+                                const fs::path& outputDir) -> std::vector<PreprocessSampleType>;
+    static auto retrieveInputSamples(const fs::path& parentDir) -> std::vector<InputSampleType>;
+    static auto retrieveInputSample(const fs::path& sampleDir) -> InputSampleType;
+    static auto validatePairedFilePaths(std::pair<fs::path, fs::path>& pairedInputPaths) -> bool;
 };
-}  // namespace preprocess
-}  // namespace pipelines
+
+}  // namespace pipelines::preprocess

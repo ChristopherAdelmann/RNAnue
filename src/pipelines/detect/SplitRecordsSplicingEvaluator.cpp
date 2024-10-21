@@ -1,8 +1,11 @@
 #include "SplitRecordsSplicingEvaluator.hpp"
 
-bool SplitRecordsSplicingEvaluator::isSplicedSplitRecord(
+#include "GenomicFeature.hpp"
+#include "Utility.hpp"
+
+auto SplitRecordsSplicingEvaluator::isSplicedSplitRecord(
     const SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs,
-    const SplitRecordsEvaluationParameters::SplicingParameters &parameters) {
+    const SplitRecordsEvaluationParameters::SplicingParameters &parameters) -> bool {
     if (splitRecords[0].reference_id() != splitRecords[1].reference_id()) {
         return false;
     }
@@ -32,33 +35,29 @@ bool SplitRecordsSplicingEvaluator::isSplicedSplitRecord(
         return false;
     }
 
-    auto it = parameters.featureAnnotator.overlappingFeatureIterator(
+    auto iterator = parameters.featureAnnotator->overlappingFeatureIterator(
         spliceJunctionBoundingRegion.value(), parameters.orientation);
 
     const bool hasInBetweenExon =
-        std::any_of(it.begin(), it.end(), [&featureRecord1](const auto &feature) {
+        std::any_of(iterator.begin(), iterator.end(), [&featureRecord1](const auto &feature) {
             return feature.groupID.has_value() && feature.groupID.value() == featureRecord1.groupID;
         });
 
-    if (hasInBetweenExon) {
-        return false;
-    }
-
-    return true;
+    return !hasInBetweenExon;
 }
 
-std::optional<std::pair<dtp::Feature, dtp::Feature>>
-SplitRecordsSplicingEvaluator::getGroupedFeatures(
+auto SplitRecordsSplicingEvaluator::getGroupedFeatures(
     const SamRecord &record1, const SamRecord &record2, const std::deque<std::string> &referenceIDs,
-    const SplitRecordsEvaluationParameters::SplicingParameters &parameters) {
-    const auto featureRecord1 = parameters.featureAnnotator.getBestOverlappingFeature(
+    const SplitRecordsEvaluationParameters::SplicingParameters &parameters)
+    -> std::optional<std::pair<dataTypes::Feature, dataTypes::Feature>> {
+    const auto featureRecord1 = parameters.featureAnnotator->getBestOverlappingFeature(
         record1, referenceIDs, parameters.orientation);
 
     if (!featureRecord1.has_value() || !featureRecord1.value().groupID.has_value()) {
         return std::nullopt;
     }
 
-    const auto featureRecord2 = parameters.featureAnnotator.getBestOverlappingFeature(
+    const auto featureRecord2 = parameters.featureAnnotator->getBestOverlappingFeature(
         record2, referenceIDs, parameters.orientation);
 
     if (!featureRecord2.has_value() || !featureRecord2.value().groupID.has_value()) {
@@ -72,11 +71,12 @@ SplitRecordsSplicingEvaluator::getGroupedFeatures(
     return std::make_pair(featureRecord1.value(), featureRecord2.value());
 }
 
-std::optional<dtp::GenomicRegion> SplitRecordsSplicingEvaluator::getSpliceJunctionBoundingRegion(
-    const SamRecord &record1, const SamRecord &record2, const dtp::Feature &featureRecord1,
-    const dtp::Feature &featureRecord2,
-    const SplitRecordsEvaluationParameters::SplicingParameters &parameters) {
-    const auto record1EndPosition = dtp::recordEndPosition(record1).value();
+auto SplitRecordsSplicingEvaluator::getSpliceJunctionBoundingRegion(
+    const SamRecord &record1, const SamRecord &record2, const dataTypes::Feature &featureRecord1,
+    const dataTypes::Feature &featureRecord2,
+    const SplitRecordsEvaluationParameters::SplicingParameters &parameters)
+    -> std::optional<dataTypes::GenomicRegion> {
+    const auto record1EndPosition = dataTypes::recordEndPosition(record1).value();
 
     bool record1AtSpliceJunctionStart = helper::isContained(
         record1EndPosition, featureRecord1.endPosition - 1, parameters.splicingTolerance);
@@ -93,6 +93,6 @@ std::optional<dtp::GenomicRegion> SplitRecordsSplicingEvaluator::getSpliceJuncti
         return std::nullopt;
     }
 
-    return dtp::GenomicRegion{featureRecord1.referenceID, record1EndPosition + 1,
-                              record2StartPosition};
+    return dataTypes::GenomicRegion{featureRecord1.referenceID, record1EndPosition + 1,
+                                    record2StartPosition};
 }

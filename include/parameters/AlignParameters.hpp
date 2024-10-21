@@ -9,14 +9,13 @@
 #include <boost/program_options.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-// Classes
+// Internal
 #include "GeneralParameters.hpp"
 #include "ParameterValidator.hpp"
 
 namespace po = boost::program_options;
 
-class AlignParameters : public GeneralParameters {
-   public:
+struct AlignParameters : public GeneralParameters {
     std::filesystem::path referenceGenome;
     size_t minLengthThreshold;
     size_t accuracy;

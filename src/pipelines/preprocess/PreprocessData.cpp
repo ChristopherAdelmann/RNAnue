@@ -4,13 +4,15 @@
 #include <filesystem>
 
 #include "Logger.hpp"
+#include "Utility.hpp"
 #include "VariantOverload.hpp"
 
-namespace pipelines {
-namespace preprocess {
-std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const std::string& sampleGroup,
-                                                                  const fs::path& parentDir,
-                                                                  const fs::path& outputDir) {
+using namespace helper;
+
+namespace pipelines::preprocess {
+auto PreprocessData::retrieveSamples(const std::string& sampleGroup, const fs::path& parentDir,
+                                     const fs::path& outputDir)
+    -> std::vector<PreprocessSampleType> {
     const std::vector<InputSampleType> inputSamples = retrieveInputSamples(parentDir);
 
     std::vector<PreprocessSampleType> samples;
@@ -35,11 +37,11 @@ std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const std::str
                         outputDirSample / outSampleTmpFastqDirPrefix;
                     fs::create_directories(outputSampleTmpFastqDir);
 
-                    samples.push_back(PreprocessSampleSingle{inputSampleSingle,
-                                                             {
-                                                                 outputSampleTmpFastqDir,
-                                                                 outputSampleFastqPath,
-                                                             }});
+                    samples.emplace_back(PreprocessSampleSingle{inputSampleSingle,
+                                                                {
+                                                                    outputSampleTmpFastqDir,
+                                                                    outputSampleFastqPath,
+                                                                }});
 
                     const auto message =
                         "Single-end sample " + inputSampleSingle.sampleName + " found";
@@ -71,7 +73,7 @@ std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const std::str
                         outputDirSample / outSampleTmpReverseSingletonFastqDirPrefix;
                     fs::create_directories(outputSampleTmpFastqSingletonReverseDir);
 
-                    samples.push_back(PreprocessSamplePaired{
+                    samples.emplace_back(PreprocessSamplePaired{
                         inputSamplePaired,
                         {outputSampleTmpFastqMergedDir, outputSampleTmpFastqSingletonForwardDir,
                          outputSampleTmpFastqSingletonReverseDir, outputSampleFastqPathMerged,
@@ -87,11 +89,13 @@ std::vector<PreprocessSampleType> PreprocessData::retrieveSamples(const std::str
     return samples;
 }
 
-std::vector<InputSampleType> PreprocessData::retrieveInputSamples(const fs::path& parentDir) {
+auto PreprocessData::retrieveInputSamples(const fs::path& parentDir)
+    -> std::vector<InputSampleType> {
     const std::vector<fs::path> sampleDirs = getSubDirectories(parentDir);
 
     std::vector<InputSampleType> samples;
 
+    samples.reserve(sampleDirs.size());
     for (const fs::path& sampleDir : sampleDirs) {
         samples.push_back(retrieveInputSample(sampleDir));
     }
@@ -99,7 +103,7 @@ std::vector<InputSampleType> PreprocessData::retrieveInputSamples(const fs::path
     return samples;
 }
 
-InputSampleType PreprocessData::retrieveInputSample(const fs::path& sampleDir) {
+auto PreprocessData::retrieveInputSample(const fs::path& sampleDir) -> InputSampleType {
     const std::vector<fs::path> sampleFiles = getValidFilePaths(sampleDir, validInputSuffixes);
     const auto numSamples = sampleFiles.size();
 
@@ -137,7 +141,8 @@ InputSampleType PreprocessData::retrieveInputSample(const fs::path& sampleDir) {
     return PreprocessSampleInputPaired{sampleName, pairedInputPaths.first, pairedInputPaths.second};
 }
 
-bool PreprocessData::validatePairedFilePaths(std::pair<fs::path, fs::path>& pairedInputPaths) {
+auto PreprocessData::validatePairedFilePaths(std::pair<fs::path, fs::path>& pairedInputPaths)
+    -> bool {
     auto withoutExtensions = [](const fs::path& path) -> std::string {
         const auto stem = path.stem();
         return stem.string().substr(0, stem.string().find_last_of('.'));
@@ -162,5 +167,4 @@ bool PreprocessData::validatePairedFilePaths(std::pair<fs::path, fs::path>& pair
 
     return validReverse;
 }
-}  // namespace preprocess
-}  // namespace pipelines
+}  // namespace pipelines::preprocess

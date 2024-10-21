@@ -1,21 +1,11 @@
 #include "InteractionCluster.hpp"
 
-#include <ostream>
-
 #include "Utility.hpp"
 
-namespace pipelines {
-namespace analyze {
+namespace pipelines::analyze {
 
-InteractionCluster::InteractionCluster(std::pair<Segment, Segment> segments,
-                                       const std::vector<double> &complementarityScores,
-                                       const std::vector<double> &hybridizationEnergies)
-    : segments(segments),
-      complementarityScores(complementarityScores),
-      hybridizationEnergies(hybridizationEnergies) {}
-
-std::optional<std::pair<Segment, Segment>> InteractionCluster::getSortedElements(
-    const Segment &segment1, const Segment &segment2) {
+auto InteractionCluster::getSortedElements(const Segment &segment1, const Segment &segment2)
+    -> std::optional<std::pair<Segment, Segment>> {
     if (segment1.recordID != segment2.recordID) [[unlikely]] {
         Logger::log(LogLevel::WARNING, "Record IDs do not match: ", segment1.recordID, " vs. ",
                     segment2.recordID, ". Make sure reads are sorted by name.");
@@ -29,8 +19,8 @@ std::optional<std::pair<Segment, Segment>> InteractionCluster::getSortedElements
                : std::make_pair(segment2, segment1);
 }
 
-std::optional<InteractionCluster> InteractionCluster::fromSegments(const Segment &segment1,
-                                                                   const Segment &segment2) {
+auto InteractionCluster::fromSegments(const Segment &segment1, const Segment &segment2)
+    -> std::optional<InteractionCluster> {
     const auto sortedElements = getSortedElements(segment1, segment2);
     if (!sortedElements.has_value()) [[unlikely]] {
         return std::nullopt;
@@ -57,37 +47,40 @@ std::optional<InteractionCluster> InteractionCluster::fromSegments(const Segment
  * @param a The InteractionCluster object to compare with.
  * @return true if the current object is less than the provided object, false otherwise.
  */
-bool InteractionCluster::operator<(const InteractionCluster &a) const {
-    if (segments.second.referenceIDIndex == a.segments.second.referenceIDIndex) {
-        return segments.second.end < a.segments.second.end;
+auto InteractionCluster::operator<(const InteractionCluster &other) const -> bool {
+    if (segments.second.referenceIDIndex == other.segments.second.referenceIDIndex) {
+        return segments.second.end < other.segments.second.end;
     } else {
-        return segments.second.referenceIDIndex < a.segments.second.referenceIDIndex;
+        return segments.second.referenceIDIndex < other.segments.second.referenceIDIndex;
     }
 }
 
-bool InteractionCluster::operator>(const InteractionCluster &a) const {
-    if (segments.second.referenceIDIndex == a.segments.second.referenceIDIndex) {
-        return segments.second.end > a.segments.second.end;
+bool InteractionCluster::operator>(const InteractionCluster &other) const {
+    if (segments.second.referenceIDIndex == other.segments.second.referenceIDIndex) {
+        return segments.second.end > other.segments.second.end;
     } else {
-        return segments.second.referenceIDIndex > a.segments.second.referenceIDIndex;
+        return segments.second.referenceIDIndex > other.segments.second.referenceIDIndex;
     }
 }
 
-bool InteractionCluster::operator==(const InteractionCluster &a) const {
-    auto compareVectors = [](const std::vector<double> &v1, const std::vector<double> &v2) {
-        return std::all_of(v1.begin(), v1.end(), [&v2](double val) {
-            return std::any_of(v2.begin(), v2.end(),
-                               [val](double a_val) { return helper::isEqual(val, a_val, 1e-6); });
+auto InteractionCluster::operator==(const InteractionCluster &other) const -> bool {
+    constexpr double EPSILON = 1e-6;
+    auto compareVectors = [](const std::vector<double> &vec1, const std::vector<double> &vec2) {
+        return std::all_of(vec1.begin(), vec1.end(), [&vec2](double val) {
+            return std::any_of(vec2.begin(), vec2.end(), [val](double a_val) {
+                return helper::isEqual(val, a_val, EPSILON);
+            });
         });
     };
 
-    return compareVectors(complementarityScores, a.complementarityScores) &&
-           compareVectors(hybridizationEnergies, a.hybridizationEnergies) &&
-           segments.first == a.segments.first && segments.second == a.segments.second &&
-           count == a.count;
+    return compareVectors(complementarityScores, other.complementarityScores) &&
+           compareVectors(hybridizationEnergies, other.hybridizationEnergies) &&
+           segments.first == other.segments.first && segments.second == other.segments.second &&
+           count == other.count;
 }
 
-bool InteractionCluster::overlaps(const InteractionCluster &other, const int graceDistance) const {
+auto InteractionCluster::overlaps(const InteractionCluster &other,
+                                  const int graceDistance) const -> bool {
     bool isSameReferenceAndStrand =
         segments.first.referenceIDIndex == other.segments.first.referenceIDIndex &&
         segments.second.referenceIDIndex == other.segments.second.referenceIDIndex &&
@@ -131,18 +124,17 @@ void InteractionCluster::merge(const InteractionCluster &other) {
     count += other.count;
 }
 
-double InteractionCluster::complementarityStatistics() const {
+auto InteractionCluster::complementarityStatistics() const -> double {
     assert(!complementarityScores.empty());
     assert(segments.first.maxComplementarityScore == segments.second.maxComplementarityScore);
     return helper::calculateMedian(complementarityScores) * segments.first.maxComplementarityScore;
 }
 
-double InteractionCluster::hybridizationEnergyStatistics() const {
+auto InteractionCluster::hybridizationEnergyStatistics() const -> double {
     assert(!hybridizationEnergies.empty());
     assert(segments.first.minHybridizationEnergy == segments.second.minHybridizationEnergy);
     return std::sqrt(helper::calculateMedian(hybridizationEnergies) *
                      segments.first.minHybridizationEnergy);
 }
 
-}  // namespace analyze
-}  // namespace pipelines
+}  // namespace pipelines::analyze

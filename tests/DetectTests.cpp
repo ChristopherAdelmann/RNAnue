@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 
-#include "DataTypes.hpp"
 #include "Detect.hpp"
 
 // class DetectTest : public testing::Test {

@@ -25,31 +25,31 @@ class EvaluatedSplitRecordsTests : public testing::TestWithParam<IsSplicedTestPa
 
     const std::deque<std::string> referenceIDs = {"chromosome1"};
 
-    const dtp::FeatureMap featureMap = {{"chromosome1",
-                                         {{.referenceID = "chromosome1",
-                                           .type = "exon",
-                                           .startPosition = 1,
-                                           .endPosition = 10,
-                                           .strand = dtp::Strand::FORWARD,
-                                           .id = "exon1",
-                                           .groupID = "gene1",
-                                           .geneName = std::nullopt},
-                                          {.referenceID = "chromosome1",
-                                           .type = "exon",
-                                           .startPosition = 20,
-                                           .endPosition = 30,
-                                           .strand = dtp::Strand::FORWARD,
-                                           .id = "exon2",
-                                           .groupID = "gene1",
-                                           .geneName = std::nullopt},
-                                          {.referenceID = "chromosome1",
-                                           .type = "exon",
-                                           .startPosition = 40,
-                                           .endPosition = 50,
-                                           .strand = dtp::Strand::FORWARD,
-                                           .id = "exon3",
-                                           .groupID = "gene1",
-                                           .geneName = std::nullopt}}}};
+    const dataTypes::FeatureMap featureMap = {{"chromosome1",
+                                               {{.referenceID = "chromosome1",
+                                                 .type = "exon",
+                                                 .startPosition = 1,
+                                                 .endPosition = 10,
+                                                 .strand = dataTypes::Strand::FORWARD,
+                                                 .id = "exon1",
+                                                 .groupID = "gene1",
+                                                 .geneName = std::nullopt},
+                                                {.referenceID = "chromosome1",
+                                                 .type = "exon",
+                                                 .startPosition = 20,
+                                                 .endPosition = 30,
+                                                 .strand = dataTypes::Strand::FORWARD,
+                                                 .id = "exon2",
+                                                 .groupID = "gene1",
+                                                 .geneName = std::nullopt},
+                                                {.referenceID = "chromosome1",
+                                                 .type = "exon",
+                                                 .startPosition = 40,
+                                                 .endPosition = 50,
+                                                 .strand = dataTypes::Strand::FORWARD,
+                                                 .id = "exon3",
+                                                 .groupID = "gene1",
+                                                 .geneName = std::nullopt}}}};
 
     annotation::FeatureAnnotator featureAnnotator;
 };
@@ -88,7 +88,7 @@ TEST_P(EvaluatedSplitRecordsTests, IsSplicedSplitRecord) {
                 .minComplementarity = 0.9, .minComplementarityFraction = 0.9, .mfeThreshold = 10},
         .orientation = annotation::Orientation::BOTH,
         .splicingTolerance = 0,
-        .featureAnnotator = featureAnnotator};
+        .featureAnnotator = &featureAnnotator};
 
     const auto isSpliced = SplitRecordsSplicingEvaluator::isSplicedSplitRecord(
         param.splitRecords, referenceIDs, splicingParameters);

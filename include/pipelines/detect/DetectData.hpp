@@ -6,14 +6,12 @@
 #include <string>
 #include <vector>
 
-// Classes
+// Internal
 #include "AlignData.hpp"
 #include "DetectSample.hpp"
-#include "Logger.hpp"
 #include "pipelines/PipelineData.hpp"
 
-namespace pipelines {
-namespace detect {
+namespace pipelines::detect {
 namespace fs = std::filesystem;
 
 static const std::string validInputSuffix = pipelines::align::outSampleAlignedSuffix;
@@ -33,19 +31,17 @@ struct DetectData : public PipelineData {
     std::optional<std::vector<DetectSample>> controlSamples;
 
     DetectData(const fs::path& outputDir, const fs::path& treatmentDir,
-               const std::optional<fs::path> controlDir)
+               const std::optional<fs::path>& controlDir)
         : treatmentSamples(retrieveSamples(treatmentSampleGroup, treatmentDir, outputDir)),
           controlSamples(controlDir ? std::optional(retrieveSamples(controlSampleGroup,
                                                                     controlDir.value(), outputDir))
                                     : std::nullopt) {};
 
    private:
-    static const std::vector<DetectSample> retrieveSamples(const std::string& sampleGroup,
-                                                           const fs::path& parentDir,
-                                                           const fs::path& outputDir);
+    static auto retrieveSamples(const std::string& sampleGroup, const fs::path& parentDir,
+                                const fs::path& outputDir) -> std::vector<DetectSample>;
 
-    static const std::vector<DetectInput> retrieveInputSamples(const fs::path& parentDir);
+    static auto retrieveInputSamples(const fs::path& parentDir) -> std::vector<DetectInput>;
 };
 
-}  // namespace detect
-}  // namespace pipelines
+}  // namespace pipelines::detect

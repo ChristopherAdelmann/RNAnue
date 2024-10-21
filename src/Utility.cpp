@@ -10,20 +10,20 @@
 #include "seqan3/io/sequence_file/output.hpp"
 
 namespace helper {
-void createTmpDir(fs::path path) {
+void createTmpDir(const fs::path& path) {
     Logger::log(LogLevel::INFO, "Create temporary directory " + path.string());
     deleteDir(path);
     fs::create_directory(path);
 }
 
 // delete folder
-void deleteDir(fs::path path) {
+void deleteDir(const fs::path& path) {
     if (fs::exists(path)) {
         fs::remove_all(path);
     }
 }
 
-std::optional<fs::path> getDirIfExists(const fs::path& path) {
+auto getDirIfExists(const fs::path& path) -> std::optional<fs::path> {
     if (fs::is_directory(path)) {
         return path;
     }
@@ -31,12 +31,12 @@ std::optional<fs::path> getDirIfExists(const fs::path& path) {
     return std::nullopt;
 }
 
-std::string getUUID() {
+auto getUUID() -> std::string {
     boost::uuids::random_generator uuidGenerator;
     return boost::uuids::to_string(uuidGenerator());
 }
 
-void mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
+void mergeSamFiles(const std::vector<fs::path>& inputPaths, const fs::path& outputPath) {
     if (inputPaths.empty()) {
         Logger::log(LogLevel::WARNING, "No input files to merge");
         return;
@@ -50,7 +50,7 @@ void mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
     }
 }
 
-void mergeFastqFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
+void mergeFastqFiles(const std::vector<fs::path>& inputPaths, const fs::path& outputPath) {
     if (inputPaths.empty()) {
         Logger::log(LogLevel::WARNING, "No input files to merge");
         return;
@@ -64,7 +64,7 @@ void mergeFastqFiles(std::vector<fs::path> inputPaths, fs::path outputPath) {
     }
 }
 
-std::vector<fs::path> getFilePathsInDir(const fs::path& dir) {
+auto getFilePathsInDir(const fs::path& dir) -> std::vector<fs::path> {
     std::vector<fs::path> filePaths;
     for (const auto& entry : fs::directory_iterator(dir)) {
         if (fs::is_regular_file(entry)) {
@@ -89,11 +89,12 @@ void concatAndDeleteFilesInTmpDir(const fs::path& tmpDir, const fs::path& outPat
     deleteDir(tmpDir);
 }
 
-bool isContained(const int32_t value, const int32_t comparisonValue, const int32_t tolerance) {
+auto isContained(const int32_t value, const int32_t comparisonValue,
+                 const int32_t tolerance) -> bool {
     return value >= comparisonValue - tolerance && value <= comparisonValue + tolerance;
 }
 
-std::size_t countUniqueSamEntries(fs::path path) {
+auto countUniqueSamEntries(fs::path& path) -> std::size_t {
     std::ifstream infile(path);
     if (!infile.is_open()) {
         throw std::runtime_error("Could not open file");
@@ -103,20 +104,20 @@ std::size_t countUniqueSamEntries(fs::path path) {
     std::string line;
     while (std::getline(infile, line)) {
         if (!line.empty() && line[0] != '@') {
-            std::string id = line.substr(0, line.find('\t'));
-            uniqueIDs.insert(id);
+            std::string identifier = line.substr(0, line.find('\t'));
+            uniqueIDs.insert(identifier);
         }
     }
 
     return uniqueIDs.size();
 }
 
-std::size_t countSamEntriesSeqAn(fs::path path) {
+auto countSamEntriesSeqAn(fs::path& path) -> std::size_t {
     seqan3::sam_file_input fin{path.string(), seqan3::fields<>{}};
     return std::ranges::distance(fin.begin(), fin.end());
 }
 
-size_t countSamEntries(fs::path path) {
+auto countSamEntries(fs::path& path) -> size_t {
     std::ifstream infile(path);
     if (!infile.is_open()) {
         throw std::runtime_error("Could not open file");
@@ -133,21 +134,21 @@ size_t countSamEntries(fs::path path) {
     return count;
 }
 
-std::string generateRandomHexColor() {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distr(0, 255);
+auto generateRandomHexColor() -> std::string {
+    std::random_device randomDevice;
+    std::mt19937 gen(randomDevice());
+    std::uniform_int_distribution<> distr(0, 255);  // NOLINT
 
-    std::stringstream ss;
-    ss << "#";
+    std::stringstream stringStream;
+    stringStream << "#";
     for (int i = 0; i < 3; ++i) {
-        ss << std::setfill('0') << std::setw(2) << std::hex << distr(gen);
+        stringStream << std::setfill('0') << std::setw(2) << std::hex << distr(gen);
     }
 
-    return ss.str();  // Return the hex color code as a string
+    return stringStream.str();  // Return the hex color code as a string
 }
 
-std::string getTime() {
+auto getTime() -> std::string {
     const auto now = std::chrono::system_clock::now();
     const std::time_t current_time = std::chrono::system_clock::to_time_t(now);
 
@@ -157,8 +158,6 @@ std::string getTime() {
     return time_stream.str();
 }
 
-Timer::Timer() : start(std::chrono::high_resolution_clock::now()) {}
-Timer::~Timer() { stop(); }
 void Timer::stop() {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;

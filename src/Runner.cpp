@@ -1,10 +1,14 @@
 #include "Runner.hpp"
 
+#include "Align.hpp"
 #include "Analyze.hpp"
 #include "AnalyzeData.hpp"
 #include "Closing.hpp"
+#include "Detect.hpp"
+#include "ParameterParser.hpp"
+#include "Preprocess.hpp"
 
-void Runner::runPipeline(int argc, const char *const argv[]) {
+void Runner::runPipeline(int argc, const char *const argv[]) {  // NOLINT
     const auto parameters = ParameterParser::getParameters(argc, argv);
 
     std::visit(Pipeline(), parameters);
@@ -84,6 +88,6 @@ void Runner::Pipeline::operator()(const DetectParameters &params) {
 void Runner::Pipeline::operator()(const AnalyzeParameters &params) {
     Runner::runAnalyzePipeline(params);
 };
-void Runner::Pipeline::operator()(const CompleteParameters params) {
+void Runner::Pipeline::operator()(const CompleteParameters &params) {
     Runner::runCompletePipeline(params);
 };

@@ -4,12 +4,13 @@
 #include <vector>
 
 #include "AlignSample.hpp"
+#include "Utility.hpp"
 
-namespace pipelines {
-namespace align {
-std::vector<AlignSampleType> AlignData::retrieveSamples(const std::string& sampleGroup,
-                                                        const fs::path& parentDir,
-                                                        const fs::path& outputDir) {
+using namespace helper;
+
+namespace pipelines::align {
+auto AlignData::retrieveSamples(const std::string& sampleGroup, const fs::path& parentDir,
+                                const fs::path& outputDir) -> std::vector<AlignSampleType> {
     const std::vector<InputSampleType> inputSamples = retrieveInputSamples(parentDir);
 
     std::vector<AlignSampleType> samples;
@@ -27,14 +28,15 @@ std::vector<AlignSampleType> AlignData::retrieveSamples(const std::string& sampl
                 outputDirPipeline / inputSampleSingle->sampleName /
                 (inputSampleSingle->sampleName + outSampleAlignedSuffix);
 
-            samples.push_back(AlignSampleSingle{*inputSampleSingle, {outputAlignmentsPath}});
+            samples.emplace_back(AlignSampleSingle{*inputSampleSingle, {outputAlignmentsPath}});
 
             const auto message = "Single-end sample " + inputSampleSingle->sampleName + " found";
             Logger::log(LogLevel::INFO, message);
 
             continue;
+        }
 
-        } else if (const auto* inputSamplePaired = std::get_if<AlignInputPaired>(&inputSample)) {
+        if (const auto* inputSamplePaired = std::get_if<AlignInputPaired>(&inputSample)) {
             const std::string parentName = inputSamplePaired->sampleName;
             const fs::path outputDirSample = outputDirPipeline / inputSamplePaired->sampleName;
 
@@ -50,7 +52,7 @@ std::vector<AlignSampleType> AlignData::retrieveSamples(const std::string& sampl
             const fs::path outputAlignmentsSingletonReversePath =
                 outputDirSample / (parentName + outSampleSingletonReverseAlignedSuffix);
 
-            samples.push_back(AlignSampleMergedPaired{
+            samples.emplace_back(AlignSampleMergedPaired{
                 *inputSamplePaired,
                 {outputAlignmentsPath, outputAlignmentsMergedReadsPath,
                  outputAlignmentsSingletonForwardPath, outputAlignmentsSingletonReversePath}});
@@ -65,11 +67,12 @@ std::vector<AlignSampleType> AlignData::retrieveSamples(const std::string& sampl
     return samples;
 }
 
-std::vector<InputSampleType> AlignData::retrieveInputSamples(const fs::path& parentDir) {
+auto AlignData::retrieveInputSamples(const fs::path& parentDir) -> std::vector<InputSampleType> {
     const std::vector<fs::path> sampleDirs = getSubDirectories(parentDir);
 
     std::vector<InputSampleType> samples;
 
+    samples.reserve(sampleDirs.size());
     for (const fs::path& sampleDir : sampleDirs) {
         samples.push_back(retrieveInputSample(sampleDir));
     }
@@ -77,13 +80,13 @@ std::vector<InputSampleType> AlignData::retrieveInputSamples(const fs::path& par
     return samples;
 }
 
-InputSampleType AlignData::retrieveInputSample(const fs::path& sampleDir) {
+auto AlignData::retrieveInputSample(const fs::path& sampleDir) -> InputSampleType {
     const std::vector<fs::path> sampleFiles = getValidFilePaths(sampleDir, validInputSuffixes);
     const auto numSamples = sampleFiles.size();
 
     using namespace std::string_literals;
-    if (!(numSamples == validInputSuffixSingleton.size() ||
-          numSamples == validInputSuffixesPaired.size())) {
+    if (numSamples != validInputSuffixSingleton.size() &&
+        numSamples != validInputSuffixesPaired.size()) {
         const std::string message =
             "Found invalid number of sample files (" + std::to_string(numSamples) + ")" +
             ". Expectected either " + std::to_string(validInputSuffixSingleton.size()) + " or " +
@@ -103,8 +106,8 @@ InputSampleType AlignData::retrieveInputSample(const fs::path& sampleDir) {
     return retrieveInputSingle(sampleName, firstFile);
 }
 
-AlignInputPaired AlignData::retrieveInputPaired(const std::string sampleName,
-                                                const std::vector<fs::path>& inputSamples) {
+auto AlignData::retrieveInputPaired(const std::string& sampleName,
+                                    const std::vector<fs::path>& inputSamples) -> AlignInputPaired {
     std::optional<fs::path> mergedFastqPath;
     std::optional<fs::path> singletonForwardFastqPath;
     std::optional<fs::path> singletonReverseFastqPath;
@@ -138,8 +141,8 @@ AlignInputPaired AlignData::retrieveInputPaired(const std::string sampleName,
                             singletonReverseFastqPath.value()};
 }
 
-AlignInputSingle AlignData::retrieveInputSingle(const std::string sampleName,
-                                                const fs::path& inputSample) {
+auto AlignData::retrieveInputSingle(const std::string& sampleName,
+                                    const fs::path& inputSample) -> AlignInputSingle {
     if (!hasSuffix(inputSample, preprocess::outSampleFastqSuffix)) {
         const std::string message = "The directory " + inputSample.parent_path().string() +
                                     " is missing the file: " + preprocess::outSampleFastqSuffix;
@@ -149,5 +152,4 @@ AlignInputSingle AlignData::retrieveInputSingle(const std::string sampleName,
     return AlignInputSingle{sampleName, inputSample};
 }
 
-}  // namespace align
-}  // namespace pipelines
+}  // namespace pipelines::align

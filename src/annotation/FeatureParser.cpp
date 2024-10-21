@@ -1,9 +1,18 @@
 #include "FeatureParser.hpp"
 
+// Standard
 #include <execution>
+#include <fstream>
+#include <numeric>
 #include <unordered_set>
 
+// Internal
+#include "Constants.hpp"
+#include "FileType.hpp"
+#include "GenomicFeature.hpp"
 #include "Logger.hpp"
+
+using namespace constants::annotation;
 
 namespace annotation {
 
@@ -21,13 +30,13 @@ FeatureParser::FeatureParser(const std::unordered_set<std::string> &includedFeat
                              const std::optional<std::string> &featureIDFlag)
     : includedFeatures(includedFeatures), featureIDFlag(featureIDFlag) {}
 
-dtp::FeatureMap FeatureParser::parse(const fs::path featureFilePath) const {
+auto FeatureParser::parse(const fs::path &featureFilePath) const -> dataTypes::FeatureMap {
     FileType fileType = getFileType(featureFilePath);
 
     return iterateFeatureFile(featureFilePath, fileType);
 }
 
-FileType FeatureParser::getFileType(const fs::path &featureFilePath) const {
+auto FeatureParser::getFileType(const fs::path &featureFilePath) -> FileType {
     std::ifstream file(featureFilePath.string());
     if (!file) {
         Logger::log(LogLevel::ERROR, "Could not open file: " + featureFilePath.string());
@@ -38,7 +47,8 @@ FileType FeatureParser::getFileType(const fs::path &featureFilePath) const {
 
     if (line.starts_with("##gff-version")) {
         return FileType(FileType::GFF);
-    } else if (line.starts_with("##gtf-version")) {
+    }
+    if (line.starts_with("##gtf-version")) {
         return FileType(FileType::GTF);
     }
 
@@ -47,9 +57,9 @@ FileType FeatureParser::getFileType(const fs::path &featureFilePath) const {
         "##gff-version or ##gtf-version");
 }
 
-dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePath,
-                                                  const FileType fileType) const {
-    dtp::FeatureMap featureMap;
+auto FeatureParser::iterateFeatureFile(const fs::path &featureFilePath,
+                                       const FileType fileType) const -> dataTypes::FeatureMap {
+    dataTypes::FeatureMap featureMap;
 
     std::ifstream file(featureFilePath.string());
 
@@ -65,35 +75,21 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
             continue;
         }
 
-        auto getTokens =
-            [](const std::string &line,
-               const auto &includedFeatures) -> std::optional<std::vector<std::string>> {
-            std::vector<std::string> tokens;
-            std::istringstream issLine(line);
-            for (std::string token; std::getline(issLine, token, '\t');) {
-                // Checks at the third token if the feature is included
-                if (tokens.size() == 2 && !includedFeatures.contains(token)) {
-                    return std::nullopt;
-                }
-
-                tokens.push_back(token);
-            }
-            return tokens;
-        };
-
         const auto tokens = getTokens(line, includedFeatures);
 
-        if (!isValidFeature(tokens)) continue;
+        if (!isValidFeature(tokens)) {
+            continue;
+        }
 
         const auto &tokens_v = tokens.value();
         const auto attributes = getAttributes(fileType, tokens_v[8]);
 
         auto getAttribute = [&attributes](const std::string &key) -> std::optional<std::string> {
-            const auto it = attributes.find(key);
-            if (it == attributes.end()) {
+            const auto iterator = attributes.find(key);
+            if (iterator == attributes.end()) {
                 return std::nullopt;
             }
-            return it->second;
+            return iterator->second;
         };
 
         const std::string featureIDFlag = this->featureIDFlag.value_or(fileType.defaultIDKey());
@@ -106,16 +102,20 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
 
         const std::string &referenceID = tokens_v[0];
         const std::string &featureType = tokens_v[2];
+
         int startPosition = std::stoi(tokens_v[3]);
         int endPosition = std::stoi(tokens_v[4]);
-        const std::optional<std::string> geneName = getAttribute(fileType.defaultGeneNameKey());
 
-        featureMap[referenceID].emplace_back(dtp::Feature{
+        const std::optional<std::string> geneName =
+            getAttribute(annotation::FileType::defaultGeneNameKey());
+
+        featureMap[referenceID].emplace_back(dataTypes::Feature{
             .referenceID = referenceID,
             .type = featureType,
             .startPosition = startPosition,
             .endPosition = endPosition,
-            .strand = tokens_v[6][0] == '+' ? dtp::Strand::FORWARD : dtp::Strand::REVERSE,
+            .strand = tokens_v[strandTokenColumn][0] == '+' ? dataTypes::Strand::FORWARD
+                                                            : dataTypes::Strand::REVERSE,
             .id = identifier.value(),
             .groupID = getAttribute(fileType.defaultGroupKey()),
             .geneName = geneName});
@@ -127,9 +127,11 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
         }
     }
 
-    const std::string includedFeatureTypes = std::accumulate(
-        includedFeatures.begin(), includedFeatures.end(), std::string(),
-        [](const std::string &a, const std::string &b) { return a.empty() ? b : a + ", " + b; });
+    const std::string includedFeatureTypes =
+        std::accumulate(includedFeatures.begin(), includedFeatures.end(), std::string(),
+                        [](const std::string &lhs, const std::string &rhs) {
+                            return lhs.empty() ? rhs : lhs + ", " + rhs;
+                        });
 
     const std::string featureGroupLog =
         featureGroups.empty()
@@ -142,21 +144,43 @@ dtp::FeatureMap FeatureParser::iterateFeatureFile(const fs::path &featureFilePat
     return featureMap;
 }
 
-std::unordered_map<std::string, std::string> const FeatureParser::getAttributes(
-    const annotation::FileType fileType, const std::string &attributes) const {
+auto FeatureParser::getTokens(const std::string &line,
+                              const std::unordered_set<std::string> &includedFeatures)
+    -> std::optional<std::vector<std::string>> {
+    std::vector<std::string> tokens;
+    std::istringstream issLine(line);
+    for (std::string token; std::getline(issLine, token, '\t');) {
+        // Checks at the third token if the feature is included
+        if (tokens.size() == 2 && !includedFeatures.contains(token)) {
+            return std::nullopt;
+        }
+
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
+auto FeatureParser::getAttributes(const annotation::FileType fileType,
+                                  const std::string &attributes)
+    -> std::unordered_map<std::string, std::string> {
     std::unordered_map<std::string, std::string> attributeMap;
     std::istringstream issAttr(attributes);
 
-    const char delim = fileType.attrDelim();
+    const char delim = annotation::FileType::attributeDelimiter();
 
     for (std::string attribute; std::getline(issAttr, attribute, delim);) {
         const auto keyPosition = attribute.find(fileType.attributeAssignment());
-        if (keyPosition == std::string::npos) continue;
+
+        if (keyPosition == std::string::npos) {
+            continue;
+        }
 
         std::string key = attribute.substr(0, keyPosition);
         std::string value = attribute.substr(keyPosition + 1);
 
-        if (key.empty() || value.empty()) continue;
+        if (key.empty() || value.empty()) {
+            continue;
+        }
 
         if (fileType == FileType::GTF) {
             const auto keyRet = std::ranges::remove(key, ' ');
@@ -171,11 +195,13 @@ std::unordered_map<std::string, std::string> const FeatureParser::getAttributes(
     return attributeMap;
 }
 
-constexpr bool FeatureParser::isValidFeature(
-    const std::optional<std::vector<std::string>> &tokens) const {
+constexpr auto FeatureParser::isValidFeature(const std::optional<std::vector<std::string>> &tokens)
+    -> bool {
     const std::array<char, 3> allowedStrand = {'+', '-', '.'};
-    return tokens.has_value() && tokens.value().size() == 9 &&
-           std::ranges::find(allowedStrand, tokens.value()[6][0]) != allowedStrand.end();
+
+    return tokens.has_value() && tokens.value().size() == exptectedGffFileTokenCount &&
+           std::ranges::find(allowedStrand, tokens.value()[strandTokenColumn][0]) !=
+               allowedStrand.end();
 }
 
 }  // namespace annotation

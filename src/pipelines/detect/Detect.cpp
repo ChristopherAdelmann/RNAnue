@@ -1,4 +1,4 @@
-#include "Detect.hpp"  // NOLINT
+#include "Detect.hpp"
 
 #include <cassert>
 #include <cstddef>
@@ -9,18 +9,16 @@
 #include <string>
 #include <vector>
 
-#include "DataTypes.hpp"
+// Internal
+#include "Constants.hpp"
+#include "CustomSamTags.hpp"  // NOLINT
 #include "DetectSample.hpp"
 #include "Logger.hpp"
 #include "Utility.hpp"
-#include "hts.h"
-#include "seqan3/io/sequence_file/input.hpp"
 
-using namespace dtp;
 using namespace dataTypes;
 
-namespace pipelines {
-namespace detect {
+namespace pipelines::detect {
 
 void Detect::process(const DetectData& data) {
     Logger::log(LogLevel::INFO, constants::pipelines::PROCESSING_TREATMENT_MESSAGE);
@@ -95,10 +93,10 @@ void Detect::processSample(const DetectSample& sample) const {
     fs::remove_all(outputTmpDir);
 }
 
-Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
-                                          AsyncGroupBufferType& recordInputBuffer,
-                                          const std::deque<std::string> refIDs,
-                                          const std::vector<size_t> refLengths) const {
+auto Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
+                                AsyncGroupBufferType& recordInputBuffer,
+                                const std::deque<std::string>& refIDs,
+                                const std::vector<size_t>& refLengths) const -> Detect::Result {
     const std::string chunkID = helper::getUUID();
 
     const fs::path splitsOutPath = outTmpDirs.outputTmpSplitsDir / (chunkID + ".bam");
@@ -147,10 +145,14 @@ Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
         std::unordered_set<size_t> invalidRecordHitGroups;
         std::vector<SamRecord> validRecordsGroup;
 
+        auto isInvalid = [&params = params](SamRecord& record) {
+            return static_cast<bool>(record.flag() & seqan3::sam_flag::unmapped) ||
+                   record.mapping_quality() < params.minimumMapQuality ||
+                   record.sequence().size() < params.minimumFragmentLength;
+        };
+
         for (SamRecord& record : recordGroup) {
-            if (static_cast<bool>(record.flag() & seqan3::sam_flag::unmapped) ||
-                record.mapping_quality() < params.minimumMapQuality ||
-                record.sequence().size() < params.minimumFragmentLength) {
+            if (isInvalid(record)) {
                 invalidRecordHitGroups.insert(record.tags().get<"HI"_tag>());
 
                 if (record.mapping_quality() < params.minimumMapQuality) {
@@ -201,8 +203,8 @@ Detect::Result Detect::processRecordChunk(const ChunkedOutTmpDirs& outTmpDirs,
             removedDueToReadLength};
 }
 
-const SplitRecordsEvaluationParameters::ParameterVariant Detect::getSplitRecordsEvaluatorParameters(
-    const DetectParameters& params) const {
+auto Detect::getSplitRecordsEvaluatorParameters(const DetectParameters& params) const
+    -> SplitRecordsEvaluationParameters::ParameterVariant {
     if (params.removeSplicingEvents) {
         return SplitRecordsEvaluationParameters::SplicingParameters{
             .baseParameters = {.minComplementarity = params.minimumComplementarity,
@@ -210,16 +212,16 @@ const SplitRecordsEvaluationParameters::ParameterVariant Detect::getSplitRecords
                                .mfeThreshold = params.maxHybridizationEnergy},
             .orientation = params.featureOrientation,
             .splicingTolerance = params.splicingTolerance,
-            .featureAnnotator = featureAnnotator};
-    } else {
-        return SplitRecordsEvaluationParameters::BaseParameters{
-            .minComplementarity = params.minimumComplementarity,
-            .minComplementarityFraction = params.minimumSiteLengthRatio,
-            .mfeThreshold = params.maxHybridizationEnergy};
+            .featureAnnotator = &featureAnnotator};
     }
+
+    return SplitRecordsEvaluationParameters::BaseParameters{
+        .minComplementarity = params.minimumComplementarity,
+        .minComplementarityFraction = params.minimumSiteLengthRatio,
+        .mfeThreshold = params.maxHybridizationEnergy};
 }
 
-std::deque<std::string> const& Detect::getReferenceIDs(const fs::path& mappingsInPath) const {
+auto Detect::getReferenceIDs(const fs::path& mappingsInPath) -> std::deque<std::string> {
     seqan3::sam_file_input alignmentsIn{mappingsInPath.string(), sam_field_ids{}};
 
     return alignmentsIn.header().ref_ids();
@@ -236,9 +238,9 @@ std::deque<std::string> const& Detect::getReferenceIDs(const fs::path& mappingsI
  * @param multiSplitsOut The output stream for multi split records.
  * @return The count of fragments for a specific record id.
  */
-size_t Detect::processReadRecords(const std::vector<SamRecord>& readRecords,
-                                  const std::deque<std::string>& referenceIDs, auto& splitsOut,
-                                  auto& multiSplitsOut) const {
+auto Detect::processReadRecords(const std::vector<SamRecord>& readRecords,
+                                const std::deque<std::string>& referenceIDs, auto& splitsOut,
+                                auto& multiSplitsOut) const -> size_t {
     if (readRecords.empty()) {
         return 0;
     }
@@ -255,7 +257,8 @@ size_t Detect::processReadRecords(const std::vector<SamRecord>& readRecords,
     return splitRecords.value().splitRecords.size();
 }
 
-std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord& readRecord) const {
+auto Detect::constructSplitRecords(const SamRecord& readRecord) const
+    -> std::optional<SplitRecords> {
     // Number of expected split records for within the record
     const size_t expectedSplitRecords = readRecord.tags().get<"XH"_tag>();
 
@@ -263,7 +266,8 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord& readR
     splitRecords.reserve(expectedSplitRecords);
 
     std::vector<seqan3::cigar> currentCigar{};
-    splitRecords.reserve(10);
+    constexpr size_t initialCigarCapacity = 10;
+    splitRecords.reserve(initialCigarCapacity);
 
     size_t referencePosition = readRecord.reference_position().value_or(0);
     size_t startPosRead{};
@@ -276,9 +280,11 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord& readR
 
     auto const addSplitRecord = [&]() {
         const auto splitSeq =
-            readRecord.sequence() | seqan3::views::slice(startPosRead, endPosRead);
+            readRecord.sequence() | seqan3::views::slice(static_cast<ptrdiff_t>(startPosRead),
+                                                         static_cast<ptrdiff_t>(endPosRead));
         const auto splitQual =
-            readRecord.base_qualities() | seqan3::views::slice(startPosRead, endPosRead);
+            readRecord.base_qualities() | seqan3::views::slice(static_cast<ptrdiff_t>(startPosRead),
+                                                               static_cast<ptrdiff_t>(endPosRead));
 
         if (splitSeq.size() < params.minimumFragmentLength) {
             isValid = false;
@@ -286,9 +292,9 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord& readR
         }
 
         seqan3::sam_tag_dictionary tags{};
-        tags.get<"XX"_tag>() = startPosSplit;
-        tags.get<"XY"_tag>() = endPosSplit;
-        tags.get<"XN"_tag>() = splitRecords.size();
+        tags.get<"XX"_tag>() = static_cast<int>(startPosSplit);
+        tags.get<"XY"_tag>() = static_cast<int>(endPosSplit);
+        tags.get<"XN"_tag>() = static_cast<float>(splitRecords.size());
 
         splitRecords.emplace_back(readRecord.id(), readRecord.flag(), readRecord.reference_id(),
                                   referencePosition, readRecord.mapping_quality(), currentCigar,
@@ -393,8 +399,8 @@ std::optional<SplitRecords> Detect::constructSplitRecords(const SamRecord& readR
  * @return An optional containing the split records if construction is
  * successful, otherwise std::nullopt.
  */
-std::optional<SplitRecords> Detect::constructSplitRecords(
-    const std::vector<SamRecord>& readRecords) const {
+auto Detect::constructSplitRecords(const std::vector<SamRecord>& readRecords) const
+    -> std::optional<SplitRecords> {
     // Number of expected split records for whole read
     const size_t expectedSplitRecords = readRecords.front().tags().get<"XJ"_tag>();
 
@@ -433,8 +439,9 @@ std::optional<SplitRecords> Detect::constructSplitRecords(
  * @return An optional containing the best evaluated split records, or an empty
  * optional if no split records were found.
  */
-std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords> Detect::getSplitRecords(
-    const std::vector<SamRecord>& readRecords, const std::deque<std::string>& referenceIDs) const {
+auto Detect::getSplitRecords(const std::vector<SamRecord>& readRecords,
+                             const std::deque<std::string>& referenceIDs) const
+    -> std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords> {
     std::unordered_map<size_t, std::vector<SamRecord>> recordHitGroups{};
     for (const auto& record : readRecords) {
         recordHitGroups[record.tags().get<"HI"_tag>()].push_back(record);
@@ -471,14 +478,14 @@ std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords> Detect::getSplitReco
     return bestSplitRecords;
 }
 
-void Detect::writeSamFile(auto& samOut, const std::vector<SamRecord>& splitRecords) const {
+void Detect::writeSamFile(auto& samOut, const std::vector<SamRecord>& splitRecords) {
     for (auto&& record : splitRecords) {
         auto [id, flag, ref_id, ref_offset, mapq, cigar, seq, qual, tags] = record;
         samOut.emplace_back(id, flag, ref_id, ref_offset, mapq, cigar, seq, qual, tags);
     }
 }
 
-Detect::ChunkedOutTmpDirs Detect::prepareTmpOutputDirs(const fs::path& tmpOutDir) const {
+auto Detect::prepareTmpOutputDirs(const fs::path& tmpOutDir) -> Detect::ChunkedOutTmpDirs {
     const fs::path outputTmpSplitsDir = tmpOutDir / "tmp_splits";
     const fs::path outputTmpMultisplitsDir = tmpOutDir / "tmp_multisplits";
     const fs::path outputTmpUnassignedContiguousRecordsDir =
@@ -492,7 +499,7 @@ Detect::ChunkedOutTmpDirs Detect::prepareTmpOutputDirs(const fs::path& tmpOutDir
 }
 
 void Detect::writeReadCountsSummaryFile(const Result& results, const std::string& sampleName,
-                                        const fs::path& statsFilePath) const {
+                                        const fs::path& statsFilePath) {
     std::ofstream statsFileStream(statsFilePath);
 
     if (!statsFileStream.is_open()) {
@@ -504,7 +511,7 @@ void Detect::writeReadCountsSummaryFile(const Result& results, const std::string
                     << results.singletonFragmentsCount << "\n";
 }
 
-void Detect::mergeOutputFiles(const ChunkedOutTmpDirs& tmpDirs, const DetectOutput& output) const {
+void Detect::mergeOutputFiles(const ChunkedOutTmpDirs& tmpDirs, const DetectOutput& output) {
     std::vector<fs::path> splitsOutFilePaths =
         helper::getValidFilePaths(tmpDirs.outputTmpSplitsDir, {".bam"});
     std::vector<fs::path> multisplitsOutFilePaths =
@@ -519,7 +526,7 @@ void Detect::mergeOutputFiles(const ChunkedOutTmpDirs& tmpDirs, const DetectOutp
 }
 
 void Detect::writeTranscriptCountsFile(const fs::path& transcriptCountsFilePath,
-                                       const TranscriptCounts& transcriptCounts) const {
+                                       const TranscriptCounts& transcriptCounts) {
     std::ofstream transcriptCountsFileStream(transcriptCountsFilePath);
 
     if (!transcriptCountsFileStream.is_open()) {
@@ -531,5 +538,4 @@ void Detect::writeTranscriptCountsFile(const fs::path& transcriptCountsFilePath,
     }
 }
 
-}  // namespace detect
-}  // namespace pipelines
+}  // namespace pipelines::detect

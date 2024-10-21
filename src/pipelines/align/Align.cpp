@@ -13,8 +13,7 @@
 #include "Utility.hpp"
 #include "VariantOverload.hpp"
 
-namespace pipelines {
-namespace align {
+namespace pipelines::align {
 
 void Align::process(const AlignData &data) {
     buildIndex();
@@ -66,16 +65,17 @@ void Align::processMergedPairedEnd(const AlignSampleMergedPaired &sample) {
     alignSingleReads(sample.input.inputSingletonReverseFastqPath,
                      sample.output.outputAlignmentsSingletonReverseReadsPath);
 
-    helper::mergeSamFiles({sample.output.outputAlignmentsMergedReadsPath,
-                           sample.output.outputAlignmentsSingletonForwardReadsPath,
-                           sample.output.outputAlignmentsSingletonReverseReadsPath},
-                          sample.output.outputAlignmentsPath);
+    std::vector<fs::path> samFiles = {sample.output.outputAlignmentsMergedReadsPath,
+                                      sample.output.outputAlignmentsSingletonForwardReadsPath,
+                                      sample.output.outputAlignmentsSingletonReverseReadsPath};
+
+    helper::mergeSamFiles(samFiles, sample.output.outputAlignmentsPath);
 
     sortAlignmentsByQueryName(sample.output.outputAlignmentsPath,
                               sample.output.outputAlignmentsPath);
 }
 
-std::optional<fs::path> Align::findIndex(const fs::path &referenceGenomePath) const {
+auto Align::findIndex(const fs::path &referenceGenomePath) const -> std::optional<fs::path> {
     // Check if index exists in the same directory as the reference genome
     fs::path indexFileName = referenceGenomePath.filename().replace_extension(".idx");
     fs::path indexPath = referenceGenomePath.parent_path() / indexFileName;
@@ -96,7 +96,7 @@ std::optional<fs::path> Align::findIndex(const fs::path &referenceGenomePath) co
 
 void Align::buildIndex() {
     fs::path referencePath = parameters.referenceGenome;
-    int const threads = parameters.threadCount;
+    size_t const threads = parameters.threadCount;
 
     const auto indexFilePath = findIndex(referencePath);
 
@@ -112,14 +112,14 @@ void Align::buildIndex() {
 
     auto c_args = convertToCStrings(args);
 
-    int result = segemehl(c_args.size() - 1, c_args.data());
+    int result = segemehl(static_cast<int>(c_args.size()) - 1, c_args.data());
 
     if (result != 0) {
         Logger::log(LogLevel::ERROR, "Could not create index for: ", referencePath);
     }
 }
 
-std::vector<std::string> Align::getGeneralAlignmentArgs() const {
+auto Align::getGeneralAlignmentArgs() const -> std::vector<std::string> {
     return {"-b", "-S",
             "-A", std::to_string(parameters.accuracy),
             "-U", std::to_string(parameters.minimumFragmentScore),
@@ -140,7 +140,7 @@ void Align::alignSingleReads(const fs::path &queryFastqInPath,
 
     auto c_args = convertToCStrings(args);
 
-    int result = segemehl(c_args.size() - 1, c_args.data());
+    int result = segemehl(static_cast<int>(c_args.size()) - 1, c_args.data());
 
     if (result != 0) {
         Logger::log(LogLevel::ERROR, "Could not align reads");
@@ -158,7 +158,7 @@ void Align::alignPairedReads(const fs::path &queryForwardFastqInPath,
 
     auto c_args = convertToCStrings(args);
 
-    int result = segemehl(c_args.size() - 1, c_args.data());
+    int result = segemehl(static_cast<int>(c_args.size()) - 1, c_args.data());
 
     if (result != 0) {
         Logger::log(LogLevel::ERROR, "Could not align reads");
@@ -176,12 +176,14 @@ void Align::sortAlignmentsByQueryName(const fs::path &alignmentsPath,
     const htsFormat outFmt = {sequence_data, bam, {1, 6}, no_compression, 0, 0};
 
     const fs::path tempDir = fs::path(alignmentsPath).parent_path();
-    char emptyStr[] = "";
-    const char wbStr[] = "wb";
+    char emptyStr[] = "";       // NOLINT
+    const char wbStr[] = "wb";  // NOLINT
 
+    // NOLINTBEGIN
     int ret = bam_sort_core_ext(QueryName, emptyStr, 0, true, true, alignmentsPath.c_str(),
                                 tempDir.c_str(), sortedAlignmentsPath.c_str(), wbStr, maxMem,
-                                int(parameters.threadCount), &inFmt, &outFmt, emptyStr, true, 0);
+                                int(parameters.threadCount), &inFmt, &outFmt, emptyStr, 1, 0);
+    // NOLINTEND
 
     if (ret != 0) {
         Logger::log(LogLevel::ERROR, "Could not sort alignments");
@@ -190,14 +192,13 @@ void Align::sortAlignmentsByQueryName(const fs::path &alignmentsPath,
     Logger::log(LogLevel::INFO, "Sorting alignments done");
 }
 
-std::vector<char *> Align::convertToCStrings(std::vector<std::string> &args) const {
+auto Align::convertToCStrings(std::vector<std::string> &args) -> std::vector<char *> {
     std::vector<char *> c_args(args.size() + 1);
     std::transform(args.begin(), args.end(), c_args.begin(),
-                   [](std::string &arg) { return const_cast<char *>(arg.c_str()); });
+                   [](std::string &arg) { return const_cast<char *>(arg.c_str()); });  // NOLINT
     c_args.back() = nullptr;  // argv must be null terminated
 
     return c_args;
 }
 
-}  // namespace align
-}  // namespace pipelines
+}  // namespace pipelines::align

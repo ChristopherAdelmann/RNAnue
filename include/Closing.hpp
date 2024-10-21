@@ -1,20 +1,13 @@
 #pragma once
 
 // Standard
-#include <algorithm>
-#include <random>
+#include <string>
 #include <vector>
-
-// Classes
-#include "Logger.hpp"
 
 class Closing {
    private:
-    static std::vector<std::string> retrieveQuotes();
+    static auto retrieveQuotes() -> std::vector<std::string>;
 
    public:
-    Closing() = delete;
-    ~Closing() = delete;
-
     static void printQuote();
 };

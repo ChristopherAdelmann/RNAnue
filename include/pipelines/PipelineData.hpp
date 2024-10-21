@@ -1,25 +1,19 @@
 #pragma once
 
 // Standard
-#include <array>
 #include <concepts>
 #include <cstddef>
 #include <filesystem>
-#include <optional>
 #include <ranges>
 #include <string>
-#include <type_traits>
 #include <vector>
 
-// Classes
+// Internal
 #include "Logger.hpp"
-#include "Utility.hpp"
 
 namespace pipelines {
 
 namespace fs = std::filesystem;
-
-using namespace helper;
 
 template <typename Container>
 concept StringContainer = std::ranges::range<Container> &&
@@ -30,12 +24,12 @@ static const std::string controlSampleGroup = "control";
 
 struct PipelineData {
    protected:
-    static bool isHidden(const std::filesystem::path &path) {
+    static auto isHidden(const std::filesystem::path &path) -> bool {
         std::string filename = path.filename().string();
         return !filename.empty() && filename[0] == '.';
     }
 
-    static std::string getSampleName(const fs::path &filePath) {
+    static auto getSampleName(const fs::path &filePath) -> std::string {
         std::string fileName = filePath.stem().string();
         size_t underscorePos = fileName.find("_");
         if (underscorePos != std::string::npos) {
@@ -45,12 +39,12 @@ struct PipelineData {
         }
     }
 
-    static bool contains(const std::string &fullString, const std::string &substring) {
+    static auto contains(const std::string &fullString, const std::string &substring) -> bool {
         return fullString.find(substring) != std::string::npos;
     };
 
     template <StringContainer Container>
-    static bool containsAny(const std::string &fullString, const Container &substrings) {
+    static auto containsAny(const std::string &fullString, const Container &substrings) -> bool {
         for (const auto &substring : substrings) {
             if (contains(fullString, substring)) {
                 return true;
@@ -59,7 +53,7 @@ struct PipelineData {
         return false;
     };
 
-    static std::vector<fs::path> getSubDirectories(const fs::path &parentDir) {
+    static auto getSubDirectories(const fs::path &parentDir) -> std::vector<fs::path> {
         std::vector<fs::path> directories;
         for (const auto &entry : fs::directory_iterator(parentDir)) {
             if (entry.is_directory()) {

@@ -3,17 +3,12 @@
 // Standard
 #include <deque>
 #include <iostream>
-#include <optional>
 #include <variant>
 
-// Classes
-#include "CooptimalPairwiseAligner.hpp"
-#include "DataTypes.hpp"
-#include "FeatureAnnotator.hpp"
+// Internal
 #include "SplitRecordsComplementarityEvaluator.hpp"
 #include "SplitRecordsEvaluationParameters.hpp"
 #include "SplitRecordsHybridizationEvaluator.hpp"
-#include "SplitRecordsSplicingEvaluator.hpp"
 
 using namespace seqan3::literals;
 
@@ -24,8 +19,8 @@ class SplitRecordsEvaluator {
         SplitRecordsComplementarityEvaluator::Result complementarityResult;
         SplitRecordsHybridizationEvaluator::Result hybridizationResult;
 
-        bool operator<(const EvaluatedSplitRecords &other) const;
-        bool operator>(const EvaluatedSplitRecords &other) const;
+        auto operator<(const EvaluatedSplitRecords &other) const -> bool;
+        auto operator>(const EvaluatedSplitRecords &other) const -> bool;
     };
 
     enum class FilterReason { NO_SPLIT_READ, UNMAPPED, SPLICING, COMPLEMENTARITY, HYBRIDIZATION };
@@ -34,27 +29,29 @@ class SplitRecordsEvaluator {
 
     explicit SplitRecordsEvaluator(
         const std::variant<SplitRecordsEvaluationParameters::BaseParameters,
-                           SplitRecordsEvaluationParameters::SplicingParameters>
-            parameters);
-    ~SplitRecordsEvaluator() = default;
+                           SplitRecordsEvaluationParameters::SplicingParameters> &parameters);
 
-    Result evaluate(SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs) const;
+    auto evaluate(SplitRecords &splitRecords,
+                  const std::deque<std::string> &referenceIDs) const -> Result;
 
    private:
     std::variant<SplitRecordsEvaluationParameters::BaseParameters,
                  SplitRecordsEvaluationParameters::SplicingParameters>
         parameters;
 
-    Result evaluateBase(SplitRecords &splitRecords,
-                        const SplitRecordsEvaluationParameters::BaseParameters &parameters) const;
+    auto evaluateBase(SplitRecords &splitRecords,
+                      const SplitRecordsEvaluationParameters::BaseParameters &parameters) const
+        -> Result;
 
-    Result evaluateSplicing(
+    auto evaluateSplicing(
         SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs,
-        const SplitRecordsEvaluationParameters::SplicingParameters &parameters) const;
+        const SplitRecordsEvaluationParameters::SplicingParameters &parameters) const -> Result;
 
-    void addTagsToRecords(SplitRecords &splitRecords,
-                          const SplitRecordsComplementarityEvaluator::Result &complementarity,
-                          const SplitRecordsHybridizationEvaluator::Result &hybridization) const;
+    static void addTagsToRecords(
+        SplitRecords &splitRecords,
+        const SplitRecordsComplementarityEvaluator::Result &complementarity,
+        const SplitRecordsHybridizationEvaluator::Result &hybridization);
 };
 
-std::ostream &operator<<(std::ostream &os, const SplitRecordsEvaluator::FilterReason &reason);
+auto operator<<(std::ostream &ostream,
+                const SplitRecordsEvaluator::FilterReason &reason) -> std::ostream &;

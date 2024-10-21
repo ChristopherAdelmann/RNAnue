@@ -1,31 +1,43 @@
 #include "ParameterParser.hpp"
 
+#include <fstream>
+#include <iostream>
+#include <string>
+
+#include "Closing.hpp"
+#include "Constants.hpp"
+#include "Logger.hpp"
 #include "ParameterOptions.hpp"
 
 namespace pipelines {
-ParameterParser::ParametersVariant ParameterParser::getParameters(int argc,
-                                                                  const char *const argv[]) {
+auto ParameterParser::getParameters(int argc, const char *const argv[])  // NOLINT
+    -> ParameterParser::ParametersVariant {
     const auto params = parseParameters(argc, argv);
 
     const std::string subcall = params["subcall"].as<std::string>();
 
     if (subcall == constants::pipelines::COMPLETE) {
         return CompleteParameters{params};
-    } else if (subcall == constants::pipelines::PREPROCESS) {
-        return preprocess::PreprocessParameters{params};
-    } else if (subcall == constants::pipelines::ALIGN) {
-        return AlignParameters{params};
-    } else if (subcall == constants::pipelines::DETECT) {
-        return DetectParameters{params};
-    } else if (subcall == constants::pipelines::ANALYZE) {
-        return AnalyzeParameters{params};
-    } else {
-        Logger::log(LogLevel::ERROR, "Unknown subcall: " + subcall);
-        exit(EXIT_FAILURE);
     }
+    if (subcall == constants::pipelines::PREPROCESS) {
+        return preprocess::PreprocessParameters{params};
+    }
+    if (subcall == constants::pipelines::ALIGN) {
+        return AlignParameters{params};
+    }
+    if (subcall == constants::pipelines::DETECT) {
+        return DetectParameters{params};
+    }
+    if (subcall == constants::pipelines::ANALYZE) {
+        return AnalyzeParameters{params};
+    }
+
+    Logger::log(LogLevel::ERROR, "Unknown subcall: " + subcall);
+    exit(EXIT_FAILURE);
 }
 
-po::variables_map ParameterParser::parseParameters(int argc, const char *const argv[]) {
+auto ParameterParser::parseParameters(int argc,
+                                      const char *const argv[]) -> po::variables_map {  // NOLINT
     const po::options_description commandLineOptions{getCommandLineOptions()};
 
     const po::positional_options_description positionalOptions{getPositionalOptions()};
@@ -41,18 +53,18 @@ po::variables_map ParameterParser::parseParameters(int argc, const char *const a
 
     printVersion();
 
-    if (params.count("version")) {
+    if (params.count("version") != 0U) {
         Closing::printQuote();
         exit(EXIT_SUCCESS);
     }
 
-    if (params.count("help")) {
+    if (params.count("help") != 0U) {
         std::cout << commandLineOptions << std::endl;
         Closing::printQuote();
         exit(EXIT_SUCCESS);
     }
 
-    if (!params.count("subcall")) {
+    if (params.count("subcall") == 0U) {
         Logger::log(LogLevel::ERROR, "Please provide a subcall.");
     }
 
@@ -64,7 +76,9 @@ po::variables_map ParameterParser::parseParameters(int argc, const char *const a
 }
 
 void ParameterParser::insertConfigFileParameters(po::variables_map &params) {
-    if (params.count("config") == 0) return;
+    if (params.count("config") == 0) {
+        return;
+    }
 
     const po::options_description configFileOptions{getConfigFileOptions()};
 
@@ -80,7 +94,7 @@ void ParameterParser::insertConfigFileParameters(po::variables_map &params) {
     notify(params);
 }
 
-po::options_description ParameterParser::getCommandLineOptions() {
+auto ParameterParser::getCommandLineOptions() -> po::options_description {
     const po::options_description generalOptions{ParameterOptions::getGeneralOptions()};
     const po::options_description preprocessOptions{ParameterOptions::getPreprocessOptions()};
     const po::options_description alignOptions{ParameterOptions::getAlignOptions()};
@@ -102,7 +116,7 @@ po::options_description ParameterParser::getCommandLineOptions() {
     return commandLineOptions;
 }
 
-po::options_description ParameterParser::getConfigFileOptions() {
+auto ParameterParser::getConfigFileOptions() -> po::options_description {
     const po::options_description generalOptions{ParameterOptions::getGeneralOptions()};
     const po::options_description preprocessOptions{ParameterOptions::getPreprocessOptions()};
     const po::options_description alignOptions{ParameterOptions::getAlignOptions()};
@@ -120,7 +134,7 @@ po::options_description ParameterParser::getConfigFileOptions() {
     return configFileOptions;
 }
 
-po::positional_options_description ParameterParser::getPositionalOptions() {
+auto ParameterParser::getPositionalOptions() -> po::positional_options_description {
     po::positional_options_description positionalOptions;
     positionalOptions.add("subcall", 1);
 

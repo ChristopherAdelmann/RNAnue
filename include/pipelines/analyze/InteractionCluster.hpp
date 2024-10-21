@@ -7,12 +7,10 @@
 #include <utility>
 #include <vector>
 
-// Classes
+// Internal
 #include "Segment.hpp"
-#include "Utility.hpp"
 
-namespace pipelines {
-namespace analyze {
+namespace pipelines::analyze {
 
 struct InteractionCluster {
     InteractionCluster(std::pair<Segment, Segment> segments,
@@ -31,31 +29,32 @@ struct InteractionCluster {
     std::optional<double> pValue = std::nullopt;
     std::optional<double> pAdj = std::nullopt;
 
-    static std::optional<InteractionCluster> fromSegments(const Segment &segment1,
-                                                          const Segment &segment2);
+    static auto fromSegments(const Segment &segment1,
+                             const Segment &segment2) -> std::optional<InteractionCluster>;
 
-    bool operator<(const InteractionCluster &a) const;
-    bool operator>(const InteractionCluster &a) const;
-    bool operator==(const InteractionCluster &a) const;
+    auto operator<(const InteractionCluster &other) const -> bool;
+    auto operator>(const InteractionCluster &other) const -> bool;
+    auto operator==(const InteractionCluster &other) const -> bool;
 
-    bool overlaps(const InteractionCluster &other, const int graceDistance) const;
+    [[nodiscard]] auto overlaps(const InteractionCluster &other, int graceDistance) const -> bool;
 
     void merge(const InteractionCluster &other);
 
-    double complementarityStatistics() const;
+    [[nodiscard]] auto complementarityStatistics() const -> double;
 
-    double hybridizationEnergyStatistics() const;
+    [[nodiscard]] auto hybridizationEnergyStatistics() const -> double;
 
    private:
     InteractionCluster(std::pair<Segment, Segment> segments,
                        const std::vector<double> &complementarityScores,
                        const std::vector<double> &hybridizationEnergies);
 
-    static std::optional<std::pair<Segment, Segment>> getSortedElements(const Segment &segment1,
-                                                                        const Segment &segment2);
+    static auto getSortedElements(const Segment &segment1, const Segment &segment2)
+        -> std::optional<std::pair<Segment, Segment>>;
 };
 
-inline std::ostream &operator<<(std::ostream &os, const InteractionCluster &interactionCluster) {
+inline auto operator<<(std::ostream &os,
+                       const InteractionCluster &interactionCluster) -> std::ostream & {
     return os << "InteractionCluster:\n"
               << "First segment: " << interactionCluster.segments.first
               << "\nSecond segment id: " << interactionCluster.segments.second << "\n"
@@ -66,5 +65,4 @@ inline std::ostream &operator<<(std::ostream &os, const InteractionCluster &inte
               << "Count: " << interactionCluster.count << "\n";
 };
 
-}  // namespace analyze
-}  // namespace pipelines
+}  // namespace pipelines::analyze

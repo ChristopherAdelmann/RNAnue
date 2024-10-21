@@ -1,5 +1,9 @@
 #include "InteractionClusterGenerator.hpp"
 
+#include <execution>
+
+#include "Logger.hpp"
+
 namespace pipelines {
 namespace analyze {
 
@@ -13,8 +17,9 @@ namespace analyze {
  * @param clusters A reference to the list of interaction clusters to be merged.
  * @return A list of finalized interaction clusters.
  */
-InteractionClusterGenerator::InteractionClusters InteractionClusterGenerator::mergeClusters(
-    InteractionClusterGenerator::InteractionClusters& clusters) noexcept {
+auto InteractionClusterGenerator::mergeClusters(
+    InteractionClusterGenerator::InteractionClusters& clusters) noexcept
+    -> InteractionClusterGenerator::InteractionClusters {
     // Clusters should be sorted from back to front
     std::sort(std::execution::par_unseq, clusters.begin(), clusters.end(), std::less<>{});
 
@@ -33,7 +38,9 @@ InteractionClusterGenerator::InteractionClusters InteractionClusterGenerator::me
                 iter->merge(cluster);
                 clusterWasMerged = true;
                 break;
-            } else if (clusterIsBeforeOpenCluster(cluster, *iter)) {
+            }
+
+            if (clusterIsBeforeOpenCluster(cluster, *iter)) {
                 finalizeCluster(std::move(*iter));
                 iter = openClusterQueue.erase_after(prevIter);
                 continue;
@@ -73,16 +80,17 @@ void InteractionClusterGenerator::finalizeCluster(InteractionCluster cluster) no
     finishedClusters.emplace_back(std::move(cluster));
 }
 
-bool InteractionClusterGenerator::clusterIsBeforeOpenCluster(
-    const InteractionCluster& cluster, const InteractionCluster& openCluster) const noexcept {
+auto InteractionClusterGenerator::clusterIsBeforeOpenCluster(
+    const InteractionCluster& cluster, const InteractionCluster& openCluster) noexcept -> bool {
     return (cluster.segments.second.referenceIDIndex <
             openCluster.segments.second.referenceIDIndex) ||
            (cluster.segments.second.end < openCluster.segments.second.start);
 }
 
 void InteractionClusterGenerator::logClusteringStatus() const noexcept {
+    constexpr size_t LOGGING_INTERVAL = 100000;
     const size_t totalClusterCount = includedClusterCount + excludedClusterCount;
-    if (totalClusterCount % 100000 == 0 && finishedClusters.size() != 0) {
+    if (totalClusterCount % LOGGING_INTERVAL == 0 && finishedClusters.size() != 0) {
         Logger::log(LogLevel::INFO, "(", sampleName, ") Processed ", totalClusterCount,
                     " clusters. Included ", includedClusterCount, " clusters, excluded ",
                     excludedClusterCount, " clusters");

@@ -8,7 +8,7 @@
 #include <boost/program_options.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-// Classes
+// Internal
 #include "GeneralParameters.hpp"
 #include "ParameterValidator.hpp"
 

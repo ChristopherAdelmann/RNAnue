@@ -4,7 +4,7 @@
 #include <boost/program_options.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-// Classes
+// Internal
 #include "AlignParameters.hpp"
 #include "AnalyzeParameters.hpp"
 #include "DetectParameters.hpp"

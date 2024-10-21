@@ -1,9 +1,17 @@
 #include "SplitRecordsHybridizationEvaluator.hpp"
 
-std::optional<SplitRecordsHybridizationEvaluator::Result>
-SplitRecordsHybridizationEvaluator::evaluate(
+// seqan3
+#include <seqan3/alphabet/views/char_to.hpp>
+#include <seqan3/alphabet/views/to_char.hpp>
+#include <seqan3/utility/all.hpp>
+
+// Internal
+#include "Logger.hpp"
+
+auto SplitRecordsHybridizationEvaluator::evaluate(
     const SplitRecords &splitRecords,
-    const SplitRecordsEvaluationParameters::BaseParameters &parameters) {
+    const SplitRecordsEvaluationParameters::BaseParameters &parameters)
+    -> std::optional<SplitRecordsHybridizationEvaluator::Result> {
     const seqan3::dna5_vector &sequence1 = splitRecords[0].sequence();
     const seqan3::dna5_vector &sequence2 = splitRecords[1].sequence();
 
@@ -13,24 +21,24 @@ SplitRecordsHybridizationEvaluator::evaluate(
 
     std::string interactionSeq = toString(sequence1) + "&" + toString(sequence2);
 
-    vrna_fold_compound_t *vc =
-        vrna_fold_compound(interactionSeq.c_str(), NULL, VRNA_OPTION_DEFAULT | VRNA_OPTION_HYBRID);
-    char *structure = new char[interactionSeq.size() + 1];
-    float mfe = vrna_cofold(interactionSeq.c_str(), structure);
+    vrna_fold_compound_t *foldCompound = vrna_fold_compound(
+        interactionSeq.c_str(), nullptr, VRNA_OPTION_DEFAULT | VRNA_OPTION_HYBRID);
+    std::unique_ptr<char[]> structure(new char[interactionSeq.size() + 1]);  // NOLINT
+    float mfe = vrna_cofold(interactionSeq.c_str(), structure.get());
 
     if (mfe > parameters.mfeThreshold) {
         return std::nullopt;
     }
 
-    auto secondaryStructure = std::string(vrna_cut_point_insert(structure, sequence1.size() + 1)) |
+    auto secondaryStructure = std::string(vrna_cut_point_insert(
+                                  structure.get(), static_cast<int>(sequence1.size()) + 1)) |
                               seqan3::views::char_to<seqan3::dot_bracket3> |
                               seqan3::ranges::to<std::vector>();
 
     std::optional<SplitRecordsHybridizationEvaluator::Result::CrosslinkingResult>
         crosslinkingResult = findCrosslinkingSites(sequence1, sequence2, secondaryStructure);
 
-    delete[] structure;
-    vrna_fold_compound_free(vc);
+    vrna_fold_compound_free(foldCompound);
 
     return SplitRecordsHybridizationEvaluator::Result{mfe, crosslinkingResult};
 }
@@ -52,10 +60,10 @@ const std::map<SplitRecordsHybridizationEvaluator::NucleotideWindowPair, size_t>
         {{"GT"_dna5, "TA"_dna5}, 1},
         {{"GT"_dna5, "TG"_dna5}, 1}};
 
-std::optional<SplitRecordsHybridizationEvaluator::Result::CrosslinkingResult>
-SplitRecordsHybridizationEvaluator::findCrosslinkingSites(
+auto SplitRecordsHybridizationEvaluator::findCrosslinkingSites(
     std::span<const seqan3::dna5> sequence1, std::span<const seqan3::dna5> sequence2,
-    std::vector<seqan3::dot_bracket3> &dotbracket) {
+    std::vector<seqan3::dot_bracket3> &dotbracket)
+    -> std::optional<SplitRecordsHybridizationEvaluator::Result::CrosslinkingResult> {
     if (sequence1.empty() || sequence2.empty() || dotbracket.empty()) {
         Logger::log(LogLevel::WARNING, "Empty input sequences or dot-bracket vector!");
         return std::nullopt;
@@ -150,10 +158,10 @@ SplitRecordsHybridizationEvaluator::findCrosslinkingSites(
                                       nonPreferredCrosslinkingCount, wobbleCrosslinkingCount};
 }
 
-std::optional<SplitRecordsHybridizationEvaluator::InteractionWindow>
-SplitRecordsHybridizationEvaluator::getContinuosNucleotideWindows(
+auto SplitRecordsHybridizationEvaluator::getContinuosNucleotideWindows(
     std::span<const seqan3::dna5> sequence1, std::span<const seqan3::dna5> sequence2,
-    NucleotidePositionsWindow positionsPair) {
+    NucleotidePositionsWindow positionsPair)
+    -> std::optional<SplitRecordsHybridizationEvaluator::InteractionWindow> {
     std::pair<uint16_t, uint16_t> forwardPair =
         std::make_pair(positionsPair.first.first, positionsPair.second.first);
     std::pair<uint16_t, uint16_t> reversePair =

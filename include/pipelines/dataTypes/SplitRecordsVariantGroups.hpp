@@ -3,7 +3,7 @@
 // Standard
 #include <vector>
 
-// Classes
+// Internal
 #include "SplitRecords.hpp"
 
 namespace dataTypes {

@@ -1,11 +1,8 @@
 #pragma once
 
 // Standard
-#include <algorithm>
 #include <deque>
 #include <filesystem>
-#include <fstream>
-#include <future>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -16,29 +13,27 @@
 #include <seqan3/alphabet/cigar/cigar.hpp>
 #include <seqan3/io/sam_file/all.hpp>
 
-// Classes
+// Internal
 #include "AsyncSplitRecordGroupBuffer.hpp"
-#include "Constants.hpp"
-#include "CustomSamTags.hpp"
-#include "DataTypes.hpp"
 #include "DetectData.hpp"
 #include "DetectParameters.hpp"
 #include "DetectSample.hpp"
 #include "FeatureAnnotator.hpp"
-#include "Logger.hpp"
 #include "SplitRecords.hpp"
 #include "SplitRecordsEvaluationParameters.hpp"
 #include "SplitRecordsEvaluator.hpp"
-#include "Utility.hpp"
 
 using namespace dataTypes;
 
-namespace pipelines {
-namespace detect {
+namespace pipelines::detect {
 namespace fs = std::filesystem;
 
 class Detect {
    public:
+    Detect(const Detect &) = default;
+    Detect(Detect &&) = delete;
+    auto operator=(const Detect &) -> Detect & = delete;
+    auto operator=(Detect &&) -> Detect & = delete;
     explicit Detect(DetectParameters params)
         : params(params),
           featureAnnotator(params.featuresInPath, params.featureTypes),
@@ -86,38 +81,38 @@ class Detect {
     annotation::FeatureAnnotator featureAnnotator;
     SplitRecordsEvaluator splitRecordsEvaluator;
 
-    const SplitRecordsEvaluationParameters::ParameterVariant getSplitRecordsEvaluatorParameters(
-        const DetectParameters &params) const;
+    [[nodiscard]] auto getSplitRecordsEvaluatorParameters(const DetectParameters &params) const
+        -> SplitRecordsEvaluationParameters::ParameterVariant;
 
-    const std::deque<std::string> &getReferenceIDs(const fs::path &mappingsInPath) const;
+    static auto getReferenceIDs(const fs::path &mappingsInPath) -> std::deque<std::string>;
 
     void processSample(const DetectSample &sample) const;
 
-    Result processRecordChunk(const ChunkedOutTmpDirs &outTmpDirs,
-                              AsyncGroupBufferType &recordInputBuffer,
-                              const std::deque<std::string> refIDs,
-                              const std::vector<size_t> refLengths) const;
-    size_t processReadRecords(const std::vector<SamRecord> &readRecords,
-                              const std::deque<std::string> &referenceIDs, auto &splitsOut,
-                              [[maybe_unused]] auto &multiSplitsOut) const;
+    auto processRecordChunk(const ChunkedOutTmpDirs &outTmpDirs,
+                            AsyncGroupBufferType &recordInputBuffer,
+                            const std::deque<std::string> &refIDs,
+                            const std::vector<size_t> &refLengths) const -> Result;
+    auto processReadRecords(const std::vector<SamRecord> &readRecords,
+                            const std::deque<std::string> &referenceIDs, auto &splitsOut,
+                            [[maybe_unused]] auto &multiSplitsOut) const -> size_t;
 
-    std::optional<SplitRecords> constructSplitRecords(const SamRecord &readRecord) const;
-    std::optional<SplitRecords> constructSplitRecords(
-        const std::vector<SamRecord> &readRecords) const;
-    std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords> getSplitRecords(
-        const std::vector<SamRecord> &readRecords,
-        const std::deque<std::string> &referenceIDs) const;
+    [[nodiscard]] auto constructSplitRecords(const SamRecord &readRecord) const
+        -> std::optional<SplitRecords>;
+    [[nodiscard]] auto constructSplitRecords(const std::vector<SamRecord> &readRecords) const
+        -> std::optional<SplitRecords>;
+    [[nodiscard]] auto getSplitRecords(const std::vector<SamRecord> &readRecords,
+                                       const std::deque<std::string> &referenceIDs) const
+        -> std::optional<SplitRecordsEvaluator::EvaluatedSplitRecords>;
 
-    void mergeOutputFiles(const ChunkedOutTmpDirs &tmpDirs, const DetectOutput &output) const;
-    void writeSamFile(auto &samOut, const std::vector<SamRecord> &splitRecords) const;
+    static void mergeOutputFiles(const ChunkedOutTmpDirs &tmpDirs, const DetectOutput &output);
+    static void writeSamFile(auto &samOut, const std::vector<SamRecord> &splitRecords);
 
-    void writeTranscriptCountsFile(const fs::path &transcriptCountsFilePath,
-                                   const TranscriptCounts &transcriptCounts) const;
-    void writeReadCountsSummaryFile(const Result &results, const std::string &sampleName,
-                                    const fs::path &statsFilePath) const;
+    static void writeTranscriptCountsFile(const fs::path &transcriptCountsFilePath,
+                                          const TranscriptCounts &transcriptCounts);
+    static void writeReadCountsSummaryFile(const Result &results, const std::string &sampleName,
+                                           const fs::path &statsFilePath);
 
-    ChunkedOutTmpDirs prepareTmpOutputDirs(const fs::path &tmpOutDir) const;
+    [[nodiscard]] static auto prepareTmpOutputDirs(const fs::path &tmpOutDir) -> ChunkedOutTmpDirs;
 };
 
-}  // namespace detect
-}  // namespace pipelines
+}  // namespace pipelines::detect

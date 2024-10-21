@@ -3,10 +3,7 @@
 // Standard
 #include <climits>
 #include <cstddef>
-#include <cstdint>
 #include <filesystem>
-#include <istream>
-#include <set>
 #include <string>
 #include <unordered_set>
 
@@ -14,7 +11,7 @@
 #include <boost/program_options.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-// Classes
+// Internal
 #include "Logger.hpp"
 #include "Orientation.hpp"
 #include "ParameterValidator.hpp"

@@ -2,9 +2,6 @@
 
 // Standard
 #include <cstdlib>
-#include <fstream>
-#include <iostream>
-#include <string>
 #include <variant>
 
 // Boost
@@ -13,17 +10,12 @@
 #include <boost/program_options/positional_options.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-// Classes
+// Internal
 #include "AlignParameters.hpp"
 #include "AnalyzeParameters.hpp"
-#include "Closing.hpp"
 #include "CompleteParameters.hpp"
 #include "Config.hpp"
-#include "Constants.hpp"
 #include "DetectParameters.hpp"
-#include "GeneralParameters.hpp"
-#include "Logger.hpp"
-#include "ParameterOptions.hpp"
 #include "PreprocessParameters.hpp"
 
 namespace po = boost::program_options;
@@ -34,19 +26,19 @@ class ParameterParser {
     using ParametersVariant = std::variant<CompleteParameters, preprocess::PreprocessParameters,
                                            AlignParameters, DetectParameters, AnalyzeParameters>;
 
-    static ParametersVariant getParameters(int argc, const char* const argv[]);
+    static auto getParameters(int argc, const char* const argv[]) -> ParametersVariant;  // NOLINT
 
     ParameterParser() = delete;
 
    private:
-    static po::variables_map parseParameters(int argc, const char* const argv[]);
+    static auto parseParameters(int argc, const char* const argv[]) -> po::variables_map;  // NOLINT
 
     static void insertConfigFileParameters(po::variables_map& params);
 
-    static po::options_description getCommandLineOptions();
-    static po::options_description getConfigFileOptions();
+    static auto getCommandLineOptions() -> po::options_description;
+    static auto getConfigFileOptions() -> po::options_description;
 
-    static po::positional_options_description getPositionalOptions();
+    static auto getPositionalOptions() -> po::positional_options_description;
 
     static void printVersion();
 };

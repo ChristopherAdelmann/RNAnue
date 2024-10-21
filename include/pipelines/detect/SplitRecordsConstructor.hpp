@@ -2,9 +2,8 @@
 
 // Standard
 #include <cstddef>
-#include <unordered_map>
 
-// Classes
+// Internal
 #include <vector>
 
 #include "SamRecord.hpp"
@@ -16,12 +15,18 @@ using namespace dataTypes;
 class SplitRecordsConstructor {
    public:
     SplitRecordsConstructor() = delete;
+    SplitRecordsConstructor(const SplitRecordsConstructor &) = delete;
+    SplitRecordsConstructor(SplitRecordsConstructor &&) = delete;
+    auto operator=(const SplitRecordsConstructor &) -> SplitRecordsConstructor & = delete;
+    auto operator=(SplitRecordsConstructor &&) -> SplitRecordsConstructor & = delete;
     ~SplitRecordsConstructor() = delete;
 
-    static SplitRecordsVariantGroups getSplitRecords(const std::vector<SamRecord>& recordGroup);
+    static auto getSplitRecords(const std::vector<SamRecord> &recordGroup)
+        -> SplitRecordsVariantGroups;
 
    private:
-    static SplitRecords constructSplitRecordsForHitGroup(const std::vector<SamRecord>& hitGroup);
+    static auto constructSplitRecordsForHitGroup(const std::vector<SamRecord> &hitGroup)
+        -> SplitRecords;
 
-    static SplitRecords constructSplitRecords(const SamRecord& record);
+    static auto constructSplitRecords(const SamRecord &record) -> SplitRecords;
 };

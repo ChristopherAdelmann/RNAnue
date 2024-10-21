@@ -2,9 +2,10 @@
 
 namespace annotation {
 
-std::istream &operator>>(std::istream &in, Orientation &orientation) {
+auto operator>>(std::istream &input, Orientation &orientation) -> std::istream & {
     std::string token;
-    in >> token;
+    input >> token;
+
     if (token == "both") {
         orientation = Orientation::BOTH;
     } else if (token == "opposite") {
@@ -12,9 +13,9 @@ std::istream &operator>>(std::istream &in, Orientation &orientation) {
     } else if (token == "same") {
         orientation = Orientation::SAME;
     } else {
-        in.setstate(std::ios_base::failbit);
+        input.setstate(std::ios_base::failbit);
     }
-    return in;
+    return input;
 }
 
 }  // namespace annotation

@@ -1,15 +1,25 @@
 #include "Analyze.hpp"
 
+#include <sys/stat.h>
+
+#include <future>
 #include <string>
 
-namespace pipelines {
-namespace analyze {
+#include "Constants.hpp"
+#include "FeatureWriter.hpp"
+#include "InteractionClusterGenerator.hpp"
+#include "SplitRecordsParser.hpp"
+#include "Utility.hpp"
+
+namespace pipelines::analyze {
 
 // Analyze
 void Analyze::process(const AnalyzeData &data) {
     Logger::log(LogLevel::INFO, constants::pipelines::PROCESSING_TREATMENT_MESSAGE);
 
     std::vector<std::future<void>> futures;
+
+    futures.reserve(data.treatmentSamples.size());
     for (const auto &sample : data.treatmentSamples) {
         futures.push_back(std::async(std::launch::async, &Analyze::processSample, this, sample));
     }
@@ -32,7 +42,7 @@ void Analyze::processSample(AnalyzeSample sample) {
     Logger::log(LogLevel::INFO, "Processing sample: ", sample.input.sampleName);
 
     std::vector<InteractionCluster> clusters =
-        SplitReadParser::parse(sample.input.splitAlignmentsPath);
+        SplitRecordsParser::parse(sample.input.splitAlignmentsPath);
 
     InteractionClusterGenerator clusterGenerator{sample.input.sampleName,
                                                  parameters.minimumClusterReadCount,
@@ -69,7 +79,7 @@ void Analyze::assignTranscriptsToClusters(std::vector<InteractionCluster> &clust
         const auto region = segment.toGenomicRegion(referenceIDs);
 
         auto updateTranscriptCounts =
-            [&](const std::optional<dtp::Feature> &feature) -> std::optional<std::string> {
+            [&](const std::optional<dataTypes::Feature> &feature) -> std::optional<std::string> {
             if (feature.has_value()) {
                 transcriptCounts[feature->id] += cluster.count;
                 return feature->id;
@@ -114,14 +124,14 @@ void Analyze::assignTranscriptsToClusters(std::vector<InteractionCluster> &clust
         if (cluster.transcriptIDs.has_value()) {
             auto &[firstTranscriptID, secondTranscriptID] = *cluster.transcriptIDs;
 
-            if (auto it = mergedTranscriptIDsIntoTranscriptIDs.find(firstTranscriptID);
-                it != mergedTranscriptIDsIntoTranscriptIDs.end()) {
-                firstTranscriptID = it->second;
+            if (auto iterator = mergedTranscriptIDsIntoTranscriptIDs.find(firstTranscriptID);
+                iterator != mergedTranscriptIDsIntoTranscriptIDs.end()) {
+                firstTranscriptID = iterator->second;
             }
 
-            if (auto it = mergedTranscriptIDsIntoTranscriptIDs.find(secondTranscriptID);
-                it != mergedTranscriptIDsIntoTranscriptIDs.end()) {
-                secondTranscriptID = it->second;
+            if (auto iterator = mergedTranscriptIDsIntoTranscriptIDs.find(secondTranscriptID);
+                iterator != mergedTranscriptIDsIntoTranscriptIDs.end()) {
+                secondTranscriptID = iterator->second;
             }
         }
     }
@@ -181,14 +191,15 @@ void Analyze::assignAnnotatedContiguousFragmentCountsToTranscripts(
     }
 }
 
-std::unordered_map<std::string, double> Analyze::getTranscriptProbabilities(
+auto Analyze::getTranscriptProbabilities(
     const std::unordered_map<std::string, size_t> &transcriptCounts,
-    const size_t totalFragmentCount) {
+    const size_t totalTranscriptCount) -> std::unordered_map<std::string, double> {
     std::unordered_map<std::string, double> transcriptProbabilities;
 
     double cumulativeProbability = 0;
     for (const auto &[transcriptID, count] : transcriptCounts) {
-        transcriptProbabilities[transcriptID] = static_cast<double>(count) / totalFragmentCount;
+        transcriptProbabilities[transcriptID] =
+            static_cast<double>(count) / static_cast<double>(totalTranscriptCount);
         cumulativeProbability += transcriptProbabilities[transcriptID];
     }
 
@@ -212,10 +223,10 @@ void Analyze::assignPAdjustedValuesToClusters(std::vector<InteractionCluster> &c
 
     std::sort(pValuesWithIndex.begin(), pValuesWithIndex.end());
 
-    const size_t numPValues = pValuesWithIndex.size();
+    const auto numPValues = static_cast<double>(pValuesWithIndex.size());
     double minAdjPValue = 1.0;
-    for (size_t i = numPValues; i-- > 0;) {
-        double rank = static_cast<double>(i + 1);
+    for (size_t i = pValuesWithIndex.size(); i-- > 0;) {
+        auto rank = static_cast<double>(i + 1);
         double adjustedPValue =
             std::min(minAdjPValue, (pValuesWithIndex[i].first * numPValues / rank));
         minAdjPValue = adjustedPValue;
@@ -226,9 +237,9 @@ void Analyze::assignPAdjustedValuesToClusters(std::vector<InteractionCluster> &c
 void Analyze::assignPValuesToClusters(
     std::vector<InteractionCluster> &clusters,
     const std::unordered_map<std::string, size_t> &transcriptCounts,
-    const size_t totalFragmentCount) {
+    const size_t totalTranscriptCount) {
     const auto transcriptProbabilities =
-        getTranscriptProbabilities(transcriptCounts, totalFragmentCount);
+        getTranscriptProbabilities(transcriptCounts, totalTranscriptCount);
 
     for (auto &cluster : clusters) {
         if (!cluster.transcriptIDs.has_value()) {
@@ -240,9 +251,9 @@ void Analyze::assignPValuesToClusters(
         const auto &secondTranscriptID = cluster.transcriptIDs->second;
 
         auto findProbability = [&](const std::string &transcriptID) -> std::optional<double> {
-            auto it = transcriptProbabilities.find(transcriptID);
-            if (it != transcriptProbabilities.end()) {
-                return it->second;
+            auto iterator = transcriptProbabilities.find(transcriptID);
+            if (iterator != transcriptProbabilities.end()) {
+                return iterator->second;
             }
             return std::nullopt;
         };
@@ -262,7 +273,7 @@ void Analyze::assignPValuesToClusters(
         ;
 
         const auto binomialDistribution =
-            math::binomial_distribution((double)totalFragmentCount, ligationByChanceProbability);
+            math::binomial_distribution((double)totalTranscriptCount, ligationByChanceProbability);
 
         const double pValue = 1 - math::cdf(binomialDistribution, cluster.count);
 
@@ -281,8 +292,8 @@ void Analyze::assignNonAnnotatedContiguousToSupplementaryFeatures(
     const auto annotationOrientation = parameters.featureOrientation;
 
     for (auto &&records : unassignedSingletonsIn) {
-        const auto region =
-            dtp::GenomicRegion::fromSamRecord(records, unassignedSingletonsIn.header().ref_ids());
+        const auto region = dataTypes::GenomicRegion::fromSamRecord(
+            records, unassignedSingletonsIn.header().ref_ids());
 
         if (!region) {
             continue;
@@ -365,7 +376,7 @@ void Analyze::writeInteractionLineToFile(const InteractionCluster &cluster,
 
 void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mergedClusters,
                                       const std::string &sampleName, const fs::path &clusterOutPath,
-                                      const std::deque<std::string> &referenceIDs) {
+                                      const std::deque<std::string> &referenceIDs) const {
     std::ofstream interactionOut(clusterOutPath.string());
     if (!interactionOut.is_open()) {
         Logger::log(LogLevel::ERROR, "Could not open file: ", clusterOutPath.string());
@@ -403,11 +414,11 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
               "clusters derived from DDD-Experiment\" itemRgb=\"On\"\n";
 
     const double pValueThreshold = parameters.padjThreshold;
-    const int clusterCountThreshold = parameters.minimumClusterReadCount;
+    const auto clusterCountThreshold = parameters.minimumClusterReadCount;
 
     auto isInteractionValid = [&](const InteractionCluster &cluster) {
         return cluster.pAdj.has_value() && cluster.pAdj.value() <= pValueThreshold &&
-               cluster.count >= clusterCountThreshold;
+               cluster.count >= static_cast<int>(clusterCountThreshold);
     };
 
     size_t intramolecularCount = 0;
@@ -442,26 +453,7 @@ void Analyze::writeInteractionsToFile(const std::vector<InteractionCluster> &mer
                 " are intermolecular interactions");
 }
 
-void Analyze::mergeOverlappingClusters(std::vector<InteractionCluster> &clusters) {
-    // sort by first segment (and the second)
-    std::ranges::sort(clusters, std::less{});
-
-    int clusterDistance = parameters.clusterDistanceThreshold;
-
-    for (size_t i = 0; i < clusters.size(); ++i) {
-        for (size_t j = i + 1; j < clusters.size(); ++j) {
-            // checks if the first overlaps
-            if (clusters[i].overlaps(clusters[j], clusterDistance)) {
-                clusters[j].merge(clusters[i]);
-                clusters.erase(clusters.begin() + i);  // remove cluster
-                --i;
-                break;
-            }
-        }
-    }
-}
-
-size_t Analyze::parseSampleFragmentCount(const fs::path &sampleCountsInPath) {
+auto Analyze::parseSampleFragmentCount(const fs::path &sampleCountsInPath) -> size_t {
     std::ifstream sampleCountsIn(sampleCountsInPath);
 
     if (!sampleCountsIn.is_open()) {
@@ -489,5 +481,4 @@ size_t Analyze::parseSampleFragmentCount(const fs::path &sampleCountsInPath) {
     return totalTranscriptCount;
 }
 
-}  // namespace analyze
-}  // namespace pipelines
+}  // namespace pipelines::analyze

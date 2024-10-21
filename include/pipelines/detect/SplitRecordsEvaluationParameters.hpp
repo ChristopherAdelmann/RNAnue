@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <variant>
 
-// Classes
+// Internal
 #include "FeatureAnnotator.hpp"
 #include "Orientation.hpp"
 
@@ -19,7 +19,7 @@ struct SplicingParameters {
     BaseParameters baseParameters;
     annotation::Orientation orientation;
     int32_t splicingTolerance;
-    const annotation::FeatureAnnotator& featureAnnotator;
+    const annotation::FeatureAnnotator* featureAnnotator;
 };
 
 using ParameterVariant = std::variant<SplitRecordsEvaluationParameters::BaseParameters,

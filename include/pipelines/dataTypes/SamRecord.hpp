@@ -33,7 +33,7 @@ using sam_field_ids =
 
 using SamRecord = seqan3::sam_record<sam_field_types, sam_field_ids>;
 
-inline std::optional<int32_t> recordEndPosition(const SamRecord& record) {
+inline auto recordEndPosition(const SamRecord& record) -> std::optional<int32_t> {
     const auto start = record.reference_position();
 
     if (!start.has_value()) {
@@ -53,7 +53,7 @@ inline std::optional<int32_t> recordEndPosition(const SamRecord& record) {
     return end;
 }
 
-inline bool operator<(const SamRecord& lhs, const SamRecord& rhs) {
+inline auto operator<(const SamRecord& lhs, const SamRecord& rhs) -> bool {
     const auto& lhs_ref_id = lhs.reference_id();
     const auto& rhs_ref_id = rhs.reference_id();
 
@@ -64,7 +64,7 @@ inline bool operator<(const SamRecord& lhs, const SamRecord& rhs) {
     return lhs.reference_position() < rhs.reference_position();
 }
 
-inline bool operator>(const SamRecord& lhs, const SamRecord& rhs) {
+inline auto operator>(const SamRecord& lhs, const SamRecord& rhs) -> bool {
     return dataTypes::operator<(rhs, lhs);
 }
 

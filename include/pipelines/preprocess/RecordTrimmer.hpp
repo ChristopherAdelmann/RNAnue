@@ -13,19 +13,19 @@
 #include "seqan3/alphabet/quality/concept.hpp"
 #include "seqan3/utility/views/slice.hpp"
 
-// Classes
+// Internal
 #include "Adapter.hpp"
-#include "PreprocessParameters.hpp"
 
 using seqan3::operator""_dna5;
 
-namespace pipelines {
-namespace preprocess {
+namespace pipelines::preprocess {
 
 struct RecordTrimmer {
     RecordTrimmer() = delete;
+    RecordTrimmer(RecordTrimmer &&) = delete;
+    RecordTrimmer &operator=(RecordTrimmer &&) = delete;
     RecordTrimmer(const RecordTrimmer &) = delete;
-    RecordTrimmer &operator=(const RecordTrimmer &) = delete;
+    auto operator=(const RecordTrimmer &) -> RecordTrimmer & = delete;
 
     /**
      * Trims adapter sequences from the given record.
@@ -55,7 +55,9 @@ struct RecordTrimmer {
              seqan3::align_pairwise(std::tie(adapter.sequence, seq), alignment_config)) {
             const int overlap = result.sequence2_end_position() - result.sequence2_begin_position();
 
-            if (overlap < int(minOverlapTrimming)) continue;
+            if (overlap < int(minOverlapTrimming)) {
+                continue;
+            }
 
             const int minScore = overlap - (overlap * adapter.maxMissMatchFraction) * 2;
 
@@ -93,7 +95,9 @@ struct RecordTrimmer {
         qualitiesPhread.reserve(qual.size());
 
         seqan3::phred42 qualityThreshold;
-        qualityThreshold.assign_rank(30);
+
+        constexpr int qualityThresholdRank = 20;
+        qualityThreshold.assign_rank(qualityThresholdRank);
 
         auto seqIt = seq.rbegin();
         auto qualIt = qual.rbegin();
@@ -104,7 +108,8 @@ struct RecordTrimmer {
                                    });
 
             const auto sum = std::accumulate(qualities.begin(), qualities.end(), 0);
-            return std::ranges::size(qualities) == 0 || sum / std::ranges::size(qualities) >= 20;
+            return std::ranges::size(qualities) == 0 ||
+                   sum / std::ranges::size(qualities) >= qualityThresholdRank;
         };
 
         while (seqIt != seq.rend() && (*seqIt == 'G'_dna5 && sufficientMeanQuality())) {
@@ -130,12 +135,14 @@ struct RecordTrimmer {
     template <typename record_type>
     static void trimWindowedQuality(record_type &record, const std::size_t windowTrimmingSize,
                                     const std::size_t minMeanWindowPhred) {
-        std::size_t trimmingEnd = record.sequence().size();
+        auto trimmingEnd = static_cast<std::ptrdiff_t>(record.sequence().size());
 
-        while ((trimmingEnd - windowTrimmingSize) >= windowTrimmingSize) {
+        while ((trimmingEnd - static_cast<std::ptrdiff_t>(windowTrimmingSize)) >=
+               static_cast<std::ptrdiff_t>(windowTrimmingSize)) {
             const auto windowQual =
                 record.base_qualities() |
-                seqan3::views::slice(trimmingEnd - windowTrimmingSize, trimmingEnd);
+                seqan3::views::slice(trimmingEnd - static_cast<std::ptrdiff_t>(windowTrimmingSize),
+                                     trimmingEnd);
 
             const auto windowPhred = windowQual | std::views::transform([](auto quality) {
                                          return seqan3::to_phred(quality);
@@ -156,5 +163,4 @@ struct RecordTrimmer {
     }
 };
 
-}  // namespace preprocess
-}  // namespace pipelines
+}  // namespace pipelines::preprocess

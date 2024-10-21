@@ -1,9 +1,9 @@
 #pragma once
 // Standard
+#include <cstddef>
 #include <string>
 
-namespace constants {
-namespace pipelines {
+namespace constants::pipelines {
 const std::string PREPROCESS = "preprocess";
 const std::string ALIGN = "align";
 const std::string DETECT = "detect";
@@ -24,5 +24,38 @@ const std::string SUBCALL_DESCRIPTION =
 
 const std::string PROCESSING_TREATMENT_MESSAGE = "Processing treatment data";
 const std::string PROCESSING_CONTROL_MESSAGE = "Processing control data";
-}  // namespace pipelines
-}  // namespace constants
+
+// Preprocess defaults
+constexpr size_t defaultChunkSize = 1000000;
+constexpr double defaultAdapterTrimMissmatchRate = 0.05;
+constexpr size_t defaultAdapterTrimMinOverlap = 5;
+constexpr size_t defaultMinMeanPhreadQuality = 20;
+constexpr size_t defaultMinReadLength = 15;
+constexpr size_t defaultMinWindowPhredQuality = 20;
+constexpr size_t defaultWindowTrimSize = 0;
+constexpr size_t defaultMinOverlapMergeSize = 5;
+constexpr double defaultMinOverlapMergeMissmatchRate = 0.05;
+
+// Align defaults
+constexpr size_t defaultAlignAccuracy = 90;
+constexpr size_t defaultMinFragmentScore = 18;
+constexpr size_t defaultMinFragmentLength = 20;
+constexpr size_t defaultMinSpliceCoverage = 80;
+
+// Detect defaults
+constexpr size_t defaultMinMapq = 0;
+constexpr double defaultMinComplementarity = 0.5;
+constexpr double defaultMinSitelenRatio = 0.1;
+constexpr double defaultHybridizationEnergyCutoff = 0;
+constexpr int defaultSplicingTolerance = 5;
+
+// Analyze defaults
+constexpr int defaultClusterTolerance = 0;
+constexpr double defaultPAdjCutOff = 1.0;
+constexpr size_t defaultMinClusterCount = 1;
+}  // namespace constants::pipelines
+
+namespace constants::annotation {
+constexpr size_t exptectedGffFileTokenCount = 9;
+constexpr size_t strandTokenColumn = 6;
+}  // namespace constants::annotation

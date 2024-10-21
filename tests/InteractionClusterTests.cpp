@@ -1,8 +1,10 @@
 #include <gtest/gtest.h>
 
 #include "Analyze.hpp"
+#include "GenomicStrand.hpp"
 
 using namespace pipelines::analyze;
+using namespace dataTypes;
 
 class InteractionClusterStatisticsTest : public testing::Test {
    protected:

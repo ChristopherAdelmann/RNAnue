@@ -6,6 +6,6 @@
 namespace annotation {
 
 enum Orientation { SAME, OPPOSITE, BOTH };
-std::istream& operator>>(std::istream& in, Orientation& orientation);
+auto operator>>(std::istream& input, Orientation& orientation) -> std::istream&;
 
 }  // namespace annotation

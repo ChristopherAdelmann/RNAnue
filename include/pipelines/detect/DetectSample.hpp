@@ -3,10 +3,8 @@
 // Standard
 #include <filesystem>
 #include <string>
-#include <vector>
 
-namespace pipelines {
-namespace detect {
+namespace pipelines::detect {
 namespace fs = std::filesystem;
 
 struct DetectInput {
@@ -28,5 +26,4 @@ struct DetectSample {
     DetectOutput output;
 };
 
-}  // namespace detect
-}  // namespace pipelines
+}  // namespace pipelines::detect

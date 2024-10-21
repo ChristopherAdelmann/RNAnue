@@ -5,12 +5,7 @@
 #include <chrono>
 #include <cmath>
 #include <filesystem>
-#include <iomanip>
-#include <iostream>
-#include <random>
-#include <sstream>
 #include <string>
-#include <unordered_set>
 #include <vector>
 
 // Boost
@@ -23,16 +18,17 @@
 #include <seqan3/io/sam_file/all.hpp>
 #include <seqan3/io/sequence_file/all.hpp>
 
-// Classes
-#include "Constants.hpp"
-#include "DataTypes.hpp"
+// Internal
 #include "Logger.hpp"
 
 namespace helper {
 
-inline bool isEqual(double a, double b,
-                    double epsilon = std::numeric_limits<double>::epsilon() * 10) {
-    return fabs(a - b) < epsilon;
+constexpr int DOUBLE_COMPARISON_GRACE_FACTOR = 10;
+
+inline auto isEqual(double lhs, double rhs,
+                    double epsilon = std::numeric_limits<double>::epsilon() *
+                                     DOUBLE_COMPARISON_GRACE_FACTOR) -> bool {
+    return fabs(lhs - rhs) < epsilon;
 }
 
 template <typename Container>
@@ -41,19 +37,18 @@ concept StringContainer = std::ranges::range<Container> &&
 
 namespace fs = std::filesystem;
 
-void createTmpDir(fs::path subpath);
-void deleteDir(fs::path path);
+void createTmpDir(const fs::path &subpath);
+void deleteDir(const fs::path &path);
 
-inline bool hasSuffix(const std::string &fullString, const std::string &ending) {
+inline auto hasSuffix(const std::string &fullString, const std::string &ending) -> bool {
     if (fullString.length() >= ending.length()) {
         return (0 ==
                 fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
-    } else {
-        return false;
     }
+    return false;
 };
 template <StringContainer Container>
-bool hasAnySuffix(const std::string &fullString, const Container &endings) {
+auto hasAnySuffix(const std::string &fullString, const Container &endings) -> bool {
     if (endings.empty()) {
         return true;
     }
@@ -66,16 +61,15 @@ bool hasAnySuffix(const std::string &fullString, const Container &endings) {
     return false;
 };
 
-inline bool hasPrefix(const std::string &fullString, const std::string &prefix) {
+inline auto hasPrefix(const std::string &fullString, const std::string &prefix) -> bool {
     if (fullString.length() >= prefix.length()) {
         return (0 == fullString.compare(0, prefix.length(), prefix));
-    } else {
-        return false;
     }
+    return false;
 };
 
 template <StringContainer Container>
-bool hasAnyPrefix(const std::string &fullString, const Container &prefixes) {
+auto hasAnyPrefix(const std::string &fullString, const Container &prefixes) -> bool {
     if (prefixes.empty()) {
         return true;
     }
@@ -89,9 +83,9 @@ bool hasAnyPrefix(const std::string &fullString, const Container &prefixes) {
 };
 
 template <StringContainer Container = std::vector<std::string>>
-std::vector<fs::path> getValidFilePaths(const fs::path &directory,
-                                        const Container &allowedSuffixes = Container{},
-                                        const Container &allowedPrefixes = Container{}) {
+auto getValidFilePaths(const fs::path &directory,
+                       const Container &allowedSuffixes = Container{},  // NOLINT
+                       const Container &allowedPrefixes = Container{}) -> std::vector<fs::path> {
     std::vector<fs::path> filePaths;
 
     for (const auto &entry : fs::directory_iterator(directory)) {
@@ -115,20 +109,20 @@ std::vector<fs::path> getValidFilePaths(const fs::path &directory,
     return filePaths;
 };
 
-std::optional<fs::path> getDirIfExists(const fs::path &path);
+auto getDirIfExists(const fs::path &path) -> std::optional<fs::path>;
 
-std::string getUUID();
+auto getUUID() -> std::string;
 
-void mergeSamFiles(std::vector<fs::path> inputPaths, fs::path outputPath);
-void mergeFastqFiles(std::vector<fs::path> inputPaths, fs::path outputPath);
+void mergeSamFiles(const std::vector<fs::path> &inputPaths, const fs::path &outputPath);
+void mergeFastqFiles(const std::vector<fs::path> &inputPaths, const fs::path &outputPath);
 
-std::vector<fs::path> getFilePathsInDir(const fs::path &dir);
+auto getFilePathsInDir(const fs::path &dir) -> std::vector<fs::path>;
 
 void concatAndDeleteFilesInTmpDir(const fs::path &tmpDir, const fs::path &outPath);
 
-std::size_t countUniqueSamEntries(fs::path path);
-std::size_t countSamEntries(fs::path path);
-std::size_t countSamEntriesSeqAn(fs::path path);
+auto countUniqueSamEntries(fs::path &path) -> std::size_t;
+auto countSamEntries(fs::path &path) -> std::size_t;
+auto countSamEntriesSeqAn(fs::path &path) -> std::size_t;
 
 /** Checks if a value is contained within a specified range, with a given tolerance.
  *
@@ -137,10 +131,10 @@ std::size_t countSamEntriesSeqAn(fs::path path);
  * @param tolerance The tolerance within which the values are considered equal.
  * @return true if the value is contained within the range, false otherwise.
  **/
-bool isContained(const int32_t value, const int32_t comparisonValue, const int32_t tolerance);
+auto isContained(int32_t value, int32_t comparisonValue, int32_t tolerance) -> bool;
 
 template <typename T>
-T calculateMedian(std::vector<T> values) {
+auto calculateMedian(std::vector<T> values) -> T {
     std::sort(values.begin(), values.end());
     const auto size = values.size();
     if (size % 2 == 0) {
@@ -150,13 +144,19 @@ T calculateMedian(std::vector<T> values) {
     }
 }
 
-std::string generateRandomHexColor();
+auto generateRandomHexColor() -> std::string;
 
-std::string getTime();  // reports the current time
+auto getTime() -> std::string;  // reports the current time
+
 class Timer {
    public:
-    Timer();
-    ~Timer();
+    Timer() : start(std::chrono::high_resolution_clock::now()) {}
+    Timer(const Timer &) = default;
+    Timer(Timer &&) = delete;
+    auto operator=(const Timer &) -> Timer & = default;
+    auto operator=(Timer &&) -> Timer & = delete;
+    ~Timer() { stop(); }
+
     void stop();
 
    private:

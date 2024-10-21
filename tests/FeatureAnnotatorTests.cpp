@@ -1,22 +1,26 @@
 #include <gtest/gtest.h>
 
+// Standard
 #include <optional>
 
+// Internal
 #include "FeatureAnnotator.hpp"
+#include "GenomicRegion.hpp"
+#include "GenomicStrand.hpp"
 
 using namespace annotation;
 
 struct TestParam {
-    TestParam(dtp::GenomicRegion region, annotation::Orientation orientation,
+    TestParam(dataTypes::GenomicRegion region, annotation::Orientation orientation,
               std::vector<std::string> expectedFeatureIds)
         : region(region),
           expectedFeatureIds(std::move(expectedFeatureIds)),
           orientation(orientation) {}
 
-    TestParam(dtp::GenomicRegion region, std::vector<std::string> expectedFeatureIds)
+    TestParam(dataTypes::GenomicRegion region, std::vector<std::string> expectedFeatureIds)
         : region(region), expectedFeatureIds(std::move(expectedFeatureIds)) {}
 
-    dtp::GenomicRegion region;
+    dataTypes::GenomicRegion region;
     std::vector<std::string> expectedFeatureIds;
     annotation::Orientation orientation = annotation::Orientation::SAME;
 };
@@ -26,22 +30,22 @@ class FeatureAnnotatorTest : public testing::TestWithParam<TestParam> {
    protected:
     FeatureAnnotatorTest() : annotator(featureMap) {}
 
-    const dtp::FeatureMap featureMap = {
+    const dataTypes::FeatureMap featureMap = {
         {
             "chromosome1",
-            {{"chromosome1", "transcript", 1, 10, dtp::Strand::FORWARD, "feature1", "group1",
+            {{"chromosome1", "transcript", 1, 10, dataTypes::Strand::FORWARD, "feature1", "group1",
               std::nullopt},
-             {"chromosome1", "transcript", 20, 30, dtp::Strand::FORWARD, "feature2", "group1",
+             {"chromosome1", "transcript", 20, 30, dataTypes::Strand::FORWARD, "feature2", "group1",
               std::nullopt},
-             {"chromosome1", "transcript", 40, 50, dtp::Strand::FORWARD, "feature3", "group2",
+             {"chromosome1", "transcript", 40, 50, dataTypes::Strand::FORWARD, "feature3", "group2",
               std::nullopt},
-             {"chromosome1", "transcript", 5, 25, dtp::Strand::REVERSE, "feature4", "group3",
+             {"chromosome1", "transcript", 5, 25, dataTypes::Strand::REVERSE, "feature4", "group3",
               std::nullopt}},
         },
         {"chromosome2",
-         {{"chromosome2", "transcript", 1, 10, dtp::Strand::FORWARD, "feature3", "group4",
+         {{"chromosome2", "transcript", 1, 10, dataTypes::Strand::FORWARD, "feature3", "group4",
            std::nullopt},
-          {"chromosome2", "transcript", 20, 30, dtp::Strand::FORWARD, "feature4", "group4",
+          {"chromosome2", "transcript", 20, 30, dataTypes::Strand::FORWARD, "feature4", "group4",
            std::nullopt}}},
     };
 
@@ -81,13 +85,13 @@ TEST_P(FeatureAnnotatorTest, OverlappingFeatureIterator) {
 
 INSTANTIATE_TEST_SUITE_P(
     Default, FeatureAnnotatorTest,
-    testing::Values(TestParam{{"chromosome1", 9, 15, dtp::Strand::FORWARD}, {"feature1"}},
-                    TestParam{{"chromosome1", 5, 15, dtp::Strand::REVERSE}, {"feature4"}},
+    testing::Values(TestParam{{"chromosome1", 9, 15, dataTypes::Strand::FORWARD}, {"feature1"}},
+                    TestParam{{"chromosome1", 5, 15, dataTypes::Strand::REVERSE}, {"feature4"}},
                     TestParam{{"chromosome1", 5, 15, std::nullopt}, {"feature1", "feature4"}},
                     TestParam{{"chromosome1", 31, 39, std::nullopt}, {}},
                     TestParam{{"chromosome2", 5, 15, std::nullopt}, {"feature3"}},
                     TestParam{{"chromosome3", 5, 25, std::nullopt}, {}},
-                    TestParam{{"chromosome1", 5, 15, dtp::Strand::FORWARD},
+                    TestParam{{"chromosome1", 5, 15, dataTypes::Strand::FORWARD},
                               annotation::Orientation::OPPOSITE,
                               {"feature4"}}));
 
@@ -96,20 +100,20 @@ class BestFeatureAnnotatorTest : public testing::TestWithParam<TestParam> {
    protected:
     BestFeatureAnnotatorTest() : annotator(featureMap) {}
 
-    const dtp::FeatureMap featureMap = {
+    const dataTypes::FeatureMap featureMap = {
         {"chromosome1",
-         {{"chromosome1", "transcript", 1, 10, dtp::Strand::FORWARD, "feature1", "group1",
+         {{"chromosome1", "transcript", 1, 10, dataTypes::Strand::FORWARD, "feature1", "group1",
            std::nullopt},
-          {"chromosome1", "transcript", 20, 30, dtp::Strand::FORWARD, "feature2", "group1",
+          {"chromosome1", "transcript", 20, 30, dataTypes::Strand::FORWARD, "feature2", "group1",
            std::nullopt},
-          {"chromosome1", "transcript", 40, 50, dtp::Strand::FORWARD, "feature3", "group2",
+          {"chromosome1", "transcript", 40, 50, dataTypes::Strand::FORWARD, "feature3", "group2",
            std::nullopt},
-          {"chromosome1", "transcript", 5, 25, dtp::Strand::REVERSE, "feature4", "group3",
+          {"chromosome1", "transcript", 5, 25, dataTypes::Strand::REVERSE, "feature4", "group3",
            std::nullopt}}},
         {"chromosome2",
-         {{"chromosome2", "transcript", 1, 10, dtp::Strand::FORWARD, "feature3", "group4",
+         {{"chromosome2", "transcript", 1, 10, dataTypes::Strand::FORWARD, "feature3", "group4",
            std::nullopt},
-          {"chromosome2", "transcript", 20, 30, dtp::Strand::FORWARD, "feature4", "group4",
+          {"chromosome2", "transcript", 20, 30, dataTypes::Strand::FORWARD, "feature4", "group4",
            std::nullopt}}},
     };
 
@@ -131,8 +135,8 @@ TEST_P(BestFeatureAnnotatorTest, GetBestOverlappingFeature) {
 
 INSTANTIATE_TEST_SUITE_P(
     Default, BestFeatureAnnotatorTest,
-    testing::Values(TestParam{{"chromosome1", 1, 7, dtp::Strand::FORWARD}, {"feature1"}},
-                    TestParam{{"chromosome1", 5, 15, dtp::Strand::REVERSE}, {"feature4"}},
+    testing::Values(TestParam{{"chromosome1", 1, 7, dataTypes::Strand::FORWARD}, {"feature1"}},
+                    TestParam{{"chromosome1", 5, 15, dataTypes::Strand::REVERSE}, {"feature4"}},
                     TestParam{{"chromosome1", 5, 15, std::nullopt}, {"feature4"}},
                     TestParam{{"chromosome1", 31, 39, std::nullopt}, {}},
                     TestParam{{"chromosome2", 5, 15, std::nullopt}, {"feature3"}},
@@ -143,12 +147,12 @@ class InsertFeatureAnnotatorTest : public testing::Test {
    protected:
     InsertFeatureAnnotatorTest() : annotator(featureMap) {}
 
-    const dtp::FeatureMap featureMap = {
+    const dataTypes::FeatureMap featureMap = {
         {"chromosome1",
          {
-             {"chromosome1", "transcript", 1, 10, dtp::Strand::FORWARD, "feature1", "group1",
+             {"chromosome1", "transcript", 1, 10, dataTypes::Strand::FORWARD, "feature1", "group1",
               std::nullopt},
-             {"chromosome1", "transcript", 20, 30, dtp::Strand::FORWARD, "feature2", "group1",
+             {"chromosome1", "transcript", 20, 30, dataTypes::Strand::FORWARD, "feature2", "group1",
               std::nullopt},
          }},
     };
@@ -157,7 +161,7 @@ class InsertFeatureAnnotatorTest : public testing::Test {
 };
 
 TEST_F(InsertFeatureAnnotatorTest, Insert) {
-    const dtp::GenomicRegion region{"chromosome1", 5, 20, dtp::Strand::FORWARD};
+    const dataTypes::GenomicRegion region{"chromosome1", 5, 20, dataTypes::Strand::FORWARD};
     const auto featureId = annotator.insert(region);
 
     const auto features = annotator.overlappingFeatures(region, annotation::Orientation::SAME);
@@ -167,7 +171,7 @@ TEST_F(InsertFeatureAnnotatorTest, Insert) {
 }
 
 TEST_F(InsertFeatureAnnotatorTest, MergeInsert) {
-    const dtp::GenomicRegion region{"chromosome1", 5, 15, dtp::Strand::FORWARD};
+    const dataTypes::GenomicRegion region{"chromosome1", 5, 15, dataTypes::Strand::FORWARD};
     const auto result = annotator.mergeInsert(region, 0);
 
     ASSERT_EQ(annotator.featureCount(), 2ul);
@@ -183,7 +187,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsert) {
 }
 
 TEST_F(InsertFeatureAnnotatorTest, MergeInsertTwoOverlapping) {
-    const dtp::GenomicRegion region{"chromosome1", 5, 25, dtp::Strand::FORWARD};
+    const dataTypes::GenomicRegion region{"chromosome1", 5, 25, dataTypes::Strand::FORWARD};
     const auto result = annotator.mergeInsert(region, 0);
 
     ASSERT_EQ(annotator.featureCount(), 1ul);
@@ -200,7 +204,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertTwoOverlapping) {
 }
 
 TEST_F(InsertFeatureAnnotatorTest, MergeInsertWithReverseStrand) {
-    const dtp::GenomicRegion region{"chromosome1", 5, 15, dtp::Strand::REVERSE};
+    const dataTypes::GenomicRegion region{"chromosome1", 5, 15, dataTypes::Strand::REVERSE};
     const auto result = annotator.mergeInsert(region, 0);
 
     ASSERT_EQ(annotator.featureCount(), 3ul);
@@ -214,12 +218,12 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertWithReverseStrand) {
 }
 
 TEST_F(InsertFeatureAnnotatorTest, MergeInsertWithNoStrand) {
-    const dtp::GenomicRegion region{"chromosome1", 5, 15, std::nullopt};
+    const dataTypes::GenomicRegion region{"chromosome1", 5, 15, std::nullopt};
     ASSERT_DEATH(annotator.mergeInsert(region, 0), "Strand must be specified for insertion");
 }
 
 TEST_F(InsertFeatureAnnotatorTest, MergeInsertNotExistingReferenceID) {
-    const dtp::GenomicRegion region{"chromosome2", 5, 25, dtp::FORWARD};
+    const dataTypes::GenomicRegion region{"chromosome2", 5, 25, dataTypes::Strand::FORWARD};
     const auto result = annotator.mergeInsert(region, 0);
 
     ASSERT_EQ(annotator.featureCount(), 3ul);
@@ -233,7 +237,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertNotExistingReferenceID) {
 }
 
 TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistance) {
-    const dtp::GenomicRegion region{"chromosome1", 5, 15, dtp::FORWARD};
+    const dataTypes::GenomicRegion region{"chromosome1", 5, 15, dataTypes::Strand::FORWARD};
     const auto result = annotator.mergeInsert(region, 5);
 
     ASSERT_EQ(annotator.featureCount(), 1ul);
@@ -247,7 +251,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistance) {
 }
 
 TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceNotSecondOverlapping) {
-    const dtp::GenomicRegion region{"chromosome1", 1, 14, dtp::FORWARD};
+    const dataTypes::GenomicRegion region{"chromosome1", 1, 14, dataTypes::Strand::FORWARD};
     const auto result = annotator.mergeInsert(region, 5);
 
     ASSERT_EQ(annotator.featureCount(), 2ul);
@@ -261,7 +265,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceNotSecondOverlapping)
 }
 
 TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceOneSpace) {
-    const dtp::GenomicRegion region{"chromosome1", 11, 15, dtp::FORWARD};
+    const dataTypes::GenomicRegion region{"chromosome1", 11, 15, dataTypes::Strand::FORWARD};
     const auto result = annotator.mergeInsert(region, 0);
 
     ASSERT_EQ(annotator.featureCount(), 3ul);
@@ -275,7 +279,7 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceOneSpace) {
 }
 
 TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceBluntEnds) {
-    const dtp::GenomicRegion region{"chromosome1", 10, 15, dtp::FORWARD};
+    const dataTypes::GenomicRegion region{"chromosome1", 10, 15, dataTypes::Strand::FORWARD};
     const auto result = annotator.mergeInsert(region, 0);
 
     ASSERT_EQ(annotator.featureCount(), 2ul);

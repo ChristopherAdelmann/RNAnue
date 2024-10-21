@@ -1,9 +1,9 @@
 #include "SplitRecordsComplementarityEvaluator.hpp"
 
-std::optional<SplitRecordsComplementarityEvaluator::Result>
-SplitRecordsComplementarityEvaluator::evaluate(
+auto SplitRecordsComplementarityEvaluator::evaluate(
     const SplitRecords &splitRecords,
-    const SplitRecordsEvaluationParameters::BaseParameters &parameters) {
+    const SplitRecordsEvaluationParameters::BaseParameters &parameters)
+    -> std::optional<SplitRecordsComplementarityEvaluator::Result> {
     const auto &sequence1 = splitRecords[0].sequence();
     const auto &sequence2 = splitRecords[1].sequence();
 
@@ -17,8 +17,8 @@ SplitRecordsComplementarityEvaluator::evaluate(
         results, parameters.minComplementarity, parameters.minComplementarityFraction);
 }
 
-constexpr seqan3::nucleotide_scoring_scheme<int8_t>
-SplitRecordsComplementarityEvaluator::complementaryScoringScheme() {
+constexpr auto SplitRecordsComplementarityEvaluator::complementaryScoringScheme()
+    -> seqan3::nucleotide_scoring_scheme<int8_t> {
     using namespace seqan3::literals;
 
     seqan3::nucleotide_scoring_scheme scheme{seqan3::match_score{1}, seqan3::mismatch_score{-1}};
@@ -46,10 +46,10 @@ SplitRecordsComplementarityEvaluator::complementaryScoringScheme() {
     return scheme;
 }
 
-std::optional<SplitRecordsComplementarityEvaluator::Result>
-SplitRecordsComplementarityEvaluator::getOptimalAlignment(
+auto SplitRecordsComplementarityEvaluator::getOptimalAlignment(
     const std::vector<CoOptimalPairwiseAligner::Result> &alignResults,
-    const double minComplementarity, const double minComplementarityFraction) {
+    const double minComplementarity, const double minComplementarityFraction)
+    -> std::optional<SplitRecordsComplementarityEvaluator::Result> {
     if (alignResults.empty()) {
         return std::nullopt;
     }

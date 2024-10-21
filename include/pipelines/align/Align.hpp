@@ -1,38 +1,28 @@
 #pragma once
 
+// Standard
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <optional>
+#include <vector>
+
 // Boost
 #include <boost/program_options.hpp>
 
-#include "AlignSample.hpp"
-
 // htslib
 #include <htslib/hts.h>
-
-#include <vector>
 
 // segemehl
 extern "C" {
 #include <segemehl.h>
 }
 
-// Standard
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <iostream>
-#include <optional>
-#include <regex>
-#include <sstream>
-#include <utility>
-
 // Class
 #include "AlignData.hpp"
 #include "AlignParameters.hpp"
-#include "Constants.hpp"
-#include "Logger.hpp"
-#include "Utility.hpp"
-#include "VariantOverload.hpp"
+#include "AlignSample.hpp"
 
 // Samtools derived elements
 extern "C" {
@@ -85,7 +75,7 @@ class Align {
     void sortAlignmentsByQueryName(const fs::path &alignmentsPath,
                                    const fs::path &sortedAlignmentsPath) const;
 
-    std::vector<char *> convertToCStrings(std::vector<std::string> &args) const;
+    static auto convertToCStrings(std::vector<std::string> &args) -> std::vector<char *>;
 };
 
 }  // namespace align

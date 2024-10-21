@@ -1,33 +1,28 @@
 #pragma once
 
 // Standard
-#include <algorithm>
 #include <cstddef>
-#include <execution>
 #include <forward_list>
-#include <functional>
-#include <ranges>
 #include <string>
 #include <utility>
 #include <vector>
 
-// Classes
+// Internal
 #include "InteractionCluster.hpp"
-#include "Logger.hpp"
 
-namespace pipelines {
-namespace analyze {
+namespace pipelines::analyze {
 
 class InteractionClusterGenerator {
    public:
-    InteractionClusterGenerator(const std::string sampleName, size_t minReadCount,
+    InteractionClusterGenerator(std::string sampleName, size_t minReadCount,
                                 int graceDistance) noexcept
-        : sampleName(sampleName), minReadCount(minReadCount), graceDistance(graceDistance) {}
-    ~InteractionClusterGenerator() = default;
+        : sampleName(std::move(sampleName)),
+          minReadCount(minReadCount),
+          graceDistance(graceDistance) {}
 
     using InteractionClusters = std::vector<InteractionCluster>;
 
-    InteractionClusters mergeClusters(InteractionClusters& clusters) noexcept;
+    auto mergeClusters(InteractionClusters& clusters) noexcept -> InteractionClusters;
 
    private:
     InteractionClusters finishedClusters;
@@ -42,9 +37,8 @@ class InteractionClusterGenerator {
     size_t excludedClusterCount = 0;
 
     void finalizeCluster(InteractionCluster cluster) noexcept;
-    bool clusterIsBeforeOpenCluster(const InteractionCluster& cluster,
-                                    const InteractionCluster& openCluster) const noexcept;
+    static auto clusterIsBeforeOpenCluster(const InteractionCluster& cluster,
+                                           const InteractionCluster& openCluster) noexcept -> bool;
     void logClusteringStatus() const noexcept;
 };
-}  // namespace analyze
-}  // namespace pipelines
+}  // namespace pipelines::analyze

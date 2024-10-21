@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <vector>
 
-// Classes
+// Internal
 #include "SamRecord.hpp"
 
 namespace dataTypes {
@@ -17,7 +17,7 @@ struct SplitRecords : public std::vector<SamRecord> {
 
     SplitRecords() = default;
 
-    inline bool operator<(const SplitRecords& rhs) const {
+    inline auto operator<(const SplitRecords& rhs) const -> bool {
         const auto& lhs_ref_id = this->back().reference_id();
         const auto& rhs_ref_id = rhs.back().reference_id();
 
@@ -31,7 +31,7 @@ struct SplitRecords : public std::vector<SamRecord> {
         return lhsEnd < rhsEnd;
     }
 
-    inline bool operator>(const SplitRecords& rhs) const { return rhs < *this; }
+    inline auto operator>(const SplitRecords& rhs) const -> bool { return rhs < *this; }
 };
 
 // Split records are sorted by the end position of the last split record

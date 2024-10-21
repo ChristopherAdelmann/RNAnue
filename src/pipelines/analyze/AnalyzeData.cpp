@@ -1,11 +1,13 @@
 #include "AnalyzeData.hpp"
 
-namespace pipelines {
-namespace analyze {
+#include "Utility.hpp"
 
-const std::vector<AnalyzeSample> AnalyzeData::retrieveSamples(const std::string& sampleGroup,
-                                                              const fs::path& parentDir,
-                                                              const fs::path& outputDir) {
+using namespace helper;
+
+namespace pipelines::analyze {
+
+auto AnalyzeData::retrieveSamples(const std::string& sampleGroup, const fs::path& parentDir,
+                                  const fs::path& outputDir) -> std::vector<AnalyzeSample> {
     const std::vector<AnalyzeInput> inputSamples = retrieveInputSamples(parentDir);
 
     std::vector<AnalyzeSample> samples;
@@ -38,7 +40,7 @@ const std::vector<AnalyzeSample> AnalyzeData::retrieveSamples(const std::string&
     return samples;
 }
 
-const std::vector<AnalyzeInput> AnalyzeData::retrieveInputSamples(const fs::path& parentDir) {
+auto AnalyzeData::retrieveInputSamples(const fs::path& parentDir) -> std::vector<AnalyzeInput> {
     const std::vector<fs::path> sampleDirs = getSubDirectories(parentDir);
 
     std::vector<AnalyzeInput> samples;
@@ -100,5 +102,4 @@ const std::vector<AnalyzeInput> AnalyzeData::retrieveInputSamples(const fs::path
     return samples;
 }
 
-}  // namespace analyze
-}  // namespace pipelines
+}  // namespace pipelines::analyze

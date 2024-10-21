@@ -11,27 +11,27 @@
 #include <seqan3/io/sequence_file/input.hpp>
 #include <seqan3/utility/range/to.hpp>
 
-// Classes
+// Internal
 #include "PreprocessParameters.hpp"
 #include "TrimConfig.hpp"
 #include "VariantOverload.hpp"
 
-namespace pipelines {
-namespace preprocess {
+namespace pipelines::preprocess {
 
 struct Adapter {
     const seqan3::dna5_vector sequence;
     const double maxMissMatchFraction;
     const TrimConfig::Mode trimmingMode;
 
-    static std::vector<Adapter> loadAdapters(const AdapterInput &adapterInput,
-                                             const double maxMissMatchFraction,
-                                             const TrimConfig::Mode trimmingMode) {
+    static auto loadAdapters(const AdapterInput &adapterInput, const double maxMissMatchFraction,
+                             const TrimConfig::Mode trimmingMode) -> std::vector<Adapter> {
         std::vector<Adapter> adapters;
 
         auto addAdapterFromSequence = [&adapters, &trimmingMode,
                                        maxMissMatchFraction](const seqan3::dna5_vector &sequence) {
-            if (sequence.size() == 0) return;
+            if (sequence.size() == 0) {
+                return;
+            }
             adapters.push_back(Adapter{sequence, maxMissMatchFraction, trimmingMode});
         };
 
@@ -57,10 +57,10 @@ struct Adapter {
     }
 };
 
-inline std::ostream &operator<<(std::ostream &os, const Adapter &v) {
-    os << (v.sequence | seqan3::views::to_char | seqan3::ranges::to<std::string>()) << " ";
-    return os;
+inline std::ostream &operator<<(std::ostream &outputStream, const Adapter &adapter) {
+    outputStream << (adapter.sequence | seqan3::views::to_char | seqan3::ranges::to<std::string>())
+                 << " ";
+    return outputStream;
 };
 
-}  // namespace preprocess
-}  // namespace pipelines
+}  // namespace pipelines::preprocess

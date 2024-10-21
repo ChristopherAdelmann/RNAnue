@@ -1,13 +1,16 @@
 #include "SplitRecordsEvaluator.hpp"
 
+#include "Logger.hpp"
+#include "SplitRecordsSplicingEvaluator.hpp"
+
 SplitRecordsEvaluator::SplitRecordsEvaluator(
     const std::variant<SplitRecordsEvaluationParameters::BaseParameters,
-                       SplitRecordsEvaluationParameters::SplicingParameters>
-        parameters)
+                       SplitRecordsEvaluationParameters::SplicingParameters> &parameters)
     : parameters(parameters) {}
 
-SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluate(
-    SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs) const {
+auto SplitRecordsEvaluator::evaluate(SplitRecords &splitRecords,
+                                     const std::deque<std::string> &referenceIDs) const
+    -> SplitRecordsEvaluator::Result {
     if (splitRecords.size() != 2) {
         Logger::log(LogLevel::DEBUG, "Currently only two split records are supported!");
         return SplitRecordsEvaluator::FilterReason::NO_SPLIT_READ;
@@ -23,16 +26,16 @@ SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluate(
     if (std::holds_alternative<SplitRecordsEvaluationParameters::BaseParameters>(parameters)) {
         return evaluateBase(splitRecords,
                             std::get<SplitRecordsEvaluationParameters::BaseParameters>(parameters));
-    } else {
-        return evaluateSplicing(
-            splitRecords, referenceIDs,
-            std::get<SplitRecordsEvaluationParameters::SplicingParameters>(parameters));
     }
+
+    return evaluateSplicing(
+        splitRecords, referenceIDs,
+        std::get<SplitRecordsEvaluationParameters::SplicingParameters>(parameters));
 }
 
-SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluateBase(
-    SplitRecords &splitRecords,
-    const SplitRecordsEvaluationParameters::BaseParameters &parameters) const {
+auto SplitRecordsEvaluator::evaluateBase(SplitRecords &splitRecords,
+                                         const SplitRecordsEvaluationParameters::BaseParameters
+                                             &parameters) const -> SplitRecordsEvaluator::Result {
     const auto complementarityResult =
         SplitRecordsComplementarityEvaluator::evaluate(splitRecords, parameters);
 
@@ -53,9 +56,10 @@ SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluateBase(
                                                         hybridizationResult.value()};
 }
 
-SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluateSplicing(
+auto SplitRecordsEvaluator::evaluateSplicing(
     SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs,
-    const SplitRecordsEvaluationParameters::SplicingParameters &parameters) const {
+    const SplitRecordsEvaluationParameters::SplicingParameters &parameters) const
+    -> SplitRecordsEvaluator::Result {
     const auto isSplicing =
         SplitRecordsSplicingEvaluator::isSplicedSplitRecord(splitRecords, referenceIDs, parameters);
 
@@ -68,11 +72,11 @@ SplitRecordsEvaluator::Result SplitRecordsEvaluator::evaluateSplicing(
 
 void SplitRecordsEvaluator::addTagsToRecords(
     SplitRecords &splitRecords, const SplitRecordsComplementarityEvaluator::Result &complementarity,
-    const SplitRecordsHybridizationEvaluator::Result &hybridization) const {
+    const SplitRecordsHybridizationEvaluator::Result &hybridization) {
     for (auto &record : splitRecords) {
         // Complementarity tags
-        const int length =
-            complementarity.endPositions.first - complementarity.beginPositions.first;
+        const int length = static_cast<int>(complementarity.endPositions.first) -
+                           static_cast<int>(complementarity.beginPositions.first);
         record.tags()["XL"_tag] = length;
         record.tags()["XC"_tag] = static_cast<float>(complementarity.complementarity);
         record.tags()["XR"_tag] = static_cast<float>(complementarity.fraction);
@@ -98,21 +102,24 @@ void SplitRecordsEvaluator::addTagsToRecords(
 }
 
 // TODO Implement overall score calculation instead of comparing individual scores
-bool SplitRecordsEvaluator::EvaluatedSplitRecords::operator<(
-    const EvaluatedSplitRecords &other) const {
-    // Calculate if fraction difference is more or equal than 0.05
-    if (std::abs(complementarityResult.fraction - other.complementarityResult.fraction) >= 0.05) {
+auto SplitRecordsEvaluator::EvaluatedSplitRecords::operator<(
+    const EvaluatedSplitRecords &other) const -> bool {
+    constexpr double DIFF_THRESHOLD = 0.05;
+
+    // Calculate if fraction difference is more or equal than threshold
+    if (std::abs(complementarityResult.fraction - other.complementarityResult.fraction) >=
+        DIFF_THRESHOLD) {
         return complementarityResult.fraction < other.complementarityResult.fraction;
     }
 
-    // Calculate if complementarity difference is more or equal than 0.05
+    // Calculate if complementarity difference is more or equal than threshold
     if (std::abs(complementarityResult.complementarity -
-                 other.complementarityResult.complementarity) >= 0.05) {
+                 other.complementarityResult.complementarity) >= DIFF_THRESHOLD) {
         return complementarityResult.complementarity < other.complementarityResult.complementarity;
     }
 
-    // Calculate if energy difference is more or equal than 0.05
-    if (std::abs(hybridizationResult.energy - other.hybridizationResult.energy) >= 0.05) {
+    // Calculate if energy difference is more or equal than threshold
+    if (std::abs(hybridizationResult.energy - other.hybridizationResult.energy) >= DIFF_THRESHOLD) {
         return hybridizationResult.energy < other.hybridizationResult.energy;
     }
 
@@ -126,29 +133,30 @@ bool SplitRecordsEvaluator::EvaluatedSplitRecords::operator<(
     return false;
 }
 
-bool SplitRecordsEvaluator::EvaluatedSplitRecords::operator>(
-    const EvaluatedSplitRecords &other) const {
+auto SplitRecordsEvaluator::EvaluatedSplitRecords::operator>(
+    const EvaluatedSplitRecords &other) const -> bool {
     return !(*this < other);
 }
 
-std::ostream &operator<<(std::ostream &os, const SplitRecordsEvaluator::FilterReason &reason) {
+auto operator<<(std::ostream &ostream,
+                const SplitRecordsEvaluator::FilterReason &reason) -> std::ostream & {
     switch (reason) {
         case SplitRecordsEvaluator::FilterReason::NO_SPLIT_READ:
-            os << "No split read";
+            ostream << "No split read";
             break;
         case SplitRecordsEvaluator::FilterReason::UNMAPPED:
-            os << "Unmapped";
+            ostream << "Unmapped";
             break;
         case SplitRecordsEvaluator::FilterReason::SPLICING:
-            os << "Splicing";
+            ostream << "Splicing";
             break;
         case SplitRecordsEvaluator::FilterReason::COMPLEMENTARITY:
-            os << "Complementarity";
+            ostream << "Complementarity";
             break;
         case SplitRecordsEvaluator::FilterReason::HYBRIDIZATION:
-            os << "Hybridization";
+            ostream << "Hybridization";
             break;
     }
 
-    return os;
+    return ostream;
 }

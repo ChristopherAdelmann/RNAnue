@@ -1,8 +1,13 @@
 #pragma once
 
-// Classes
+// Standard
 #include <filesystem>
 #include <vector>
+
+// seqan3
+#include <seqan3/io/sam_file/input.hpp>
+#include <seqan3/utility/views/chunk.hpp>
+// Internal
 
 #include "InteractionCluster.hpp"
 
@@ -11,7 +16,7 @@ namespace analyze {
 
 namespace fs = std::filesystem;
 
-struct SplitReadParser {
+struct SplitRecordsParser {
     static std::vector<InteractionCluster> parse(const fs::path splitRecordsFilePath) {
         seqan3::sam_file_input splitsIn{splitRecordsFilePath, sam_field_ids{}};
 

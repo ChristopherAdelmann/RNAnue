@@ -1,12 +1,15 @@
 #include "Preprocess.hpp"
 
-#include "Utility.hpp"
-#include "seqan3/io/sequence_file/input.hpp"
-#include "seqan3/io/sequence_file/output.hpp"
+#include <future>
+#include <seqan3/io/sequence_file/input.hpp>
+#include <seqan3/io/sequence_file/output.hpp>
 
-namespace pipelines {
-namespace preprocess {
-Preprocess::Preprocess(const PreprocessParameters &params) : parameters(params) {}
+#include "PairedRecordMerger.hpp"
+#include "RecordTrimmer.hpp"
+#include "Utility.hpp"
+
+namespace pipelines::preprocess {
+Preprocess::Preprocess(PreprocessParameters params) : parameters(std::move(params)) {}
 
 void Preprocess::process(const PreprocessData &data) const {
     Logger::log(LogLevel::INFO, constants::pipelines::PROCESSING_TREATMENT_MESSAGE);
@@ -151,10 +154,10 @@ void Preprocess::processPairedEnd(const PreprocessSamplePaired &sample) const {
  * @param record The record to be checked.
  * @return True if the record passes all the filters, false otherwise.
  */
-bool Preprocess::passesFilters(const auto &record) const {
+auto Preprocess::passesFilters(const auto &record) const -> bool {
     // Filter for mean quality
     const auto phredQual =
-        record.base_qualities() | std::views::transform([](auto q) { return q.to_phred(); });
+        record.base_qualities() | std::views::transform([](auto qual) { return qual.to_phred(); });
     const double sum = std::accumulate(phredQual.begin(), phredQual.end(), 0);
     const double meanPhred = sum / std::ranges::size(phredQual);
     const bool passesQual = meanPhred >= double(parameters.minQualityThreshold);
@@ -165,9 +168,10 @@ bool Preprocess::passesFilters(const auto &record) const {
     return passesQual && passesLen;
 }
 
-Preprocess::SingleEndResult Preprocess::processSingleEndRecordChunk(
+auto Preprocess::processSingleEndRecordChunk(
     SingleEndAsyncInputBuffer &asyncInputBuffer, const std::vector<Adapter> &adapters5,
-    const std::vector<Adapter> &adapters3, const fs::path &tmpOutDir) const {
+    const std::vector<Adapter> &adapters3,
+    const fs::path &tmpOutDir) const -> Preprocess::SingleEndResult {
     const std::string uuid = helper::getUUID();
     fs::path tmpFastqOutPath = tmpOutDir / (uuid + ".fastq.gz");
 
@@ -177,17 +181,22 @@ Preprocess::SingleEndResult Preprocess::processSingleEndRecordChunk(
     size_t passedRecords = 0;
 
     for (auto &record : asyncInputBuffer) {
-        if (parameters.trimPolyG) RecordTrimmer::trim3PolyG(record);
+        if (parameters.trimPolyG) {
+            RecordTrimmer::trim3PolyG(record);
+        }
 
-        if (parameters.windowTrimmingSize > 0)
+        if (parameters.windowTrimmingSize > 0) {
             RecordTrimmer::trimWindowedQuality(record, parameters.windowTrimmingSize,
                                                parameters.minMeanWindowQuality);
+        }
 
-        for (auto const &adapter : adapters5)
+        for (auto const &adapter : adapters5) {
             RecordTrimmer::trimAdapter(adapter, record, parameters.minOverlapTrimming);
+        }
 
-        for (auto const &adapter : adapters3)
+        for (auto const &adapter : adapters3) {
             RecordTrimmer::trimAdapter(adapter, record, parameters.minOverlapTrimming);
+        }
 
         if (!passesFilters(record)) {
             ++failedRecords;
@@ -233,23 +242,27 @@ Preprocess::PairedEndResult Preprocess::processPairedEndRecordChunk(
                                                parameters.minMeanWindowQuality);
         }
 
-        for (auto const &adapter : adapters5f)
+        for (auto const &adapter : adapters5f) {
             RecordTrimmer::trimAdapter(adapter, record1, parameters.minOverlapTrimming);
+        }
 
-        for (auto const &adapter : adapters3f)
+        for (auto const &adapter : adapters3f) {
             RecordTrimmer::trimAdapter(adapter, record1, parameters.minOverlapTrimming);
+        }
 
-        for (auto const &adapter : adapters5r)
+        for (auto const &adapter : adapters5r) {
             RecordTrimmer::trimAdapter(adapter, record2, parameters.minOverlapTrimming);
+        }
 
-        for (auto const &adapter : adapters3r)
+        for (auto const &adapter : adapters3r) {
             RecordTrimmer::trimAdapter(adapter, record2, parameters.minOverlapTrimming);
+        }
 
         const bool filtFwd = passesFilters(record1);
         const bool filtRev = passesFilters(record2);
 
         if (filtFwd && filtRev) {
-            const auto mergedRecord =
+            auto mergedRecord =
                 PairedRecordMerger::mergeRecordPair(record1, record2, parameters.minOverlapMerging,
                                                     parameters.maxMissMatchFractionMerging);
 
@@ -270,9 +283,9 @@ Preprocess::PairedEndResult Preprocess::processPairedEndRecordChunk(
 
                 result.mergedRecords += 1;
                 continue;
-            } else {
-                result.failedMergedRecords += 1;
             }
+
+            result.failedMergedRecords += 1;
 
             continue;
         }
@@ -295,5 +308,4 @@ Preprocess::PairedEndResult Preprocess::processPairedEndRecordChunk(
     return result;
 }
 
-}  // namespace preprocess
-}  // namespace pipelines
+}  // namespace pipelines::preprocess

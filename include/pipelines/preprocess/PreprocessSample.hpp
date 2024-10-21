@@ -2,10 +2,10 @@
 
 // Standard
 #include <filesystem>
+#include <utility>
 #include <variant>
 
-namespace pipelines {
-namespace preprocess {
+namespace pipelines::preprocess {
 
 namespace fs = std::filesystem;
 
@@ -16,19 +16,19 @@ struct PreprocessInput {
 struct PreprocessSampleInputSingle : public PreprocessInput {
     fs::path inputFastqPath;
 
-    PreprocessSampleInputSingle(const std::string sampleName, const fs::path& samplePath)
-        : PreprocessInput{sampleName}, inputFastqPath{samplePath} {};
+    PreprocessSampleInputSingle(const std::string& sampleName, fs::path samplePath)
+        : PreprocessInput{sampleName}, inputFastqPath{std::move(samplePath)} {};
 };
 
 struct PreprocessSampleInputPaired : public PreprocessInput {
     fs::path inputForwardFastqPath;
     fs::path inputReverseFastqPath;
 
-    PreprocessSampleInputPaired(const std::string sampleName, const fs::path& forwardPath,
-                                const fs::path& reversePath)
+    PreprocessSampleInputPaired(const std::string& sampleName, fs::path forwardPath,
+                                fs::path reversePath)
         : PreprocessInput{sampleName},
-          inputForwardFastqPath{forwardPath},
-          inputReverseFastqPath{reversePath} {};
+          inputForwardFastqPath{std::move(forwardPath)},
+          inputReverseFastqPath{std::move(reversePath)} {};
 };
 
 using InputSampleType = std::variant<PreprocessSampleInputSingle, PreprocessSampleInputPaired>;
@@ -62,5 +62,4 @@ struct PreprocessSamplePaired {
 
 using PreprocessSampleType = std::variant<PreprocessSampleSingle, PreprocessSamplePaired>;
 
-}  // namespace preprocess
-}  // namespace pipelines
+}  // namespace pipelines::preprocess

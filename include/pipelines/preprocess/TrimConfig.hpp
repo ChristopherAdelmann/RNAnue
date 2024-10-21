@@ -16,7 +16,7 @@ struct TrimConfig {
      * @param mode The mode to use for trimming.
      * @return seqan3::align_cfg::method_global The semi-global alignment configuration.
      */
-    static seqan3::align_cfg::method_global alignmentConfigFor(TrimConfig::Mode mode) {
+    static auto alignmentConfigFor(TrimConfig::Mode mode) -> seqan3::align_cfg::method_global {
         seqan3::align_cfg::method_global config;
 
         switch (mode) {

@@ -3,7 +3,6 @@
 // Standard
 #include <filesystem>
 #include <string>
-#include <vector>
 
 namespace pipelines {
 namespace analyze {

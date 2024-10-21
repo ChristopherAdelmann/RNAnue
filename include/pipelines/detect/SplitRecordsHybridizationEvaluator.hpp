@@ -15,7 +15,7 @@ extern "C" {
 #include <ViennaRNA/utils/strings.h>
 }
 
-// Classes
+// Internal
 #include "SplitRecords.hpp"
 #include "SplitRecordsEvaluationParameters.hpp"
 
@@ -39,14 +39,15 @@ class SplitRecordsHybridizationEvaluator {
     SplitRecordsHybridizationEvaluator() = delete;
     ~SplitRecordsHybridizationEvaluator() = delete;
     SplitRecordsHybridizationEvaluator(const SplitRecordsHybridizationEvaluator &) = delete;
-    SplitRecordsHybridizationEvaluator &operator=(const SplitRecordsHybridizationEvaluator &) =
-        delete;
+    auto operator=(const SplitRecordsHybridizationEvaluator &)
+        -> SplitRecordsHybridizationEvaluator & = delete;
     SplitRecordsHybridizationEvaluator(SplitRecordsHybridizationEvaluator &&) = delete;
-    SplitRecordsHybridizationEvaluator &operator=(SplitRecordsHybridizationEvaluator &&) = delete;
+    auto operator=(SplitRecordsHybridizationEvaluator &&) -> SplitRecordsHybridizationEvaluator & =
+                                                                 delete;
 
-    static std::optional<Result> evaluate(
-        const SplitRecords &splitRecords,
-        const SplitRecordsEvaluationParameters::BaseParameters &parameters);
+    static auto evaluate(const SplitRecords &splitRecords,
+                         const SplitRecordsEvaluationParameters::BaseParameters &parameters)
+        -> std::optional<Result>;
 
    private:
     using NucleotidePairPositions = std::pair<size_t, size_t>;
@@ -62,11 +63,11 @@ class SplitRecordsHybridizationEvaluator {
         bool isInterFragment;
     };
 
-    static std::optional<Result::CrosslinkingResult> findCrosslinkingSites(
+    static auto findCrosslinkingSites(
         std::span<const seqan3::dna5> sequence1, std::span<const seqan3::dna5> sequence2,
-        std::vector<seqan3::dot_bracket3> &dotbracket);
+        std::vector<seqan3::dot_bracket3> &dotbracket) -> std::optional<Result::CrosslinkingResult>;
 
-    static std::optional<InteractionWindow> getContinuosNucleotideWindows(
+    static auto getContinuosNucleotideWindows(
         std::span<const seqan3::dna5> sequence1, std::span<const seqan3::dna5> sequence2,
-        NucleotidePositionsWindow positionsPair);
+        NucleotidePositionsWindow positionsPair) -> std::optional<InteractionWindow>;
 };

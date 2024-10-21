@@ -1,18 +1,20 @@
 #pragma once
 
+// Standard
 #include <optional>
-#include <seqan3/alphabet/nucleotide/dna5.hpp>
 
-#include "seqan3/alignment/configuration/align_config_gap_cost_affine.hpp"
-#include "seqan3/alignment/configuration/align_config_method.hpp"
-#include "seqan3/alignment/configuration/align_config_output.hpp"
-#include "seqan3/alignment/configuration/align_config_scoring_scheme.hpp"
-#include "seqan3/alignment/pairwise/align_pairwise.hpp"
-#include "seqan3/alignment/scoring/nucleotide_scoring_scheme.hpp"
-#include "seqan3/alphabet/quality/phred42.hpp"
-#include "seqan3/alphabet/views/complement.hpp"
-namespace pipelines {
-namespace preprocess {
+// seqan3
+#include <seqan3/alignment/configuration/align_config_gap_cost_affine.hpp>
+#include <seqan3/alignment/configuration/align_config_method.hpp>
+#include <seqan3/alignment/configuration/align_config_output.hpp>
+#include <seqan3/alignment/configuration/align_config_scoring_scheme.hpp>
+#include <seqan3/alignment/pairwise/align_pairwise.hpp>
+#include <seqan3/alignment/scoring/nucleotide_scoring_scheme.hpp>
+#include <seqan3/alphabet/nucleotide/dna5.hpp>
+#include <seqan3/alphabet/quality/phred42.hpp>
+#include <seqan3/alphabet/views/complement.hpp>
+
+namespace pipelines::preprocess {
 
 struct PairedRecordMerger {
     /**
@@ -30,10 +32,9 @@ struct PairedRecordMerger {
      * std::nullopt.
      */
     template <typename record_type>
-    static std::optional<record_type> mergeRecordPair(const record_type &record1,
-                                                      const record_type &record2,
-                                                      const size_t minOverlapMerge,
-                                                      const double maxMissMatchRateMerge) {
+    static auto mergeRecordPair(
+        const record_type &record1, const record_type &record2, size_t minOverlapMerge,  // NOLINT
+        double maxMissMatchRateMerge) -> std::optional<record_type> {                    // NOLINT
         const seqan3::align_cfg::method_global endGapConfig{
             seqan3::align_cfg::free_end_gaps_sequence1_leading{true},
             seqan3::align_cfg::free_end_gaps_sequence2_leading{true},
@@ -62,7 +63,9 @@ struct PairedRecordMerger {
         for (auto const &result :
              seqan3::align_pairwise(std::tie(seq1, seq2ReverseComplement), alignmentConfig)) {
             const int overlap = result.sequence1_end_position() - result.sequence1_begin_position();
-            if (overlap < int(minOverlapMerge)) continue;
+            if (overlap < int(minOverlapMerge)) {
+                continue;
+            }
 
             const int minScore = overlap - (overlap * maxMissMatchRateMerge) * 2;
             if (result.score() >= minScore) {
@@ -83,9 +86,9 @@ struct PairedRecordMerger {
      * @return The merged record.
      */
     template <typename record_type, typename result_type>
-    static record_type constructMergedRecord(
-        const record_type &record1, const record_type &record2,
-        const seqan3::alignment_result<result_type> &alignmentResult) {
+    static auto constructMergedRecord(const record_type &record1, const record_type &record2,
+                                      const seqan3::alignment_result<result_type> &alignmentResult)
+        -> record_type {
         const auto &record1Qualities = record1.base_qualities();
         const auto &record2Qualities = record2.base_qualities();
 
@@ -175,5 +178,4 @@ struct PairedRecordMerger {
     }
 };
 
-}  // namespace preprocess
-}  // namespace pipelines
+}  // namespace pipelines::preprocess

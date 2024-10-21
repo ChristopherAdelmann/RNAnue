@@ -1,24 +1,27 @@
 #include "Segment.hpp"
 
+// Standard
 #include <optional>
-#include <ostream>
 
+// Include
+#include "CustomSamTags.hpp"
+#include "GenomicRegion.hpp"
 #include "Utility.hpp"
 
-namespace pipelines {
-namespace analyze {
+namespace pipelines::analyze {
 
-std::optional<Segment> Segment::fromSamRecord(const SamRecord &record) {
+auto Segment::fromSamRecord(const SamRecord &record) -> std::optional<Segment> {
     if (!record.reference_position().has_value() || !record.reference_id().has_value()) {
         return std::nullopt;
     }
 
     const auto isReverseStrand =
         static_cast<bool>(record.flag() & seqan3::sam_flag::on_reverse_strand);
-    const dtp::Strand strand{isReverseStrand ? dtp::Strand::REVERSE : dtp::Strand::FORWARD};
+    const dataTypes::Strand strand{isReverseStrand ? dataTypes::Strand::REVERSE
+                                                   : dataTypes::Strand::FORWARD};
 
     const auto start = record.reference_position();
-    const std::optional<int32_t> end = dtp::recordEndPosition(record);
+    const std::optional<int32_t> end = dataTypes::recordEndPosition(record);
 
     if (!start.has_value() || !end.has_value()) {
         return std::nullopt;
@@ -36,21 +39,21 @@ std::optional<Segment> Segment::fromSamRecord(const SamRecord &record) {
                    hybridizationEnergy};
 }
 
-dtp::GenomicRegion Segment::toGenomicRegion(const std::deque<std::string> &referenceIDs) const {
-    return dtp::GenomicRegion{referenceIDs[referenceIDIndex], start, end, strand};
+auto Segment::toGenomicRegion(const std::deque<std::string> &referenceIDs) const
+    -> dataTypes::GenomicRegion {
+    return dataTypes::GenomicRegion{referenceIDs[referenceIDIndex], start, end, strand};
 }
 
-dtp::Feature Segment::toFeature(const std::deque<std::string> &referenceIDs,
-                                const std::string &featureID,
-                                const std::string &featureType) const {
-    return dtp::Feature{referenceIDs[referenceIDIndex],
-                        featureType,
-                        start,
-                        end,
-                        strand,
-                        featureID,
-                        std::nullopt,
-                        std::nullopt};
+auto Segment::toFeature(const std::deque<std::string> &referenceIDs, const std::string &featureID,
+                        const std::string &featureType) const -> dataTypes::Feature {
+    return dataTypes::Feature{referenceIDs[referenceIDIndex],
+                              featureType,
+                              start,
+                              end,
+                              strand,
+                              featureID,
+                              std::nullopt,
+                              std::nullopt};
 }
 
 void Segment::merge(const Segment &other) {
@@ -60,12 +63,12 @@ void Segment::merge(const Segment &other) {
     minHybridizationEnergy = std::min(minHybridizationEnergy, other.minHybridizationEnergy);
 }
 
-bool Segment::operator==(const Segment &other) const {
+auto Segment::operator==(const Segment &other) const -> bool {
+    constexpr double EPSILON = 1e-6;
     return referenceIDIndex == other.referenceIDIndex && strand == other.strand &&
            start == other.start && end == other.end &&
-           helper::isEqual(maxComplementarityScore, other.maxComplementarityScore, 1e-6) &&
-           helper::isEqual(minHybridizationEnergy, other.minHybridizationEnergy, 1e-6);
+           helper::isEqual(maxComplementarityScore, other.maxComplementarityScore, EPSILON) &&
+           helper::isEqual(minHybridizationEnergy, other.minHybridizationEnergy, EPSILON);
 }
 
-}  // namespace analyze
-}  // namespace pipelines
+}  // namespace pipelines::analyze

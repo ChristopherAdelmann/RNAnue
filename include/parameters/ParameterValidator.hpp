@@ -11,7 +11,7 @@
 #include <filesystem>
 #include <string>
 
-// Classes
+// Internal
 #include "Logger.hpp"
 #include "boost/program_options/errors.hpp"
 
@@ -23,8 +23,8 @@ concept arithmetic = std::integral<T> or std::floating_point<T>;
 struct ParameterValidator {
     template <typename T>
         requires arithmetic<T>
-    static T validateArithmetic(const po::variables_map& params, const std::string& paramName,
-                                const T lowerLimit, const T upperLimit) {
+    static auto validateArithmetic(const po::variables_map& params, const std::string& paramName,
+                                   const T lowerLimit, const T upperLimit) -> T {
         Logger::log(LogLevel::DEBUG, "Validating ", paramName,
                     " parameter. Type: ", typeid(T).name(), ". Lower limit: ", lowerLimit,
                     ". Upper limit: ", upperLimit, ".");
@@ -55,8 +55,8 @@ struct ParameterValidator {
         return value;
     }
 
-    static std::filesystem::path validateFilePath(const po::variables_map& params,
-                                                  const std::string& paramName) {
+    static auto validateFilePath(const po::variables_map& params,
+                                 const std::string& paramName) -> std::filesystem::path {
         const std::string filePathStr = params[paramName].as<std::string>();
         std::filesystem::path filePath = std::filesystem::path(filePathStr);
 
@@ -68,8 +68,8 @@ struct ParameterValidator {
         return filePath;
     }
 
-    static std::filesystem::path validateDirectory(const po::variables_map& params,
-                                                   const std::string& paramName) {
+    static auto validateDirectory(const po::variables_map& params,
+                                  const std::string& paramName) -> std::filesystem::path {
         const std::string dirPathStr = params[paramName].as<std::string>();
         std::filesystem::path dirPath = std::filesystem::path(dirPathStr);
 

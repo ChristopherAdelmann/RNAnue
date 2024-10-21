@@ -1,13 +1,14 @@
 #include "DetectData.hpp"
 
 #include "Logger.hpp"
+#include "Utility.hpp"
 
-namespace pipelines {
-namespace detect {
+using namespace helper;
 
-const std::vector<DetectSample> DetectData::retrieveSamples(const std::string& sampleGroup,
-                                                            const fs::path& parentDir,
-                                                            const fs::path& outputDir) {
+namespace pipelines::detect {
+
+auto DetectData::retrieveSamples(const std::string& sampleGroup, const fs::path& parentDir,
+                                 const fs::path& outputDir) -> std::vector<DetectSample> {
     const std::vector<DetectInput> inputSamples = retrieveInputSamples(parentDir);
 
     std::vector<DetectSample> samples;
@@ -44,7 +45,7 @@ const std::vector<DetectSample> DetectData::retrieveSamples(const std::string& s
     return samples;
 }
 
-const std::vector<DetectInput> DetectData::retrieveInputSamples(const fs::path& parentDir) {
+auto DetectData::retrieveInputSamples(const fs::path& parentDir) -> std::vector<DetectInput> {
     const std::vector<fs::path> sampleDirs = getSubDirectories(parentDir);
 
     std::vector<DetectInput> samples;
@@ -79,5 +80,4 @@ const std::vector<DetectInput> DetectData::retrieveInputSamples(const fs::path& 
     return samples;
 }
 
-}  // namespace detect
-}  // namespace pipelines
+}  // namespace pipelines::detect

@@ -1,16 +1,8 @@
 #pragma once
 
 // Standard
-#include <algorithm>
 #include <cstddef>
-#include <future>
-#include <iostream>
-#include <mutex>
-#include <numeric>
-#include <optional>
 #include <ranges>
-#include <thread>
-#include <variant>
 #include <vector>
 
 // boost
@@ -24,25 +16,16 @@
 
 // Class
 #include "Adapter.hpp"
-#include "Constants.hpp"
-#include "Logger.hpp"
-#include "PairedRecordMerger.hpp"
 #include "PreprocessData.hpp"
 #include "PreprocessParameters.hpp"
 #include "PreprocessSample.hpp"
-#include "RecordTrimmer.hpp"
-#include "TrimConfig.hpp"
-#include "Utility.hpp"
-#include "VariantOverload.hpp"
 
 using seqan3::operator""_dna5;
 
-namespace pipelines {
-namespace preprocess {
+namespace pipelines::preprocess {
 class Preprocess {
    public:
-    explicit Preprocess(const PreprocessParameters &params);
-    ~Preprocess() = default;
+    explicit Preprocess(PreprocessParameters params);
 
     void process(const PreprocessData &data) const;
 
@@ -83,24 +66,23 @@ class Preprocess {
         }
     };
 
-    bool passesFilters(const auto &record) const;
+    auto passesFilters(const auto &record) const -> bool;
 
     void processSample(const PreprocessSampleType &sample) const;
 
     void processSingleEnd(const PreprocessSampleSingle &sample) const;
     void processPairedEnd(const PreprocessSamplePaired &sample) const;
 
-    SingleEndResult processSingleEndRecordChunk(SingleEndAsyncInputBuffer &asyncInputBuffer,
-                                                const std::vector<Adapter> &adapters5,
-                                                const std::vector<Adapter> &adapters3,
-                                                const fs::path &tmpOutDir) const;
+    auto processSingleEndRecordChunk(SingleEndAsyncInputBuffer &asyncInputBuffer,
+                                     const std::vector<Adapter> &adapters5,
+                                     const std::vector<Adapter> &adapters3,
+                                     const fs::path &tmpOutDir) const -> SingleEndResult;
 
-    PairedEndResult processPairedEndRecordChunk(
+    auto processPairedEndRecordChunk(
         Preprocess::PairedEndAsyncInputBuffer &pairedRecordInputBuffer,
         const std::vector<Adapter> &adapters5f, const std::vector<Adapter> &adapters3f,
         const std::vector<Adapter> &adapters5r, const std::vector<Adapter> &adapters3r,
-        const PrepocessSampleOutputPaired &sampleOutput) const;
+        const PrepocessSampleOutputPaired &sampleOutput) const -> PairedEndResult;
 };
 
-}  // namespace preprocess
-}  // namespace pipelines
+}  // namespace pipelines::preprocess

@@ -4,8 +4,6 @@
 #include <climits>
 #include <cstddef>
 #include <filesystem>
-#include <optional>
-#include <ranges>
 #include <string>
 #include <variant>
 #include <vector>
@@ -18,14 +16,12 @@
 #include <seqan3/alphabet/views/char_to.hpp>
 #include <seqan3/utility/range/to.hpp>
 
-// Classes
+// Internal
 #include "Constants.hpp"
 #include "GeneralParameters.hpp"
-#include "Logger.hpp"
 #include "ParameterValidator.hpp"
 
-namespace pipelines {
-namespace preprocess {
+namespace pipelines::preprocess {
 
 namespace po = boost::program_options;
 
@@ -76,28 +72,28 @@ class PreprocessParameters : public GeneralParameters {
               ParameterValidator::validateArithmetic(params, "mmerge", double{0.0}, double{1.0})) {}
 
    private:
-    static bool validateTrimPolyG(const po::variables_map& params) {
+    static auto validateTrimPolyG(const po::variables_map& params) -> bool {
         return params["trimpolyg"].as<bool>();
     }
 
-    static bool validatePreprocessEnabled(const po::variables_map& params) {
-        return params[constants::pipelines::PREPROCESS.c_str()].as<bool>();
+    static auto validatePreprocessEnabled(const po::variables_map& params) -> bool {
+        return params[constants::pipelines::PREPROCESS].as<bool>();
     }
 
-    static AdapterInput validateAdapter(const po::variables_map& params,
-                                        const std::string& paramName) {
-        if (params.count(paramName)) {
+    static auto validateAdapter(const po::variables_map& params,
+                                const std::string& paramName) -> AdapterInput {
+        if (params.count(paramName) != 0U) {
             const std::string adapterStr = params[paramName].as<std::string>();
+
             if (std::filesystem::exists(adapterStr)) {
                 return std::filesystem::path(adapterStr);
-            } else {
-                return adapterStr | seqan3::views::char_to<seqan3::dna5> |
-                       seqan3::ranges::to<std::vector>();
             }
+
+            return adapterStr | seqan3::views::char_to<seqan3::dna5> |
+                   seqan3::ranges::to<std::vector>();
         }
         return std::monostate{};
     }
 };
 
-}  // namespace preprocess
-}  // namespace pipelines
+}  // namespace pipelines::preprocess

@@ -8,18 +8,17 @@
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 // seqan3
 #include <seqan3/contrib/parallel/buffer_queue.hpp>
 #include <seqan3/core/range/detail/adaptor_from_functor.hpp>
 #include <seqan3/io/sam_file/input.hpp>
-#include <type_traits>
-#include <utility>
-#include <vector>
 
-// Classes
+// Internal
 #include "SamRecord.hpp"
-#include "seqan3/core/detail/iterator_traits.hpp"
 
 using record_input_t =
     seqan3::sam_file_input<seqan3::sam_file_input_default_traits<>, dataTypes::sam_field_ids>;
@@ -80,9 +79,9 @@ class AsyncSplitRecordGroupBufferView
         iterator(iterator const& rhs) = default;  //!< Defaulted.
         iterator(iterator&& rhs) = default;       //!< Defaulted.
         // TODO: delete:
-        iterator& operator=(iterator const& rhs) = default;  //!< Defaulted.
-        iterator& operator=(iterator&& rhs) = default;       //!< Defaulted.
-        ~iterator() noexcept = default;                      //!< Defaulted.
+        auto operator=(iterator const& rhs) -> iterator& = default;  //!< Defaulted.
+        auto operator=(iterator&& rhs) -> iterator& = default;       //!< Defaulted.
+        ~iterator() noexcept = default;                              //!< Defaulted.
 
         iterator(seqan3::contrib::fixed_buffer_queue<std::vector<record_input_t::value_type>>&
                      buffer) noexcept
@@ -90,11 +89,11 @@ class AsyncSplitRecordGroupBufferView
             ++(*this);
         }
 
-        reference operator*() const noexcept { return cached_value; }
+        auto operator*() const noexcept -> reference { return cached_value; }
 
-        pointer operator->() const noexcept { return std::addressof(cached_value); }
+        auto operator->() const noexcept -> pointer { return std::addressof(cached_value); }
 
-        iterator& operator++() noexcept {
+        auto operator++() noexcept -> iterator& {
             if (at_end) {
                 return *this;
             }
@@ -110,37 +109,37 @@ class AsyncSplitRecordGroupBufferView
 
         void operator++(int) noexcept { ++(*this); }
 
-        friend constexpr bool operator==(iterator const& lhs,
-                                         std::default_sentinel_t const&) noexcept {
+        friend constexpr auto operator==(iterator const& lhs,
+                                         std::default_sentinel_t const&) noexcept -> bool {
             return lhs.at_end;
         }
 
         //!\copydoc operator==
-        friend constexpr bool operator==(std::default_sentinel_t const&,
-                                         iterator const& rhs) noexcept {
+        friend constexpr auto operator==(std::default_sentinel_t const&,
+                                         iterator const& rhs) noexcept -> bool {
             return rhs == std::default_sentinel_t{};
         }
 
         //!\brief Compares for inequality with sentinel.
-        friend constexpr bool operator!=(iterator const& lhs,
-                                         std::default_sentinel_t const&) noexcept {
+        friend constexpr auto operator!=(iterator const& lhs,
+                                         std::default_sentinel_t const&) noexcept -> bool {
             return !(lhs == std::default_sentinel_t{});
         }
 
         //!\copydoc operator!=
-        friend constexpr bool operator!=(std::default_sentinel_t const&,
-                                         iterator const& rhs) noexcept {
+        friend constexpr auto operator!=(std::default_sentinel_t const&,
+                                         iterator const& rhs) noexcept -> bool {
             return rhs != std::default_sentinel_t{};
         }
     };
 
    public:
     AsyncSplitRecordGroupBufferView(urng_t _urng, size_t const bufferSize) {
-        auto deleter = [](state* p) {
-            if (p != nullptr) {
-                p->buffer.close();
-                p->producer.join();
-                delete p;
+        auto deleter = [](state* pointer) {
+            if (pointer != nullptr) {
+                pointer->buffer.close();
+                pointer->producer.join();
+                delete pointer;
             }
         };
 
@@ -198,16 +197,16 @@ class AsyncSplitRecordGroupBufferView
     AsyncSplitRecordGroupBufferView(other_urange_t&& _urng, size_t const bufferSize)
         : AsyncSplitRecordGroupBufferView{std::views::all(_urng), bufferSize} {}
 
-    iterator begin() {
+    auto begin() -> iterator {
         assert(statePtr != nullptr);
         return {statePtr->buffer};
     }
 
-    iterator begin() const = delete;
+    auto begin() const -> iterator = delete;
 
-    std::default_sentinel_t end() { return std::default_sentinel; }
+    auto end() -> std::default_sentinel_t { return std::default_sentinel; }
 
-    std::default_sentinel_t end() const = delete;
+    [[nodiscard]] auto end() const -> std::default_sentinel_t = delete;
 };
 
 template <std::ranges::viewable_range urng_t>
@@ -237,9 +236,10 @@ struct AsyncSplitRecordGroupBufferViewFn {
                       "that is constructible by a moved "
                       "value of its reference type.");
 
-        if (buffer_size == 0)
+        if (buffer_size == 0) {
             throw std::invalid_argument{
                 "The buffer_size parameter to views::async_input_buffer must be > 0."};
+        }
 
         return AsyncSplitRecordGroupBufferView{std::forward<urng_t>(urange), buffer_size};
     }

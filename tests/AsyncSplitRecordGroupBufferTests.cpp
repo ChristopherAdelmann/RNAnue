@@ -12,7 +12,6 @@
 #include <thread>
 
 #include "AsyncSplitRecordGroupBuffer.hpp"
-#include "DataTypes.hpp"
 
 using namespace seqan3::literals;
 

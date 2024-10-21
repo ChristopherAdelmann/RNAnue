@@ -3,13 +3,13 @@
 #include <algorithm>
 #include <vector>
 
-#include "DataTypes.hpp"
+#include "GenomicStrand.hpp"
 #include "InteractionCluster.hpp"
 #include "InteractionClusterGenerator.hpp"
 #include "Segment.hpp"
 #include "SplitRecords.hpp"
 #include "SplitRecordsParser.hpp"
-#include "gtest/gtest.h"
+
 using namespace pipelines::analyze;
 
 // Note: This is the expected clustering result:
@@ -42,7 +42,7 @@ TEST_P(InteractionClusterGeneratorTests, SplitRecordsAreSortedCorrectly) {
     const auto& expectedClusters = param.expectedInteractionClusters;
 
     std::vector<InteractionCluster> interactionClusters =
-        SplitReadParser::parse(testInteractionClustersSamPath());
+        SplitRecordsParser::parse(testInteractionClustersSamPath());
 
     EXPECT_EQ(interactionClusters.size(), 7u);
 
@@ -64,14 +64,14 @@ TEST_P(InteractionClusterGeneratorTests, SplitRecordsAreSortedCorrectly) {
 const InteractionCluster cluster1 =
     InteractionCluster(std::pair{Segment{.recordID = "SRR18331301.3",
                                          .referenceIDIndex = 0,
-                                         .strand = dtp::Strand::FORWARD,
+                                         .strand = dataTypes::Strand::FORWARD,
                                          .start = 19,
                                          .end = 27,
                                          .maxComplementarityScore = 1,
                                          .minHybridizationEnergy = -1.7},
                                  Segment{.recordID = "SRR18331301.3",
                                          .referenceIDIndex = 1,
-                                         .strand = dtp::Strand::FORWARD,
+                                         .strand = dataTypes::Strand::FORWARD,
                                          .start = 49,
                                          .end = 64,
                                          .maxComplementarityScore = 1,
@@ -81,14 +81,14 @@ const InteractionCluster cluster1 =
 const InteractionCluster cluster2 =
     InteractionCluster(std::pair{Segment{.recordID = "SRR18331301.2",
                                          .referenceIDIndex = 1,
-                                         .strand = dtp::Strand::FORWARD,
+                                         .strand = dataTypes::Strand::FORWARD,
                                          .start = 4,
                                          .end = 10,
                                          .maxComplementarityScore = 1,
                                          .minHybridizationEnergy = -1.7},
                                  Segment{.recordID = "SRR18331301.2",
                                          .referenceIDIndex = 1,
-                                         .strand = dtp::Strand::FORWARD,
+                                         .strand = dataTypes::Strand::FORWARD,
                                          .start = 51,
                                          .end = 57,
                                          .maxComplementarityScore = 1,
@@ -98,14 +98,14 @@ const InteractionCluster cluster2 =
 const InteractionCluster cluster3 =
     InteractionCluster(std::pair{Segment{.recordID = "SRR18331301.4",
                                          .referenceIDIndex = 0,
-                                         .strand = dtp::Strand::FORWARD,
+                                         .strand = dataTypes::Strand::FORWARD,
                                          .start = 4,
                                          .end = 14,
                                          .maxComplementarityScore = 1,
                                          .minHybridizationEnergy = -1.7},
                                  Segment{.recordID = "SRR18331301.4",
                                          .referenceIDIndex = 0,
-                                         .strand = dtp::Strand::FORWARD,
+                                         .strand = dataTypes::Strand::FORWARD,
                                          .start = 39,
                                          .end = 46,
                                          .maxComplementarityScore = 1,

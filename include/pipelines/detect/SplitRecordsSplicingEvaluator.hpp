@@ -1,12 +1,11 @@
 #pragma once
 
-// Classes
-#include "DataTypes.hpp"
-#include "FeatureAnnotator.hpp"
+// Internal
+#include "GenomicFeature.hpp"
+#include "GenomicRegion.hpp"
 #include "SamRecord.hpp"
 #include "SplitRecords.hpp"
 #include "SplitRecordsEvaluationParameters.hpp"
-#include "Utility.hpp"
 
 using namespace dataTypes;
 
@@ -15,22 +14,25 @@ class SplitRecordsSplicingEvaluator {
     SplitRecordsSplicingEvaluator() = delete;
     ~SplitRecordsSplicingEvaluator() = delete;
     SplitRecordsSplicingEvaluator(const SplitRecordsSplicingEvaluator &) = delete;
-    SplitRecordsSplicingEvaluator &operator=(const SplitRecordsSplicingEvaluator &) = delete;
+    auto operator=(const SplitRecordsSplicingEvaluator &) -> SplitRecordsSplicingEvaluator & =
+                                                                 delete;
     SplitRecordsSplicingEvaluator(SplitRecordsSplicingEvaluator &&) = delete;
-    SplitRecordsSplicingEvaluator &operator=(SplitRecordsSplicingEvaluator &&) = delete;
+    auto operator=(SplitRecordsSplicingEvaluator &&) -> SplitRecordsSplicingEvaluator & = delete;
 
-    static bool isSplicedSplitRecord(
+    static auto isSplicedSplitRecord(
         const SplitRecords &splitRecords, const std::deque<std::string> &referenceIDs,
-        const SplitRecordsEvaluationParameters::SplicingParameters &parameters);
+        const SplitRecordsEvaluationParameters::SplicingParameters &parameters) -> bool;
 
    private:
-    static std::optional<std::pair<dtp::Feature, dtp::Feature>> getGroupedFeatures(
+    static auto getGroupedFeatures(
         const SamRecord &record1, const SamRecord &record2,
         const std::deque<std::string> &referenceIDs,
-        const SplitRecordsEvaluationParameters::SplicingParameters &parameters);
+        const SplitRecordsEvaluationParameters::SplicingParameters &parameters)
+        -> std::optional<std::pair<dataTypes::Feature, dataTypes::Feature>>;
 
-    static std::optional<dtp::GenomicRegion> getSpliceJunctionBoundingRegion(
-        const SamRecord &record1, const SamRecord &record2, const dtp::Feature &featureRecord1,
-        const dtp::Feature &featureRecord2,
-        const SplitRecordsEvaluationParameters::SplicingParameters &parameters);
+    static auto getSpliceJunctionBoundingRegion(
+        const SamRecord &record1, const SamRecord &record2,
+        const dataTypes::Feature &featureRecord1, const dataTypes::Feature &featureRecord2,
+        const SplitRecordsEvaluationParameters::SplicingParameters &parameters)
+        -> std::optional<dataTypes::GenomicRegion>;
 };

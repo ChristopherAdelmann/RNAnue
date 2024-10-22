@@ -45,15 +45,15 @@ auto Segment::toGenomicRegion(const std::deque<std::string> &referenceIDs) const
 }
 
 auto Segment::toFeature(const std::deque<std::string> &referenceIDs, const std::string &featureID,
-                        const std::string &featureType) const -> dataTypes::Feature {
-    return dataTypes::Feature{referenceIDs[referenceIDIndex],
-                              featureType,
-                              start,
-                              end,
-                              strand,
-                              featureID,
-                              std::nullopt,
-                              std::nullopt};
+                        const std::string &featureType) const -> dataTypes::GenomicFeature {
+    return dataTypes::GenomicFeature{referenceIDs[referenceIDIndex],
+                                     featureType,
+                                     start,
+                                     end,
+                                     strand,
+                                     featureID,
+                                     std::nullopt,
+                                     std::nullopt};
 }
 
 void Segment::merge(const Segment &other) {

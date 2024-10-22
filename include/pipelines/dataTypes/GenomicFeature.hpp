@@ -10,7 +10,7 @@
 #include "GenomicStrand.hpp"
 
 namespace dataTypes {
-struct Feature {
+struct GenomicFeature {
     std::string referenceID;
     std::string type;
     int32_t startPosition;
@@ -21,6 +21,6 @@ struct Feature {
     std::optional<std::string> geneName;
 };
 
-using FeatureMap = std::unordered_map<std::string, std::vector<Feature>>;
+using FeatureMap = std::unordered_map<std::string, std::vector<GenomicFeature>>;
 
 }  // namespace dataTypes

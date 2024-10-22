@@ -109,7 +109,7 @@ auto FeatureParser::iterateFeatureFile(const fs::path &featureFilePath,
         const std::optional<std::string> geneName =
             getAttribute(annotation::FileType::defaultGeneNameKey());
 
-        featureMap[referenceID].emplace_back(dataTypes::Feature{
+        featureMap[referenceID].emplace_back(dataTypes::GenomicFeature{
             .referenceID = referenceID,
             .type = featureType,
             .startPosition = startPosition,

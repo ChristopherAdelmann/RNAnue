@@ -32,7 +32,7 @@ struct Segment {
 
     [[nodiscard]] auto toFeature(
         const std::deque<std::string> &referenceIDs, const std::string &featureID,
-        const std::string &featureType = "transcript") const -> dataTypes::Feature;
+        const std::string &featureType = "transcript") const -> dataTypes::GenomicFeature;
 
     void merge(const Segment &other);
 

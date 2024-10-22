@@ -37,11 +37,12 @@ auto PreprocessData::retrieveSamples(const std::string& sampleGroup, const fs::p
                         outputDirSample / outSampleTmpFastqDirPrefix;
                     fs::create_directories(outputSampleTmpFastqDir);
 
-                    samples.emplace_back(PreprocessSampleSingle{inputSampleSingle,
-                                                                {
-                                                                    outputSampleTmpFastqDir,
-                                                                    outputSampleFastqPath,
-                                                                }});
+                    samples.emplace_back(
+                        PreprocessSampleSingle{.input = inputSampleSingle,
+                                               .output = {
+                                                   .tmpFastqDir = outputSampleTmpFastqDir,
+                                                   .outputFastqPath = outputSampleFastqPath,
+                                               }});
 
                     const auto message =
                         "Single-end sample " + inputSampleSingle.sampleName + " found";

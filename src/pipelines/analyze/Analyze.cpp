@@ -78,8 +78,8 @@ void Analyze::assignTranscriptsToClusters(std::vector<InteractionCluster> &clust
                               const InteractionCluster &cluster) -> std::string {
         const auto region = segment.toGenomicRegion(referenceIDs);
 
-        auto updateTranscriptCounts =
-            [&](const std::optional<dataTypes::Feature> &feature) -> std::optional<std::string> {
+        auto updateTranscriptCounts = [&](const std::optional<dataTypes::GenomicFeature> &feature)
+            -> std::optional<std::string> {
             if (feature.has_value()) {
                 transcriptCounts[feature->id] += cluster.count;
                 return feature->id;

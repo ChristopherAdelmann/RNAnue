@@ -49,7 +49,7 @@ auto SplitRecordsSplicingEvaluator::isSplicedSplitRecord(
 auto SplitRecordsSplicingEvaluator::getGroupedFeatures(
     const SamRecord &record1, const SamRecord &record2, const std::deque<std::string> &referenceIDs,
     const SplitRecordsEvaluationParameters::SplicingParameters &parameters)
-    -> std::optional<std::pair<dataTypes::Feature, dataTypes::Feature>> {
+    -> std::optional<std::pair<dataTypes::GenomicFeature, dataTypes::GenomicFeature>> {
     const auto featureRecord1 = parameters.featureAnnotator->getBestOverlappingFeature(
         record1, referenceIDs, parameters.orientation);
 
@@ -72,8 +72,9 @@ auto SplitRecordsSplicingEvaluator::getGroupedFeatures(
 }
 
 auto SplitRecordsSplicingEvaluator::getSpliceJunctionBoundingRegion(
-    const SamRecord &record1, const SamRecord &record2, const dataTypes::Feature &featureRecord1,
-    const dataTypes::Feature &featureRecord2,
+    const SamRecord &record1, const SamRecord &record2,
+    const dataTypes::GenomicFeature &featureRecord1,
+    const dataTypes::GenomicFeature &featureRecord2,
     const SplitRecordsEvaluationParameters::SplicingParameters &parameters)
     -> std::optional<dataTypes::GenomicRegion> {
     const auto record1EndPosition = dataTypes::recordEndPosition(record1).value();

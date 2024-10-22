@@ -25,7 +25,7 @@ using namespace dataTypes;
 
 namespace annotation {
 
-using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dataTypes::Feature>>;
+using FeatureTreeMap = std::unordered_map<std::string, IITree<int, dataTypes::GenomicFeature>>;
 namespace fs = std::filesystem;
 
 class FeatureAnnotator {
@@ -53,17 +53,19 @@ class FeatureAnnotator {
                      int graceDistance) -> MergeInsertResult;
 
     auto overlappingFeatures(const dataTypes::GenomicRegion& region,
-                             Orientation orientation) -> std::vector<dataTypes::Feature>;
+                             Orientation orientation) -> std::vector<dataTypes::GenomicFeature>;
     [[nodiscard]] auto overlappingFeatureIterator(const dataTypes::GenomicRegion& region,
                                                   Orientation orientation) const -> Results;
     [[nodiscard]] auto getBestOverlappingFeature(const dataTypes::GenomicRegion& region,
                                                  Orientation orientation) const
-        -> std::optional<dataTypes::Feature>;
+        -> std::optional<dataTypes::GenomicFeature>;
     [[nodiscard]] auto getBestOverlappingFeature(
         const SamRecord& record, const std::deque<std::string>& referenceIDs,
-        Orientation orientation) const -> std::optional<dataTypes::Feature>;
+        Orientation orientation) const -> std::optional<dataTypes::GenomicFeature>;
 
     [[nodiscard]] auto getFeatureTreeMap() const -> const FeatureTreeMap&;
+
+    void mergeAllOverlappingFeatures(int minOverlap);
 
    private:
     FeatureTreeMap featureTreeMap;
@@ -75,11 +77,13 @@ class FeatureAnnotator {
         const fs::path& featureFilePath, const std::unordered_set<std::string>& includedFeatures,
         const std::optional<std::string>& featureIDFlag) -> FeatureTreeMap;
     static auto buildFeatureTreeMap(const dataTypes::FeatureMap& featureMap) -> FeatureTreeMap;
+
+    void mergeFeatures(const dataTypes::GenomicRegion& region, int minOverlap);
 };
 
 class FeatureAnnotator::Results {
    public:
-    Results(const IITree<int, dataTypes::Feature>* tree, const std::vector<size_t>& indices,
+    Results(const IITree<int, dataTypes::GenomicFeature>* tree, const std::vector<size_t>& indices,
             std::optional<dataTypes::Strand> strand);
 
     Results() = delete;
@@ -90,19 +94,19 @@ class FeatureAnnotator::Results {
     [[nodiscard]] auto end() const -> Iterator;
 
    private:
-    const IITree<int, dataTypes::Feature>* tree;
+    const IITree<int, dataTypes::GenomicFeature>* tree;
     std::vector<size_t> indices;
     std::optional<dataTypes::Strand> strand;
 };
 
 struct FeatureAnnotator::Results::Iterator {
-    using value_type = dataTypes::Feature;
+    using value_type = dataTypes::GenomicFeature;
     using difference_type = std::ptrdiff_t;
-    using reference = const dataTypes::Feature&;
-    using pointer = const dataTypes::Feature*;
+    using reference = const dataTypes::GenomicFeature&;
+    using pointer = const dataTypes::GenomicFeature*;
     using iterator_category = std::forward_iterator_tag;
 
-    explicit Iterator(const IITree<int, dataTypes::Feature>* tree,
+    explicit Iterator(const IITree<int, dataTypes::GenomicFeature>* tree,
                       const std::vector<size_t>& indices, size_t index,
                       const std::optional<dataTypes::Strand>& strand);
 
@@ -121,7 +125,7 @@ struct FeatureAnnotator::Results::Iterator {
     }
 
    private:
-    const IITree<int, dataTypes::Feature>* tree;
+    const IITree<int, dataTypes::GenomicFeature>* tree;
     std::vector<size_t> indices;
     size_t current_index;
     std::optional<dataTypes::Strand> strand;

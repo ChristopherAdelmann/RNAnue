@@ -7,6 +7,7 @@
 #include <utility>
 
 // Internal
+#include "GenomicFeature.hpp"
 #include "GenomicStrand.hpp"
 #include "SamRecord.hpp"
 
@@ -43,5 +44,7 @@ struct GenomicRegion {
     static auto fromSamRecord(const dataTypes::SamRecord &record,
                               const std::deque<std::string> &referenceIDs)
         -> std::optional<GenomicRegion>;
+
+    static auto fromGenomicFeature(const dataTypes::GenomicFeature &feature) -> GenomicRegion;
 };
 }  // namespace dataTypes

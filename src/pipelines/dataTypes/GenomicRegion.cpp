@@ -20,4 +20,9 @@ auto GenomicRegion::fromSamRecord(const dataTypes::SamRecord &record,
                          end.value() + 1, strand};
 }
 
+auto GenomicRegion::fromGenomicFeature(const dataTypes::GenomicFeature &feature) -> GenomicRegion {
+    return GenomicRegion{feature.referenceID, feature.startPosition, feature.endPosition,
+                         feature.strand};
+}
+
 }  // namespace dataTypes

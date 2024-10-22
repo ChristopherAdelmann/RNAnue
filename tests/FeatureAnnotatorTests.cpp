@@ -2,23 +2,26 @@
 
 // Standard
 #include <optional>
+#include <utility>
 
 // Internal
 #include "FeatureAnnotator.hpp"
 #include "GenomicRegion.hpp"
 #include "GenomicStrand.hpp"
+#include "Orientation.hpp"
+#include "biofiles.h"
 
 using namespace annotation;
 
 struct TestParam {
     TestParam(dataTypes::GenomicRegion region, annotation::Orientation orientation,
               std::vector<std::string> expectedFeatureIds)
-        : region(region),
+        : region(std::move(region)),
           expectedFeatureIds(std::move(expectedFeatureIds)),
           orientation(orientation) {}
 
     TestParam(dataTypes::GenomicRegion region, std::vector<std::string> expectedFeatureIds)
-        : region(region), expectedFeatureIds(std::move(expectedFeatureIds)) {}
+        : region(std::move(region)), expectedFeatureIds(std::move(expectedFeatureIds)) {}
 
     dataTypes::GenomicRegion region;
     std::vector<std::string> expectedFeatureIds;
@@ -290,4 +293,69 @@ TEST_F(InsertFeatureAnnotatorTest, MergeInsertGraceDistanceBluntEnds) {
     EXPECT_TRUE(result.mergedFeatureIDs.empty());
     EXPECT_EQ(features[0].startPosition, 1);
     EXPECT_EQ(features[0].endPosition, 15);
+}
+
+class MergeFeatureAnnotatorTest : public testing::Test {
+   protected:
+    MergeFeatureAnnotatorTest() : annotator(featureMap) {}
+
+    const dataTypes::FeatureMap featureMap = {
+        {"chromosome1",
+         {{"chromosome1", "transcript", 1, 10, dataTypes::Strand::FORWARD, "feature1", "group1",
+           std::nullopt},
+          {"chromosome1", "transcript", 20, 30, dataTypes::Strand::FORWARD, "feature2", "group1",
+           std::nullopt},
+          {"chromosome1", "transcript", 8, 50, dataTypes::Strand::FORWARD, "feature3", "group2",
+           std::nullopt},
+          {"chromosome1", "transcript", 5, 25, dataTypes::Strand::REVERSE, "feature4", "group3",
+           std::nullopt},
+          {"chromosome1", "transcript", 51, 56, dataTypes::Strand::FORWARD, "feature5", "group2",
+           std::nullopt}}},
+        {"chromosome2",
+         {{"chromosome2", "transcript", 1, 10, dataTypes::Strand::FORWARD, "feature6", "group4",
+           std::nullopt},
+          {"chromosome2", "transcript", 10, 30, dataTypes::Strand::FORWARD, "feature7", "group4",
+           std::nullopt}}},
+    };
+
+    FeatureAnnotator annotator;
+};
+
+TEST_F(MergeFeatureAnnotatorTest, MergeOverlapOne) {
+    constexpr int minOverlap = 1;
+    annotator.mergeAllOverlappingFeatures(minOverlap);
+
+    ASSERT_EQ(annotator.featureCount(), 4UL);
+
+    const auto regionOne =
+        dataTypes::GenomicRegion{"chromosome1", 1, 50, dataTypes::Strand::FORWARD};
+    const auto feature1 = annotator.overlappingFeatures(regionOne, Orientation::SAME);
+    ASSERT_EQ(feature1.size(), 1UL);
+    EXPECT_EQ(feature1[0].id, "feature1");
+    EXPECT_EQ(feature1[0].startPosition, 1);
+    EXPECT_EQ(feature1[0].endPosition, 50);
+
+    const auto regionTwo =
+        dataTypes::GenomicRegion{"chromosome1", 5, 25, dataTypes::Strand::REVERSE};
+    const auto feature2 = annotator.overlappingFeatures(regionTwo, Orientation::SAME);
+    ASSERT_EQ(feature2.size(), 1UL);
+    EXPECT_EQ(feature2[0].id, "feature4");
+    EXPECT_EQ(feature2[0].startPosition, 5);
+    EXPECT_EQ(feature2[0].endPosition, 25);
+
+    const auto regionThree =
+        dataTypes::GenomicRegion{"chromosome1", 51, 56, dataTypes::Strand::FORWARD};
+    const auto feature3 = annotator.overlappingFeatures(regionThree, Orientation::SAME);
+    ASSERT_EQ(feature3.size(), 1UL);
+    EXPECT_EQ(feature3[0].id, "feature5");
+    EXPECT_EQ(feature3[0].startPosition, 51);
+    EXPECT_EQ(feature3[0].endPosition, 56);
+
+    const auto regionFour =
+        dataTypes::GenomicRegion{"chromosome2", 1, 30, dataTypes::Strand::FORWARD};
+    const auto feature4 = annotator.overlappingFeatures(regionFour, Orientation::SAME);
+    ASSERT_EQ(feature4.size(), 1UL);
+    EXPECT_EQ(feature4[0].id, "feature6");
+    EXPECT_EQ(feature4[0].startPosition, 1);
+    EXPECT_EQ(feature4[0].endPosition, 30);
 }

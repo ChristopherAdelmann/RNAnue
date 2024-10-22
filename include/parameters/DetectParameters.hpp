@@ -15,6 +15,8 @@
 
 namespace po = boost::program_options;
 
+namespace pipelines::detect {
+
 struct DetectParameters : public GeneralParameters {
    public:
     size_t minimumFragmentLength;
@@ -52,3 +54,5 @@ struct DetectParameters : public GeneralParameters {
         return params["splicing"].as<bool>();
     }
 };
+
+}  // namespace pipelines::detect

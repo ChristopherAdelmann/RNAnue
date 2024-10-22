@@ -23,13 +23,13 @@ auto ParameterParser::getParameters(int argc, const char *const argv[])  // NOLI
         return preprocess::PreprocessParameters{params};
     }
     if (subcall == constants::pipelines::ALIGN) {
-        return AlignParameters{params};
+        return align::AlignParameters{params};
     }
     if (subcall == constants::pipelines::DETECT) {
-        return DetectParameters{params};
+        return detect::DetectParameters{params};
     }
     if (subcall == constants::pipelines::ANALYZE) {
-        return AnalyzeParameters{params};
+        return analyze::AnalyzeParameters{params};
     }
 
     Logger::log(LogLevel::ERROR, "Unknown subcall: " + subcall);

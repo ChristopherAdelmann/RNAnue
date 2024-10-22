@@ -15,9 +15,9 @@ namespace po = boost::program_options;
 namespace pipelines {
 struct CompleteParameters {
     preprocess::PreprocessParameters preprocessParameters;
-    AlignParameters alignParameters;
-    DetectParameters detectParameters;
-    AnalyzeParameters analyzeParameters;
+    align::AlignParameters alignParameters;
+    detect::DetectParameters detectParameters;
+    analyze::AnalyzeParameters analyzeParameters;
 
     CompleteParameters(const po::variables_map &params)
         : preprocessParameters(params),

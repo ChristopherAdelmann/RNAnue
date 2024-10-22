@@ -15,6 +15,8 @@
 
 namespace po = boost::program_options;
 
+namespace pipelines::align {
+
 struct AlignParameters : public GeneralParameters {
     std::filesystem::path referenceGenome;
     size_t minLengthThreshold;
@@ -36,3 +38,5 @@ struct AlignParameters : public GeneralParameters {
           minimumSpliceCoverage(
               ParameterValidator::validateArithmetic<size_t>(params, "minsplicecov", 0, 100)) {};
 };
+
+}  // namespace pipelines::align

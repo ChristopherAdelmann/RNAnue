@@ -12,6 +12,8 @@
 #include "GeneralParameters.hpp"
 #include "ParameterValidator.hpp"
 
+namespace pipelines::analyze {
+
 class AnalyzeParameters : public GeneralParameters {
    public:
     int clusterDistanceThreshold;
@@ -26,3 +28,5 @@ class AnalyzeParameters : public GeneralParameters {
           minimumClusterReadCount(
               ParameterValidator::validateArithmetic<size_t>(params, "mincount", 1, SIZE_MAX)) {};
 };
+
+}  // namespace pipelines::analyze

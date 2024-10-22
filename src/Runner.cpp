@@ -31,7 +31,7 @@ void Runner::runPreprocessPipeline(const preprocess::PreprocessParameters &param
     pipeline.process(data);
 }
 
-void Runner::runAlignPipeline(const AlignParameters &parameters) {
+void Runner::runAlignPipeline(const align::AlignParameters &parameters) {
     Logger::log(LogLevel::INFO, "Running align pipeline");
 
     const auto inputDirs = InputDirectories(parameters.outputDir, preprocess::pipelinePrefix);
@@ -43,7 +43,7 @@ void Runner::runAlignPipeline(const AlignParameters &parameters) {
     pipeline.process(data);
 }
 
-void Runner::runDetectPipeline(const DetectParameters &parameters) {
+void Runner::runDetectPipeline(const detect::DetectParameters &parameters) {
     Logger::log(LogLevel::INFO, "Running detect pipeline");
 
     const auto inputDirs = InputDirectories(parameters.outputDir, align::pipelinePrefix);
@@ -55,7 +55,7 @@ void Runner::runDetectPipeline(const DetectParameters &parameters) {
     pipeline.process(data);
 }
 
-void Runner::runAnalyzePipeline(const AnalyzeParameters &parameters) {
+void Runner::runAnalyzePipeline(const analyze::AnalyzeParameters &parameters) {
     Logger::log(LogLevel::INFO, "Running analyze pipeline");
 
     const auto inputDirs = InputDirectories(parameters.outputDir, detect::pipelinePrefix);
@@ -79,13 +79,13 @@ void Runner::runCompletePipeline(const CompleteParameters &parameters) {
 void Runner::Pipeline::operator()(const preprocess::PreprocessParameters &params) {
     Runner::runPreprocessPipeline(params);
 };
-void Runner::Pipeline::operator()(const AlignParameters &params) {
+void Runner::Pipeline::operator()(const align::AlignParameters &params) {
     Runner::runAlignPipeline(params);
 };
-void Runner::Pipeline::operator()(const DetectParameters &params) {
+void Runner::Pipeline::operator()(const detect::DetectParameters &params) {
     Runner::runDetectPipeline(params);
 };
-void Runner::Pipeline::operator()(const AnalyzeParameters &params) {
+void Runner::Pipeline::operator()(const analyze::AnalyzeParameters &params) {
     Runner::runAnalyzePipeline(params);
 };
 void Runner::Pipeline::operator()(const CompleteParameters &params) {

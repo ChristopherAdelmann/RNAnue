@@ -23,8 +23,9 @@ namespace po = boost::program_options;
 namespace pipelines {
 class ParameterParser {
    public:
-    using ParametersVariant = std::variant<CompleteParameters, preprocess::PreprocessParameters,
-                                           AlignParameters, DetectParameters, AnalyzeParameters>;
+    using ParametersVariant =
+        std::variant<CompleteParameters, preprocess::PreprocessParameters, align::AlignParameters,
+                     detect::DetectParameters, analyze::AnalyzeParameters>;
 
     static auto getParameters(int argc, const char* const argv[]) -> ParametersVariant;  // NOLINT
 

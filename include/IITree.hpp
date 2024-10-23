@@ -2,7 +2,9 @@
 
 // Standard
 #include <algorithm>
+#include <cstddef>
 #include <execution>
+#include <unordered_set>
 #include <vector>
 
 /* Suppose there are N=2^(K+1)-1 sorted numbers in an array a[]. They
@@ -37,19 +39,45 @@ template <typename S, typename T>  // "S" is a scalar type; "T" is the type of d
                                    // each interval
 class IITree {
    public:
-    void add(const S& start, const S& end, const T& data) { a.emplace_back(start, end, data); }
-    void remove(size_t i) { a.erase(a.begin() + i); }
+    void add(const S& start, const S& end, const T& data) {
+        intervalls.emplace_back(start, end, data);
+    }
+    void remove(size_t i) { intervalls.erase(intervalls.begin() + i); }
     void remove(std::vector<size_t>& indices) {
-        std::sort(indices.begin(), indices.end(), std::greater<size_t>());
-        for (size_t i : indices) a.erase(a.begin() + i);
+        std::ranges::sort(indices);
+
+        size_t index = 0;
+        auto iterator = indices.begin();
+        intervalls.erase(std::remove_if(intervalls.begin(), intervalls.end(),
+                                        [&iterator, &indices, &index](const Interval&) mutable {
+                                            if (iterator != indices.end() && index == *iterator) {
+                                                ++iterator;   // Move to next index
+                                                return true;  // Mark for removal
+                                            }
+                                            ++index;
+                                            return false;  // Keep this element
+                                        }),
+                         intervalls.end());
+    }
+
+    void remove(std::unordered_set<size_t>& indices) {
+        size_t index = 0;
+        intervalls.erase(std::remove_if(intervalls.begin(), intervalls.end(),
+                                        [&indices, &index, this](const Interval&) {
+                                            bool should_remove = indices.contains(index);
+
+                                            ++index;
+                                            return should_remove;
+                                        }),
+                         intervalls.end());
     }
 
     void index() {
-        std::sort(std::execution::par, a.begin(), a.end(), IntervalLess());
-        max_level = index_core(a);
+        std::sort(std::execution::par, intervalls.begin(), intervalls.end(), IntervalLess());
+        max_level = index_core(intervalls);
     }
 
-    void indexNoSort() { max_level = index_core(a); }
+    void indexNoSort() { max_level = index_core(intervalls); }
 
     bool overlap(const S& start, const S& end, std::vector<size_t>& out) const {
         int t = 0;
@@ -61,28 +89,29 @@ class IITree {
             StackCell z = stack[--t];
             if (z.k <= 3) {
                 size_t i, i0 = z.x >> z.k << z.k, i1 = i0 + (1LL << (z.k + 1)) - 1;
-                if (i1 >= a.size()) i1 = a.size();
-                for (i = i0; i < i1 && a[i].start < end; ++i)
-                    if (start < a[i].end) out.push_back(i);
+                if (i1 >= intervalls.size()) i1 = intervalls.size();
+                for (i = i0; i < i1 && intervalls[i].start < end; ++i)
+                    if (start < intervalls[i].end) out.push_back(i);
             } else if (z.w == 0) {
                 size_t y = z.x - (1LL << (z.k - 1));
                 stack[t++] = StackCell(z.k, z.x, 1);
-                if (y >= a.size() || a[y].max > start) stack[t++] = StackCell(z.k - 1, y, 0);
-            } else if (z.x < a.size() && a[z.x].start < end) {
-                if (start < a[z.x].end) out.push_back(z.x);
+                if (y >= intervalls.size() || intervalls[y].max > start)
+                    stack[t++] = StackCell(z.k - 1, y, 0);
+            } else if (z.x < intervalls.size() && intervalls[z.x].start < end) {
+                if (start < intervalls[z.x].end) out.push_back(z.x);
                 stack[t++] = StackCell(z.k - 1, z.x + (1LL << (z.k - 1)), 0);
             }
         }
         return !out.empty();
     }
 
-    size_t size() const { return a.size(); }
-    const S& start(size_t i) const { return a[i].start; }
-    void setStart(size_t i, const S& s) { a[i].start = s; }
-    const S& end(size_t i) const { return a[i].end; }
-    void setEnd(size_t i, const S& e) { a[i].end = e; }
-    const T& data(size_t i) const { return a[i].data; }
-    T& data(size_t i) { return a[i].data; }
+    size_t size() const { return intervalls.size(); }
+    const S& start(size_t i) const { return intervalls[i].start; }
+    void setStart(size_t i, const S& s) { intervalls[i].start = s; }
+    const S& end(size_t i) const { return intervalls[i].end; }
+    void setEnd(size_t i, const S& e) { intervalls[i].end = e; }
+    const T& data(size_t i) const { return intervalls[i].data; }
+    T& data(size_t i) { return intervalls[i].data; }
 
    private:
     struct StackCell {
@@ -103,7 +132,7 @@ class IITree {
         }
     };
 
-    std::vector<Interval> a;
+    std::vector<Interval> intervalls;
     int max_level{};
     int index_core(std::vector<Interval>& intervalls) {
         size_t i{}, last_i{};
@@ -130,5 +159,5 @@ class IITree {
     }
 
    public:
-    const std::vector<Interval>& intervals() const { return a; }
+    const std::vector<Interval>& intervals() const { return intervalls; }
 };

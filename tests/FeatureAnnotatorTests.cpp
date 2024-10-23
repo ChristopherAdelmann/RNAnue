@@ -9,7 +9,6 @@
 #include "GenomicRegion.hpp"
 #include "GenomicStrand.hpp"
 #include "Orientation.hpp"
-#include "biofiles.h"
 
 using namespace annotation;
 
@@ -55,13 +54,13 @@ class FeatureAnnotatorTest : public testing::TestWithParam<TestParam> {
     FeatureAnnotator annotator;
 };
 
-void PrintTo(const TestParam& param, std::ostream* os) {
-    *os << "GenomicRegion{referenceID: " << param.region.referenceID
-        << ", startPosition: " << param.region.startPosition
-        << ", endPosition: " << param.region.endPosition << ", strand: "
-        << (param.region.strand.has_value() ? std::to_string(param.region.strand.value())
-                                            : "nullopt")
-        << "}";
+void PrintTo(const TestParam& param, std::ostream* outputStream) {
+    *outputStream << "GenomicRegion{referenceID: " << param.region.referenceID
+                  << ", startPosition: " << param.region.startPosition
+                  << ", endPosition: " << param.region.endPosition << ", strand: "
+                  << (param.region.strand.has_value() ? std::to_string(param.region.strand.value())
+                                                      : "nullopt")
+                  << "}";
 }
 
 TEST_P(FeatureAnnotatorTest, OverlappingFeatures) {
@@ -324,6 +323,13 @@ class MergeFeatureAnnotatorTest : public testing::Test {
 TEST_F(MergeFeatureAnnotatorTest, MergeOverlapOne) {
     constexpr int minOverlap = 1;
     annotator.mergeAllOverlappingFeatures(minOverlap);
+
+    for (const auto& map : annotator.getFeatureTreeMap()) {
+        for (const auto& feature : map.second.intervals()) {
+            std::cout << feature.data.id << " " << feature.data.startPosition << " "
+                      << feature.data.endPosition << '\n';
+        }
+    }
 
     ASSERT_EQ(annotator.featureCount(), 4UL);
 

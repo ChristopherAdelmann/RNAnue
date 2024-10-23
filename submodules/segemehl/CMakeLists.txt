@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(segemehl)
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O3 -DSORTEDUNMAPPED -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -DDBGNFO -DSHOWALIGN -DDBGLEVEL=0 -DPROGNFO -Wno-unused-parameter")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -DSORTEDUNMAPPED -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -DDBGNFO -DSHOWALIGN -DDBGLEVEL=0 -DPROGNFO -Wno-unused-parameter")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} $(pkg-config --cflags htslib) -lm -lpthread -lz -lncurses -lform -lmenu")
 
 include_directories(include)
@@ -14,4 +14,3 @@ add_library(segemehl STATIC ${sources})
 
 target_link_libraries(segemehl PRIVATE ${HTSlib_LIBRARIES})
 target_include_directories(segemehl PUBLIC include ${HTSlib_INCLUDE_DIRS})
-

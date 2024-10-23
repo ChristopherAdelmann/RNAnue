@@ -17,7 +17,7 @@
 // segemehl
 extern "C" {
 #include <segemehl.h>
-}
+}  // segemehl
 
 // Class
 #include "AlignData.hpp"

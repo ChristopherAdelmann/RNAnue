@@ -49,19 +49,20 @@ class FeatureAnnotator {
 
     [[nodiscard]] auto featureCount() const -> size_t;
     auto insert(const dataTypes::GenomicRegion& region) -> std::string;
-    auto mergeInsert(const dataTypes::GenomicRegion& region,
-                     int graceDistance) -> MergeInsertResult;
+    auto mergeInsert(const dataTypes::GenomicRegion& region, int graceDistance)
+        -> MergeInsertResult;
 
-    auto overlappingFeatures(const dataTypes::GenomicRegion& region,
-                             Orientation orientation) -> std::vector<dataTypes::GenomicFeature>;
+    auto overlappingFeatures(const dataTypes::GenomicRegion& region, Orientation orientation)
+        -> std::vector<dataTypes::GenomicFeature>;
     [[nodiscard]] auto overlappingFeatureIterator(const dataTypes::GenomicRegion& region,
                                                   Orientation orientation) const -> Results;
     [[nodiscard]] auto getBestOverlappingFeature(const dataTypes::GenomicRegion& region,
                                                  Orientation orientation) const
         -> std::optional<dataTypes::GenomicFeature>;
-    [[nodiscard]] auto getBestOverlappingFeature(
-        const SamRecord& record, const std::deque<std::string>& referenceIDs,
-        Orientation orientation) const -> std::optional<dataTypes::GenomicFeature>;
+    [[nodiscard]] auto getBestOverlappingFeature(const SamRecord& record,
+                                                 const std::deque<std::string>& referenceIDs,
+                                                 Orientation orientation) const
+        -> std::optional<dataTypes::GenomicFeature>;
 
     [[nodiscard]] auto getFeatureTreeMap() const -> const FeatureTreeMap&;
 
@@ -70,15 +71,18 @@ class FeatureAnnotator {
    private:
     FeatureTreeMap featureTreeMap;
 
-    static auto buildFeatureTreeMap(
-        const fs::path& featureFilePath, const std::vector<std::string>& includedFeatures,
-        const std::optional<std::string>& featureIDFlag) -> FeatureTreeMap;
-    static auto buildFeatureTreeMap(
-        const fs::path& featureFilePath, const std::unordered_set<std::string>& includedFeatures,
-        const std::optional<std::string>& featureIDFlag) -> FeatureTreeMap;
+    static auto buildFeatureTreeMap(const fs::path& featureFilePath,
+                                    const std::vector<std::string>& includedFeatures,
+                                    const std::optional<std::string>& featureIDFlag)
+        -> FeatureTreeMap;
+    static auto buildFeatureTreeMap(const fs::path& featureFilePath,
+                                    const std::unordered_set<std::string>& includedFeatures,
+                                    const std::optional<std::string>& featureIDFlag)
+        -> FeatureTreeMap;
     static auto buildFeatureTreeMap(const dataTypes::FeatureMap& featureMap) -> FeatureTreeMap;
 
-    void mergeFeatures(const dataTypes::GenomicRegion& region, int minOverlap);
+    [[nodiscard]] auto mergeFeatures(const dataTypes::GenomicRegion& region, int minOverlap)
+        -> std::unordered_set<size_t>;
 };
 
 class FeatureAnnotator::Results {

@@ -2,6 +2,7 @@
 
 // Standard
 #include <algorithm>
+#include <cstddef>
 #include <ranges>
 #include <unordered_set>
 
@@ -12,6 +13,7 @@
 #include "GenomicStrand.hpp"
 
 namespace annotation {
+using std::unordered_set;
 
 FeatureAnnotator::FeatureAnnotator(fs::path &featureFilePath,
                                    const std::unordered_set<std::string> &includedFeatures,
@@ -217,11 +219,12 @@ auto FeatureAnnotator::getFeatureTreeMap() const -> const FeatureTreeMap & {
     return featureTreeMap;
 }
 
-void FeatureAnnotator::mergeFeatures(const dataTypes::GenomicRegion &region, int minOverlap) {
+auto FeatureAnnotator::mergeFeatures(const dataTypes::GenomicRegion &region, int minOverlap)
+    -> std::unordered_set<size_t> {
     auto featureTreeIterator = featureTreeMap.find(region.referenceID);
 
     if (featureTreeIterator == featureTreeMap.end()) [[unlikely]] {
-        return;
+        return {};
     }
 
     auto &featureTree = featureTreeIterator->second;
@@ -239,7 +242,7 @@ void FeatureAnnotator::mergeFeatures(const dataTypes::GenomicRegion &region, int
     });
 
     if (indices.size() < 2) {
-        return;
+        return {};
     }
 
     // Find max end position.
@@ -252,27 +255,31 @@ void FeatureAnnotator::mergeFeatures(const dataTypes::GenomicRegion &region, int
     int mergedEndPosition = featureTree.data(*maxEndIndex).endPosition;
 
     if (mergedEndPosition > endPosition) {
-        mergeFeatures(dataTypes::GenomicRegion{region.referenceID, mergedStartPosition,
-                                               mergedEndPosition, region.strand},
-                      minOverlap);
-        return;
+        return mergeFeatures(dataTypes::GenomicRegion{region.referenceID, mergedStartPosition,
+                                                      mergedEndPosition, region.strand},
+                             minOverlap);
     }
 
     featureTree.setEnd(indices[0], mergedEndPosition);
     featureTree.data(indices[0]).endPosition = mergedEndPosition;
 
-    indices.erase(indices.begin());
-
-    featureTree.remove(indices);
-    featureTree.indexNoSort();
+    return {indices.begin() + 1, indices.end()};
 }
 
 void FeatureAnnotator::mergeAllOverlappingFeatures(int minOverlap) {
     for (auto &tree : featureTreeMap) {
+        std::unordered_set<size_t> invalidIndices;
         for (size_t index = 0; index < tree.second.size(); ++index) {
+            if (invalidIndices.contains(index)) {
+                continue;
+            }
+
             auto region = dataTypes::GenomicRegion::fromGenomicFeature(tree.second.data(index));
-            mergeFeatures(region, minOverlap);
+            invalidIndices.merge(mergeFeatures(region, minOverlap));
         }
+
+        tree.second.remove(invalidIndices);
+        tree.second.indexNoSort();
     }
 }
 

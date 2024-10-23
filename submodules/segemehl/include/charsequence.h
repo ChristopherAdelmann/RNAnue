@@ -42,6 +42,7 @@
 #include <stdlib.h>
 
 #include "basic-types.h"
+#include "memory.h"
 #include "stringutils.h"
 
 typedef struct {

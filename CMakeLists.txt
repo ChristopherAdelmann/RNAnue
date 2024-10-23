@@ -135,7 +135,7 @@ endif()
 
 
 target_link_libraries (RNAnue PRIVATE ${VIENNA_RNA_LIBRARY})
-target_include_directories (RNAnue PRIVATE ${VIENNA_RNA_INCLUDE_DIR} ${VIENNA_RNA_INCLUDE_DIR}/ViennaRNA)
+target_include_directories (RNAnue SYSTEM PRIVATE ${VIENNA_RNA_INCLUDE_DIR} ${VIENNA_RNA_INCLUDE_DIR}/ViennaRNA)
 
 # # # Link Libraries
 target_link_libraries (RNAnue PRIVATE   seqan3::seqan3

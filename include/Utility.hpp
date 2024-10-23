@@ -31,6 +31,8 @@ inline auto isEqual(double lhs, double rhs,
     return fabs(lhs - rhs) < epsilon;
 }
 
+void crashHandler(int signal);
+
 template <typename Container>
 concept StringContainer = std::ranges::range<Container> &&
                           std::same_as<std::ranges::range_value_t<Container>, std::string>;

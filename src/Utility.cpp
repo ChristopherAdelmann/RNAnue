@@ -1,15 +1,34 @@
 #include "Utility.hpp"
 
+// Standard
+#include <execinfo.h>
+
 #include <filesystem>
 #include <fstream>
 #include <vector>
 
+// seqan3
+#include <seqan3/io/sam_file/input.hpp>
+#include <seqan3/io/sequence_file/input.hpp>
+#include <seqan3/io/sequence_file/output.hpp>
+
+// Internal
+#include "Config.hpp"
 #include "Logger.hpp"
-#include "seqan3/io/sam_file/input.hpp"
-#include "seqan3/io/sequence_file/input.hpp"
-#include "seqan3/io/sequence_file/output.hpp"
 
 namespace helper {
+
+void crashHandler(int sig) {
+    constexpr size_t MAX_FRAMES = 10;
+    std::array<void*, MAX_FRAMES> array{};
+    int size = backtrace(array.data(), MAX_FRAMES);
+
+    // print out all the frames to stderr
+    std::cerr << "Error: signal " << sig << ":" << '\n';
+    backtrace_symbols_fd(array.data(), size, STDERR_FILENO);
+    exit(1);
+}
+
 void createTmpDir(const fs::path& path) {
     Logger::log(LogLevel::INFO, "Create temporary directory " + path.string());
     deleteDir(path);
@@ -89,8 +108,8 @@ void concatAndDeleteFilesInTmpDir(const fs::path& tmpDir, const fs::path& outPat
     deleteDir(tmpDir);
 }
 
-auto isContained(const int32_t value, const int32_t comparisonValue,
-                 const int32_t tolerance) -> bool {
+auto isContained(const int32_t value, const int32_t comparisonValue, const int32_t tolerance)
+    -> bool {
     return value >= comparisonValue - tolerance && value <= comparisonValue + tolerance;
 }
 
